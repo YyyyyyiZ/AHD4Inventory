@@ -72,10 +72,12 @@ def process_item(item: dict, outfile, folder_path: str, filename: str, index: Op
 
     # Write objective if available
     objective = item.get("objective", "unknown")
+    descrp = item.get("algorithm", "unknown")
 
     # Write to file with separator
     outfile.write(f"{source_info}\n")
     outfile.write(f"# Objective: {objective}\n")
+    outfile.write(f"# Description: {descrp}\n")
     outfile.write(code_str)
     outfile.write("\n\n" + "=" * 80 + "\n\n")
 

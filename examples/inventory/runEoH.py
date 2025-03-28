@@ -7,8 +7,8 @@ paras = Paras()
 # Set parameters #
 paras.set_paras(method = "eoh",
                 problem = "inventory",
-                demand = 60,  # 50, 60, 70, 80
-                volatility = 'low',  # low, median, high
+                demand = None,  # 50, 60, 70, 80
+                volatility = 'median',  # low, median, high
                 llm_api_endpoint = "api.deepseek.com",  # LLM endpoint
                 llm_api_key = "sk-ee82535575fc4c5183b171fc2ae7b1d0",  # key
                 llm_model = "deepseek-chat",  # Model

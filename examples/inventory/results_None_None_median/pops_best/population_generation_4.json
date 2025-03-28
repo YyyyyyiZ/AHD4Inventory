@@ -1,0 +1,6 @@
+{
+     "algorithm": " A probabilistic demand coverage algorithm that uses quantile estimation of historical demand weighted by cost ratios, with lead-time-aware inventory positioning. ",
+     "code": "def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):\n    if not history_demand:\n        return 0\n    \n    cost_ratio = lost_sales_cost / (holding_cost + lost_sales_cost)\n    sorted_demand = sorted(history_demand)\n    quantile_idx = min(int(len(sorted_demand) * cost_ratio), len(sorted_demand) - 1)\n    target_level = sorted_demand[quantile_idx] * (1 + cost_ratio)\n    \n    current_inv = history_inventory[-1] if history_inventory else 0\n    recent_lost = history_lost[-1] if history_lost else 0\n    \n    order_amount = max(0, target_level - current_inv + recent_lost * cost_ratio)\n    return order_amount",
+     "objective": 3065.28581,
+     "other_inf": null
+}
