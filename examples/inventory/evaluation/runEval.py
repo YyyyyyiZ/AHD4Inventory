@@ -50,7 +50,7 @@ with open("results.txt", "w") as file:
         result = (
             f"Average for instances with mean demand {demand_mean}: Cost = {cost:7.3f}, Timecost: {time.time() - time_start:7.3f}")
         print(result)
-        file.write(result + "\n")
+        # file.write(result + "\n")
         
 
 

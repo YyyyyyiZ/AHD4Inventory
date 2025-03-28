@@ -100,7 +100,7 @@ class EOH:
             with open(self.seed_path) as file:
                 data = json.load(file)
             population = interface_ec.population_generation_seed(data,self.exp_n_proc)
-            filename = self.output_path + "/results_create_None_None/pops/population_generation_0.json"
+            filename = self.output_path + "/results/pops/population_generation_0.json"
             with open(filename, 'w') as f:
                 json.dump(population, f, indent=5)
             n_start = 0
@@ -127,7 +127,7 @@ class EOH:
                     print(" Obj: ", off['objective'], end="|")
                 print()
                 # Save population to a file
-                filename = self.output_path + "/results_create_None_None/pops/population_generation_0.json"
+                filename = self.output_path + "/results/pops/population_generation_0.json"
                 with open(filename, 'w') as f:
                     json.dump(population, f, indent=5)
 
@@ -152,7 +152,7 @@ class EOH:
                 for off in population:
                     print(" Obj: ", off['objective'], end="|")
                 # Save population to a file
-                filename = self.output_path + "/results_create_None_None/pops/population_generation_0.json"
+                filename = self.output_path + "/results/pops/population_generation_0.json"
                 with open(filename, 'w') as f:
                     json.dump(population, f, indent=5)
                 n_start = 0
@@ -186,12 +186,12 @@ class EOH:
 
 
             # Save population to a file
-            filename = self.output_path + "/results_create_None_None/pops/population_generation_" + str(pop + 1) + ".json"
+            filename = self.output_path + "/results/pops/population_generation_" + str(pop + 1) + ".json"
             with open(filename, 'w') as f:
                 json.dump(population, f, indent=5)
 
             # Save the best one to a file
-            filename = self.output_path + "/results_create_None_None/pops_best/population_generation_" + str(pop + 1) + ".json"
+            filename = self.output_path + "/results/pops_best/population_generation_" + str(pop + 1) + ".json"
             with open(filename, 'w') as f:
                 json.dump(population[0], f, indent=5)
 

@@ -84,6 +84,7 @@ python runEoH.py
 cd examples/inventory/evaluation
 
 copy your heuristic to heuristic.py (Note that the function name/input/output must align with the evaluation block!!)
+or use extract_code.py to extract codes from the output .json file, and run autoEval.py
 
 python runEval.py
 ```

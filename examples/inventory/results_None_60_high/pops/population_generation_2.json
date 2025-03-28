@@ -1,0 +1,32 @@
+[
+     {
+          "algorithm": "\"New algorithm: 'Adaptive exponential smoothing with dynamic safety stock adjustment, using weighted demand trends and cost-balancing factors to determine optimal order quantities while accounting for lead time.'\"",
+          "code": "def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):\n    if not history_demand:\n        return 0\n    \n    alpha = 0.3\n    if len(history_demand) > 1:\n        smoothed_demand = history_demand[-1] * alpha + (1 - alpha) * sum(history_demand[:-1]) / (len(history_demand) - 1)\n    else:\n        smoothed_demand = history_demand[-1]\n    \n    cost_factor = lost_sales_cost / (holding_cost + lost_sales_cost)\n    dynamic_multiplier = 1.0 + (cost_factor * 0.5)\n    safety_stock = int(smoothed_demand * dynamic_multiplier)\n    \n    inventory_position = history_inventory[-1]\n    target_level = int(smoothed_demand) + safety_stock\n    order_amount = max(0, target_level - inventory_position)\n    \n    return order_amount",
+          "objective": 3508.96667,
+          "other_inf": null
+     },
+     {
+          "algorithm": "New algorithm: \"Utilize demand quantiles and cost-sensitive safety stock calculation with lead time awareness, adjusting order amounts based on inventory position and historical service level.\"",
+          "code": "def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):\n    if not history_demand:\n        return 0\n    \n    demand_window = history_demand[-5:] if len(history_demand) >= 5 else history_demand\n    demand_sorted = sorted(demand_window)\n    quantile_idx = min(int(len(demand_sorted) * 0.8), len(demand_sorted) - 1)\n    quantile_demand = demand_sorted[quantile_idx]\n    \n    cost_ratio = lost_sales_cost / (holding_cost + lost_sales_cost)\n    safety_stock = int(quantile_demand * cost_ratio * 1.2)\n    \n    inventory_position = history_inventory[-1]\n    target_level = quantile_demand + safety_stock\n    order_amount = max(0, target_level - inventory_position)\n    \n    return order_amount",
+          "objective": 3729.33333,
+          "other_inf": null
+     },
+     {
+          "algorithm": "The algorithm implements Base Stock Policy where the inventory level is always brought back to a fixed target level 'base_stock' at the beginning of each period.",
+          "code": "def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):\n    base_stock = 160\n    order_amount = max(0, base_stock - history_inventory[-1])\n    return order_amount",
+          "objective": 3823.03333,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Adaptive Threshold Policy: Dynamically adjusts the order-up-to level based on recent demand patterns and cost ratios, using exponential smoothing for demand forecasting and a safety factor derived from cost parameters.",
+          "code": "def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):\n    alpha = 0.3  # Smoothing factor\n    if len(history_demand) > 1:\n        forecast = alpha * history_demand[-1] + (1 - alpha) * history_demand[-2]\n    else:\n        forecast = history_demand[-1] if history_demand else 0\n    \n    cost_ratio = lost_sales_cost / (holding_cost + lost_sales_cost)\n    safety_factor = 1.5 * cost_ratio  # Adjusted scaling\n    \n    dynamic_stock = forecast * (1 + safety_factor)\n    order_amount = max(0, dynamic_stock - history_inventory[-1])\n    return order_amount",
+          "objective": 3968.34083,
+          "other_inf": null
+     },
+     {
+          "algorithm": "A new algorithm that uses exponential smoothing for demand forecasting with a volatility-adjusted safety stock, incorporating recent lost sales trends and cost-sensitive reorder thresholds.",
+          "code": "def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):\n    if not history_demand:\n        return 100\n    \n    alpha = 0.3\n    forecast_demand = history_demand[-1] if len(history_demand) == 1 else alpha * history_demand[-1] + (1 - alpha) * sum(history_demand[:-1])/(len(history_demand)-1)\n    \n    recent_lost_ratio = sum(history_lost[-3:]) / (sum(history_demand[-3:]) + 1e-6)\n    volatility = (max(history_demand[-3:]) - min(history_demand[-3:])) / (sum(history_demand[-3:])/3 + 1e-6)\n    \n    cost_ratio = lost_sales_cost / (holding_cost + 1e-6)\n    safety_stock = forecast_demand * (1 + recent_lost_ratio * cost_ratio * (1 + volatility))\n    \n    target = forecast_demand + safety_stock\n    order_amount = max(0, target - history_inventory[-1])\n    \n    return order_amount",
+          "objective": 4057.81946,
+          "other_inf": null
+     }
+]

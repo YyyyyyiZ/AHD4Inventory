@@ -1,0 +1,6 @@
+{
+     "algorithm": "\"New algorithm: 'Adaptive exponential smoothing with dynamic safety stock adjustment, using weighted demand trends and cost-balancing factors to determine optimal order quantities while accounting for lead time.'\"",
+     "code": "def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):\n    if not history_demand:\n        return 0\n    \n    alpha = 0.3\n    if len(history_demand) > 1:\n        smoothed_demand = history_demand[-1] * alpha + (1 - alpha) * sum(history_demand[:-1]) / (len(history_demand) - 1)\n    else:\n        smoothed_demand = history_demand[-1]\n    \n    cost_factor = lost_sales_cost / (holding_cost + lost_sales_cost)\n    dynamic_multiplier = 1.0 + (cost_factor * 0.5)\n    safety_stock = int(smoothed_demand * dynamic_multiplier)\n    \n    inventory_position = history_inventory[-1]\n    target_level = int(smoothed_demand) + safety_stock\n    order_amount = max(0, target_level - inventory_position)\n    \n    return order_amount",
+     "objective": 3508.96667,
+     "other_inf": null
+}

@@ -37,7 +37,7 @@ class Paras():
         self.exp_seed_path = "./seeds/seeds.json"
         self.exp_use_continue = False
         self.exp_continue_id = 0
-        self.exp_continue_path = "./results_create_None_None/pops/population_generation_0.json"
+        self.exp_continue_path = "./results/pops/population_generation_0.json"
         self.exp_n_proc = 1
         
         #####################

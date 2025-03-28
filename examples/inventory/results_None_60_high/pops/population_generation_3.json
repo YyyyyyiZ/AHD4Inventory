@@ -1,0 +1,32 @@
+[
+     {
+          "algorithm": "Adaptive Threshold Policy: Dynamically adjust order-up-to level based on weighted demand patterns and cost ratio, smoothed with exponential moving average.",
+          "code": "def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):\n    if len(history_demand) < 2:\n        return max(0, 160 - history_inventory[-1]) if history_inventory else 0\n    \n    alpha = 0.3\n    cost_ratio = lost_sales_cost / (holding_cost + lost_sales_cost)\n    demand_ema = alpha * history_demand[-1] + (1 - alpha) * sum(history_demand[:-1]) / max(1, len(history_demand)-1)\n    safety_factor = 1.5 * cost_ratio\n    dynamic_base = demand_ema * (1 + safety_factor)\n    \n    order_amount = max(0, dynamic_base - history_inventory[-1])\n    return order_amount",
+          "objective": 2767.89472,
+          "other_inf": null
+     },
+     {
+          "algorithm": "\"New algorithm: 'Adaptive exponential smoothing with dynamic safety stock adjustment, using weighted demand trends and cost-balancing factors to determine optimal order quantities while accounting for lead time.'\"",
+          "code": "def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):\n    if not history_demand:\n        return 0\n    \n    alpha = 0.3\n    if len(history_demand) > 1:\n        smoothed_demand = history_demand[-1] * alpha + (1 - alpha) * sum(history_demand[:-1]) / (len(history_demand) - 1)\n    else:\n        smoothed_demand = history_demand[-1]\n    \n    cost_factor = lost_sales_cost / (holding_cost + lost_sales_cost)\n    dynamic_multiplier = 1.0 + (cost_factor * 0.5)\n    safety_stock = int(smoothed_demand * dynamic_multiplier)\n    \n    inventory_position = history_inventory[-1]\n    target_level = int(smoothed_demand) + safety_stock\n    order_amount = max(0, target_level - inventory_position)\n    \n    return order_amount",
+          "objective": 3508.96667,
+          "other_inf": null
+     },
+     {
+          "algorithm": "```",
+          "code": "def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):\n    if not history_demand:\n        return 0\n    \n    cost_ratio = lost_sales_cost / (holding_cost + lost_sales_cost)\n    demand_mean = sum(history_demand) / len(history_demand)\n    demand_var = sum((d - demand_mean)**2 for d in history_demand) / len(history_demand)\n    demand_std = demand_var**0.5\n    \n    lead_time_factor = 1.0\n    dynamic_multiplier = 1.0 + cost_ratio * (1.0 + demand_std / max(1, demand_mean))\n    \n    target_level = demand_mean * dynamic_multiplier * lead_time_factor\n    order_amount = max(0, target_level - history_inventory[-1])\n    \n    return order_amount",
+          "objective": 3572.88878,
+          "other_inf": null
+     },
+     {
+          "algorithm": "\"New algorithm: 'Dynamic quantile-based inventory control with lead-time-aware demand clustering and asymmetric cost-sensitive reordering thresholds.'\"",
+          "code": "def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):\n    if not history_demand:\n        return 0\n    \n    demand_window = history_demand[-3:] if len(history_demand) >= 3 else history_demand\n    q75 = sorted(demand_window)[int(0.75*len(demand_window))] if demand_window else 0\n    \n    cost_ratio = lost_sales_cost / max(holding_cost, 1e-6)\n    demand_cluster = max(1, int(sum(demand_window)/len(demand_window)) if demand_window else 0)\n    \n    threshold_factor = min(2.0, 0.5 + cost_ratio * 0.1)\n    safety_stock = int(q75 * threshold_factor)\n    \n    inventory_position = history_inventory[-1] if history_inventory else 0\n    target_level = demand_cluster + safety_stock\n    order_amount = max(0, target_level - inventory_position)\n    \n    return order_amount",
+          "objective": 3683.03333,
+          "other_inf": null
+     },
+     {
+          "algorithm": "New algorithm: \"Utilize demand quantiles and cost-sensitive safety stock calculation with lead time awareness, adjusting order amounts based on inventory position and historical service level.\"",
+          "code": "def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):\n    if not history_demand:\n        return 0\n    \n    demand_window = history_demand[-5:] if len(history_demand) >= 5 else history_demand\n    demand_sorted = sorted(demand_window)\n    quantile_idx = min(int(len(demand_sorted) * 0.8), len(demand_sorted) - 1)\n    quantile_demand = demand_sorted[quantile_idx]\n    \n    cost_ratio = lost_sales_cost / (holding_cost + lost_sales_cost)\n    safety_stock = int(quantile_demand * cost_ratio * 1.2)\n    \n    inventory_position = history_inventory[-1]\n    target_level = quantile_demand + safety_stock\n    order_amount = max(0, target_level - inventory_position)\n    \n    return order_amount",
+          "objective": 3729.33333,
+          "other_inf": null
+     }
+]
