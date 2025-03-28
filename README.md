@@ -53,7 +53,7 @@ paras = Paras()
 
 # Set parameters #
 paras.set_paras(method = "eoh",    # ['ael','eoh']
-                problem = "bp_online", #['tsp_construct','bp_online']
+                problem = "bp_online", #['inventory','tsp_construct','bp_online']
                 llm_api_endpoint = "xxx", # set your LLM endpoint
                 llm_api_key = "xxx",   # set your LLM key
                 llm_model = "gpt-3.5-turbo-1106",
