@@ -1,0 +1,6 @@
+{
+     "algorithm": "\"Demand-Weighted Cost-Balancing Policy: Uses exponential smoothing of demand trends weighted by cost ratios to determine order amounts, with lead-time adjusted safety buffers.\"",
+     "code": "def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):\n    if not history_demand:\n        return 0\n    \n    alpha = 0.3  # Smoothing factor\n    smoothed_demand = history_demand[0]\n    for d in history_demand[1:]:\n        smoothed_demand = alpha * d + (1 - alpha) * smoothed_demand\n    \n    cost_ratio = lost_sales_cost / (holding_cost + lost_sales_cost) if (holding_cost + lost_sales_cost) != 0 else 0.5\n    weighted_demand = smoothed_demand * (1 + cost_ratio)\n    \n    recent_lost = history_lost[-1] if history_lost else 0\n    buffer = max(0, weighted_demand * 0.2 + recent_lost * 0.8)\n    \n    target = weighted_demand + buffer\n    order_amount = max(0, target - history_inventory[-1])\n    return order_amount",
+     "objective": 3373.35036,
+     "other_inf": null
+}

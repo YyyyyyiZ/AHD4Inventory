@@ -1,0 +1,26 @@
+[
+     {
+          "algorithm": "Propose a probabilistic safety stock policy that dynamically adjusts order amounts based on demand volatility and cost-optimal service levels, using quantile estimation from historical demand distribution.",
+          "code": "import numpy as np\n\ndef compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):\n    if len(history_demand) < 2:\n        recent_demand = history_demand[-1] if len(history_demand) > 0 else 0\n    else:\n        recent_demand = np.mean(history_demand)\n    \n    demand_std = np.std(history_demand) if len(history_demand) > 1 else 0\n    cost_ratio = lost_sales_cost / (holding_cost + lost_sales_cost)\n    safety_factor = np.percentile(history_demand, int(100 * cost_ratio)) if len(history_demand) > 0 else 0\n    target_level = int(recent_demand + safety_factor + demand_std * cost_ratio)\n    order_amount = max(0, target_level - history_inventory[-1])\n    return order_amount",
+          "objective": 2957.3,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Develop a demand-shaping policy that uses quantile regression on historical demand patterns to set target inventory levels, adjusted by a dynamic cost-ratio-based multiplier.",
+          "code": "def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):\n    if not history_demand:\n        return 0\n    \n    cost_ratio = lost_sales_cost / (holding_cost + lost_sales_cost)\n    demand_quantile = sorted(history_demand)[int(len(history_demand) * cost_ratio)]\n    lost_adjustment = sum(history_lost[-3:]) / 3 if history_lost else 0\n    \n    target_level = int(demand_quantile * (1 + cost_ratio) + lost_adjustment)\n    order_amount = max(0, target_level - history_inventory[-1])\n    return order_amount",
+          "objective": 3014.23333,
+          "other_inf": null
+     },
+     {
+          "algorithm": "The algorithm implements a Demand-Weighted Adaptive Threshold Policy that dynamically adjusts the order-up-to level based on recent demand patterns and cost ratios, while smoothing order quantities to avoid extreme fluctuations.",
+          "code": "def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):\n    demand_window = history_demand[-5:] if len(history_demand) >= 5 else history_demand\n    avg_demand = sum(demand_window) / len(demand_window) if demand_window else 0\n    cost_ratio = lost_sales_cost / (holding_cost + lost_sales_cost)\n    dynamic_stock = avg_demand * (1 + cost_ratio) * 1.5  # Lead time factor\n    smoothing_factor = 0.7\n    order_amount = max(0, smoothing_factor * (dynamic_stock - history_inventory[-1]))\n    return order_amount",
+          "objective": 3230.66207,
+          "other_inf": null
+     },
+     {
+          "algorithm": "An adaptive safety stock algorithm that dynamically adjusts order quantities based on demand volatility and cost-optimal service levels, incorporating exponential smoothing of demand and lost sales trends.",
+          "code": "def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):\n    if len(history_demand) < 2:\n        return max(0, sum(history_demand) - history_inventory[-1]) if history_demand else 0\n    \n    alpha = 0.3  # Smoothing factor for demand\n    beta = 0.2   # Smoothing factor for lost sales\n    smoothed_demand = history_demand[-1]\n    smoothed_lost = history_lost[-1] if history_lost else 0\n    \n    for i in range(len(history_demand)-1):\n        smoothed_demand = alpha * history_demand[i] + (1 - alpha) * smoothed_demand\n        if i < len(history_lost):\n            smoothed_lost = beta * history_lost[i] + (1 - beta) * smoothed_lost\n    \n    service_level = lost_sales_cost / (holding_cost + lost_sales_cost)\n    safety_stock = (smoothed_demand + smoothed_lost) * service_level * 1.25  # Lead time buffer\n    order_amount = max(0, (smoothed_demand + safety_stock - history_inventory[-1]))\n    return order_amount",
+          "objective": 3350.61564,
+          "other_inf": null
+     }
+]

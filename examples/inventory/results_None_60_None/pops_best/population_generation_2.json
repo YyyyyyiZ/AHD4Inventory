@@ -1,0 +1,6 @@
+{
+     "algorithm": "An adaptive threshold algorithm that dynamically adjusts the order-up-to level based on recent demand patterns and cost ratios, using exponential smoothing for demand forecasting and a safety factor derived from cost balance.",
+     "code": "def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):\n    if len(history_demand) < 2:\n        alpha = 0.3\n    else:\n        alpha = 0.3\n    \n    if len(history_demand) == 0:\n        forecast = 100\n    else:\n        forecast = alpha * history_demand[-1] + (1 - alpha) * (history_demand[-2] if len(history_demand) > 1 else history_demand[-1])\n    \n    cost_ratio = lost_sales_cost / (holding_cost + lost_sales_cost)\n    safety_factor = 1.5 * cost_ratio\n    \n    target_level = forecast * (1 + safety_factor)\n    order_amount = max(0, target_level - history_inventory[-1])\n    \n    return order_amount",
+     "objective": 3692.92583,
+     "other_inf": null
+}

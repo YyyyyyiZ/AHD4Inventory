@@ -1,0 +1,26 @@
+[
+     {
+          "algorithm": " A probabilistic demand coverage algorithm that dynamically sets order quantities based on demand percentiles weighted by cost ratios, with a lead-time buffer. ",
+          "code": "def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):\n    if len(history_demand) == 0:\n        return 100\n    \n    cost_ratio = lost_sales_cost / (holding_cost + lost_sales_cost)\n    percentile = min(0.95, max(0.5, cost_ratio * 1.2))\n    \n    sorted_demand = sorted(history_demand)\n    idx = min(len(sorted_demand) - 1, int(percentile * len(sorted_demand)))\n    demand_estimate = sorted_demand[idx]\n    \n    lead_time_buffer = max(history_demand[-3:]) if len(history_demand) >= 3 else max(history_demand)\n    target_level = demand_estimate + lead_time_buffer\n    \n    order_amount = max(0, target_level - history_inventory[-1])\n    \n    return order_amount",
+          "objective": 3261.76667,
+          "other_inf": null
+     },
+     {
+          "algorithm": "An adaptive threshold algorithm that dynamically adjusts the order-up-to level based on recent demand patterns and cost ratios, using exponential smoothing for demand forecasting and a safety factor derived from cost balance.",
+          "code": "def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):\n    if len(history_demand) < 2:\n        alpha = 0.3\n    else:\n        alpha = 0.3\n    \n    if len(history_demand) == 0:\n        forecast = 100\n    else:\n        forecast = alpha * history_demand[-1] + (1 - alpha) * (history_demand[-2] if len(history_demand) > 1 else history_demand[-1])\n    \n    cost_ratio = lost_sales_cost / (holding_cost + lost_sales_cost)\n    safety_factor = 1.5 * cost_ratio\n    \n    target_level = forecast * (1 + safety_factor)\n    order_amount = max(0, target_level - history_inventory[-1])\n    \n    return order_amount",
+          "objective": 3692.92583,
+          "other_inf": null
+     },
+     {
+          "algorithm": "The algorithm implements Base Stock Policy where the inventory level is always brought back to a fixed target level 'base_stock' at the beginning of each period.",
+          "code": "def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):\n    base_stock = 160\n    order_amount = max(0, base_stock - history_inventory[-1])\n    return order_amount",
+          "objective": 3823.03333,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Adaptive Threshold Policy with Demand Volatility Adjustment: Uses a moving window of demand variance to dynamically adjust safety stock levels while balancing cost ratios.",
+          "code": "def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):\n    window_size = min(5, len(history_demand))\n    if window_size > 0:\n        recent_demand = history_demand[-window_size:]\n        avg_demand = sum(recent_demand) / window_size\n        demand_variance = sum((x - avg_demand)**2 for x in recent_demand) / window_size\n        volatility_factor = 1 + (demand_variance ** 0.5) / (avg_demand + 1)\n    else:\n        avg_demand = 0\n        volatility_factor = 1\n    \n    cost_ratio = lost_sales_cost / (holding_cost + lost_sales_cost)\n    safety_multiplier = 1 + cost_ratio * volatility_factor\n    \n    target_level = avg_demand * safety_multiplier\n    order_amount = max(0, target_level - history_inventory[-1])\n    return order_amount",
+          "objective": 3995.1637,
+          "other_inf": null
+     }
+]

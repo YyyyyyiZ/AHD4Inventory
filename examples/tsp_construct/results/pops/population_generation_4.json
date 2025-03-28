@@ -1,0 +1,26 @@
+[
+     {
+          "algorithm": "The algorithm selects the next node by choosing the unvisited node that maximizes the ratio of the distance from the current node to the destination node over the distance from the current node to the unvisited node.",
+          "code": "import numpy as np\n\ndef select_next_node(current_node, destination_node, unvisited_nodes, distance_matrix):\n    max_ratio = -float('inf')\n    next_node = None\n    \n    for node in unvisited_nodes:\n        if distance_matrix[current_node, node] == 0:\n            continue\n        ratio = distance_matrix[current_node, destination_node] / distance_matrix[current_node, node]\n        if ratio > max_ratio:\n            max_ratio = ratio\n            next_node = node\n    \n    return next_node",
+          "objective": 6.60788,
+          "other_inf": null
+     },
+     {
+          "algorithm": "The algorithm selects the next node by choosing the unvisited node that minimizes the product of the distance from the current node to the unvisited node and the distance from the unvisited node to the destination node.",
+          "code": "import numpy as np\n\ndef select_next_node(current_node, destination_node, unvisited_nodes, distance_matrix):\n    min_product = float('inf')\n    next_node = None\n    \n    for node in unvisited_nodes:\n        if distance_matrix[current_node, node] == 0:\n            continue\n        product = distance_matrix[current_node, node] * distance_matrix[node, destination_node]\n        if product < min_product:\n            min_product = product\n            next_node = node\n    \n    return next_node",
+          "objective": 7.31099,
+          "other_inf": null
+     },
+     {
+          "algorithm": "The algorithm selects the next node by choosing the unvisited node that minimizes the sum of the distance from the current node to the unvisited node and the distance from the unvisited node to the destination node.",
+          "code": "import numpy as np\n\ndef select_next_node(current_node, destination_node, unvisited_nodes, distance_matrix):\n    min_cost = float('inf')\n    next_node = None\n    \n    for node in unvisited_nodes:\n        cost = distance_matrix[current_node, node] + distance_matrix[node, destination_node]\n        if cost < min_cost:\n            min_cost = cost\n            next_node = node\n    \n    return next_node",
+          "objective": 7.6436,
+          "other_inf": null
+     },
+     {
+          "algorithm": "The algorithm selects the next node by choosing the unvisited node that maximizes the ratio of the distance from the current node to the unvisited node divided by the distance from the unvisited node to the destination node.",
+          "code": "import numpy as np\n\ndef select_next_node(current_node, destination_node, unvisited_nodes, distance_matrix):\n    max_ratio = -float('inf')\n    next_node = None\n    \n    for node in unvisited_nodes:\n        if distance_matrix[node, destination_node] != 0:\n            ratio = distance_matrix[current_node, node] / distance_matrix[node, destination_node]\n            if ratio > max_ratio:\n                max_ratio = ratio\n                next_node = node\n    \n    return next_node",
+          "objective": 25.88696,
+          "other_inf": null
+     }
+]

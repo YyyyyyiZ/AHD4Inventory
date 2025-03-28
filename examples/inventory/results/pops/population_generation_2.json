@@ -1,0 +1,26 @@
+[
+     {
+          "algorithm": "The algorithm implements Base Stock Policy where the inventory level is always brought back to a fixed target level 'base_stock' at the beginning of each period.",
+          "code": "def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):\n    base_stock = 160\n    order_amount = max(0, base_stock - history_inventory[-1])\n    return order_amount",
+          "objective": 3823.03333,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Adaptive Threshold Policy: Dynamically adjusts order-up-to level based on weighted demand and lost sales history, using a rolling window to balance holding and shortage costs.",
+          "code": "def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):\n    window_size = min(5, len(history_demand))\n    if window_size == 0:\n        return 0\n    weighted_demand = sum(history_demand[-window_size:]) / window_size\n    weighted_lost = sum(history_lost[-window_size:]) / window_size\n    safety_factor = 1 + (lost_sales_cost / (holding_cost + lost_sales_cost))\n    adaptive_stock = safety_factor * (weighted_demand + weighted_lost)\n    order_amount = max(0, adaptive_stock - history_inventory[-1])\n    return order_amount",
+          "objective": 3979.1246,
+          "other_inf": null
+     },
+     {
+          "algorithm": "The algorithm dynamically adjusts the target inventory level based on recent demand patterns and cost ratios, using exponential smoothing for demand forecasting and a cost-sensitive safety factor.",
+          "code": "def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):\n    if len(history_demand) < 2:\n        return max(0, 100 - history_inventory[-1]) if history_inventory else 100\n    \n    alpha = 0.3\n    forecast = alpha * history_demand[-1] + (1 - alpha) * history_demand[-2]\n    cost_ratio = lost_sales_cost / holding_cost if holding_cost > 0 else 1\n    safety_factor = min(2.0, max(0.5, cost_ratio * 0.2))\n    target = forecast * (1 + safety_factor)\n    order_amount = max(0, target - history_inventory[-1])\n    return order_amount",
+          "objective": 4257.32667,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Adaptive Base Stock Policy: Dynamically adjusts the base stock level based on recent demand patterns and cost ratios, then orders up to this adjusted level.",
+          "code": "def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):\n    demand_window = 5\n    if len(history_demand) >= demand_window:\n        recent_demand = history_demand[-demand_window:]\n        avg_demand = sum(recent_demand) / demand_window\n    else:\n        avg_demand = sum(history_demand) / len(history_demand) if len(history_demand) > 0 else 0\n    \n    cost_ratio = lost_sales_cost / (holding_cost + lost_sales_cost)\n    adjusted_base_stock = avg_demand * (1 + cost_ratio)\n    order_amount = max(0, adjusted_base_stock - history_inventory[-1])\n    return order_amount",
+          "objective": 4879.14556,
+          "other_inf": null
+     }
+]
