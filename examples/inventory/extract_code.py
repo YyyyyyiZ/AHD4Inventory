@@ -10,16 +10,17 @@ def extract(folder_name: Optional[str] = None) -> None:
         folder_name: Optional specific folder to process. If None, processes all pop_best folders.
     """
     output_file = "evaluation/code_extracted.txt"
+    option = 'pops'
 
     if folder_name:
         # Process specific folder
-        folders_to_process = [os.path.join(folder_name, "pops_best")]
+        folders_to_process = [os.path.join(folder_name, option)]
     else:
         # Find all pops_best folders in the directory tree
         folders_to_process = []
         for root, dirs, files in os.walk("."):
-            if "pops_best" in dirs:
-                folders_to_process.append(os.path.join(root, "pops_best"))
+            if option in dirs:
+                folders_to_process.append(os.path.join(root, option))
 
     with open(output_file, "w") as outfile:
         for pops_best_folder in folders_to_process:

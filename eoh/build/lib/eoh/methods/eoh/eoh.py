@@ -9,7 +9,6 @@ class EOH:
 
     # initilization
     def __init__(self, paras, problem, select, manage, **kwargs):
-
         self.prob = problem
         self.select = select
         self.manage = manage
@@ -59,6 +58,8 @@ class EOH:
         self.use_numba = paras.eva_numba_decorator
 
         self.create_initial = paras.create_initial
+        self.demand = paras.demand
+        self.volatility = paras.volatility
 
         print("- EoH parameters loaded -")
 
@@ -160,7 +161,7 @@ class EOH:
         # main loop
         n_op = len(self.operators)
 
-        for pop in range(n_start, self.n_pop):  
+        for pop in range(n_start, self.n_pop):
             #print(f" [{na + 1} / {self.pop_size}] ", end="|")         
             for i in range(n_op):
                 op = self.operators[i]

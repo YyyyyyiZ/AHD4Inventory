@@ -6,7 +6,7 @@ class Probs():
             print("- Prob local loaded ")
         elif paras.problem == "inventory":
             from .optimization.inventory import run
-            self.prob = run.INVENTORY()
+            self.prob = run.INVENTORY(demand=paras.demand, volatility=paras.volatility)
             print("- Prob "+paras.problem+" loaded ")
         elif paras.problem == "tsp_construct":
             from .optimization.tsp_greedy import run

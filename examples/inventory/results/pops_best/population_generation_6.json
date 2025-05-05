@@ -1,0 +1,6 @@
+{
+     "algorithm": "An adaptive threshold policy that dynamically adjusts order-up-to levels based on demand volatility and cost-optimal service levels, incorporating lead time through a rolling horizon approach.",
+     "code": "def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):\n    if not history_demand:\n        return 100\n    \n    current_inv = history_inventory[-1] if history_inventory else 0\n    cost_ratio = lost_sales_cost / (holding_cost + lost_sales_cost)\n    \n    # Calculate demand volatility\n    mean_demand = sum(history_demand) / len(history_demand)\n    variance = sum((d - mean_demand)**2 for d in history_demand) / len(history_demand)\n    std_dev = variance**0.5\n    volatility = std_dev / mean_demand if mean_demand > 0 else 0\n    \n    # Dynamic adjustment factor\n    adjustment = 1 + (volatility * cost_ratio)\n    base_order = mean_demand * adjustment\n    \n    # Lead time compensation\n    lead_time_demand = mean_demand * 1  # lead time = 1 period\n    \n    target_level = base_order + lead_time_demand\n    order_amount = max(0, target_level - current_inv)\n    \n    return order_amount",
+     "objective": 2120.17131,
+     "other_inf": null
+}

@@ -40,11 +40,11 @@ def evaluation(instances):
 
 
 debug_mode = False
-demands = [50, 60, 70, 80]
+demands = [80]
 print("Start evaluation...")
 with open("results.txt", "w") as file:
     for demand_mean in demands:
-        loaded_test = load_instances(f"data/test_{demand_mean}_*.json")
+        loaded_test = load_instances(f"data/test_{demand_mean}_low.json")
         time_start = time.time()
         cost = evaluation(loaded_test)
         result = (

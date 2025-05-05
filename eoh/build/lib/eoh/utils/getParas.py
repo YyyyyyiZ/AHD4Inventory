@@ -6,15 +6,19 @@ class Paras():
         #####################
         self.method = 'eoh'
         self.problem = 'inventory'
-        self.create_initial = True
+        self.create_initial = False
+        self.demand = 80
+        self.volatility = 'low'
         self.selection = None
         self.management = None
+
+
 
         #####################
         ###  EC settings  ###
         #####################
-        self.ec_pop_size = 5  # number of algorithms in each population, default = 10
-        self.ec_n_pop = 5 # number of populations, default = 10
+        self.ec_pop_size = 30  # number of algorithms in each population, default = 10
+        self.ec_n_pop = 10 # number of populations, default = 10
         self.ec_operators = None # evolution operators: ['e1','e2','m1','m2'], default =  ['e1','e2','m1','m2']
         self.ec_m = 2  # number of parents for 'e1' and 'e2' operators, default = 2
         self.ec_operator_weights = None  # weights for operators, i.e., the probability of use the operator in each iteration, default = [1,1,1,1]
@@ -43,7 +47,7 @@ class Paras():
         #####################
         ###  Evaluation settings  ###
         #####################
-        self.eva_timeout = 30
+        self.eva_timeout = 60
         self.eva_numba_decorator = False
 
 
@@ -96,6 +100,9 @@ class Paras():
             self.eva_numba_decorator  = True
         elif self.problem == 'tsp_construct':
             self.eva_timeout = 20
+        elif self.problem == 'inventory':
+            self.eva_timeout = 60
+
                 
     def set_paras(self, *args, **kwargs):
         

@@ -18,13 +18,14 @@ class INVENTORY():
     def _load_instances(self):
         # Determine the file pattern based on parameters
         if self.demand is None and self.volatility is None:
-            pattern = "evaluation/data/test_*.json"
+            pattern = "evaluation/data/train_*.json"
         elif self.demand is None:
-            pattern = f"evaluation/data/test_*_{self.volatility}.json"
+            pattern = f"evaluation/data/train_*_{self.volatility}.json"
         elif self.volatility is None:
-            pattern = f"evaluation/data/test_{self.demand}_*.json"
+            pattern = f"evaluation/data/train_{self.demand}_*.json"
         else:
-            pattern = f"evaluation/data/test_{self.demand}_{self.volatility}.json"
+            pattern = f"evaluation/data/train_{self.demand}_{self.volatility}.json"
+        print(f"Instances loaded {pattern}......")
 
         # Find all matching files and load their contents
         instances = []

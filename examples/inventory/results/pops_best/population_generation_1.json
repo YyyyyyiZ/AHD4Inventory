@@ -1,0 +1,6 @@
+{
+     "algorithm": "```",
+     "code": "def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):\n    if not history_demand:\n        return 100\n    \n    cost_ratio = lost_sales_cost / (holding_cost + lost_sales_cost)\n    demand_variance = max(0, (max(history_demand) - min(history_demand)) / 2) if len(history_demand) > 1 else 0\n    weighted_demand = sum(d * (i+1) for i, d in enumerate(history_demand)) / sum(i+1 for i in range(len(history_demand)))\n    dynamic_factor = 1 + cost_ratio * (1 + demand_variance / max(1, weighted_demand))\n    target_level = weighted_demand * dynamic_factor\n    order_amount = max(0, target_level - history_inventory[-1])\n    return order_amount",
+     "objective": 2569.05462,
+     "other_inf": null
+}

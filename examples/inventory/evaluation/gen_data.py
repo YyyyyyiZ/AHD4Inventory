@@ -93,17 +93,18 @@ def load_instances(pattern):
     return instances
 
 if __name__ == "__main__":
-    num_periods = 50
-    volatility = ['low', 'median', 'high']
-    demands = [50, 60, 70, 80]
+    num_periods = 20
+    volatility = ['low']
+    # volatility = ['low', 'median', 'high']
+    demands = [60]
     for vol in volatility:
         for demand_mean in demands:
             test_instances = [generate_random_instance(num_periods=num_periods, demand_mean = demand_mean,
                                                        holding_cost=2, lost_sales_cost=10, volatility=vol,
-                                                       instance_id=f"test_{i}") for i in range(5)]
+                                                       instance_id=f"test_{i}") for i in range(10)]
             save_instances(test_instances, f"data/test_{demand_mean}_{vol}.json")
 
             training_instances = [generate_random_instance(num_periods=num_periods, demand_mean=demand_mean,
                                                            holding_cost=2, lost_sales_cost=10, volatility=vol,
-                                                           instance_id=f"train_{demand_mean}_{vol}") for i in range(10)]
+                                                           instance_id=f"train_{i}") for i in range(50)]
             save_instances(training_instances, f"data/train_{demand_mean}_{vol}.json")

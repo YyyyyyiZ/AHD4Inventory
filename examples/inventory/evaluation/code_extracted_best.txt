@@ -1,0 +1,258 @@
+# Source: results\pops_best/population_generation_1.json
+# Objective: 2569.05462
+# Description: ```
+def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):
+    if not history_demand:
+        return 100
+    
+    cost_ratio = lost_sales_cost / (holding_cost + lost_sales_cost)
+    demand_variance = max(0, (max(history_demand) - min(history_demand)) / 2) if len(history_demand) > 1 else 0
+    weighted_demand = sum(d * (i+1) for i, d in enumerate(history_demand)) / sum(i+1 for i in range(len(history_demand)))
+    dynamic_factor = 1 + cost_ratio * (1 + demand_variance / max(1, weighted_demand))
+    target_level = weighted_demand * dynamic_factor
+    order_amount = max(0, target_level - history_inventory[-1])
+    return order_amount
+
+================================================================================
+
+# Source: results\pops_best/population_generation_10.json
+# Objective: 2120.17131
+# Description: An adaptive threshold policy that dynamically adjusts order-up-to levels based on demand volatility and cost-optimal service levels, incorporating lead time through a rolling horizon approach.
+def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):
+    if not history_demand:
+        return 100
+    
+    current_inv = history_inventory[-1] if history_inventory else 0
+    cost_ratio = lost_sales_cost / (holding_cost + lost_sales_cost)
+    
+    # Calculate demand volatility
+    mean_demand = sum(history_demand) / len(history_demand)
+    variance = sum((d - mean_demand)**2 for d in history_demand) / len(history_demand)
+    std_dev = variance**0.5
+    volatility = std_dev / mean_demand if mean_demand > 0 else 0
+    
+    # Dynamic adjustment factor
+    adjustment = 1 + (volatility * cost_ratio)
+    base_order = mean_demand * adjustment
+    
+    # Lead time compensation
+    lead_time_demand = mean_demand * 1  # lead time = 1 period
+    
+    target_level = base_order + lead_time_demand
+    order_amount = max(0, target_level - current_inv)
+    
+    return order_amount
+
+================================================================================
+
+# Source: results\pops_best/population_generation_2.json
+# Objective: 2569.05462
+# Description: ```
+def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):
+    if not history_demand:
+        return 100
+    
+    cost_ratio = lost_sales_cost / (holding_cost + lost_sales_cost)
+    demand_variance = max(0, (max(history_demand) - min(history_demand)) / 2) if len(history_demand) > 1 else 0
+    weighted_demand = sum(d * (i+1) for i, d in enumerate(history_demand)) / sum(i+1 for i in range(len(history_demand)))
+    dynamic_factor = 1 + cost_ratio * (1 + demand_variance / max(1, weighted_demand))
+    target_level = weighted_demand * dynamic_factor
+    order_amount = max(0, target_level - history_inventory[-1])
+    return order_amount
+
+================================================================================
+
+# Source: results\pops_best/population_generation_3.json
+# Objective: 2569.05462
+# Description: ```
+def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):
+    if not history_demand:
+        return 100
+    
+    cost_ratio = lost_sales_cost / (holding_cost + lost_sales_cost)
+    demand_variance = max(0, (max(history_demand) - min(history_demand)) / 2) if len(history_demand) > 1 else 0
+    weighted_demand = sum(d * (i+1) for i, d in enumerate(history_demand)) / sum(i+1 for i in range(len(history_demand)))
+    dynamic_factor = 1 + cost_ratio * (1 + demand_variance / max(1, weighted_demand))
+    target_level = weighted_demand * dynamic_factor
+    order_amount = max(0, target_level - history_inventory[-1])
+    return order_amount
+
+================================================================================
+
+# Source: results\pops_best/population_generation_4.json
+# Objective: 2120.17131
+# Description: An adaptive threshold policy that dynamically adjusts order-up-to levels based on demand volatility and cost-optimal service levels, incorporating lead time through a rolling horizon approach.
+def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):
+    if not history_demand:
+        return 100
+    
+    current_inv = history_inventory[-1] if history_inventory else 0
+    cost_ratio = lost_sales_cost / (holding_cost + lost_sales_cost)
+    
+    # Calculate demand volatility
+    mean_demand = sum(history_demand) / len(history_demand)
+    variance = sum((d - mean_demand)**2 for d in history_demand) / len(history_demand)
+    std_dev = variance**0.5
+    volatility = std_dev / mean_demand if mean_demand > 0 else 0
+    
+    # Dynamic adjustment factor
+    adjustment = 1 + (volatility * cost_ratio)
+    base_order = mean_demand * adjustment
+    
+    # Lead time compensation
+    lead_time_demand = mean_demand * 1  # lead time = 1 period
+    
+    target_level = base_order + lead_time_demand
+    order_amount = max(0, target_level - current_inv)
+    
+    return order_amount
+
+================================================================================
+
+# Source: results\pops_best/population_generation_5.json
+# Objective: 2120.17131
+# Description: An adaptive threshold policy that dynamically adjusts order-up-to levels based on demand volatility and cost-optimal service levels, incorporating lead time through a rolling horizon approach.
+def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):
+    if not history_demand:
+        return 100
+    
+    current_inv = history_inventory[-1] if history_inventory else 0
+    cost_ratio = lost_sales_cost / (holding_cost + lost_sales_cost)
+    
+    # Calculate demand volatility
+    mean_demand = sum(history_demand) / len(history_demand)
+    variance = sum((d - mean_demand)**2 for d in history_demand) / len(history_demand)
+    std_dev = variance**0.5
+    volatility = std_dev / mean_demand if mean_demand > 0 else 0
+    
+    # Dynamic adjustment factor
+    adjustment = 1 + (volatility * cost_ratio)
+    base_order = mean_demand * adjustment
+    
+    # Lead time compensation
+    lead_time_demand = mean_demand * 1  # lead time = 1 period
+    
+    target_level = base_order + lead_time_demand
+    order_amount = max(0, target_level - current_inv)
+    
+    return order_amount
+
+================================================================================
+
+# Source: results\pops_best/population_generation_6.json
+# Objective: 2120.17131
+# Description: An adaptive threshold policy that dynamically adjusts order-up-to levels based on demand volatility and cost-optimal service levels, incorporating lead time through a rolling horizon approach.
+def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):
+    if not history_demand:
+        return 100
+    
+    current_inv = history_inventory[-1] if history_inventory else 0
+    cost_ratio = lost_sales_cost / (holding_cost + lost_sales_cost)
+    
+    # Calculate demand volatility
+    mean_demand = sum(history_demand) / len(history_demand)
+    variance = sum((d - mean_demand)**2 for d in history_demand) / len(history_demand)
+    std_dev = variance**0.5
+    volatility = std_dev / mean_demand if mean_demand > 0 else 0
+    
+    # Dynamic adjustment factor
+    adjustment = 1 + (volatility * cost_ratio)
+    base_order = mean_demand * adjustment
+    
+    # Lead time compensation
+    lead_time_demand = mean_demand * 1  # lead time = 1 period
+    
+    target_level = base_order + lead_time_demand
+    order_amount = max(0, target_level - current_inv)
+    
+    return order_amount
+
+================================================================================
+
+# Source: results\pops_best/population_generation_7.json
+# Objective: 2120.17131
+# Description: An adaptive threshold policy that dynamically adjusts order-up-to levels based on demand volatility and cost-optimal service levels, incorporating lead time through a rolling horizon approach.
+def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):
+    if not history_demand:
+        return 100
+    
+    current_inv = history_inventory[-1] if history_inventory else 0
+    cost_ratio = lost_sales_cost / (holding_cost + lost_sales_cost)
+    
+    # Calculate demand volatility
+    mean_demand = sum(history_demand) / len(history_demand)
+    variance = sum((d - mean_demand)**2 for d in history_demand) / len(history_demand)
+    std_dev = variance**0.5
+    volatility = std_dev / mean_demand if mean_demand > 0 else 0
+    
+    # Dynamic adjustment factor
+    adjustment = 1 + (volatility * cost_ratio)
+    base_order = mean_demand * adjustment
+    
+    # Lead time compensation
+    lead_time_demand = mean_demand * 1  # lead time = 1 period
+    
+    target_level = base_order + lead_time_demand
+    order_amount = max(0, target_level - current_inv)
+    
+    return order_amount
+
+================================================================================
+
+# Source: results\pops_best/population_generation_8.json
+# Objective: 2120.17131
+# Description: An adaptive threshold policy that dynamically adjusts order-up-to levels based on demand volatility and cost-optimal service levels, incorporating lead time through a rolling horizon approach.
+def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):
+    if not history_demand:
+        return 100
+    
+    current_inv = history_inventory[-1] if history_inventory else 0
+    cost_ratio = lost_sales_cost / (holding_cost + lost_sales_cost)
+    
+    # Calculate demand volatility
+    mean_demand = sum(history_demand) / len(history_demand)
+    variance = sum((d - mean_demand)**2 for d in history_demand) / len(history_demand)
+    std_dev = variance**0.5
+    volatility = std_dev / mean_demand if mean_demand > 0 else 0
+    
+    # Dynamic adjustment factor
+    adjustment = 1 + (volatility * cost_ratio)
+    base_order = mean_demand * adjustment
+    
+    # Lead time compensation
+    lead_time_demand = mean_demand * 1  # lead time = 1 period
+    
+    target_level = base_order + lead_time_demand
+    order_amount = max(0, target_level - current_inv)
+    
+    return order_amount
+
+================================================================================
+
+# Source: results\pops_best/population_generation_9.json
+# Objective: 2120.17131
+# Description: An adaptive threshold policy that dynamically adjusts order-up-to levels based on demand volatility and cost-optimal service levels, incorporating lead time through a rolling horizon approach.
+def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):
+    if not history_demand:
+        return 100
+    
+    current_inv = history_inventory[-1] if history_inventory else 0
+    cost_ratio = lost_sales_cost / (holding_cost + lost_sales_cost)
+    
+    # Calculate demand volatility
+    mean_demand = sum(history_demand) / len(history_demand)
+    variance = sum((d - mean_demand)**2 for d in history_demand) / len(history_demand)
+    std_dev = variance**0.5
+    volatility = std_dev / mean_demand if mean_demand > 0 else 0
+    
+    # Dynamic adjustment factor
+    adjustment = 1 + (volatility * cost_ratio)
+    base_order = mean_demand * adjustment
+    
+    # Lead time compensation
+    lead_time_demand = mean_demand * 1  # lead time = 1 period
+    
+    target_level = base_order + lead_time_demand
+    order_amount = max(0, target_level - current_inv)
+    
+    return order_amount
