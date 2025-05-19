@@ -1,0 +1,13 @@
+{
+     "algorithm": "This algorithm uses demand clustering with cost-weighted buffer zones and lead-time-aware inventory positioning, dynamically adjusting order quantities based on demand pattern similarity and real-time cost ratios.",
+     "code": "def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):\n    cluster_threshold = 0.35  # Optimized\n    base_zone = 44.98786270278207  # Optimized\n    cost_exponent = 0.22298479405808364  # Optimized\n    lead_time_penalty = 1.0208406375706451  # Optimized\n    recent_weight = 0.1  # Optimized\n\n    if not history_demand:\n        return base_zone * 2\n\n    current_inventory = history_inventory[-1] if history_inventory else 0\n    \n    # Demand clustering\n    recent_demand = history_demand[-3:] if len(history_demand) >= 3 else history_demand\n    avg_recent = sum(recent_demand) / len(recent_demand) if recent_demand else 0\n    cluster_matches = [d for d in history_demand if abs(d - avg_recent) / (avg_recent + 1e-6) <= cluster_threshold]\n    \n    # Cluster-based forecast\n    if cluster_matches:\n        forecast = sum(cluster_matches) / len(cluster_matches)\n    else:\n        forecast = avg_recent\n    \n    # Cost-weighted buffer zone\n    cost_ratio = (lost_sales_cost / (holding_cost + lost_sales_cost)) ** cost_exponent\n    buffer_zone = base_zone * (1 + cost_ratio)\n    \n    # Lead-time adjusted target with recent weighting\n    historical_avg = sum(history_demand) / len(history_demand)\n    blended_forecast = recent_weight * forecast + (1 - recent_weight) * historical_avg\n    target = (blended_forecast * lead_time_penalty) + buffer_zone\n    \n    order_amount = max(0, target - current_inventory)\n    \n    return order_amount",
+     "opt_params": {
+          "cluster_threshold": 0.35,
+          "base_zone": 44.98786270278207,
+          "cost_exponent": 0.22298479405808364,
+          "lead_time_penalty": 1.0208406375706451,
+          "recent_weight": 0.1
+     },
+     "objective": 1915.34154,
+     "other_inf": null
+}

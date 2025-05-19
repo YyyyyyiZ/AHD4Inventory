@@ -1,0 +1,13 @@
+{
+     "algorithm": "This algorithm uses a hybrid approach combining quantile-based demand forecasting with dynamic safety stock calculation, where orders are determined by a demand percentile adjusted by a non-linear cost-sensitive safety factor and lead time consideration.",
+     "code": "def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):\n    demand_percentile = 0.75  # Optimized\n    safety_factor = 0.8099099373712129  # Optimized\n    cost_exponent = 0.10919396434999616  # Optimized\n    min_order = 10.0  # Optimized\n    decay_rate = 0.01  # Optimized\n    \n    if not history_demand:\n        return min_order\n    \n    # Calculate demand percentile\n    sorted_demand = sorted(history_demand)\n    idx = min(len(sorted_demand)-1, int(len(sorted_demand) * demand_percentile))\n    percentile_demand = sorted_demand[idx]\n    \n    # Calculate cost-sensitive adjustment\n    cost_ratio = lost_sales_cost / max(holding_cost, 0.001)\n    cost_adjustment = (cost_ratio ** cost_exponent) * safety_factor\n    \n    # Recent demand weighting\n    weighted_demand = 0.0\n    total_weight = 0.0\n    for i, d in enumerate(reversed(history_demand)):\n        weight = (1 - decay_rate) ** i\n        weighted_demand += d * weight\n        total_weight += weight\n    recent_demand = weighted_demand / total_weight if total_weight > 0 else percentile_demand\n    \n    # Combined forecast with safety stock\n    base_demand = max(percentile_demand, recent_demand)\n    safety_stock = base_demand * cost_adjustment\n    \n    current_inv = history_inventory[-1] if history_inventory else 0\n    order_amount = max(min_order, (base_demand + safety_stock) - current_inv)\n    \n    return order_amount",
+     "opt_params": {
+          "demand_percentile": 0.75,
+          "safety_factor": 0.8099099373712129,
+          "cost_exponent": 0.10919396434999616,
+          "min_order": 10.0,
+          "decay_rate": 0.01
+     },
+     "objective": 2804.75448,
+     "other_inf": null
+}

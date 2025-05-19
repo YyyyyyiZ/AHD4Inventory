@@ -1,10 +1,17 @@
 import re
 import time
+import os
+
+from numba import short
+
 from ...llm.interface_LLM import InterfaceLLM
+from .reflection.utils import *
+
+
 
 class Evolution():
 
-    def __init__(self, api_endpoint, api_key, model_LLM,llm_use_local,llm_local_url, debug_mode,prompts, **kwargs):
+    def __init__(self, api_endpoint, api_key, model_LLM,llm_use_local,llm_local_url, debug_mode,prompts, reflect, **kwargs):
 
         # set prompt interface
         #getprompts = GetPrompts()
@@ -32,6 +39,10 @@ class Evolution():
 
 
         self.interface_llm = InterfaceLLM(self.api_endpoint, self.api_key, self.model_LLM,llm_use_local,llm_local_url, self.debug_mode)
+        self.reflect = reflect
+        if self.reflect:
+            self.init_reevo_prompt()
+
 
     def get_prompt_i1(self):
         
@@ -60,6 +71,10 @@ The description must be inside a brace. Next, implement it in Python as a functi
 +self.joined_inputs+". The function should return "+str(len(self.prompt_func_outputs))+" output(s): "\
 +self.joined_outputs+". "+self.prompt_inout_inf+" "\
 +self.prompt_other_inf+"\n"+"Do not give additional explanations."
+        if self.reflect:
+            temp = self.short_term_reflection_prompt(indivs)
+            prompt_content += "\n" + temp
+            self.short_term_reflection_str += "\n" + temp
         return prompt_content
     
     def get_prompt_e2(self,indivs):
@@ -77,6 +92,10 @@ The description must be inside a brace. Thirdly, implement it in Python as a fun
 +self.joined_inputs+". The function should return "+str(len(self.prompt_func_outputs))+" output(s): "\
 +self.joined_outputs+". "+self.prompt_inout_inf+" "\
 +self.prompt_other_inf+"\n"+"Do not give additional explanations."
+        if self.reflect:
+            temp = self.short_term_reflection_prompt(indivs)
+            prompt_content += "\n" + temp
+            self.short_term_reflection_str += "\n" + temp
         return prompt_content
     
     def get_prompt_m1(self,indiv1):
@@ -92,6 +111,8 @@ The description must be inside a brace. Next, implement it in Python as a functi
 +self.joined_inputs+". The function should return "+str(len(self.prompt_func_outputs))+" output(s): "\
 +self.joined_outputs+". "+self.prompt_inout_inf+" "\
 +self.prompt_other_inf+"\n"+"Do not give additional explanations."
+        if self.reflect:
+            prompt_content += "\n" + self.long_term_reflection_str
         return prompt_content
     
     def get_prompt_m2(self,indiv1):
@@ -107,6 +128,8 @@ The description must be inside a brace. Next, implement it in Python as a functi
 +self.joined_inputs+". The function should return "+str(len(self.prompt_func_outputs))+" output(s): "\
 +self.joined_outputs+". "+self.prompt_inout_inf+" "\
 +self.prompt_other_inf+"\n"+"Do not give additional explanations."
+        if self.reflect:
+            prompt_content += "\n" + self.long_term_reflection_str
         return prompt_content
     
     def get_prompt_m3(self,indiv1):
@@ -115,6 +138,8 @@ Next, analyze whether any of these components can be overfit to the in-distribut
 Then, based on your analysis, simplify the components to enhance the generalization to potential out-of-distribution instances. \
 Finally, provide the revised code, keeping the function name, inputs, and outputs unchanged. \n"+indiv1['code']+"\n"\
 +self.prompt_inout_inf+"\n"+"Do not give additional explanations."
+        if self.reflect:
+            prompt_content += self.long_term_reflection_str
         return prompt_content
 
 
@@ -167,6 +192,9 @@ Finally, provide the revised code, keeping the function name, inputs, and output
 
         return [code_all, algorithm]
 
+    def _get_reflection(self, prompt_content):
+        response = self.interface_llm.get_response(prompt_content)
+        return response
 
     def i1(self):
 
@@ -281,3 +309,81 @@ Finally, provide the revised code, keeping the function name, inputs, and output
             input()
 
         return [code_all, algorithm]
+
+    def init_reevo_prompt(self):
+
+        problem_prompt_path = 'inventory'
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        file_path = os.path.join(current_dir, 'reflection')
+
+        self.problem_desc = file_to_string(f'{file_path}/{problem_prompt_path}/problem_desc.txt')
+        self.seed_func = file_to_string(f'{file_path}/{problem_prompt_path}/seed_func.txt')
+        self.func_name = file_to_string(f'{file_path}/{problem_prompt_path}/func_name.txt')
+        self.func_signature = file_to_string(f'{file_path}/{problem_prompt_path}/func_signature.txt')
+        self.func_desc = file_to_string(f'{file_path}/{problem_prompt_path}/func_desc.txt')
+
+        self.short_term_reflection_str = ""
+        self.long_term_reflection_str = ""
+
+        # Common prompts
+        self.system_reflector_prompt = file_to_string(f'{file_path}/common/system_reflector.txt')
+        self.user_reflector_st_prompt = file_to_string(f'{file_path}/common/user_reflector_st.txt')
+        self.user_reflector_lt_prompt = file_to_string(f'{file_path}/common/user_reflector_lt.txt')
+
+
+    def short_term_reflection_prompt(self, indivs):
+        """
+        Short-term reflection before crossovering two individuals.
+        """
+        ind1, ind2 = indivs[0], indivs[1]
+        if ind1["objective"] == ind2["objective"]:
+            print(ind1["code"], ind2["code"])
+            raise ValueError("Two individuals to crossover have the same objective value!")
+        # Determine which individual is better or worse
+        if ind1["obj"] < ind2["obj"]:
+            better_ind, worse_ind = ind1, ind2
+        elif ind1["obj"] > ind2["obj"]:
+            better_ind, worse_ind = ind2, ind1
+
+        worse_code = filter_code(worse_ind["code"])
+        better_code = filter_code(better_ind["code"])
+
+        system = self.system_reflector_prompt
+        user = self.user_reflector_st_prompt.format(
+            func_name=self.func_name,
+            func_desc=self.func_desc,
+            problem_desc=self.problem_desc,
+            worse_code=worse_code,
+            better_code=better_code
+        )
+        message = [{"role": "system", "content": system}, {"role": "user", "content": user}]
+        short_term_reflection = self._get_reflection(message)
+
+        return short_term_reflection
+
+    def long_term_reflection(self, iteration):
+        """
+        Long-term reflection before mutation.
+        """
+        system = self.system_reflector_prompt
+        user = self.user_reflector_lt_prompt.format(
+            problem_desc=self.problem_desc,
+            prior_reflection=self.long_term_reflection_str,
+            new_reflection=self.short_term_reflection_str,
+        )
+        messages = [{"role": "system", "content": system}, {"role": "user", "content": user}]
+
+        self.long_term_reflection_str = self._get_reflection(messages)
+        print(f"Short term Reflections:\n {self.short_term_reflection_str}")
+        print(f"Long term Reflections:\n {self.long_term_reflection_str}")
+
+
+        # # Write reflections to file
+        # file_name = f"/reflection/content/problem_iter{iteration}_short_term_reflections.txt"
+        # with open(file_name, 'w') as file:
+        #     file.writelines(self.short_term_reflection_str + '\n')
+        #
+        # file_name = f"/reflection/content/problem_iter{iteration}_long_term_reflection.txt"
+        # with open(file_name, 'w') as file:
+        #     file.writelines(self.long_term_reflection_str + '\n')
+        self.short_term_reflection_str = ''

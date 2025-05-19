@@ -9,6 +9,8 @@ class Paras():
         self.create_initial = False
         self.demand = 80
         self.volatility = 'low'
+        self.reflect = False
+        self.external_optimizer=False
         self.selection = None
         self.management = None
 

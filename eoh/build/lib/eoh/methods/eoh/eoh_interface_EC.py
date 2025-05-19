@@ -8,13 +8,13 @@ import re
 import concurrent.futures
 
 class InterfaceEC():
-    def __init__(self, pop_size, m, api_endpoint, api_key, llm_model,llm_use_local,llm_local_url, debug_mode, interface_prob, select,n_p,timeout,use_numba,**kwargs):
+    def __init__(self, pop_size, m, api_endpoint, api_key, llm_model,llm_use_local,llm_local_url, debug_mode, interface_prob, reflect, select,n_p,timeout,use_numba,**kwargs):
 
         # LLM settings
         self.pop_size = pop_size
         self.interface_eval = interface_prob
         prompts = interface_prob.prompts
-        self.evol = Evolution(api_endpoint, api_key, llm_model,llm_use_local,llm_local_url, debug_mode,prompts, **kwargs)
+        self.evol = Evolution(api_endpoint, api_key, llm_model,llm_use_local,llm_local_url, debug_mode,prompts, reflect, **kwargs)
         self.m = m
         self.debug = debug_mode
 
@@ -26,6 +26,8 @@ class InterfaceEC():
         
         self.timeout = timeout
         self.use_numba = use_numba
+
+        self.reflect = reflect
         
     def code2file(self,code):
         with open("./ael_alg.py", "w") as file:
@@ -122,16 +124,16 @@ class InterfaceEC():
             [offspring['code'],offspring['algorithm']] = self.evol.e1(parents)
         elif operator == "e2":
             parents = self.select.parent_selection(pop,self.m)
-            [offspring['code'],offspring['algorithm']] = self.evol.e2(parents) 
+            [offspring['code'],offspring['algorithm']] = self.evol.e2(parents)
         elif operator == "m1":
             parents = self.select.parent_selection(pop,1)
-            [offspring['code'],offspring['algorithm']] = self.evol.m1(parents[0])   
+            [offspring['code'],offspring['algorithm']] = self.evol.m1(parents[0])
         elif operator == "m2":
             parents = self.select.parent_selection(pop,1)
-            [offspring['code'],offspring['algorithm']] = self.evol.m2(parents[0]) 
+            [offspring['code'],offspring['algorithm']] = self.evol.m2(parents[0])
         elif operator == "m3":
             parents = self.select.parent_selection(pop,1)
-            [offspring['code'],offspring['algorithm']] = self.evol.m3(parents[0]) 
+            [offspring['code'],offspring['algorithm']] = self.evol.m3(parents[0])
         else:
             print(f"Evolution operator [{operator}] has not been implemented ! \n") 
 
@@ -203,26 +205,13 @@ class InterfaceEC():
 
         # Round the objective values
         return p, offspring
-    # def process_task(self,pop, operator):
-    #     result =  None, {
-    #             'algorithm': None,
-    #             'code': None,
-    #             'objective': None,
-    #             'other_inf': None
-    #         }
-    #     with concurrent.futures.ThreadPoolExecutor() as executor:
-    #         future = executor.submit(self.get_offspring, pop, operator)
-    #         try:
-    #             result = future.result(timeout=self.timeout)
-    #             future.cancel()
-    #             #print(result)
-    #         except:
-    #             future.cancel()
-                
-    #     return result
 
-    
+    def update_long_term(self, iteration):
+        self.evol.long_term_reflection(iteration)
+
+
     def get_algorithm(self, pop, operator):
+
         results = []
         try:
             results = Parallel(n_jobs=self.n_p,timeout=self.timeout+15)(delayed(self.get_offspring)(pop, operator) for _ in range(self.pop_size))
@@ -243,38 +232,4 @@ class InterfaceEC():
             if self.debug:
                 print(f">>> check offsprings: \n {off}")
         return out_p, out_off
-    # def get_algorithm(self,pop,operator, pop_size, n_p):
-        
-    #     # perform it pop_size times with n_p processes in parallel
-    #     p,offspring = self._get_alg(pop,operator)
-    #     while self.check_duplicate(pop,offspring['code']):
-    #         if self.debug:
-    #             print("duplicated code, wait 1 second and retrying ... ")
-    #         time.sleep(1)
-    #         p,offspring = self._get_alg(pop,operator)
-    #     self.code2file(offspring['code'])
-    #     try:
-    #         fitness= self.interface_eval.evaluate()
-    #     except:
-    #         fitness = None
-    #     offspring['objective'] =  fitness
-    #     #offspring['other_inf'] =  first_gap
-    #     while (fitness == None):
-    #         if self.debug:
-    #             print("warning! error code, retrying ... ")
-    #         p,offspring = self._get_alg(pop,operator)
-    #         while self.check_duplicate(pop,offspring['code']):
-    #             if self.debug:
-    #                 print("duplicated code, wait 1 second and retrying ... ")
-    #             time.sleep(1)
-    #             p,offspring = self._get_alg(pop,operator)
-    #         self.code2file(offspring['code'])
-    #         try:
-    #             fitness= self.interface_eval.evaluate()
-    #         except:
-    #             fitness = None
-    #         offspring['objective'] =  fitness
-    #         #offspring['other_inf'] =  first_gap
-    #     offspring['objective'] = np.round(offspring['objective'],5) 
-    #     #offspring['other_inf'] = np.round(offspring['other_inf'],3)
-    #     return p,offspring
+

@@ -1,0 +1,398 @@
+1. Use exponential smoothing for demand forecasting.  
+2. Incorporate volatility-adjusted safety stock.  
+3. Balance cost ratios dynamically.  
+4. Normalize lost sales and inventory ratios.  
+5. Adapt weights (alpha/beta/gamma) based on data.
+Here are concise hints for better heuristics:  
+
+1. **Use exponential smoothing** for demand forecasting.  
+2. **Incorporate lost sales ratio** dynamically.  
+3. **Adjust safety stock** based on cost trade-offs.  
+4. **Avoid fixed multipliers**; adapt to recent trends.  
+5. **Normalize penalties** relative to demand.
+Here are the hints:  
+
+1. **Use exponential smoothing** for better demand forecasting.  
+2. **Incorporate demand volatility** into safety stock.  
+3. **Balance cost trade-offs** (holding vs. lost sales) dynamically.  
+4. **Adjust weights adaptively** based on recent performance.  
+5. **Simplify ratio calculations** for robustness.
+1. **Use recent demand trends** (better than full history)  
+2. **Incorporate demand volatility** (std dev improves accuracy)  
+3. **Dynamic safety factor** (scales with cost ratio & variability)  
+4. **Avoid fixed quantiles** (adapt to changing patterns)  
+5. **Prevent zero-start bias** (initial order ≠ 0)
+1. **Adapt to volatility** (use demand std)  
+2. **Balance cost ratio** (weight holding vs lost sales)  
+3. **Focus on recent data** (shorter window)  
+4. **Avoid over-exploration** (simpler safety factor)  
+5. **Start with baseline** (default order if no history)
+1. **Focus on recent demand** (shorter window)  
+2. **Use median for baseline** (more robust than quantile)  
+3. **Dynamic safety stock** (adjust for shortages)  
+4. **Balance cost ratio** (weight lost sales vs. holding)  
+5. **Penalize shortages harder** (aggressive correction)
+Here are concise design hints:  
+
+1. **Adapt smoothing** to cost ratio  
+2. **Adjust demand** with recent lost sales  
+3. **Dynamic window sizing** for robustness  
+4. **Trimmed mean** reduces noise  
+5. **Non-linear safety stock** scaling  
+6. **Cap extreme multipliers** for stability
+Here are concise hints for better heuristics:  
+
+1. **Adapt to demand volatility** (use range, not just smoothing)  
+2. **Factor in recent lost sales impact** (directly measure service gaps)  
+3. **Dynamic safety multipliers** (balance cost ratio and volatility)  
+4. **Simplify initial assumptions** (lower default order for cold starts)  
+5. **Non-linear cost scaling** (e.g., `cost_ratio ** 0.5` for robustness)
+Here are concise hints for better heuristics:  
+
+1. **Smooth demand** with adaptive weights  
+2. **Adjust safety stock** dynamically with cost ratios  
+3. **Balance responsiveness** vs. stability in forecasting  
+4. **Handle edge cases** (empty history) robustly  
+5. **Use weighted averages** for lost sales impact
+Here are concise hints for better heuristics:
+
+1. Use exponential smoothing for forecasts  
+2. Incorporate cost ratio in safety stock  
+3. Consider demand quantiles for robustness  
+4. Avoid fixed weights, adapt dynamically  
+5. Round values for discrete inventory  
+6. Handle empty history gracefully
+1. **Adapt safety stock dynamically** (better adjusts to cost ratio)  
+2. **Blend short-term & long-term demand** (momentum + average)  
+3. **Factor recent lost sales** (penalizes stockouts more aggressively)  
+4. **Cap extreme adjustments** (bounds safety factor)  
+5. **Handle cold-start smarter** (default initial order)
+Here are concise design hints:  
+
+1. **Prioritize recent demand** (shorter window)  
+2. **Adapt safety stock dynamically** (error-sensitive multiplier)  
+3. **Simplify cost-ratio integration** (direct multiplier)  
+4. **Avoid over-engineering adjustments** (fewer parameters)  
+5. **Handle cold-start better** (default initial stock)
+Here are concise hints for better heuristics:  
+
+1. Use exponential smoothing for demand forecasting  
+2. Incorporate lost sales ratio into safety stock  
+3. Balance cost adjustment with demand volatility  
+4. Simplify initial conditions with fixed defaults  
+5. Normalize lost sales impact by demand volume
+1. **Use cost ratio for dynamic adjustments**  
+2. **Incorporate lost sales trends**  
+3. **Balance quantile and median demand**  
+4. **Adjust safety stock dynamically**  
+5. **Factor in inventory position impact**
+1. Use longer demand history for smoothing.  
+2. Simplify volatility calculation.  
+3. Focus on recent lost sales ratio.  
+4. Reduce unnecessary parameters (gamma).  
+5. Balance alpha/beta weights carefully.
+Here are concise hints for better heuristics:  
+
+1. **Focus on recent data** (shorter window)  
+2. **Adjust dynamically** based on recent lost sales  
+3. **Use median** for robust demand estimation  
+4. **Scale safety stock** with cost ratio  
+5. **Penalize shortages** more aggressively
+1. **Use quantiles** for demand forecasting  
+2. **Factor cost asymmetry** into adjustments  
+3. **Adjust for recent lost sales** dynamically  
+4. **Balance risk** via cost-weighted thresholds  
+5. **Simplify initialization** (e.g., return 0 for no history)
+1. **Use quantiles** for demand estimation (better than moving averages).  
+2. **Factor cost asymmetry** into lead time adjustments.  
+3. **Adjust for recent lost sales** (weighted sum).  
+4. **Simplify initialization** (avoid arbitrary defaults).  
+5. **Prioritize cost balance** (holding vs. lost sales).
+1. **Use demand volatility** (std) instead of forecast errors.  
+2. **Normalize cost ratio** better (0-1 range).  
+3. **Simplify smoothing** (avg over window).  
+4. **Adjust safety factor** with demand variability.  
+5. **Avoid arbitrary multipliers** (e.g., 0.7, 2.5).
+1. **Pattern recognition** beats simple decay weighting  
+2. **Dynamic safety buffers** adapt better to cost ratios  
+3. **Recent lost sales** should influence orders more  
+4. **Blend regime/historical demand** for better adaptation  
+5. **Initialization matters** - don't return zero first order
+1. **Weight quantiles by cost ratio** (better than fixed 75th percentile)  
+2. **Simplify lead-time adjustment** (direct cost-based scaling works better)  
+3. **Use recent lost sales** (shorter window with linear scaling)  
+4. **Avoid multiplicative compounding** (additive adjustments reduce overestimation)  
+5. **Normalize cost asymmetry** (relative to max cost improves balance)
+Here are concise hints for better heuristics:  
+
+1. **Adaptive smoothing**: Adjust alpha dynamically with cost ratio.  
+2. **Robust forecasting**: Use trimmed/windowed demand data.  
+3. **Lost sales integration**: Incorporate recent lost sales into demand.  
+4. **Nonlinear safety stock**: Scale safety stock with cost ratio^0.4.  
+5. **Initialization**: Default to reasonable initial stock (e.g., 50).
+Here are concise optimization hints:
+
+1. Refine pattern matching weights dynamically  
+2. Adjust safety buffer bounds using cost ratio  
+3. Incorporate recent lost sales trends more precisely  
+4. Balance exploration vs exploitation with demand similarity  
+5. Optimize decay factors for lost sales impact
+Here are concise hints for better heuristics:  
+
+1. **Normalize volatility** by average demand for scale-invariance.  
+2. **Use full demand history** for stable averages.  
+3. **Weight recent lost sales** more heavily (e.g., last 2 periods).  
+4. **Tune multipliers conservatively** (e.g., cap at 2.5).  
+5. **Simplify dynamic factors** to avoid overfitting.  
+
+(19 words in hints)
+1. **Balance smoothing and reactivity** in demand forecasting.  
+2. **Incorporate cost ratios dynamically** for safety stock.  
+3. **Track lost sales and inventory ratios** to adjust orders.  
+4. **Use volatility measures** for adaptive safety stock.  
+5. **Avoid hardcoded values**, rely on data-driven adjustments.
+Here are concise hints for better heuristics:  
+
+1. **Use exponential smoothing** for demand forecasting.  
+2. **Incorporate demand volatility** in safety stock.  
+3. **Balance cost ratios** (lost sales vs. holding).  
+4. **Adjust dynamically** based on recent trends.  
+5. **Normalize ratios** (lost sales/inventory to demand).  
+
+(19 words)
+Here are concise hints for better heuristics:  
+
+1. **Use demand smoothing** (exponential or moving average)  
+2. **Incorporate volatility measures** (max-min range)  
+3. **Balance cost ratios dynamically** (lost sales vs holding)  
+4. **Adjust safety stock** based on recent performance  
+5. **Handle edge cases** (empty history, single period)  
+
+(19 words in the numbered hints)
+1. **Use weighted demand smoothing** (combine recent & historical data)  
+2. **Normalize lost sales by demand** (ratio better than absolute values)  
+3. **Dynamic safety stock** (adjust based on cost ratios)  
+4. **Simplify inventory target** (smoothed demand + safety stock)  
+5. **Default initial order** (avoid zero-start edge cases)
+1. **Consider demand volatility** (better code uses std deviation)  
+2. **Balance cost ratio carefully** (better code normalizes it)  
+3. **Simplify initial conditions** (better code avoids complex defaults)  
+4. **Use dynamic safety factors** (better code adjusts based on variability)  
+5. **Avoid over-smoothing** (worse code loses info with fixed windows)
+Here are concise hints for better heuristics:  
+
+1. **Use exponential smoothing** for demand forecasting.  
+2. **Incorporate lost sales ratio** for cost-sensitive adjustments.  
+3. **Balance safety stock** dynamically with cost ratios.  
+4. **Avoid fixed volatility multipliers**; adapt to demand patterns.  
+5. **Normalize adjustments** by demand magnitude.
+Here are concise hints for better heuristics:  
+
+1. Use exponential smoothing for demand forecasting  
+2. Incorporate demand volatility dynamically  
+3. Balance cost ratios adaptively  
+4. Track recent lost sales and inventory ratios  
+5. Adjust safety stock based on volatility and costs
+1. **Use cost asymmetry** for lead time adjustments.  
+2. **Incorporate recent lost sales** dynamically.  
+3. **Prioritize quantile-based demand** over smoothing.  
+4. **Balance holding vs. lost costs** with weights.  
+5. **Avoid fixed smoothing factors** (like alpha=0.2).
+1. **Weight recent demand more** (momentum_window)  
+2. **Adjust safety factor dynamically** (cost_ratio)  
+3. **Include lost sales momentum** (lost_momentum)  
+4. **Balance base demand** (60% recent, 40% historical)  
+5. **Cap extreme adjustments** (min/max safety_factor)
+Here are concise hints for better heuristics:  
+
+1. **Adaptive smoothing** - Use weighted averages for demand forecasting.  
+2. **Dynamic safety stock** - Adjust based on volatility and cost ratios.  
+3. **Lost sales sensitivity** - Incorporate recent lost sales trends.  
+4. **Cost-aware adjustments** - Balance holding and lost sales costs dynamically.  
+5. **Avoid fixed thresholds** - Use ratios instead of hard-coded values.
+Here are concise hints for better heuristics:  
+
+1. **Use exponential smoothing** for demand forecasting (like `alpha` in better code).  
+2. **Simplify pattern matching**—complex similarity checks add noise.  
+3. **Adjust safety stock dynamically** based on cost ratios.  
+4. **Avoid overfitting**—exploration weights can distort decisions.  
+5. **Normalize lost sales impact** (ratio-based, not decay-weighted).  
+
+(19 words in the last line)
+Here are concise heuristic design hints:  
+
+1. **Use quantiles** over averages for demand estimation  
+2. **Factor cost ratios** into safety stock calculations  
+3. **Adjust dynamically** for recent lost sales  
+4. **Penalize shortages** more aggressively  
+5. **Balance median and high-quantile** demand  
+
+(19 words)
+Here are concise hints for better heuristics:  
+
+1. **Simplify volatility metrics** (drop complex demand volatility)  
+2. **Use longer demand history** (3 periods vs 2)  
+3. **Tune smoothing weights** (alpha=0.3 works better)  
+4. **Ignore inventory ratio** (focus on lost sales)  
+5. **Reduce beta impact** (lower beta=0.2 performs better)
+Here are concise hints for better heuristics:  
+
+1. **Use cost-asymmetric quantiles** (demand_quantile)  
+2. **Blend long-term and short-term averages** (full_avg + recent_avg)  
+3. **Scale targets by cost ratio** (1 + cost_asymmetry)  
+4. **Cap adjustments** (min/max bounds)  
+5. **Boost for recent lost sales** (lost_boost)
+1. **Balance cost asymmetry** in demand estimation  
+2. **Combine multiple demand signals** (full/recent/quantile)  
+3. **Track lost sales trends** with recent boosts  
+4. **Cap adjustments** to avoid over-ordering  
+5. **Use smarter initialization** when no history exists
+Here are concise design hints:
+
+1. Use quantiles (e.g., 75th percentile) over simple smoothing  
+2. Scale adjustments by cost ratio non-linearly  
+3. Weight recent lost sales more heavily  
+4. Dynamic window sizing for demand patterns  
+5. Add small epsilon to avoid division by zero
+1. **Focus on recent demand** (shorter window)  
+2. **Use median for baseline** (more robust than mean)  
+3. **Dynamic safety stock** (adjust for shortages)  
+4. **Balance cost ratios** (weight lost sales higher)  
+5. **Penalize low inventory** (aggressive reorder trigger)
+Here are concise hints for better heuristics:  
+
+1. **Use exponential smoothing** for demand forecasting.  
+2. **Incorporate demand volatility** in safety stock.  
+3. **Balance cost ratios** (lost sales vs. holding).  
+4. **Adjust dynamically** based on recent trends.  
+5. **Consider multi-period ratios** (3-period windows).
+Here are concise hints for better heuristics:  
+
+1. **Normalize lost sales** by demand ratio  
+2. **Dynamic safety stock** based on cost balance  
+3. **Weight recent demand** more heavily  
+4. **Cap multipliers** to avoid overordering  
+5. **Simplify initial conditions** when no history
+Here are concise hints for better heuristics:  
+
+1. **Use robust demand estimation** (quantiles > smoothing)  
+2. **Factor cost asymmetry explicitly** (penalty ratio)  
+3. **Adjust for lead time dynamically**  
+4. **Prioritize recent stockout trends**  
+5. **Combine factors multiplicatively** (not additively)
+Here are concise hints for improvement:  
+
+1. **Dynamic alpha/beta** - Adjust smoothing factors based on demand volatility.  
+2. **Longer lookback** - Consider more historical data for lost sales ratio.  
+3. **Non-linear safety stock** - Use exponential adjustments for extreme costs.  
+4. **Trend incorporation** - Account for demand trends in smoothing.  
+5. **Cost-balancing threshold** - Set min/max bounds on order amounts.  
+
+(19 words avg. per hint)
+Here are concise hints for better heuristics:  
+
+1. **Balance cost ratio** (lost vs holding) more precisely.  
+2. **Use full demand history**, not just recent quantiles.  
+3. **Incorporate demand volatility** dynamically.  
+4. **Adjust for trends** (momentum factor).  
+5. **Scale buffers** by cost sensitivity.  
+6. **Avoid fixed weights**; adapt to data.  
+
+(19 words in hints)
+Here are concise hints for better heuristics:  
+
+1. **Weight recent data more** (exponential decay)  
+2. **Include lost sales in demand estimation**  
+3. **Adapt safety stock via cost ratio**  
+4. **Simplify initial conditions** (avoid arbitrary defaults)  
+5. **Balance exploration/exploitation** with dynamic factors
+Here are concise hints for better heuristics:  
+
+1. **Use full demand history** (not just recent window)  
+2. **Factor in cost asymmetry** (penalty ratio)  
+3. **Adjust for lead time** explicitly  
+4. **Track stockout severity** over multiple periods  
+5. **Simplify forecasting** (single robust quantile)
+1. **Use cost ratio for dynamic adjustments**  
+2. **Incorporate recent lost sales trends**  
+3. **Balance quantiles with median demand**  
+4. **Adjust safety stock dynamically**  
+5. **Factor in inventory position impact**
+1. **Use cost-ratio for safety stock**  
+2. **Smooth demand with exponential weighting**  
+3. **Quantile-based adjustments improve robustness**  
+4. **Round values for practical order quantities**  
+5. **Balance smoothing and reactivity with alpha**
+Here are concise hints for better heuristics:  
+
+1. **Weight recent data more** (exponential decay)  
+2. **Include lost sales in demand estimation**  
+3. **Dynamic safety factor based on cost ratio**  
+4. **Smooth adjustments with exploration factor**  
+5. **Avoid fixed smoothing (alpha), adapt to costs**
+Here are concise hints for better heuristics:  
+
+1. **Use median over quantiles** for robustness  
+2. **Factor in shortage penalties** dynamically  
+3. **Normalize cost ratio** by total costs  
+4. **Adjust safety stock** based on recent lost sales  
+5. **Shorter demand window** (5 vs 10) reacts faster
+Here are concise hints for better heuristics:  
+
+1. **Adaptive smoothing** for demand forecasting (like alpha in better code).  
+2. **Dynamic thresholds** based on cost ratio and volatility.  
+3. **Normalize trends** (lost sales, inventory) relative to demand.  
+4. **Balance responsiveness** (avoid fixed weights, adjust with conditions).  
+5. **Consider inventory position** when ordering (not just forecast gap).
+Here are concise design hints:  
+
+1. **Normalize cost ratio** (0-1 range) for stability  
+2. **Use variance** instead of range for volatility  
+3. **Track lost sales ratio** explicitly  
+4. **Adaptive window size** balances responsiveness  
+5. **Smooth denominators** to avoid division by zero
+Here are concise heuristic design hints:  
+
+1. **Use smoothing** (e.g., exponential smoothing) for demand forecasting.  
+2. **Adapt to lost sales ratio** dynamically.  
+3. **Balance costs** via relative weights (e.g., cost_adjustment).  
+4. **Include safety stock** with demand variability.  
+5. **Avoid static quantiles**; prefer trend-sensitive adjustments.
+Here are concise hints for better heuristics:  
+
+1. **Balance recent vs. long-term demand** (momentum + average)  
+2. **Adapt safety factor to cost ratio** (dynamic bounds)  
+3. **Smooth lost sales impact** (rolling window average)  
+4. **Handle edge cases explicitly** (e.g., no history)  
+5. **Cap extreme adjustments** (limit safety factor)
+Here are concise design hints:
+
+1. **Adapt smoothing** to cost ratio  
+2. **Adjust demand** for recent lost sales  
+3. **Dynamic safety stock** based on cost balance  
+4. **Robust window sizing** with data length  
+5. **Initial buffer** when no history exists  
+6. **Use percentiles** over simple averages  
+7. **Non-linear scaling** for cost factors
+Here are concise hints for better heuristics:  
+
+1. **Balance cost asymmetry**—weight lost sales vs holding costs.  
+2. **Use quantiles**—align demand thresholds with cost ratios.  
+3. **Boost for recent lost sales**—adjust dynamically.  
+4. **Combine averages**—leverage both long-term and short-term trends.  
+5. **Cap extremes**—prevent overordering via bounds.
+1. **Weight recent data more** (exponential decay)  
+2. **Include lost sales in demand estimation**  
+3. **Adapt cost ratio scaling** (non-linear exploration)  
+4. **Simplify volatility handling** (avoid max-min noise)  
+5. **Adjust for lead time directly**
+Here are concise hints for better heuristics:  
+
+1. **Pattern recognition** - Cluster demand to detect regimes.  
+2. **Adaptive blending** - Balance recent vs. historical demand.  
+3. **Dynamic safety buffers** - Adjust based on cost ratio and uncertainty.  
+4. **Lost sales decay** - Weight recent lost sales more heavily.  
+5. **Exploration weight** - Tune based on pattern similarity.  
+
+(19 words in hints)
+

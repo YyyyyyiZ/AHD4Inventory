@@ -1,0 +1,11 @@
+Here are refined, actionable hints for designing better inventory heuristics:  
+
+1. **Blend quantiles & smoothing** for robust demand estimation.  
+2. **Scale safety stock non-linearly** with cost ratios and volatility.  
+3. **Prioritize recent data** (exponential weighting) but balance with stability.  
+4. **Simplify cost adaptation** (power-law scaling beats complex transforms).  
+5. **Dynamic service levels**—adjust targets based on lost sales trends.  
+
+*Key themes:* Cost-awareness, adaptability, and simplicity through data-driven design.  
+
+(49 words)

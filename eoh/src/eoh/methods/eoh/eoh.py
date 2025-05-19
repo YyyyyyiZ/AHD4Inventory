@@ -61,6 +61,9 @@ class EOH:
         self.demand = paras.demand
         self.volatility = paras.volatility
 
+        self.reflect = paras.reflect
+        self.external_optimizer=paras.external_optimizer
+
         print("- EoH parameters loaded -")
 
         # Set a random seed
@@ -91,8 +94,8 @@ class EOH:
 
         # interface for ec operators
         interface_ec = InterfaceEC(self.pop_size, self.m, self.api_endpoint, self.api_key, self.llm_model, self.use_local_llm, self.llm_local_url,
-                                   self.debug_mode, interface_prob, select=self.select,n_p=self.exp_n_proc,
-                                   timeout = self.timeout, use_numba=self.use_numba
+                                   self.debug_mode, interface_prob, reflect=self.reflect, external_optimizer=self.external_optimizer,
+                                   select=self.select,n_p=self.exp_n_proc, timeout = self.timeout, use_numba=self.use_numba
                                    )
 
         # initialization
@@ -162,7 +165,6 @@ class EOH:
         n_op = len(self.operators)
 
         for pop in range(n_start, self.n_pop):
-            #print(f" [{na + 1} / {self.pop_size}] ", end="|")         
             for i in range(n_op):
                 op = self.operators[i]
                 print(f" OP: {op}, [{i + 1} / {n_op}] ", end="|") 
@@ -172,18 +174,11 @@ class EOH:
                 self.add2pop(population, offsprings)  # Check duplication, and add the new offspring
                 for off in offsprings:
                     print(" Obj: ", off['objective'], end="|")
-                # if is_add:
-                #     data = {}
-                #     for i in range(len(parents)):
-                #         data[f"parent{i + 1}"] = parents[i]
-                #     data["offspring"] = offspring
-                #     with open(self.output_path + "/results_create_None_None/history/pop_" + str(pop + 1) + "_" + str(
-                #             na) + "_" + op + ".json", "w") as file:
-                #         json.dump(data, file, indent=5)
-                # populatin management
                 size_act = min(len(population), self.pop_size)
                 population = self.manage.population_management(population, size_act)
                 print()
+            if self.reflect:
+                interface_ec.update_long_term(iteration=pop)
 
 
             # Save population to a file

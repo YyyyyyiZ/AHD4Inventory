@@ -1,0 +1,1 @@
+def heuristics_v{version}(history_demand: List, history_inventory: List, history_lost: List, holding_cost: Float, lost_sales_cost: Float) -> Float:

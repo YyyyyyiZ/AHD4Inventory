@@ -1,0 +1,75 @@
+Source: results\pops_best/population_generation_1.json
+Training Objective: 2853.12007
+Evaluation Output:
+Start evaluation...
+Average for instances with mean demand 80: Cost = 2800.234, Timecost:   0.021
+================================================================================
+
+Source: results\pops_best/population_generation_10.json
+Training Objective: 1841.56
+Evaluation Output:
+Start evaluation...
+Average for instances with mean demand 80: Cost = 1812.200, Timecost:   0.025
+================================================================================
+
+Source: results\pops_best/population_generation_2.json
+Training Objective: 2853.12007
+Evaluation Output:
+Start evaluation...
+Average for instances with mean demand 80: Cost = 2800.234, Timecost:   0.005
+================================================================================
+
+Source: results\pops_best/population_generation_3.json
+Training Objective: 2804.75448
+Evaluation Output:
+Start evaluation...
+Average for instances with mean demand 80: Cost = 2824.080, Timecost:   0.023
+================================================================================
+
+Source: results\pops_best/population_generation_4.json
+Training Objective: 2280.86119
+Evaluation Output:
+Start evaluation...
+Average for instances with mean demand 80: Cost = 2261.434, Timecost:   0.026
+================================================================================
+
+Source: results\pops_best/population_generation_5.json
+Training Objective: 2024.37018
+Evaluation Output:
+Start evaluation...
+Average for instances with mean demand 80: Cost = 1965.478, Timecost:   0.032
+================================================================================
+
+Source: results\pops_best/population_generation_6.json
+Training Objective: 1915.34154
+Evaluation Output:
+Error: Traceback (most recent call last):
+  File "F:\Github_public\AHD4Inventory\examples\inventory\evaluation\runEval.py", line 49, in <module>
+    cost = evaluation(loaded_test)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Github_public\AHD4Inventory\examples\inventory\evaluation\runEval.py", line 23, in evaluation
+    inventory_level += order_arrive[t]
+TypeError: unsupported operand type(s) for +=: 'int' and 'NoneType'
+================================================================================
+
+Source: results\pops_best/population_generation_7.json
+Training Objective: 1852.38154
+Evaluation Output:
+Start evaluation...
+Average for instances with mean demand 80: Cost = 1823.853, Timecost:   0.022
+================================================================================
+
+Source: results\pops_best/population_generation_8.json
+Training Objective: 1852.38154
+Evaluation Output:
+Start evaluation...
+Average for instances with mean demand 80: Cost = 1823.853, Timecost:   0.003
+================================================================================
+
+Source: results\pops_best/population_generation_9.json
+Training Objective: 1852.38154
+Evaluation Output:
+Start evaluation...
+Average for instances with mean demand 80: Cost = 1823.853, Timecost:   0.007
+================================================================================
+

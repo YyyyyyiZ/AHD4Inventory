@@ -1,0 +1,9 @@
+Here are refined, actionable hints for robust inventory heuristics:  
+
+1. **Use adaptive quantiles** (e.g., 75th percentile) for demand estimation, scaled with cost ratios.  
+2. **Dynamic safety stock**: Non-linearly scale buffer size using recent lost sales severity and inventory position.  
+3. **Prioritize recent trends** (3–5 periods) but blend with full-history volatility.  
+4. **Simplify adjustments**: Cap multipliers, smooth extreme values, and avoid over-parameterization.  
+5. **Balance reactivity** via exponential smoothing of demand and cost-aware thresholds.  
+
+Key: **Cost-sensitive, data-driven adaptability outperforms fixed rules**. (48 words)

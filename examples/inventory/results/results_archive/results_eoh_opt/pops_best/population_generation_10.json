@@ -1,0 +1,13 @@
+{
+     "algorithm": "This algorithm uses demand volatility-weighted ordering with asymmetric cost response, where order quantities are adjusted based on normalized demand fluctuations and a non-linear cost sensitivity function, incorporating lead-time anticipation through exponential smoothing.",
+     "code": "def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):\n    base_order = 169.99999997269938  # Optimized\n    volatility_weight = 1.0  # Optimized\n    cost_sensitivity = 0.5  # Optimized\n    lead_time_factor = 0.5  # Optimized\n    smoothing_alpha = 0.9  # Optimized\n    \n    if not history_demand:\n        return base_order * lead_time_factor\n    \n    current_inventory = history_inventory[-1] if history_inventory else 0\n    \n    # Demand volatility calculation\n    mean_demand = sum(history_demand) / len(history_demand)\n    demand_variance = sum((d - mean_demand)**2 for d in history_demand) / len(history_demand)\n    normalized_volatility = min(1.0, (demand_variance**0.5) / (mean_demand + 1e-6))\n    \n    # Asymmetric cost response\n    cost_ratio = (lost_sales_cost / (holding_cost + lost_sales_cost)) ** cost_sensitivity\n    volatility_adjustment = 1 + (normalized_volatility * volatility_weight * cost_ratio)\n    \n    # Exponential smoothing with lead time anticipation\n    last_demand = history_demand[-1]\n    smoothed_demand = smoothing_alpha * last_demand + (1 - smoothing_alpha) * mean_demand\n    adjusted_demand = smoothed_demand * volatility_adjustment * lead_time_factor\n    \n    # Order calculation\n    target = max(base_order, adjusted_demand)\n    order_amount = max(0, target - current_inventory)\n    \n    return order_amount",
+     "opt_params": {
+          "base_order": 169.99999997269938,
+          "volatility_weight": 1.0,
+          "cost_sensitivity": 0.5,
+          "lead_time_factor": 0.5,
+          "smoothing_alpha": 0.9
+     },
+     "objective": 1841.56,
+     "other_inf": null
+}

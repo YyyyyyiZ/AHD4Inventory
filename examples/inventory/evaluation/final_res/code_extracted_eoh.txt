@@ -1,0 +1,748 @@
+
+# Source: results\pops/population_generation_10.json (item 0)
+# Objective: 2120.17131
+# Description: An adaptive threshold policy that dynamically adjusts order-up-to levels based on demand volatility and cost-optimal service levels, incorporating lead time through a rolling horizon approach.
+def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):
+    if not history_demand:
+        return 100
+    
+    current_inv = history_inventory[-1] if history_inventory else 0
+    cost_ratio = lost_sales_cost / (holding_cost + lost_sales_cost)
+    
+    # Calculate demand volatility
+    mean_demand = sum(history_demand) / len(history_demand)
+    variance = sum((d - mean_demand)**2 for d in history_demand) / len(history_demand)
+    std_dev = variance**0.5
+    volatility = std_dev / mean_demand if mean_demand > 0 else 0
+    
+    # Dynamic adjustment factor
+    adjustment = 1 + (volatility * cost_ratio)
+    base_order = mean_demand * adjustment
+    
+    # Lead time compensation
+    lead_time_demand = mean_demand * 1  # lead time = 1 period
+    
+    target_level = base_order + lead_time_demand
+    order_amount = max(0, target_level - current_inv)
+    
+    return order_amount
+
+================================================================================
+
+# Source: results\pops/population_generation_10.json (item 1)
+# Objective: 2366.9368
+# Description: A quantile-based inventory algorithm that dynamically adjusts order quantities based on demand distribution percentiles, cost-sensitive safety buffers, and recent lost sales patterns.
+def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):
+    if not history_demand:
+        return 100
+    
+    current_inv = history_inventory[-1] if history_inventory else 0
+    cost_ratio = lost_sales_cost / (holding_cost + lost_sales_cost)
+    recent_lost_ratio = sum(history_lost[-3:]) / (sum(history_demand[-3:]) + 1e-6)
+    
+    sorted_demand = sorted(history_demand)
+    n = len(sorted_demand)
+    p75 = sorted_demand[int(0.75 * n)] if n > 0 else 0
+    p90 = sorted_demand[int(0.90 * n)] if n > 0 else 0
+    
+    base_demand = 0.7 * p75 + 0.3 * p90
+    dynamic_buffer = base_demand * cost_ratio * (1 + recent_lost_ratio)
+    target_level = base_demand + dynamic_buffer
+    order_amount = max(0, target_level - current_inv)
+    
+    return order_amount
+
+================================================================================
+
+# Source: results\pops/population_generation_10.json (item 2)
+# Objective: 2448.78667
+# Description: "A reinforcement learning-inspired bandit algorithm that dynamically selects from multiple demand prediction models based on their recent performance, then applies cost-aware inventory optimization."
+import numpy as np
+
+def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):
+    if not history_demand:
+        return 100
+    
+    # Initialize prediction models
+    models = [
+        lambda h: np.mean(h[-3:]) if len(h) >= 3 else np.mean(h) if h else 0,  # Moving average
+        lambda h: h[-1] if h else 0,  # Last period
+        lambda h: np.median(h[-5:]) if len(h) >= 5 else np.median(h) if h else 0  # Median
+    ]
+    
+    # Track model performance
+    if not hasattr(compute_order_amount, 'model_weights'):
+        compute_order_amount.model_weights = [1.0] * len(models)
+    
+    # Update weights based on recent performance
+    if len(history_demand) > 1:
+        errors = []
+        for model in models:
+            pred = model(history_demand[:-1])
+            errors.append(abs(pred - history_demand[-1]))
+        min_error = min(errors)
+        for i in range(len(models)):
+            compute_order_amount.model_weights[i] *= 0.9 + 0.1 * (errors[i] == min_error)
+    
+    # Select model probabilistically
+    weights = np.array(compute_order_amount.model_weights)
+    probs = weights / weights.sum()
+    chosen_model = np.random.choice(models, p=probs)
+    
+    # Predict demand
+    predicted_demand = chosen_model(history_demand)
+    
+    # Cost-aware optimization
+    critical_ratio = lost_sales_cost / (holding_cost + lost_sales_cost)
+    safety_stock = np.percentile(history_demand, min(100, 100 * critical_ratio * 1.2)) if history_demand else 0
+    
+    target_level = predicted_demand + safety_stock
+    order_amount = max(0, target_level - history_inventory[-1])
+    
+    return order_amount
+
+================================================================================
+
+# Source: results\pops/population_generation_10.json (item 3)
+# Objective: 2540.48127
+# Description: Adaptive Threshold Policy with Cost-Sensitive Smoothing: Combines exponential smoothing of demand with a dynamic safety stock threshold adjusted by the cost ratio, while incorporating lead time awareness through inventory position tracking.
+def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):
+    if len(history_demand) < 2:
+        return 100
+    
+    alpha = 0.3
+    smoothed_demand = history_demand[-1] * alpha + (1 - alpha) * sum(history_demand[:-1]) / max(1, len(history_demand)-1)
+    
+    cost_ratio = lost_sales_cost / (holding_cost + lost_sales_cost)
+    safety_stock = smoothed_demand * cost_ratio * 1.5
+    
+    inventory_position = history_inventory[-1] - history_lost[-1]
+    order_amount = max(0, smoothed_demand + safety_stock - inventory_position)
+    
+    return order_amount
+
+================================================================================
+
+# Source: results\pops/population_generation_10.json (item 4)
+# Objective: 2569.05462
+# Description: ```
+def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):
+    if not history_demand:
+        return 100
+    
+    cost_ratio = lost_sales_cost / (holding_cost + lost_sales_cost)
+    demand_variance = max(0, (max(history_demand) - min(history_demand)) / 2) if len(history_demand) > 1 else 0
+    weighted_demand = sum(d * (i+1) for i, d in enumerate(history_demand)) / sum(i+1 for i in range(len(history_demand)))
+    dynamic_factor = 1 + cost_ratio * (1 + demand_variance / max(1, weighted_demand))
+    target_level = weighted_demand * dynamic_factor
+    order_amount = max(0, target_level - history_inventory[-1])
+    return order_amount
+
+================================================================================
+
+# Source: results\pops/population_generation_10.json (item 5)
+# Objective: 2591.49725
+# Description: A demand-shaping algorithm that dynamically adjusts safety stock based on recent lost sales patterns and optimizes order quantities using a weighted combination of demand forecasts.
+import numpy as np
+
+def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):
+    if not history_demand:
+        return 100
+    
+    # {A demand-shaping algorithm that dynamically adjusts safety stock based on recent lost sales patterns and optimizes order quantities using a weighted combination of demand forecasts.}
+    
+    # Initialize prediction models with different lookback windows
+    models = [
+        lambda h: np.mean(h[-2:]) if len(h) >= 2 else np.mean(h) if h else 0,
+        lambda h: np.max(h[-4:]) if len(h) >= 4 else np.max(h) if h else 0,
+        lambda h: np.min(h[-4:]) if len(h) >= 4 else np.min(h) if h else 0
+    ]
+    
+    # Track model performance with exponential decay
+    if not hasattr(compute_order_amount, 'model_scores'):
+        compute_order_amount.model_scores = [10.0] * len(models)
+    
+    # Update scores based on recent performance
+    if len(history_demand) > 1:
+        for i, model in enumerate(models):
+            pred = model(history_demand[:-1])
+            error = abs(pred - history_demand[-1])
+            compute_order_amount.model_scores[i] = 0.85 * compute_order_amount.model_scores[i] + 0.15 * (1 / (1 + error))
+    
+    # Select best model
+    best_model = models[np.argmax(compute_order_amount.model_scores)]
+    
+    # Predict demand
+    predicted_demand = best_model(history_demand)
+    
+    # Dynamic safety stock based on lost sales
+    lost_sales_factor = 1 + 0.5 * np.mean(history_lost[-3:]) / (1 + predicted_demand) if history_lost else 1
+    
+    # Cost-aware optimization
+    critical_ratio = lost_sales_cost / (holding_cost + lost_sales_cost)
+    safety_stock = lost_sales_factor * np.percentile(history_demand, min(99, 100 * critical_ratio * 1.5)) if history_demand else 0
+    
+    target_level = predicted_demand + safety_stock
+    order_amount = max(0, target_level - history_inventory[-1])
+    
+    return order_amount
+
+================================================================================
+
+# Source: results\pops/population_generation_10.json (item 6)
+# Objective: 2611.30924
+# Description: An adaptive safety stock algorithm that combines demand forecasting with a non-linear cost-sensitive adjustment factor, using exponential smoothing for demand prediction and a quadratic cost penalty for inventory deviations.
+def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):
+    if not history_demand:
+        return 100
+    
+    current_inv = history_inventory[-1] if history_inventory else 0
+    
+    # Exponential smoothing demand forecast
+    alpha = 0.3
+    forecast = history_demand[0]
+    for d in history_demand:
+        forecast = alpha * d + (1 - alpha) * forecast
+    
+    # Cost-sensitive adjustment
+    cost_ratio = (lost_sales_cost / (holding_cost + lost_sales_cost)) ** 2
+    safety_stock = forecast * cost_ratio * 1.5  # lead time factor
+    
+    target_level = forecast + safety_stock
+    order_amount = max(0, target_level - current_inv)
+    
+    return order_amount
+
+================================================================================
+
+# Source: results\pops/population_generation_10.json (item 7)
+# Objective: 2661.9334
+# Description: A demand-shaping algorithm that combines exponential smoothing for demand forecasting with a cost-sensitive safety stock calculation, adjusting order quantities based on recent lost sales patterns.
+def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):
+    if not history_demand:
+        return 100
+    
+    current_inv = history_inventory[-1] if history_inventory else 0
+    alpha = 0.3  # Smoothing factor
+    
+    # Exponential smoothing forecast
+    forecast = history_demand[0]
+    for d in history_demand[1:]:
+        forecast = alpha * d + (1 - alpha) * forecast
+    
+    # Safety stock based on lost sales
+    lost_sales_ratio = sum(history_lost) / (sum(history_demand) + 1e-6)
+    safety_factor = lost_sales_ratio * (lost_sales_cost / (holding_cost + lost_sales_cost))
+    safety_stock = forecast * safety_factor
+    
+    # Lead time adjustment
+    lead_time_adjusted = forecast * 1  # lead time = 1
+    
+    order_amount = max(0, (forecast + lead_time_adjusted + safety_stock) - current_inv)
+    return order_amount
+
+================================================================================
+
+# Source: results\pops/population_generation_10.json (item 8)
+# Objective: 2687.97032
+# Description: A hybrid algorithm combining exponential smoothing for demand forecasting with a cost-sensitive safety stock adjustment based on recent lost sales trends.
+def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):
+    if not history_demand:
+        return 100
+    
+    alpha = 0.3  # Smoothing factor
+    forecast = history_demand[0] if len(history_demand) == 1 else alpha * history_demand[-1] + (1 - alpha) * (sum(history_demand[:-1]) / (len(history_demand) - 1))
+    
+    recent_lost_ratio = sum(history_lost[-3:]) / max(1, sum(history_demand[-3:]))
+    cost_adjustment = (lost_sales_cost * recent_lost_ratio) / (holding_cost + lost_sales_cost)
+    
+    safety_stock = forecast * (1 + cost_adjustment)
+    target_level = forecast + safety_stock
+    order_amount = max(0, target_level - history_inventory[-1])
+    return order_amount
+
+================================================================================
+
+# Source: results\pops/population_generation_10.json (item 9)
+# Objective: 2708.16429
+# Description: A hybrid algorithm combining exponential smoothing for demand forecasting with a dynamic safety stock adjustment based on cost-sensitive demand variability and recent service level performance.
+def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):
+    if not history_demand:
+        return 100
+    
+    alpha = 0.3  # Smoothing factor
+    forecast = history_demand[0]
+    for d in history_demand[1:]:
+        forecast = alpha * d + (1 - alpha) * forecast
+    
+    cost_ratio = lost_sales_cost / (holding_cost + lost_sales_cost)
+    recent_window = min(5, len(history_demand))
+    recent_demand = history_demand[-recent_window:]
+    demand_variability = (max(recent_demand) - min(recent_demand)) / max(1, forecast)
+    service_level = 1 - (sum(history_lost[-recent_window:]) / max(1, sum(recent_demand)))
+    
+    dynamic_multiplier = cost_ratio * (1 + demand_variability) * (2 - service_level)
+    safety_stock = forecast * dynamic_multiplier
+    target_level = forecast + safety_stock
+    order_amount = max(0, target_level - history_inventory[-1])
+    return order_amount
+
+================================================================================
+
+# Source: results\pops/population_generation_10.json (item 10)
+# Objective: 2805.95333
+# Description: The algorithm implements a Probabilistic Safety Stock Policy that uses demand quantiles and cost-sensitive adjustments to dynamically set safety stock levels while accounting for lead time and cost tradeoffs.
+def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):
+    if not history_demand:
+        return max(0, 100 - history_inventory[-1] if history_inventory else 100)
+    
+    cost_ratio = lost_sales_cost / (holding_cost + lost_sales_cost)
+    sorted_demand = sorted(history_demand)
+    quantile_idx = min(int(len(sorted_demand) * cost_ratio), len(sorted_demand) - 1)
+    safety_stock = sorted_demand[quantile_idx]
+    base_order = sum(history_demand[-3:]) / min(3, len(history_demand)) if len(history_demand) >= 1 else 0
+    target_level = base_order + safety_stock
+    order_amount = max(0, target_level - history_inventory[-1])
+    return order_amount
+
+================================================================================
+
+# Source: results\pops/population_generation_10.json (item 11)
+# Objective: 2968.49372
+# Description: A momentum-based inventory policy that adjusts order quantities based on recent demand trends and lost sales patterns, weighted by cost considerations and lead time.
+def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):
+    if not history_demand:
+        return 100
+    
+    current_inv = history_inventory[-1] if history_inventory else 0
+    cost_weight = lost_sales_cost / (holding_cost + lost_sales_cost)
+    
+    # Calculate demand momentum (recent trend)
+    momentum = 0
+    if len(history_demand) > 1:
+        recent_demand = history_demand[-min(3, len(history_demand)):]
+        momentum = (recent_demand[-1] - recent_demand[0]) / len(recent_demand)
+    
+    # Calculate lost sales pressure
+    lost_pressure = 0
+    if history_lost:
+        lost_pressure = sum(history_lost[-3:]) / min(3, len(history_lost))
+    
+    # Base order with momentum and lost sales adjustment
+    mean_demand = sum(history_demand) / len(history_demand)
+    adjusted_demand = mean_demand + momentum + (lost_pressure * cost_weight)
+    
+    # Lead time compensation
+    lead_time_buffer = adjusted_demand * 1  # lead time = 1 period
+    
+    target_level = adjusted_demand + lead_time_buffer
+    order_amount = max(0, target_level - current_inv)
+    
+    return order_amount
+
+================================================================================
+
+# Source: results\pops/population_generation_10.json (item 12)
+# Objective: 2980.09513
+# Description: An algorithm that dynamically adjusts order quantities based on a weighted combination of recent demand volatility and cost-sensitive safety stock, using a moving window for demand estimation and adaptive risk factors.
+def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):
+    if not history_demand:
+        return max(0, 100 - history_inventory[-1] if history_inventory else 100)
+    
+    window_size = min(5, len(history_demand))
+    recent_demand = history_demand[-window_size:]
+    avg_demand = sum(recent_demand) / window_size
+    demand_std = (sum((d - avg_demand)**2 for d in recent_demand) / window_size)**0.5
+    
+    cost_ratio = lost_sales_cost / (holding_cost + lost_sales_cost)
+    volatility_factor = 1 + (demand_std / avg_demand if avg_demand > 0 else 0)
+    safety_stock = avg_demand * cost_ratio * volatility_factor * 1.2
+    
+    target_level = avg_demand + safety_stock
+    order_amount = max(0, target_level - history_inventory[-1])
+    
+    return order_amount
+
+================================================================================
+
+# Source: results\pops/population_generation_10.json (item 13)
+# Objective: 3029.23001
+# Description: Demand-Weighted Cost Balancing: Adjusts order amounts by weighting recent demand patterns against cost ratios, with exponential smoothing for demand volatility.
+def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):
+    if len(history_demand) < 2:
+        return 100
+    
+    alpha = 0.3  # Smoothing factor
+    weighted_demand = sum(d * (alpha ** (len(history_demand) - i - 1)) for i, d in enumerate(history_demand)) / sum(alpha ** i for i in range(len(history_demand)))
+    cost_ratio = lost_sales_cost / (holding_cost + lost_sales_cost)
+    safety_stock = weighted_demand * cost_ratio * 1.5
+    target_level = weighted_demand + safety_stock
+    
+    current_inventory = history_inventory[-1]
+    order_amount = max(0, target_level - current_inventory)
+    return order_amount
+
+================================================================================
+
+# Source: results\pops/population_generation_10.json (item 14)
+# Objective: 3102.92807
+# Description: An algorithm that uses exponential smoothing of demand with cost-weighted adjustments to safety stock, incorporating lead time and real-time inventory adjustments.
+def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):
+    if not history_demand:
+        return max(0, 100 - history_inventory[-1] if history_inventory else 100)
+    
+    alpha = 0.3
+    smoothed_demand = history_demand[0]
+    for d in history_demand[1:]:
+        smoothed_demand = alpha * d + (1 - alpha) * smoothed_demand
+    
+    cost_ratio = lost_sales_cost / (holding_cost + lost_sales_cost)
+    safety_stock = smoothed_demand * cost_ratio * 1.5
+    target_level = smoothed_demand + safety_stock
+    order_amount = max(0, target_level - history_inventory[-1])
+    
+    return order_amount
+
+================================================================================
+
+# Source: results\pops/population_generation_10.json (item 15)
+# Objective: 3120.91214
+# Description: An adaptive algorithm that dynamically adjusts safety stock based on recent demand volatility and cost ratios, while smoothing orders with exponential weighting.
+def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):
+    if not history_demand:
+        return 100
+    
+    alpha = 0.3  # Smoothing factor
+    cost_ratio = lost_sales_cost / (holding_cost + lost_sales_cost)
+    
+    # Exponential smoothing of demand
+    smoothed_demand = history_demand[0]
+    for d in history_demand[1:]:
+        smoothed_demand = alpha * d + (1 - alpha) * smoothed_demand
+    
+    # Recent demand volatility (last 3 periods)
+    recent_demand = history_demand[-3:] if len(history_demand) >= 3 else history_demand
+    volatility = (max(recent_demand) - min(recent_demand)) if len(recent_demand) > 1 else 0
+    
+    # Dynamic safety factor based on cost ratio and volatility
+    safety_factor = 1 + cost_ratio * (1 + volatility / max(1, smoothed_demand))
+    
+    target_level = smoothed_demand * safety_factor
+    order_amount = max(0, target_level - history_inventory[-1])
+    
+    return order_amount
+
+================================================================================
+
+# Source: results\pops/population_generation_10.json (item 16)
+# Objective: 3130.83665
+# Description: A probabilistic inventory algorithm that dynamically adjusts safety stock based on demand volatility and lost sales frequency, while incorporating a cost-sensitive smoothing factor.
+def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):
+    if not history_demand:
+        return 0
+    
+    demand_mean = sum(history_demand) / len(history_demand)
+    demand_std = (sum((d - demand_mean)**2 for d in history_demand) / len(history_demand))**0.5 if len(history_demand) > 1 else 0
+    
+    lost_freq = sum(1 for lost in history_lost if lost > 0) / len(history_lost) if history_lost else 0
+    safety_factor = 1 + (demand_std / (demand_mean + 1e-6)) * (1 + lost_freq)
+    
+    cost_ratio = lost_sales_cost / (holding_cost + 1e-6)
+    smoothing = 1 - 1/(1 + cost_ratio**0.7)
+    
+    current_inventory = history_inventory[-1] if history_inventory else 0
+    forecast = demand_mean * safety_factor * (1 + smoothing)
+    
+    order_amount = max(0, forecast - current_inventory)
+    return order_amount
+
+================================================================================
+
+# Source: results\pops/population_generation_10.json (item 17)
+# Objective: 3180.59785
+# Description: An adaptive algorithm that dynamically adjusts order amounts based on weighted demand patterns and cost-sensitive safety stock, incorporating exponential smoothing of past lost sales.
+def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):
+    if len(history_demand) < 1:
+        return 100
+    
+    alpha = 0.3  # Smoothing factor
+    current_inventory = history_inventory[-1]
+    avg_demand = sum(history_demand) / len(history_demand)
+    weighted_lost = sum([(1-alpha)**(i) * history_lost[-i-1] for i in range(min(3, len(history_lost)))])
+    
+    cost_ratio = lost_sales_cost / (holding_cost + lost_sales_cost)
+    safety_stock = (avg_demand + weighted_lost) * cost_ratio
+    order_amount = max(0, (avg_demand + safety_stock) - current_inventory)
+    
+    return order_amount
+
+================================================================================
+
+# Source: results\pops/population_generation_10.json (item 18)
+# Objective: 3208.12109
+# Description: ```
+def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):
+    if not history_demand:
+        return 100
+    
+    demand_trend = sum(d > history_demand[i-1] for i, d in enumerate(history_demand[1:], 1)) / len(history_demand[1:]) if len(history_demand) > 1 else 0.5
+    avg_demand = sum(history_demand) / len(history_demand)
+    current_inv = history_inventory[-1] if history_inventory else 0
+    lost_ratio = sum(history_lost) / (sum(history_demand) + 1e-6)
+    
+    dynamic_factor = (demand_trend * 2) + (lost_ratio * (lost_sales_cost / (holding_cost + lost_sales_cost)))
+    target = avg_demand * (1 + dynamic_factor)
+    order_amount = max(0, target - current_inv)
+    
+    return order_amount
+
+================================================================================
+
+# Source: results\pops/population_generation_10.json (item 19)
+# Objective: 3244.80526
+# Description: The algorithm implements a Cost-Balanced Predictive Ordering strategy that uses exponential smoothing for demand forecasting, dynamically adjusts safety stock based on cost ratios and demand variability, and incorporates a lead-time buffer for inventory positioning.
+def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):
+    if not history_demand:
+        return 0
+    
+    alpha = 0.3
+    forecast = history_demand[0]
+    for d in history_demand[1:]:
+        forecast = alpha * d + (1 - alpha) * forecast
+    
+    demand_std = (sum((d - forecast)**2 for d in history_demand) / len(history_demand))**0.5 if len(history_demand) > 1 else forecast * 0.5
+    cost_ratio = lost_sales_cost / (holding_cost + lost_sales_cost)
+    safety_stock = demand_std * cost_ratio * 1.5
+    
+    lead_time_buffer = forecast
+    target_inventory = forecast + safety_stock + lead_time_buffer
+    order_amount = max(0, target_inventory - history_inventory[-1])
+    
+    return order_amount
+
+================================================================================
+
+# Source: results\pops/population_generation_10.json (item 20)
+# Objective: 3256.18951
+# Description: An adaptive algorithm that dynamically adjusts safety stock based on recent demand volatility and cost-weighted historical lost sales patterns.
+def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):
+    if not history_demand:
+        return 100
+    
+    cost_ratio = lost_sales_cost / (holding_cost + lost_sales_cost)
+    recent_window = min(3, len(history_demand))
+    recent_demand = history_demand[-recent_window:]
+    demand_volatility = (max(recent_demand) - min(recent_demand)) / max(1, sum(recent_demand)/recent_window)
+    lost_sales_factor = sum(history_lost[-recent_window:]) / max(1, sum(recent_demand))
+    
+    base_demand = sum(recent_demand) / recent_window
+    safety_stock = base_demand * cost_ratio * (1 + demand_volatility + lost_sales_factor)
+    target_level = base_demand + safety_stock
+    order_amount = max(0, target_level - history_inventory[-1])
+    return order_amount
+
+================================================================================
+
+# Source: results\pops/population_generation_10.json (item 21)
+# Objective: 3271.06698
+# Description: New algorithm: A quantile-based approach that dynamically adjusts order-up-to levels using demand distribution percentiles and a cost-driven service level target, with lead-time aware inventory positioning.
+def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):
+    if not history_demand:
+        return 0
+    
+    current_inventory = history_inventory[-1] if history_inventory else 0
+    cost_ratio = lost_sales_cost / (holding_cost + lost_sales_cost + 1e-6)
+    
+    # Dynamic service level target based on cost ratio
+    service_level = min(0.99, max(0.5, cost_ratio))
+    
+    # Demand quantile calculation
+    if len(history_demand) >= 3:
+        sorted_demand = sorted(history_demand[-10:])  # Use last 10 periods if available
+        quantile_idx = min(int(len(sorted_demand) * service_level), len(sorted_demand)-1)
+        quantile_demand = sorted_demand[quantile_idx]
+    else:
+        quantile_demand = max(history_demand[-3:]) if len(history_demand) >= 1 else 0
+    
+    # Lead-time adjustment (since lead time = 1 period)
+    order_up_to = quantile_demand * (1 + service_level)
+    
+    order_amount = max(0, order_up_to - current_inventory)
+    return order_amount
+
+================================================================================
+
+# Source: results\pops/population_generation_10.json (item 22)
+# Objective: 3353.09728
+# Description: ```
+def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):
+    if not history_demand:
+        return 100
+    
+    current_inv = history_inventory[-1] if history_inventory else 0
+    cost_ratio = lost_sales_cost / (holding_cost + lost_sales_cost)
+    recent_demand = history_demand[-3:] if len(history_demand) >= 3 else history_demand
+    recent_lost = history_lost[-3:] if len(history_lost) >= 3 else history_lost
+    
+    demand_std = (max(recent_demand) - min(recent_demand)) / 2 if recent_demand else 0
+    lost_std = (max(recent_lost) - min(recent_lost)) / 2 if recent_lost else 0
+    
+    base_level = sum(recent_demand) / len(recent_demand) if recent_demand else 0
+    volatility_factor = 1 + (demand_std + lost_std) / (base_level + 1e-6)
+    
+    target = base_level * volatility_factor * (1 + cost_ratio)
+    order_amount = max(0, target - current_inv)
+    
+    return order_amount
+
+================================================================================
+
+# Source: results\pops/population_generation_10.json (item 23)
+# Objective: 3458.13949
+# Description: Demand-Responsive Buffer Adjustment algorithm that uses exponential smoothing for demand forecasting and dynamically adjusts buffer stock based on recent lost sales patterns.
+def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):
+    if not history_demand:
+        return 0
+    
+    alpha = 0.3
+    forecast = history_demand[-1] if len(history_demand) == 1 else alpha * history_demand[-1] + (1 - alpha) * (sum(history_demand[:-1]) / max(1, len(history_demand) - 1))
+    
+    lost_sales_ratio = sum(history_lost[-3:]) / (sum(history_demand[-3:]) + 1e-6) if len(history_lost) >= 3 else 0
+    cost_ratio = lost_sales_cost / max(holding_cost, 1e-6)
+    buffer_factor = min(2.0, 1.0 + lost_sales_ratio * cost_ratio ** 0.5)
+    
+    lead_time_buffer = forecast * (1.0 + 0.1 * (cost_ratio - 1.0) / (cost_ratio + 1.0))
+    target_inventory = forecast * buffer_factor + lead_time_buffer
+    
+    order_amount = max(0, target_inventory - history_inventory[-1])
+    return order_amount
+
+================================================================================
+
+# Source: results\pops/population_generation_10.json (item 24)
+# Objective: 3494.725
+# Description: 
+"A demand-adaptive threshold policy that dynamically adjusts order quantities based on recent demand patterns and cost ratios, while maintaining a safety stock buffer."
+
+def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):
+    demand_window = 3
+    if len(history_demand) < demand_window:
+        avg_demand = sum(history_demand) / len(history_demand) if len(history_demand) > 0 else 0
+    else:
+        avg_demand = sum(history_demand[-demand_window:]) / demand_window
+    
+    cost_ratio = lost_sales_cost / (holding_cost + lost_sales_cost)
+    safety_stock = avg_demand * cost_ratio * 1.5
+    target_level = avg_demand + safety_stock
+    order_amount = max(0, target_level - history_inventory[-1])
+    return order_amount
+
+================================================================================
+
+# Source: results\pops/population_generation_10.json (item 25)
+# Objective: 3549.73816
+# Description: Demand-Weighted Cost-Balancing Policy: Dynamically adjusts order amounts by weighting recent demand patterns more heavily and balancing costs through a non-linear optimization of the cost ratio.
+def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):
+    if len(history_demand) < 2:
+        return 100
+    
+    weights = [0.5 ** (len(history_demand) - i) for i in range(len(history_demand))]
+    weighted_demand = sum(d * w for d, w in zip(history_demand, weights)) / sum(weights)
+    
+    cost_ratio = (lost_sales_cost ** 2) / (holding_cost ** 2 + lost_sales_cost ** 2)
+    adjusted_demand = weighted_demand * (1 + cost_ratio)
+    
+    current_inventory = history_inventory[-1]
+    order_amount = max(0, adjusted_demand - current_inventory)
+    return order_amount
+
+================================================================================
+
+# Source: results\pops/population_generation_10.json (item 26)
+# Objective: 3597.84006
+# Description: A demand-shaping algorithm that combines quantile-based safety stock calculation with weighted demand observations, where weights decay exponentially based on recency.
+def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):
+    if len(history_demand) < 3:
+        return max(0, sum(history_demand[-2:])/2 - history_inventory[-1])
+    
+    weights = [0.5**i for i in range(len(history_demand))]
+    weights = [w/sum(weights) for w in weights]
+    weighted_demand = sum(w*d for w,d in zip(weights, history_demand))
+    
+    cost_ratio = lost_sales_cost / holding_cost
+    quantile = min(0.95, cost_ratio / (1 + cost_ratio))
+    safety_stock = sorted(history_demand)[int(quantile * len(history_demand))]
+    
+    target = weighted_demand + safety_stock
+    order_amount = max(0, target - history_inventory[-1])
+    return order_amount
+
+================================================================================
+
+# Source: results\pops/population_generation_10.json (item 27)
+# Objective: 3643.57177
+# Description: An adaptive inventory algorithm that dynamically adjusts safety stock based on demand volatility and cost ratios, using exponential smoothing for demand forecasting and a risk-aware buffer multiplier.
+def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):
+    if not history_demand:
+        return 100
+    
+    alpha = 0.3  # Smoothing factor
+    forecast = history_demand[-1] if len(history_demand) == 1 else alpha * history_demand[-1] + (1 - alpha) * sum(history_demand[:-1]) / max(1, len(history_demand) - 1)
+    
+    cost_ratio = lost_sales_cost / (holding_cost + lost_sales_cost)
+    demand_std = (sum((d - sum(history_demand)/len(history_demand))**2 for d in history_demand) / len(history_demand))**0.5 if len(history_demand) > 1 else 0
+    volatility_factor = 1 + cost_ratio * (demand_std / max(1, forecast))
+    
+    safety_stock = max(0, forecast * volatility_factor * cost_ratio)
+    target_level = forecast + safety_stock
+    order_amount = max(0, target_level - history_inventory[-1])
+    
+    return order_amount
+
+================================================================================
+
+# Source: results\pops/population_generation_10.json (item 28)
+# Objective: 3672.85068
+# Description: An exponential smoothing-based algorithm that dynamically adjusts safety stock levels using weighted demand forecasts and cost-sensitive stockout penalties, with lead time consideration.
+def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):
+    if not history_demand:
+        return 0
+    
+    alpha = 0.3  # Smoothing factor
+    forecast = history_demand[0] if history_demand else 0
+    for d in history_demand[1:]:
+        forecast = alpha * d + (1 - alpha) * forecast
+    
+    cost_ratio = lost_sales_cost / (holding_cost + lost_sales_cost)
+    safety_factor = 1.5 * cost_ratio
+    
+    recent_stockouts = sum(1 for lost in history_lost[-2:] if lost > 0) if len(history_lost) >= 2 else 0
+    penalty_factor = 1 + (recent_stockouts * 0.2)
+    
+    safety_stock = safety_factor * forecast * penalty_factor
+    target = forecast + safety_stock
+    current_inv = history_inventory[-1] if history_inventory else 0
+    order_amount = max(0, target - current_inv)
+    
+    return order_amount
+
+================================================================================
+
+# Source: results\pops/population_generation_10.json (item 29)
+# Objective: 3727.65837
+# Description: Demand volatility-adjusted policy with asymmetric cost response: Uses demand volatility to scale safety stock and applies asymmetric cost sensitivity to adjust order amounts based on cost imbalance.
+def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):
+    if len(history_demand) < 2:
+        return 100
+    
+    mean_demand = sum(history_demand) / len(history_demand)
+    demand_volatility = (max(history_demand) - min(history_demand)) / mean_demand if mean_demand != 0 else 1
+    
+    cost_imbalance = lost_sales_cost / (holding_cost + 1e-6)
+    asymmetry_factor = cost_imbalance ** (1 / (1 + demand_volatility))
+    
+    safety_stock = mean_demand * demand_volatility * asymmetry_factor
+    current_inventory = history_inventory[-1]
+    order_amount = max(0, (mean_demand + safety_stock) - current_inventory)
+    
+    return order_amount

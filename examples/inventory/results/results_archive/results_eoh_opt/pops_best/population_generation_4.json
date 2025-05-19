@@ -1,0 +1,13 @@
+{
+     "algorithm": "This algorithm uses a demand volatility-adjusted approach with dynamic safety stock calculation, incorporating weighted recent demand deviations and cost-ratio-dependent inventory targets.",
+     "code": "def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):\n    demand_volatility_weight = 0.1  # Optimized\n    recent_window = 3  # Optimized\n    cost_ratio_power = 1.9958732326932997  # Optimized\n    min_order = 50.0  # Optimized\n    safety_multiplier = 2.029592498404381  # Optimized\n    \n    if not history_demand:\n        return min_order\n    \n    current_inv = history_inventory[-1] if history_inventory else 0\n    avg_demand = sum(history_demand) / len(history_demand)\n    \n    recent_demand = history_demand[-recent_window:] if len(history_demand) > recent_window else history_demand\n    demand_deviation = sum(abs(d - avg_demand) for d in recent_demand) / len(recent_demand)\n    volatility_adjusted = avg_demand + (demand_volatility_weight * demand_deviation)\n    \n    cost_ratio = lost_sales_cost / (holding_cost + lost_sales_cost)\n    cost_adjusted = volatility_adjusted * (cost_ratio ** cost_ratio_power)\n    \n    safety_stock = safety_multiplier * cost_adjusted\n    target_inv = cost_adjusted + safety_stock\n    \n    order_amount = max(min_order, target_inv - current_inv)\n    return order_amount",
+     "opt_params": {
+          "demand_volatility_weight": 0.1,
+          "recent_window": 3,
+          "cost_ratio_power": 1.9958732326932997,
+          "min_order": 50.0,
+          "safety_multiplier": 2.029592498404381
+     },
+     "objective": 2280.86119,
+     "other_inf": null
+}

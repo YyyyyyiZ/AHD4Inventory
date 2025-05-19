@@ -1,0 +1,11 @@
+Here are refined, actionable hints for designing better inventory heuristics:  
+
+1. **Use exponential smoothing** for adaptive demand forecasting.  
+2. **Scale safety stock non-linearly** with cost ratios (e.g., square-root).  
+3. **Prioritize recent service levels** over complex lost sales tracking.  
+4. **Simplify adjustments**—direct target calculation beats cascading multipliers.  
+5. **Minimize parameters** (e.g., single cost exponent, reduced `min_history`).  
+
+*Key themes:* Cost-awareness, adaptability, and robustness through simplicity.  
+
+(49 words)

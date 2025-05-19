@@ -1,0 +1,39 @@
+Hints:  
+- Avoid rigid caps; use dynamic base-stock levels.  
+- Consider demand variability and cost ratios.  
+- Balance holding vs. lost sales costs.
+Hints:  
+- Avoid rigid caps; use dynamic base stock.  
+- Adjust base stock based on demand variability.  
+- Prioritize preventing lost sales over holding costs.  
+- Optimize base stock via cost balance.
+1. **Use base stock levels**  
+2. **Adjust for current inventory**  
+3. **Avoid fixed intervals**  
+4. **Balance holding vs. lost costs**  
+5. **Dynamic > static ordering**
+Here are concise hints for improving heuristics:  
+
+1. **Avoid rigid caps**—let demand variability guide orders.  
+2. **Adapt base stock** dynamically based on historical data.  
+3. **Balance costs**—higher lost sales cost? Increase base stock.  
+4. **Smooth adjustments**—avoid sudden constraints like `order_cap`.  
+5. **Track trends**—adjust for rising/falling demand patterns.  
+
+(Each hint is <20 words.)
+"Adapt base_stock dynamically using demand variability and cost ratios."
+1. **Use base stock levels**  
+2. **Adjust for current inventory**  
+3. **Avoid fixed intervals**  
+4. **Balance holding vs. lost costs**  
+5. **Dynamic > static ordering**
+Hints:  
+- Dynamic base stock levels  
+- Adaptive order caps  
+- Demand pattern analysis  
+- Periodic review intervals  
+- Cost-sensitive thresholds
+Hints:  
+- Adapt `base_stock` dynamically using demand statistics.  
+- Incorporate lost sales and holding costs into `base_stock`.  
+- Use moving averages or quantiles of past demand.

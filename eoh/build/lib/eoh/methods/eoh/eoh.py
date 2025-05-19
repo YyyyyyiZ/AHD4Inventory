@@ -61,6 +61,8 @@ class EOH:
         self.demand = paras.demand
         self.volatility = paras.volatility
 
+        self.reflect = paras.reflect
+
         print("- EoH parameters loaded -")
 
         # Set a random seed
@@ -91,7 +93,7 @@ class EOH:
 
         # interface for ec operators
         interface_ec = InterfaceEC(self.pop_size, self.m, self.api_endpoint, self.api_key, self.llm_model, self.use_local_llm, self.llm_local_url,
-                                   self.debug_mode, interface_prob, select=self.select,n_p=self.exp_n_proc,
+                                   self.debug_mode, interface_prob, reflect=self.reflect, select=self.select,n_p=self.exp_n_proc,
                                    timeout = self.timeout, use_numba=self.use_numba
                                    )
 
@@ -162,7 +164,8 @@ class EOH:
         n_op = len(self.operators)
 
         for pop in range(n_start, self.n_pop):
-            #print(f" [{na + 1} / {self.pop_size}] ", end="|")         
+            #print(f" [{na + 1} / {self.pop_size}] ", end="|")
+
             for i in range(n_op):
                 op = self.operators[i]
                 print(f" OP: {op}, [{i + 1} / {n_op}] ", end="|") 
@@ -183,7 +186,9 @@ class EOH:
                 # populatin management
                 size_act = min(len(population), self.pop_size)
                 population = self.manage.population_management(population, size_act)
+
                 print()
+            interface_ec.update_long_term(iteration=pop)
 
 
             # Save population to a file

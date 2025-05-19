@@ -1,0 +1,13 @@
+{
+     "algorithm": "This algorithm uses a hybrid of moving window demand forecasting and Markov chain-based state transitions between inventory levels, with cost-proportional dynamic buffer sizing and lead-time-aware order smoothing.",
+     "code": "def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):\n    window_size = 4  # Optimized\n    state_transition_weight = 0.23939040985144583  # Optimized\n    cost_buffer_multiplier = 0.36436089990891957  # Optimized\n    lead_time_smoothing = 0.1  # Optimized\n    base_buffer = 57.06838715300055  # Optimized\n    \n    if not history_demand:\n        return base_buffer * 1.5\n    \n    current_inventory = history_inventory[-1] if history_inventory else 0\n    \n    # Moving window demand forecast\n    window = history_demand[-window_size:] if len(history_demand) >= window_size else history_demand\n    window_avg = sum(window) / len(window) if window else 0\n    \n    # State transition probability adjustment\n    if len(history_inventory) >= 2:\n        transitions = [history_inventory[i+1] - history_inventory[i] for i in range(len(history_inventory)-1)]\n        transition_avg = sum(transitions) / len(transitions)\n        state_adjustment = transition_avg * state_transition_weight\n    else:\n        state_adjustment = 0\n    \n    # Cost-proportional dynamic buffer\n    cost_ratio = lost_sales_cost / (holding_cost + 1e-6)\n    dynamic_buffer = base_buffer * (1 + cost_ratio * cost_buffer_multiplier)\n    \n    # Lead-time aware smoothing\n    forecast = (window_avg + state_adjustment) * lead_time_smoothing\n    \n    target = forecast + dynamic_buffer\n    order_amount = max(0, target - current_inventory)\n    \n    return order_amount",
+     "opt_params": {
+          "window_size": 4,
+          "state_transition_weight": 0.23939040985144583,
+          "cost_buffer_multiplier": 0.36436089990891957,
+          "lead_time_smoothing": 0.1,
+          "base_buffer": 57.06838715300055
+     },
+     "objective": 1852.38154,
+     "other_inf": null
+}

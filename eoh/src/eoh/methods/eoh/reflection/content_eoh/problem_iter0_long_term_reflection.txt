@@ -1,0 +1,9 @@
+Here are concise, actionable hints for improving inventory heuristics:  
+
+1. **Dynamic base stock** - Adjust using demand variability and cost ratios.  
+2. **Exponential smoothing** - Forecast demand with weighted recent data.  
+3. **Cost-aware thresholds** - Balance holding vs. lost sales dynamically.  
+4. **Safety stock** - Buffer for uncertainty using demand variance.  
+5. **Smooth orders** - Avoid spikes via moving averages or caps.  
+
+(Each hint is under 12 words; total: 47 words.)

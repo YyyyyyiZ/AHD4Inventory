@@ -1,0 +1,432 @@
+Here are concise hints for better heuristics:  
+
+1. Blend extreme and average demand  
+2. Scale safety stock with cost ratio nonlinearly  
+3. Adjust for volatility dynamically  
+4. Smooth forecasts with recent data  
+5. Optimize coverage multipliers
+Here are concise hints for better heuristics:  
+
+1. **Hybrid demand prediction** beats single-method estimates  
+2. **Non-linear cost adjustments** improve sensitivity  
+3. **Recent lost sales penalties** prevent stockouts  
+4. **Velocity terms** smooth inventory transitions  
+5. **Exponentiate cost ratios** for sharper responses  
+
+(19 words in hints)
+1. **Use recent demand trends** (moving avg + smoothing)  
+2. **Adjust for demand volatility** dynamically  
+3. **Simplify cost sensitivity** with power scaling  
+4. **Set initial defaults** for cold starts  
+5. **Balance forecast components** (hybrid approach)
+Here are concise design hints:
+
+1. Blend recent & average demand dynamically  
+2. Scale with cost ratio non-linearly  
+3. Buffer for demand volatility  
+4. Smooth gap response exponentially  
+5. Avoid fixed minimum orders
+Here are concise hints for better heuristics:  
+
+1. **Use momentum-weighted forecasting** (exponential decay)  
+2. **Incorporate trend detection** (recent demand changes)  
+3. **Normalize cost impact** (balance holding vs. lost sales)  
+4. **Simplify volatility handling** (avoid complex adjustments)  
+5. **Adjust for inventory position** (include pending trends)  
+
+(19 words in the last line)
+Here are concise heuristic design hints:  
+
+1. **Blend forecast methods** (avg + max + smoothing)  
+2. **Adapt safety stock** to cost ratio non-linearly  
+3. **Incorporate trend/volatility** with decay factors  
+4. **Set minimum history** for reliable estimates  
+5. **Avoid overreacting** to gaps (use linear adjustment)
+Here are concise hints for better heuristics:  
+
+1. **Use quantiles** over averages for robust demand estimation.  
+2. **Asymmetric adjustments** for shortages vs. surpluses.  
+3. **Incorporate momentum** for trend sensitivity.  
+4. **Cost-sensitive scaling** for dynamic buffers.  
+5. **Prioritize recent volatility** with decay factors.  
+
+(19 words in hints)
+Here are concise design hints:  
+
+1. **Use hybrid forecasting** (moving avg + smoothing)  
+2. **Adjust for volatility** (recent demand range)  
+3. **Scale safety stock** with cost ratio  
+4. **Avoid overfitting** (simpler exponents/factors)  
+5. **Handle cold starts** (initial periods) explicitly
+1. **Cost-aware scaling improves balance**  
+2. **Exponential gap smoothing reduces over-ordering**  
+3. **Weighted decay forecasts capture trends better**  
+4. **Variability adjustment handles demand fluctuations**  
+5. **Fine-tuned parameters enhance performance**
+Here are concise design hints:  
+
+1. **Use weighted short/long-term demand** (better adaptation)  
+2. **Incorporate variable safety stock** (cost-sensitive)  
+3. **Limit variability window** (reduces noise)  
+4. **Non-linear gap scaling** (avovers/undershooting)  
+5. **Simplify adjustments** (fewer tuned parameters)
+Here are concise hints for better heuristics:  
+
+1. **Use exponential smoothing** for more responsive demand forecasting.  
+2. **Incorporate demand variability** directly into safety stock.  
+3. **Non-linear gap response** (e.g., power law) improves adaptability.  
+4. **Simplify cost adjustments**—avoid over-parameterization.  
+5. **Prioritize recent trends** over hybrid averages for agility.  
+
+(19 words per hint max)
+1. **Classify demand states** (high/low) for adaptive policies  
+2. **Non-linear cost adjustments** outperform linear ones  
+3. **Minimum order constraints** prevent stockouts  
+4. **Decay factors** smooth aggressive ordering  
+5. **Threshold-based triggers** reduce overreaction to noise
+1. **Balance short/long-term demand**  
+2. **Non-linear gap response**  
+3. **Cost-sensitive safety stock**  
+4. **Use recent demand variability**  
+5. **Avoid fixed initial forecasts**
+Here are concise design hints:  
+
+1. **Blend demand metrics** (avg + max)  
+2. **Non-linear cost scaling** (use exponents)  
+3. **Track inventory trends** (decay recent changes)  
+4. **Simplify safety stock** (avoid complex variability terms)  
+5. **Drop gap smoothing** (directly compute order gap)
+1. **Use service-level tracking**  
+2. **Incorporate cost-sensitive quantiles**  
+3. **Add dynamic risk adjustment**  
+4. **Include lead-time buffers**  
+5. **Prioritize recent performance**  
+6. **Avoid over-smoothing forecasts**  
+7. **Balance holding vs. lost costs**  
+8. **Set minimum history thresholds**  
+9. **Adjust for demand variability**  
+10. **Use quantile-based forecasting**
+Here are concise design hints:  
+
+1. **Weight recent data more** (decay vs fixed smoothing)  
+2. **Adapt multiplier to cost ratio** (dynamic scaling)  
+3. **Simplify volatility measure** (range instead of std)  
+4. **Non-linear gap response** (exponent smooths adjustments)  
+5. **Drop fixed buffers** (use cost-aware targets)
+Here are concise hints for better heuristics:
+
+1. Classify demand states dynamically  
+2. Adjust policy based on state  
+3. Use smoother cost ratio scaling  
+4. Set minimum order threshold  
+5. Balance reactivity vs stability
+Here are concise hints for better heuristics:  
+
+1. **Use weighted demand forecasting** (decay improves accuracy)  
+2. **Adapt to cost ratios dynamically** (scale multipliers with costs)  
+3. **Adjust for demand variability** (include std deviation)  
+4. **Non-linear gap response** (exponent smoothes orders)  
+5. **Avoid fixed thresholds** (use continuous scaling instead)
+Here are concise hints for better heuristics:  
+
+1. **Blend trends** (recent + average + peak)  
+2. **Non-linear cost scaling** (use exponents)  
+3. **Dynamic volatility adjustment**  
+4. **Asymmetric urgency factors**  
+5. **Avoid fixed quantiles** (adapt to patterns)
+Here are concise hints for better heuristics:  
+
+1. **Use hybrid forecasting** (moving avg + last demand)  
+2. **Simplify cost ratio** with direct division  
+3. **Adjust for volatility** proportionally  
+4. **Smaller window sizes** for responsiveness  
+5. **Avoid complex quantiles** for stability
+Here are concise design hints:
+
+1. Use dual time-scale demand forecasting  
+2. Non-linear gap response improves adaptation  
+3. Cost-sensitive safety stock scaling  
+4. Optimize window sizes for variability  
+5. Simpler velocity/penalty terms often perform better
+Here are concise hints for improvement:
+
+1. Use moving averages with volatility  
+2. Adjust safety stock by cost ratio  
+3. Non-linear response to inventory gaps  
+4. Simplify demand clustering logic  
+5. Optimize window size for forecasts
+Here are concise hints for better heuristics:
+
+1. **Weight recent demand more**  
+2. **Adapt safety buffers to demand volatility**  
+3. **Non-linear gap response improves sensitivity**  
+4. **Simplify cost ratio scaling**  
+5. **Avoid fixed coverage multipliers**
+Here are concise hints for improvement:  
+
+1. **Dynamic alpha** - Adjust smoothing based on demand volatility.  
+2. **Non-linear safety scaling** - Use higher-order cost ratio terms.  
+3. **Lost sales feedback** - Incorporate `history_lost` into safety stock.  
+4. **Lead-time buffer** - Explicitly account for future uncertainty.  
+5. **Adaptive trend** - Weight recent trends more heavily.  
+
+(Each hint ≤ 6 words)
+1. **Use quantiles** for robust demand estimation  
+2. **Weight recent data** with decay for responsiveness  
+3. **Explicit minimum order** prevents under-ordering  
+4. **Cost-aware buffer** balances holding vs stockout  
+5. **Combine methods** (quantile + weighted avg) improves accuracy
+Here are concise design hints:
+
+1. Blend max/avg demand for robustness  
+2. Non-linear cost scaling improves adaptation  
+3. Incorporate recent trend with decay  
+4. Relative volatility beats absolute variability  
+5. Minimum history prevents early overfitting  
+6. Smooth transitions between regimes  
+
+(Each hint <20 words)
+Here are concise hints for better heuristics:
+
+1. Use dual time-scale demand forecasting  
+2. Incorporate cost-ratio directly into safety stock  
+3. Apply non-linear response to inventory gaps  
+4. Optimize window size for variability  
+5. Balance short-term and long-term trends
+Here are concise hints for better heuristics:
+
+1. Use dynamic volatility adjustment  
+2. Normalize cost ratios with power scaling  
+3. Blend recent demand with extremes  
+4. Apply exponential smoothing  
+5. Optimize coverage multipliers  
+6. Handle edge cases explicitly
+Here are concise hints for better heuristics:  
+
+1. **Adapt to volatility** (use max/avg blend)  
+2. **Non-linear cost scaling** (power law > linear)  
+3. **Decay trends cautiously** (reduce overreaction)  
+4. **Balance smoothing** (avoid fixed quantiles)  
+5. **Minimum history threshold** (prevent early errors)
+Here are concise hints for improvement:
+
+1. Incorporate demand trend analysis  
+2. Adjust safety stock dynamically  
+3. Use weighted recent demand  
+4. Balance cost sensitivity  
+5. Optimize decay factors  
+6. Consider lead time variability  
+7. Fine-tune quantile weights  
+8. Adapt to demand patterns  
+
+(Each hint is under 20 words)
+1. **Use momentum trends** for demand forecasting  
+2. **Asymmetric cost handling** improves balance  
+3. **Short-term averaging** beats percentiles  
+4. **Parameter tuning** matters significantly  
+5. **Safety multipliers** adapt to uncertainty
+Here are concise design hints:  
+
+1. **Blend forecasting methods** (avg + max + smoothing)  
+2. **Adapt safety stock non-linearly** with cost ratio  
+3. **Incorporate volatility and trends** dynamically  
+4. **Use fallback for early periods**  
+5. **Scale orders smoothly** with inventory gaps
+Here are concise hints for better heuristics:  
+
+1. **Use exponential smoothing** for more responsive demand forecasting.  
+2. **Incorporate demand variability** directly into safety stock.  
+3. **Non-linear gap response** (power law) improves dynamic adjustments.  
+4. **Simplify cost adaptation** with clearer ratio logic.  
+5. **Avoid over-parameterization**—fewer tuned weights often perform better.
+Here are concise hints for better heuristics:  
+
+1. **Use hybrid forecasting** (combine moving avg + smoothing)  
+2. **Adjust for recent volatility** (scale with demand variability)  
+3. **Non-linear cost sensitivity** (exponentiate cost ratios)  
+4. **Simplify safety stock logic** (avoid redundant terms)  
+5. **Set minimum data threshold** (prevent early instability)
+Here are concise hints for better heuristics:  
+
+1. **Use exponential decay** for recent demand weighting  
+2. **Adapt multipliers** based on cost ratios  
+3. **Smooth variability** with weighted adjustments  
+4. **Non-linear gap response** improves sensitivity  
+5. **Avoid fixed windows**—decay captures trends better
+Here are concise design hints:
+
+1. Use quantiles over moving averages  
+2. Incorporate inventory momentum  
+3. Non-linear cost balancing (sigmoid)  
+4. Steepness-adjusted response to gaps  
+5. Base multiplier for demand scaling  
+
+(19 words in hints)
+Here are concise hints for better heuristics:  
+
+1. **Blend max/avg demand** for robustness  
+2. **Incorporate volatility and trends** adaptively  
+3. **Non-linear safety stock scaling** improves cost sensitivity  
+4. **Use exponential smoothing** for demand estimation  
+5. **Avoid fixed thresholds**—use dynamic adjustments
+Here are concise hints for better heuristics:  
+
+1. **Use exponential smoothing** for more adaptive demand forecasting.  
+2. **Scale safety stock dynamically** with cost ratios and demand variability.  
+3. **Non-linear gap response** (power law) improves order adjustments.  
+4. **Simplify trend blending**—avoid over-parameterization.  
+5. **Prioritize recent data** but balance with long-term patterns.
+Here are concise hints for better heuristics:  
+
+1. Blend extreme and average demand  
+2. Smooth demand forecasts  
+3. Non-linear cost ratio adjustment  
+4. Dynamic volatility handling  
+5. Optimize safety multipliers
+Here are concise hints for better heuristics:  
+
+1. **Use quantiles** over moving averages for robust demand estimation.  
+2. **Non-linear cost balancing** (e.g., sigmoid) improves asymmetry handling.  
+3. **Momentum from inventory** adjusts for trends better than demand momentum.  
+4. **Power-law smoothing** (e.g., `order_gap ** (1/x)`) prevents overreaction.  
+5. **Normalize cost ratios** to avoid instability.  
+
+(19 words in the last line)
+Here are concise hints for better heuristics:  
+
+1. **Use quantiles** for robust demand forecasting.  
+2. **Non-linear cost adjustments** improve asymmetry handling.  
+3. **React to lost sales** dynamically.  
+4. **Non-linear order scaling** prevents overreaction.  
+5. **Cost-ratio power weighting** refines sensitivity.
+Here are concise hints for better heuristics:  
+
+1. **Hybrid demand prediction** (combine moving avg + recent max)  
+2. **Cost-sensitive buffer scaling** (non-linear cost ratio adjustment)  
+3. **Dynamic adjustments** (inventory velocity + lost sales penalty)  
+4. **Balance stability and reactivity** (weight recent volatility/trends)
+Here are concise design hints:
+
+1. **Use dynamic window sizing** for demand forecasting  
+2. **Incorporate volatility directly** into safety stock  
+3. **Non-linear response** to inventory gaps improves adaptation  
+4. **Simplify cost ratio handling** for better sensitivity  
+5. **Balance forecast/safety terms** with clear multipliers  
+
+(19 words in last line)
+Here are concise design hints:  
+
+1. **Blend demand metrics** (avg/max) for robustness  
+2. **Non-linear cost scaling** improves sensitivity  
+3. **Smooth trend adjustments** prevent overreaction  
+4. **Exponentiate cost ratios** for better weighting  
+5. **Safety factors** should scale with demand  
+
+(19 words in last 4 bullets)
+1. **Use moving averages** for stable forecasts  
+2. **Factor in demand volatility** for safety stock  
+3. **Non-linear order scaling** improves responsiveness  
+4. **Balance cost ratios** for safety adjustments  
+5. **Simplify trend handling** to avoid noise
+1. **Classify demand states** (high/low) for adaptive policies.  
+2. **Use dynamic multipliers** based on cost ratios.  
+3. **Set minimum order** to avoid under-ordering.  
+4. **Simplify volatility handling** with state thresholds.  
+5. **Balance responsiveness** with decay factors.
+1. Use weighted demand forecasting (momentum)  
+2. Incorporate trend sensitivity  
+3. Adjust safety stock dynamically with cost ratio  
+4. Normalize costs asymmetrically  
+5. Consider inventory position with trend
+Here are concise design hints:
+
+1. Use hybrid forecasting (moving avg + smoothing)  
+2. Incorporate recent volatility adjustments  
+3. Normalize safety stock by cost ratio  
+4. Start with conservative initial orders  
+5. Use simple target inventory logic  
+6. Limit lookback window for responsiveness  
+
+(19 words in hints)
+1. **Use quantiles** over averages for robust forecasting.  
+2. **React to lost sales** directly in adjustments.  
+3. **Non-linear gap response** improves sensitivity.  
+4. **Balance cost ratios** with power transforms.  
+5. **Buffer dynamically** based on demand variability.
+Here are concise design hints:  
+
+1. **Use adaptive volatility scaling** (better handles demand fluctuations)  
+2. **Normalize cost ratios** (more stable across cost parameters)  
+3. **Smooth extreme demand blends** (avoids overreacting to outliers)  
+4. **Dynamic safety multipliers** (responsive to changing conditions)  
+5. **Simplify trend components** (reduces noise from inventory changes)
+Here are concise design hints:
+
+1. Use moving averages over quantiles for stability  
+2. Incorporate demand volatility directly  
+3. Simplify cost ratio adjustments  
+4. Favor linear safety stock calculations  
+5. Reduce reactive components (like lost sales adjustments)  
+6. Optimize non-linear response exponents carefully
+Here are concise design hints:
+
+1. Use nonlinear cost balancing (sigmoid/exponent)  
+2. Apply response surface smoothing  
+3. Optimize quantile weighting  
+4. Reduce momentum impact  
+5. Fine-tune base demand scaling  
+
+Key insight: Nonlinear transformations outperform linear blends for cost adaptation.
+1. **Use multi-scale forecasting** (short+long term)  
+2. **Non-linear gap response** improves adaptation  
+3. **Cost-sensitive safety stock** balances risks  
+4. **Recent variability window** captures trends better  
+5. **Avoid over-reliance on momentum** for stability
+Here are concise heuristic design hints:
+
+1. Use quantiles over averages for demand estimation  
+2. Incorporate service level metrics explicitly  
+3. Non-linear cost adaptation works better  
+4. Simpler trend handling can outperform complex smoothing  
+5. Focus on key cost asymmetry parameter
+Here are concise hints for better heuristics:  
+
+1. **Balance recent vs. average demand** (blending improves forecast accuracy)  
+2. **Non-linear cost adaptation** (power scaling handles cost ratios better)  
+3. **Dynamic safety buffers** (volatility scaling adjusts for demand variability)  
+4. **Smooth gap response** (exponentiation reduces over-ordering)  
+5. **Avoid fixed quantiles** (they ignore cost asymmetry)
+Here are concise hints for better heuristics:  
+
+1. **Balance short/long-term demand**  
+2. **Non-linear gap response**  
+3. **Cost-sensitive safety stock**  
+4. **Simplify volatility handling**  
+5. **Avoid fixed quantile thresholds**
+Here are concise hints for better heuristics:  
+
+1. **Dynamic risk adjustment** - Adapt to service levels and cost ratios.  
+2. **Service-level tracking** - Monitor recent lost sales performance.  
+3. **Cost-aware safety stock** - Scale buffer with cost imbalance.  
+4. **Min history threshold** - Avoid early unstable decisions.  
+5. **Nonlinear demand quantiles** - Adjust risk based on conditions.  
+
+(19 words per hint)
+Here are concise hints for better heuristics:  
+
+1. **Use quantiles** over averages for demand forecasting  
+2. **Dynamic risk adjustment** based on service level  
+3. **Cost-aware buffer sizing** for lead time  
+4. **Prioritize recent data** with sliding windows  
+5. **Initialization matters**—set safe defaults for cold starts
+1. **Dynamic risk adjustment** improves responsiveness.  
+2. **Service-level tracking** enhances demand sensitivity.  
+3. **Adaptive buffer sizing** reduces over/under-ordering.  
+4. **Cost-aware thresholds** balance holding vs. lost sales.  
+5. **Minimum history check** prevents early instability.
+1. **Blend max/avg demand** for robustness  
+2. **Scale safety stock** with cost ratio  
+3. **Adjust for trends** in inventory changes  
+4. **Use exponential smoothing** for demand blending  
+5. **Avoid fixed thresholds**; use continuous scaling
+

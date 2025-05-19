@@ -1,0 +1,386 @@
+[
+     {
+          "algorithm": "This algorithm uses quantile-based demand forecasting with dynamic risk thresholds that adapt based on cost ratios and recent service level performance, incorporating lead time through a proportional coverage buffer.",
+          "code": "def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):\n    initial_order = 100  # Optimized\n    min_history = 5  # Optimized\n    risk_threshold = 0.75  # Optimized\n    buffer_multiplier = 1.0371652215636478  # Optimized\n    service_sensitivity = 0.5  # Optimized\n    \n    if len(history_demand) < min_history:\n        return initial_order\n    \n    # Calculate recent service level\n    recent_periods = min(5, len(history_lost))\n    service_level = 1 - (sum(history_lost[-recent_periods:]) / (sum(history_demand[-recent_periods:]) + 1e-6))\n    \n    # Dynamic risk adjustment based on costs and service\n    cost_ratio = lost_sales_cost / (holding_cost + 1e-6)\n    adjusted_risk = risk_threshold * (1 + service_sensitivity * (1 - service_level)) * (cost_ratio / (1 + cost_ratio))\n    \n    # Quantile-based demand forecast\n    sorted_demand = sorted(history_demand)\n    quantile_idx = min(len(sorted_demand)-1, int(adjusted_risk * len(sorted_demand)))\n    forecast = sorted_demand[quantile_idx]\n    \n    # Lead time buffer\n    buffer = forecast * buffer_multiplier * (1 + (1 - service_level))\n    \n    current_inventory = history_inventory[-1]\n    order_amount = max(0, (forecast + buffer) - current_inventory)\n    \n    return order_amount",
+          "opt_params": {
+               "initial_order": 100,
+               "min_history": 5,
+               "risk_threshold": 0.75,
+               "buffer_multiplier": 1.0371652215636478,
+               "service_sensitivity": 0.5
+          },
+          "objective": 2523.80746,
+          "other_inf": null
+     },
+     {
+          "algorithm": "This algorithm blends exponential smoothing of demand extremes with non-linear safety stock scaling based on cost ratios and volatility, using adaptive decay for recent trends and smooth cost-sensitive adjustments.",
+          "code": "def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):\n    min_history = 3  # Optimized\n    smoothing_alpha = 0.1  # Optimized\n    cost_power = 0.1  # Optimized\n    volatility_weight = 0.1  # Optimized\n    trend_decay = 0.1  # Optimized\n    \n    if len(history_demand) < min_history:\n        return max(history_demand, default=50)  # Fallback\n    \n    # Blend max/avg demand with exponential smoothing\n    avg_demand = sum(history_demand) / len(history_demand)\n    max_demand = max(history_demand)\n    smoothed_demand = smoothing_alpha * max_demand + (1 - smoothing_alpha) * avg_demand\n    \n    # Calculate relative volatility and recent trend\n    volatility = (max_demand - avg_demand) / (avg_demand + 1e-6)\n    recent_trend = sum(history_demand[-2:]) / (sum(history_demand[-4:-2]) + 1e-6) - 1\n    \n    # Non-linear safety stock scaling\n    cost_ratio = lost_sales_cost / (holding_cost + 1e-6)\n    safety_factor = (cost_ratio ** cost_power) * (1 + volatility * volatility_weight)\n    \n    # Apply adaptive trend decay\n    adjusted_trend = recent_trend * trend_decay if recent_trend > 0 else recent_trend\n    \n    # Calculate target inventory level\n    target_inventory = smoothed_demand * (1 + adjusted_trend + safety_factor)\n    \n    current_inventory = history_inventory[-1]\n    order_amount = max(0, target_inventory - current_inventory)\n    \n    return order_amount",
+          "opt_params": {
+               "min_history": 3,
+               "smoothing_alpha": 0.1,
+               "cost_power": 0.1,
+               "volatility_weight": 0.1,
+               "trend_decay": 0.1
+          },
+          "objective": 2576.42959,
+          "other_inf": null
+     },
+     {
+          "algorithm": "This algorithm uses a weighted blend of recent demand extremes with cost-sensitive exponential smoothing, dynamic volatility scaling, and non-linear inventory gap response with adaptive smoothing factors.",
+          "code": "def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):\n    recent_weight = 0.519507269617283  # Optimized\n    cost_power = 1.1586086812304814  # Optimized\n    volatility_scale = 0.1  # Optimized\n    gap_sensitivity = 0.7646052119292248  # Optimized\n    \n    if not history_demand:\n        return 0\n    \n    # Blend recent demand extremes with decayed average\n    recent_demand = history_demand[-1]\n    avg_demand = sum(history_demand) / len(history_demand)\n    blended_forecast = recent_weight * recent_demand + (1 - recent_weight) * avg_demand\n    \n    # Cost-adjusted scaling factor\n    cost_ratio = lost_sales_cost / (holding_cost + 1e-6)\n    scaled_factor = (1 + cost_ratio) ** (1 / cost_power)\n    \n    # Volatility-adjusted target\n    demand_range = max(history_demand) - min(history_demand)\n    safety_buffer = demand_range * volatility_scale * scaled_factor\n    target = blended_forecast * scaled_factor + safety_buffer\n    \n    # Smooth gap response\n    gap = target - history_inventory[-1]\n    order_amount = max(0, gap) ** gap_sensitivity if gap > 0 else 0\n    \n    return order_amount",
+          "opt_params": {
+               "recent_weight": 0.519507269617283,
+               "cost_power": 1.1586086812304814,
+               "volatility_scale": 0.1,
+               "gap_sensitivity": 0.7646052119292248
+          },
+          "objective": 2672.61013,
+          "other_inf": null
+     },
+     {
+          "algorithm": "This algorithm uses a hybrid of moving average and exponential smoothing for demand forecasting, with a novel cost-aware volatility adjustment factor that scales safety stock based on recent demand variability and cost ratios.",
+          "code": "def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):\n    if len(history_demand) < 3:\n        return 100  # OPT_PARAM: {'initial': 100, 'min': 50, 'max': 250, 'type': 'int'}\n    \n    avg_window = 3  # Optimized\n    smoothing_alpha = 0.1  # Optimized\n    volatility_factor = 0.1  # Optimized\n    cost_power = 0.1  # Optimized\n    \n    # Hybrid demand forecast\n    moving_avg = sum(history_demand[-avg_window:]) / avg_window\n    last_demand = history_demand[-1]\n    smoothed_forecast = smoothing_alpha * last_demand + (1 - smoothing_alpha) * moving_avg\n    \n    # Volatility adjustment\n    recent_demand = history_demand[-avg_window:]\n    demand_volatility = max(recent_demand) - min(recent_demand)\n    volatility_adj = 1 + (volatility_factor * demand_volatility / (smoothed_forecast + 1e-6))\n    \n    # Cost-sensitive safety stock\n    cost_ratio = lost_sales_cost / (holding_cost + 1e-6)\n    safety_stock = smoothed_forecast * volatility_adj * (cost_ratio ** cost_power)\n    \n    target_inventory = smoothed_forecast + safety_stock\n    current_inventory = history_inventory[-1]\n    order_amount = max(0, target_inventory - current_inventory)\n    \n    return order_amount",
+          "opt_params": {
+               "return 100  # OPT_PARAM: {'initial': 100, 'min': 50, 'max': 250, 'type': 'int'}": 100,
+               "avg_window": 3,
+               "smoothing_alpha": 0.1,
+               "volatility_factor": 0.1,
+               "cost_power": 0.1
+          },
+          "objective": 2707.7541,
+          "other_inf": null
+     },
+     {
+          "algorithm": "This algorithm uses exponential smoothing for demand forecasting with adaptive safety stock based on cost ratios and demand variability, incorporating a dynamic response to inventory gaps with non-linear scaling.",
+          "code": "def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):\n    smoothing_alpha = 0.7564628283142596  # Optimized\n    base_safety = 4.12410289076002  # Optimized\n    gap_power = 0.6919836158106738  # Optimized\n    \n    if len(history_demand) == 0:\n        return 0\n    \n    # Exponential smoothing forecast\n    forecast = history_demand[0]\n    for d in history_demand[1:]:\n        forecast = smoothing_alpha * d + (1 - smoothing_alpha) * forecast\n    \n    # Cost-adjusted safety stock\n    cost_ratio = holding_cost / (holding_cost + lost_sales_cost)\n    demand_variability = max(history_demand) - min(history_demand) if len(history_demand) > 1 else 0\n    safety_stock = base_safety * forecast * (1 + (1 - cost_ratio)) + demand_variability\n    \n    # Dynamic order response\n    inventory_gap = safety_stock - history_inventory[-1]\n    if inventory_gap > 0:\n        order_amount = inventory_gap ** gap_power\n    else:\n        order_amount = 0\n    \n    return order_amount",
+          "opt_params": {
+               "smoothing_alpha": 0.7564628283142596,
+               "base_safety": 4.12410289076002,
+               "gap_power": 0.6919836158106738
+          },
+          "objective": 2727.33543,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Both algorithms use a combination of demand forecasting (quantile-based or exponential smoothing) with cost-aware adjustments and momentum/gap smoothing to dynamically determine order amounts.",
+          "code": "def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):\n    short_term_weight = 0.9  # Optimized\n    long_term_weight = 0.9  # Optimized\n    cost_sensitivity = 1.2811053597114537  # Optimized\n    gap_exponent = 0.8178652940776707  # Optimized\n    variability_window = 4  # Optimized\n    \n    if not history_demand:\n        return 0\n    \n    # Short-term demand (recent average)\n    short_term = sum(history_demand[-variability_window:]) / min(variability_window, len(history_demand))\n    \n    # Long-term demand (full history average)\n    long_term = sum(history_demand) / len(history_demand)\n    \n    # Weighted forecast\n    forecast = short_term_weight * short_term + long_term_weight * long_term\n    \n    # Cost-sensitive safety stock\n    cost_ratio = lost_sales_cost / (holding_cost + lost_sales_cost)\n    safety_stock = forecast * cost_ratio * cost_sensitivity\n    \n    # Non-linear gap response\n    inventory_position = history_inventory[-1] if history_inventory else 0\n    order_gap = max(0, forecast + safety_stock - inventory_position)\n    order_amount = order_gap ** gap_exponent\n    \n    return order_amount",
+          "opt_params": {
+               "short_term_weight": 0.9,
+               "long_term_weight": 0.9,
+               "cost_sensitivity": 1.2811053597114537,
+               "gap_exponent": 0.8178652940776707,
+               "variability_window": 4
+          },
+          "objective": 2742.0181,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Adaptive forecasting combined with cost-sensitive safety stock adjustments and non-linear inventory gap responses",
+          "code": "def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):\n    decay_rate = 0.5344256526486836  # Optimized\n    base_multiplier = 2.656582697704839  # Optimized\n    gap_exponent = 0.7545898240341136  # Optimized\n    variability_weight = 0.7256410054999677  # Optimized\n    \n    if not history_demand:\n        return 0\n    \n    # Recursive weighted forecast with decay\n    forecast = history_demand[-1]\n    weight_sum = 1.0\n    for i in range(len(history_demand)-2, -1, -1):\n        weight = decay_rate ** (len(history_demand)-1 - i)\n        forecast += history_demand[i] * weight\n        weight_sum += weight\n    forecast /= weight_sum\n    \n    # Cost-sensitive scaling\n    cost_balance = lost_sales_cost / (holding_cost + lost_sales_cost + 1e-6)\n    scaled_multiplier = base_multiplier * (1 + cost_balance)\n    \n    # Variability-adjusted target\n    demand_std = max(history_demand) - min(history_demand) if len(history_demand) > 1 else 0\n    target = forecast * scaled_multiplier + demand_std * variability_weight\n    \n    # Exponential gap response\n    gap = target - history_inventory[-1]\n    order_amount = max(0, gap) ** gap_exponent if gap > 0 else 0\n    \n    return order_amount",
+          "opt_params": {
+               "decay_rate": 0.5344256526486836,
+               "base_multiplier": 2.656582697704839,
+               "gap_exponent": 0.7545898240341136,
+               "variability_weight": 0.7256410054999677
+          },
+          "objective": 2757.14664,
+          "other_inf": null
+     },
+     {
+          "algorithm": "This algorithm blends weighted historical demand extremes with a dynamic safety stock multiplier that reacts to cost pressures and demand volatility, using a smoothed demand forecast and adaptive inventory coverage ratio.",
+          "code": "def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):\n    demand_smoothing = 0.01  # Optimized\n    extreme_weight = 0.1  # Optimized\n    cost_power = 1.8  # Optimized\n    base_coverage = 1.0906856766824664  # Optimized\n    volatility_decay = 0.7  # Optimized\n    \n    if len(history_demand) == 0:\n        demand_forecast = 15  # Optimized\n    else:\n        avg_demand = sum(history_demand) / len(history_demand)\n        max_demand = max(history_demand)\n        blended_extreme = extreme_weight * max_demand + (1 - extreme_weight) * avg_demand\n        demand_forecast = demand_smoothing * history_demand[-1] + (1 - demand_smoothing) * blended_extreme\n    \n    cost_ratio = (lost_sales_cost / (holding_cost + 1e-6)) ** (1 / cost_power)\n    normalized_cost = 0.9085463439851624  # Optimized\n    \n    if len(history_demand) >= 2:\n        volatility = 1.0  # Optimized\n    else:\n        volatility = 0.5  # OPT_PARAM: {'initial': 0.5, 'min': 0.1, 'max': 1.0, 'type': 'float'}\n    \n    safety_multiplier = base_coverage * (1 + normalized_cost * volatility)\n    target_inventory = demand_forecast * safety_multiplier\n    order_amount = max(0, target_inventory - history_inventory[-1])\n    \n    return order_amount",
+          "opt_params": {
+               "demand_smoothing": 0.01,
+               "extreme_weight": 0.1,
+               "cost_power": 1.8,
+               "base_coverage": 1.0906856766824664,
+               "volatility_decay": 0.7,
+               "demand_forecast": 15,
+               "normalized_cost": 0.9085463439851624,
+               "volatility": 1.0
+          },
+          "objective": 2793.77348,
+          "other_inf": null
+     },
+     {
+          "algorithm": "This algorithm uses a moving average demand forecast with volatility adjustment, incorporates cost-sensitive safety stock, and applies a non-linear response to inventory gaps.",
+          "code": "def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):\n    window_size = 3  # Optimized\n    safety_factor = 3.0  # Optimized\n    response_power = 0.7401240334624253  # Optimized\n    cost_sensitivity = 1.0  # Optimized\n    \n    if len(history_demand) == 0:\n        return 0\n    \n    # Moving average forecast with volatility adjustment\n    if len(history_demand) >= window_size:\n        forecast = sum(history_demand[-window_size:]) / window_size\n        volatility = max(history_demand[-window_size:]) - min(history_demand[-window_size:])\n    else:\n        forecast = sum(history_demand) / len(history_demand)\n        volatility = 0\n    \n    # Cost-adjusted safety stock\n    cost_ratio = holding_cost / (holding_cost + lost_sales_cost)\n    adjusted_safety = safety_factor * forecast * (1 + cost_sensitivity * (1 - cost_ratio)) + volatility\n    \n    # Non-linear response to inventory gap\n    inventory_gap = adjusted_safety - history_inventory[-1]\n    if inventory_gap > 0:\n        order_amount = inventory_gap ** response_power\n    else:\n        order_amount = 0\n    \n    return order_amount",
+          "opt_params": {
+               "window_size": 3,
+               "safety_factor": 3.0,
+               "response_power": 0.7401240334624253,
+               "cost_sensitivity": 1.0
+          },
+          "objective": 2800.76027,
+          "other_inf": null
+     },
+     {
+          "algorithm": "This algorithm uses quantile-based demand forecasting with asymmetric cost-sensitive response, incorporating lead time anticipation through a dynamic safety buffer that reacts to both inventory position and recent lost sales trends.",
+          "code": "def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):\n    quantile_level = 0.75  # Optimized\n    response_slope = 1.181309876242946  # Optimized\n    lost_sales_react = 0.035690700043033825  # Optimized\n    base_buffer = 1.105697676408216  # Optimized\n    cost_power = 0.9930211051604845  # Optimized\n    \n    if not history_demand:\n        return 0\n    \n    # Quantile-based demand forecast\n    sorted_demand = sorted(history_demand)\n    idx = min(int(len(sorted_demand) * quantile_level), len(sorted_demand)-1)\n    forecast = sorted_demand[idx]\n    \n    # Asymmetric cost adjustment\n    cost_ratio = (lost_sales_cost / (holding_cost + lost_sales_cost)) ** cost_power\n    buffer_size = base_buffer * forecast * (1 + cost_ratio)\n    \n    # Lost sales reaction component\n    recent_lost = sum(history_lost[-2:]) if len(history_lost) >= 2 else 0\n    lost_adjustment = lost_sales_react * recent_lost\n    \n    # Current inventory position\n    current_inv = history_inventory[-1] if history_inventory else 0\n    \n    # Non-linear response calculation\n    gap = max(0, forecast + buffer_size + lost_adjustment - current_inv)\n    order_amount = gap ** (1/response_slope) if gap > 0 else 0\n    \n    return order_amount",
+          "opt_params": {
+               "quantile_level": 0.75,
+               "response_slope": 1.181309876242946,
+               "lost_sales_react": 0.035690700043033825,
+               "base_buffer": 1.105697676408216,
+               "cost_power": 0.9930211051604845
+          },
+          "objective": 2807.74325,
+          "other_inf": null
+     },
+     {
+          "algorithm": "This algorithm uses a momentum-based demand forecasting approach with asymmetric cost sensitivity, dynamically adjusting safety stock based on recent demand acceleration and cost ratios.",
+          "code": "def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):\n    if len(history_demand) < 4:\n        return 100  # OPT_PARAM: {'initial': 100, 'min': 50, 'max': 250, 'type': 'int'}\n    \n    momentum_window = 2  # Optimized\n    demand_sensitivity = 0.1  # Optimized\n    cost_asymmetry = 0.04946427613782288  # Optimized\n    safety_multiplier = 1.0793974757896145  # Optimized\n    \n    recent_demand = history_demand[-momentum_window:]\n    demand_momentum = (recent_demand[-1] - recent_demand[0]) / momentum_window\n    \n    base_forecast = sum(history_demand[-3:]) / 3\n    adjusted_forecast = base_forecast + (demand_momentum * demand_sensitivity)\n    \n    cost_ratio = lost_sales_cost / (holding_cost + 1e-6)\n    cost_factor = (cost_ratio ** cost_asymmetry) if cost_ratio > 1 else (1 - (1/cost_ratio) ** cost_asymmetry)\n    \n    target_inventory = adjusted_forecast * (1 + cost_factor * safety_multiplier)\n    current_inventory = history_inventory[-1]\n    order_amount = max(0, target_inventory - current_inventory)\n    \n    return order_amount",
+          "opt_params": {
+               "return 100  # OPT_PARAM: {'initial': 100, 'min': 50, 'max': 250, 'type': 'int'}": 100,
+               "momentum_window": 2,
+               "demand_sensitivity": 0.1,
+               "cost_asymmetry": 0.04946427613782288,
+               "safety_multiplier": 1.0793974757896145
+          },
+          "objective": 2808.81639,
+          "other_inf": null
+     },
+     {
+          "algorithm": "This algorithm combines exponential smoothing of demand extremes with cost-sensitive safety stock adjustments, using a non-linear scaling factor that responds to both historical volatility and recent inventory performance.",
+          "code": "def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):\n    alpha = 0.18656840682816245  # Optimized\n    safety_factor = 1.1737272093866291  # Optimized\n    cost_exponent = 0.7280435336625309  # Optimized\n    trend_weight = 0.13171300756624169  # Optimized\n    \n    if len(history_demand) == 0:\n        return 0\n    \n    # Blend max and average demand with exponential smoothing\n    avg_demand = sum(history_demand) / len(history_demand)\n    max_demand = max(history_demand)\n    blended_demand = alpha * max_demand + (1 - alpha) * avg_demand\n    \n    # Cost-sensitive safety stock scaling\n    cost_ratio = lost_sales_cost / (holding_cost + lost_sales_cost)\n    scaled_safety = safety_factor * blended_demand * (cost_ratio ** cost_exponent)\n    \n    # Trend adjustment from recent inventory changes\n    trend = 0\n    if len(history_inventory) >= 2:\n        trend = (history_inventory[-1] - history_inventory[-2]) * trend_weight\n    \n    order_amount = max(0, blended_demand + scaled_safety + trend - history_inventory[-1])\n    \n    return order_amount",
+          "opt_params": {
+               "alpha": 0.18656840682816245,
+               "safety_factor": 1.1737272093866291,
+               "cost_exponent": 0.7280435336625309,
+               "trend_weight": 0.13171300756624169
+          },
+          "objective": 2810.89095,
+          "other_inf": null
+     },
+     {
+          "algorithm": "This algorithm combines exponential smoothing of demand extremes with cost-sensitive safety stock scaling, using adaptive trend decay and non-linear cost ratios to dynamically adjust order quantities.",
+          "code": "def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):\n    alpha = 0.1860644666546719  # Optimized\n    beta = 0.85  # Optimized\n    cost_power = 1.3016804068721692  # Optimized\n    trend_decay = 0.13171414142522245  # Optimized\n    base_scale = 1.3031703660173763  # Optimized\n    \n    if len(history_demand) == 0:\n        return 0\n    \n    # Blend max/avg demand with exponential smoothing\n    avg_demand = sum(history_demand) / len(history_demand)\n    max_demand = max(history_demand)\n    blended_demand = alpha * max_demand + (1 - alpha) * avg_demand\n    \n    # Cost-sensitive safety stock scaling\n    cost_ratio = (lost_sales_cost / (holding_cost + lost_sales_cost)) ** cost_power\n    safety_stock = base_scale * blended_demand * cost_ratio\n    \n    # Adaptive trend from inventory changes\n    trend = 0\n    if len(history_inventory) >= 2:\n        trend = (history_inventory[-1] - history_inventory[-2]) * trend_decay\n    \n    order_amount = max(0, (blended_demand + safety_stock + trend) - history_inventory[-1])\n    \n    return order_amount",
+          "opt_params": {
+               "alpha": 0.1860644666546719,
+               "beta": 0.85,
+               "cost_power": 1.3016804068721692,
+               "trend_decay": 0.13171414142522245,
+               "base_scale": 1.3031703660173763
+          },
+          "objective": 2810.89366,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Using exponential smoothing for demand forecasting, adjusting safety stock based on cost ratios and demand variability, and dynamically responding to inventory gaps",
+          "code": "def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):\n    forecast_alpha = 0.21106230699785872  # Optimized\n    safety_multiplier = 3.0  # Optimized\n    gap_smoothing = 0.8199309005432445  # Optimized\n    variability_window = 3  # Optimized\n    \n    if not history_demand:\n        return 0\n    \n    # Exponential smoothing forecast\n    forecast = history_demand[0]\n    for d in history_demand[1:]:\n        forecast = forecast_alpha * d + (1 - forecast_alpha) * forecast\n    \n    # Cost-adjusted safety stock\n    cost_ratio = lost_sales_cost / (holding_cost + lost_sales_cost)\n    recent_demand = history_demand[-variability_window:] if len(history_demand) >= variability_window else history_demand\n    demand_variability = max(recent_demand) - min(recent_demand) if recent_demand else 0\n    safety_stock = safety_multiplier * forecast * cost_ratio + demand_variability\n    \n    # Smoothed gap response\n    inventory_position = history_inventory[-1] if history_inventory else 0\n    order_gap = max(0, forecast + safety_stock - inventory_position)\n    order_amount = order_gap ** gap_smoothing\n    \n    return order_amount",
+          "opt_params": {
+               "forecast_alpha": 0.21106230699785872,
+               "safety_multiplier": 3.0,
+               "gap_smoothing": 0.8199309005432445,
+               "variability_window": 3
+          },
+          "objective": 2814.23232,
+          "other_inf": null
+     },
+     {
+          "algorithm": "This algorithm blends demand extremes with exponential smoothing, scales safety stock non-linearly based on cost ratios, and uses adaptive decay for recent trends while maintaining stability through smooth adjustments.",
+          "code": "def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):\n    demand_blend = 0.1  # Optimized\n    cost_exponent = 0.30124074544768603  # Optimized\n    trend_decay = 0.5  # Optimized\n    min_buffer = 0.8448713812410359  # Optimized\n    \n    if not history_demand:\n        return max(1, int(min_buffer * 5))  # Fallback initial order\n    \n    current_inventory = history_inventory[-1] if history_inventory else 0\n    cost_ratio = (lost_sales_cost / (holding_cost + 1e-6)) ** cost_exponent\n    \n    # Blended demand estimate (max/avg with smoothing)\n    avg_demand = sum(history_demand) / len(history_demand)\n    max_demand = max(history_demand)\n    blended_demand = demand_blend * max_demand + (1 - demand_blend) * avg_demand\n    \n    # Trend-adjusted demand with decay\n    recent_demand = history_demand[-1] if len(history_demand) > 0 else avg_demand\n    trend_weight = trend_decay ** len(history_demand)\n    adjusted_demand = trend_weight * recent_demand + (1 - trend_weight) * blended_demand\n    \n    # Non-linear safety stock scaling\n    volatility = max(1, (max_demand - avg_demand) / (avg_demand + 1e-6))\n    safety_stock = min_buffer * adjusted_demand * (cost_ratio * volatility) ** 0.5\n    \n    target_level = adjusted_demand + safety_stock\n    order_amount = max(0, target_level - current_inventory)\n    \n    return order_amount",
+          "opt_params": {
+               "demand_blend": 0.1,
+               "cost_exponent": 0.30124074544768603,
+               "trend_decay": 0.5,
+               "min_buffer": 0.8448713812410359
+          },
+          "objective": 2820.15626,
+          "other_inf": null
+     },
+     {
+          "algorithm": "This algorithm uses demand pattern clustering with cost-aware reinforcement learning to dynamically adjust order quantities based on inventory position and historical lost sales patterns.",
+          "code": "def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):\n    cluster_threshold = 1.2  # Optimized\n    learning_rate = 0.2797006910496158  # Optimized\n    min_order = 3  # Optimized\n    base_boost = 1.9884871586920745  # Optimized\n    penalty_weight = 0.16503416999904938  # Optimized\n    \n    if not history_demand:\n        return min_order\n    \n    current_inventory = history_inventory[-1] if history_inventory else 0\n    avg_demand = sum(history_demand) / len(history_demand)\n    recent_demand = history_demand[-1] if len(history_demand) > 0 else 0\n    \n    demand_cluster = 1 if recent_demand > avg_demand * cluster_threshold else 0\n    cost_ratio = lost_sales_cost / (holding_cost + 1e-6)\n    \n    if demand_cluster:\n        target = (avg_demand * base_boost) + (recent_demand - avg_demand) * learning_rate\n    else:\n        target = avg_demand * (1 + learning_rate * (cost_ratio - 1))\n    \n    if history_lost and sum(history_lost) > 0:\n        lost_penalty = sum(history_lost[-3:]) / 3 * penalty_weight\n        target += lost_penalty\n    \n    order_amount = max(min_order, target - current_inventory)\n    \n    return order_amount",
+          "opt_params": {
+               "cluster_threshold": 1.2,
+               "learning_rate": 0.2797006910496158,
+               "min_order": 3,
+               "base_boost": 1.9884871586920745,
+               "penalty_weight": 0.16503416999904938
+          },
+          "objective": 2822.24869,
+          "other_inf": null
+     },
+     {
+          "algorithm": "This algorithm uses demand volatility-weighted forecasting with asymmetric cost penalties and inventory-dependent ordering thresholds to dynamically adjust order quantities.",
+          "code": "def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):\n    trend_sensitivity = 0.1  # Optimized\n    cost_power = 2.0060443816937363  # Optimized\n    volatility_scale = 0.7387133704264948  # Optimized\n    urgency_factor = 0.570315017507475  # Optimized\n    \n    if not history_demand:\n        return 0\n    \n    # Volatility-adjusted forecast blending recent and peak demand\n    avg_demand = sum(history_demand) / len(history_demand)\n    recent_demand = history_demand[-1]\n    peak_demand = max(history_demand)\n    forecast = (recent_demand * trend_sensitivity + avg_demand * (1 - trend_sensitivity)) * (1 + (peak_demand - avg_demand) / (avg_demand + 1e-6) * 0.5)\n    \n    # Asymmetric cost scaling\n    cost_ratio = (lost_sales_cost / (holding_cost + 1e-6)) ** (1 / cost_power)\n    safety_stock = forecast * volatility_scale * (1 + cost_ratio * 0.5)\n    \n    # Urgency-adjusted order threshold\n    gap = (forecast + safety_stock) - history_inventory[-1]\n    order_amount = max(0, gap * urgency_factor) if gap > 0 else 0\n    \n    return order_amount",
+          "opt_params": {
+               "trend_sensitivity": 0.1,
+               "cost_power": 2.0060443816937363,
+               "volatility_scale": 0.7387133704264948,
+               "urgency_factor": 0.570315017507475
+          },
+          "objective": 2829.34545,
+          "other_inf": null
+     },
+     {
+          "algorithm": "This algorithm combines quantile-based demand estimation with momentum-weighted cost sensitivity, using asymmetric response to inventory surpluses versus shortages and dynamic smoothing of extreme events.",
+          "code": "def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):\n    min_history = 4  # Optimized\n    quantile_high = 0.75  # Optimized\n    cost_sensitivity = 0.1  # Optimized\n    momentum_factor = 0.05  # Optimized\n    shortage_penalty = 1.0  # Optimized\n    surplus_discount = 0.5  # Optimized\n    \n    if len(history_demand) < min_history:\n        return sorted(history_demand)[-1] if history_demand else 50\n    \n    # Quantile-based demand estimation\n    sorted_demand = sorted(history_demand)\n    quantile_idx = min(int(len(sorted_demand) * quantile_high), len(sorted_demand)-1)\n    base_demand = sorted_demand[quantile_idx]\n    \n    # Momentum calculation (asymmetric for increases vs decreases)\n    recent_change = history_demand[-1] - history_demand[-2] if len(history_demand) > 1 else 0\n    momentum = momentum_factor * max(recent_change, 0) - (momentum_factor/2) * min(recent_change, 0)\n    \n    # Cost-sensitive buffer scaling\n    cost_ratio = lost_sales_cost / (holding_cost + 1e-6)\n    buffer = (cost_ratio ** cost_sensitivity) * base_demand\n    \n    # Inventory position adjustment (asymmetric response)\n    current_inv = history_inventory[-1]\n    inv_diff = base_demand - current_inv\n    if inv_diff > 0:\n        adjustment = inv_diff * shortage_penalty\n    else:\n        adjustment = inv_diff * surplus_discount\n    \n    target_inventory = base_demand + momentum + buffer + adjustment\n    order_amount = max(0, target_inventory - current_inv)\n    \n    return order_amount",
+          "opt_params": {
+               "min_history": 4,
+               "quantile_high": 0.75,
+               "cost_sensitivity": 0.1,
+               "momentum_factor": 0.05,
+               "shortage_penalty": 1.0,
+               "surplus_discount": 0.5
+          },
+          "objective": 2832.09103,
+          "other_inf": null
+     },
+     {
+          "algorithm": "This algorithm uses weighted demand forecasting with a momentum-based adjustment factor and dynamically scales safety stock using normalized cost ratios, incorporating lead time awareness through inventory position tracking.",
+          "code": "def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):\n    momentum_factor = 0.99  # Optimized\n    base_safety = 1.4544632860745785  # Optimized\n    cost_normalizer = 0.6845805990872081  # Optimized\n    trend_sensitivity = 0.16793733105252662  # Optimized\n    \n    if not history_demand:\n        forecast = 0\n        trend = 0\n    else:\n        weights = [momentum_factor ** i for i in range(len(history_demand))][::-1]\n        forecast = sum(w * d for w, d in zip(weights, history_demand)) / sum(weights)\n        if len(history_demand) > 1:\n            trend = trend_sensitivity * (history_demand[-1] - history_demand[-2])\n        else:\n            trend = 0\n    \n    normalized_cost = (lost_sales_cost - holding_cost) / (lost_sales_cost + holding_cost + 1e-6)\n    safety_multiplier = base_safety * (1 + abs(normalized_cost) * cost_normalizer)\n    \n    inventory_position = history_inventory[-1] + trend\n    target_level = max(0, forecast * safety_multiplier)\n    order_amount = max(0, target_level - inventory_position)\n    \n    return order_amount",
+          "opt_params": {
+               "momentum_factor": 0.99,
+               "base_safety": 1.4544632860745785,
+               "cost_normalizer": 0.6845805990872081,
+               "trend_sensitivity": 0.16793733105252662
+          },
+          "objective": 2842.77465,
+          "other_inf": null
+     },
+     {
+          "algorithm": "This algorithm uses a Markov decision process-inspired approach with demand state classification and dynamic policy adjustment based on cost ratios and inventory position.",
+          "code": "def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):\n    state_threshold = 0.35  # Optimized\n    base_multiplier = 1.3743428000159539  # Optimized\n    min_order = 2  # Optimized\n    decay_factor = 0.92  # Optimized\n    cost_ratio_power = 0.27015566957878945  # Optimized\n    \n    if not history_demand:\n        return min_order\n    \n    current_inventory = history_inventory[-1] if history_inventory else 0\n    cost_ratio = (lost_sales_cost / (holding_cost + 1e-6)) ** cost_ratio_power\n    \n    # Demand state classification\n    recent_demand = history_demand[-1] if len(history_demand) > 0 else 0\n    avg_demand = sum(history_demand) / len(history_demand)\n    demand_state = 1 if recent_demand > avg_demand * state_threshold else 0\n    \n    # Dynamic policy adjustment\n    if demand_state:\n        target_level = base_multiplier * avg_demand * cost_ratio\n    else:\n        target_level = base_multiplier * avg_demand * (cost_ratio ** decay_factor)\n    \n    order_amount = max(min_order, target_level - current_inventory)\n    \n    return order_amount",
+          "opt_params": {
+               "state_threshold": 0.35,
+               "base_multiplier": 1.3743428000159539,
+               "min_order": 2,
+               "decay_factor": 0.92,
+               "cost_ratio_power": 0.27015566957878945
+          },
+          "objective": 2845.18862,
+          "other_inf": null
+     },
+     {
+          "algorithm": "This algorithm uses exponential smoothing of demand with cost-ratio weighted safety stock, dynamically adjusting order quantities based on normalized cost pressures and recent demand trends.",
+          "code": "def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):\n    smoothing_factor = 0.1  # Optimized\n    cost_normalization = 0.5063412492746919  # Optimized\n    volatility_scale = 1.702270791020659  # Optimized\n    min_coverage = 1.1  # Optimized\n    \n    if len(history_demand) == 0:\n        demand_estimate = 20  # Optimized\n    else:\n        demand_estimate = history_demand[-1] * smoothing_factor + (1 - smoothing_factor) * (sum(history_demand)/len(history_demand) if len(history_demand) > 0 else 0)\n    \n    cost_ratio = lost_sales_cost / (holding_cost + lost_sales_cost + 1e-6)\n    normalized_cost = (cost_ratio - 0.5) * cost_normalization + 0.5\n    \n    if len(history_demand) >= 2:\n        demand_volatility = 1.0  # Optimized\n    else:\n        demand_volatility = 0.5  # OPT_PARAM: {'initial': 0.5, 'min': 0.1, 'max': 1.0, 'type': 'float'}\n    \n    safety_stock = demand_estimate * volatility_scale * demand_volatility * normalized_cost\n    target_inventory = max(demand_estimate * min_coverage, demand_estimate + safety_stock)\n    order_amount = max(0, target_inventory - history_inventory[-1])\n    \n    return order_amount",
+          "opt_params": {
+               "smoothing_factor": 0.1,
+               "cost_normalization": 0.5063412492746919,
+               "volatility_scale": 1.702270791020659,
+               "min_coverage": 1.1,
+               "demand_estimate": 20,
+               "demand_volatility": 1.0
+          },
+          "objective": 2848.48173,
+          "other_inf": null
+     },
+     {
+          "algorithm": "This algorithm uses a hybrid demand prediction model combining moving average and max recent demand, with a dynamic buffer system that reacts to both cost ratios and inventory velocity, incorporating a non-linear penalty function for stockout conditions.",
+          "code": "def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):\n    hybrid_weight = 0.9  # Optimized\n    buffer_base = 0.6193528929314384  # Optimized\n    cost_exponent = 1.4415582211353835  # Optimized\n    velocity_factor = 0.08923088381603099  # Optimized\n    penalty_scale = 0.5  # Optimized\n    \n    if not history_demand:\n        return 0\n    \n    # Hybrid demand prediction\n    moving_avg = sum(history_demand) / len(history_demand)\n    recent_max = max(history_demand[-3:]) if len(history_demand) >= 3 else max(history_demand)\n    demand_pred = hybrid_weight * moving_avg + (1 - hybrid_weight) * recent_max\n    \n    # Cost-sensitive buffer adjustment\n    cost_ratio = (lost_sales_cost / (holding_cost + lost_sales_cost)) ** cost_exponent\n    base_buffer = buffer_base * demand_pred * (1 + cost_ratio)\n    \n    # Inventory velocity component\n    if len(history_inventory) >= 2:\n        velocity = history_inventory[-1] - history_inventory[-2]\n        velocity_adj = velocity_factor * velocity\n    else:\n        velocity_adj = 0\n    \n    # Stockout penalty from recent lost sales\n    recent_lost = sum(history_lost[-2:]) if len(history_lost) >= 2 else 0\n    penalty = penalty_scale * (recent_lost ** 0.5)\n    \n    # Final order calculation\n    current_inv = history_inventory[-1] if history_inventory else 0\n    target = demand_pred + base_buffer + velocity_adj + penalty\n    order_amount = max(0, target - current_inv)\n    \n    return order_amount",
+          "opt_params": {
+               "hybrid_weight": 0.9,
+               "buffer_base": 0.6193528929314384,
+               "cost_exponent": 1.4415582211353835,
+               "velocity_factor": 0.08923088381603099,
+               "penalty_scale": 0.5
+          },
+          "objective": 2855.03269,
+          "other_inf": null
+     },
+     {
+          "algorithm": "This algorithm uses a cost-weighted demand percentile with dynamic inventory momentum, where ordering decisions are based on a convex combination of historical demand extremes and recent inventory trends, adjusted by the cost ratio.",
+          "code": "def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):\n    low_percentile = 0.25  # Optimized\n    high_percentile = 0.85  # Optimized\n    cost_weight = 1.1628730590472927  # Optimized\n    momentum_factor = 0.12139121165303177  # Optimized\n    \n    if not history_demand:\n        return 0\n    \n    # Calculate cost-adjusted percentile blend\n    cost_ratio = lost_sales_cost / (holding_cost + lost_sales_cost + 1e-6)\n    target_percentile = low_percentile + (high_percentile - low_percentile) * cost_ratio\n    \n    # Get percentile-based demand estimate\n    sorted_demand = sorted(history_demand)\n    idx = min(len(sorted_demand)-1, int(len(sorted_demand) * target_percentile))\n    demand_estimate = sorted_demand[idx]\n    \n    # Calculate inventory momentum (trend)\n    if len(history_inventory) >= 2:\n        momentum = history_inventory[-1] - history_inventory[-2]\n    else:\n        momentum = 0\n    \n    # Compute order amount with cost-weighted adjustment\n    current_inventory = history_inventory[-1] if history_inventory else 0\n    base_order = max(0, demand_estimate * (1 + cost_weight * cost_ratio) - current_inventory)\n    order_amount = base_order + momentum_factor * momentum\n    \n    return order_amount",
+          "opt_params": {
+               "low_percentile": 0.25,
+               "high_percentile": 0.85,
+               "cost_weight": 1.1628730590472927,
+               "momentum_factor": 0.12139121165303177
+          },
+          "objective": 2859.52732,
+          "other_inf": null
+     },
+     {
+          "algorithm": "This algorithm uses quantile-based demand forecasting with dynamic cost-aware buffer zones and probabilistic stockout avoidance, incorporating lead time through distribution-aware ordering.",
+          "code": "def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):\n    quantile_level = 0.75  # Optimized\n    buffer_scale = 0.8724541765689325  # Optimized\n    min_order = 2  # Optimized\n    cost_sensitivity = 0.33516569458132295  # Optimized\n    decay_factor = 0.99  # Optimized\n    \n    if not history_demand:\n        return min_order\n    \n    # Quantile-based demand estimation\n    sorted_demand = sorted(history_demand)\n    quantile_idx = min(len(sorted_demand)-1, int(quantile_level * len(sorted_demand)))\n    quantile_demand = sorted_demand[quantile_idx]\n    \n    # Recent demand decay weighting\n    weighted_demand = 0\n    total_weight = 0\n    for i, d in enumerate(reversed(history_demand)):\n        weight = decay_factor ** i\n        weighted_demand += d * weight\n        total_weight += weight\n    recent_demand = weighted_demand / total_weight\n    \n    # Combined forecast\n    forecast = (quantile_demand + recent_demand) / 2\n    \n    # Cost-aware buffer zone\n    cost_ratio = lost_sales_cost / (holding_cost + 1e-6)\n    buffer_size = buffer_scale * forecast * (1 + cost_sensitivity * (cost_ratio - 1))\n    \n    # Current inventory adjustment\n    current_inventory = history_inventory[-1] if history_inventory else 0\n    order_amount = max(min_order, buffer_size - current_inventory)\n    \n    return order_amount",
+          "opt_params": {
+               "quantile_level": 0.75,
+               "buffer_scale": 0.8724541765689325,
+               "min_order": 2,
+               "cost_sensitivity": 0.33516569458132295,
+               "decay_factor": 0.99
+          },
+          "objective": 2861.76299,
+          "other_inf": null
+     },
+     {
+          "algorithm": "This algorithm blends weighted demand extremes with cost-sensitive safety stock, using a dynamic decay factor that adapts to recent demand volatility and lost sales patterns.",
+          "code": "def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):\n    extreme_weight = 0.10549369733360545  # Optimized\n    decay_base = 0.85  # Optimized\n    cost_power = 1.7170614933325656  # Optimized\n    buffer_multiplier = 1.476873994586829  # Optimized\n    \n    if len(history_demand) == 0:\n        demand_estimate = 15  # Optimized\n    else:\n        avg_demand = sum(history_demand) / len(history_demand)\n        max_demand = max(history_demand)\n        demand_estimate = extreme_weight * max_demand + (1 - extreme_weight) * avg_demand\n    \n    if len(history_demand) >= 3:\n        recent_volatility = (max(history_demand[-3:]) - min(history_demand[-3:])) / avg_demand\n        decay_factor = 0.9941163975168795  # Optimized\n    else:\n        decay_factor = 1.0\n    \n    cost_ratio = (lost_sales_cost / (holding_cost + lost_sales_cost + 1e-6)) ** cost_power\n    safety_stock = demand_estimate * buffer_multiplier * cost_ratio * decay_factor\n    \n    target_inventory = demand_estimate + safety_stock\n    order_amount = max(0, target_inventory - history_inventory[-1])\n    \n    return order_amount",
+          "opt_params": {
+               "extreme_weight": 0.10549369733360545,
+               "decay_base": 0.85,
+               "cost_power": 1.7170614933325656,
+               "buffer_multiplier": 1.476873994586829,
+               "demand_estimate": 15,
+               "decay_factor": 0.9941163975168795
+          },
+          "objective": 2864.03455,
+          "other_inf": null
+     },
+     {
+          "algorithm": "This algorithm combines quantile-based demand forecasting with a non-linear cost-sensitive safety stock adjustment, using exponential smoothing of recent demand volatility and lost sales patterns to dynamically adapt ordering decisions.",
+          "code": "def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):\n    quantile_weight = 0.75  # Optimized\n    smooth_factor = 0.07828693995596753  # Optimized\n    cost_exponent = 1.4214027796026956  # Optimized\n    base_buffer = 1.4159607546039192  # Optimized\n    recent_window = 4  # Optimized\n    \n    if len(history_demand) == 0:\n        demand_estimate = 10  # Optimized\n    else:\n        sorted_demand = sorted(history_demand)\n        quantile_idx = int(quantile_weight * len(sorted_demand))\n        quantile_demand = sorted_demand[min(quantile_idx, len(sorted_demand)-1)]\n        avg_demand = sum(history_demand) / len(history_demand)\n        demand_estimate = smooth_factor * quantile_demand + (1 - smooth_factor) * avg_demand\n    \n    if len(history_demand) >= recent_window:\n        recent_demand = history_demand[-recent_window:]\n        volatility = (max(recent_demand) - min(recent_demand)) / (avg_demand + 1e-6)\n        decay_factor = 1.017088287427646  # Optimized\n    else:\n        decay_factor = 1.0\n    \n    cost_ratio = (lost_sales_cost / (holding_cost + lost_sales_cost + 1e-6)) ** cost_exponent\n    safety_stock = demand_estimate * base_buffer * cost_ratio * decay_factor\n    \n    target_inventory = demand_estimate + safety_stock\n    order_amount = max(0, target_inventory - history_inventory[-1])\n    \n    return order_amount",
+          "opt_params": {
+               "quantile_weight": 0.75,
+               "smooth_factor": 0.07828693995596753,
+               "cost_exponent": 1.4214027796026956,
+               "base_buffer": 1.4159607546039192,
+               "recent_window": 4,
+               "demand_estimate": 10,
+               "decay_factor": 1.017088287427646
+          },
+          "objective": 2868.70899,
+          "other_inf": null
+     },
+     {
+          "algorithm": "This algorithm uses demand volatility-adjusted forecasting with asymmetric cost balancing, dynamically adjusting order quantities based on recent demand variability and cost ratio.",
+          "code": "def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):\n    volatility_weight = 0.013635050894520787  # Optimized\n    cost_asymmetry = 0.6357480436786234  # Optimized\n    base_factor = 1.2205806499602276  # Optimized\n    recent_window = 3  # Optimized\n    \n    if len(history_demand) == 0:\n        return 0\n    \n    avg_demand = sum(history_demand) / len(history_demand)\n    recent_demands = history_demand[-recent_window:] if len(history_demand) >= recent_window else history_demand\n    demand_volatility = (max(recent_demands) - min(recent_demands)) / (avg_demand + 1e-6)\n    \n    cost_ratio = lost_sales_cost / (holding_cost + 1e-6)\n    adjusted_ratio = (cost_ratio ** cost_asymmetry) / (1 + cost_ratio ** cost_asymmetry)\n    \n    volatility_adjusted = avg_demand * (1 + volatility_weight * demand_volatility)\n    target_level = base_factor * volatility_adjusted * (1 + adjusted_ratio)\n    order_amount = max(0, target_level - history_inventory[-1])\n    \n    return order_amount",
+          "opt_params": {
+               "volatility_weight": 0.013635050894520787,
+               "cost_asymmetry": 0.6357480436786234,
+               "base_factor": 1.2205806499602276,
+               "recent_window": 3
+          },
+          "objective": 2868.8068,
+          "other_inf": null
+     },
+     {
+          "algorithm": "This algorithm uses quantile-based demand forecasting with momentum-driven adjustments, dynamically balancing inventory costs through a probabilistic threshold approach that reacts to both historical patterns and recent inventory performance.",
+          "code": "def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):\n    quantile_level = 0.75  # Optimized\n    momentum_factor = 0.1527188278650916  # Optimized\n    cost_sensitivity = 0.8983510951216064  # Optimized\n    base_multiplier = 1.1180621238146418  # Optimized\n    \n    if len(history_demand) == 0:\n        return 0\n    \n    # Quantile-based demand estimation\n    sorted_demand = sorted(history_demand)\n    quantile_idx = min(int(len(sorted_demand) * quantile_level), len(sorted_demand)-1)\n    quantile_demand = sorted_demand[quantile_idx]\n    \n    # Momentum adjustment from recent inventory performance\n    recent_trend = 0\n    if len(history_inventory) >= 2:\n        recent_trend = (history_inventory[-1] - history_inventory[-2]) * momentum_factor\n    \n    # Cost-aware probabilistic threshold\n    cost_ratio = (lost_sales_cost * cost_sensitivity) / (holding_cost + lost_sales_cost)\n    threshold = base_multiplier * quantile_demand * (1 + cost_ratio) + recent_trend\n    \n    order_amount = max(0, threshold - history_inventory[-1])\n    \n    return order_amount",
+          "opt_params": {
+               "quantile_level": 0.75,
+               "momentum_factor": 0.1527188278650916,
+               "cost_sensitivity": 0.8983510951216064,
+               "base_multiplier": 1.1180621238146418
+          },
+          "objective": 2868.8673,
+          "other_inf": null
+     },
+     {
+          "algorithm": "This algorithm blends exponential smoothing with volatility-adjusted safety stocks, using cost-ratio weighted demand extremes and adaptive trend responsiveness to determine orders.",
+          "code": "def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):\n    smooth_factor = 0.3  # Optimized\n    extreme_weight = 0.1  # Optimized\n    vol_adjustment = 0.503941344781515  # Optimized\n    cost_power = 0.49879451800485475  # Optimized\n    min_buffer = 0.8820809209222326  # Optimized\n    \n    if not history_demand:\n        return int(min_buffer)\n    \n    # Exponential smoothing baseline\n    smooth_demand = history_demand[-1] if len(history_demand) == 1 else 0\n    for i in range(len(history_demand)-1):\n        smooth_demand = smooth_factor * history_demand[i] + (1 - smooth_factor) * smooth_demand\n    \n    # Blend with demand extremes\n    max_demand = max(history_demand)\n    avg_demand = sum(history_demand) / len(history_demand)\n    blended_demand = extreme_weight * max_demand + (1 - extreme_weight) * avg_demand\n    \n    # Volatility adjustment\n    demand_std = (sum((d - avg_demand)**2 for d in history_demand) / len(history_demand))**0.5\n    volatility_factor = 1 + (demand_std / (avg_demand + 1e-6)) * vol_adjustment\n    \n    # Cost-sensitive scaling\n    cost_ratio = lost_sales_cost / (holding_cost + 1e-6)\n    safety_stock = blended_demand * volatility_factor * (cost_ratio**cost_power) * min_buffer\n    \n    # Current inventory adjustment\n    current_inventory = history_inventory[-1] if history_inventory else 0\n    order_amount = max(0, safety_stock - current_inventory)\n    \n    return order_amount",
+          "opt_params": {
+               "smooth_factor": 0.3,
+               "extreme_weight": 0.1,
+               "vol_adjustment": 0.503941344781515,
+               "cost_power": 0.49879451800485475,
+               "min_buffer": 0.8820809209222326
+          },
+          "objective": 2868.99331,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Use exponential smoothing for demand forecasting, adjust safety stock based on cost ratios, and respond non-linearly to inventory gaps while simplifying volatility handling with demand variability.",
+          "code": "def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):\n    smooth_factor = 0.21215333643687018  # Optimized\n    cost_weight = 1.4388618322591307  # Optimized\n    gap_exponent = 0.9370910776245447  # Optimized\n    base_multiplier = 0.5199800438844595  # Optimized\n    \n    if len(history_demand) == 0:\n        return 0\n    \n    # Demand smoothing with exponential decay\n    forecast = history_demand[-1]\n    for d in reversed(history_demand[:-1]):\n        forecast = smooth_factor * d + (1 - smooth_factor) * forecast\n    \n    # Cost-sensitive scaling\n    cost_ratio = lost_sales_cost / (holding_cost + lost_sales_cost)\n    scaled_forecast = forecast * (1 + cost_weight * cost_ratio)\n    \n    # Variability adjustment\n    demand_range = max(history_demand) - min(history_demand) if len(history_demand) > 1 else 0\n    adjusted_forecast = scaled_forecast + base_multiplier * demand_range\n    \n    # Non-linear gap response\n    inventory_gap = adjusted_forecast - history_inventory[-1]\n    order_amount = max(0, inventory_gap) ** gap_exponent\n    \n    return order_amount",
+          "opt_params": {
+               "smooth_factor": 0.21215333643687018,
+               "cost_weight": 1.4388618322591307,
+               "gap_exponent": 0.9370910776245447,
+               "base_multiplier": 0.5199800438844595
+          },
+          "objective": 2869.07161,
+          "other_inf": null
+     }
+]

@@ -1,0 +1,11 @@
+Here are refined, actionable hints for designing better inventory heuristics:
+
+1. **Blend short/long-term demand** (hybrid forecasting with decay-weighted trends)  
+2. **Scale safety stock non-linearly** (power-law cost ratio adjustments)  
+3. **Adapt to volatility dynamically** (window-limited demand variability)  
+4. **Smooth responses exponentially** (avoid overreacting to gaps)  
+5. **Prioritize simplicity**—fewer tuned parameters often outperform complex logic  
+
+*Key themes:* Cost-awareness, adaptability, and robustness through elegant design.  
+
+(48 words)
