@@ -231,8 +231,20 @@ class InterfaceEC():
         # Round the objective values
         return p, offspring
 
-    def update_long_term(self, iteration):
-        self.evol.long_term_reflection(iteration)
+    def update_long_term_reevo(self, iteration):
+        self.evol.long_term_reflection_reevo(iteration)
+
+    def mimic_best_sample(self, population, iteration):
+        self.evol.mimic_best_sample(population, iteration)
+
+    def correct_worst_sample(self, population, iteration):
+        self.evol.correct_worst_sample(population, iteration)
+
+    def hybrid(self, population, iteration):
+        self.evol.hybrid(population, iteration)
+
+    def multi_comparative_reflection(self, population, iteration):
+        self.evol.multi_comparative_reflection(population, iteration)
 
 
     def get_algorithm(self, pop, operator):

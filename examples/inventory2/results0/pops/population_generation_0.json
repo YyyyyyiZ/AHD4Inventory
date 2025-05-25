@@ -2,19 +2,19 @@
      {
           "algorithm": "The algorithm implements Base Stock Policy where the inventory level is always brought back to a fixed target level 'base_stock' at the beginning of each period.",
           "code": "def compute_order_amount(current_inventory, pipeline_inventory, history_demand, holding_cost, lost_sales_cost, lead_time):\n    base_stock = 20\n    order_amount = max(0, base_stock - current_inventory)\n    return order_amount",
-          "objective": null,
+          "objective": 34428.4,
           "other_inf": null
      },
      {
           "algorithm": "The algorithm implements Constant Order Policy by ordering a fixed quantity at regular intervals 't', regardless of the current inventory level.",
           "code": "def compute_order_amount(current_inventory, pipeline_inventory, history_demand, holding_cost, lost_sales_cost, lead_time):\n    t = len(history_demand)-1\n    interval = 2\n    if t%interval:\n        order_amount = 0\n    else:\n        order_amount = 100\n    return order_amount",
-          "objective": null,
+          "objective": 16182.04,
           "other_inf": null
      },
      {
           "algorithm": "The algorithm implements Capped Base Stock Policy, where the order quantity is limited by a cap (maximum order size). If the inventory position is below the base stock level,  an order is placed to bring it back up to 'base_stock'. However, the order quantity cannot exceed a predefined cap 'order_cap'.",
           "code": "def compute_order_amount(current_inventory, pipeline_inventory, history_demand, holding_cost, lost_sales_cost, lead_time):\n    base_stock = 70\n    order_cap = 30\n    order_amount = min(base_stock - current_inventory, order_cap)\n    return order_amount\n",
-          "objective": null,
+          "objective": 24928.4,
           "other_inf": null
      }
 ]

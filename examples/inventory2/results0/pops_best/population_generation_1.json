@@ -1,0 +1,7 @@
+{
+     "algorithm": "The new algorithm uses a reinforcement learning-inspired approach where order amounts are adjusted based on the gradient of past inventory performance, with momentum to smooth adjustments and avoid overreaction to demand spikes.",
+     "code": "import numpy as np\n\ndef compute_order_amount(current_inventory, pipeline_inventory, history_demand, holding_cost, lost_sales_cost, lead_time):\n    if len(history_demand) < 2:\n        return max(0, np.mean(history_demand) * (lead_time + 1) - current_inventory)\n    \n    momentum_factor = 0.2\n    learning_rate = 0.1\n    cost_ratio = lost_sales_cost / (holding_cost + lost_sales_cost)\n    \n    recent_demand = history_demand[-min(5, len(history_demand)):]\n    demand_mean = np.mean(recent_demand)\n    demand_std = np.std(recent_demand)\n    \n    past_errors = []\n    for i in range(1, len(history_demand)):\n        error = history_demand[i] - history_demand[i-1]\n        past_errors.append(error)\n    \n    gradient = np.mean(past_errors) if past_errors else 0\n    momentum = momentum_factor * gradient\n    \n    safety_stock = (demand_mean + demand_std * cost_ratio) * np.sqrt(lead_time)\n    target_inventory = demand_mean * lead_time + safety_stock + momentum\n    \n    incoming_orders = sum(pipeline_inventory)\n    order_amount = max(0, target_inventory - current_inventory - incoming_orders)\n    \n    return order_amount",
+     "opt_params": {},
+     "objective": 3085.654,
+     "other_inf": null
+}

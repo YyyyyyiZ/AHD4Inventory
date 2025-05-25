@@ -1,0 +1,11 @@
+
+
+First, you need to identify the main components in the function below.
+Next, analyze whether any of these components can be overfit to the in-distribution instances.
+Then, based on your analysis, simplify the components to enhance the generalization to potential out-of-distribution instances.
+Finally, provide the revised code, keeping the function name, inputs, and outputs unchanged.
+{algo_code}
+{prompt_inout_inf}
+Do not give additional explanations.
+
+{reflection_content}

@@ -9,8 +9,8 @@ def extract(folder_name: Optional[str] = None) -> None:
     Args:
         folder_name: Optional specific folder to process. If None, processes all pop_best folders.
     """
-    output_file = "evaluation/final_res/code_extracted_eoh_opt_re.txt"
-    option = 'pops_best'
+    output_file = "evaluation/code_extracted.txt"
+    option = 'pops_0525'
 
     if folder_name:
         # Process specific folder

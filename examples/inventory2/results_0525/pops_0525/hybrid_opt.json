@@ -1,0 +1,14 @@
+{
+     "algorithm": "The new algorithm implements a dual-window demand forecasting approach with asymmetric cost weighting, dynamic spike detection, and smoothed trend responses to optimize inventory orders under lead time constraints.",
+     "code": "def compute_order_amount(current_inventory, pipeline_inventory, history_demand, holding_cost, lost_sales_cost, lead_time):\n    short_window = 3  # Optimized\n    long_window = 10  # Optimized\n    spike_threshold = 1.8  # Optimized\n    cost_asymmetry = 0.5503858263073976  # Optimized\n    trend_smoothing = 0.1  # Optimized\n    min_order = 50.0  # Optimized\n    \n    if not history_demand:\n        forecast = 0\n        volatility = 0\n    else:\n        short_avg = sum(history_demand[-short_window:]) / short_window if len(history_demand) >= short_window else sum(history_demand) / len(history_demand)\n        long_avg = sum(history_demand[-long_window:]) / long_window if len(history_demand) >= long_window else sum(history_demand) / len(history_demand)\n        \n        volatility = max(short_avg, long_avg) - min(short_avg, long_avg)\n        forecast = (short_avg * 0.7 + long_avg * 0.3)  # Fixed blend\n        \n        last_demand = history_demand[-1]\n        is_spike = last_demand > spike_threshold * long_avg\n        if is_spike:\n            forecast = forecast * (1 + cost_asymmetry * (lost_sales_cost / (holding_cost + 1e-6)))\n        \n        trend = (short_avg - long_avg) / (long_window - short_window + 1e-6)\n        forecast = forecast + trend_smoothing * trend\n    \n    cost_weight = (lost_sales_cost / (holding_cost + 1e-6))**cost_asymmetry\n    safety_stock = cost_weight * volatility * (lead_time**0.5)\n    net_cover = current_inventory + sum(pipeline_inventory)\n    target = forecast * (lead_time + 1) + safety_stock\n    order_amount = max(min_order, target - net_cover)\n    \n    return order_amount",
+     "opt_params": {
+          "short_window": 3,
+          "long_window": 10,
+          "spike_threshold": 1.8,
+          "cost_asymmetry": 0.5503858263073976,
+          "trend_smoothing": 0.1,
+          "min_order": 50.0
+     },
+     "objective": 2577.42802,
+     "other_inf": null
+}

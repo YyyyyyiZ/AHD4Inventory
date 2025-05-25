@@ -6,21 +6,25 @@ class Paras():
         #####################
         self.method = 'eoh'
         self.problem = 'inventory'
-        self.create_initial = False
+        self.selection = None
+        self.management = None
+
+        #####################
+        ### Self defined  ###
+        #####################
         self.demand = 80
         self.volatility = 'low'
         self.reflect = False
-        self.external_optimizer=False
-        self.selection = None
-        self.management = None
+        self.external_optimizer = False
+        self.exp_create_initial = False
 
 
 
         #####################
         ###  EC settings  ###
         #####################
-        self.ec_pop_size = 30  # number of algorithms in each population, default = 10
-        self.ec_n_pop = 10 # number of populations, default = 10
+        self.ec_pop_size = 10  # number of algorithms in each population, default = 10
+        self.ec_n_pop = 2 # number of populations, default = 10
         self.ec_operators = None # evolution operators: ['e1','e2','m1','m2'], default =  ['e1','e2','m1','m2']
         self.ec_m = 2  # number of parents for 'e1' and 'e2' operators, default = 2
         self.ec_operator_weights = None  # weights for operators, i.e., the probability of use the operator in each iteration, default = [1,1,1,1]
@@ -38,12 +42,12 @@ class Paras():
         ###  Exp settings  ###
         #####################
         self.exp_debug_mode = False  # if debug
-        self.exp_output_path = "./"  # default folder for ael outputs
+        self.exp_output_path = "./results0"
         self.exp_use_seed = False
         self.exp_seed_path = "./seeds/seeds.json"
-        self.exp_use_continue = False
+        self.exp_use_continue = True
         self.exp_continue_id = 0
-        self.exp_continue_path = "./results/pops/population_generation_0.json"
+        self.exp_continue_path = "results/pops/initial_pool.json"
         self.exp_n_proc = 1
         
         #####################
@@ -76,7 +80,8 @@ class Paras():
         
         if self.ec_operators == None:
             if self.method == 'eoh':
-                self.ec_operators  = ['e1','e2','m1','m2']
+                # self.ec_operators  = ['e1','e2','m1','m2']
+                self.ec_operators = ['e1', 'e2', 'm2']
             elif self.method == 'ael':
                 self.ec_operators  = ['crossover','mutation']
             elif self.method == 'ls':
@@ -103,6 +108,8 @@ class Paras():
         elif self.problem == 'tsp_construct':
             self.eva_timeout = 20
         elif self.problem == 'inventory':
+            self.eva_timeout = 60
+        elif self.problem == 'inventory2':
             self.eva_timeout = 60
 
                 

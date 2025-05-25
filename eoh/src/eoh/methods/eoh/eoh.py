@@ -57,10 +57,9 @@ class EOH:
 
         self.use_numba = paras.eva_numba_decorator
 
-        self.create_initial = paras.create_initial
+        self.create_initial = paras.exp_create_initial
         self.demand = paras.demand
         self.volatility = paras.volatility
-
         self.reflect = paras.reflect
         self.external_optimizer=paras.external_optimizer
 
@@ -104,13 +103,15 @@ class EOH:
             with open(self.seed_path) as file:
                 data = json.load(file)
             population = interface_ec.population_generation_seed(data,self.exp_n_proc)
-            filename = self.output_path + "/results/pops/population_generation_0.json"
+            filename = f"{self.output_path}/pops/population_generation_0.json"
             with open(filename, 'w') as f:
                 json.dump(population, f, indent=5)
             n_start = 0
         else:
             if self.load_pop:  # load population from files
                 print("1. Load initial population from " + self.load_pop_path)
+                import os
+                print(os.getcwd())
                 with open(self.load_pop_path) as file:
                     data = json.load(file)
                 for individual in data:
@@ -131,7 +132,7 @@ class EOH:
                     print(" Obj: ", off['objective'], end="|")
                 print()
                 # Save population to a file
-                filename = self.output_path + "/results/pops/population_generation_0.json"
+                filename = f"{self.output_path}/pops/population_generation_0.json"
                 with open(filename, 'w') as f:
                     json.dump(population, f, indent=5)
 
@@ -156,7 +157,7 @@ class EOH:
                 for off in population:
                     print(" Obj: ", off['objective'], end="|")
                 # Save population to a file
-                filename = self.output_path + "/results/pops/population_generation_0.json"
+                filename = f"{self.output_path}/pops/population_generation_0.json"
                 with open(filename, 'w') as f:
                     json.dump(population, f, indent=5)
                 n_start = 0
@@ -165,6 +166,7 @@ class EOH:
         n_op = len(self.operators)
 
         for pop in range(n_start, self.n_pop):
+            offspring_pop = []
             for i in range(n_op):
                 op = self.operators[i]
                 print(f" OP: {op}, [{i + 1} / {n_op}] ", end="|") 
@@ -172,22 +174,35 @@ class EOH:
                 if (np.random.rand() < op_w):
                     parents, offsprings = interface_ec.get_algorithm(population, op)
                 self.add2pop(population, offsprings)  # Check duplication, and add the new offspring
+                self.add2pop(offspring_pop, offsprings)
                 for off in offsprings:
                     print(" Obj: ", off['objective'], end="|")
                 size_act = min(len(population), self.pop_size)
                 population = self.manage.population_management(population, size_act)
+                offspring_pop = self.manage.population_management(offspring_pop, size_act)
                 print()
-            if self.reflect:
-                interface_ec.update_long_term(iteration=pop)
+            # if self.reflect:  # reevo style reflection
+            #     interface_ec.update_long_term_reevo(iteration=pop)
+            if self.reflect == 'mimic_best_sample':
+                interface_ec.mimic_best_sample(offspring_pop, iteration=pop)
+            elif self.reflect == 'correct_worst_sample':
+                interface_ec.correct_worst_sample(offspring_pop, iteration=pop)
+            elif self.reflect == 'hybrid':
+                interface_ec.hybrid(offspring_pop, iteration=pop)
+            elif self.reflect == 'multi_comparative_reflection':
+                interface_ec.multi_comparative_reflection(offspring_pop, iteration=pop)
+            else:
+                pass    # No reflection
 
 
             # Save population to a file
-            filename = self.output_path + "/results/pops/population_generation_" + str(pop + 1) + ".json"
+            filename = f"{self.output_path}/pops/population_generation_" + str(pop + 1) + ".json"
+            # filename = self.output_path + "/results/pops/population_generation_" + str(pop + 1) + ".json"
             with open(filename, 'w') as f:
                 json.dump(population, f, indent=5)
 
             # Save the best one to a file
-            filename = self.output_path + "/results/pops_best/population_generation_" + str(pop + 1) + ".json"
+            filename = f"{self.output_path}/pops_best/population_generation_" + str(pop + 1) + ".json"
             with open(filename, 'w') as f:
                 json.dump(population[0], f, indent=5)
 

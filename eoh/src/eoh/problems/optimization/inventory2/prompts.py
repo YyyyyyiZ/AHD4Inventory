@@ -4,26 +4,18 @@ class GetPrompts():
         Design a novel inventory management algorithm for a system with lost sales and lead time.
         Given historical demand data, pipeline inventory (orders in transit), and cost parameters, 
         compute the optimal order amount each period to minimize total costs (holding + lost sales).
-
-        Key Requirements:
-        1. **Innovative Approach**: Must differ from classical methods.
-        2. **Pipeline Awareness**: Explicitly account for pipeline inventory as a queue:
-           - `pipeline_inventory` is a FIFO queue of length `lead_time`, where:
-             - `pipeline_inventory[0]`: Order placed `lead_time` periods ago (arriving next).
-             - `pipeline_inventory[-1]`: Order placed 1 period ago (arriving in `lead_time` periods).
-        3. **Demand History**: `history_demand` is a list of all observed demand values up to the current period.
-        4. **Dynamic Adaptation**: Adjust ordering based on pipeline visibility and demand trends.
+        Must differ from classical methods.
         """
         self.prompt_func_name = "compute_order_amount"
         self.prompt_func_inputs = [
             "current_inventory",
-            "pipeline_inventory",  # Queue of orders in transit (length = lead_time)
-            "history_demand",  # List of all past demand realizations
-            "holding_cost",  # Cost per unit held per period
-            "lost_sales_cost",  # Cost per unit of unmet demand
-            "lead_time"  # Fixed delivery delay (in periods)
+            "pipeline_inventory",
+            "history_demand",
+            "holding_cost",
+            "lost_sales_cost",
+            "lead_time"
         ]
-        self.prompt_func_outputs = ["order_amount"]  # Non-negative order quantity
+        self.prompt_func_outputs = ["order_amount"]
 
         self.prompt_inout_inf = """
         Inputs:
@@ -39,9 +31,9 @@ class GetPrompts():
         """
 
         self.prompt_other_inf = """
-        Constraints:
-        1. Assume demand is stochastic but bounded; no backlogging (lost sales if stockout).
-        2. Orders arrive after `lead_time` periods (FIFO pipeline).
+        `pipeline_inventory` is a FIFO queue of length `lead_time`, where:
+             - `pipeline_inventory[0]`: Order placed `lead_time` periods ago (arriving next).
+             - `pipeline_inventory[-1]`: Order placed 1 period ago (arriving in `lead_time` periods).
         """
 
     def get_task(self):

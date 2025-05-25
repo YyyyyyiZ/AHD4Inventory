@@ -36,6 +36,7 @@ class Evolution():
         self.api_key = api_key
         self.model_LLM = model_LLM
         self.debug_mode = debug_mode # close prompt checking
+        self.init_base_prompt()
 
 
         self.interface_llm = InterfaceLLM(self.api_endpoint, self.api_key, self.model_LLM,llm_use_local,llm_local_url, self.debug_mode)
@@ -43,19 +44,45 @@ class Evolution():
         if self.reflect:
             self.short_term_reflection_str = ""
             self.long_term_reflection_str = ""
-            self.init_reevo_prompt()
+            # self.init_reevo_prompt()
         self.external_optimizer = external_optimizer
 
 
-    def get_prompt_i1(self):
+    def init_base_prompt(self):
+        self.current_dir = os.path.dirname(os.path.abspath(__file__))
+        self.file_path = os.path.join(self.current_dir, 'reflection')
+
+        self.prompt_i1 = file_to_string(f'{self.file_path}/common/prompt_i1.txt')
+        self.prompt_e1 = file_to_string(f'{self.file_path}/common/prompt_e1.txt')
+        self.prompt_e2 = file_to_string(f'{self.file_path}/common/prompt_e2.txt')
+        self.prompt_m1 = file_to_string(f'{self.file_path}/common/prompt_m1.txt')
+        self.prompt_m2 = file_to_string(f'{self.file_path}/common/prompt_m2.txt')
+        self.prompt_m3 = file_to_string(f'{self.file_path}/common/prompt_m3.txt')
+
+        self.prompt_mimic_best_sample = file_to_string(f'{self.file_path}/common/mimic_best_sample.txt')
+        self.prompt_correct_worst_sample = file_to_string(f'{self.file_path}/common/correct_worst_sample.txt')
+        self.prompt_hybrid = file_to_string(f'{self.file_path}/common/hybrid.txt')
+        self.prompt_multi_comparative_reflection = file_to_string(f'{self.file_path}/common/multi_comparative_reflection.txt')
+
+    def external_optimizer_prompt(self):
+        prompt_content = "Finally, Mark optimizable parameters in the code with `# OPT_PARAM: ` comments, like this:" \
+                          + "\n" + "base_stock = 50  # OPT_PARAM: {'initial': 50, 'min': 10, 'max': 200, 'type': 'int'}" \
+                          + "\n" + "Follow these requirements: 1. comments should follow the parameter in the same line." \
+                          + "\n" + "2. Only mark parameters that are assigned within the code body (not function inputs)" \
+                          + "\n" + "3. Only mark continuous parameters assigned with an equals sign (`=`)"
+        return prompt_content
         
-        prompt_content = self.prompt_task+"\n"\
-"First, describe your new algorithm and main steps in one sentence. \
-The description must be inside a brace. Next, implement it in Python as a function named \
-"+self.prompt_func_name +". This function should accept "+str(len(self.prompt_func_inputs))+" input(s): "\
-+self.joined_inputs+". The function should return "+str(len(self.prompt_func_outputs))+" output(s): "\
-+self.joined_outputs+". "+self.prompt_inout_inf+" "\
-+self.prompt_other_inf+"\n"+"Do not give additional explanations."
+    def get_prompt_i1(self):
+        prompt_content = self.prompt_i1.format(
+            prompt_task=self.prompt_task,
+            prompt_func_name = self.prompt_func_name,
+            prompt_func_num_inputs=str(len(self.prompt_func_inputs)),
+            prompt_func_inputs = self.joined_inputs,
+            prompt_func_num_outputs=str(len(self.prompt_func_outputs)),
+            prompt_func_outputs=self.joined_outputs,
+            prompt_inout_inf=self.prompt_inout_inf,
+            prompt_other_inf=self.prompt_other_inf
+        )
         return prompt_content
 
         
@@ -64,26 +91,22 @@ The description must be inside a brace. Next, implement it in Python as a functi
         for i in range(len(indivs)):
             prompt_indiv=prompt_indiv+"No."+str(i+1) +" algorithm and the corresponding code are: \n" + indivs[i]['algorithm']+"\n" +indivs[i]['code']+"\n"
 
-        prompt_content = self.prompt_task+"\n"\
-"I have "+str(len(indivs))+" existing algorithms with their codes as follows: \n"\
-+prompt_indiv+\
-"Please help me create a new algorithm that has a totally different form from the given ones. \n"\
-"First, describe your new algorithm and main steps in one sentence. \
-The description must be inside a DOUBLE curly braces like this:{{This is the algorithm description that will be extracted}}. Next, implement it in Python as a function named \
-"+self.prompt_func_name +". This function should accept "+str(len(self.prompt_func_inputs))+" input(s): "\
-+self.joined_inputs+". The function should return "+str(len(self.prompt_func_outputs))+" output(s): "\
-+self.joined_outputs+". "+self.prompt_inout_inf+" "\
-+self.prompt_other_inf
-        if self.external_optimizer:
-            prompt_content += "\n" + "Finally, Mark optimizable parameters in the code with `# OPT_PARAM: ` comments, like this:" \
-                              + "\n" + "base_stock = 50  # OPT_PARAM: {'initial': 50, 'min': 10, 'max': 200, 'type': 'int'}" \
-                              + "\n" + "Follow these requirements: 1. comments should follow the parameter in the same line." \
-                              + "\n" + "2. Only mark parameters that are assigned within the code body (not function inputs)" \
-                              + "\n" + "3. Only mark continuous parameters assigned with an equals sign (`=`)"
-        prompt_content += "\n"+"Do not give additional explanations."
-        if self.reflect:
-            temp = self.short_term_reflection_prompt(indivs)
-            prompt_content += "\n" + temp
+        prompt_content = self.prompt_e1.format(
+            prompt_task=self.prompt_task,
+            num_indivs = str(len(indivs)),
+            code_indivs = prompt_indiv,
+            prompt_func_name=self.prompt_func_name,
+            prompt_func_num_inputs=str(len(self.prompt_func_inputs)),
+            prompt_func_inputs=self.joined_inputs,
+            prompt_func_num_outputs=str(len(self.prompt_func_outputs)),
+            prompt_func_outputs=self.joined_outputs,
+            prompt_inout_inf=self.prompt_inout_inf,
+            prompt_other_inf=self.prompt_other_inf,
+            external_optimizer=self.external_optimizer_prompt() if self.external_optimizer else '',
+            reflection_content=self.short_term_reflection_str if self.reflect else '',
+            # reflection_content=self.short_term_reflection_prompt(indivs) if self.reflect else '',
+        )
+
         return prompt_content
     
     def get_prompt_e2(self,indivs):
@@ -91,84 +114,65 @@ The description must be inside a DOUBLE curly braces like this:{{This is the alg
         for i in range(len(indivs)):
             prompt_indiv=prompt_indiv+"No."+str(i+1) +" algorithm and the corresponding code are: \n" + indivs[i]['algorithm']+"\n" +indivs[i]['code']+"\n"
 
-        prompt_content = self.prompt_task+"\n"\
-"I have "+str(len(indivs))+" existing algorithms with their codes as follows: \n"\
-+prompt_indiv+\
-"Please help me create a new algorithm that has a totally different form from the given ones but can be motivated from them. \n"\
-"Firstly, identify the common backbone idea in the provided algorithms. Secondly, based on the backbone idea describe your new algorithm in one sentence. \
-The description must be inside a DOUBLE curly braces like this:{{This is the algorithm description that will be extracted}}. Thirdly, implement it in Python as a function named \
-"+self.prompt_func_name +". This function should accept "+str(len(self.prompt_func_inputs))+" input(s): "\
-+self.joined_inputs+". The function should return "+str(len(self.prompt_func_outputs))+" output(s): "\
-+self.joined_outputs+". "+self.prompt_inout_inf+" "\
-+self.prompt_other_inf
-        if self.external_optimizer:
-            prompt_content += "\n" + "Finally, Mark optimizable parameters in the code with `# OPT_PARAM: ` comments, like this:" \
-                              + "\n" + "base_stock = 50  # OPT_PARAM: {'initial': 50, 'min': 10, 'max': 200, 'type': 'int'}" \
-                              + "\n" + "Follow these requirements: 1. comments should follow the parameter in the same line." \
-                              + "\n" + "2. Only mark parameters that are assigned within the code body (not function inputs)" \
-                              + "\n" + "3. Only mark continuous parameters assigned with an equals sign (`=`)"
-        prompt_content += "\n"+"Do not give additional explanations."
-        if self.reflect:
-            temp = self.short_term_reflection_prompt(indivs)
-            prompt_content += "\n" + temp
+        prompt_content = self.prompt_e2.format(
+            prompt_task=self.prompt_task,
+            num_indivs=str(len(indivs)),
+            code_indivs=prompt_indiv,
+            prompt_func_name=self.prompt_func_name,
+            prompt_func_num_inputs=str(len(self.prompt_func_inputs)),
+            prompt_func_inputs=self.joined_inputs,
+            prompt_func_num_outputs=str(len(self.prompt_func_outputs)),
+            prompt_func_outputs=self.joined_outputs,
+            prompt_inout_inf=self.prompt_inout_inf,
+            prompt_other_inf=self.prompt_other_inf,
+            external_optimizer=self.external_optimizer_prompt() if self.external_optimizer else '',
+            reflection_content=self.short_term_reflection_str if self.reflect else '',
+            # reflection_content=self.short_term_reflection_prompt(indivs) if self.reflect else '',
+        )
         return prompt_content
     
     def get_prompt_m1(self,indiv1):
-        prompt_content = self.prompt_task+"\n"\
-"I have one algorithm with its code as follows. \
-Algorithm description: "+indiv1['algorithm']+"\n\
-Code:\n\
-"+indiv1['code']+"\n\
-Please assist me in creating a new algorithm that has a different form but can be a modified version of the algorithm provided. \n"\
-"First, describe your new algorithm and main steps in one sentence. \
-The description must be inside a DOUBLE curly braces like this:{{This is the algorithm description that will be extracted}}. Next, implement it in Python as a function named \
-"+self.prompt_func_name +". This function should accept "+str(len(self.prompt_func_inputs))+" input(s): "\
-+self.joined_inputs+". The function should return "+str(len(self.prompt_func_outputs))+" output(s): "\
-+self.joined_outputs+". "+self.prompt_inout_inf+" "\
-+self.prompt_other_inf
-        if self.external_optimizer:
-            prompt_content += "\n" + "Finally, Mark optimizable parameters in the code with `# OPT_PARAM: ` comments, like this:" \
-                              + "\n" + "base_stock = 50  # OPT_PARAM: {'initial': 50, 'min': 10, 'max': 200, 'type': 'int'}" \
-                              + "\n" + "Follow these requirements: 1. comments should follow the parameter in the same line." \
-                              + "\n" + "2. Only mark parameters that are assigned within the code body (not function inputs)" \
-                              + "\n" + "3. Only mark continuous parameters assigned with an equals sign (`=`)"
-        prompt_content += "\n"+"Do not give additional explanations."
-        if self.reflect:
-            prompt_content += "\n" + self.long_term_reflection_str
+        prompt_content = self.prompt_m1.format(
+            prompt_task=self.prompt_task,
+            algo_decsr=indiv1['algorithm'],
+            algo_code=indiv1['code'],
+            prompt_func_name=self.prompt_func_name,
+            prompt_func_num_inputs=str(len(self.prompt_func_inputs)),
+            prompt_func_inputs=self.joined_inputs,
+            prompt_func_num_outputs=str(len(self.prompt_func_outputs)),
+            prompt_func_outputs=self.joined_outputs,
+            prompt_inout_inf=self.prompt_inout_inf,
+            prompt_other_inf=self.prompt_other_inf,
+            external_optimizer=self.external_optimizer_prompt() if self.external_optimizer else '',
+            reflection_content=self.short_term_reflection_str if self.reflect else '',
+            # reflection_content=self.long_term_reflection_str if self.reflect else '',
+        )
         return prompt_content
     
     def get_prompt_m2(self,indiv1):
-        prompt_content = self.prompt_task+"\n"\
-"I have one algorithm with its code as follows. \
-Algorithm description: "+indiv1['algorithm']+"\n\
-Code:\n\
-"+indiv1['code']+"\n\
-Please identify the main algorithm parameters and assist me in creating a new algorithm that has a different parameter settings of the score function provided. \n"\
-"First, describe your new algorithm and main steps in one sentence. \
-The description must be inside a DOUBLE curly braces like this:{{This is the algorithm description that will be extracted}}. Next, implement it in Python as a function named \
-"+self.prompt_func_name +". This function should accept "+str(len(self.prompt_func_inputs))+" input(s): "\
-+self.joined_inputs+". The function should return "+str(len(self.prompt_func_outputs))+" output(s): "\
-+self.joined_outputs+". "+self.prompt_inout_inf+" "\
-+self.prompt_other_inf
-        if self.external_optimizer:
-            prompt_content += "\n" + "Finally, Mark optimizable parameters in the code with `# OPT_PARAM: ` comments, like this:" \
-                              + "\n" + "base_stock = 50  # OPT_PARAM: {'initial': 50, 'min': 10, 'max': 200, 'type': 'int'}" \
-                              + "\n" + "Follow these requirements: 1. comments should follow the parameter in the same line." \
-                              + "\n" + "2. Only mark parameters that are assigned within the code body (not function inputs)" \
-                              + "\n" + "3. Only mark continuous parameters assigned with an equals sign (`=`)"
-        prompt_content += "\n"+"Do not give additional explanations."
-        if self.reflect:
-            prompt_content += "\n" + self.long_term_reflection_str
+        prompt_content = self.prompt_m1.format(
+            prompt_task=self.prompt_task,
+            algo_descr=indiv1['algorithm'],
+            algo_code=indiv1['code'],
+            prompt_func_name=self.prompt_func_name,
+            prompt_func_num_inputs=str(len(self.prompt_func_inputs)),
+            prompt_func_inputs=self.joined_inputs,
+            prompt_func_num_outputs=str(len(self.prompt_func_outputs)),
+            prompt_func_outputs=self.joined_outputs,
+            prompt_inout_inf=self.prompt_inout_inf,
+            prompt_other_inf=self.prompt_other_inf,
+            external_optimizer=self.external_optimizer_prompt() if self.external_optimizer else '',
+            reflection_content=self.short_term_reflection_str if self.reflect else '',
+            # reflection_content=self.long_term_reflection_str if self.reflect else '',
+        )
         return prompt_content
     
     def get_prompt_m3(self,indiv1):
-        prompt_content = "First, you need to identify the main components in the function below. \
-Next, analyze whether any of these components can be overfit to the in-distribution instances. \
-Then, based on your analysis, simplify the components to enhance the generalization to potential out-of-distribution instances. \
-Finally, provide the revised code, keeping the function name, inputs, and outputs unchanged. \n"+indiv1['code']+"\n"\
-+self.prompt_inout_inf+"\n"+"Do not give additional explanations."
-        if self.reflect:
-            prompt_content += self.long_term_reflection_str
+        prompt_content = self.prompt_m3.format(
+            algo_code=indiv1['code'],
+            prompt_inout_inf=self.prompt_inout_inf,
+            reflection_content=self.long_term_reflection_str if self.reflect else '',
+        )
         return prompt_content
 
 
@@ -227,7 +231,6 @@ Finally, provide the revised code, keeping the function name, inputs, and output
                         param_str = param_str.replace("'", '"')
                         param_config = json.loads(param_str)
                         optim_params[param_name] = param_config
-                
             if n_retry > 3:
                 break
             n_retry +=1
@@ -360,26 +363,92 @@ Finally, provide the revised code, keeping the function name, inputs, and output
 
         return [code_all, algorithm]
 
+    def mimic_best_sample(self, population, iteration):
+        best_ind = population[0]
+
+        best_code = filter_code(best_ind["code"])
+
+        user = self.prompt_mimic_best_sample.format(
+            prompt_task=self.prompt_task,
+            best_code=best_code
+        )
+        short_term_reflection = self._get_reflection(user)
+        file_name = f"{self.file_path}/content/reflection_{iteration}.txt"
+        with open(file_name, 'a') as file:
+            file.writelines(short_term_reflection + '\n')
+        self.short_term_reflection_str = short_term_reflection
+
+    def correct_worst_sample(self, population, iteration):
+        worst_ind = population[-1]
+        worst_code = filter_code(worst_ind["code"])
+
+        user = self.prompt_correct_worst_sample.format(
+            prompt_task=self.prompt_task,
+            worst_code=worst_code
+        )
+        short_term_reflection = self._get_reflection(user)
+        file_name = f"{self.file_path}/content/reflection_{iteration}.txt"
+        with open(file_name, 'a') as file:
+            file.writelines(short_term_reflection + '\n')
+        self.short_term_reflection_str = short_term_reflection
+
+    def hybrid(self, population, iteration):
+        best_ind, worst_ind = population[0], population[-1]
+
+        worst_code = filter_code(worst_ind["code"])
+        best_code = filter_code(best_ind["code"])
+
+        user = self.prompt_hybrid.format(
+            prompt_task=self.prompt_task,
+            worst_code=worst_code,
+            best_code=best_code
+        )
+        short_term_reflection = self._get_reflection(user)
+        file_name = f"{self.file_path}/content/reflection_{iteration}.txt"
+        with open(file_name, 'a') as file:
+            file.writelines(short_term_reflection + '\n')
+        self.short_term_reflection_str = short_term_reflection
+
+    def multi_comparative_reflection(self, population, iteration, K1=5, K2=5):
+        worst_group = population[-K1:]  # Take last K1 elements (worst performers)
+        best_group = population[:K2]  # Take first K2 elements (best performers)
+
+        # Prepare code sections for the prompt
+        worst_sections = []
+        for i, ind in enumerate(worst_group, 1):
+            rank = "Worst" if i == 1 else f"{ordinal(i)} Worst"  # "Worst", "Second Worst", etc.
+            worst_sections.append(f"[{rank}]\n{filter_code(ind['code'])}\n")
+
+        best_sections = []
+        for i, ind in enumerate(best_group, 1):
+            rank = "Best" if i == 1 else f"{ordinal(i)} Best"  # "Best", "Second Best", etc.
+            best_sections.append(f"[{rank}]\n{filter_code(ind['code'])}\n")
+
+        user = self.prompt_multi_comparative_reflection.format(
+            prompt_task=self.prompt_task,
+            worst="".join(worst_sections),
+            best="".join(best_sections)
+        )
+
+        short_term_reflection = self._get_reflection(user)
+        file_name = f"{self.file_path}/content/reflection_{iteration}.txt"
+        with open(file_name, 'a') as file:
+            file.writelines(short_term_reflection + '\n')
+        self.short_term_reflection_str = short_term_reflection
+
+
     def init_reevo_prompt(self):
-
         problem_prompt_path = 'inventory'
-        current_dir = os.path.dirname(os.path.abspath(__file__))
-        self.file_path = os.path.join(current_dir, 'reflection')
-
-
         self.problem_desc = file_to_string(f'{self.file_path}/{problem_prompt_path}/problem_desc.txt')
         self.seed_func = file_to_string(f'{self.file_path}/{problem_prompt_path}/seed_func.txt')
         self.func_name = file_to_string(f'{self.file_path}/{problem_prompt_path}/func_name.txt')
         self.func_signature = file_to_string(f'{self.file_path}/{problem_prompt_path}/func_signature.txt')
         self.func_desc = file_to_string(f'{self.file_path}/{problem_prompt_path}/func_desc.txt')
 
-        # Common prompts
-        self.system_reflector_prompt = file_to_string(f'{self.file_path}/common/system_reflector.txt')
         self.user_reflector_st_prompt = file_to_string(f'{self.file_path}/common/user_reflector_st.txt')
         self.user_reflector_lt_prompt = file_to_string(f'{self.file_path}/common/user_reflector_lt.txt')
 
-
-    def short_term_reflection_prompt(self, indivs):
+    def short_term_reflection_prompt_reevo(self, indivs):
         ind1, ind2 = indivs[0], indivs[1]
         # if ind1["objective"] == ind2["objective"]:
         #     raise ValueError("Two individuals to crossover have the same objective value!")
@@ -408,14 +477,13 @@ Finally, provide the revised code, keeping the function name, inputs, and output
 
         return short_term_reflection
 
-    def long_term_reflection(self, iteration):
+    def long_term_reflection_reevo(self, iteration):
         """
         Long-term reflection before mutation.
         """
         file_name = f"{self.file_path}/content/temp_short_term_reflection.txt"
         with open(file_name, 'r') as file:
             self.short_term_reflection_str = file.read()
-
         with open(file_name, 'w') as file:
             pass
         system = self.system_reflector_prompt

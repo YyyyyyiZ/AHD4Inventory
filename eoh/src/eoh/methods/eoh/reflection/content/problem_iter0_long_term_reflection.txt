@@ -1,9 +1,0 @@
-Here are concise, actionable hints for improving inventory ordering heuristics:
-
-1. **Dynamic base stock**: Adjust target inventory using smoothed demand forecasts and cost-aware safety stock.  
-2. **Cost-ratio scaling**: Normalize holding/lost-sales costs (0-1) to balance stockout vs. overstock risks.  
-3. **Exponential smoothing**: Weight recent demand more heavily for responsive yet stable forecasts.  
-4. **Adaptive safety stock**: Scale buffer via cost ratio × demand variability.  
-5. **Simplify logic**: Avoid hard thresholds; let cost dynamics guide orders naturally.  
-
-(49 words)

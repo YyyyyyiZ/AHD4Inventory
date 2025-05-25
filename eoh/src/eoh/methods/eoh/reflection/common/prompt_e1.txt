@@ -1,0 +1,21 @@
+
+{prompt_task}
+
+I have {num_indivs} existing algorithms with their codes as follows:
+
+{code_indivs}
+
+Please help me create a new algorithm that has a totally different form from the given ones.
+First, describe your new algorithm and main steps in one sentence.
+The description must be inside a DOUBLE curly braces like this:{{This is the algorithm description that will be extracted}}.
+Next, implement it in Python as a function named as a function named {prompt_func_name}.
+This function should accept {prompt_func_num_inputs} input(s): {prompt_func_inputs}.
+The function should return  {prompt_func_num_outputs} input(s): {prompt_func_num_outputs}.
+{prompt_inout_inf}.
+{prompt_other_inf}.
+{external_optimizer}
+Do not give additional explanations.
+
+{reflection_content}
+
+

@@ -29,7 +29,6 @@ src/eoh/methods/eoh/reflection/utils.py
 src/eoh/methods/eoh/reflection/common/system_reflector.txt
 src/eoh/methods/eoh/reflection/common/user_reflector_lt.txt
 src/eoh/methods/eoh/reflection/common/user_reflector_st.txt
-src/eoh/methods/eoh/reflection/inventory/external_knowledge.txt
 src/eoh/methods/eoh/reflection/inventory/func_desc.txt
 src/eoh/methods/eoh/reflection/inventory/func_name.txt
 src/eoh/methods/eoh/reflection/inventory/func_signature.txt
@@ -59,6 +58,9 @@ src/eoh/problems/optimization/bp_online/run.py
 src/eoh/problems/optimization/inventory/__init__.py
 src/eoh/problems/optimization/inventory/prompts.py
 src/eoh/problems/optimization/inventory/run.py
+src/eoh/problems/optimization/inventory2/__init__.py
+src/eoh/problems/optimization/inventory2/prompts.py
+src/eoh/problems/optimization/inventory2/run.py
 src/eoh/problems/optimization/tsp_greedy/__init__.py
 src/eoh/problems/optimization/tsp_greedy/get_instance.py
 src/eoh/problems/optimization/tsp_greedy/prompts.py

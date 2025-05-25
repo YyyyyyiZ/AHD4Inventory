@@ -20,7 +20,11 @@ import inspect
 #     else:
 #         client = hydra.utils.instantiate(cfg.llm_client)
 #     return client
-    
+
+
+def ordinal(n):
+    """Convert number to ordinal (1 -> '1st', 2 -> '2nd', etc.)"""
+    return "%d%s" % (n, "tsnrhtdd"[(n // 10 % 10 != 1) * (n % 10 < 4) * n % 10::4])
 
 def file_to_string(filename):
     with open(filename, 'r') as file:

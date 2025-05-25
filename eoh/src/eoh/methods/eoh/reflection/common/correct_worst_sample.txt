@@ -1,0 +1,7 @@
+Below is a function for the following task: {prompt_task}
+You are provided with the worst-performed version below.
+
+[Worst code]
+{worst_code}
+
+You respond with some hints for correcting bad heuristics, based on the worst code and using less than 20 words.

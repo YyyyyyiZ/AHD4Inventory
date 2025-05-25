@@ -1,0 +1,211 @@
+[
+     {
+          "algorithm": "This algorithm dynamically adjusts the base stock level based on demand volatility and pipeline inventory, using exponential smoothing for demand forecasting and a safety stock multiplier to account for variability.",
+          "code": "def compute_order_amount(current_inventory, pipeline_inventory, history_demand, holding_cost, lost_sales_cost, lead_time):\n    if len(history_demand) < 2:\n        base_stock = 160  # Default if insufficient data\n    else:\n        alpha = 0.2  # Smoothing factor\n        forecast = history_demand[-1] * alpha + (1 - alpha) * sum(history_demand[:-1]) / (len(history_demand) - 1)\n        demand_std = max(5, (sum((d - sum(history_demand)/len(history_demand))**2 for d in history_demand) / len(history_demand))**0.5)\n        safety_stock = 1.5 * demand_std * (lead_time**0.5)\n        base_stock = forecast * (lead_time + 1) + safety_stock\n    \n    pipeline_sum = sum(pipeline_inventory)\n    order_amount = max(0, base_stock - current_inventory - pipeline_sum)\n    return order_amount",
+          "opt_params": {},
+          "objective": 2031.37433,
+          "other_inf": null
+     },
+     {
+          "algorithm": "The algorithm implements Base Stock Policy where the inventory level is always brought back to a fixed target level 'base_stock' at the beginning of each period.",
+          "code": "def compute_order_amount(current_inventory, pipeline_inventory, history_demand, holding_cost, lost_sales_cost, lead_time):\n    base_stock = 160\n    order_amount = max(0, base_stock - current_inventory)\n    return order_amount",
+          "objective": 2103.44,
+          "other_inf": null
+     },
+     {
+          "algorithm": "This algorithm uses a moving average for demand forecasting with adaptive safety stock based on demand variability and cost ratio, while dynamically adjusting for pipeline inventory and lead time.",
+          "code": "def compute_order_amount(current_inventory, pipeline_inventory, history_demand, holding_cost, lost_sales_cost, lead_time):\n    if len(history_demand) < 1:\n        base_stock = 160  # Default if no data\n    else:\n        window = min(5, len(history_demand))\n        moving_avg = sum(history_demand[-window:]) / window\n        demand_std = (sum((d - moving_avg)**2 for d in history_demand[-window:]) / window)**0.5 if window > 1 else 0\n        cost_ratio = lost_sales_cost / (holding_cost + lost_sales_cost)\n        safety_stock = demand_std * (lead_time**0.5) * (1 + cost_ratio)\n        base_stock = moving_avg * (lead_time + 1) + safety_stock\n    \n    pipeline_sum = sum(pipeline_inventory)\n    order_amount = max(0, base_stock - current_inventory - pipeline_sum)\n    return order_amount",
+          "opt_params": {},
+          "objective": 2301.43553,
+          "other_inf": null
+     },
+     {
+          "algorithm": "This algorithm uses a moving average for demand forecasting with dynamic safety stock adjustment based on recent demand volatility and a cost-ratio-driven base stock level to balance holding and lost sales costs.",
+          "code": "def compute_order_amount(current_inventory, pipeline_inventory, history_demand, holding_cost, lost_sales_cost, lead_time):\n    if len(history_demand) < 1:\n        moving_avg = 100  # Default if no data\n    else:\n        window = min(5, len(history_demand))\n        moving_avg = sum(history_demand[-window:]) / window\n    \n    if len(history_demand) >= 2:\n        recent_demand = history_demand[-min(3, len(history_demand)):]\n        demand_volatility = max((max(recent_demand) - min(recent_demand)) / 2, 5)\n    else:\n        demand_volatility = 10\n    \n    cost_ratio = lost_sales_cost / (holding_cost + 1e-6)\n    safety_factor = min(2.0, 0.5 + 0.1 * cost_ratio)\n    safety_stock = safety_factor * demand_volatility * (lead_time**0.5)\n    \n    base_stock = moving_avg * (lead_time + 1) + safety_stock\n    pipeline_sum = sum(pipeline_inventory)\n    order_amount = max(0, base_stock - current_inventory - pipeline_sum)\n    return order_amount",
+          "opt_params": {},
+          "objective": 2328.34136,
+          "other_inf": null
+     },
+     {
+          "algorithm": "This algorithm implements a dynamic safety stock policy that adjusts order amounts based on demand variability, pipeline inventory visibility, and cost trade-offs between holding and lost sales.",
+          "code": "def compute_order_amount(current_inventory, pipeline_inventory, history_demand, holding_cost, lost_sales_cost, lead_time):\n    if len(history_demand) < 2:\n        return max(0, 100 - current_inventory - sum(pipeline_inventory))\n    \n    avg_demand = sum(history_demand) / len(history_demand)\n    std_dev = (sum((d - avg_demand)**2 for d in history_demand) / len(history_demand))**0.5\n    safety_stock = std_dev * (lead_time**0.5) * (lost_sales_cost / (holding_cost + lost_sales_cost))\n    \n    incoming_inventory = sum(pipeline_inventory)\n    projected_inventory = current_inventory + incoming_inventory - avg_demand\n    order_amount = max(0, avg_demand + safety_stock - projected_inventory)\n    \n    return order_amount",
+          "opt_params": {},
+          "objective": 2460.52729,
+          "other_inf": null
+     },
+     {
+          "algorithm": "This algorithm uses a probabilistic demand forecasting model with pipeline-aware inventory optimization, where order amounts are determined by a weighted combination of expected demand, pipeline risk, and cost-sensitive buffer stock.",
+          "code": "import numpy as np\n\ndef compute_order_amount(current_inventory, pipeline_inventory, history_demand, holding_cost, lost_sales_cost, lead_time):\n    if not history_demand:\n        return max(0, 100 - current_inventory - sum(pipeline_inventory))\n    \n    demand_mean = np.mean(history_demand)\n    demand_std = np.std(history_demand)\n    cost_ratio = lost_sales_cost / (holding_cost + lost_sales_cost)\n    \n    forecast_window = lead_time + 1\n    expected_demand = demand_mean * forecast_window\n    buffer_stock = cost_ratio * demand_std * np.sqrt(forecast_window)\n    \n    pipeline_risk = max(0, sum(pipeline_inventory) - lead_time * demand_mean)\n    net_buffer = max(0, buffer_stock - pipeline_risk)\n    \n    target_level = expected_demand + net_buffer\n    order_amount = max(0, target_level - current_inventory - sum(pipeline_inventory))\n    \n    return order_amount",
+          "opt_params": {},
+          "objective": 2511.33661,
+          "other_inf": null
+     },
+     {
+          "algorithm": "```",
+          "code": "import numpy as np\nfrom scipy.stats import poisson\n\ndef compute_order_amount(current_inventory, pipeline_inventory, history_demand, holding_cost, lost_sales_cost, lead_time):\n    if not history_demand:\n        return max(0, 100 - current_inventory - sum(pipeline_inventory))\n    \n    # Demand modeling as Poisson process\n    lambda_ = np.mean(history_demand)\n    \n    # Dynamic reorder point based on quantile of demand during lead time + 1\n    quantile = lost_sales_cost / (holding_cost + lost_sales_cost)\n    reorder_point = poisson.ppf(quantile, lambda_ * (lead_time + 1))\n    \n    # Order up to reorder point, adjusted for pipeline\n    pipeline_total = sum(pipeline_inventory)\n    order_amount = max(0, reorder_point - current_inventory - pipeline_total)\n    \n    return order_amount",
+          "opt_params": {},
+          "objective": 2520.4,
+          "other_inf": null
+     },
+     {
+          "algorithm": "This algorithm dynamically adjusts safety stock based on demand volatility and incorporates a cost-aware reorder point that balances holding and lost sales costs, while explicitly accounting for pipeline inventory.",
+          "code": "import numpy as np\n\ndef compute_order_amount(current_inventory, pipeline_inventory, history_demand, holding_cost, lost_sales_cost, lead_time):\n    if not history_demand:\n        return max(0, 100 - current_inventory - sum(pipeline_inventory))\n    \n    demand_mean = np.mean(history_demand)\n    demand_std = np.std(history_demand)\n    cv = demand_std / demand_mean if demand_mean > 0 else 0\n    cost_ratio = lost_sales_cost / (holding_cost + lost_sales_cost)\n    safety_factor = np.sqrt(lead_time + 1) * (1 + cv) * cost_ratio\n    safety_stock = safety_factor * demand_std\n    reorder_point = demand_mean * lead_time + safety_stock\n    net_inventory = current_inventory + sum(pipeline_inventory)\n    order_amount = max(0, reorder_point - net_inventory + demand_mean)\n    \n    return order_amount",
+          "opt_params": {},
+          "objective": 2521.3062,
+          "other_inf": null
+     },
+     {
+          "algorithm": "```",
+          "code": "import numpy as np\nfrom scipy.stats import norm\n\ndef compute_order_amount(current_inventory, pipeline_inventory, history_demand, holding_cost, lost_sales_cost, lead_time):\n    if not history_demand:\n        return max(0, 100 - current_inventory - sum(pipeline_inventory))\n    \n    # Demand modeling as Normal distribution\n    mu = np.mean(history_demand)\n    sigma = np.std(history_demand)\n    \n    # Dynamic safety stock based on service level\n    service_level = lost_sales_cost / (holding_cost + lost_sales_cost)\n    z_score = norm.ppf(service_level)\n    safety_stock = z_score * sigma * np.sqrt(lead_time + 1)\n    \n    # Order up to target level, adjusted for pipeline\n    target_level = mu * (lead_time + 1) + safety_stock\n    pipeline_total = sum(pipeline_inventory)\n    order_amount = max(0, target_level - current_inventory - pipeline_total)\n    \n    return order_amount",
+          "opt_params": {},
+          "objective": 2523.73353,
+          "other_inf": null
+     },
+     {
+          "algorithm": "This algorithm uses a percentile-based demand estimation with pipeline-weighted cost optimization, dynamically adjusting order quantities based on historical demand distribution and pipeline inventory profile.",
+          "code": "import numpy as np\n\ndef compute_order_amount(current_inventory, pipeline_inventory, history_demand, holding_cost, lost_sales_cost, lead_time):\n    if not history_demand:\n        return max(0, 100 - current_inventory - sum(pipeline_inventory))\n    \n    # Calculate demand percentiles\n    demand_75 = np.percentile(history_demand, 75) if len(history_demand) > 1 else history_demand[0]\n    demand_50 = np.percentile(history_demand, 50) if len(history_demand) > 1 else history_demand[0]\n    \n    # Pipeline weight based on arrival proximity\n    pipeline_weights = [1 / (lead_time - i + 1) for i in range(lead_time)]\n    weighted_pipeline = sum(q * w for q, w in zip(pipeline_inventory, pipeline_weights))\n    \n    # Cost-sensitive demand target\n    cost_ratio = lost_sales_cost / (holding_cost + lost_sales_cost)\n    target_demand = demand_50 + cost_ratio * (demand_75 - demand_50)\n    \n    # Calculate order amount\n    pipeline_sum = sum(pipeline_inventory)\n    target_level = target_demand * (lead_time + 1) + weighted_pipeline\n    order_amount = max(0, target_level - current_inventory - pipeline_sum)\n    \n    return order_amount",
+          "opt_params": {},
+          "objective": 2530.09667,
+          "other_inf": null
+     },
+     {
+          "algorithm": "This algorithm uses a probabilistic demand forecasting model combined with pipeline-aware safety stock optimization, dynamically adjusting order quantities based on demand distribution percentiles and pipeline inventory age-weighted risk assessment.",
+          "code": "import numpy as np\n\ndef compute_order_amount(current_inventory, pipeline_inventory, history_demand, holding_cost, lost_sales_cost, lead_time):\n    if not history_demand:\n        return max(0, 100 - current_inventory - sum(pipeline_inventory))\n    \n    # Calculate demand statistics\n    demand_window = min(20, len(history_demand))\n    recent_demand = np.array(history_demand[-demand_window:])\n    demand_mean = np.mean(recent_demand)\n    demand_std = np.std(recent_demand)\n    \n    # Calculate pipeline risk factor (weighted by remaining lead time)\n    pipeline_weights = np.linspace(1.0, 0.5, num=lead_time)\n    pipeline_risk = np.sum(np.array(pipeline_inventory) * pipeline_weights)\n    \n    # Determine target service level based on cost ratio\n    critical_ratio = lost_sales_cost / (holding_cost + lost_sales_cost)\n    z_score = np.percentile(np.random.normal(0, 1, 10000), critical_ratio * 100)\n    \n    # Calculate safety stock and target inventory level\n    safety_stock = z_score * demand_std * np.sqrt(lead_time)\n    target_level = demand_mean * (lead_time + 1) + safety_stock - pipeline_risk\n    \n    # Compute order amount\n    incoming_inventory = sum(pipeline_inventory)\n    order_amount = max(0, target_level - current_inventory - incoming_inventory)\n    \n    return order_amount",
+          "opt_params": {},
+          "objective": 2533.21386,
+          "other_inf": null
+     },
+     {
+          "algorithm": "```",
+          "code": "import numpy as np\n\ndef compute_order_amount(current_inventory, pipeline_inventory, history_demand, holding_cost, lost_sales_cost, lead_time):\n    if not history_demand:\n        return max(0, 100 - current_inventory - sum(pipeline_inventory))\n    \n    demand_mean = np.mean(history_demand)\n    demand_std = np.std(history_demand)\n    safety_stock = 1.5 * demand_std * np.sqrt(lead_time)\n    target_level = demand_mean * (lead_time + 1) + safety_stock\n    order_amount = max(0, target_level - current_inventory - sum(pipeline_inventory))\n    \n    return order_amount",
+          "opt_params": {},
+          "objective": 2545.69747,
+          "other_inf": null
+     },
+     {
+          "algorithm": "This algorithm uses a demand volatility-adjusted base stock policy with pipeline-aware safety stock calculation and cost-sensitive smoothing.",
+          "code": "def compute_order_amount(current_inventory, pipeline_inventory, history_demand, holding_cost, lost_sales_cost, lead_time):\n    if not history_demand:\n        return max(0, 100 - current_inventory - sum(pipeline_inventory))\n    \n    cost_sensitivity = lost_sales_cost / (holding_cost + lost_sales_cost)\n    volatility_window = min(20, len(history_demand))\n    recent_demand = history_demand[-volatility_window:]\n    \n    avg_demand = sum(recent_demand) / volatility_window\n    demand_std = (sum((d - avg_demand)**2 for d in recent_demand) / volatility_window)**0.5\n    \n    safety_factor = cost_sensitivity * demand_std * (lead_time**0.5)\n    dynamic_base = avg_demand * (lead_time + 1) + safety_factor\n    \n    pipeline_total = sum(pipeline_inventory)\n    inventory_position = current_inventory + pipeline_total\n    \n    order_amount = max(0, dynamic_base - inventory_position)\n    return order_amount",
+          "opt_params": {},
+          "objective": 2547.89857,
+          "other_inf": null
+     },
+     {
+          "algorithm": "This algorithm uses a reinforcement learning-inspired approach with dynamic exploration-exploitation, where order amounts are adjusted based on a running performance score that balances holding costs against lost sales, while explicitly modeling pipeline inventory as a constrained resource.",
+          "code": "import numpy as np\n\ndef compute_order_amount(current_inventory, pipeline_inventory, history_demand, holding_cost, lost_sales_cost, lead_time):\n    if not history_demand:\n        return max(0, 100 - current_inventory - sum(pipeline_inventory))\n    \n    performance_window = min(5, len(history_demand))\n    performance_scores = []\n    \n    for i in range(1, performance_window + 1):\n        prev_demand = history_demand[-i]\n        prev_inventory = current_inventory + sum(pipeline_inventory[:i]) if i <= lead_time else current_inventory\n        fulfilled = min(prev_inventory, prev_demand)\n        score = (fulfilled * lost_sales_cost - max(prev_inventory - prev_demand, 0) * holding_cost) / (prev_demand * lost_sales_cost)\n        performance_scores.append(score)\n    \n    avg_score = np.mean(performance_scores)\n    exploration_factor = max(0.1, 1 - avg_score)\n    \n    demand_estimate = np.percentile(history_demand, 75) + exploration_factor * np.std(history_demand)\n    pipeline_utilization = sum(pipeline_inventory) / (lead_time * demand_estimate) if lead_time > 0 else 0\n    \n    target = demand_estimate * (lead_time + 1) * (1 + pipeline_utilization)\n    order_amount = max(0, target - current_inventory - sum(pipeline_inventory))\n    \n    return order_amount",
+          "opt_params": {},
+          "objective": 2574.3748,
+          "other_inf": null
+     },
+     {
+          "algorithm": "This algorithm uses a demand-weighted exponential smoothing approach with pipeline-adjusted reorder points and adaptive safety stock based on recent forecast errors.",
+          "code": "def compute_order_amount(current_inventory, pipeline_inventory, history_demand, holding_cost, lost_sales_cost, lead_time):\n    if not history_demand:\n        return max(0, 100 - current_inventory - sum(pipeline_inventory))\n    \n    alpha = min(0.3, 1.0 / (1.0 + len(history_demand)))\n    forecast = history_demand[-1] if len(history_demand) == 1 else alpha * history_demand[-1] + (1 - alpha) * sum(history_demand[:-1]) / (len(history_demand) - 1)\n    \n    error_window = min(10, len(history_demand))\n    recent_errors = [history_demand[i] - forecast for i in range(-error_window, 0)]\n    mad = sum(abs(e) for e in recent_errors) / error_window\n    \n    service_level = lost_sales_cost / (holding_cost + lost_sales_cost)\n    safety_stock = service_level * mad * (lead_time ** 0.5)\n    \n    pipeline_total = sum(pipeline_inventory)\n    inventory_position = current_inventory + pipeline_total\n    \n    target_level = forecast * (lead_time + 1) + safety_stock\n    order_amount = max(0, target_level - inventory_position)\n    \n    return order_amount",
+          "opt_params": {},
+          "objective": 2579.07881,
+          "other_inf": null
+     },
+     {
+          "algorithm": "This algorithm uses a demand volatility-adjusted safety stock approach with pipeline smoothing, dynamically adjusting order quantities based on demand variability and pipeline inventory age distribution.",
+          "code": "def compute_order_amount(current_inventory, pipeline_inventory, history_demand, holding_cost, lost_sales_cost, lead_time):\n    if not history_demand:\n        return max(0, 100 - current_inventory - sum(pipeline_inventory))\n    \n    cost_ratio = lost_sales_cost / (holding_cost + lost_sales_cost)\n    volatility_window = min(15, len(history_demand))\n    recent_demand = history_demand[-volatility_window:]\n    avg_demand = sum(recent_demand) / volatility_window\n    demand_std = (sum((x - avg_demand)**2 for x in recent_demand) / volatility_window)**0.5\n    \n    safety_factor = cost_ratio * (demand_std / avg_demand if avg_demand > 0 else 1)\n    safety_stock = safety_factor * avg_demand * (lead_time**0.5)\n    \n    pipeline_age_weights = [0.9**(lead_time - i) for i in range(lead_time)]\n    weighted_pipeline = sum(w * q for w, q in zip(pipeline_age_weights, pipeline_inventory))\n    \n    target_level = avg_demand * (lead_time + 1) + safety_stock\n    inventory_position = current_inventory + weighted_pipeline\n    order_amount = max(0, target_level - inventory_position)\n    \n    return order_amount",
+          "opt_params": {},
+          "objective": 2579.81678,
+          "other_inf": null
+     },
+     {
+          "algorithm": "This algorithm uses a probabilistic demand forecasting approach combined with pipeline-aware safety stock calculation, where order amounts are determined by a weighted combination of expected demand and dynamic safety stock levels adjusted for pipeline inventory coverage.",
+          "code": "import numpy as np\n\ndef compute_order_amount(current_inventory, pipeline_inventory, history_demand, holding_cost, lost_sales_cost, lead_time):\n    if not history_demand:\n        return max(0, 100 - current_inventory - sum(pipeline_inventory))\n    \n    # Calculate demand statistics\n    mean_demand = np.mean(history_demand)\n    std_demand = np.std(history_demand)\n    cv = std_demand / mean_demand if mean_demand > 0 else 0\n    \n    # Dynamic service level based on cost ratio\n    service_level = lost_sales_cost / (lost_sales_cost + holding_cost)\n    z_score = np.percentile(np.random.normal(0, 1, 10000), service_level * 100)\n    \n    # Pipeline-adjusted safety stock\n    pipeline_coverage = sum(pipeline_inventory) / mean_demand if mean_demand > 0 else 0\n    safety_stock = z_score * std_demand * np.sqrt(lead_time + 1) * (1 - min(0.5, pipeline_coverage / (lead_time + 1)))\n    \n    # Probabilistic demand forecast\n    demand_forecast = mean_demand + cv * std_demand * (1 + lead_time / 10)\n    \n    # Calculate target inventory level\n    target = demand_forecast * (lead_time + 1) + safety_stock\n    order_amount = max(0, target - current_inventory - sum(pipeline_inventory))\n    \n    return order_amount",
+          "opt_params": {},
+          "objective": 2582.6378,
+          "other_inf": null
+     },
+     {
+          "algorithm": "```",
+          "code": "import numpy as np\n\ndef compute_order_amount(current_inventory, pipeline_inventory, history_demand, holding_cost, lost_sales_cost, lead_time):\n    if not history_demand:\n        return max(0, 100 - current_inventory - sum(pipeline_inventory))\n    \n    demand_mean = np.mean(history_demand)\n    demand_std = np.std(history_demand)\n    cost_ratio = lost_sales_cost / (holding_cost + lost_sales_cost)\n    z_score = np.sqrt(2 * np.log(1 / cost_ratio))\n    safety_stock = z_score * demand_std * np.sqrt(lead_time)\n    target_level = demand_mean * (lead_time + 1) + safety_stock\n    order_amount = max(0, target_level - current_inventory - sum(pipeline_inventory))\n    \n    return order_amount",
+          "opt_params": {},
+          "objective": 2590.56557,
+          "other_inf": null
+     },
+     {
+          "algorithm": "This algorithm uses a demand momentum-based approach with exponential smoothing for demand forecasting and dynamically adjusts safety stock based on recent forecast errors and pipeline inventory age.",
+          "code": "def compute_order_amount(current_inventory, pipeline_inventory, history_demand, holding_cost, lost_sales_cost, lead_time):\n    if not history_demand:\n        return max(0, 100 - current_inventory - sum(pipeline_inventory))\n    \n    alpha = 0.2  # Smoothing factor for demand\n    beta = 0.1   # Smoothing factor for forecast error\n    initial_forecast = sum(history_demand[:min(5, len(history_demand))]) / min(5, len(history_demand))\n    forecast = initial_forecast\n    forecast_errors = []\n    \n    for i in range(1, len(history_demand)):\n        forecast = alpha * history_demand[i-1] + (1 - alpha) * forecast\n        forecast_errors.append(abs(history_demand[i] - forecast))\n    \n    recent_errors = forecast_errors[-min(5, len(forecast_errors)):] if forecast_errors else [0]\n    avg_error = sum(recent_errors) / len(recent_errors) if recent_errors else 0\n    safety_stock = (lost_sales_cost / (holding_cost + lost_sales_cost)) * avg_error * (lead_time**0.7)\n    \n    pipeline_age_factor = sum((lead_time - i) * pipeline_inventory[i] for i in range(len(pipeline_inventory))) / (lead_time * sum(pipeline_inventory) + 1e-6)\n    adjusted_pipeline = sum(pipeline_inventory) * (1 + pipeline_age_factor)\n    \n    target_inventory = forecast * (lead_time + 1) + safety_stock\n    order_amount = max(0, target_inventory - current_inventory - adjusted_pipeline)\n    \n    return order_amount",
+          "opt_params": {},
+          "objective": 2600.57153,
+          "other_inf": null
+     },
+     {
+          "algorithm": "This algorithm uses a moving average demand forecast with exponential smoothing, dynamically adjusting the target inventory level based on recent demand volatility and pipeline inventory, while incorporating cost-sensitive safety stock.",
+          "code": "import numpy as np\n\ndef compute_order_amount(current_inventory, pipeline_inventory, history_demand, holding_cost, lost_sales_cost, lead_time):\n    if not history_demand:\n        return max(0, 100 - current_inventory - sum(pipeline_inventory))\n    \n    smoothing_factor = 0.3\n    recent_window = min(5, len(history_demand))\n    recent_demand = history_demand[-recent_window:]\n    avg_demand = np.mean(recent_demand)\n    smoothed_demand = smoothing_factor * avg_demand + (1 - smoothing_factor) * np.mean(history_demand)\n    \n    demand_std = np.std(recent_demand) if len(recent_demand) > 1 else 0\n    service_level = lost_sales_cost / (holding_cost + lost_sales_cost)\n    safety_stock = np.sqrt(lead_time) * demand_std * np.percentile(np.random.normal(0, 1, 10000), 100 * service_level)\n    \n    target_inventory = smoothed_demand * (lead_time + 1) + safety_stock\n    order_amount = max(0, target_inventory - current_inventory - sum(pipeline_inventory))\n    \n    return order_amount",
+          "opt_params": {},
+          "objective": 2606.26184,
+          "other_inf": null
+     },
+     {
+          "algorithm": "This algorithm uses a demand volatility-adjusted safety stock approach with pipeline smoothing, where safety stock scales with demand variability and pipeline inventory is weighted by remaining lead time.",
+          "code": "def compute_order_amount(current_inventory, pipeline_inventory, history_demand, holding_cost, lost_sales_cost, lead_time):\n    if not history_demand:\n        return max(0, 100 - current_inventory - sum(pipeline_inventory))\n    \n    cost_ratio = lost_sales_cost / (holding_cost + lost_sales_cost)\n    volatility_window = min(15, len(history_demand))\n    recent_demand = history_demand[-volatility_window:]\n    avg_demand = sum(recent_demand) / volatility_window\n    demand_std = (sum((x - avg_demand)**2 for x in recent_demand) / volatility_window)**0.5\n    \n    safety_factor = cost_ratio * 2.0\n    safety_stock = safety_factor * demand_std * (lead_time**0.5)\n    \n    weighted_pipeline = sum((i+1)/lead_time * pipeline_inventory[i] for i in range(len(pipeline_inventory)))\n    inventory_position = current_inventory + weighted_pipeline\n    \n    target_level = avg_demand * (lead_time + 1) + safety_stock\n    order_amount = max(0, target_level - inventory_position)\n    \n    return order_amount",
+          "opt_params": {},
+          "objective": 2615.17625,
+          "other_inf": null
+     },
+     {
+          "algorithm": "This algorithm uses a reinforcement learning-inspired approach with adaptive exploration, dynamically adjusting order quantities based on recent performance metrics and pipeline inventory distribution.",
+          "code": "import numpy as np\n\ndef compute_order_amount(current_inventory, pipeline_inventory, history_demand, holding_cost, lost_sales_cost, lead_time):\n    if not history_demand:\n        return max(0, 120 - current_inventory - sum(pipeline_inventory))\n    \n    recent_window = min(5, len(history_demand))\n    recent_demand = history_demand[-recent_window:]\n    avg_demand = np.mean(recent_demand)\n    demand_variation = np.std(recent_demand) if len(recent_demand) > 1 else 5\n    \n    pipeline_imbalance = sum(pipeline_inventory[:lead_time//2]) - sum(pipeline_inventory[lead_time//2:])\n    imbalance_factor = 1 + np.tanh(pipeline_imbalance / (avg_demand * lead_time + 1e-6))\n    \n    recent_shortage = max(0, sum(d - avg_demand for d in recent_demand))\n    exploration_factor = 1 + (recent_shortage / (avg_demand * recent_window + 1e-6))\n    \n    cost_ratio = lost_sales_cost / (holding_cost + lost_sales_cost)\n    safety_margin = cost_ratio * demand_variation * np.sqrt(lead_time)\n    \n    target_level = avg_demand * (lead_time + 1) * imbalance_factor * exploration_factor + safety_margin\n    inventory_position = current_inventory + sum(pipeline_inventory)\n    order_amount = max(0, target_level - inventory_position)\n    \n    return order_amount",
+          "opt_params": {},
+          "objective": 2618.60499,
+          "other_inf": null
+     },
+     {
+          "algorithm": "This algorithm uses a reinforcement learning-inspired approach to dynamically adjust order quantities based on demand prediction errors and pipeline inventory profile, with a focus on minimizing cost volatility.",
+          "code": "def compute_order_amount(current_inventory, pipeline_inventory, history_demand, holding_cost, lost_sales_cost, lead_time):\n    if not history_demand:\n        return max(0, 100 - current_inventory - sum(pipeline_inventory))\n    \n    # Calculate demand prediction error metrics\n    lookback = min(10, len(history_demand))\n    recent_demand = history_demand[-lookback:]\n    avg_demand = sum(recent_demand) / lookback\n    errors = [abs(d - avg_demand) for d in recent_demand]\n    avg_error = sum(errors) / lookback\n    \n    # Pipeline urgency factor (prioritizing imminent arrivals)\n    pipeline_urgency = sum(q * (lead_time - i) for i, q in enumerate(pipeline_inventory)) / (lead_time + 1e-6)\n    \n    # Dynamic adjustment factors\n    error_ratio = avg_error / (avg_demand + 1e-6)\n    cost_ratio = lost_sales_cost / (holding_cost + lost_sales_cost)\n    adjustment = 1 + (error_ratio * cost_ratio)\n    \n    # Calculate order amount\n    incoming_inventory = sum(pipeline_inventory)\n    target_level = adjustment * avg_demand * (lead_time + 1) * (1 + pipeline_urgency / (avg_demand + 1e-6))\n    order_amount = max(0, target_level - current_inventory - incoming_inventory)\n    \n    return order_amount",
+          "opt_params": {},
+          "objective": 2623.23483,
+          "other_inf": null
+     },
+     {
+          "algorithm": "This algorithm uses a quantile-based approach with demand clustering and pipeline-aware safety stock optimization, dynamically adjusting order quantities based on demand patterns and lead time.",
+          "code": "import numpy as np\nfrom scipy.stats import norm\n\ndef compute_order_amount(current_inventory, pipeline_inventory, history_demand, holding_cost, lost_sales_cost, lead_time):\n    if not history_demand:\n        return max(0, 100 - current_inventory - sum(pipeline_inventory))\n    \n    # Demand clustering into high/low regimes\n    demand_mean = np.mean(history_demand)\n    demand_std = np.std(history_demand)\n    high_demand = [d for d in history_demand if d > demand_mean]\n    low_demand = [d for d in history_demand if d <= demand_mean]\n    \n    # Regime-specific parameters\n    if len(high_demand) > 0:\n        high_mean = np.mean(high_demand)\n        high_std = np.std(high_demand)\n    else:\n        high_mean = demand_mean\n        high_std = demand_std\n    \n    if len(low_demand) > 0:\n        low_mean = np.mean(low_demand)\n        low_std = np.std(low_demand)\n    else:\n        low_mean = demand_mean\n        low_std = demand_std\n    \n    # Dynamic regime probability\n    p_high = len(high_demand) / len(history_demand)\n    \n    # Quantile-based safety stock\n    critical_ratio = lost_sales_cost / (holding_cost + lost_sales_cost)\n    z = norm.ppf(critical_ratio)\n    safety_stock = z * np.sqrt(lead_time * (p_high * high_std**2 + (1 - p_high) * low_std**2))\n    \n    # Pipeline-aware target level\n    pipeline_contribution = sum(pipeline_inventory) * (1 - 0.1 * lead_time)\n    target_level = (p_high * high_mean + (1 - p_high) * low_mean) * (lead_time + 1) + safety_stock\n    \n    order_amount = max(0, target_level - current_inventory - pipeline_contribution)\n    return order_amount",
+          "opt_params": {},
+          "objective": 2624.80509,
+          "other_inf": null
+     },
+     {
+          "algorithm": "This algorithm uses a reinforcement learning-inspired approach with demand pattern recognition and pipeline-aware inventory optimization, where order amounts are determined by a dynamic safety stock calculation adjusted for pipeline risk and demand volatility.",
+          "code": "import numpy as np\n\ndef compute_order_amount(current_inventory, pipeline_inventory, history_demand, holding_cost, lost_sales_cost, lead_time):\n    if not history_demand:\n        return max(0, 100 - current_inventory - sum(pipeline_inventory))\n    \n    demand_mean = np.mean(history_demand)\n    demand_std = np.std(history_demand)\n    z_score = np.sqrt(2 * np.log(lost_sales_cost / holding_cost))\n    \n    safety_stock = z_score * demand_std * np.sqrt(lead_time)\n    pipeline_risk = max(0, sum(pipeline_inventory) - lead_time * demand_mean)\n    \n    target_inventory = demand_mean * (lead_time + 1) + safety_stock - pipeline_risk\n    order_amount = max(0, target_inventory - current_inventory - sum(pipeline_inventory))\n    \n    return order_amount",
+          "opt_params": {},
+          "objective": 2631.12403,
+          "other_inf": null
+     },
+     {
+          "algorithm": "This algorithm dynamically adjusts the target inventory level based on demand volatility and cost trade-offs, using exponential smoothing for demand forecasting and a cost-sensitive safety factor.",
+          "code": "import numpy as np\n\ndef compute_order_amount(current_inventory, pipeline_inventory, history_demand, holding_cost, lost_sales_cost, lead_time):\n    if not history_demand:\n        return max(0, 100 - current_inventory - sum(pipeline_inventory))\n    \n    alpha = 0.3  # Smoothing factor\n    forecast = history_demand[-1]\n    for i in range(len(history_demand) - 1):\n        forecast = alpha * history_demand[i] + (1 - alpha) * forecast\n    \n    demand_std = np.std(history_demand)\n    cost_ratio = lost_sales_cost / (holding_cost + lost_sales_cost)\n    safety_factor = np.sqrt(-2 * np.log(cost_ratio))\n    \n    target_level = forecast * (lead_time + 1) + safety_factor * demand_std * np.sqrt(lead_time + 1)\n    order_amount = max(0, target_level - current_inventory - sum(pipeline_inventory))\n    \n    return order_amount",
+          "opt_params": {},
+          "objective": 2637.44858,
+          "other_inf": null
+     },
+     {
+          "algorithm": "This algorithm uses a reinforcement learning-inspired approach with adaptive demand forecasting and pipeline-aware inventory balancing, dynamically adjusting order quantities based on weighted demand errors and pipeline inventory velocity.",
+          "code": "import numpy as np\n\ndef compute_order_amount(current_inventory, pipeline_inventory, history_demand, holding_cost, lost_sales_cost, lead_time):\n    if not history_demand:\n        return max(0, 100 - current_inventory - sum(pipeline_inventory))\n    \n    # Adaptive demand forecasting with error weighting\n    forecast_window = min(15, len(history_demand))\n    recent_demand = np.array(history_demand[-forecast_window:])\n    weights = np.exp(np.linspace(0, 1, forecast_window))\n    weights = weights / np.sum(weights)\n    weighted_demand = np.sum(recent_demand * weights)\n    \n    # Pipeline velocity calculation (recent order momentum)\n    if len(pipeline_inventory) == lead_time and lead_time > 0:\n        pipeline_velocity = (pipeline_inventory[-1] - pipeline_inventory[0]) / lead_time\n    else:\n        pipeline_velocity = 0\n    \n    # Dynamic safety factor based on cost ratio and demand variability\n    cost_ratio = lost_sales_cost / (holding_cost + lost_sales_cost)\n    demand_variability = np.std(recent_demand) / (np.mean(recent_demand) + 1e-6)\n    safety_factor = 1 + cost_ratio * demand_variability\n    \n    # Calculate target inventory level with pipeline adjustment\n    incoming_inventory = sum(pipeline_inventory)\n    target_level = (weighted_demand * (lead_time + 1) * safety_factor) - pipeline_velocity * lead_time\n    \n    # Compute order amount with non-negativity constraint\n    order_amount = max(0, target_level - current_inventory - incoming_inventory)\n    \n    return order_amount",
+          "opt_params": {},
+          "objective": 2648.47577,
+          "other_inf": null
+     },
+     {
+          "algorithm": "This algorithm uses exponential smoothing for demand forecasting with a safety stock adjustment based on demand variability and pipeline inventory, dynamically weighted by cost ratios.",
+          "code": "import numpy as np\n\ndef compute_order_amount(current_inventory, pipeline_inventory, history_demand, holding_cost, lost_sales_cost, lead_time):\n    if not history_demand:\n        return max(0, 100 - current_inventory - sum(pipeline_inventory))\n    \n    alpha = 0.2  # Smoothing factor\n    smoothed_demand = history_demand[0]\n    for demand in history_demand[1:]:\n        smoothed_demand = alpha * demand + (1 - alpha) * smoothed_demand\n    \n    demand_std = np.std(history_demand) if len(history_demand) > 1 else 0\n    cost_ratio = lost_sales_cost / (holding_cost + lost_sales_cost)\n    safety_stock = cost_ratio * demand_std * np.sqrt(lead_time + 1)\n    \n    pipeline_sum = sum(pipeline_inventory)\n    target_level = smoothed_demand * (lead_time + 1) + safety_stock\n    order_amount = max(0, target_level - current_inventory - pipeline_sum)\n    \n    return order_amount",
+          "opt_params": {},
+          "objective": 2649.56607,
+          "other_inf": null
+     },
+     {
+          "algorithm": "This algorithm uses a reinforcement learning-inspired approach with adaptive exploration-exploitation of demand patterns, combined with a pipeline-aware inventory position correction.",
+          "code": "def compute_order_amount(current_inventory, pipeline_inventory, history_demand, holding_cost, lost_sales_cost, lead_time):\n    if not history_demand:\n        return max(0, 100 - current_inventory - sum(pipeline_inventory))\n    \n    cost_ratio = lost_sales_cost / (holding_cost + lost_sales_cost)\n    exploration_factor = 0.1 + 0.9 * (1 - cost_ratio)\n    \n    recent_window = min(10, len(history_demand))\n    recent_demand = history_demand[-recent_window:]\n    avg_recent = sum(recent_demand) / recent_window\n    max_recent = max(recent_demand)\n    \n    exploration_component = exploration_factor * max_recent\n    exploitation_component = (1 - exploration_factor) * avg_recent\n    \n    adjusted_demand = exploration_component + exploitation_component\n    \n    pipeline_total = sum(pipeline_inventory)\n    inventory_position = current_inventory + pipeline_total\n    \n    target_level = adjusted_demand * (lead_time + 1)\n    order_amount = max(0, target_level - inventory_position)\n    \n    return order_amount",
+          "opt_params": {},
+          "objective": 2654.3884,
+          "other_inf": null
+     },
+     {
+          "algorithm": "This algorithm uses a demand volatility-adjusted approach with pipeline smoothing, where orders are based on a weighted combination of historical demand percentiles and pipeline inventory momentum.",
+          "code": "def compute_order_amount(current_inventory, pipeline_inventory, history_demand, holding_cost, lost_sales_cost, lead_time):\n    if not history_demand:\n        return max(0, 100 - current_inventory - sum(pipeline_inventory))\n    \n    cost_ratio = lost_sales_cost / (holding_cost + lost_sales_cost)\n    volatility_window = min(15, len(history_demand))\n    recent_demand = history_demand[-volatility_window:]\n    \n    demand_std = (max(recent_demand) - min(recent_demand)) / 2 if len(recent_demand) > 1 else recent_demand[0]\n    percentile_weight = 0.3 + 0.7 * cost_ratio\n    demand_estimate = percentile_weight * sorted(recent_demand)[int(0.8 * len(recent_demand))] + (1 - percentile_weight) * sum(recent_demand) / len(recent_demand)\n    \n    pipeline_momentum = sum(pipeline_inventory[-min(3, lead_time):]) / min(3, lead_time) if lead_time > 0 else 0\n    pipeline_adjustment = 0.5 * (pipeline_momentum - sum(pipeline_inventory) / max(1, lead_time))\n    \n    target_level = demand_estimate * (lead_time + 1) + pipeline_adjustment\n    inventory_position = current_inventory + sum(pipeline_inventory)\n    order_amount = max(0, target_level - inventory_position)\n    \n    return order_amount",
+          "opt_params": {},
+          "objective": 2659.42097,
+          "other_inf": null
+     }
+]

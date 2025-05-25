@@ -1,0 +1,13 @@
+{
+     "algorithm": "The algorithm implements a Neural Network-inspired Demand Transformer that processes demand patterns through attention-like mechanisms and cost-sensitive activation functions to determine optimal orders.",
+     "code": "def compute_order_amount(current_inventory, pipeline_inventory, history_demand, holding_cost, lost_sales_cost, lead_time):\n    attention_span = 7  # Optimized\n    cost_activation = 0.10904278339205692  # Optimized\n    demand_transform = 0.631980842182879  # Optimized\n    inventory_leak = 0.7460904640685637  # Optimized\n    lead_time_scale = 0.5053910110731101  # Optimized\n    \n    def attention_weights(demand):\n        weights = [1 / (1 + abs(i - len(demand) + 1)) for i in range(len(demand))]\n        total = sum(weights)\n        return [w/total for w in weights]\n    \n    recent_demand = history_demand[-attention_span:] if len(history_demand) >= attention_span else history_demand\n    weights = attention_weights(recent_demand)\n    weighted_demand = sum(d * w for d, w in zip(recent_demand, weights))\n    \n    cost_ratio = lost_sales_cost / max(holding_cost, 1e-6)\n    transformed_demand = weighted_demand * (1 + cost_activation * (cost_ratio - 1)) ** demand_transform\n    \n    effective_lead_time = lead_time * lead_time_scale\n    safety_stock = transformed_demand * effective_lead_time\n    \n    net_inventory = current_inventory * (1 - inventory_leak) + sum(pipeline_inventory)\n    target_inventory = safety_stock + transformed_demand * effective_lead_time\n    \n    order_amount = max(0, target_inventory - net_inventory)\n    return order_amount",
+     "opt_params": {
+          "attention_span": 7,
+          "cost_activation": 0.10904278339205692,
+          "demand_transform": 0.631980842182879,
+          "inventory_leak": 0.7460904640685637,
+          "lead_time_scale": 0.5053910110731101
+     },
+     "objective": 2702.55836,
+     "other_inf": null
+}
