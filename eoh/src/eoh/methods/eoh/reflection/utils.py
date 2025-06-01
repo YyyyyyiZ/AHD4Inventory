@@ -99,16 +99,16 @@ def filter_code(code_string):
     lines = code_string.split('\n')
     filtered_lines = []
     for line in lines:
-        if line.startswith('def'):
-            continue
-        elif line.startswith('import'):
-            continue
-        elif line.startswith('from'):
-            continue
-        elif line.startswith('return'):
-            filtered_lines.append(line)
-            break
-        else:
+        # if line.startswith('def'):
+        #     continue
+        # elif line.startswith('import'):
+        #     continue
+        # elif line.startswith('from'):
+        #     continue
+        # elif line.startswith('return'):
+        #     filtered_lines.append(line)
+        #     break
+        # else:
             filtered_lines.append(line)
     code_string = '\n'.join(filtered_lines)
     return code_string

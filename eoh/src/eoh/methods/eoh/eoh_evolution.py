@@ -11,7 +11,7 @@ from .reflection.utils import *
 class Evolution():
 
     def __init__(self, api_endpoint, api_key, model_LLM,llm_use_local,llm_local_url, debug_mode,prompts,
-                 reflect, external_optimizer, **kwargs):
+                 reflect,  K1, K2, external_optimizer, exp_output_path, background_info, prompt_type, **kwargs):
 
         # set prompt interface
         #getprompts = GetPrompts()
@@ -36,16 +36,21 @@ class Evolution():
         self.api_key = api_key
         self.model_LLM = model_LLM
         self.debug_mode = debug_mode # close prompt checking
+        self.exp_output_path = exp_output_path
+        self.prompt_type = prompt_type
         self.init_base_prompt()
 
 
         self.interface_llm = InterfaceLLM(self.api_endpoint, self.api_key, self.model_LLM,llm_use_local,llm_local_url, self.debug_mode)
         self.reflect = reflect
+        self.K1 = K1
+        self.K2 = K2
         if self.reflect:
             self.short_term_reflection_str = ""
             self.long_term_reflection_str = ""
             # self.init_reevo_prompt()
         self.external_optimizer = external_optimizer
+        self.background_info = background_info
 
 
     def init_base_prompt(self):
@@ -59,10 +64,10 @@ class Evolution():
         self.prompt_m2 = file_to_string(f'{self.file_path}/common/prompt_m2.txt')
         self.prompt_m3 = file_to_string(f'{self.file_path}/common/prompt_m3.txt')
 
-        self.prompt_mimic_best_sample = file_to_string(f'{self.file_path}/common/mimic_best_sample.txt')
-        self.prompt_correct_worst_sample = file_to_string(f'{self.file_path}/common/correct_worst_sample.txt')
-        self.prompt_hybrid = file_to_string(f'{self.file_path}/common/hybrid.txt')
-        self.prompt_multi_comparative_reflection = file_to_string(f'{self.file_path}/common/multi_comparative_reflection.txt')
+        self.prompt_mimic_best_sample = file_to_string(f'{self.file_path}/common/{self.prompt_type}/mimic_best_sample.txt')
+        self.prompt_correct_worst_sample = file_to_string(f'{self.file_path}/common/{self.prompt_type}/correct_worst_sample.txt')
+        self.prompt_hybrid = file_to_string(f'{self.file_path}/common/{self.prompt_type}/hybrid.txt')
+        self.prompt_multi_comparative_reflection = file_to_string(f'{self.file_path}/common/{self.prompt_type}/multi_comparative_reflection.txt')
 
     def external_optimizer_prompt(self):
         prompt_content = "Finally, Mark optimizable parameters in the code with `# OPT_PARAM: ` comments, like this:" \
@@ -106,7 +111,6 @@ class Evolution():
             reflection_content=self.short_term_reflection_str if self.reflect else '',
             # reflection_content=self.short_term_reflection_prompt(indivs) if self.reflect else '',
         )
-
         return prompt_content
     
     def get_prompt_e2(self,indivs):
@@ -363,36 +367,44 @@ class Evolution():
 
         return [code_all, algorithm]
 
-    def mimic_best_sample(self, population, iteration):
+    def mimic_best_sample(self, info, population, iteration):
         best_ind = population[0]
 
         best_code = filter_code(best_ind["code"])
 
         user = self.prompt_mimic_best_sample.format(
             prompt_task=self.prompt_task,
+            info = info,
             best_code=best_code
         )
+        file_name = f"{self.exp_output_path}/prompt_for_reflection/{self.reflect}_{iteration}.txt"
+        with open(file_name, 'a') as file:
+            file.writelines(user + '\n')
         short_term_reflection = self._get_reflection(user)
-        file_name = f"{self.file_path}/content/reflection_{iteration}.txt"
+        file_name = f"{self.exp_output_path}/reflection/reflection_{iteration}.txt"
         with open(file_name, 'a') as file:
             file.writelines(short_term_reflection + '\n')
         self.short_term_reflection_str = short_term_reflection
 
-    def correct_worst_sample(self, population, iteration):
+    def correct_worst_sample(self, info, population, iteration):
         worst_ind = population[-1]
         worst_code = filter_code(worst_ind["code"])
 
         user = self.prompt_correct_worst_sample.format(
             prompt_task=self.prompt_task,
+            info=info,
             worst_code=worst_code
         )
+        file_name = f"{self.exp_output_path}/prompt_for_reflection/{self.reflect}_{iteration}.txt"
+        with open(file_name, 'a') as file:
+            file.writelines(user + '\n')
         short_term_reflection = self._get_reflection(user)
-        file_name = f"{self.file_path}/content/reflection_{iteration}.txt"
+        file_name = f"{self.exp_output_path}/reflection/reflection_{iteration}.txt"
         with open(file_name, 'a') as file:
             file.writelines(short_term_reflection + '\n')
         self.short_term_reflection_str = short_term_reflection
 
-    def hybrid(self, population, iteration):
+    def hybrid(self, info, population, iteration):
         best_ind, worst_ind = population[0], population[-1]
 
         worst_code = filter_code(worst_ind["code"])
@@ -400,18 +412,23 @@ class Evolution():
 
         user = self.prompt_hybrid.format(
             prompt_task=self.prompt_task,
+            info=info,
             worst_code=worst_code,
             best_code=best_code
         )
+        file_name = f"{self.exp_output_path}/prompt_for_reflection/{self.reflect}_{iteration}.txt"
+        with open(file_name, 'a') as file:
+            file.writelines(user + '\n')
+
         short_term_reflection = self._get_reflection(user)
-        file_name = f"{self.file_path}/content/reflection_{iteration}.txt"
+        file_name = f"{self.exp_output_path}/reflection/reflection_{iteration}.txt"
         with open(file_name, 'a') as file:
             file.writelines(short_term_reflection + '\n')
         self.short_term_reflection_str = short_term_reflection
 
-    def multi_comparative_reflection(self, population, iteration, K1=5, K2=5):
-        worst_group = population[-K1:]  # Take last K1 elements (worst performers)
-        best_group = population[:K2]  # Take first K2 elements (best performers)
+    def multi_comparative_reflection(self, info, population, iteration):
+        best_group = population[:self.K1] if self.K1 !=0 else [] # Take first K1 elements (best performers)
+        worst_group = population[-self.K2:] if self.K2 !=0 else []# Take last K2 elements (worst performers)
 
         # Prepare code sections for the prompt
         worst_sections = []
@@ -426,12 +443,17 @@ class Evolution():
 
         user = self.prompt_multi_comparative_reflection.format(
             prompt_task=self.prompt_task,
+            info=info,
             worst="".join(worst_sections),
             best="".join(best_sections)
         )
 
+        file_name = f"{self.exp_output_path}/prompt_for_reflection/{self.reflect}_{iteration}.txt"
+        with open(file_name, 'a') as file:
+            file.writelines(user + '\n')
+
         short_term_reflection = self._get_reflection(user)
-        file_name = f"{self.file_path}/content/reflection_{iteration}.txt"
+        file_name = f"{self.exp_output_path}/reflection/reflection_{iteration}.txt"
         with open(file_name, 'a') as file:
             file.writelines(short_term_reflection + '\n')
         self.short_term_reflection_str = short_term_reflection

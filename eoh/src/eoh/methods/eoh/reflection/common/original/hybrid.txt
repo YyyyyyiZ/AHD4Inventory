@@ -1,0 +1,16 @@
+Below is a function for the following task: {prompt_task}
+
+You are provided with some background information regarding the codes and their corresponding performances.
+
+[background information]
+{info}
+
+You are also provided with two code versions below, where the first performs worst and the second performs best.
+
+[Worst code]
+{worst_code}
+
+[Best code]
+{best_code}
+
+You respond with some hints for designing better heuristics, based on the two code versions.

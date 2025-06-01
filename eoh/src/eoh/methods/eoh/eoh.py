@@ -2,6 +2,8 @@ import numpy as np
 import json
 import random
 import time
+from pathlib import Path
+import csv
 
 from .eoh_interface_EC import InterfaceEC
 # main class for eoh
@@ -48,20 +50,41 @@ class EOH:
         self.load_pop = paras.exp_use_continue
         self.load_pop_path = paras.exp_continue_path
         self.load_pop_id = paras.exp_continue_id
-
         self.output_path = paras.exp_output_path
-
         self.exp_n_proc = paras.exp_n_proc
-        
         self.timeout = paras.eva_timeout
-
         self.use_numba = paras.eva_numba_decorator
 
         self.create_initial = paras.exp_create_initial
-        self.demand = paras.demand
-        self.volatility = paras.volatility
-        self.reflect = paras.reflect
+
+        self.K1 =paras.K1
+        self.K2 =paras.K2
+        if self.K1==0 and self.K2==0:
+            self.reflect = None
+        elif self.K1==0 and self.K2==1:
+            self.reflect = 'correct_worst_sample'
+        elif self.K1==1 and self.K2==0:
+            self.reflect = 'mimic_best_sample'
+        elif self.K1==1 and self.K2==1:
+            self.reflect = 'hybrid'
+        else:
+            self.reflect = 'multi_comparative_reflection'
+
+        self.prompt_type = paras.prompt_type
+
+        self.background_info = paras.background_info
+        if self.background_info == 'no':
+            self.background_info = None
+
         self.external_optimizer=paras.external_optimizer
+        if self.external_optimizer=='no':
+            self.external_optimizer=None
+
+        # for saving results to .csv
+        self.problem = paras.problem
+        self.dist = paras.dist
+        self.demand_mean = paras.demand
+        self.volatility = paras.volatility
 
         print("- EoH parameters loaded -")
 
@@ -76,7 +99,37 @@ class EOH:
                     if (self.debug_mode):
                         print("duplicated result, retrying ... ")
             population.append(off)
-    
+
+    def get_info(self, offspring_pop):
+        # Start with all codes
+        info = "Here are all the candidate algorithms' code implementations:\n"
+        for i, offspring in enumerate(offspring_pop, 1):
+            info += f"\nAlgorithm {i}:\n{offspring['code']}\n"
+
+        # Add statistical information based on background_info
+        if self.background_info == 'all':
+            info += "\nHere are their corresponding performance values:\n"
+            for i, offspring in enumerate(offspring_pop, 1):
+                info += f"\nAlgorithm {i} performance: {offspring['objective']:.2f}\n"
+
+        elif self.background_info == 'quantile':
+            objectives = [offspring['objective'] for offspring in offspring_pop]
+            q1 = np.quantile(objectives, 0.25)
+            median = np.quantile(objectives, 0.5)
+            q3 = np.quantile(objectives, 0.75)
+
+            info += "\nQuantile statistics of their performance:\n"
+            info += f"- 25th percentile (Q1): {q1:.2f}\n"
+            info += f"- 50th percentile (Median): {median:.2f}\n"
+            info += f"- 75th percentile (Q3): {q3:.2f}\n"
+
+        else:  # avg
+            avg_objective = np.mean([offspring['objective'] for offspring in offspring_pop])
+            info += "\nAverage performance of all algorithms:\n"
+            info += f"Mean objective value: {avg_objective:.2f}\n"
+
+        return info
+
 
     # run eoh 
     def run(self):
@@ -93,7 +146,10 @@ class EOH:
 
         # interface for ec operators
         interface_ec = InterfaceEC(self.pop_size, self.m, self.api_endpoint, self.api_key, self.llm_model, self.use_local_llm, self.llm_local_url,
-                                   self.debug_mode, interface_prob, reflect=self.reflect, external_optimizer=self.external_optimizer,
+                                   self.debug_mode, interface_prob, reflect=self.reflect, K1=self.K1, K2=self.K2,
+                                   background_info = self.background_info, prompt_type=self.prompt_type,
+                                   external_optimizer=self.external_optimizer,
+                                   exp_output_path = self.output_path,
                                    select=self.select,n_p=self.exp_n_proc, timeout = self.timeout, use_numba=self.use_numba
                                    )
 
@@ -110,8 +166,8 @@ class EOH:
         else:
             if self.load_pop:  # load population from files
                 print("1. Load initial population from " + self.load_pop_path)
-                import os
-                print(os.getcwd())
+                # import os
+                # print(os.getcwd())
                 with open(self.load_pop_path) as file:
                     data = json.load(file)
                 for individual in data:
@@ -153,7 +209,7 @@ class EOH:
                 #         print(len(population))
      
                 
-                print(f"Pop initial: ")
+                print(f"3. Pop initial: ")
                 for off in population:
                     print(" Obj: ", off['objective'], end="|")
                 # Save population to a file
@@ -181,16 +237,21 @@ class EOH:
                 population = self.manage.population_management(population, size_act)
                 offspring_pop = self.manage.population_management(offspring_pop, size_act)
                 print()
+            if self.background_info:
+                assert self.background_info in ['avg', 'quantile', 'all']
+                info = self.get_info(offspring_pop)
+            else:
+                info = ''
             # if self.reflect:  # reevo style reflection
             #     interface_ec.update_long_term_reevo(iteration=pop)
             if self.reflect == 'mimic_best_sample':
-                interface_ec.mimic_best_sample(offspring_pop, iteration=pop)
+                interface_ec.mimic_best_sample(info, offspring_pop, iteration=pop)
             elif self.reflect == 'correct_worst_sample':
-                interface_ec.correct_worst_sample(offspring_pop, iteration=pop)
+                interface_ec.correct_worst_sample(info, offspring_pop, iteration=pop)
             elif self.reflect == 'hybrid':
-                interface_ec.hybrid(offspring_pop, iteration=pop)
+                interface_ec.hybrid(info, offspring_pop, iteration=pop)
             elif self.reflect == 'multi_comparative_reflection':
-                interface_ec.multi_comparative_reflection(offspring_pop, iteration=pop)
+                interface_ec.multi_comparative_reflection(info, offspring_pop, iteration=pop)
             else:
                 pass    # No reflection
 
@@ -212,4 +273,42 @@ class EOH:
             for i in range(len(population)):
                 print(str(population[i]['objective']) + " ", end="")
             print()
+
+            if pop == self.n_pop - 1:   # save results
+                self.save_results(population)
+
+
+    def save_results(self, population):
+        parent_dir = Path(self.output_path).parent
+        oneline = {
+            'problem': self.problem,
+            'dist': self.dist,
+            'demand_mean': self.demand_mean,
+            'prompt_type': self.prompt_type,
+            'K1': self.K1,
+            'K2': self.K2,
+            'background_info': 'no' if self.background_info is None else self.background_info,
+            'external_opt': 'no' if self.external_optimizer is None else self.external_optimizer,
+        }
+
+        for i in range(min(10, len(population))):
+            oneline[str(i + 1)] = population[i]['objective']
+
+        for i in range(len(population), 10):
+            oneline[str(i + 1)] = None
+
+        filename = f"{parent_dir}/res.csv"
+
+        with open(filename, 'a', newline='') as csvfile:
+            writer = csv.DictWriter(csvfile, fieldnames=[
+                'problem', 'dist', 'demand_mean', 'prompt_type',
+                'K1', 'K2', 'background_info', 'external_opt',
+                '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'
+            ])
+
+            if csvfile.tell() == 0:
+                writer.writeheader()
+
+            writer.writerow(oneline)
+
 

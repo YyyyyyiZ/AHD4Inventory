@@ -9,18 +9,17 @@ import concurrent.futures
 
 class InterfaceEC():
     def __init__(self, pop_size, m, api_endpoint, api_key, llm_model,llm_use_local,llm_local_url, debug_mode,
-                 interface_prob, reflect, external_optimizer, select,n_p,timeout,use_numba,**kwargs):
+                 interface_prob, reflect, K1, K2, external_optimizer, exp_output_path,
+                 background_info, prompt_type, select,n_p,timeout,use_numba,**kwargs):
 
         # LLM settings
         self.pop_size = pop_size
         self.interface_eval = interface_prob
         prompts = interface_prob.prompts
         self.evol = Evolution(api_endpoint, api_key, llm_model,llm_use_local,llm_local_url, debug_mode,prompts,
-                              reflect, external_optimizer, **kwargs)
+                              reflect, K1, K2, external_optimizer, exp_output_path, background_info, prompt_type, **kwargs)
         self.m = m
         self.debug = debug_mode
-
-
 
         if not self.debug:
             warnings.filterwarnings("ignore")
@@ -178,9 +177,12 @@ class InterfaceEC():
                 if n_retry > 1:
                     break
 
-            if self.external_optimizer and len(offspring['opt_params'])!=0:
+            if self.external_optimizer=='scipy' and len(offspring['opt_params'])!=0:
+                from .external_scipy import ScipyOptimizer as ExternalOptimizer
+            # # This is a placeholder, nevergrad not implemented
+            # elif self.external_optimizer == 'nevergrad' and len(offspring['opt_params']) != 0:
+            #     from .external_nevergrad import NeverGradOptimizer as ExternalOptimizer
                 try:
-                    from .external_optimizer import ExternalOptimizer
                     print(f"Original parameters: {offspring['opt_params']}")
                     optimizer = ExternalOptimizer(
                         interface_eval=self.interface_eval,
@@ -234,17 +236,17 @@ class InterfaceEC():
     def update_long_term_reevo(self, iteration):
         self.evol.long_term_reflection_reevo(iteration)
 
-    def mimic_best_sample(self, population, iteration):
-        self.evol.mimic_best_sample(population, iteration)
+    def mimic_best_sample(self, info='', population=None, iteration=0):
+        self.evol.mimic_best_sample(info, population, iteration)
 
-    def correct_worst_sample(self, population, iteration):
-        self.evol.correct_worst_sample(population, iteration)
+    def correct_worst_sample(self, info='', population=None, iteration=0):
+        self.evol.correct_worst_sample(info, population, iteration)
 
-    def hybrid(self, population, iteration):
-        self.evol.hybrid(population, iteration)
+    def hybrid(self, info='', population=None, iteration=0):
+        self.evol.hybrid(info, population, iteration)
 
-    def multi_comparative_reflection(self, population, iteration):
-        self.evol.multi_comparative_reflection(population, iteration)
+    def multi_comparative_reflection(self, info='', population=None, iteration=0):
+        self.evol.multi_comparative_reflection(info, population, iteration)
 
 
     def get_algorithm(self, pop, operator):

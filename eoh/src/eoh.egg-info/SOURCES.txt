@@ -26,6 +26,16 @@ src/eoh/methods/eoh/evaluator_accelerate.py
 src/eoh/methods/eoh/external_optimizer.py
 src/eoh/methods/eoh/reflection/__init__.py
 src/eoh/methods/eoh/reflection/utils.py
+src/eoh/methods/eoh/reflection/common/correct_worst_sample.txt
+src/eoh/methods/eoh/reflection/common/hybrid.txt
+src/eoh/methods/eoh/reflection/common/mimic_best_sample.txt
+src/eoh/methods/eoh/reflection/common/multi_comparative_reflection.txt
+src/eoh/methods/eoh/reflection/common/prompt_e1.txt
+src/eoh/methods/eoh/reflection/common/prompt_e2.txt
+src/eoh/methods/eoh/reflection/common/prompt_i1.txt
+src/eoh/methods/eoh/reflection/common/prompt_m1.txt
+src/eoh/methods/eoh/reflection/common/prompt_m2.txt
+src/eoh/methods/eoh/reflection/common/prompt_m3.txt
 src/eoh/methods/eoh/reflection/common/system_reflector.txt
 src/eoh/methods/eoh/reflection/common/user_reflector_lt.txt
 src/eoh/methods/eoh/reflection/common/user_reflector_st.txt

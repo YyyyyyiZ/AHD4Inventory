@@ -5,7 +5,7 @@ from datetime import datetime
 import glob
 
 
-def generate_random_instance(num_periods=30, lead_time=1, demand_mean = 50,  initial_inventory=80,
+def generate_random_instance(dist='poisson',num_periods=30, lead_time=1, demand_mean = 50,  initial_inventory=80,
                              holding_cost=2, lost_sales_cost=10, volatility='median', instance_id=None):
     """
     Generate a random inventory problem instance.
@@ -28,9 +28,12 @@ def generate_random_instance(num_periods=30, lead_time=1, demand_mean = 50,  ini
         demand_mean = np.random.randint(50, 80)
 
     # Adjust variance based on volatility level
-    if volatility == 'low':
+    if volatility == 'low' and dist == 'poisson':
         # For low volatility, keep variance close to mean (like Poisson)
         demand = np.random.poisson(demand_mean, size=num_periods)
+    elif volatility == 'low' and dist == 'normal':
+        # For low volatility, keep variance close to mean (like Poisson)
+        demand = np.random.normal(demand_mean, size=num_periods)
     elif volatility == 'high':
         # For high volatility, increase variance relative to mean
         # Using negative binomial which allows overdispersion
@@ -98,16 +101,17 @@ if __name__ == "__main__":
     lead_time = 1
     num_periods = 50
     volatility = ['low']
+    distribution = 'poisson'
     # volatility = ['low', 'median', 'high']
-    demands = [80]
+    demands = [50,60,70,80]
     for vol in volatility:
         for demand_mean in demands:
-            test_instances = [generate_random_instance(num_periods=num_periods, lead_time=lead_time, demand_mean = demand_mean,
+            test_instances = [generate_random_instance(dist=distribution, num_periods=num_periods, lead_time=lead_time, demand_mean = demand_mean,
                                                        holding_cost=2, lost_sales_cost=10, volatility=vol,
                                                        instance_id=f"test_{i}") for i in range(10)]
-            save_instances(test_instances, f"data/test_{demand_mean}_{vol}.json")
+            save_instances(test_instances, f"data/{distribution}_test_{demand_mean}_{vol}.json")
 
-            training_instances = [generate_random_instance(num_periods=num_periods, lead_time=lead_time, demand_mean=demand_mean,
+            training_instances = [generate_random_instance(dist=distribution, num_periods=num_periods, lead_time=lead_time, demand_mean=demand_mean,
                                                            holding_cost=2, lost_sales_cost=10, volatility=vol,
                                                            instance_id=f"train_{i}") for i in range(50)]
-            save_instances(training_instances, f"data/train_{demand_mean}_{vol}.json")
+            save_instances(training_instances, f"data/{distribution}_train_{demand_mean}_{vol}.json")

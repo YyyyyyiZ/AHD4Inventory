@@ -1,9 +1,0 @@
-Here are concise, actionable hints for improving inventory heuristics:  
-
-1. **Adapt safety stock** using cost ratios and recent lost sales trends.  
-2. **Use exponential smoothing** for stable, weighted demand forecasts.  
-3. **Balance responsiveness** with stability via dynamic smoothing factors.  
-4. **Simplify edge cases** (e.g., empty history) with robust defaults.  
-5. **Avoid hard thresholds**; scale adjustments continuously.  
-
-(Total: 47 words)

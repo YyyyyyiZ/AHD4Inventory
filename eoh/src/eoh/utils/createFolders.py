@@ -13,7 +13,7 @@ def create_folders(results_path):
         os.makedirs(folder_path)
 
     # Create subfolders inside "results_create_None_None"
-    subfolders = ["history", "pops", "pops_best"]
+    subfolders = ["history", "pops", "pops_best", "reflection", "prompt_for_reflection"]
     for subfolder in subfolders:
         subfolder_path = os.path.join(folder_path, subfolder)
         if not os.path.exists(subfolder_path):

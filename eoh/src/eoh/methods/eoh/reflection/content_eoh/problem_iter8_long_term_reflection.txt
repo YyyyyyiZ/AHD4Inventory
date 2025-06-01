@@ -1,8 +1,0 @@
-Here are refined, actionable hints for robust inventory heuristics:  
-
-1. **Dynamic quantiles**: Adjust demand percentiles (e.g., 75th) based on cost ratios and volatility.  
-2. **Non-linear safety stock**: Scale buffers with cost ratio^0.7 and cap multipliers (e.g., ≤1.5).  
-3. **Recent focus**: Prioritize last 3-period stockouts but blend with long-term trends.  
-4. **Simplify defaults**: Use conservative initial orders (e.g., 50) and smooth extreme adjustments.  
-
-**Key**: Balance reactivity and stability with cost-aware, data-driven rules. (49 words)

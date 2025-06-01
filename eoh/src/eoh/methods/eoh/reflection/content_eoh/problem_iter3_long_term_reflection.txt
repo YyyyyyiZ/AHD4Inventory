@@ -1,9 +1,0 @@
-Here are concise, actionable hints for improving inventory heuristics:  
-
-1. **Use cost-sensitive quantiles** for robust demand estimation.  
-2. **Weight recent data** (3-period window) but blend with long-term trends.  
-3. **Scale safety stock dynamically** with cost ratios and lost sales severity.  
-4. **Simplify adjustments**—avoid over-parameterization and hard caps.  
-5. **Handle edge cases** (e.g., cold starts) with data-driven defaults.  
-
-(Total: 45 words)

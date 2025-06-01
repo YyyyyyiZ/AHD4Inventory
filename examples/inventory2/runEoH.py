@@ -1,27 +1,78 @@
 from eoh import eoh
 from eoh.utils.getParas import Paras
 
+import argparse
+
+
+parser = argparse.ArgumentParser('Run Inventory2')
+
+
+# LLM Config
+parser.add_argument('--llm_api_endpoint', type=str, default="api.deepseek.com")
+parser.add_argument('--llm_api_key', type=str, default="None")
+parser.add_argument('--llm_model', type=str, default="deepseek-chat")
+
+
+# Data related
+parser.add_argument('--dist', type=str, default='poisson', help='Demand distribution.')
+parser.add_argument('--mean', type=int, default=80, help='Demand mean.')
+
+# Reflection
+parser.add_argument('--prompt_type', type=str, default='original')
+parser.add_argument('--K1', type=int, default=0, help='Number of good performers.')
+parser.add_argument('--K2', type=int, default=2, help='Number of bad performers.')
+parser.add_argument('--background_info', type=str, default='no')
+
+
+# Optimizer
+parser.add_argument('--external_opt', type=str, default='no')
+
+
+# General parameters
+parser.add_argument('--ecc_pop_size', type=int, default=10, help='number of samples in each population')
+parser.add_argument('--ec_n_pop', type=int, default=2, help='number of populations')
+parser.add_argument('--exp_n_proc', type=int, default=4, help='multi-core parallel')
+parser.add_argument('--exp_use_continue', type=int, default=1, help='# load existing heuristics.')
+parser.add_argument('--exp_continue_path', type=str, default="results/pops/initial_pool.json", help='path to existing heuristics')
+parser.add_argument('--exp_create_initial', type=int, default=0)
+parser.add_argument('--exp_output_path', type=str, default='unknown', help='results wil be saved in "{exp_output_path}/pops')
+
+
+args = parser.parse_args()
+options = vars(args)
+print(options)
+
+args.exp_output_path = '_'.join([args.dist, str(args.mean),
+                                 args.prompt_type, str(args.K1), str(args.K2), args.background_info,
+                                 args.external_opt])
+
+
 # Parameter initilization #
 paras = Paras() 
 
 # Set parameters #
 paras.set_paras(method = "eoh",
                 problem = "inventory2",
-                demand = 80,  # 50, 60, 70, 80
-                volatility = 'low',  # low, median, high
-                llm_api_endpoint = "api.deepseek.com",  # LLM endpoint
-                llm_api_key = "sk-ee82535575fc4c5183b171fc2ae7b1d0",  # key
-                llm_model = "deepseek-chat",  # Model
-                ecc_pop_size = 10,  # number of samples in each population
-                ec_n_pop= 2,  # number of populations
-                exp_n_proc = 4,  # multi-core parallel
-                exp_use_continue = True,    # load existing heuristics
-                exp_continue_path ="results/pops/initial_pool.json",   # path to existing heuristics
-                exp_create_initial = False,
-                exp_output_path = "./results0",  # results wil be saved in "{exp_output_path}/pops"
-                reflect = 'multi_comparative_reflection',  # 'mimic_best_sample', 'correct_worst_sample', 'hybrid', 'multi_comparative_reflection'
-                external_optimizer=False)
-
+                dist = args.dist,   # normal
+                demand = args.mean,
+                volatility = 'low',
+                llm_api_endpoint = args.llm_api_endpoint,  # LLM endpoint
+                llm_api_key = args.llm_api_key,  # key
+                llm_model = args.llm_model,  # Model
+                ecc_pop_size = args.ecc_pop_size,  # number of samples in each population
+                ec_n_pop= args.ec_n_pop,  # number of populations
+                exp_n_proc = args.exp_n_proc,  # multi-core parallel
+                exp_use_continue = args.exp_use_continue,    # load existing heuristics
+                exp_continue_path =args.exp_continue_path,   # path to existing heuristics
+                exp_create_initial = args.exp_create_initial,
+                exp_output_path = args.exp_output_path,
+                K1=args.K1,
+                K2=args.K2,   # 'mimic_best_sample', 'correct_worst_sample', 'hybrid', 'multi_comparative_reflection'
+                external_optimizer=args.external_opt,
+                background_info=args.background_info,
+                prompt_type=args.prompt_type  # llm, tool
+                )
+print("Run Inventory2")
 # initilization
 evolution = eoh.EVOL(paras)
 

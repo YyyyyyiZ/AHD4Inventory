@@ -13,10 +13,15 @@ class Paras():
         ### Self defined  ###
         #####################
         self.demand = 80
+        self.dist = 'poisson'
         self.volatility = 'low'
-        self.reflect = False
-        self.external_optimizer = False
         self.exp_create_initial = False
+        self.K1=1
+        self.K2=1
+        self.prompt_type='original'
+        self.external_optimizer = 'scipy'
+        self.background_info = False
+
 
 
 

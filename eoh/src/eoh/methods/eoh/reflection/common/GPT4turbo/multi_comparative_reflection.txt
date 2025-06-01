@@ -1,0 +1,16 @@
+Below is a function for the following task: {prompt_task}
+
+You are given background information about the code and its performance.
+
+[Background Information]
+{info}
+
+Below are two groups of code: the first group contains the worst-performing versions, the second group the best.
+
+[Worse Code Group]
+{worst}
+
+[Best Code Group]
+{best}
+
+Based on both groups, provide a brief hint for designing better heuristics through comparison.
