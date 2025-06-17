@@ -21,8 +21,8 @@ class Paras():
         self.prompt_type='original'
         self.external_optimizer = 'scipy'
         self.background_info = False
-
-
+        self.repeat = 0
+        self.filename='res'
 
 
         #####################

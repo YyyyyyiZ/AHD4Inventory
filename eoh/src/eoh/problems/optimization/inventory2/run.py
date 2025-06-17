@@ -47,7 +47,7 @@ class INVENTORY:
                     instances.append(data)
         return instances
 
-    def evaluateGreedy(self, eva) -> float:
+    def evaluateGreedy(self, eva):
         cost_list = []
         for instance in self.instances:
             total_cost = 0.0
@@ -90,7 +90,15 @@ class INVENTORY:
                 lost_sales_cost = instance['lost_sales_cost'] * lost_sales
                 total_cost += holding_cost + lost_sales_cost
             cost_list.append(total_cost)
-        return sum(cost_list) / len(cost_list)
+        ci = self.bootstrap_ci(cost_list)
+        res = {
+            'avg': sum(cost_list) / len(cost_list),
+            'lower': ci[0],
+            'upper': ci[1],
+            'trajectory': cost_list,
+        }
+
+        return res
 
         
     def evaluate(self, code_string):
@@ -110,6 +118,17 @@ class INVENTORY:
             fitness = self.evaluateGreedy(heuristic_module)
 
             return fitness
+
+    @staticmethod
+    def bootstrap_ci(data, n_bootstrap=1000, ci=95):
+        means = []
+        for _ in range(n_bootstrap):
+            sample = np.random.choice(data, size=len(data), replace=True)
+            means.append(np.mean(sample))
+        lower = np.percentile(means, (100 - ci) / 2)
+        upper = np.percentile(means, 100 - (100 - ci) / 2)
+        return lower, upper
+
 
 
 

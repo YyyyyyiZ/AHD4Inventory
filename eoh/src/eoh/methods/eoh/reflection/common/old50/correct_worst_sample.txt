@@ -1,13 +1,12 @@
 Below is a function for the following task: {prompt_task}
 
 You are provided with some background information regarding the codes and their corresponding performances.
-
 [background information]
 {info}
 
-You are also provided with the best-performing code below.
 
-[Best code]
-{best_code}
+You are provided with the worst-performing version below.
+[Worst code]
+{worst_code}
 
-You respond with some hints for designing better heuristics, based on the best code.
+You respond with some hints for correcting bad heuristics, based on the worst code and using less than 50 words.

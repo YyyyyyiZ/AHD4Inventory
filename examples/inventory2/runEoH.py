@@ -1,6 +1,6 @@
 from eoh import eoh
 from eoh.utils.getParas import Paras
-
+import sys
 import argparse
 
 
@@ -9,23 +9,25 @@ parser = argparse.ArgumentParser('Run Inventory2')
 
 # LLM Config
 parser.add_argument('--llm_api_endpoint', type=str, default="api.deepseek.com")
-parser.add_argument('--llm_api_key', type=str, default="None")
+parser.add_argument('--llm_api_key', type=str, default="sk-86f1380967f0420a8572ebd6a58f6eac")
 parser.add_argument('--llm_model', type=str, default="deepseek-chat")
 
+parser.add_argument('--repeat', type=int, default=1, help='Repeat.')
+parser.add_argument('--filename', type=str, default='res', help='Filename.')
 
 # Data related
 parser.add_argument('--dist', type=str, default='poisson', help='Demand distribution.')
 parser.add_argument('--mean', type=int, default=80, help='Demand mean.')
 
 # Reflection
-parser.add_argument('--prompt_type', type=str, default='original')
-parser.add_argument('--K1', type=int, default=0, help='Number of good performers.')
-parser.add_argument('--K2', type=int, default=2, help='Number of bad performers.')
-parser.add_argument('--background_info', type=str, default='no')
+parser.add_argument('--prompt_type', type=str, default='old20')
+parser.add_argument('--K1', type=int, default=1, help='Number of good performers.')
+parser.add_argument('--K2', type=int, default=1, help='Number of bad performers.')
+parser.add_argument('--background_info', type=str, default='data')
 
 
 # Optimizer
-parser.add_argument('--external_opt', type=str, default='no')
+parser.add_argument('--external_opt', type=str, default='scipy')
 
 
 # General parameters
@@ -42,9 +44,10 @@ args = parser.parse_args()
 options = vars(args)
 print(options)
 
+
 args.exp_output_path = '_'.join([args.dist, str(args.mean),
                                  args.prompt_type, str(args.K1), str(args.K2), args.background_info,
-                                 args.external_opt])
+                                 args.external_opt, 'r'+str(args.repeat)])
 
 
 # Parameter initilization #
@@ -70,7 +73,9 @@ paras.set_paras(method = "eoh",
                 K2=args.K2,   # 'mimic_best_sample', 'correct_worst_sample', 'hybrid', 'multi_comparative_reflection'
                 external_optimizer=args.external_opt,
                 background_info=args.background_info,
-                prompt_type=args.prompt_type  # llm, tool
+                prompt_type=args.prompt_type,  # llm, tool
+                repeat=args.repeat,
+                filename=args.filename
                 )
 print("Run Inventory2")
 # initilization

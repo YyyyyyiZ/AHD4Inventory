@@ -1,17 +1,15 @@
 Below is a function for the following task: {prompt_task}
 
 You are provided with some background information regarding the codes and their corresponding performances.
-
 [background information]
 {info}
 
-You are also provided with two groups of code versions below, where the first group contains worst-performing codes,
-and the second group contains the best-performing codes.
+You are provided with two code versions below, where the second version performs better than the first one.
 
-[Worse code group:]
-{worst}
+[Worst code]
+{worst_code}
 
-[Best code group:]
-{best}
+[Best code]
+{best_code}
 
 You respond with some hints for designing better heuristics, based on the two code versions.

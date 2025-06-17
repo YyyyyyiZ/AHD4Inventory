@@ -68,8 +68,11 @@ class InterfaceEC():
     def population_init_obj(self, pop, n_p):
         fitness = Parallel(n_jobs=n_p)(delayed(self.interface_eval.evaluate)(seed['code']) for seed in pop)
         for i in range(len(pop)):
-            obj = np.array(fitness[i])
+            obj = np.array(fitness[i]['avg'])
             pop[i]['objective'] = np.round(obj, 5)
+            pop[i]['lower'] = np.round(np.array(fitness[i]['lower']), 5)
+            pop[i]['upper'] = np.round(np.array(fitness[i]['upper']), 5)
+            pop[i]['trajectory'] = fitness[i]['trajectory']
         return pop
 
     def population_generation(self):
@@ -97,11 +100,17 @@ class InterfaceEC():
                     'algorithm': seeds[i]['algorithm'],
                     'code': seeds[i]['code'],
                     'objective': None,
+                    'lower': None,
+                    'upper': None,
+                    'trajectory': None,
                     'other_inf': None
                 }
 
-                obj = np.array(fitness[i])
+                obj = np.array(fitness[i]['avg'])
                 seed_alg['objective'] = np.round(obj, 5)
+                seed_alg['lower'] = np.round(np.array(fitness[i]['lower']), 5)
+                seed_alg['upper'] = np.round(np.array(fitness[i]['upper']), 5)
+                seed_alg['trajectory'] = fitness[i]['trajectory']
                 population.append(seed_alg)
 
             except Exception as e:
@@ -119,6 +128,9 @@ class InterfaceEC():
             'code': None,
             'opt_params': {},
             'objective': None,
+            'lower': None,
+            'upper': None,
+            'trajectory': None,
             'other_inf': None
         }
         if operator == "i1":
@@ -199,6 +211,9 @@ class InterfaceEC():
                     offspring.update({
                         'code': opt_result.optimized_code,
                         'objective': np.round(opt_result.optimized_fitness, 5),
+                        'lower': np.round(opt_result.optimized_lower, 5),
+                        'upper': np.round(opt_result.optimized_upper, 5),
+                        'trajectory': opt_result.optimized_trajectory,
                         'opt_params': opt_result.optimized_params
                     })
 
@@ -208,14 +223,20 @@ class InterfaceEC():
                     with concurrent.futures.ThreadPoolExecutor() as executor:
                         future = executor.submit(self.interface_eval.evaluate, code)
                         fitness = future.result(timeout=self.timeout)
-                        offspring['objective'] = np.round(fitness, 5)
+                        offspring['objective'] = np.round(fitness['avg'], 5)
+                        offspring['lower'] = np.round(fitness['lower'], 5)
+                        offspring['upper'] = np.round(fitness['upper'], 5)
+                        offspring['trajectory'] = fitness['trajectory']
                         future.cancel()
             else:
                 #self.code2file(offspring['code'])
                 with concurrent.futures.ThreadPoolExecutor() as executor:
                     future = executor.submit(self.interface_eval.evaluate, code)
                     fitness = future.result(timeout=self.timeout)
-                    offspring['objective'] = np.round(fitness, 5)
+                    offspring['objective'] = np.round(fitness['avg'], 5)
+                    offspring['lower'] = np.round(fitness['lower'], 5)
+                    offspring['upper'] = np.round(fitness['upper'], 5)
+                    offspring['trajectory'] = fitness['trajectory']
                     future.cancel()
                     # fitness = self.interface_eval.evaluate(code)
                 
@@ -227,6 +248,9 @@ class InterfaceEC():
                 'algorithm': None,
                 'code': None,
                 'objective': None,
+                'lower': None,
+                'upper': None,
+                'trajectory': None,
                 'other_inf': None
             }
             p = None

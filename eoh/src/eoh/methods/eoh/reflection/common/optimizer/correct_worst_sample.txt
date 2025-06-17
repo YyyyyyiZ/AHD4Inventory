@@ -1,0 +1,19 @@
+Task: {prompt_task}
+
+Background: {info}
+
+Worst-Performing Code: {worst_code}
+
+Critical Issues Identified:
+[Main algorithmic flaw] - [Why it fails]
+[Implementation mistake] - [Performance impact]
+[Edge case vulnerability] - [When it breaks]
+
+Root Causes:
+[Fundamental misconception] - [Underlying wrong assumption]
+[Optimization error] - [Where it wastes resources]
+
+Corrective Heuristics:
+[Primary fix] - [How to address main flaw]
+[Secondary improvement] - [Additional optimization]
+[Defensive measure] - [How to prevent similar errors]

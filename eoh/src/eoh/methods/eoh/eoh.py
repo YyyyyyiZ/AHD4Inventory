@@ -1,9 +1,11 @@
 import numpy as np
+import pandas as pd
 import json
 import random
 import time
 from pathlib import Path
 import csv
+import glob
 
 from .eoh_interface_EC import InterfaceEC
 # main class for eoh
@@ -56,6 +58,7 @@ class EOH:
         self.use_numba = paras.eva_numba_decorator
 
         self.create_initial = paras.exp_create_initial
+        self.repeat = paras.repeat
 
         self.K1 =paras.K1
         self.K2 =paras.K2
@@ -85,6 +88,7 @@ class EOH:
         self.dist = paras.dist
         self.demand_mean = paras.demand
         self.volatility = paras.volatility
+        self.filename = paras.filename
 
         print("- EoH parameters loaded -")
 
@@ -100,36 +104,95 @@ class EOH:
                         print("duplicated result, retrying ... ")
             population.append(off)
 
+    # def get_info(self, offspring_pop):
+    #     # Start with all codes
+    #     info = "Here are all the candidate algorithms' code implementations:\n"
+    #     for i, offspring in enumerate(offspring_pop, 1):
+    #         info += f"\nAlgorithm {i}:\n{offspring['code']}\n"
+    #
+    #     # Add statistical information based on background_info
+    #     if self.background_info == 'all':
+    #         info += "\nHere are their corresponding performance values:\n"
+    #         for i, offspring in enumerate(offspring_pop, 1):
+    #             info += f"\nAlgorithm {i} performance: {offspring['objective']:.2f}\n"
+    #
+    #     elif self.background_info == 'quantile':
+    #         objectives = [offspring['objective'] for offspring in offspring_pop]
+    #         q1 = np.quantile(objectives, 0.25)
+    #         median = np.quantile(objectives, 0.5)
+    #         q3 = np.quantile(objectives, 0.75)
+    #
+    #         info += "\nQuantile statistics of their performance:\n"
+    #         info += f"- 25th percentile (Q1): {q1:.2f}\n"
+    #         info += f"- 50th percentile (Median): {median:.2f}\n"
+    #         info += f"- 75th percentile (Q3): {q3:.2f}\n"
+    #
+    #     else:  # avg
+    #         avg_objective = np.mean([offspring['objective'] for offspring in offspring_pop])
+    #         info += "\nAverage performance of all algorithms:\n"
+    #         info += f"Mean objective value: {avg_objective:.2f}\n"
+    #
+    #     return info
+
+    def get_data(self):
+        # Determine the file pattern based on parameters
+        if self.dist is None and self.demand_mean is None and self.volatility is None:
+            pattern = "evaluation/data/*_train_*.json"
+        elif self.dist is None and self.demand_mean is None:
+            pattern = f"evaluation/data/*_train_*_{self.volatility}.json"
+        elif self.dist is None and self.volatility is None:
+            pattern = f"evaluation/data/*_train_{self.demand_mean}_*.json"
+        elif self.demand_mean is None and self.volatility is None:
+            pattern = f"evaluation/data/{self.dist}_train_*.json"
+        elif self.dist is None:
+            pattern = f"evaluation/data/*_train_{self.demand_mean}_{self.volatility}.json"
+        elif self.volatility is None:
+            pattern = f"evaluation/data/{self.dist}_train_{self.demand_mean}_*.json"
+        elif self.demand_mean is None:
+            pattern = f"evaluation/data/{self.dist}_train_*_{self.volatility}.json"
+        else:
+            pattern = f"evaluation/data/{self.dist}_train_{self.demand_mean}_{self.volatility}.json"
+
+        # Find all matching files and load their contents
+        instances = []
+        for file_path in glob.glob(pattern):
+            with open(file_path, 'r') as f:
+                data = json.load(f)
+                if isinstance(data, list):
+                    instances.extend(data)
+                else:
+                    instances.append(data)
+        data = {f"trajectory_{i}": traj["demand"] for i, traj in enumerate(instances, start=1)}
+
+        return data
+
+
     def get_info(self, offspring_pop):
         # Start with all codes
-        info = "Here are all the candidate algorithms' code implementations:\n"
-        for i, offspring in enumerate(offspring_pop, 1):
-            info += f"\nAlgorithm {i}:\n{offspring['code']}\n"
+        info = ""
 
-        # Add statistical information based on background_info
-        if self.background_info == 'all':
-            info += "\nHere are their corresponding performance values:\n"
+        if self.background_info == 'avg':
             for i, offspring in enumerate(offspring_pop, 1):
-                info += f"\nAlgorithm {i} performance: {offspring['objective']:.2f}\n"
+                info += f"\nAlgorithm {i}:\n{offspring['code']}\n"
+                info += f"Performance: {offspring['objective']}\n"
 
-        elif self.background_info == 'quantile':
-            objectives = [offspring['objective'] for offspring in offspring_pop]
-            q1 = np.quantile(objectives, 0.25)
-            median = np.quantile(objectives, 0.5)
-            q3 = np.quantile(objectives, 0.75)
 
-            info += "\nQuantile statistics of their performance:\n"
-            info += f"- 25th percentile (Q1): {q1:.2f}\n"
-            info += f"- 50th percentile (Median): {median:.2f}\n"
-            info += f"- 75th percentile (Q3): {q3:.2f}\n"
+        elif self.background_info == 'interval':
+            for i, offspring in enumerate(offspring_pop, 1):
+                info += f"\nAlgorithm {i}:\n{offspring['code']}\n"
+                info += f"Average Performance: {offspring['objective']}; 95% Confidence Interval: ({offspring['lower']}, {offspring['upper']})\n"
 
-        else:  # avg
-            avg_objective = np.mean([offspring['objective'] for offspring in offspring_pop])
-            info += "\nAverage performance of all algorithms:\n"
-            info += f"Mean objective value: {avg_objective:.2f}\n"
+
+        elif self.background_info == 'data':
+            info += (f"\n**Demand Data**. The dataset consists of multiple trajectories, "
+                     f"each representing a time series of demand values over 50 periods.\n{self.get_data()}\n")
+            for i, offspring in enumerate(offspring_pop, 1):
+                info += f"\nAlgorithm {i}:\n{offspring['code']}\n"
+                info += f"Performance on each trajectory: {offspring['trajectory']}\n"
+                info += f"Average Performance over all trajectories: {offspring['objective']}; 95% Confidence Interval: ({offspring['lower']}, {offspring['upper']}\n"
+
 
         return info
-
 
     # run eoh 
     def run(self):
@@ -238,7 +301,7 @@ class EOH:
                 offspring_pop = self.manage.population_management(offspring_pop, size_act)
                 print()
             if self.background_info:
-                assert self.background_info in ['avg', 'quantile', 'all']
+                # assert self.background_info in ['avg', 'quantile', 'all']
                 info = self.get_info(offspring_pop)
             else:
                 info = ''
@@ -274,8 +337,7 @@ class EOH:
                 print(str(population[i]['objective']) + " ", end="")
             print()
 
-            if pop == self.n_pop - 1:   # save results
-                self.save_results(population)
+            self.save_results(population)
 
 
     def save_results(self, population):
@@ -289,6 +351,7 @@ class EOH:
             'K2': self.K2,
             'background_info': 'no' if self.background_info is None else self.background_info,
             'external_opt': 'no' if self.external_optimizer is None else self.external_optimizer,
+            'repeat': self.repeat,
         }
 
         for i in range(min(10, len(population))):
@@ -297,18 +360,67 @@ class EOH:
         for i in range(len(population), 10):
             oneline[str(i + 1)] = None
 
-        filename = f"{parent_dir}/res.csv"
 
-        with open(filename, 'a', newline='') as csvfile:
-            writer = csv.DictWriter(csvfile, fieldnames=[
-                'problem', 'dist', 'demand_mean', 'prompt_type',
-                'K1', 'K2', 'background_info', 'external_opt',
-                '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'
-            ])
+        filename = f"{parent_dir}/{self.filename}.csv"
 
-            if csvfile.tell() == 0:
-                writer.writeheader()
+        # with open(filename, 'a', newline='') as csvfile:
+        #     writer = csv.DictWriter(csvfile, fieldnames=[
+        #         'problem', 'dist', 'demand_mean', 'prompt_type',
+        #         'K1', 'K2', 'background_info', 'external_opt',
+        #         '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'
+        #     ])
+        #
+        #     if csvfile.tell() == 0:
+        #         writer.writeheader()
+        #
+        #     writer.writerow(oneline)
 
-            writer.writerow(oneline)
+        # 定义所有字段名
+        fieldnames = [
+            'problem', 'dist', 'demand_mean', 'prompt_type',
+            'K1', 'K2', 'background_info', 'external_opt', 'repeat',
+            '1', '2', '3', '4', '5', '6', '7', '8', '9', '10',
+        ]
+
+        # 尝试读取现有文件
+        try:
+            df = pd.read_csv(filename)
+        except (FileNotFoundError, pd.errors.EmptyDataError):
+            df = pd.DataFrame(columns=fieldnames)
+
+        # 将新数据转换为DataFrame
+        new_row = pd.DataFrame([oneline])
+
+        # 计算统计量
+        # values = new_row[[str(i) for i in range(1, 11)]].values[0]
+        # values = [float(x) for x in values if str(x).replace('.', '').isdigit()]
+
+        # if values:  # 确保有有效值
+        #     new_row['avg'] = np.mean(values)
+        #     new_row['25%'] = np.percentile(values, 25)
+        #     new_row['50%'] = np.percentile(values, 50)
+        #     new_row['75%'] = np.percentile(values, 75)
+
+        mask = (
+                (df['problem'] == oneline['problem']) &
+                (df['dist'] == oneline['dist']) &
+                (df['demand_mean'] == oneline['demand_mean']) &
+                (df['prompt_type'] == oneline['prompt_type']) &
+                (df['K1'] == oneline['K1']) &
+                (df['K2'] == oneline['K2']) &
+                (df['repeat'] == oneline['repeat']) &
+                (df['background_info'] == oneline['background_info']) &
+                (df['external_opt'] == oneline['external_opt'])
+        )
+
+        if mask.any():
+            # 更新现有行
+            df.loc[mask] = new_row.values
+        else:
+            # 添加新行
+            df = pd.concat([df, new_row], ignore_index=True)
+
+        # 保存回CSV
+        df.to_csv(filename, index=False, float_format='%.4f')
 
 

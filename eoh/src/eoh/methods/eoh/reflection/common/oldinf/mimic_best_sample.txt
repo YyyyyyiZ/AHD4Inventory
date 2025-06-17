@@ -1,11 +1,10 @@
 Below is a function for the following task: {prompt_task}
 
 You are provided with some background information regarding the codes and their corresponding performances.
-
 [background information]
 {info}
 
-You are also provided with the best-performing code below.
+You are provided with the best-performing version below.
 
 [Best code]
 {best_code}

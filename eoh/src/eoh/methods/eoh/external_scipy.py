@@ -18,6 +18,9 @@ class OptimizationResult:
     optimized_code: str
     optimized_params: Dict[str, float]
     optimized_fitness: float
+    optimized_lower: float
+    optimized_upper: float
+    optimized_trajectory: List[float]
     success: bool
     error: Optional[str] = None
     error_location: Optional[str] = None
@@ -71,7 +74,7 @@ class ScipyOptimizer:
         return '\n'.join(lines), param_locations
 
     def _evaluate_code(self, modified_code: str,
-                       executor: Optional[concurrent.futures.ThreadPoolExecutor] = None) -> float:
+                       executor: Optional[concurrent.futures.ThreadPoolExecutor] = None):
         """Evaluate code and handle potential errors"""
         try:
             if executor:
@@ -80,10 +83,10 @@ class ScipyOptimizer:
             else:
                 result = self.interface_eval.evaluate(modified_code)
 
-            if not isinstance(result, (int, float)):
-                raise ValueError(f"Evaluation function should return a number, got {type(result)}")
+            # if not isinstance(result, (int, float)):
+            #     raise ValueError(f"Evaluation function should return a number, got {type(result)}")
 
-            return float(result)
+            return result
 
         except concurrent.futures.TimeoutError:
             error_msg = f"Evaluation timed out after {self.timeout} seconds"
@@ -125,6 +128,9 @@ class ScipyOptimizer:
             optimized_code=original_code,
             optimized_params={},
             optimized_fitness=float('inf'),
+            optimized_lower=float('inf'),
+            optimized_upper=float('inf'),
+            optimized_trajectory=[],
             success=False,
             history=[]
         )
@@ -149,14 +155,17 @@ class ScipyOptimizer:
                     # Record history
                     history_entry = {
                         'params': current_params.copy(),
-                        'fitness': fitness,
+                        'fitness': fitness['avg'],
+                        'lower': fitness['lower'],
+                        'upper': fitness['upper'],
+                        'trajectory': fitness['trajectory'],
                         'code': modified_code,
                         'locations': locations
                     }
                     self.history.append(history_entry)
                     result.history.append(history_entry)
 
-                    return fitness
+                    return fitness['avg']
 
                 except Exception as e:
                     error_msg = f"Objective function failed at parameters {current_params}: {str(e)}"
@@ -185,6 +194,9 @@ class ScipyOptimizer:
             result.optimized_code = optimized_code
             result.optimized_params = optimized_params
             result.optimized_fitness = float(opt_result.fun)
+            result.optimized_lower = result.history[-1]['lower']
+            result.optimized_upper = result.history[-1]['upper']
+            result.optimized_trajectory = result.history[-1]['trajectory']
             result.success = opt_result.success
 
             if not opt_result.success:
