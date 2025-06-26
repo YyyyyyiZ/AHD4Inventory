@@ -26,13 +26,13 @@ print(sys.executable)      # path of python.exe
 dist_list = ['poisson']
 mean_list = [8000]
 prompt_type_list = ['old20']
-background_info_list = ['avg']
-external_opt_list =['no','scipy']
-# k1k2_list=[(0,0),(0,1),(0,2), (0,3),(0,4)]
-k1k2_list=[(0,0),(0,1),(0,2), (0,3),(0,4),
-           (1,0),(2,0), (3,0),(4,0),
-           (1,1),(2,2), (3,3),(4,4),]
-repeat_num=2
+background_info_list = ['data_sep']
+external_opt_list =['scipy']
+# k1k2_list=[(0,0),(0,1),(0,2), (0,3),(0,4),
+#            (1,0),(2,0), (3,0),(4,0),
+#            (1,1),(2,2), (3,3),(4,4),]
+k1k2_list=[(0,1)]
+repeat_num=1
 
 # dist_list = ['poisson']
 # mean_list = [8000]
@@ -46,7 +46,7 @@ repeat_num=2
 # repeat_num=2
 
 for repeat in range(repeat_num):
-    repeat += 1
+    repeat += 5
     for dist in dist_list:
         for mean_demand in mean_list:
                 for prompt_type in prompt_type_list:
@@ -64,7 +64,7 @@ for repeat in range(repeat_num):
                                     f"--K1 {K1} "
                                     f"--K2 {K2} "
                                     f"--repeat {repeat} "
-                                    f"--filename res_new1 "
+                                    f"--filename res_data_prompt "
                                 )
                                 print(f"Running: {command}")
                                 try:

@@ -63,6 +63,7 @@ class Evolution():
         self.prompt_m1 = file_to_string(f'{self.file_path}/common/prompt_m1.txt')
         self.prompt_m2 = file_to_string(f'{self.file_path}/common/prompt_m2.txt')
         self.prompt_m3 = file_to_string(f'{self.file_path}/common/prompt_m3.txt')
+        self.prompt_data = file_to_string(f'{self.file_path}/common/prompt_data.txt')
 
         self.prompt_mimic_best_sample = file_to_string(f'{self.file_path}/common/{self.prompt_type}/mimic_best_sample.txt')
         self.prompt_correct_worst_sample = file_to_string(f'{self.file_path}/common/{self.prompt_type}/correct_worst_sample.txt')
@@ -76,6 +77,19 @@ class Evolution():
                           + "\n" + "2. Only mark parameters that are assigned within the code body (not function inputs)" \
                           + "\n" + "3. Only mark continuous parameters assigned with an equals sign (`=`)"
         return prompt_content
+
+    def get_data_hint(self):
+        data_hint = '''
+        Here are some data-specific hints based on the provided demand trajectories:
+        1. **Demand Variability**: The demand values fluctuate between 49 and 114 across trajectories, with no clear seasonality. This suggests a stochastic rather than predictable pattern, so the algorithm should account for high variability.
+        2. **Outliers**: Some trajectories (e.g., trajectory_12 with 114, trajectory_34 with 111) have extreme values. The algorithm should be robust to sporadic spikes without overreacting.
+        3. **Central Tendency**: Most demands cluster between 70–90, with a median around 80. This could serve as a baseline for heuristic adjustments.
+        4. **Lead Time Consideration**: Since orders are in transit (pipeline inventory), the algorithm should prioritize avoiding stockouts during the lead time window, especially given the unpredictability of demand.
+        5. **Trajectory Similarity**: Despite variability, trajectories share similar ranges and distributions. Pooling data across trajectories could improve demand estimation.
+        6. **No Zero-Demand Periods**: There are no periods with zero demand, so the algorithm need not handle intermittent demand patterns.
+        7. **Cost Sensitivity**: Given the lost sales (no backorders), the cost of underordering likely outweighs holding costs, suggesting a bias toward higher safety stock.
+        '''
+        return data_hint
         
     def get_prompt_i1(self):
         prompt_content = self.prompt_i1.format(
@@ -369,18 +383,29 @@ class Evolution():
 
     def mimic_best_sample(self, info, population, iteration):
         best_ind = population[0]
-
         best_code = filter_code(best_ind["code"])
+        short_term_reflection = ''
+        if self.background_info =='data_sep':
+            data_hint = self.prompt_data.format(
+                prompt_task=self.prompt_task,
+                info=info
+            )
+            file_name = f"{self.exp_output_path}/prompt_for_reflection/{self.reflect}_{iteration}.txt"
+            with open(file_name, 'a') as file:
+                file.writelines(data_hint + '\n')
+            short_term_reflection = self.get_data_hint() + '\n'
+            # short_term_reflection = self._get_reflection(data_hint) + '\n'
+
 
         user = self.prompt_mimic_best_sample.format(
             prompt_task=self.prompt_task,
-            info = info,
+            info = info if self.background_info !='data_sep' else '',
             best_code=best_code
         )
         file_name = f"{self.exp_output_path}/prompt_for_reflection/{self.reflect}_{iteration}.txt"
         with open(file_name, 'a') as file:
             file.writelines(user + '\n')
-        short_term_reflection = self._get_reflection(user)
+        short_term_reflection += self._get_reflection(user)
         file_name = f"{self.exp_output_path}/reflection/reflection_{iteration}.txt"
         with open(file_name, 'a') as file:
             file.writelines(short_term_reflection + '\n')
@@ -389,16 +414,27 @@ class Evolution():
     def correct_worst_sample(self, info, population, iteration):
         worst_ind = population[-1]
         worst_code = filter_code(worst_ind["code"])
+        short_term_reflection = ''
+        if self.background_info == 'data_sep':
+            data_hint = self.prompt_data.format(
+                prompt_task=self.prompt_task,
+                info=info
+            )
+            file_name = f"{self.exp_output_path}/prompt_for_reflection/{self.reflect}_{iteration}.txt"
+            with open(file_name, 'a') as file:
+                file.writelines(data_hint + '\n')
+            short_term_reflection = self.get_data_hint() + '\n'
+            # short_term_reflection = self._get_reflection(data_hint) + '\n'
 
         user = self.prompt_correct_worst_sample.format(
             prompt_task=self.prompt_task,
-            info=info,
+            info = info if self.background_info !='data_sep' else '',
             worst_code=worst_code
         )
         file_name = f"{self.exp_output_path}/prompt_for_reflection/{self.reflect}_{iteration}.txt"
         with open(file_name, 'a') as file:
             file.writelines(user + '\n')
-        short_term_reflection = self._get_reflection(user)
+        short_term_reflection += self._get_reflection(user)
         file_name = f"{self.exp_output_path}/reflection/reflection_{iteration}.txt"
         with open(file_name, 'a') as file:
             file.writelines(short_term_reflection + '\n')
@@ -410,9 +446,21 @@ class Evolution():
         worst_code = filter_code(worst_ind["code"])
         best_code = filter_code(best_ind["code"])
 
+        short_term_reflection = ''
+        if self.background_info == 'data_sep':
+            data_hint = self.prompt_data.format(
+                prompt_task=self.prompt_task,
+                info=info
+            )
+            file_name = f"{self.exp_output_path}/prompt_for_reflection/{self.reflect}_{iteration}.txt"
+            with open(file_name, 'a') as file:
+                file.writelines(data_hint + '\n')
+            short_term_reflection = self.get_data_hint() + '\n'
+            # short_term_reflection = self._get_reflection(data_hint) + '\n'
+
         user = self.prompt_hybrid.format(
             prompt_task=self.prompt_task,
-            info=info,
+            info = info if self.background_info !='data_sep' else '',
             worst_code=worst_code,
             best_code=best_code
         )
@@ -420,7 +468,7 @@ class Evolution():
         with open(file_name, 'a') as file:
             file.writelines(user + '\n')
 
-        short_term_reflection = self._get_reflection(user)
+        short_term_reflection += self._get_reflection(user)
         file_name = f"{self.exp_output_path}/reflection/reflection_{iteration}.txt"
         with open(file_name, 'a') as file:
             file.writelines(short_term_reflection + '\n')
@@ -441,9 +489,21 @@ class Evolution():
             rank = "Best" if i == 1 else f"{ordinal(i)} Best"  # "Best", "Second Best", etc.
             best_sections.append(f"[{rank}]\n{filter_code(ind['code'])}\n")
 
+        short_term_reflection = ''
+        if self.background_info == 'data_sep':
+            data_hint = self.prompt_data.format(
+                prompt_task=self.prompt_task,
+                info=info
+            )
+            file_name = f"{self.exp_output_path}/prompt_for_reflection/{self.reflect}_{iteration}.txt"
+            with open(file_name, 'a') as file:
+                file.writelines(data_hint + '\n')
+            short_term_reflection = self.get_data_hint() + '\n'
+            # short_term_reflection = self._get_reflection(data_hint) + '\n'
+
         user = self.prompt_multi_comparative_reflection.format(
             prompt_task=self.prompt_task,
-            info=info,
+            info = info if self.background_info !='data_sep' else '',
             worst="".join(worst_sections),
             best="".join(best_sections)
         )
@@ -452,7 +512,7 @@ class Evolution():
         with open(file_name, 'a') as file:
             file.writelines(user + '\n')
 
-        short_term_reflection = self._get_reflection(user)
+        short_term_reflection += self._get_reflection(user)
         file_name = f"{self.exp_output_path}/reflection/reflection_{iteration}.txt"
         with open(file_name, 'a') as file:
             file.writelines(short_term_reflection + '\n')

@@ -1,0 +1,15 @@
+Below is some information about a function for the following task: {prompt_task}
+
+You are provided with historical demand data below.
+{info}
+
+You are provided with two groups of code versions below, where the first group contains worst-performed codes,
+and the second group contains the best codes.
+
+[Worse code group:]
+{worst}
+
+[Best code group:]
+{best}
+
+You reflect on the given data and code respectively. Respond with hints for designing new heuristics. Don't give additional response.

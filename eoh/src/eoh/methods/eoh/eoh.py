@@ -176,6 +176,9 @@ class EOH:
                 info += f"\nAlgorithm {i}:\n{offspring['code']}\n"
                 info += f"Performance: {offspring['objective']}\n"
 
+        elif self.background_info == 'explicit':
+            info += 'Demand data follows poisson distribution with mean=80.'
+
 
         elif self.background_info == 'interval':
             for i, offspring in enumerate(offspring_pop, 1):
@@ -184,13 +187,16 @@ class EOH:
 
 
         elif self.background_info == 'data':
-            info += (f"\n**Demand Data**. The dataset consists of multiple trajectories, "
+            info += (f"\nDemand dataset consists of multiple trajectories, "
                      f"each representing a time series of demand values over 50 periods.\n{self.get_data()}\n")
             for i, offspring in enumerate(offspring_pop, 1):
                 info += f"\nAlgorithm {i}:\n{offspring['code']}\n"
                 info += f"Performance on each trajectory: {offspring['trajectory']}\n"
-                info += f"Average Performance over all trajectories: {offspring['objective']}; 95% Confidence Interval: ({offspring['lower']}, {offspring['upper']}\n"
+                info += f"Average Performance over all trajectories: {offspring['objective']}; 95% Confidence Interval: ({offspring['lower']}, {offspring['upper']})\n"
 
+        elif self.background_info == 'dataonly' or self.background_info == 'data_sep':
+            info += (f"\nDemand dataset consists of multiple trajectories, "
+                     f"each representing a time series of demand values over 50 periods.\n{self.get_data()}\n")
 
         return info
 

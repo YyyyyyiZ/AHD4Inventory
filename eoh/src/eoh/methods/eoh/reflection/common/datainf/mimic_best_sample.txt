@@ -1,0 +1,10 @@
+Below is some information about a function for the following task: {prompt_task}
+
+You are provided with historical demand data below.
+{info}
+
+You are provided with the best-performing version below.
+[Best code]
+{best_code}
+
+You reflect on the given data and code respectively. Respond with hints for designing new heuristics. Don't give additional response.
