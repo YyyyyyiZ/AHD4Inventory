@@ -1,0 +1,8 @@
+The goal is to generate code for the following task: {prompt_task}
+
+You are provided with historical demand data information below.
+{info}
+
+Please generate hints that consider only the specific properties of the data, rather than overly general hints drawn from generic inventory problems.
+Don't give additional response.
+
