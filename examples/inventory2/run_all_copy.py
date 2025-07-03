@@ -25,8 +25,8 @@ print(sys.executable)      # path of python.exe
 
 dist_list = ['poisson']
 mean_list = [8000]
-prompt_type_list = ['flowinf']
-background_info_list = ['exactdata']
+prompt_type_list = ['flow30']
+background_info_list = ['refonly']
 # background_info_list = ['exactdata', 'refonly', 'exactdataref']
 background_type_list = ['nofix']
 data_sep_list = ['sepp']
@@ -64,7 +64,7 @@ for repeat in range(repeat_num):
                                             f"--K1 {K1} "
                                             f"--K2 {K2} "
                                             f"--repeat {repeat} "
-                                            f"--filename res_new_design3 "
+                                            f"--filename res_new_design4 "
                                         )
                                         print(f"Running: {command}")
                                         try:

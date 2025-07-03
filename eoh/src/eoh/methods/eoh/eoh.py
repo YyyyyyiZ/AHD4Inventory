@@ -78,6 +78,9 @@ class EOH:
         self.background_info = paras.background_info
         if self.background_info == 'no':
             self.background_info = None
+        self.background_type = paras.background_type
+        self.data_sep = paras.data_sep
+        self.cal_cost = paras.cal_cost
 
         self.external_optimizer=paras.external_optimizer
         if self.external_optimizer=='no':
@@ -134,7 +137,7 @@ class EOH:
     #
     #     return info
 
-    def get_data(self):
+    def get_instances(self):
         # Determine the file pattern based on parameters
         if self.dist is None and self.demand_mean is None and self.volatility is None:
             pattern = "evaluation/data/*_train_*.json"
@@ -162,29 +165,70 @@ class EOH:
                     instances.extend(data)
                 else:
                     instances.append(data)
-        data = {f"trajectory_{i}": traj["demand"] for i, traj in enumerate(instances, start=1)}
+        return instances
 
+    def get_param(self):
+        instance = self.get_instances()[0]
+        param_desc = (
+            f"Specifically, current inventory system in consideration has initial stock I_0={instance['initial_inventory']} units, "
+            f"operates over T={instance['num_periods']} periods with lead time L={instance['lead_time']}, "
+            f"where holding cost h={instance['holding_cost']} per unit and "
+            f"lost sales penalty p={instance['lost_sales_cost']} per unit."
+        )
+        return param_desc
+
+
+
+    def get_data(self, offspring_pop=None, performance=False):
+        instances = self.get_instances()
+        if performance:
+            data = []
+            for idx, traj in enumerate(instances, start=1):
+                trajectory_data = {
+                    "trajectory_id": f"trajectory_{idx}",
+                    "demand": traj["demand"],
+                    f"best_codes_performance": [
+                        {
+                            "performance": offspring_pop[i]['trajectory'][idx-1],
+                            "global_rank": i + 1
+                        }
+                        for i in range(self.K1)
+                    ],
+                    f"worst_codes_performance": [
+                        {
+                            "performance": offspring_pop[-j - 1]['trajectory'][idx-1],
+                            "global_rank": len(offspring_pop) - j
+                        }
+                        for j in range(self.K2)
+                    ]
+                }
+                data.append(trajectory_data)
+            data = json.dumps(data, indent=2)
+        else:
+            data = []
+            for idx, traj in enumerate(instances, start=1):
+                trajectory_data = {
+                    "trajectory_id": f"trajectory_{idx}",
+                    "demand": traj["demand"],
+                }
+                data.append(trajectory_data)
+            data = json.dumps(data, indent=2)
         return data
 
 
-    def get_info(self, offspring_pop):
+    def get_info(self, offspring_pop, data_reflection=None):
         # Start with all codes
-        info = ""
+        info = ""   # self.background_info == 'no', valid for both 'sep' and 'sepp'
 
         if self.background_info == 'avg':
             for i, offspring in enumerate(offspring_pop, 1):
                 info += f"\nAlgorithm {i}:\n{offspring['code']}\n"
                 info += f"Performance: {offspring['objective']}\n"
 
-        elif self.background_info == 'explicit':
-            info += 'Demand data follows poisson distribution with mean=80.'
-
-
         elif self.background_info == 'interval':
             for i, offspring in enumerate(offspring_pop, 1):
                 info += f"\nAlgorithm {i}:\n{offspring['code']}\n"
                 info += f"Average Performance: {offspring['objective']}; 95% Confidence Interval: ({offspring['lower']}, {offspring['upper']})\n"
-
 
         elif self.background_info == 'data':
             info += (f"\nDemand dataset consists of multiple trajectories, "
@@ -194,9 +238,67 @@ class EOH:
                 info += f"Performance on each trajectory: {offspring['trajectory']}\n"
                 info += f"Average Performance over all trajectories: {offspring['objective']}; 95% Confidence Interval: ({offspring['lower']}, {offspring['upper']})\n"
 
-        elif self.background_info == 'dataonly' or self.background_info == 'data_sep':
+        elif self.background_info == 'explicit':
+            info += 'Demand data follows poisson distribution with mean=80.'
+
+        elif self.background_info == 'dataonly' or self.data_sep == 'sep':
             info += (f"\nDemand dataset consists of multiple trajectories, "
                      f"each representing a time series of demand values over 50 periods.\n{self.get_data()}\n")
+
+        elif self.background_info == 'exactdata':
+            info += (f"\nThe demand dataset consists of multiple independent trajectories, each representing a complete time series of demand values across 50 consecutive periods. "
+                     f"For each trajectory, we evaluate all available codes and select:\n"
+                     f"- Top {self.K1} codes: Those with the highest average performance across ALL trajectories\n"
+                     f"- Bottom {self.K2} codes: Those with the lowest average performance across ALL trajectories\n"
+                     f"and provide these selected codes' actual performance specific to THIS particular trajectory.\n"
+                     f"{self.get_data(offspring_pop, performance=True)}\n")
+
+        elif self.background_info == 'refonly':
+            info += (f"\nBased on the demand data and corresponding performance of generated codes, "
+                     f"we have obtained the following key reflections:.\n{data_reflection}\n")
+
+        elif self.background_info == 'exactdataref':
+            info += (f"\nThe demand dataset consists of multiple independent trajectories. "
+                     f"Each trajectory represents a complete time series of demand values across 50 consecutive periods. "
+                     f"For each trajectory, we evaluate all available codes and select:\n"
+                     f"- Top {self.K1} codes: Those with the highest average performance across ALL trajectories\n"
+                     f"- Bottom {self.K2} codes: Those with the lowest average performance across ALL trajectories\n"
+                     f"and provide these selected codes' actual performance specific to THIS particular trajectory.\n"
+                     f"{self.get_data(offspring_pop, performance=True)}\n")
+            info += (f"\nBased on the demand data and corresponding performance of generated codes, "
+                     f"we have obtained the following key reflections:.\n{data_reflection}\n")
+
+        if self.cal_cost == 'code':
+            info += """
+Below is the code for calculating total costs:
+
+```python
+def cost_calculation(
+    I_0: float,          # Initial inventory
+    d: list[float],      # Demand per period [d_1, ..., d_T] 
+    L: int,              # Lead time
+    h: float,            # Holding cost rate
+    p: float,            # Lost sales penalty
+    policy_fn: callable  # Order policy q_t = f(I_t, B_t, d_hist)
+) -> float:
+    
+    # Computes total inventory cost over T periods: Total Cost = ∑_{t=1}^T (h·I_t + p·LS_t)
+    I_t, cost = I_0, 0.0
+    B_t = [0.0]*L       # Pipeline orders [q_{t-L}, ..., q_{t-1}]
+    d_hist = []         # Demand history
+    
+    for d_t in d:
+        I_t += B_t.pop(0)  # 1. Receive incoming order
+        q_t = policy_fn(I_t, B_t.copy(), d_hist.copy(), h, p, L)    # 2. Place new order (arrives after L periods)
+        B_t.append(q_t)
+        S_t = min(I_t, d_t) # 3. Fulfill demand
+        LS_t = max(0, d_t - S_t)
+        I_t -= S_t
+        cost += h*I_t + p*LS_t  # 4. Accumulate costs
+        d_hist.append(d_t)
+    return cost
+                    """
+            info += self.get_param()
 
         return info
 
@@ -216,7 +318,8 @@ class EOH:
         # interface for ec operators
         interface_ec = InterfaceEC(self.pop_size, self.m, self.api_endpoint, self.api_key, self.llm_model, self.use_local_llm, self.llm_local_url,
                                    self.debug_mode, interface_prob, reflect=self.reflect, K1=self.K1, K2=self.K2,
-                                   background_info = self.background_info, prompt_type=self.prompt_type,
+                                   background_info = self.background_info, background_type=self.background_type, data_sep=self.data_sep,
+                                   prompt_type=self.prompt_type,
                                    external_optimizer=self.external_optimizer,
                                    exp_output_path = self.output_path,
                                    select=self.select,n_p=self.exp_n_proc, timeout = self.timeout, use_numba=self.use_numba
@@ -306,23 +409,27 @@ class EOH:
                 population = self.manage.population_management(population, size_act)
                 offspring_pop = self.manage.population_management(offspring_pop, size_act)
                 print()
-            if self.background_info:
-                # assert self.background_info in ['avg', 'quantile', 'all']
-                info = self.get_info(offspring_pop)
-            else:
-                info = ''
-            # if self.reflect:  # reevo style reflection
-            #     interface_ec.update_long_term_reevo(iteration=pop)
-            if self.reflect == 'mimic_best_sample':
-                interface_ec.mimic_best_sample(info, offspring_pop, iteration=pop)
-            elif self.reflect == 'correct_worst_sample':
-                interface_ec.correct_worst_sample(info, offspring_pop, iteration=pop)
-            elif self.reflect == 'hybrid':
-                interface_ec.hybrid(info, offspring_pop, iteration=pop)
-            elif self.reflect == 'multi_comparative_reflection':
-                interface_ec.multi_comparative_reflection(info, offspring_pop, iteration=pop)
-            else:
-                pass    # No reflection
+            if pop != self.n_pop-1:
+                if self.background_info:
+                    # assert self.background_info in ['avg', 'quantile', 'all']
+                    data_reflection = None
+                    if self.data_sep in ['sepp'] and self.background_info in ['refonly', 'exactdataref']:
+                        data_reflection = interface_ec.get_data_reflection(self.get_data(offspring_pop, performance=True), iteration=pop)
+                    info = self.get_info(offspring_pop, data_reflection)
+                else:
+                    info = ''
+                # if self.reflect:  # reevo style reflection
+                #     interface_ec.update_long_term_reevo(iteration=pop)
+                if self.reflect == 'mimic_best_sample':
+                    interface_ec.mimic_best_sample(info, offspring_pop, iteration=pop)
+                elif self.reflect == 'correct_worst_sample':
+                    interface_ec.correct_worst_sample(info, offspring_pop, iteration=pop)
+                elif self.reflect == 'hybrid':
+                    interface_ec.hybrid(info, offspring_pop, iteration=pop)
+                elif self.reflect == 'multi_comparative_reflection':
+                    interface_ec.multi_comparative_reflection(info, offspring_pop, iteration=pop)
+                else:
+                    pass    # No reflection
 
 
             # Save population to a file
@@ -356,6 +463,9 @@ class EOH:
             'K1': self.K1,
             'K2': self.K2,
             'background_info': 'no' if self.background_info is None else self.background_info,
+            'background_type': self.background_type,
+            'data_sep': self.data_sep,
+            'cal_cost': self.cal_cost,
             'external_opt': 'no' if self.external_optimizer is None else self.external_optimizer,
             'repeat': self.repeat,
         }

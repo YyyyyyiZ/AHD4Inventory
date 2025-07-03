@@ -11,7 +11,8 @@ from .reflection.utils import *
 class Evolution():
 
     def __init__(self, api_endpoint, api_key, model_LLM,llm_use_local,llm_local_url, debug_mode,prompts,
-                 reflect,  K1, K2, external_optimizer, exp_output_path, background_info, prompt_type, **kwargs):
+                 reflect,  K1, K2, external_optimizer, exp_output_path,
+                 background_info, background_type, data_sep, prompt_type, **kwargs):
 
         # set prompt interface
         #getprompts = GetPrompts()
@@ -51,6 +52,8 @@ class Evolution():
             # self.init_reevo_prompt()
         self.external_optimizer = external_optimizer
         self.background_info = background_info
+        self.background_type = background_type
+        self.data_sep = data_sep
 
 
     def init_base_prompt(self):
@@ -267,6 +270,21 @@ class Evolution():
         response = self.interface_llm.get_response(prompt_content)
         return response
 
+    def get_data_reflection_external(self, prompt_content, iteration):
+        data_hint = self.prompt_data.format(
+            prompt_task=self.prompt_task,
+            info=prompt_content
+        )
+        file_name = f"{self.exp_output_path}/prompt_for_reflection/data_{self.reflect}_{iteration}.txt"
+        with open(file_name, 'a') as file:
+            file.writelines(data_hint + '\n')
+        result= self._get_reflection(data_hint)
+        file_name = f"{self.exp_output_path}/reflection/data_reflection_{iteration}.txt"
+        with open(file_name, 'a') as file:
+            file.writelines(result + '\n')
+        # print(result)
+        return result
+
     def i1(self):
 
         prompt_content = self.get_prompt_i1()
@@ -385,28 +403,42 @@ class Evolution():
         best_ind = population[0]
         best_code = filter_code(best_ind["code"])
         short_term_reflection = ''
-        if self.background_info =='data_sep':
+        if self.data_sep =='sep':
             data_hint = self.prompt_data.format(
                 prompt_task=self.prompt_task,
                 info=info
             )
-            file_name = f"{self.exp_output_path}/prompt_for_reflection/{self.reflect}_{iteration}.txt"
+            file_name = f"{self.exp_output_path}/prompt_for_reflection/data_{self.reflect}_{iteration}.txt"
             with open(file_name, 'a') as file:
                 file.writelines(data_hint + '\n')
-            short_term_reflection = self.get_data_hint() + '\n'
-            # short_term_reflection = self._get_reflection(data_hint) + '\n'
+            if self.background_type == 'fix':
+                short_term_reflection = self.get_data_hint() + '\n'
+            elif self.background_type == 'nofix':
+                short_term_reflection = self._get_reflection(data_hint) + '\n'
+            else:
+                raise ValueError("Unknown background information type")
+        # elif self.data_sep =='sepp':
+        #     data_hint = self.prompt_data.format(
+        #         prompt_task=self.prompt_task,
+        #         info=info
+        #     )
+        #     file_name = f"{self.exp_output_path}/prompt_for_reflection/{self.reflect}_{iteration}.txt"
+        #     with open(file_name, 'a') as file:
+        #         file.writelines(data_hint + '\n')
+        #     short_term_reflection = self._get_reflection(data_hint) + '\n'
+        #     info = short_term_reflection
 
 
         user = self.prompt_mimic_best_sample.format(
             prompt_task=self.prompt_task,
-            info = info if self.background_info !='data_sep' else '',
+            info = info if self.data_sep !='sep' else '',
             best_code=best_code
         )
-        file_name = f"{self.exp_output_path}/prompt_for_reflection/{self.reflect}_{iteration}.txt"
+        file_name = f"{self.exp_output_path}/prompt_for_reflection/final_{self.reflect}_{iteration}.txt"
         with open(file_name, 'a') as file:
             file.writelines(user + '\n')
         short_term_reflection += self._get_reflection(user)
-        file_name = f"{self.exp_output_path}/reflection/reflection_{iteration}.txt"
+        file_name = f"{self.exp_output_path}/reflection/final_reflection_{iteration}.txt"
         with open(file_name, 'a') as file:
             file.writelines(short_term_reflection + '\n')
         self.short_term_reflection_str = short_term_reflection
@@ -415,27 +447,32 @@ class Evolution():
         worst_ind = population[-1]
         worst_code = filter_code(worst_ind["code"])
         short_term_reflection = ''
-        if self.background_info == 'data_sep':
+        if self.data_sep == 'sep':
             data_hint = self.prompt_data.format(
                 prompt_task=self.prompt_task,
                 info=info
             )
-            file_name = f"{self.exp_output_path}/prompt_for_reflection/{self.reflect}_{iteration}.txt"
+            file_name = f"{self.exp_output_path}/prompt_for_reflection/data_{self.reflect}_{iteration}.txt"
             with open(file_name, 'a') as file:
                 file.writelines(data_hint + '\n')
-            short_term_reflection = self.get_data_hint() + '\n'
-            # short_term_reflection = self._get_reflection(data_hint) + '\n'
+            if self.background_type == 'fix':
+                short_term_reflection = self.get_data_hint() + '\n'
+            elif self.background_type == 'nofix':
+                short_term_reflection = self._get_reflection(data_hint) + '\n'
+            else:
+                raise ValueError("Unknown background information type")
+
 
         user = self.prompt_correct_worst_sample.format(
             prompt_task=self.prompt_task,
-            info = info if self.background_info !='data_sep' else '',
+            info = info if self.data_sep !='sep' else '',
             worst_code=worst_code
         )
-        file_name = f"{self.exp_output_path}/prompt_for_reflection/{self.reflect}_{iteration}.txt"
+        file_name = f"{self.exp_output_path}/prompt_for_reflection/final_{self.reflect}_{iteration}.txt"
         with open(file_name, 'a') as file:
             file.writelines(user + '\n')
         short_term_reflection += self._get_reflection(user)
-        file_name = f"{self.exp_output_path}/reflection/reflection_{iteration}.txt"
+        file_name = f"{self.exp_output_path}/reflection/final_reflection_{iteration}.txt"
         with open(file_name, 'a') as file:
             file.writelines(short_term_reflection + '\n')
         self.short_term_reflection_str = short_term_reflection
@@ -447,29 +484,34 @@ class Evolution():
         best_code = filter_code(best_ind["code"])
 
         short_term_reflection = ''
-        if self.background_info == 'data_sep':
+        if self.data_sep == 'sep':
             data_hint = self.prompt_data.format(
                 prompt_task=self.prompt_task,
                 info=info
             )
-            file_name = f"{self.exp_output_path}/prompt_for_reflection/{self.reflect}_{iteration}.txt"
+            file_name = f"{self.exp_output_path}/prompt_for_reflection/data_{self.reflect}_{iteration}.txt"
             with open(file_name, 'a') as file:
                 file.writelines(data_hint + '\n')
-            short_term_reflection = self.get_data_hint() + '\n'
-            # short_term_reflection = self._get_reflection(data_hint) + '\n'
+            if self.background_type == 'fix':
+                short_term_reflection = self.get_data_hint() + '\n'
+            elif self.background_type == 'nofix':
+                short_term_reflection = self._get_reflection(data_hint) + '\n'
+            else:
+                raise ValueError("Unknown background information type")
+
 
         user = self.prompt_hybrid.format(
             prompt_task=self.prompt_task,
-            info = info if self.background_info !='data_sep' else '',
+            info = info if self.data_sep !='sep' else '',
             worst_code=worst_code,
             best_code=best_code
         )
-        file_name = f"{self.exp_output_path}/prompt_for_reflection/{self.reflect}_{iteration}.txt"
+        file_name = f"{self.exp_output_path}/prompt_for_reflection/final_{self.reflect}_{iteration}.txt"
         with open(file_name, 'a') as file:
             file.writelines(user + '\n')
 
         short_term_reflection += self._get_reflection(user)
-        file_name = f"{self.exp_output_path}/reflection/reflection_{iteration}.txt"
+        file_name = f"{self.exp_output_path}/reflection/final_reflection_{iteration}.txt"
         with open(file_name, 'a') as file:
             file.writelines(short_term_reflection + '\n')
         self.short_term_reflection_str = short_term_reflection
@@ -490,30 +532,34 @@ class Evolution():
             best_sections.append(f"[{rank}]\n{filter_code(ind['code'])}\n")
 
         short_term_reflection = ''
-        if self.background_info == 'data_sep':
+        if self.data_sep == 'sep':
             data_hint = self.prompt_data.format(
                 prompt_task=self.prompt_task,
                 info=info
             )
-            file_name = f"{self.exp_output_path}/prompt_for_reflection/{self.reflect}_{iteration}.txt"
+            file_name = f"{self.exp_output_path}/prompt_for_reflection/data_{self.reflect}_{iteration}.txt"
             with open(file_name, 'a') as file:
                 file.writelines(data_hint + '\n')
-            short_term_reflection = self.get_data_hint() + '\n'
-            # short_term_reflection = self._get_reflection(data_hint) + '\n'
+            if self.background_type == 'fix':
+                short_term_reflection = self.get_data_hint() + '\n'
+            elif self.background_type == 'nofix':
+                short_term_reflection = self._get_reflection(data_hint) + '\n'
+            else:
+                raise ValueError("Unknown background information type")
 
         user = self.prompt_multi_comparative_reflection.format(
             prompt_task=self.prompt_task,
-            info = info if self.background_info !='data_sep' else '',
+            info = info if self.data_sep !='sep' else '',
             worst="".join(worst_sections),
             best="".join(best_sections)
         )
 
-        file_name = f"{self.exp_output_path}/prompt_for_reflection/{self.reflect}_{iteration}.txt"
+        file_name = f"{self.exp_output_path}/prompt_for_reflection/final_{self.reflect}_{iteration}.txt"
         with open(file_name, 'a') as file:
             file.writelines(user + '\n')
 
         short_term_reflection += self._get_reflection(user)
-        file_name = f"{self.exp_output_path}/reflection/reflection_{iteration}.txt"
+        file_name = f"{self.exp_output_path}/reflection/final_reflection_{iteration}.txt"
         with open(file_name, 'a') as file:
             file.writelines(short_term_reflection + '\n')
         self.short_term_reflection_str = short_term_reflection

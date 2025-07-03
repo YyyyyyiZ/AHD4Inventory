@@ -10,14 +10,16 @@ import concurrent.futures
 class InterfaceEC():
     def __init__(self, pop_size, m, api_endpoint, api_key, llm_model,llm_use_local,llm_local_url, debug_mode,
                  interface_prob, reflect, K1, K2, external_optimizer, exp_output_path,
-                 background_info, prompt_type, select,n_p,timeout,use_numba,**kwargs):
+                 background_info, background_type, data_sep, prompt_type, select,n_p,timeout,use_numba,**kwargs):
 
         # LLM settings
         self.pop_size = pop_size
         self.interface_eval = interface_prob
         prompts = interface_prob.prompts
         self.evol = Evolution(api_endpoint, api_key, llm_model,llm_use_local,llm_local_url, debug_mode,prompts,
-                              reflect, K1, K2, external_optimizer, exp_output_path, background_info, prompt_type, **kwargs)
+                              reflect, K1, K2, external_optimizer, exp_output_path,
+                              background_info, background_type, data_sep,
+                              prompt_type, **kwargs)
         self.m = m
         self.debug = debug_mode
 
@@ -32,6 +34,8 @@ class InterfaceEC():
 
         self.reflect = reflect
         self.external_optimizer = external_optimizer
+        self.background_type = background_type
+
         
     def code2file(self,code):
         with open("./ael_alg.py", "w") as file:
@@ -271,6 +275,10 @@ class InterfaceEC():
 
     def multi_comparative_reflection(self, info='', population=None, iteration=0):
         self.evol.multi_comparative_reflection(info, population, iteration)
+
+    def get_data_reflection(self, data_content, iteration):
+        return self.evol.get_data_reflection_external(data_content, iteration)
+
 
 
     def get_algorithm(self, pop, operator):
