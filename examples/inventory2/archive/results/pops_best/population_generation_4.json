@@ -1,6 +1,0 @@
-{
-     "algorithm": "The algorithm implements Base Stock Policy where the inventory level is always brought back to a fixed target level 'base_stock' at the beginning of each period.",
-     "code": "def compute_order_amount(current_inventory, pipeline_inventory, history_demand, holding_cost, lost_sales_cost, lead_time):\n    base_stock = 160\n    order_amount = max(0, base_stock - current_inventory)\n    return order_amount",
-     "objective": 2103.44,
-     "other_inf": null
-}

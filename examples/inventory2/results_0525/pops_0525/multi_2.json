@@ -1,7 +1,0 @@
-{
-     "algorithm": "The algorithm implements a probabilistic demand coverage approach that uses quantile regression on historical demand to determine order quantities, weighted by cost-sensitive risk aversion and adjusted for pipeline coverage.",
-     "code": "import numpy as np\n\ndef compute_order_amount(current_inventory, pipeline_inventory, history_demand, holding_cost, lost_sales_cost, lead_time):\n    if len(history_demand) < 2:\n        return max(0, np.mean(history_demand) * (lead_time + 1) - current_inventory)\n    \n    cost_ratio = lost_sales_cost / (holding_cost + 1e-6)\n    risk_aversion = min(max(np.log(cost_ratio) / 5, 0.5), 2.0)\n    \n    quantile = 1 - (1 / (risk_aversion * (lead_time + 1)))\n    demand_quantile = np.quantile(history_demand, min(max(quantile, 0.7), 0.99))\n    \n    pipeline_coverage = sum(pipeline_inventory) / (demand_quantile * lead_time + 1e-6)\n    coverage_factor = max(1 - pipeline_coverage, 0.2)\n    \n    target_inventory = demand_quantile * (lead_time + 1) * coverage_factor\n    order_amount = max(0, target_inventory - current_inventory)\n    \n    return order_amount",
-     "opt_params": {},
-     "objective": 2789.592,
-     "other_inf": null
-}

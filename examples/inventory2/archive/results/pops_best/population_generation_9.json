@@ -1,7 +1,0 @@
-{
-     "algorithm": "This algorithm dynamically adjusts the base stock level based on demand volatility and pipeline inventory, using exponential smoothing for demand forecasting and a safety stock multiplier to account for variability.",
-     "code": "def compute_order_amount(current_inventory, pipeline_inventory, history_demand, holding_cost, lost_sales_cost, lead_time):\n    if len(history_demand) < 2:\n        base_stock = 160  # Default if insufficient data\n    else:\n        alpha = 0.2  # Smoothing factor\n        forecast = history_demand[-1] * alpha + (1 - alpha) * sum(history_demand[:-1]) / (len(history_demand) - 1)\n        demand_std = max(5, (sum((d - sum(history_demand)/len(history_demand))**2 for d in history_demand) / len(history_demand))**0.5)\n        safety_stock = 1.5 * demand_std * (lead_time**0.5)\n        base_stock = forecast * (lead_time + 1) + safety_stock\n    \n    pipeline_sum = sum(pipeline_inventory)\n    order_amount = max(0, base_stock - current_inventory - pipeline_sum)\n    return order_amount",
-     "opt_params": {},
-     "objective": 2031.37433,
-     "other_inf": null
-}

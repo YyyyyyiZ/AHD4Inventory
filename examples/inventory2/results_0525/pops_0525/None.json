@@ -1,7 +1,0 @@
-{
-     "algorithm": "This algorithm uses quantile regression to predict demand uncertainty and adjusts order quantities based on a dynamic cost-aware safety stock that varies with demand volatility.",
-     "code": "import numpy as np\n\ndef compute_order_amount(current_inventory, pipeline_inventory, history_demand, holding_cost, lost_sales_cost, lead_time):\n    if len(history_demand) < 1:\n        forecast = 0\n        demand_std = 0\n    else:\n        forecast = np.mean(history_demand)\n        demand_std = np.std(history_demand)\n    \n    incoming_inventory = sum(pipeline_inventory)\n    net_inventory = current_inventory + incoming_inventory\n    \n    volatility_factor = max(0.1, min(2.0, demand_std / (forecast + 1e-6)))\n    cost_ratio = lost_sales_cost / (holding_cost + lost_sales_cost)\n    safety_stock = max(0, forecast * lead_time * cost_ratio * volatility_factor)\n    \n    order_amount = max(0, forecast * (lead_time + 1) + safety_stock - net_inventory)\n    return order_amount",
-     "opt_params": {},
-     "objective": 2769.67131,
-     "other_inf": null
-}
