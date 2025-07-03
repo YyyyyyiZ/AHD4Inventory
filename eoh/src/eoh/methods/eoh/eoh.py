@@ -470,10 +470,10 @@ def cost_calculation(
             'repeat': self.repeat,
         }
 
-        for i in range(min(10, len(population))):
+        for i in range(min(30, len(population))):
             oneline[str(i + 1)] = population[i]['objective']
 
-        for i in range(len(population), 10):
+        for i in range(len(population), 30):
             oneline[str(i + 1)] = None
 
 
@@ -496,6 +496,8 @@ def cost_calculation(
             'problem', 'dist', 'demand_mean', 'prompt_type',
             'K1', 'K2', 'background_info', 'external_opt', 'repeat',
             '1', '2', '3', '4', '5', '6', '7', '8', '9', '10',
+            '11', '12', '13', '14', '15', '16', '17', '18', '19', '20',
+            '21', '22', '23', '24', '25', '26', '27', '28', '29', '30',
         ]
 
         # 尝试读取现有文件

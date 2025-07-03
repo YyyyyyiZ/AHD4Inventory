@@ -9,7 +9,7 @@ parser = argparse.ArgumentParser('Run Inventory2')
 
 # LLM Config
 parser.add_argument('--llm_api_endpoint', type=str, default="api.deepseek.com")
-parser.add_argument('--llm_api_key', type=str, default="<your API key>")
+parser.add_argument('--llm_api_key', type=str, default="<Your API key>")
 parser.add_argument('--llm_model', type=str, default="deepseek-chat")
 
 parser.add_argument('--repeat', type=int, default=1, help='Repeat.')
@@ -40,7 +40,7 @@ parser.add_argument('--external_opt', type=str, default='no')
 
 
 # General parameters
-parser.add_argument('--ecc_pop_size', type=int, default=10, help='number of samples in each population')
+parser.add_argument('--ecc_pop_size', type=int, default=30, help='number of samples in each population')
 parser.add_argument('--ec_n_pop', type=int, default=2, help='number of populations')
 parser.add_argument('--exp_n_proc', type=int, default=4, help='multi-core parallel')
 parser.add_argument('--exp_use_continue', type=int, default=1, help='# load existing heuristics.')

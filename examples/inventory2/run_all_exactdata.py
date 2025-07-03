@@ -24,7 +24,7 @@ print(sys.executable)      # path of python.exe
 
 
 dist_list = ['poisson']
-mean_list = [8000]
+mean_list = [80, 8000]
 prompt_type_list = ['flowinf']
 background_info_list = ['exactdata']
 # background_info_list = ['exactdata', 'refonly', 'exactdataref']
@@ -35,8 +35,9 @@ external_opt_list =['scipy']
 k1k2_list=[(0,1),(0,2), (0,3),(0,4),
            (1,0),(2,0), (3,0),(4,0),
            (1,1),(2,2), (3,3),(4,4),]
-# k1k2_list=[(0,1)]
-repeat_num=3
+# k1k2_list=[(0,1),(0,2),(1,0),(3,0),(4,0),
+#            (3,3),(4,4),]
+repeat_num=5
 
 
 for repeat in range(repeat_num):
@@ -52,7 +53,7 @@ for repeat in range(repeat_num):
                                     for k1k2 in k1k2_list:
                                         K1, K2 = k1k2
                                         command = (
-                                            f"E:\\Anaconda3\\envs\\EoH\\python runEoH.py "  # change this line according to the path of python.exe
+                                            f"E:\\Anaconda3\\envs\\EoH\\python runEoH3.py "  # change this line according to the path of python.exe
                                             f"--dist {dist} "
                                             f"--mean {mean_demand} "
                                             f"--prompt_type {prompt_type} "
@@ -64,7 +65,7 @@ for repeat in range(repeat_num):
                                             f"--K1 {K1} "
                                             f"--K2 {K2} "
                                             f"--repeat {repeat} "
-                                            f"--filename res_new_design3 "
+                                            f"--filename res_exactdata "
                                         )
                                         print(f"Running: {command}")
                                         try:
