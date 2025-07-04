@@ -181,22 +181,22 @@ class EOH:
 
     def get_data(self, offspring_pop=None, performance=False):
         instances = self.get_instances()
+        data = []
         if performance:
-            data = []
             for idx, traj in enumerate(instances, start=1):
                 trajectory_data = {
                     "trajectory_id": f"trajectory_{idx}",
                     "demand": traj["demand"],
                     f"best_codes_performance": [
                         {
-                            "performance": offspring_pop[i]['trajectory'][idx-1],
+                            "performance": offspring_pop[i]['trajectory'][idx - 1],
                             "global_rank": i + 1
                         }
                         for i in range(self.K1)
                     ],
                     f"worst_codes_performance": [
                         {
-                            "performance": offspring_pop[-j - 1]['trajectory'][idx-1],
+                            "performance": offspring_pop[-j - 1]['trajectory'][idx - 1],
                             "global_rank": len(offspring_pop) - j
                         }
                         for j in range(self.K2)
@@ -205,7 +205,6 @@ class EOH:
                 data.append(trajectory_data)
             data = json.dumps(data, indent=2)
         else:
-            data = []
             for idx, traj in enumerate(instances, start=1):
                 trajectory_data = {
                     "trajectory_id": f"trajectory_{idx}",
@@ -414,8 +413,18 @@ def cost_calculation(
                     # assert self.background_info in ['avg', 'quantile', 'all']
                     data_reflection = None
                     if self.data_sep in ['sepp'] and self.background_info in ['refonly', 'exactdataref']:
-                        data_reflection = interface_ec.get_data_reflection(self.get_data(offspring_pop, performance=True), iteration=pop)
-                    info = self.get_info(offspring_pop, data_reflection)
+                        try:
+                            data_reflection = interface_ec.get_data_reflection(
+                                self.get_data(offspring_pop, performance=True), iteration=pop)
+                        except:
+                            print(offspring_pop)
+                            data_reflection = interface_ec.get_data_reflection(
+                                self.get_data(population, performance=True), iteration=pop)
+                    try:
+                        info = self.get_info(offspring_pop, data_reflection)
+                    except:
+                        print(offspring_pop)
+                        info = self.get_info(population, data_reflection)
                 else:
                     info = ''
                 # if self.reflect:  # reevo style reflection
@@ -519,24 +528,25 @@ def cost_calculation(
         #     new_row['50%'] = np.percentile(values, 50)
         #     new_row['75%'] = np.percentile(values, 75)
 
-        mask = (
-                (df['problem'] == oneline['problem']) &
-                (df['dist'] == oneline['dist']) &
-                (df['demand_mean'] == oneline['demand_mean']) &
-                (df['prompt_type'] == oneline['prompt_type']) &
-                (df['K1'] == oneline['K1']) &
-                (df['K2'] == oneline['K2']) &
-                (df['repeat'] == oneline['repeat']) &
-                (df['background_info'] == oneline['background_info']) &
-                (df['external_opt'] == oneline['external_opt'])
-        )
+        # mask = (
+        #         (df['problem'] == oneline['problem']) &
+        #         (df['dist'] == oneline['dist']) &
+        #         (df['demand_mean'] == oneline['demand_mean']) &
+        #         (df['prompt_type'] == oneline['prompt_type']) &
+        #         (df['K1'] == oneline['K1']) &
+        #         (df['K2'] == oneline['K2']) &
+        #         (df['repeat'] == oneline['repeat']) &
+        #         (df['background_info'] == oneline['background_info']) &
+        #         (df['external_opt'] == oneline['external_opt'])
+        # )
 
-        if mask.any():
-            # 更新现有行
-            df.loc[mask] = new_row.values
-        else:
-            # 添加新行
-            df = pd.concat([df, new_row], ignore_index=True)
+        # if mask.any():
+        #     # 更新现有行
+        #     df.loc[mask] = new_row.values
+        # else:
+        #     # 添加新行
+        #     df = pd.concat([df, new_row], ignore_index=True)
+        df = pd.concat([df, new_row], ignore_index=True)
 
         # 保存回CSV
         df.to_csv(filename, index=False, float_format='%.4f')

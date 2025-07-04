@@ -1,7 +1,14 @@
 import heapq
+import math
 
 def population_management(pop,size):
-    pop = [individual for individual in pop if individual['objective'] is not None]
+    #pop = [individual for individual in pop if individual['objective'] is not None]
+    pop = [
+        individual
+        for individual in pop
+        if individual['objective'] is not None
+           and not math.isinf(individual['objective'])
+    ]
     if size > len(pop):
         size = len(pop)
     unique_pop = [] 
