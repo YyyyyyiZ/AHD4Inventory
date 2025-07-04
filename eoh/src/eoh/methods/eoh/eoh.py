@@ -528,25 +528,25 @@ def cost_calculation(
         #     new_row['50%'] = np.percentile(values, 50)
         #     new_row['75%'] = np.percentile(values, 75)
 
-        # mask = (
-        #         (df['problem'] == oneline['problem']) &
-        #         (df['dist'] == oneline['dist']) &
-        #         (df['demand_mean'] == oneline['demand_mean']) &
-        #         (df['prompt_type'] == oneline['prompt_type']) &
-        #         (df['K1'] == oneline['K1']) &
-        #         (df['K2'] == oneline['K2']) &
-        #         (df['repeat'] == oneline['repeat']) &
-        #         (df['background_info'] == oneline['background_info']) &
-        #         (df['external_opt'] == oneline['external_opt'])
-        # )
+        mask = (
+                (df['problem'] == oneline['problem']) &
+                (df['dist'] == oneline['dist']) &
+                (df['demand_mean'] == oneline['demand_mean']) &
+                (df['prompt_type'] == oneline['prompt_type']) &
+                (df['K1'] == oneline['K1']) &
+                (df['K2'] == oneline['K2']) &
+                (df['repeat'] == oneline['repeat']) &
+                (df['background_info'] == oneline['background_info']) &
+                (df['external_opt'] == oneline['external_opt'])
+        )
 
-        # if mask.any():
-        #     # 更新现有行
-        #     df.loc[mask] = new_row.values
-        # else:
-        #     # 添加新行
-        #     df = pd.concat([df, new_row], ignore_index=True)
-        df = pd.concat([df, new_row], ignore_index=True)
+        if mask.any():
+            # 更新现有行
+            df.loc[mask] = new_row.values
+        else:
+            # 添加新行
+            df = pd.concat([df, new_row], ignore_index=True)
+        # df = pd.concat([df, new_row], ignore_index=True)
 
         # 保存回CSV
         df.to_csv(filename, index=False, float_format='%.4f')
