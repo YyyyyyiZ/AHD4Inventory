@@ -171,7 +171,7 @@ class Evolution():
         return prompt_content
     
     def get_prompt_m2(self,indiv1):
-        prompt_content = self.prompt_m1.format(
+        prompt_content = self.prompt_m2.format(
             prompt_task=self.prompt_task,
             algo_descr=indiv1['algorithm'],
             algo_code=indiv1['code'],
