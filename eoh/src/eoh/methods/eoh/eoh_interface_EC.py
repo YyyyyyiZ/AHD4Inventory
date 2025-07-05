@@ -199,7 +199,7 @@ class InterfaceEC():
             # elif self.external_optimizer == 'nevergrad' and len(offspring['opt_params']) != 0:
             #     from .external_nevergrad import NeverGradOptimizer as ExternalOptimizer
                 try:
-                    print(f"Original parameters: {offspring['opt_params']}")
+                    # print(f"Original parameters: {offspring['opt_params']}")
                     optimizer = ExternalOptimizer(
                         interface_eval=self.interface_eval,
                         timeout=self.timeout
@@ -221,7 +221,7 @@ class InterfaceEC():
                         'opt_params': opt_result.optimized_params
                     })
 
-                    print(f"optimized parameters: {opt_result.optimized_params}")
+                    # print(f"optimized parameters: {opt_result.optimized_params}")
                 except Exception as e:
                     # self.code2file(offspring['code'])
                     with concurrent.futures.ThreadPoolExecutor() as executor:

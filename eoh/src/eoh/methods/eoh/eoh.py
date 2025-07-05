@@ -430,13 +430,25 @@ def cost_calculation(
                 # if self.reflect:  # reevo style reflection
                 #     interface_ec.update_long_term_reevo(iteration=pop)
                 if self.reflect == 'mimic_best_sample':
-                    interface_ec.mimic_best_sample(info, offspring_pop, iteration=pop)
+                    try:
+                        interface_ec.mimic_best_sample(info, offspring_pop, iteration=pop)
+                    except:
+                        interface_ec.mimic_best_sample(population, population, iteration=pop)
                 elif self.reflect == 'correct_worst_sample':
-                    interface_ec.correct_worst_sample(info, offspring_pop, iteration=pop)
+                    try:
+                        interface_ec.correct_worst_sample(info, offspring_pop, iteration=pop)
+                    except:
+                        interface_ec.correct_worst_sample(info, population, iteration=pop)
                 elif self.reflect == 'hybrid':
-                    interface_ec.hybrid(info, offspring_pop, iteration=pop)
+                    try:
+                        interface_ec.hybrid(info, offspring_pop, iteration=pop)
+                    except:
+                        interface_ec.hybrid(info, population, iteration=pop)
                 elif self.reflect == 'multi_comparative_reflection':
-                    interface_ec.multi_comparative_reflection(info, offspring_pop, iteration=pop)
+                    try:
+                        interface_ec.multi_comparative_reflection(info, offspring_pop, iteration=pop)
+                    except:
+                        interface_ec.multi_comparative_reflection(info, population, iteration=pop)
                 else:
                     pass    # No reflection
 
@@ -528,25 +540,25 @@ def cost_calculation(
         #     new_row['50%'] = np.percentile(values, 50)
         #     new_row['75%'] = np.percentile(values, 75)
 
-        mask = (
-                (df['problem'] == oneline['problem']) &
-                (df['dist'] == oneline['dist']) &
-                (df['demand_mean'] == oneline['demand_mean']) &
-                (df['prompt_type'] == oneline['prompt_type']) &
-                (df['K1'] == oneline['K1']) &
-                (df['K2'] == oneline['K2']) &
-                (df['repeat'] == oneline['repeat']) &
-                (df['background_info'] == oneline['background_info']) &
-                (df['external_opt'] == oneline['external_opt'])
-        )
-
-        if mask.any():
-            # 更新现有行
-            df.loc[mask] = new_row.values
-        else:
-            # 添加新行
-            df = pd.concat([df, new_row], ignore_index=True)
-        # df = pd.concat([df, new_row], ignore_index=True)
+        # mask = (
+        #         (df['problem'] == oneline['problem']) &
+        #         (df['dist'] == oneline['dist']) &
+        #         (df['demand_mean'] == oneline['demand_mean']) &
+        #         (df['prompt_type'] == oneline['prompt_type']) &
+        #         (df['K1'] == oneline['K1']) &
+        #         (df['K2'] == oneline['K2']) &
+        #         (df['repeat'] == oneline['repeat']) &
+        #         (df['background_info'] == oneline['background_info']) &
+        #         (df['external_opt'] == oneline['external_opt'])
+        # )
+        #
+        # if mask.any():
+        #     # 更新现有行
+        #     df.loc[mask] = new_row.values
+        # else:
+        #     # 添加新行
+        #     df = pd.concat([df, new_row], ignore_index=True)
+        df = pd.concat([df, new_row], ignore_index=True)
 
         # 保存回CSV
         df.to_csv(filename, index=False, float_format='%.4f')

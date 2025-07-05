@@ -23,21 +23,20 @@ print(sys.executable)      # path of python.exe
 # }
 
 
-dist_list = ['poisson']
-mean_list = [80, 8000]
+dist_list = ['poisson2','normal1','normal2']
+mean_list = [80]
 prompt_type_list = ['old20']
 background_info_list = ['no']
 # background_info_list = ['exactdata', 'refonly', 'exactdataref']
 background_type_list = ['nofix']
-data_sep_list = ['sepp']
+data_sep_list = ['no']
 cal_cost_list = ['no']
 external_opt_list =['scipy']
-k1k2_list=[(0,1),(0,2), (0,3),(0,4),
-           (1,0),(2,0), (3,0),(4,0),
-           (1,1),(2,2), (3,3),(4,4),]
-# k1k2_list=[(0,1),(0,2),(0,3),(1,0),(3,0),(4,0),
-#            (3,3),(4,4),]
-repeat_num=5
+# k1k2_list=[(0,1),(0,2), (0,3),(0,4),
+#            (1,0),(2,0), (3,0),(4,0),
+#            (1,1),(2,2), (3,3),(4,4),]
+k1k2_list=[(0,0),(0,1)]
+repeat_num=2
 
 
 for repeat in range(repeat_num):

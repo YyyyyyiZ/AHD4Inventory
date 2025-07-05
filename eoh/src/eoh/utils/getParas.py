@@ -32,7 +32,7 @@ class Paras():
         ###  EC settings  ###
         #####################
         self.ec_pop_size = 30  # number of algorithms in each population, default = 10
-        self.ec_n_pop = 2 # number of populations, default = 10
+        self.ec_n_pop = 10 # number of populations, default = 10
         self.ec_operators = None # evolution operators: ['e1','e2','m1','m2'], default =  ['e1','e2','m1','m2']
         self.ec_m = 2  # number of parents for 'e1' and 'e2' operators, default = 2
         self.ec_operator_weights = None  # weights for operators, i.e., the probability of use the operator in each iteration, default = [1,1,1,1]

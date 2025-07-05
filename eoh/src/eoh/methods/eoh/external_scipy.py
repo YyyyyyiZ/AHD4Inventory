@@ -91,11 +91,13 @@ class ScipyOptimizer:
         except concurrent.futures.TimeoutError:
             error_msg = f"Evaluation timed out after {self.timeout} seconds"
             logger.error(error_msg)
-            raise RuntimeError(error_msg)
+            raise RuntimeError
+            # raise RuntimeError(error_msg)
         except Exception as e:
             error_msg = f"Evaluation failed: {str(e)}\n{traceback.format_exc()}"
             logger.error(error_msg)
-            raise RuntimeError(error_msg)
+            raise RuntimeError
+            # raise RuntimeError(error_msg)
 
     def optimize(
             self,

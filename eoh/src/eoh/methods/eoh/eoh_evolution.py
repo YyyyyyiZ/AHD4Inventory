@@ -564,7 +564,6 @@ class Evolution():
             file.writelines(short_term_reflection + '\n')
         self.short_term_reflection_str = short_term_reflection
 
-
     def init_reevo_prompt(self):
         problem_prompt_path = 'inventory'
         self.problem_desc = file_to_string(f'{self.file_path}/{problem_prompt_path}/problem_desc.txt')
