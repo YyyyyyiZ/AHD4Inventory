@@ -9,14 +9,14 @@ parser = argparse.ArgumentParser('Run Inventory2')
 
 # LLM Config
 parser.add_argument('--llm_api_endpoint', type=str, default="api.deepseek.com")
-parser.add_argument('--llm_api_key', type=str, default="<Your API Key>")
+parser.add_argument('--llm_api_key', type=str, default="sk-eb71891512c84fafba717e56d948f0d6")
 parser.add_argument('--llm_model', type=str, default="deepseek-chat")
 
 parser.add_argument('--repeat', type=int, default=1, help='Repeat.')
 parser.add_argument('--filename', type=str, default='res', help='Filename.')
 
 # Data related
-parser.add_argument('--dist', type=str, default='poisson', help='Demand distribution.')
+parser.add_argument('--dist', type=str, default='poisson1', help='Demand distribution.')
 parser.add_argument('--mean', type=int, default=80, help='Demand mean.')
 
 # Reflection
@@ -41,7 +41,7 @@ parser.add_argument('--external_opt', type=str, default='no')
 
 # General parameters
 parser.add_argument('--ecc_pop_size', type=int, default=30, help='number of samples in each population')
-parser.add_argument('--ec_n_pop', type=int, default=10, help='number of populations')
+parser.add_argument('--ec_n_pop', type=int, default=2, help='number of populations')
 parser.add_argument('--exp_n_proc', type=int, default=4, help='multi-core parallel')
 parser.add_argument('--exp_use_continue', type=int, default=1, help='# load existing heuristics.')
 parser.add_argument('--exp_continue_path', type=str, default="results/pops/initial_pool.json", help='path to existing heuristics')
