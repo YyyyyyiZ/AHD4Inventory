@@ -414,7 +414,9 @@ class Evolution():
             if self.background_type == 'fix':
                 short_term_reflection = self.get_data_hint() + '\n'
             elif self.background_type == 'nofix':
-                short_term_reflection = self._get_reflection(data_hint) + '\n'
+                temp = self._get_reflection(data_hint) + '\n'
+                if temp:
+                    short_term_reflection += temp
             else:
                 raise ValueError("Unknown background information type")
         # elif self.data_sep =='sepp':
@@ -437,7 +439,9 @@ class Evolution():
         file_name = f"{self.exp_output_path}/prompt_for_reflection/final_{self.reflect}_{iteration}.txt"
         with open(file_name, 'a') as file:
             file.writelines(user + '\n')
-        short_term_reflection += self._get_reflection(user)
+        temp = self._get_reflection(user)
+        if temp:
+            short_term_reflection += temp
         file_name = f"{self.exp_output_path}/reflection/final_reflection_{iteration}.txt"
         with open(file_name, 'a') as file:
             file.writelines(short_term_reflection + '\n')
@@ -458,7 +462,9 @@ class Evolution():
             if self.background_type == 'fix':
                 short_term_reflection = self.get_data_hint() + '\n'
             elif self.background_type == 'nofix':
-                short_term_reflection = self._get_reflection(data_hint) + '\n'
+                temp = self._get_reflection(data_hint)
+                if temp:
+                    short_term_reflection += temp + '\n'
             else:
                 raise ValueError("Unknown background information type")
 
@@ -471,7 +477,9 @@ class Evolution():
         file_name = f"{self.exp_output_path}/prompt_for_reflection/final_{self.reflect}_{iteration}.txt"
         with open(file_name, 'a') as file:
             file.writelines(user + '\n')
-        short_term_reflection += self._get_reflection(user)
+        temp = self._get_reflection(user)
+        if temp:
+            short_term_reflection += temp
         file_name = f"{self.exp_output_path}/reflection/final_reflection_{iteration}.txt"
         with open(file_name, 'a') as file:
             file.writelines(short_term_reflection + '\n')
@@ -495,7 +503,9 @@ class Evolution():
             if self.background_type == 'fix':
                 short_term_reflection = self.get_data_hint() + '\n'
             elif self.background_type == 'nofix':
-                short_term_reflection = self._get_reflection(data_hint) + '\n'
+                temp = self._get_reflection(data_hint)
+                if temp:
+                    short_term_reflection += temp + '\n'
             else:
                 raise ValueError("Unknown background information type")
 
@@ -510,7 +520,9 @@ class Evolution():
         with open(file_name, 'a') as file:
             file.writelines(user + '\n')
 
-        short_term_reflection += self._get_reflection(user)
+        temp = self._get_reflection(user)
+        if temp:
+            short_term_reflection += temp
         file_name = f"{self.exp_output_path}/reflection/final_reflection_{iteration}.txt"
         with open(file_name, 'a') as file:
             file.writelines(short_term_reflection + '\n')
@@ -543,7 +555,9 @@ class Evolution():
             if self.background_type == 'fix':
                 short_term_reflection = self.get_data_hint() + '\n'
             elif self.background_type == 'nofix':
-                short_term_reflection = self._get_reflection(data_hint) + '\n'
+                temp = self._get_reflection(data_hint)
+                if temp:
+                    short_term_reflection += temp + '\n'
             else:
                 raise ValueError("Unknown background information type")
 
@@ -558,7 +572,9 @@ class Evolution():
         with open(file_name, 'a') as file:
             file.writelines(user + '\n')
 
-        short_term_reflection += self._get_reflection(user)
+        temp = self._get_reflection(user)
+        if temp:
+            short_term_reflection += temp
         file_name = f"{self.exp_output_path}/reflection/final_reflection_{iteration}.txt"
         with open(file_name, 'a') as file:
             file.writelines(short_term_reflection + '\n')
