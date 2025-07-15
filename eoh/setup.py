@@ -18,7 +18,8 @@ setup(
     install_requires=[
         "numpy",
         "numba",
-        "joblib"
+        "joblib",
+        "pandas",
     ],
     test_suite="tests"
 )
