@@ -13,7 +13,7 @@ background_info_list = ['no']
 background_type_list = ['nofix']
 data_sep_list = ['no']
 cal_cost_list = ['no']
-external_opt_list =['scipy','ng', 'deap']
+external_opt_list =['ng', 'deap']
 # k1k2_list=[(0,1),(0,2), (0,3),(0,4),
 #            (1,0),(2,0), (3,0),(4,0),
 #            (1,1),(2,2), (3,3),(4,4),]
@@ -42,6 +42,7 @@ for repeat in range(repeat_num):
                                                     K1, K2 = k1k2
                                                     command = (
                                                         f"E:\\Anaconda3\\envs\\EoH\\python runEoH.py "  # change this line according to the path of python.exe
+                                                        f"--llm_api_key sk-87111791adf44964b428e56380bdcea4 "
                                                         f"--dist {dist} "
                                                         f"--mean {mean_demand} "
                                                         f"--prompt_type {prompt_type} "
@@ -55,7 +56,7 @@ for repeat in range(repeat_num):
                                                         f"--K1 {K1} "
                                                         f"--K2 {K2} "
                                                         f"--repeat {repeat} "
-                                                        f"--filename res "
+                                                        f"--filename res2 "
                                                         f"--store_option append "
                                                     )
                                                     print(f"Running: {command}")
