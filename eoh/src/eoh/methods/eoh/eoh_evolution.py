@@ -11,7 +11,7 @@ from .reflection.utils import *
 class Evolution():
 
     def __init__(self, api_endpoint, api_key, model_LLM,llm_use_local,llm_local_url, debug_mode,prompts,
-                 reflect,  K1, K2, external_optimizer, exp_output_path,
+                 reflect,  K1, K2, external_optimizer, param_loc, exp_output_path,
                  background_info, background_type, data_sep, prompt_type, **kwargs):
 
         # set prompt interface
@@ -51,6 +51,7 @@ class Evolution():
             self.long_term_reflection_str = ""
             # self.init_reevo_prompt()
         self.external_optimizer = external_optimizer
+        self.param_loc = param_loc
         self.background_info = background_info
         self.background_type = background_type
         self.data_sep = data_sep
@@ -74,11 +75,46 @@ class Evolution():
         self.prompt_multi_comparative_reflection = file_to_string(f'{self.file_path}/common/{self.prompt_type}/multi_comparative_reflection.txt')
 
     def external_optimizer_prompt(self):
-        prompt_content = "Finally, Mark optimizable parameters in the code with `# OPT_PARAM: ` comments, like this:" \
-                          + "\n" + "base_stock = 50  # OPT_PARAM: {'initial': 50, 'min': 10, 'max': 200, 'type': 'int'}" \
-                          + "\n" + "Follow these requirements: 1. comments should follow the parameter in the same line." \
-                          + "\n" + "2. Only mark parameters that are assigned within the code body (not function inputs)" \
-                          + "\n" + "3. Only mark continuous parameters assigned with an equals sign (`=`)"
+        if self.param_loc == 'start':
+            prompt_content = """When providing code, follow these requirements for optimizable parameters:
+                        1. DECLARE ALL OPTIMIZABLE PARAMETERS AT THE BEGINNING:
+                           - Group all optimizable parameters in a dedicated section at the start
+                           - Each declaration must use this format:
+                             param_name = initial_value  # OPT_PARAM: {'initial': 50, 'min': 10, 'max': 200, 'type': 'int'}"
+
+                        2. PARAMETER USAGE IN CODE:
+                           - After declaration section, only reference parameters by name
+                           - Never use hard-coded numeric values that should be parameters
+                           - Example correct usage:
+                             order_quantity = base_stock * 2  # NOT: order_quantity = 100
+
+                        3. REQUIREMENTS:
+                           - All optimizable parameters must be continuous variables
+                           - Include these attributes for each parameter:
+                             * initial: Starting value
+                             * min: Minimum allowed value
+                             * max: Maximum allowed value
+                             * type: Data type ('int' or 'float')
+                           - No function parameters may be marked as optimizable. Only mark parameters that are assigned within the code body.
+
+                        Example structure:
+                        # --- OPTIMIZABLE PARAMETERS ---
+                        base_stock = 50  # OPT_PARAM: {'initial': 50, 'min': 10, 'max': 200, 'type': 'int'}
+                        reorder_point = 30  # OPT_PARAM: {'initial': 30, 'min': 5, 'max': 150, 'type': 'int'}
+
+                        # --- MAIN CODE ---
+                        if inventory < reorder_point:
+                            order = base_stock - current_inventory
+                            
+                        DON'T mark any optimizable parameters in the main code.
+                        """
+
+        else:   # default parameter location
+            prompt_content = "Then, Mark optimizable parameters in the code with `# OPT_PARAM: ` comments, like this:" \
+                             + "\n" + "base_stock = 50  # OPT_PARAM: {'initial': 50, 'min': 10, 'max': 200, 'type': 'int'}" \
+                             + "\n" + "Follow these requirements: 1. comments should follow the parameter in the same line." \
+                             + "\n" + "2. Only mark parameters that are assigned within the code body (not function inputs)" \
+                             + "\n" + "3. Only mark continuous parameters assigned with an equals sign (`=`)"
         return prompt_content
 
     def get_data_hint(self):
@@ -202,6 +238,7 @@ class Evolution():
         response = self.interface_llm.get_response(prompt_content)
 
         algorithm = re.findall(r"\{\{(.*?)\}\}", response, re.DOTALL)
+        # cost = re.findall(r"\[\[\[(.*?)\]\]\]", response, re.DOTALL)
         if len(algorithm) == 0:
             if 'python' in response:
                 algorithm = re.findall(r'^.*?(?=python)', response,re.DOTALL)
@@ -257,10 +294,12 @@ class Evolution():
             n_retry +=1
 
         algorithm = algorithm[0]
-        code = code[0] 
+        code = code[0]
+        # cost = cost[0]
+        cost = None
 
         code_all = code+" "+", ".join(s for s in self.prompt_func_outputs)
-        return [code_all, algorithm, optim_params]
+        return [code_all, algorithm, optim_params, cost]
 
     def _extract_param_name(self, oneline) -> str:
         match = re.match(r'^\s*(\w+)\s*(?:==|>=|<=|=|>|<)', oneline)
@@ -313,7 +352,7 @@ class Evolution():
             print(">>> Press 'Enter' to continue")
             input()
       
-        [code_all, algorithm, optim_params] = self._get_alg(prompt_content)
+        [code_all, algorithm, optim_params, cost] = self._get_alg(prompt_content)
 
         if self.debug_mode:
             print("\n >>> check designed algorithm: \n", algorithm)
@@ -321,7 +360,7 @@ class Evolution():
             print(">>> Press 'Enter' to continue")
             input()
 
-        return [code_all, algorithm, optim_params]
+        return [code_all, algorithm, optim_params, cost]
     
     def e2(self,parents):
       
@@ -332,7 +371,7 @@ class Evolution():
             print(">>> Press 'Enter' to continue")
             input()
       
-        [code_all, algorithm, optim_params] = self._get_alg(prompt_content)
+        [code_all, algorithm, optim_params, cost] = self._get_alg(prompt_content)
 
         if self.debug_mode:
             print("\n >>> check designed algorithm: \n", algorithm)
@@ -340,7 +379,7 @@ class Evolution():
             print(">>> Press 'Enter' to continue")
             input()
 
-        return [code_all, algorithm, optim_params]
+        return [code_all, algorithm, optim_params, cost]
     
     def m1(self,parents):
       
@@ -351,7 +390,7 @@ class Evolution():
             print(">>> Press 'Enter' to continue")
             input()
       
-        [code_all, algorithm, optim_params] = self._get_alg(prompt_content)
+        [code_all, algorithm, optim_params, cost] = self._get_alg(prompt_content)
 
         if self.debug_mode:
             print("\n >>> check designed algorithm: \n", algorithm)
@@ -359,7 +398,7 @@ class Evolution():
             print(">>> Press 'Enter' to continue")
             input()
 
-        return [code_all, algorithm, optim_params]
+        return [code_all, algorithm, optim_params, cost]
     
     def m2(self,parents):
       
@@ -370,7 +409,7 @@ class Evolution():
             print(">>> Press 'Enter' to continue")
             input()
       
-        [code_all, algorithm, optim_params] = self._get_alg(prompt_content)
+        [code_all, algorithm, optim_params, cost] = self._get_alg(prompt_content)
 
         if self.debug_mode:
             print("\n >>> check designed algorithm: \n", algorithm)
@@ -378,7 +417,7 @@ class Evolution():
             print(">>> Press 'Enter' to continue")
             input()
 
-        return [code_all, algorithm, optim_params]
+        return [code_all, algorithm, optim_params, cost]
     
     def m3(self,parents):
       

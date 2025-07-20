@@ -85,13 +85,17 @@ class EOH:
         self.external_optimizer=paras.external_optimizer
         if self.external_optimizer=='no':
             self.external_optimizer=None
+        self.iter_opt = paras.iter_opt
+        self.param_loc = paras.param_loc
 
         # for saving results to .csv
         self.problem = paras.problem
         self.dist = paras.dist
         self.demand_mean = paras.demand
         self.volatility = paras.volatility
+        self.n_train = paras.n_train
         self.filename = paras.filename
+        self.store_option = paras.store_option
 
         print("- EoH parameters loaded -")
 
@@ -137,38 +141,44 @@ class EOH:
     #
     #     return info
 
-    def get_instances(self):
+    def get_instances(self, mode='train', n_traj=None):
         # Determine the file pattern based on parameters
         if self.dist is None and self.demand_mean is None and self.volatility is None:
-            pattern = "evaluation/data/*_train_*.json"
+            pattern = f"evaluation/data/*_{mode}_*.json"
         elif self.dist is None and self.demand_mean is None:
-            pattern = f"evaluation/data/*_train_*_{self.volatility}.json"
+            pattern = f"evaluation/data/*_{mode}_*_{self.volatility}.json"
         elif self.dist is None and self.volatility is None:
-            pattern = f"evaluation/data/*_train_{self.demand_mean}_*.json"
+            pattern = f"evaluation/data/*_{mode}_{self.demand_mean}_*.json"
         elif self.demand_mean is None and self.volatility is None:
-            pattern = f"evaluation/data/{self.dist}_train_*.json"
+            pattern = f"evaluation/data/{self.dist}_{mode}_*.json"
         elif self.dist is None:
-            pattern = f"evaluation/data/*_train_{self.demand_mean}_{self.volatility}.json"
+            pattern = f"evaluation/data/*_{mode}_{self.demand_mean}_{self.volatility}.json"
         elif self.volatility is None:
-            pattern = f"evaluation/data/{self.dist}_train_{self.demand_mean}_*.json"
+            pattern = f"evaluation/data/{self.dist}_{mode}_{self.demand_mean}_*.json"
         elif self.demand_mean is None:
-            pattern = f"evaluation/data/{self.dist}_train_*_{self.volatility}.json"
+            pattern = f"evaluation/data/{self.dist}_{mode}_*_{self.volatility}.json"
         else:
-            pattern = f"evaluation/data/{self.dist}_train_{self.demand_mean}_{self.volatility}.json"
+            pattern = f"evaluation/data/{self.dist}_{mode}_{self.demand_mean}_{self.volatility}.json"
+        print(f"Instances loaded {pattern}......")
 
         # Find all matching files and load their contents
         instances = []
         for file_path in glob.glob(pattern):
             with open(file_path, 'r') as f:
                 data = json.load(f)
-                if isinstance(data, list):
+                if isinstance(data, list):  # If file contains a list of instances
                     instances.extend(data)
-                else:
+                else:  # If file contains a single instance
                     instances.append(data)
-        return instances
+        if n_traj is not None:
+            final_instances = instances[:n_traj]
+        else:
+            final_instances = instances
+        return final_instances
+
 
     def get_param(self):
-        instance = self.get_instances()[0]
+        instance = self.get_instances(mode='train', n_traj=self.n_train)[0]
         param_desc = (
             f"Specifically, current inventory system in consideration has initial stock I_0={instance['initial_inventory']} units, "
             f"operates over T={instance['num_periods']} periods with lead time L={instance['lead_time']}, "
@@ -180,7 +190,7 @@ class EOH:
 
 
     def get_data(self, offspring_pop=None, performance=False):
-        instances = self.get_instances()
+        instances = self.get_instances(mode='train', n_traj=self.n_train)
         data = []
         if performance:
             for idx, traj in enumerate(instances, start=1):
@@ -301,7 +311,7 @@ def cost_calculation(
 
         return info
 
-    # run eoh 
+
     def run(self):
 
         print("- Evolution Start -")
@@ -319,7 +329,7 @@ def cost_calculation(
                                    self.debug_mode, interface_prob, reflect=self.reflect, K1=self.K1, K2=self.K2,
                                    background_info = self.background_info, background_type=self.background_type, data_sep=self.data_sep,
                                    prompt_type=self.prompt_type,
-                                   external_optimizer=self.external_optimizer,
+                                   external_optimizer=self.external_optimizer, max_iter = self.iter_opt, param_loc=self.param_loc,
                                    exp_output_path = self.output_path,
                                    select=self.select,n_p=self.exp_n_proc, timeout = self.timeout, use_numba=self.use_numba
                                    )
@@ -399,7 +409,7 @@ def cost_calculation(
                 print(f" OP: {op}, [{i + 1} / {n_op}] ", end="|") 
                 op_w = self.operator_weights[i]
                 if (np.random.rand() < op_w):
-                    parents, offsprings = interface_ec.get_algorithm(population, op)
+                    parents, offsprings = interface_ec.get_algorithm(population, op, n_pop=pop)
                 self.add2pop(population, offsprings)  # Check duplication, and add the new offspring
                 self.add2pop(offspring_pop, offsprings)
                 for off in offsprings:
@@ -471,15 +481,17 @@ def cost_calculation(
                 print(str(population[i]['objective']) + " ", end="")
             print()
 
-            self.save_results(population)
+            self.save_results(population, pop + 1, 'train')
+            self.save_results(population, pop + 1, 'test')
 
 
-    def save_results(self, population):
+    def save_results(self, population, pop_idx, mode='train'):
         parent_dir = Path(self.output_path).parent
         oneline = {
             'problem': self.problem,
             'dist': self.dist,
             'demand_mean': self.demand_mean,
+            'n_train': self.n_train,
             'prompt_type': self.prompt_type,
             'K1': self.K1,
             'K2': self.K2,
@@ -488,79 +500,71 @@ def cost_calculation(
             'data_sep': self.data_sep,
             'cal_cost': self.cal_cost,
             'external_opt': 'no' if self.external_optimizer is None else self.external_optimizer,
+            'iter_opt': '-' if self.external_optimizer is None else self.iter_opt,
+            'param_loc': '-' if self.external_optimizer is None else self.param_loc,
             'repeat': self.repeat,
+            'n_pop': pop_idx,
+            'mode': mode,
         }
-
-        for i in range(min(30, len(population))):
-            oneline[str(i + 1)] = population[i]['objective']
+        if mode == 'train':
+            for i in range(min(30, len(population))):
+                oneline[str(i + 1)] = population[i]['objective']
+        elif mode == 'test':
+            for i in range(min(30, len(population))):
+                oneline[str(i + 1)] = population[i]['test_objective']
 
         for i in range(len(population), 30):
             oneline[str(i + 1)] = None
 
 
         filename = f"{parent_dir}/{self.filename}.csv"
-
-        # with open(filename, 'a', newline='') as csvfile:
-        #     writer = csv.DictWriter(csvfile, fieldnames=[
-        #         'problem', 'dist', 'demand_mean', 'prompt_type',
-        #         'K1', 'K2', 'background_info', 'external_opt',
-        #         '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'
-        #     ])
-        #
-        #     if csvfile.tell() == 0:
-        #         writer.writeheader()
-        #
-        #     writer.writerow(oneline)
-
-        # 定义所有字段名
         fieldnames = [
-            'problem', 'dist', 'demand_mean', 'prompt_type',
-            'K1', 'K2', 'background_info', 'external_opt', 'repeat',
+            'problem', 'dist', 'demand_mean', 'n_train', 'prompt_type',
+            'K1', 'K2', 'background_info', 'background_type', 'data_sep',
+            'cal_cost', 'external_opt', 'iter_opt', 'param_loc', 'repeat',
+            'pop_idx', 'mode',
             '1', '2', '3', '4', '5', '6', '7', '8', '9', '10',
             '11', '12', '13', '14', '15', '16', '17', '18', '19', '20',
             '21', '22', '23', '24', '25', '26', '27', '28', '29', '30',
         ]
 
-        # 尝试读取现有文件
         try:
             df = pd.read_csv(filename)
         except (FileNotFoundError, pd.errors.EmptyDataError):
             df = pd.DataFrame(columns=fieldnames)
 
-        # 将新数据转换为DataFrame
         new_row = pd.DataFrame([oneline])
 
-        # 计算统计量
-        # values = new_row[[str(i) for i in range(1, 11)]].values[0]
-        # values = [float(x) for x in values if str(x).replace('.', '').isdigit()]
+        if self.store_option == 'cover':
+            mask = (
+                    (df['problem'] == oneline['problem']) &
+                    (df['dist'] == oneline['dist']) &
+                    (df['demand_mean'] == oneline['demand_mean']) &
+                    (df['n_train'] == oneline['n_train']) &
+                    (df['prompt_type'] == oneline['prompt_type']) &
+                    (df['K1'] == oneline['K1']) &
+                    (df['K2'] == oneline['K2']) &
+                    (df['repeat'] == oneline['repeat']) &
+                    (df['pop_idx'] == oneline['pop_idx']) &
+                    (df['mode'] == oneline['mode']) &
+                    (df['background_info'] == oneline['background_info']) &
+                    (df['background_type'] == oneline['background_type']) &
+                    (df['data_sep'] == oneline['data_sep']) &
+                    (df['cal_cost'] == oneline['cal_cost']) &
+                    (df['iter_opt'] == oneline['iter_opt']) &
+                    (df['param_loc'] == oneline['param_loc']) &
+                    (df['external_opt'] == oneline['external_opt'])
+            )
 
-        # if values:  # 确保有有效值
-        #     new_row['avg'] = np.mean(values)
-        #     new_row['25%'] = np.percentile(values, 25)
-        #     new_row['50%'] = np.percentile(values, 50)
-        #     new_row['75%'] = np.percentile(values, 75)
+            if mask.any():
+                df.loc[mask] = new_row.values
+            else:
+                df = pd.concat([df, new_row], ignore_index=True)
+        elif self.store_option == 'append':
+            df = pd.concat([df, new_row], ignore_index=True)
+        else:
+            raise ValueError(f"Unknown store_option: {self.store_option}")
 
-        # mask = (
-        #         (df['problem'] == oneline['problem']) &
-        #         (df['dist'] == oneline['dist']) &
-        #         (df['demand_mean'] == oneline['demand_mean']) &
-        #         (df['prompt_type'] == oneline['prompt_type']) &
-        #         (df['K1'] == oneline['K1']) &
-        #         (df['K2'] == oneline['K2']) &
-        #         (df['repeat'] == oneline['repeat']) &
-        #         (df['background_info'] == oneline['background_info']) &
-        #         (df['external_opt'] == oneline['external_opt'])
-        # )
-        #
-        # if mask.any():
-        #     # 更新现有行
-        #     df.loc[mask] = new_row.values
-        # else:
-        #     # 添加新行
-        #     df = pd.concat([df, new_row], ignore_index=True)
-        df = pd.concat([df, new_row], ignore_index=True)
-
-        # 保存回CSV
         df.to_csv(filename, index=False, float_format='%.4f')
 
 

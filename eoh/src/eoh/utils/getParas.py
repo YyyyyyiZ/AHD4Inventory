@@ -15,17 +15,21 @@ class Paras():
         self.demand = 80
         self.dist = 'poisson'
         self.volatility = 'low'
+        self.n_train = 50
         self.exp_create_initial = False
         self.K1=1
         self.K2=1
         self.prompt_type='original'
         self.external_optimizer = 'scipy'
+        self.iter_opt = 5
+        self.param_loc = 'default'
         self.background_info = False
         self.background_type = 'fix'
         self.data_sep = 'sep'
         self.cal_cost = 'no'
         self.repeat = 0
         self.filename='res'
+        self.store_option = 'append'
 
 
         #####################

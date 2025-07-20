@@ -1,6 +1,5 @@
 import re
-import numpy as np
-from scipy.optimize import minimize
+import nevergrad as ng
 from typing import Dict, List, Callable, Optional, Tuple, Any
 import concurrent.futures
 import logging
@@ -18,17 +17,22 @@ class OptimizationResult:
     optimized_code: str
     optimized_params: Dict[str, float]
     optimized_fitness: float
+    optimized_test_fitness: float
+    optimized_lower: float
+    optimized_upper: float
+    optimized_trajectory: List[float]
     success: bool
     error: Optional[str] = None
     error_location: Optional[str] = None
     history: Optional[List[Dict[str, Any]]] = None
 
 
-class NeverGradOptimizer:
-    def __init__(self, interface_eval, timeout: float = 10.0):
+class NGOptimizer:
+    def __init__(self, interface_eval, max_iter=30, timeout: float = 10.0):
         self.interface_eval = interface_eval
         self.timeout = timeout
         self.history = []
+        self.max_iter = max_iter
 
     def _replace_parameters(self, code: str, param_values: Dict[str, float]) -> Tuple[str, Dict[str, Tuple[int, str]]]:
         lines = code.split('\n')
@@ -71,7 +75,7 @@ class NeverGradOptimizer:
         return '\n'.join(lines), param_locations
 
     def _evaluate_code(self, modified_code: str,
-                       executor: Optional[concurrent.futures.ThreadPoolExecutor] = None) -> float:
+                       executor: Optional[concurrent.futures.ThreadPoolExecutor] = None):
         """Evaluate code and handle potential errors"""
         try:
             if executor:
@@ -80,19 +84,21 @@ class NeverGradOptimizer:
             else:
                 result = self.interface_eval.evaluate(modified_code)
 
-            if not isinstance(result, (int, float)):
-                raise ValueError(f"Evaluation function should return a number, got {type(result)}")
+            # if not isinstance(result, (int, float)):
+            #     raise ValueError(f"Evaluation function should return a number, got {type(result)}")
 
-            return float(result)
+            return result
 
         except concurrent.futures.TimeoutError:
             error_msg = f"Evaluation timed out after {self.timeout} seconds"
             logger.error(error_msg)
-            raise RuntimeError(error_msg)
+            raise RuntimeError
+            # raise RuntimeError(error_msg)
         except Exception as e:
             error_msg = f"Evaluation failed: {str(e)}\n{traceback.format_exc()}"
             logger.error(error_msg)
-            raise RuntimeError(error_msg)
+            raise RuntimeError
+            # raise RuntimeError(error_msg)
 
     def optimize(
             self,
@@ -102,7 +108,7 @@ class NeverGradOptimizer:
             executor: Optional[concurrent.futures.ThreadPoolExecutor] = None
     ) -> OptimizationResult:
         """
-        Improved optimization method with detailed error handling
+        Nevergrad-based optimization maintaining same interface as scipy version
 
         Args:
             original_code: Python code containing optimizable parameters
@@ -111,85 +117,95 @@ class NeverGradOptimizer:
             executor: Optional thread pool executor
 
         Returns:
-            OptimizationResult: Object containing optimization results and detailed error information
+            OptimizationResult: Object containing optimization results
         """
         self.opt_params = opt_params
-        for param in param_vars:
-            if opt_params[param]["type"] == 'int':
-                opt_params[param]["initial"] = int(opt_params[param]["initial"])
-                opt_params[param]["min"] = int(opt_params[param]["min"])
-                opt_params[param]["max"] = int(opt_params[param]["max"])
-
-
         result = OptimizationResult(
             optimized_code=original_code,
             optimized_params={},
             optimized_fitness=float('inf'),
+            optimized_test_fitness=float('inf'),
+            optimized_lower=float('inf'),
+            optimized_upper=float('inf'),
+            optimized_trajectory=[],
             success=False,
             history=[]
         )
 
         try:
-            # 1. Sanity check: skip
+            # 1. Prepare parameter space for Nevergrad
+            parametrization = ng.p.Dict()
+            for param in param_vars:
+                if opt_params[param]["type"] == "int":
+                    parametrization[param] = ng.p.Scalar(
+                        init=opt_params[param]["initial"],
+                        lower=opt_params[param]["min"],
+                        upper=opt_params[param]["max"]
+                    ).set_integer_casting()
+                else:
+                    parametrization[param] = ng.p.Scalar(
+                        init=opt_params[param]["initial"],
+                        lower=opt_params[param]["min"],
+                        upper=opt_params[param]["max"]
+                    )
 
-            # 2. Prepare optimization variables
-            initial_values = [opt_params[p]['initial'] for p in param_vars]
-            bounds = [(opt_params[p]['min'], opt_params[p]['max']) for p in param_vars]
-
-            # 3. Define objective function
+            # 2. Define objective function (same as original)
             def objective(x):
                 try:
-                    # Create parameter dictionary
-                    current_params = dict(zip(param_vars, x))
-                    current_params = self.data_type(current_params)
-                    # Replace parameters and record locations
+                    current_params = self.data_type(x.value)
                     modified_code, locations = self._replace_parameters(original_code, current_params)
-                    # Evaluate code
                     fitness = self._evaluate_code(modified_code, executor)
-                    # Record history
+
                     history_entry = {
                         'params': current_params.copy(),
-                        'fitness': fitness,
+                        'fitness': fitness['avg'],
+                        'test_objective': fitness['test_obj'],
+                        'lower': fitness['lower'],
+                        'upper': fitness['upper'],
+                        'trajectory': fitness['trajectory'],
                         'code': modified_code,
                         'locations': locations
                     }
                     self.history.append(history_entry)
                     result.history.append(history_entry)
 
-                    return fitness
+                    return fitness['avg']
 
                 except Exception as e:
                     error_msg = f"Objective function failed at parameters {current_params}: {str(e)}"
                     logger.error(error_msg)
                     result.error = error_msg
                     result.error_location = f"Parameter values: {current_params}"
-                    raise
+                    return float('inf')
 
-            # 4. Run optimization
-            opt_result = minimize(
-                objective,
-                initial_values,
-                bounds=bounds,
-                method='L-BFGS-B',
-                options={'maxiter': 20, 'disp': True}
+            # 3. Run Nevergrad optimization
+            optimizer = ng.optimizers.NGOpt(
+                parametrization=parametrization,
+                budget=self.max_iter
             )
 
-            # 5. Generate final optimized code
-            raw_optimized_params = dict(zip(param_vars, opt_result.x))
+            for _ in range(optimizer.budget):
+                x = optimizer.ask()
+                loss = objective(x)
+                optimizer.tell(x, loss)
 
-            optimized_params = self.data_type(raw_optimized_params)
-
+            # 4. Get final results
+            recommendation = optimizer.provide_recommendation()
+            optimized_params = self.data_type(recommendation.value)
             optimized_code, _ = self._replace_parameters(original_code, optimized_params)
 
-            # Update results
+            # Find best result from history
+            best_run = min(result.history, key=lambda x: x['fitness'])
+
+            # Populate results (matching original interface)
             result.optimized_code = optimized_code
             result.optimized_params = optimized_params
-            result.optimized_fitness = float(opt_result.fun)
-            result.success = opt_result.success
-
-            if not opt_result.success:
-                result.error = opt_result.message
-                result.error_location = f"Final parameters: {optimized_params}"
+            result.optimized_fitness = float(best_run['fitness'])
+            result.optimized_test_fitness = best_run['test_objective']
+            result.optimized_lower = best_run['lower']
+            result.optimized_upper = best_run['upper']
+            result.optimized_trajectory = best_run['trajectory']
+            result.success = True  # Nevergrad doesn't have success flag
 
         except Exception as e:
             result.error = str(e)

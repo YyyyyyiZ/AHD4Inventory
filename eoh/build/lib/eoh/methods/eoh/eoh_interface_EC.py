@@ -214,7 +214,7 @@ class InterfaceEC():
 
         results = []
         try:
-            results = Parallel(n_jobs=self.n_p,timeout=self.timeout+15)(delayed(self.get_offspring)(pop, operator) for _ in range(self.pop_size))
+            results = Parallel(n_jobs=self.n_p,timeout=self.timeout+120)(delayed(self.get_offspring)(pop, operator) for _ in range(self.pop_size))
         except Exception as e:
             if self.debug:
                 print(f"Error: {e}")

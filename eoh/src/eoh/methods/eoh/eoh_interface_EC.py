@@ -9,15 +9,15 @@ import concurrent.futures
 
 class InterfaceEC():
     def __init__(self, pop_size, m, api_endpoint, api_key, llm_model,llm_use_local,llm_local_url, debug_mode,
-                 interface_prob, reflect, K1, K2, external_optimizer, exp_output_path,
-                 background_info, background_type, data_sep, prompt_type, select,n_p,timeout,use_numba,**kwargs):
+                 interface_prob, reflect, K1, K2, external_optimizer, max_iter, param_loc,
+                 exp_output_path, background_info, background_type, data_sep, prompt_type, select,n_p,timeout,use_numba,**kwargs):
 
         # LLM settings
         self.pop_size = pop_size
         self.interface_eval = interface_prob
         prompts = interface_prob.prompts
         self.evol = Evolution(api_endpoint, api_key, llm_model,llm_use_local,llm_local_url, debug_mode,prompts,
-                              reflect, K1, K2, external_optimizer, exp_output_path,
+                              reflect, K1, K2, external_optimizer, param_loc, exp_output_path,
                               background_info, background_type, data_sep,
                               prompt_type, **kwargs)
         self.m = m
@@ -34,6 +34,7 @@ class InterfaceEC():
 
         self.reflect = reflect
         self.external_optimizer = external_optimizer
+        self.max_iter = max_iter
         self.background_type = background_type
 
         
@@ -74,6 +75,7 @@ class InterfaceEC():
         for i in range(len(pop)):
             obj = np.array(fitness[i]['avg'])
             pop[i]['objective'] = np.round(obj, 5)
+            pop[i]['test_objective'] = np.round(np.array(fitness[i]['test_obj']), 5)
             pop[i]['lower'] = np.round(np.array(fitness[i]['lower']), 5)
             pop[i]['upper'] = np.round(np.array(fitness[i]['upper']), 5)
             pop[i]['trajectory'] = fitness[i]['trajectory']
@@ -104,6 +106,7 @@ class InterfaceEC():
                     'algorithm': seeds[i]['algorithm'],
                     'code': seeds[i]['code'],
                     'objective': None,
+                    'test_objective': None,
                     'lower': None,
                     'upper': None,
                     'trajectory': None,
@@ -112,6 +115,7 @@ class InterfaceEC():
 
                 obj = np.array(fitness[i]['avg'])
                 seed_alg['objective'] = np.round(obj, 5)
+                seed_alg['test_objective'] = np.round(np.array(fitness[i]['test_obj']), 5)
                 seed_alg['lower'] = np.round(np.array(fitness[i]['lower']), 5)
                 seed_alg['upper'] = np.round(np.array(fitness[i]['upper']), 5)
                 seed_alg['trajectory'] = fitness[i]['trajectory']
@@ -131,7 +135,9 @@ class InterfaceEC():
             'algorithm': None,
             'code': None,
             'opt_params': {},
+            'cost': None,
             'objective': None,
+            'test_objective': None,
             'lower': None,
             'upper': None,
             'trajectory': None,
@@ -142,16 +148,16 @@ class InterfaceEC():
             [offspring['code'],offspring['algorithm']] =  self.evol.i1()
         elif operator == "e1":
             parents = self.select.parent_selection(pop,self.m)
-            [offspring['code'],offspring['algorithm'], offspring['opt_params']] = self.evol.e1(parents)
+            [offspring['code'],offspring['algorithm'], offspring['opt_params'], offspring['cost']] = self.evol.e1(parents)
         elif operator == "e2":
             parents = self.select.parent_selection(pop,self.m)
-            [offspring['code'],offspring['algorithm'], offspring['opt_params']] = self.evol.e2(parents)
+            [offspring['code'],offspring['algorithm'], offspring['opt_params'], offspring['cost']] = self.evol.e2(parents)
         elif operator == "m1":
             parents = self.select.parent_selection(pop,1)
-            [offspring['code'],offspring['algorithm'], offspring['opt_params']] = self.evol.m1(parents[0])
+            [offspring['code'],offspring['algorithm'], offspring['opt_params'], offspring['cost']] = self.evol.m1(parents[0])
         elif operator == "m2":
             parents = self.select.parent_selection(pop,1)
-            [offspring['code'],offspring['algorithm'], offspring['opt_params']] = self.evol.m2(parents[0])
+            [offspring['code'],offspring['algorithm'], offspring['opt_params'], offspring['cost']] = self.evol.m2(parents[0])
         elif operator == "m3":
             parents = self.select.parent_selection(pop,1)
             [offspring['code'],offspring['algorithm']] = self.evol.m3(parents[0])
@@ -160,7 +166,7 @@ class InterfaceEC():
 
         return parents, offspring
 
-    def get_offspring(self, pop, operator):
+    def get_offspring(self, pop, operator, n_pop):
         try:
             p, offspring = self._get_alg(pop, operator)
 
@@ -193,15 +199,25 @@ class InterfaceEC():
                 if n_retry > 1:
                     break
 
+            ext = False
             if self.external_optimizer=='scipy' and len(offspring['opt_params'])!=0:
                 from .external_scipy import ScipyOptimizer as ExternalOptimizer
-            # # This is a placeholder, nevergrad not implemented
-            # elif self.external_optimizer == 'nevergrad' and len(offspring['opt_params']) != 0:
-            #     from .external_nevergrad import NeverGradOptimizer as ExternalOptimizer
+                ext = True
+            elif self.external_optimizer == 'ng':
+                from .external_nevergrad import NGOptimizer as ExternalOptimizer
+                ext = True
+            elif self.external_optimizer == 'deap':
+                from .external_deap import DEAPOptimizer as ExternalOptimizer
+                ext = True
+            # if ext:
+            # print(n_pop)
+            # if ext and n_pop==9:
+            if ext:
                 try:
                     # print(f"Original parameters: {offspring['opt_params']}")
                     optimizer = ExternalOptimizer(
                         interface_eval=self.interface_eval,
+                        max_iter=self.max_iter,
                         timeout=self.timeout
                     )
 
@@ -215,6 +231,7 @@ class InterfaceEC():
                     offspring.update({
                         'code': opt_result.optimized_code,
                         'objective': np.round(opt_result.optimized_fitness, 5),
+                        'test_objective': np.round(opt_result.optimized_test_fitness, 5),
                         'lower': np.round(opt_result.optimized_lower, 5),
                         'upper': np.round(opt_result.optimized_upper, 5),
                         'trajectory': opt_result.optimized_trajectory,
@@ -222,12 +239,14 @@ class InterfaceEC():
                     })
 
                     # print(f"optimized parameters: {opt_result.optimized_params}")
-                except Exception as e:
+
+                except:
                     # self.code2file(offspring['code'])
                     with concurrent.futures.ThreadPoolExecutor() as executor:
                         future = executor.submit(self.interface_eval.evaluate, code)
                         fitness = future.result(timeout=self.timeout)
                         offspring['objective'] = np.round(fitness['avg'], 5)
+                        offspring['test_objective'] = np.round(fitness['test_obj'], 5)
                         offspring['lower'] = np.round(fitness['lower'], 5)
                         offspring['upper'] = np.round(fitness['upper'], 5)
                         offspring['trajectory'] = fitness['trajectory']
@@ -238,6 +257,7 @@ class InterfaceEC():
                     future = executor.submit(self.interface_eval.evaluate, code)
                     fitness = future.result(timeout=self.timeout)
                     offspring['objective'] = np.round(fitness['avg'], 5)
+                    offspring['test_objective'] = np.round(fitness['test_obj'], 5)
                     offspring['lower'] = np.round(fitness['lower'], 5)
                     offspring['upper'] = np.round(fitness['upper'], 5)
                     offspring['trajectory'] = fitness['trajectory']
@@ -252,6 +272,7 @@ class InterfaceEC():
                 'algorithm': None,
                 'code': None,
                 'objective': None,
+                'test_objective': None,
                 'lower': None,
                 'upper': None,
                 'trajectory': None,
@@ -281,11 +302,11 @@ class InterfaceEC():
 
 
 
-    def get_algorithm(self, pop, operator):
+    def get_algorithm(self, pop, operator, n_pop=1):
 
         results = []
         try:
-            results = Parallel(n_jobs=self.n_p,timeout=self.timeout+15)(delayed(self.get_offspring)(pop, operator) for _ in range(self.pop_size))
+            results = Parallel(n_jobs=self.n_p,timeout=self.timeout+120)(delayed(self.get_offspring)(pop, operator, n_pop) for _ in range(self.pop_size))
         except Exception as e:
             if self.debug:
                 print(f"Error: {e}")

@@ -9,31 +9,34 @@ import sys
 import glob
 
 class INVENTORY:
-    def __init__(self, dist = None, demand=None, volatility=None):
+    def __init__(self, dist = None, demand=None, volatility=None, n_train=50):
         self.dist = dist
         self.demand = demand
         self.volatility = volatility
         self.prompts = GetPrompts()
-        self.instances = self._load_instances()
+        self.mode = 'train'
+        self.train_instances = self._load_instances(mode='train', n_traj=n_train)
+        self.test_instances = self._load_instances(mode='test')
+        self.instances = None
 
-    def _load_instances(self):
+    def _load_instances(self, mode='train', n_traj=None):
         # Determine the file pattern based on parameters
         if self.dist is None and self.demand is None and self.volatility is None:
-            pattern = "evaluation/data/*_train_*.json"
+            pattern = f"evaluation/data/*_{mode}_*.json"
         elif self.dist is None and self.demand is None:
-            pattern = f"evaluation/data/*_train_*_{self.volatility}.json"
+            pattern = f"evaluation/data/*_{mode}_*_{self.volatility}.json"
         elif self.dist is None and self.volatility is None:
-            pattern = f"evaluation/data/*_train_{self.demand}_*.json"
+            pattern = f"evaluation/data/*_{mode}_{self.demand}_*.json"
         elif self.demand is None and self.volatility is None:
-            pattern = f"evaluation/data/{self.dist}_train_*.json"
+            pattern = f"evaluation/data/{self.dist}_{mode}_*.json"
         elif self.dist is None:
-            pattern = f"evaluation/data/*_train_{self.demand}_{self.volatility}.json"
+            pattern = f"evaluation/data/*_{mode}_{self.demand}_{self.volatility}.json"
         elif self.volatility is None:
-            pattern = f"evaluation/data/{self.dist}_train_{self.demand}_*.json"
+            pattern = f"evaluation/data/{self.dist}_{mode}_{self.demand}_*.json"
         elif self.demand is None:
-            pattern = f"evaluation/data/{self.dist}_train_*_{self.volatility}.json"
+            pattern = f"evaluation/data/{self.dist}_{mode}_*_{self.volatility}.json"
         else:
-            pattern = f"evaluation/data/{self.dist}_train_{self.demand}_{self.volatility}.json"
+            pattern = f"evaluation/data/{self.dist}_{mode}_{self.demand}_{self.volatility}.json"
         print(f"Instances loaded {pattern}......")
 
         # Find all matching files and load their contents
@@ -45,11 +48,15 @@ class INVENTORY:
                     instances.extend(data)
                 else:  # If file contains a single instance
                     instances.append(data)
-        return instances
+        if n_traj is not None:
+            final_instances = instances[:n_traj]
+        else:
+            final_instances = instances
+        return final_instances
 
-    def evaluateGreedy(self, eva):
+    def evaluate_mode(self, eva, instances):
         cost_list = []
-        for instance in self.instances:
+        for instance in instances:
             total_cost = 0.0
             history_demand = []
             current_inventory = instance['initial_inventory']
@@ -99,6 +106,12 @@ class INVENTORY:
         }
 
         return res
+
+    def evaluateGreedy(self, eva):
+        res_train = self.evaluate_mode(eva, self.train_instances)
+        res_test = self.evaluate_mode(eva, self.test_instances)
+        res_train['test_obj'] = res_test['avg']
+        return res_train
 
         
     def evaluate(self, code_string):

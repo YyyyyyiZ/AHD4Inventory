@@ -1,6 +1,7 @@
 import re
+import random
 import numpy as np
-from scipy.optimize import minimize
+from deap import algorithms, base, creator, tools
 from typing import Dict, List, Callable, Optional, Tuple, Any
 import concurrent.futures
 import logging
@@ -28,7 +29,7 @@ class OptimizationResult:
     history: Optional[List[Dict[str, Any]]] = None
 
 
-class ScipyOptimizer:
+class DEAPOptimizer:
     def __init__(self, interface_eval, max_iter=30, timeout: float = 10.0):
         self.interface_eval = interface_eval
         self.timeout = timeout
@@ -99,35 +100,29 @@ class ScipyOptimizer:
             error_msg = f"Evaluation failed: {str(e)}\n{traceback.format_exc()}"
             logger.error(error_msg)
             raise RuntimeError
-            # raise RuntimeError(error_msg)
 
     def optimize(
             self,
             original_code: str,
             opt_params: Dict[str, Dict[str, float]],
             param_vars: List[str],
-            executor: Optional[concurrent.futures.ThreadPoolExecutor] = None
+            executor: Optional[concurrent.futures.ThreadPoolExecutor] = None,
+            pop_size: int = 30,
     ) -> OptimizationResult:
         """
-        Improved optimization method with detailed error handling
+        DEAP-based evolutionary optimization
 
         Args:
             original_code: Python code containing optimizable parameters
             opt_params: {"param1": {"initial": 1.0, "min": 0.1, "max": 2.0}, ...}
             param_vars: List of parameter names to optimize
             executor: Optional thread pool executor
+            pop_size: Optional number of population size
 
         Returns:
-            OptimizationResult: Object containing optimization results and detailed error information
+            OptimizationResult: Object containing optimization results
         """
         self.opt_params = opt_params
-        for param in param_vars:
-            if opt_params[param]["type"] == 'int':
-                opt_params[param]["initial"] = int(opt_params[param]["initial"])
-                opt_params[param]["min"] = int(opt_params[param]["min"])
-                opt_params[param]["max"] = int(opt_params[param]["max"])
-
-
         result = OptimizationResult(
             optimized_code=original_code,
             optimized_params={},
@@ -141,80 +136,110 @@ class ScipyOptimizer:
         )
 
         try:
-            # 1. Sanity check: skip
+            # 1. Setup DEAP evolutionary algorithm
+            creator.create("FitnessMin", base.Fitness, weights=(-1.0,))
+            creator.create("Individual", list, fitness=creator.FitnessMin)
 
-            # 2. Prepare optimization variables
-            initial_values = [opt_params[p]['initial'] for p in param_vars]
-            bounds = [(opt_params[p]['min'], opt_params[p]['max']) for p in param_vars]
+            toolbox = base.Toolbox()
 
-            # 3. Define objective function
-            def objective(x):
-                try:
-                    # Create parameter dictionary
-                    current_params = dict(zip(param_vars, x))
-                    current_params = self.data_type(current_params)
-                    # Replace parameters and record locations
-                    modified_code, locations = self._replace_parameters(original_code, current_params)
-                    # Evaluate code
-                    fitness = self._evaluate_code(modified_code, executor)
-                    # Record history
-                    history_entry = {
-                        'params': current_params.copy(),
-                        'fitness': fitness['avg'],
-                        'test_objective': fitness['test_obj'],
-                        'lower': fitness['lower'],
-                        'upper': fitness['upper'],
-                        'trajectory': fitness['trajectory'],
-                        'code': modified_code,
-                        'locations': locations
-                    }
-                    self.history.append(history_entry)
-                    result.history.append(history_entry)
+            # Register attribute generators for each parameter
+            for param in param_vars:
+                if opt_params[param]["type"] == "int":
+                    toolbox.register(
+                        f"attr_{param}",
+                        random.randint,
+                        opt_params[param]["min"],
+                        opt_params[param]["max"]
+                    )
+                else:
+                    toolbox.register(
+                        f"attr_{param}",
+                        random.uniform,
+                        opt_params[param]["min"],
+                        opt_params[param]["max"]
+                    )
 
-                    return fitness['avg']
+            # Initialize individual and population
+            toolbox.register(
+                "individual",
+                tools.initCycle,
+                creator.Individual,
+                (getattr(toolbox, f"attr_{param}") for param in param_vars),
+                n=1
+            )
+            toolbox.register("population", tools.initRepeat, list, toolbox.individual)
 
-                except Exception as e:
-                    error_msg = f"Objective function failed at parameters {current_params}: {str(e)}"
-                    logger.error(error_msg)
-                    result.error = error_msg
-                    result.error_location = f"Parameter values: {current_params}"
-                    raise
+            # 2. Define evaluation function
+            def evaluate(individual):
+                current_params = dict(zip(param_vars, individual))
+                current_params = self.data_type(current_params)
 
-            # 4. Run optimization
-            opt_result = minimize(
-                objective,
-                initial_values,
-                bounds=bounds,
-                method='L-BFGS-B',
-                options={'maxiter': self.max_iter, 'disp': True}
+                modified_code, locations = self._replace_parameters(original_code, current_params)
+                fitness = self._evaluate_code(modified_code, executor)
+
+                history_entry = {
+                    'params': current_params.copy(),
+                    'fitness': fitness['avg'],
+                    'test_objective': fitness['test_obj'],
+                    'lower': fitness['lower'],
+                    'upper': fitness['upper'],
+                    'trajectory': fitness['trajectory'],
+                    'code': modified_code,
+                    'locations': locations
+                }
+                self.history.append(history_entry)
+                result.history.append(history_entry)
+
+                return (fitness['avg'],)
+
+            toolbox.register("evaluate", evaluate)
+            toolbox.register("mate", tools.cxBlend, alpha=0.5)
+            toolbox.register("mutate", tools.mutGaussian, mu=0, sigma=1, indpb=0.2)
+            toolbox.register("select", tools.selTournament, tournsize=3)
+
+            # 3. Run evolutionary algorithm
+            pop = toolbox.population(n=pop_size)
+            hof = tools.HallOfFame(1)
+            stats = tools.Statistics(lambda ind: ind.fitness.values[0])
+            stats.register("avg", np.mean)
+            stats.register("min", np.min)
+            stats.register("max", np.max)
+
+            algorithms.eaSimple(
+                pop, toolbox, cxpb=0.7, mutpb=0.2, ngen=self.max_iter // pop_size,
+                stats=stats, halloffame=hof, verbose=False
             )
 
-            # 5. Generate final optimized code
-            raw_optimized_params = dict(zip(param_vars, opt_result.x))
-
-            optimized_params = self.data_type(raw_optimized_params)
-
+            # 4. Extract results
+            best_ind = hof[0]
+            optimized_params = self.data_type(dict(zip(param_vars, best_ind)))
             optimized_code, _ = self._replace_parameters(original_code, optimized_params)
 
-            # Update results
+            # Find best result from history
+            best_run = min(result.history, key=lambda x: x['fitness'])
+
+            # Populate results
             result.optimized_code = optimized_code
             result.optimized_params = optimized_params
-            result.optimized_fitness = float(opt_result.fun)
+            result.optimized_fitness = float(best_run['fitness'])
+            result.optimized_test_fitness = best_run['test_objective']
+            result.optimized_lower = best_run['lower']
+            result.optimized_upper = best_run['upper']
+            result.optimized_trajectory = best_run['trajectory']
+            result.success = True
             result.history = sorted(result.history, key=lambda x: x['fitness'], reverse=True)
-            result.optimized_test_fitness = result.history[-1]['test_objective']
-            result.optimized_lower = result.history[-1]['lower']
-            result.optimized_upper = result.history[-1]['upper']
-            result.optimized_trajectory = result.history[-1]['trajectory']
-            result.success = opt_result.success
-
-            if not opt_result.success:
-                result.error = opt_result.message
-                result.error_location = f"Final parameters: {optimized_params}"
 
         except Exception as e:
             result.error = str(e)
             result.error_location = traceback.format_exc()
             logger.error(f"Optimization failed: {result.error}")
+
+        finally:
+            # Clean up DEAP classes to avoid pickle issues
+            if 'FitnessMin' in creator.__dict__:
+                del creator.FitnessMin
+            if 'Individual' in creator.__dict__:
+                del creator.Individual
 
         return result
 
