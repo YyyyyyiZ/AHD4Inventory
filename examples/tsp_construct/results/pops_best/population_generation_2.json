@@ -1,6 +1,0 @@
-{
-     "algorithm": "The algorithm selects the next node by choosing the unvisited node that maximizes the ratio of the distance from the current node to the destination node over the distance from the current node to the unvisited node.",
-     "code": "import numpy as np\n\ndef select_next_node(current_node, destination_node, unvisited_nodes, distance_matrix):\n    max_ratio = -float('inf')\n    next_node = None\n    \n    for node in unvisited_nodes:\n        if distance_matrix[current_node, node] == 0:\n            continue\n        ratio = distance_matrix[current_node, destination_node] / distance_matrix[current_node, node]\n        if ratio > max_ratio:\n            max_ratio = ratio\n            next_node = node\n    \n    return next_node",
-     "objective": 6.60788,
-     "other_inf": null
-}
