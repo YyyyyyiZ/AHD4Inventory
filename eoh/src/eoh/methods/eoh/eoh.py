@@ -73,11 +73,14 @@ class EOH:
         else:
             self.reflect = 'multi_comparative_reflection'
 
+
         self.prompt_type = paras.prompt_type
 
         self.background_info = paras.background_info
         if self.background_info == 'no':
             self.background_info = None
+        if self.background_info == 'verbal':
+            self.reflect = 'in_context_learning'
         self.background_type = paras.background_type
         self.data_sep = paras.data_sep
         self.cal_cost = paras.cal_cost
@@ -159,7 +162,6 @@ class EOH:
             pattern = f"evaluation/data/{self.dist}_{mode}_*_{self.volatility}.json"
         else:
             pattern = f"evaluation/data/{self.dist}_{mode}_{self.demand_mean}_{self.volatility}.json"
-        print(f"Instances loaded {pattern}......")
 
         # Find all matching files and load their contents
         instances = []
@@ -186,7 +188,6 @@ class EOH:
             f"lost sales penalty p={instance['lost_sales_cost']} per unit."
         )
         return param_desc
-
 
 
     def get_data(self, offspring_pop=None, performance=False):
@@ -276,6 +277,49 @@ class EOH:
                      f"{self.get_data(offspring_pop, performance=True)}\n")
             info += (f"\nBased on the demand data and corresponding performance of generated codes, "
                      f"we have obtained the following key reflections:.\n{data_reflection}\n")
+        elif self.background_info == 'verbal':
+            n_heu = 3
+            n_heu = min(n_heu, len(offspring_pop))
+            n_traj = 5
+            data = json.loads(self.get_data())
+            sampled_traj_indices = random.sample(range(len(data)), n_traj)
+            if isinstance(offspring_pop, str):
+                offspring_pop = json.loads(offspring_pop)
+            sampled_offspring = random.sample(offspring_pop, n_heu)
+            # --- Generate heuristic descriptions (heu_descr) ---
+            heu_descr = ""
+            for i, offspring in enumerate(sampled_offspring, 1):
+                descr = offspring['algorithm']  # Assuming the field is 'descr', not 'algorithm' as in your snippet
+                heu_descr += f"- Heuristic H{i}: {descr}\n"
+
+            # --- Generate data table (data_tab) ---
+            header = "| trajectory |"   # Header: Trajectory | D_1 | D_2 | ... | Cost_H1 | Cost_H2 | ...
+            demand_length = len(data[0]["demand"])  # Get the number of demand values per trajectory
+            for d in range(1, demand_length + 1):   # Add D_1, D_2, ..., D_n columns
+                header += f" D_{d} |"
+            for h in range(1, n_heu + 1):   # Add Cost_H1, Cost_H2, ..., Cost_Hn columns
+                header += f" Cost_H{h} |"
+            separator = "|----------|" + "-----|" * demand_length + "--------|" * n_heu
+
+            # Initialize the table with header and separator
+            data_tab = f"{header}\n{separator}\n"
+
+            # Populate each row with trajectory data and heuristic costs
+            for kk, traj_idx in enumerate(sampled_traj_indices):
+                traj_data = data[traj_idx]
+                demand = traj_data["demand"]
+
+                row = f"| {kk + 1}        |"  # Add trajectory ID and demand values
+                for d in demand:
+                    row += f" {d}  |"
+
+                for offspring in sampled_offspring: # Add heuristic costs for this trajectory
+                    traj_costs = offspring['trajectory'][traj_idx]  # Get cost for this trajectory
+                    row += f" {traj_costs}     |"
+
+                data_tab += f"{row}\n"
+
+            info = [heu_descr, data_tab]
 
         if self.cal_cost == 'code':
             info += """
@@ -427,13 +471,14 @@ def cost_calculation(
                             data_reflection = interface_ec.get_data_reflection(
                                 self.get_data(offspring_pop, performance=True), iteration=pop)
                         except:
-                            print(offspring_pop)
                             data_reflection = interface_ec.get_data_reflection(
                                 self.get_data(population, performance=True), iteration=pop)
                     try:
-                        info = self.get_info(offspring_pop, data_reflection)
+                        if self.background_info == 'verbal':
+                            info = self.get_info(population, data_reflection)
+                        else:
+                            info = self.get_info(offspring_pop, data_reflection)
                     except:
-                        print(offspring_pop)
                         info = self.get_info(population, data_reflection)
                 else:
                     info = ''
@@ -459,6 +504,8 @@ def cost_calculation(
                         interface_ec.multi_comparative_reflection(info, offspring_pop, iteration=pop)
                     except:
                         interface_ec.multi_comparative_reflection(info, population, iteration=pop)
+                elif self.reflect == 'in_context_learning':
+                    interface_ec.in_context_learning(info, iteration=pop)
                 else:
                     pass    # No reflection
 

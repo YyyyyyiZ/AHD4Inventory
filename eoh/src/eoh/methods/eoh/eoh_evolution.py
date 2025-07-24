@@ -438,6 +438,32 @@ class Evolution():
 
         return [code_all, algorithm]
 
+    def in_context_learning(self, info, iteration):
+        self.prompt_gen_narrative = file_to_string(f'{self.file_path}/common/prompt_gen_narrative.txt')
+        self.prompt_gen_ref = file_to_string(f'{self.file_path}/common/prompt_gen_ref.txt')
+        prompt_narrative = self.prompt_gen_narrative.format(
+            heu_descr=info[0],
+            data_tab=info[1],
+        )
+        file_name = f"{self.exp_output_path}/prompt_for_reflection/narrative_{iteration}.txt"
+        with open(file_name, 'a') as file:
+            file.writelines(prompt_narrative + '\n')
+        narrative = self._get_reflection(prompt_narrative)
+
+        user = self.prompt_gen_ref.format(
+            prompt_task=self.prompt_task,
+            narrative=narrative
+        )
+        file_name = f"{self.exp_output_path}/prompt_for_reflection/reflection_{iteration}.txt"
+        with open(file_name, 'a') as file:
+            file.writelines(user + '\n')
+        temp = self._get_reflection(user)
+        file_name = f"{self.exp_output_path}/reflection/reflection_content_{iteration}.txt"
+        with open(file_name, 'a') as file:
+            file.writelines(temp + '\n')
+        self.short_term_reflection_str = temp
+
+
     def mimic_best_sample(self, info, population, iteration):
         best_ind = population[0]
         best_code = filter_code(best_ind["code"])

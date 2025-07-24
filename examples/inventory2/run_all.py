@@ -8,12 +8,12 @@ print(sys.executable)      # path of python.exe
 dist_list = ['poisson1']
 mean_list = [80]
 prompt_type_list = ['old20']
-background_info_list = ['no']
-# background_info_list = ['exactdata', 'refonly', 'exactdataref']
+background_info_list = ['verbal']
+# background_info_list = ['verbal', 'exactdata', 'refonly', 'exactdataref']
 background_type_list = ['nofix']
 data_sep_list = ['no']
 cal_cost_list = ['no']
-external_opt_list =['ng', 'deap']
+external_opt_list =['no', 'ng', 'deap']
 # k1k2_list=[(0,1),(0,2), (0,3),(0,4),
 #            (1,0),(2,0), (3,0),(4,0),
 #            (1,1),(2,2), (3,3),(4,4),]
@@ -26,7 +26,7 @@ repeat_num=1
 
 
 for repeat in range(repeat_num):
-    repeat += 1
+    repeat += 2
     for dist in dist_list:
         for mean_demand in mean_list:
             for prompt_type in prompt_type_list:

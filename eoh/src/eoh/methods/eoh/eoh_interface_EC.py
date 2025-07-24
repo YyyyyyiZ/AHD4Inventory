@@ -285,6 +285,9 @@ class InterfaceEC():
     def update_long_term_reevo(self, iteration):
         self.evol.long_term_reflection_reevo(iteration)
 
+    def in_context_learning(self, info='', iteration=0):
+        self.evol.in_context_learning(info, iteration)
+
     def mimic_best_sample(self, info='', population=None, iteration=0):
         self.evol.mimic_best_sample(info, population, iteration)
 
