@@ -23,10 +23,11 @@ src/eoh/methods/eoh/eoh.py
 src/eoh/methods/eoh/eoh_evolution.py
 src/eoh/methods/eoh/eoh_interface_EC.py
 src/eoh/methods/eoh/evaluator_accelerate.py
-src/eoh/methods/eoh/external_nevergrad.py
+src/eoh/methods/eoh/external_heu.py
 src/eoh/methods/eoh/external_scipy.py
 src/eoh/methods/eoh/reflection/__init__.py
 src/eoh/methods/eoh/reflection/utils.py
+src/eoh/methods/eoh/reflection/common/prompt_data.txt
 src/eoh/methods/eoh/reflection/common/prompt_e1.txt
 src/eoh/methods/eoh/reflection/common/prompt_e2.txt
 src/eoh/methods/eoh/reflection/common/prompt_i1.txt
