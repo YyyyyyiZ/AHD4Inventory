@@ -35,7 +35,8 @@ We suggest install and run EoH in [conda](https://conda.io/projects/conda/en/lat
 ```bash
 cd eoh
 
-pip install .
+pip install -e .
+pip install requests
 ```
 
 #### Step 2: Try Example: 
