@@ -20,7 +20,7 @@ external_opt_list =['scipy']
 #            (1,1),(2,2), (3,3),(4,4),]
 k1k2_list=[(0,0)]
 algo_performance_list=['processed']
-# algo_performance_list=['plain','processed','reflected']
+# algo_performance_list=['no','plain','processed','reflected']
 data_summary_list = ['yes']
 # data_summary_list = ['no','yes']
 n_train_list = [50]
@@ -28,13 +28,6 @@ iter_opt_list = [30]
 param_loc_list = ['default']
 # param_loc_list = ['start', 'default']
 repeat_num=1
-
-# sk-f53ca282ff584abfa829c472acfe3fbf
-# sk-c97888d4b3034fe19cc7f343daaecd5b
-# sk-87111791adf44964b428e56380bdcea4
-# sk-85b2f938b0284d1491703b977e779c4f
-
-
 
 for repeat in range(repeat_num):
     repeat += 2

@@ -10,8 +10,7 @@ parser = argparse.ArgumentParser('Run Inventory2')
 # LLM Config
 parser.add_argument('--llm_api_endpoint', type=str, default="api.deepseek.com")
 # api.openai.com, api.deepseek.com
-parser.add_argument('--llm_api_key', type=str, default="sk-87111791adf44964b428e56380bdcea4")
-# sk-87111791adf44964b428e56380bdcea4
+parser.add_argument('--llm_api_key', type=str, default="")
 # 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
 parser.add_argument('--llm_model', type=str, default="deepseek-chat")
 # gpt-4.1, deepseek-chat
