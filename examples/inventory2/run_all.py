@@ -71,7 +71,7 @@ for repeat in range(repeat_num):
                                                                 f"--algo_performance {algo_performance} "
                                                                 f"--data_summary {data_summary} "
                                                                 f"--repeat {repeat} "
-                                                                f"--filename res_processed "
+                                                                f"--filename res "
                                                                 f"--store_option append "
                                                             )
                                                             print(f"Running: {command}")
