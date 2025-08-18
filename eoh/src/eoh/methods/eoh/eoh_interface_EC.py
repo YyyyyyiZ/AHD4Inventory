@@ -9,7 +9,7 @@ import concurrent.futures
 
 class InterfaceEC():
     def __init__(self, pop_size, m, api_endpoint, api_key, llm_model,llm_use_local,llm_local_url, debug_mode,
-                 interface_prob, reflect, K1, K2, external_optimizer, max_iter, param_loc,
+                 interface_prob, data_summary, algo_performance, reflect, K1, K2, external_optimizer, max_iter, param_loc,
                  exp_output_path, background_info, background_type, data_sep, prompt_type, select,n_p,timeout,use_numba,**kwargs):
 
         # LLM settings
@@ -17,7 +17,7 @@ class InterfaceEC():
         self.interface_eval = interface_prob
         prompts = interface_prob.prompts
         self.evol = Evolution(api_endpoint, api_key, llm_model,llm_use_local,llm_local_url, debug_mode,prompts,
-                              reflect, K1, K2, external_optimizer, param_loc, exp_output_path,
+                              data_summary, algo_performance, reflect, K1, K2, external_optimizer, param_loc, exp_output_path,
                               background_info, background_type, data_sep,
                               prompt_type, **kwargs)
         self.m = m
@@ -79,6 +79,8 @@ class InterfaceEC():
             pop[i]['lower'] = np.round(np.array(fitness[i]['lower']), 5)
             pop[i]['upper'] = np.round(np.array(fitness[i]['upper']), 5)
             pop[i]['trajectory'] = fitness[i]['trajectory']
+            pop[i]['cost_matrix'] = fitness[i]['cost_matrix']
+            pop[i]['order_matrix'] = fitness[i]['order_matrix']
         return pop
 
     def population_generation(self):
@@ -110,6 +112,8 @@ class InterfaceEC():
                     'lower': None,
                     'upper': None,
                     'trajectory': None,
+                    'cost_matrix': None,
+                    'order_matrix': None,
                     'other_inf': None
                 }
 
@@ -119,6 +123,8 @@ class InterfaceEC():
                 seed_alg['lower'] = np.round(np.array(fitness[i]['lower']), 5)
                 seed_alg['upper'] = np.round(np.array(fitness[i]['upper']), 5)
                 seed_alg['trajectory'] = fitness[i]['trajectory']
+                seed_alg['cost_matrix'] = fitness[i]['cost_matrix']
+                seed_alg['order_matrix'] = fitness[i]['order_matrix']
                 population.append(seed_alg)
 
             except Exception as e:
@@ -141,6 +147,8 @@ class InterfaceEC():
             'lower': None,
             'upper': None,
             'trajectory': None,
+            'cost_matrix': None,
+            'order_matrix': None,
             'other_inf': None
         }
         if operator == "i1":
@@ -158,9 +166,6 @@ class InterfaceEC():
         elif operator == "m2":
             parents = self.select.parent_selection(pop,1)
             [offspring['code'],offspring['algorithm'], offspring['opt_params'], offspring['cost']] = self.evol.m2(parents[0])
-        elif operator == "m3":
-            parents = self.select.parent_selection(pop,1)
-            [offspring['code'],offspring['algorithm']] = self.evol.m3(parents[0])
         else:
             print(f"Evolution operator [{operator}] has not been implemented ! \n")
 
@@ -235,6 +240,8 @@ class InterfaceEC():
                         'lower': np.round(opt_result.optimized_lower, 5),
                         'upper': np.round(opt_result.optimized_upper, 5),
                         'trajectory': opt_result.optimized_trajectory,
+                        'cost_matrix': opt_result.optimized_cost_matrix,
+                        'order_matrix': opt_result.optimized_order_matrix,
                         'opt_params': opt_result.optimized_params
                     })
 
@@ -250,6 +257,8 @@ class InterfaceEC():
                         offspring['lower'] = np.round(fitness['lower'], 5)
                         offspring['upper'] = np.round(fitness['upper'], 5)
                         offspring['trajectory'] = fitness['trajectory']
+                        offspring['cost_matrix'] = fitness['cost_matrix']
+                        offspring['order_matrix'] = fitness['order_matrix']
                         future.cancel()
             else:
                 #self.code2file(offspring['code'])
@@ -261,6 +270,8 @@ class InterfaceEC():
                     offspring['lower'] = np.round(fitness['lower'], 5)
                     offspring['upper'] = np.round(fitness['upper'], 5)
                     offspring['trajectory'] = fitness['trajectory']
+                    offspring['cost_matrix'] = fitness['cost_matrix']
+                    offspring['order_matrix'] = fitness['order_matrix']
                     future.cancel()
                     # fitness = self.interface_eval.evaluate(code)
                 
@@ -276,14 +287,13 @@ class InterfaceEC():
                 'lower': None,
                 'upper': None,
                 'trajectory': None,
+                'cost_matrix': None,
+                'order_matrix': None,
                 'other_inf': None
             }
             p = None
         # Round the objective values
         return p, offspring
-
-    def update_long_term_reevo(self, iteration):
-        self.evol.long_term_reflection_reevo(iteration)
 
     def in_context_learning(self, info='', iteration=0):
         self.evol.in_context_learning(info, iteration)

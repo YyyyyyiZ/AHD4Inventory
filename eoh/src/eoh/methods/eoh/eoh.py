@@ -59,6 +59,8 @@ class EOH:
 
         self.create_initial = paras.exp_create_initial
         self.repeat = paras.repeat
+        self.algo_performance = paras.algo_performance
+        self.data_summary = paras.data_summary
 
         self.K1 =paras.K1
         self.K2 =paras.K2
@@ -81,6 +83,8 @@ class EOH:
             self.background_info = None
         if self.background_info == 'verbal':
             self.reflect = 'in_context_learning'
+        if self.data_summary == 'no':
+            self.data_summary = None
         self.background_type = paras.background_type
         self.data_sep = paras.data_sep
         self.cal_cost = paras.cal_cost
@@ -113,36 +117,6 @@ class EOH:
                     if (self.debug_mode):
                         print("duplicated result, retrying ... ")
             population.append(off)
-
-    # def get_info(self, offspring_pop):
-    #     # Start with all codes
-    #     info = "Here are all the candidate algorithms' code implementations:\n"
-    #     for i, offspring in enumerate(offspring_pop, 1):
-    #         info += f"\nAlgorithm {i}:\n{offspring['code']}\n"
-    #
-    #     # Add statistical information based on background_info
-    #     if self.background_info == 'all':
-    #         info += "\nHere are their corresponding performance values:\n"
-    #         for i, offspring in enumerate(offspring_pop, 1):
-    #             info += f"\nAlgorithm {i} performance: {offspring['objective']:.2f}\n"
-    #
-    #     elif self.background_info == 'quantile':
-    #         objectives = [offspring['objective'] for offspring in offspring_pop]
-    #         q1 = np.quantile(objectives, 0.25)
-    #         median = np.quantile(objectives, 0.5)
-    #         q3 = np.quantile(objectives, 0.75)
-    #
-    #         info += "\nQuantile statistics of their performance:\n"
-    #         info += f"- 25th percentile (Q1): {q1:.2f}\n"
-    #         info += f"- 50th percentile (Median): {median:.2f}\n"
-    #         info += f"- 75th percentile (Q3): {q3:.2f}\n"
-    #
-    #     else:  # avg
-    #         avg_objective = np.mean([offspring['objective'] for offspring in offspring_pop])
-    #         info += "\nAverage performance of all algorithms:\n"
-    #         info += f"Mean objective value: {avg_objective:.2f}\n"
-    #
-    #     return info
 
     def get_instances(self, mode='train', n_traj=None):
         # Determine the file pattern based on parameters
@@ -177,17 +151,6 @@ class EOH:
         else:
             final_instances = instances
         return final_instances
-
-
-    def get_param(self):
-        instance = self.get_instances(mode='train', n_traj=self.n_train)[0]
-        param_desc = (
-            f"Specifically, current inventory system in consideration has initial stock I_0={instance['initial_inventory']} units, "
-            f"operates over T={instance['num_periods']} periods with lead time L={instance['lead_time']}, "
-            f"where holding cost h={instance['holding_cost']} per unit and "
-            f"lost sales penalty p={instance['lost_sales_cost']} per unit."
-        )
-        return param_desc
 
 
     def get_data(self, offspring_pop=None, performance=False):
@@ -225,6 +188,62 @@ class EOH:
             data = json.dumps(data, indent=2)
         return data
 
+    def get_data_summary(self):
+        instances = self.get_instances(mode='train', n_traj=self.n_train)
+        data = []
+        all_demands = []
+
+        for idx, traj in enumerate(instances, start=1):
+            demand_array = np.array(traj["demand"])
+            trajectory_data = {
+                "trajectory_id": f"trajectory_{idx}",
+                "demand": traj["demand"],
+            }
+            data.append(trajectory_data)
+            all_demands.append(demand_array)
+
+        # Convert list of arrays into one big array
+        all_demands = np.concatenate(all_demands)
+
+        # Basic statistics
+        mean_demand = np.mean(all_demands)
+        std_demand = np.std(all_demands)
+        min_demand = np.min(all_demands)
+        max_demand = np.max(all_demands)
+        cv_demand = std_demand / mean_demand if mean_demand != 0 else float("inf")
+
+        # Per-trajectory stats (to see diversity)
+        per_traj_stats = []
+        for traj in data:
+            arr = np.array(traj["demand"])
+            per_traj_stats.append({
+                "id": traj["trajectory_id"],
+                "mean": np.mean(arr),
+                "std": np.std(arr),
+                "min": np.min(arr),
+                "max": np.max(arr)
+            })
+
+        # Construct text summary
+        data_summary = []
+        data_summary.append("Demand Data Summary (across all trajectories):")
+        data_summary.append(f"- Total number of trajectories: {len(data)}")
+        data_summary.append(f"- Total number of periods: {len(all_demands)}")
+        data_summary.append(f"- Mean demand: {mean_demand:.2f}")
+        data_summary.append(f"- Std deviation: {std_demand:.2f}")
+        data_summary.append(f"- Min demand: {min_demand}, Max demand: {max_demand}")
+        data_summary.append(f"- Coefficient of Variation (CV): {cv_demand:.2f}")
+
+        data_summary.append("\nPer-trajectory statistics (mean ± std, min-max):")
+        for stat in per_traj_stats[:5]:  # show first 5 for brevity
+            data_summary.append(
+                f"  • {stat['id']}: mean={stat['mean']:.2f}, std={stat['std']:.2f}, "
+                f"range=({stat['min']}, {stat['max']})"
+            )
+        if len(per_traj_stats) > 5:
+            data_summary.append(f"  ... and {len(per_traj_stats) - 5} more trajectories")
+
+        return "\n".join(data_summary)
 
     def get_info(self, offspring_pop, data_reflection=None):
         # Start with all codes
@@ -321,38 +340,6 @@ class EOH:
 
             info = [heu_descr, data_tab]
 
-        if self.cal_cost == 'code':
-            info += """
-Below is the code for calculating total costs:
-
-```python
-def cost_calculation(
-    I_0: float,          # Initial inventory
-    d: list[float],      # Demand per period [d_1, ..., d_T] 
-    L: int,              # Lead time
-    h: float,            # Holding cost rate
-    p: float,            # Lost sales penalty
-    policy_fn: callable  # Order policy q_t = f(I_t, B_t, d_hist)
-) -> float:
-    
-    # Computes total inventory cost over T periods: Total Cost = ∑_{t=1}^T (h·I_t + p·LS_t)
-    I_t, cost = I_0, 0.0
-    B_t = [0.0]*L       # Pipeline orders [q_{t-L}, ..., q_{t-1}]
-    d_hist = []         # Demand history
-    
-    for d_t in d:
-        I_t += B_t.pop(0)  # 1. Receive incoming order
-        q_t = policy_fn(I_t, B_t.copy(), d_hist.copy(), h, p, L)    # 2. Place new order (arrives after L periods)
-        B_t.append(q_t)
-        S_t = min(I_t, d_t) # 3. Fulfill demand
-        LS_t = max(0, d_t - S_t)
-        I_t -= S_t
-        cost += h*I_t + p*LS_t  # 4. Accumulate costs
-        d_hist.append(d_t)
-    return cost
-                    """
-            info += self.get_param()
-
         return info
 
 
@@ -370,7 +357,9 @@ def cost_calculation(
 
         # interface for ec operators
         interface_ec = InterfaceEC(self.pop_size, self.m, self.api_endpoint, self.api_key, self.llm_model, self.use_local_llm, self.llm_local_url,
-                                   self.debug_mode, interface_prob, reflect=self.reflect, K1=self.K1, K2=self.K2,
+                                   self.debug_mode, interface_prob,
+                                   data_summary=self.get_data_summary() if self.data_summary else None, algo_performance=self.algo_performance,
+                                   reflect=self.reflect, K1=self.K1, K2=self.K2,
                                    background_info = self.background_info, background_type=self.background_type, data_sep=self.data_sep,
                                    prompt_type=self.prompt_type,
                                    external_optimizer=self.external_optimizer, max_iter = self.iter_opt, param_loc=self.param_loc,
@@ -422,16 +411,6 @@ def cost_calculation(
                 print("creating initial population:")
                 population = interface_ec.population_generation()
                 population = self.manage.population_management(population, self.pop_size)
-
-                # print(len(population))
-                # if len(population)<self.pop_size:
-                #     for op in [self.operators[0],self.operators[2]]:
-                #         _,new_ind = interface_ec.get_algorithm(population, op)
-                #         self.add2pop(population, new_ind)
-                #         population = self.manage.population_management(population, self.pop_size)
-                #         if len(population) >= self.pop_size:
-                #             break
-                #         print(len(population))
      
                 
                 print(f"3. Pop initial: ")

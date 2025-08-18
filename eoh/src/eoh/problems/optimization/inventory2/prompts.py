@@ -1,9 +1,8 @@
 class GetPrompts():
     def __init__(self):
         self.prompt_task = """
-        Design a novel inventory management algorithm for a system with lost sales and lead time.
+        Design a novel algorithm for a inventory system with lost sales and lead time=1.
         Given historical demand data, pipeline inventory (orders in transit), and cost parameters, compute the optimal order amount each period to minimize total costs (holding + lost sales).
-        Must differ from classical methods.
         """
         self.prompt_func_name = "compute_order_amount"
         self.prompt_func_inputs = [
@@ -18,15 +17,15 @@ class GetPrompts():
 
         self.prompt_inout_inf = """
         Inputs:
-        - `current_inventory` (float): On-hand inventory at the start of the period.
+        - `current_inventory` (float): On-hand inventory at the start of operation.
         - `pipeline_inventory` (list[float]): Orders in transit, indexed as [oldest → newest].
         - `history_demand` (list[float]): All historical demand values up to current period.
         - `holding_cost` (float): Cost to hold one unit of inventory for one period.
-        - `lost_sales_cost` (float): Cost per unit of lost sales (demand not fulfilled).
+        - `lost_sales_cost` (float): Cost per unit of lost sales.
         - `lead_time` (int): Fixed delay between order placement and arrival.
 
         Output:
-        - `order_amount` (float): Units to order this period (≥0).
+        - `order_amount` (int): Units to order this period (≥0).
         """
 
         self.prompt_other_inf = """

@@ -1,0 +1,205 @@
+Task: 
+        Design a novel algorithm for a inventory system with lost sales and lead time=1.
+        Given historical demand data, pipeline inventory (orders in transit), and cost parameters, compute the optimal order amount each period to minimize total costs (holding + lost sales).
+        
+
+---
+
+Here are some characteristics of the demand data:
+Demand Data Summary (across all trajectories):
+- Total number of trajectories: 50
+- Total number of periods: 2500
+- Mean demand: 80.04
+- Std deviation: 8.82
+- Min demand: 49, Max demand: 114
+- Coefficient of Variation (CV): 0.11
+
+Per-trajectory statistics (mean ± std, min-max):
+  • trajectory_1: mean=80.16, std=9.31, range=(62, 102)
+  • trajectory_2: mean=80.08, std=8.50, range=(56, 96)
+  • trajectory_3: mean=80.30, std=9.10, range=(67, 105)
+  • trajectory_4: mean=80.02, std=8.56, range=(54, 100)
+  • trajectory_5: mean=80.06, std=8.60, range=(59, 96)
+  ... and 45 more trajectories
+
+---
+
+I have one algorithm with its code as follows:
+def compute_order_amount(current_inventory, pipeline_inventory, history_demand, holding_cost, lost_sales_cost, lead_time):
+    smoothing_factor = 0.2  # Optimized
+    volatility_window = 12  # Optimized
+    cost_power = 1.0249253457710188  # Optimized
+    scale_factor = 1.9350430779082468  # Optimized
+    min_coverage = 1.2  # Optimized
+    
+    if len(history_demand) >= 2:
+        forecast = 80.17175608723075  # Optimized
+    else:
+        forecast = 80.04  # OPT_PARAM: {'initial': 80.04, 'min': 70, 'max': 90, 'type': 'float'}
+    
+    if len(history_demand) >= volatility_window:
+        recent_demand = history_demand[-volatility_window:]
+        demand_std = 8.819947473792345  # Optimized
+    else:
+        demand_std = 8.82  # OPT_PARAM: {'initial': 8.82, 'min': 5, 'max': 15, 'type': 'float'}
+    
+    cost_ratio = lost_sales_cost / (holding_cost + 1e-6)
+    safety_stock = demand_std * (cost_ratio ** cost_power) * scale_factor
+    target_inventory = max(forecast * min_coverage, forecast + safety_stock)
+    net_inventory = current_inventory + sum(pipeline_inventory)
+    order_amount = max(0, target_inventory - net_inventory)
+    
+    return order_amount
+
+---
+
+Below is the performance of provided algorithm on demand data:
+
+No.1 algorithm:
+- Total trajectories: 50, periods per trajectory: 50
+- Below are sampled trajectories (row = trajectory, col = period):
+  order_matrix entries = order amount per period
+  cost_matrix entries = (holding_cost, lost_sale_cost) per period
+
+    Trajectory 39 (total cost=1293.46):
+    Orders: [88.86824407476269, 80.0, 63.13175617746424, 86.0, 83.0, 86.0, 83.00000025222693, 75.0, 74.0, 95.00000025222693, 65.0, 91.0, 75.99947159378374, 93.00000025222693, 66.0, 87.0, 81.99947184601066, 84.0, 84.99947184601066, 84.0, 75.0, 73.0, 82.0, 74.0, 74.0, 88.0, 80.99947184601066, 88.0, 80.99947184601066, 74.0, 83.0, 83.0, 75.0, 73.0, 79.0, 70.0, 75.0, 72.0, 86.0, 70.0, 81.0, 83.0, 81.0, 73.0, 88.0, 75.0, 86.0, 73.0, 86.0, 73.0]
+    Costs: [[0.0, 10.0], [51.73648814952537, 0.0], [39.73648814952537, 0.0], [5.044538511356222e-07, 0.0], [5.044538511356222e-07, 0.0], [0.0, 39.999997477730744], [22.0, 0.0], [40.00000050445385, 0.0], [0.0, 9.999997477730744], [18.0, 0.0], [26.00000050445385, 0.0], [4.000000504453851, 0.0], [0.0, 49.999997477730744], [19.998943187567477, 0.0], [31.998943692021328, 0.0], [0.0, 20.00528153989336], [6.0, 0.0], [0.0, 50.00528153989336], [0.0, 0.0], [19.998943692021328, 0.0], [41.99894369202133, 0.0], [27.998943692021328, 0.0], [25.998943692021328, 0.0], [41.99894369202133, 0.0], [13.998943692021328, 0.0], [0.0, 20.00528153989336], [0.0, 50.0], [0.0, 50.00528153989336], [28.0, 0.0], [23.998943692021328, 0.0], [5.998943692021328, 0.0], [21.998943692021328, 0.0], [41.99894369202133, 0.0], [33.99894369202133, 0.0], [39.99894369202133, 0.0], [47.99894369202133, 0.0], [43.99894369202133, 0.0], [21.998943692021328, 0.0], [25.998943692021328, 0.0], [35.99894369202133, 0.0], [9.998943692021328, 0.0], [9.998943692021328, 0.0], [29.998943692021328, 0.0], [15.998943692021328, 0.0], [11.998943692021328, 0.0], [15.998943692021328, 0.0], [19.998943692021328, 0.0], [19.998943692021328, 0.0], [19.998943692021328, 0.0], [35.99894369202133, 0.0]]
+    Trajectory 9 (total cost=1725.48):
+    Orders: [88.86824407476269, 55.0, 70.13175617746424, 69.0, 84.0, 76.0, 81.0, 88.00000025222693, 77.0, 73.0, 64.0, 81.0, 76.99947159378374, 65.0, 92.0, 76.99947184601066, 87.0, 70.0, 79.0, 87.0, 81.0, 80.0, 80.0, 88.99947184601066, 73.0, 85.0, 79.0, 84.0, 84.99947184601066, 84.0, 72.0, 80.0, 78.0, 90.99947184601066, 78.0, 72.0, 86.0, 74.0, 78.0, 69.0, 79.0, 78.0, 90.99947184601066, 78.0, 77.0, 83.0, 78.0, 80.0, 84.0, 84.99947184601066]
+    Costs: [[50.0, 0.0], [87.73648814952537, 0.0], [59.73648814952537, 0.0], [32.00000050445385, 0.0], [18.00000050445385, 0.0], [24.00000050445385, 0.0], [0.0, 59.999997477730744], [8.0, 0.0], [38.00000050445385, 0.0], [64.00000050445385, 0.0], [48.00000050445385, 0.0], [22.00000050445385, 0.0], [54.00000050445385, 0.0], [23.998943692021328, 0.0], [0.0, 80.00528153989336], [10.0, 0.0], [23.998943692021328, 0.0], [39.99894369202133, 0.0], [5.998943692021328, 0.0], [1.998943692021328, 0.0], [15.998943692021328, 0.0], [17.998943692021328, 0.0], [0.0, 30.00528153989336], [14.0, 0.0], [21.998943692021328, 0.0], [9.998943692021328, 0.0], [11.998943692021328, 0.0], [0.0, 30.00528153989336], [0.0, 20.0], [25.998943692021328, 0.0], [33.99894369202133, 0.0], [21.998943692021328, 0.0], [0.0, 0.005281539893360332], [0.0, 120.0], [37.99894369202133, 0.0], [21.998943692021328, 0.0], [17.998943692021328, 0.0], [33.99894369202133, 0.0], [43.99894369202133, 0.0], [41.99894369202133, 0.0], [23.998943692021328, 0.0], [0.0, 60.00528153989336], [0.0, 210.0], [27.998943692021328, 0.0], [17.998943692021328, 0.0], [15.998943692021328, 0.0], [21.998943692021328, 0.0], [9.998943692021328, 0.0], [0.0, 0.005281539893360332], [14.0, 0.0]]
+    Trajectory 29 (total cost=2223.32):
+    Orders: [88.86824407476269, 59.0, 99.13175617746424, 69.86824407476269, 87.0, 78.0, 91.00000025222693, 78.0, 85.0, 83.0, 83.0, 83.0, 85.99947184601066, 83.0, 67.0, 63.0, 69.0, 73.0, 70.0, 80.0, 88.99947184601066, 80.0, 72.0, 77.0, 91.99947184601066, 72.0, 72.0, 84.0, 70.0, 83.0, 81.0, 87.99947184601066, 81.0, 72.0, 81.0, 87.99947184601066, 81.0, 87.0, 60.0, 66.0, 75.0, 86.0, 72.0, 85.0, 68.0, 95.0, 69.0, 49.0, 81.0, 87.99947184601066]
+    Costs: [[42.0, 0.0], [21.73648814952537, 0.0], [0.0, 201.31755925237314], [24.26351235492848, 0.0], [8.000000504453851, 0.0], [0.0, 29.999997477730744], [0.0, 130.0], [12.000000504453851, 0.0], [2.000000504453851, 0.0], [6.000000504453851, 0.0], [6.000000504453851, 0.0], [0.0, 79.99999747773074], [0.0, 110.0], [37.99894369202133, 0.0], [77.99894369202133, 0.0], [73.99894369202133, 0.0], [53.99894369202133, 0.0], [51.99894369202133, 0.0], [37.99894369202133, 0.0], [0.0, 70.00528153989336], [0.0, 30.0], [33.99894369202133, 0.0], [39.99894369202133, 0.0], [0.0, 60.00528153989336], [10.0, 0.0], [49.99894369202133, 0.0], [25.998943692021328, 0.0], [29.998943692021328, 0.0], [31.998943692021328, 0.0], [9.998943692021328, 0.0], [0.0, 100.00528153989336], [0.0, 60.0], [31.998943692021328, 0.0], [31.998943692021328, 0.0], [0.0, 0.005281539893360332], [0.0, 20.0], [1.998943692021328, 0.0], [43.99894369202133, 0.0], [85.99894369202133, 0.0], [55.99894369202133, 0.0], [15.998943692021328, 0.0], [21.998943692021328, 0.0], [23.998943692021328, 0.0], [31.998943692021328, 0.0], [11.998943692021328, 0.0], [9.998943692021328, 0.0], [101.99894369202133, 0.0], [77.99894369202133, 0.0], [0.0, 80.00528153989336], [16.0, 0.0]]
+
+---
+
+Please analyze the demand data, algorithm and its performance, and create an improved algorithm utilizing the above given information.
+
+First, describe your new algorithm and main steps in one sentence. The description must be inside a DOUBLE curly braces like this:{This is the algorithm description}.
+Next, implement it in Python as a function named compute_order_amount.
+This function should accept 6 input(s): 'current_inventory', 'pipeline_inventory', 'history_demand', 'holding_cost', 'lost_sales_cost', 'lead_time',
+and return 1 output(s): 1.
+
+        Inputs:
+        - `current_inventory` (float): On-hand inventory at the start of operation.
+        - `pipeline_inventory` (list[float]): Orders in transit, indexed as [oldest → newest].
+        - `history_demand` (list[float]): All historical demand values up to current period.
+        - `holding_cost` (float): Cost to hold one unit of inventory for one period.
+        - `lost_sales_cost` (float): Cost per unit of lost sales.
+        - `lead_time` (int): Fixed delay between order placement and arrival.
+
+        Output:
+        - `order_amount` (int): Units to order this period (≥0).
+        .
+
+        `pipeline_inventory` is a FIFO queue of length `lead_time`, where:
+             - `pipeline_inventory[0]`: Order placed `lead_time` periods ago (arriving next).
+             - `pipeline_inventory[-1]`: Order placed 1 period ago (arriving in `lead_time` periods).
+        .
+Then, Mark optimizable parameters in the code with `# OPT_PARAM: ` comments, like this:
+base_stock = 50  # OPT_PARAM: {'initial': 50, 'min': 10, 'max': 200, 'type': 'int'}
+Follow these requirements: 1. comments should follow the parameter in the same line.
+2. Only mark parameters that are assigned within the code body (not function inputs)
+3. Only mark continuous parameters assigned with an equals sign (`=`)
+
+Do not give additional explanations.
+Task: 
+        Design a novel algorithm for a inventory system with lost sales and lead time=1.
+        Given historical demand data, pipeline inventory (orders in transit), and cost parameters, compute the optimal order amount each period to minimize total costs (holding + lost sales).
+        
+
+---
+
+Here are some characteristics of the demand data:
+Demand Data Summary (across all trajectories):
+- Total number of trajectories: 50
+- Total number of periods: 2500
+- Mean demand: 80.04
+- Std deviation: 8.82
+- Min demand: 49, Max demand: 114
+- Coefficient of Variation (CV): 0.11
+
+Per-trajectory statistics (mean ± std, min-max):
+  • trajectory_1: mean=80.16, std=9.31, range=(62, 102)
+  • trajectory_2: mean=80.08, std=8.50, range=(56, 96)
+  • trajectory_3: mean=80.30, std=9.10, range=(67, 105)
+  • trajectory_4: mean=80.02, std=8.56, range=(54, 100)
+  • trajectory_5: mean=80.06, std=8.60, range=(59, 96)
+  ... and 45 more trajectories
+
+---
+
+I have one algorithm with its code as follows:
+def compute_order_amount(current_inventory, pipeline_inventory, history_demand, holding_cost, lost_sales_cost, lead_time):
+    demand_window = 10  # Optimized
+    safety_factor = 0.5  # Optimized
+    cost_ratio_threshold = 0.7  # Optimized
+    base_stock_multiplier = 2.2561584317897947  # Optimized
+    
+    recent_demand = history_demand[-demand_window:] if len(history_demand) >= demand_window else history_demand
+    demand_mean = sum(recent_demand) / len(recent_demand) if recent_demand else 80.04
+    demand_std = (sum((x - demand_mean)**2 for x in recent_demand) / len(recent_demand))**0.5 if len(recent_demand) > 1 else 8.82
+    
+    base_stock = demand_mean * lead_time + safety_factor * demand_std * (lead_time**0.5)
+    base_stock *= base_stock_multiplier
+    
+    inventory_position = current_inventory + sum(pipeline_inventory)
+    order_amount = max(0, base_stock - inventory_position)
+    
+    if inventory_position > demand_mean * cost_ratio_threshold:
+        order_amount *= 0.8  # OPT_PARAM: {'initial': 0.8, 'min': 0.5, 'max': 1.0, 'type': 'float'}
+    
+    return order_amount
+
+---
+
+Below is the performance of provided algorithm on demand data:
+
+No.1 algorithm:
+- Total trajectories: 50, periods per trajectory: 50
+- Below are sampled trajectories (row = trajectory, col = period):
+  order_matrix entries = order amount per period
+  cost_matrix entries = (holding_cost, lost_sale_cost) per period
+
+    Trajectory 39 (total cost=1417.29):
+    Orders: [88.42606365171854, 83.41794240595827, 51.001691179393994, 88.21480957964248, 78.77015761300407, 87.0168522122106, 84.0820083974218, 74.96723600841342, 72.58814353153524, 95.76855290440854, 68.97807554579843, 88.92812554184464, 79.49428764009797, 95.42267633231037, 69.93526424208291, 83.80799510346313, 83.32010581295458, 85.33101080446298, 91.83527752703726, 82.68794487194617, 77.09308981609155, 70.6810206948258, 80.63282401235034, 69.64570983054949, 73.42626947787072, 85.3688882787136, 82.70228571397773, 87.38825514403646, 82.56454257296119, 74.13759549705911, 82.499395954529, 84.20677566904071, 75.89665754289972, 73.50678387815346, 78.45174262367728, 68.89820770750245, 72.38969952197507, 66.8645752752888, 82.17291505505776, 72.03839960720882, 78.66276358817136, 79.74498955714614, 80.09329933221824, 74.41865986644363, 86.81139822560128, 77.38396606467659, 86.51681254304697, 75.78001587376721, 83.95600317475345, 75.35141206890489]
+    Costs: [[0.0, 10.0], [50.85212730343707, 0.0], [45.688012115353615, 0.0], [0.0, 91.54302762929206], [4.429619159284954, 0.0], [0.0, 60.150328073534496], [24.033704424421188, 0.0], [44.19772121926479, 0.0], [2.132193236091638, 0.0], [17.308480299162113, 0.0], [26.845586107979187, 0.0], [12.801737199576053, 0.0], [0.0, 26.710058583673373], [26.98857528019593, 0.0], [43.83392794481668, 0.0], [15.704456428982496, 0.0], [15.320446635908752, 0.0], [1.9606582618179118, 0.0], [4.622679870743866, 0.0], [38.29323492481839, 0.0], [57.66912466871074, 0.0], [47.855304300893835, 0.0], [41.21734569054544, 0.0], [54.482993715246124, 0.0], [17.77441337634511, 0.0], [0.0, 6.86523833956727], [0.0, 76.31111721286402], [0.0, 32.9771428602227], [26.776510288072927, 0.0], [25.905595433995302, 0.0], [8.180786428113521, 0.0], [23.179578337171534, 0.0], [45.59312967525295, 0.0], [39.38644476105239, 0.0], [46.4000125173593, 0.0], [53.30349776471385, 0.0], [47.099913179718754, 0.0], [19.879312223668904, 0.0], [13.608462774246505, 0.0], [15.954292884362019, 0.0], [0.0, 29.84453950610174], [0.0, 23.372364118286413], [13.489979114292282, 0.0], [0.0, 11.61711110635622], [0.0, 5.813401335563668], [1.6227964512025608, 0.0], [10.39072858055573, 0.0], [11.424353666649665, 0.0], [16.98438541418409, 0.0], [28.896391763690985, 0.0]]
+    Trajectory 33 (total cost=1981.54):
+    Orders: [88.42606365171854, 71.19330867879908, 88.6158853791442, 81.77122591115236, 77.74005261406315, 94.39681273503379, 77.52953823350144, 89.55043380493413, 85.07619248744288, 71.28571404618529, 83.47232945980782, 68.22342899749826, 59.57859926593747, 75.84892780381149, 75.45630113143092, 73.67165159554766, 91.08376346804684, 66.50762978738678, 98.22179033211087, 75.2337199613805, 62.7524511203152, 75.75098418303024, 78.3889799997333, 77.53757688715334, 81.16160306108524, 80.57642272767424, 68.06413800678047, 72.72192174214398, 92.29108504898205, 77.62623309254326, 80.21242325797131, 80.51498024210873, 86.55156482644108, 73.3441279981061, 76.5679573012913, 74.55734608381208, 84.08330124899157, 92.61841905187262, 73.73746677535556, 72.2925918372645, 72.07163707312888, 69.98437631169774, 83.86722611620371, 84.48434917278774, 66.8671319414666, 92.86247324845147, 74.2323006537823, 73.15389085131457, 82.24189249031105, 80.30653927646136]
+    Costs: [[8.0, 0.0], [12.852127303437072, 0.0], [0.0, 73.8062766948238], [19.231770758288405, 0.0], [0.0, 16.128887097034408], [3.480105228126291, 0.0], [12.273730698193873, 0.0], [0.0, 23.335964174016226], [39.10086760986826, 0.0], [37.25325258475402, 0.0], [49.824680677124604, 0.0], [94.76933959674025, 0.0], [69.21619759173677, 0.0], [36.37339612361171, 0.0], [32.071251731234696, 0.0], [0.9838539940965347, 0.0], [16.32715718519185, 0.0], [0.0, 37.52657939357235], [0.0, 174.92370212613224], [68.44358066422174, 0.0], [64.91102058698274, 0.0], [36.415922827613144, 0.0], [31.917891193673626, 0.0], [26.695851193140214, 0.0], [21.771004967446885, 0.0], [44.094211089617374, 0.0], [59.24705654496586, 0.0], [0.0, 43.123337207366035], [0.0, 152.78078257856023], [26.58217009796411, 0.0], [21.834636283050628, 0.0], [10.259482798993247, 0.0], [29.289443283210716, 0.0], [46.392572936092876, 0.0], [43.08082893230508, 0.0], [28.216743534887684, 0.0], [0.0, 83.3428214874408], [14.166602497983149, 0.0], [49.40344060172839, 0.0], [50.878374152439505, 0.0], [53.4635578269685, 0.0], [23.606831973226264, 0.0], [0.0, 32.12207701689124], [39.73445223240742, 0.0], [20.70315057798291, 0.0], [10.437414460916102, 0.0], [38.16236095781903, 0.0], [20.62696226538364, 0.0], [8.934743968012782, 0.0], [23.418528948634872, 0.0]]
+    Trajectory 29 (total cost=2848.16):
+    Orders: [88.42606365171854, 26.90955400645788, 163.46248277111533, 33.89961424191695, 76.37034739007589, 74.35058348930178, 93.07123928417083, 90.87059726199254, 85.35903328496713, 82.42282735580136, 82.01582712193705, 83.1182934097036, 90.14396225461147, 90.18105533477092, 70.47135994684061, 63.82305477236264, 63.65612504227764, 67.61890925630507, 66.9658044188872, 76.75450973653595, 91.57934935744304, 79.71947766071736, 68.65180356375339, 70.76119840648241, 94.17941475493602, 76.20691971130756, 73.14382795743386, 83.67440232349205, 72.7348804646984, 81.51545708396185, 77.08228952455008, 92.88044831047226, 82.67713670243228, 73.57814012994281, 74.99283982842921, 88.14627916864947, 85.42566127098357, 87.32147182507182, 65.48945292768552, 63.82994839352828, 71.7832356679593, 79.60709460342423, 70.55617362336966, 84.56716396002679, 69.36085057480739, 92.02129150118071, 71.19600333720825, 48.448410097626294, 77.81868191085113, 89.91653184664311]
+    Costs: [[42.0, 0.0], [20.852127303437072, 0.0], [0.0, 526.6438234182358], [152.92496554223067, 0.0], [64.72419402606457, 0.0], [29.46488880621635, 0.0], [0.0, 19.169721075900412], [16.14247856834166, 0.0], [31.883673092326745, 0.0], [36.601739662261, 0.0], [35.447394373863716, 0.0], [11.479048617737817, 0.0], [0.0, 51.42182281427495], [46.28792450922293, 0.0], [100.65003517876477, 0.0], [103.59275507244598, 0.0], [85.23886461717126, 0.0], [72.55111470172653, 0.0], [47.78893321433668, 0.0], [0.0, 51.397289739444574], [0.0, 62.45490263464049], [39.15869871488607, 0.0], [44.59765403632079, 0.0], [0.0, 70.49369418086215], [0.0, 12.388015935175929], [44.35882950987204, 0.0], [28.772668932487164, 0.0], [35.06032484735488, 0.0], [36.40912949433897, 0.0], [19.878890423735783, 0.0], [0.0, 65.4509770417026], [0.0, 99.17710475449923], [41.76089662094452, 0.0], [45.11517002580908, 0.0], [16.271450285694698, 0.0], [0.2571299425531208, 0.0], [2.549688279852063, 0.0], [53.4010108218192, 0.0], [96.04395447196285, 0.0], [77.02286032733389, 0.0], [32.68275711439043, 0.0], [32.24922845030903, 0.0], [21.463417657157493, 0.0], [26.57576490389681, 0.0], [5.71009282395039, 0.0], [6.4317939735651635, 0.0], [92.47437697592659, 0.0], [72.8663836503431, 0.0], [0.0, 111.18398077202158], [9.637363821702252, 0.0]]
+
+---
+
+Please analyze the demand data, algorithm and its performance, and create an improved algorithm utilizing the above given information.
+
+First, describe your new algorithm and main steps in one sentence. The description must be inside a DOUBLE curly braces like this:{This is the algorithm description}.
+Next, implement it in Python as a function named compute_order_amount.
+This function should accept 6 input(s): 'current_inventory', 'pipeline_inventory', 'history_demand', 'holding_cost', 'lost_sales_cost', 'lead_time',
+and return 1 output(s): 1.
+
+        Inputs:
+        - `current_inventory` (float): On-hand inventory at the start of operation.
+        - `pipeline_inventory` (list[float]): Orders in transit, indexed as [oldest → newest].
+        - `history_demand` (list[float]): All historical demand values up to current period.
+        - `holding_cost` (float): Cost to hold one unit of inventory for one period.
+        - `lost_sales_cost` (float): Cost per unit of lost sales.
+        - `lead_time` (int): Fixed delay between order placement and arrival.
+
+        Output:
+        - `order_amount` (int): Units to order this period (≥0).
+        .
+
+        `pipeline_inventory` is a FIFO queue of length `lead_time`, where:
+             - `pipeline_inventory[0]`: Order placed `lead_time` periods ago (arriving next).
+             - `pipeline_inventory[-1]`: Order placed 1 period ago (arriving in `lead_time` periods).
+        .
+Then, Mark optimizable parameters in the code with `# OPT_PARAM: ` comments, like this:
+base_stock = 50  # OPT_PARAM: {'initial': 50, 'min': 10, 'max': 200, 'type': 'int'}
+Follow these requirements: 1. comments should follow the parameter in the same line.
+2. Only mark parameters that are assigned within the code body (not function inputs)
+3. Only mark continuous parameters assigned with an equals sign (`=`)
+
+Do not give additional explanations.

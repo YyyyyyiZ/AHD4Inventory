@@ -13,7 +13,7 @@ setup(
             'methods/eoh/reflection/inventory/*.txt',
         ],
     },
-    include_package_data=True,  # 确保包含所有声明的数据文件
+    include_package_data=True,
     python_requires=">=3.10",
     install_requires=[
         "numpy",

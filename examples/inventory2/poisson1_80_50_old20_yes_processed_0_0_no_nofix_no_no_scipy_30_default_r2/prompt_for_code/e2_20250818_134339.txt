@@ -1,0 +1,143 @@
+Task: 
+        Design a novel algorithm for a inventory system with lost sales and lead time=1.
+        Given historical demand data, pipeline inventory (orders in transit), and cost parameters, compute the optimal order amount each period to minimize total costs (holding + lost sales).
+        
+
+---
+
+Here are some characteristics of the demand data:
+Demand Data Summary (across all trajectories):
+- Total number of trajectories: 50
+- Total number of periods: 2500
+- Mean demand: 80.04
+- Std deviation: 8.82
+- Min demand: 49, Max demand: 114
+- Coefficient of Variation (CV): 0.11
+
+Per-trajectory statistics (mean ± std, min-max):
+  • trajectory_1: mean=80.16, std=9.31, range=(62, 102)
+  • trajectory_2: mean=80.08, std=8.50, range=(56, 96)
+  • trajectory_3: mean=80.30, std=9.10, range=(67, 105)
+  • trajectory_4: mean=80.02, std=8.56, range=(54, 100)
+  • trajectory_5: mean=80.06, std=8.60, range=(59, 96)
+  ... and 45 more trajectories
+
+---
+
+I have 2 existing algorithms with their codes as follows:
+No.1 algorithm: 
+def compute_order_amount(current_inventory, pipeline_inventory, history_demand, holding_cost, lost_sales_cost, lead_time):
+    trend_window = 15  # Optimized
+    forecast_window = 25  # Optimized
+    safety_multiplier = 1.6493083577849728  # Optimized
+    trend_sensitivity = 0.449971425607126  # Optimized
+    base_adjustment = 0.9727671029705607  # Optimized
+    
+    if len(history_demand) >= forecast_window:
+        recent_demand = history_demand[-forecast_window:]
+        mean_demand = 79.83648839084935  # Optimized
+        std_demand = 8.787110640751848  # Optimized
+    else:
+        mean_demand = 80.04  # OPT_PARAM: {'initial': 80.04, 'min': 50, 'max': 120, 'type': 'float'}
+        std_demand = 8.82  # OPT_PARAM: {'initial': 8.82, 'min': 5, 'max': 15, 'type': 'float'}
+    
+    if len(history_demand) >= trend_window:
+        trend_demand = history_demand[-trend_window:]
+        slope = sum((i - (trend_window-1)/2) * (d - sum(trend_demand)/trend_window) for i, d in enumerate(trend_demand)) / sum((i - (trend_window-1)/2)**2 for i in range(trend_window))
+        trend_effect = slope * trend_sensitivity
+    else:
+        trend_effect = 0
+    
+    cost_ratio = lost_sales_cost / (holding_cost + lost_sales_cost)
+    safety_stock = safety_multiplier * std_demand * (cost_ratio ** 0.5)
+    
+    incoming_inventory = pipeline_inventory[0] if pipeline_inventory else 0
+    net_inventory = current_inventory + incoming_inventory
+    adjusted_mean = mean_demand * base_adjustment + trend_effect
+    target_inventory = adjusted_mean * (lead_time + 1) + safety_stock
+    order_amount = max(0, target_inventory - net_inventory)
+    
+    return order_amount
+No.2 algorithm: 
+def compute_order_amount(current_inventory, pipeline_inventory, history_demand, holding_cost, lost_sales_cost, lead_time):
+    demand_window = 15  # Optimized
+    smoothing_factor = 0.3  # Optimized
+    safety_factor = 2.0082790184022086  # Optimized
+    base_stock_multiplier = 1.9290556794777742  # Optimized
+    cost_ratio = lost_sales_cost / (holding_cost + lost_sales_cost)
+    
+    if len(history_demand) >= demand_window:
+        recent_demand = history_demand[-demand_window:]
+        mean_demand = sum(recent_demand) / len(recent_demand)
+        std_demand = 8.797517772822252  # Optimized
+        forecast = 79.97528331225529  # Optimized
+    else:
+        forecast = 80.04  # OPT_PARAM: {'initial': 80.04, 'min': 50, 'max': 100, 'type': 'float'}
+        std_demand = 8.82  # OPT_PARAM: {'initial': 8.82, 'min': 5, 'max': 15, 'type': 'float'}
+    
+    base_stock = base_stock_multiplier * forecast
+    safety_stock = safety_factor * std_demand * cost_ratio
+    incoming_inventory = sum(pipeline_inventory)
+    net_inventory = current_inventory + incoming_inventory
+    order_amount = max(0, base_stock + safety_stock - net_inventory)
+    
+    return order_amount
+
+
+---
+
+Below is the performance of provided algorithms on demand data:
+
+    No.1 algorithm:
+    - Average total cost per period: 34.72 (std=32.67)
+    - Average holding cost per period: 22.01
+    - Average lost-sale cost per period: 12.71
+    - Ratio holding : lost-sale = 22.0 : 12.7
+    - Per-trajectory total cost summary:
+        mean=1736.22, std=206.56, range=(1282.18, 2231.14)
+            
+
+    No.2 algorithm:
+    - Average total cost per period: 34.61 (std=32.06)
+    - Average holding cost per period: 22.36
+    - Average lost-sale cost per period: 12.25
+    - Ratio holding : lost-sale = 22.4 : 12.2
+    - Per-trajectory total cost summary:
+        mean=1730.33, std=205.66, range=(1289.78, 2220.05)
+            
+
+---
+
+Please utilize the above given information, analyze the demand data, algorithms and their performances, and create an improved algorithm that is totally different from the given ones but can be motivated from them.
+
+First, describe your new algorithm and main steps in one sentence. The description must be inside a DOUBLE curly braces like this:{This is the algorithm description}.
+Next, implement it in Python as a function named compute_order_amount.
+This function should accept 6 input(s): 'current_inventory', 'pipeline_inventory', 'history_demand', 'holding_cost', 'lost_sales_cost', 'lead_time',
+and return 1 output(s): 1.
+
+        Inputs:
+        - `current_inventory` (float): On-hand inventory at the start of operation.
+        - `pipeline_inventory` (list[float]): Orders in transit, indexed as [oldest → newest].
+        - `history_demand` (list[float]): All historical demand values up to current period.
+        - `holding_cost` (float): Cost to hold one unit of inventory for one period.
+        - `lost_sales_cost` (float): Cost per unit of lost sales.
+        - `lead_time` (int): Fixed delay between order placement and arrival.
+
+        Output:
+        - `order_amount` (int): Units to order this period (≥0).
+        .
+
+        `pipeline_inventory` is a FIFO queue of length `lead_time`, where:
+             - `pipeline_inventory[0]`: Order placed `lead_time` periods ago (arriving next).
+             - `pipeline_inventory[-1]`: Order placed 1 period ago (arriving in `lead_time` periods).
+        .
+Then, Mark optimizable parameters in the code with `# OPT_PARAM: ` comments, like this:
+base_stock = 50  # OPT_PARAM: {'initial': 50, 'min': 10, 'max': 200, 'type': 'int'}
+Follow these requirements: 1. comments should follow the parameter in the same line.
+2. Only mark parameters that are assigned within the code body (not function inputs)
+3. Only mark continuous parameters assigned with an equals sign (`=`)
+
+Do not give additional explanations.
+
+
+

@@ -1,0 +1,99 @@
+Task: 
+        Design a novel algorithm for a inventory system with lost sales and lead time=1.
+        Given historical demand data, pipeline inventory (orders in transit), and cost parameters, compute the optimal order amount each period to minimize total costs (holding + lost sales).
+        
+
+---
+
+Here are some characteristics of the demand data:
+Demand Data Summary (across all trajectories):
+- Total number of trajectories: 50
+- Total number of periods: 2500
+- Mean demand: 80.04
+- Std deviation: 8.82
+- Min demand: 49, Max demand: 114
+- Coefficient of Variation (CV): 0.11
+
+Per-trajectory statistics (mean ± std, min-max):
+  • trajectory_1: mean=80.16, std=9.31, range=(62, 102)
+  • trajectory_2: mean=80.08, std=8.50, range=(56, 96)
+  • trajectory_3: mean=80.30, std=9.10, range=(67, 105)
+  • trajectory_4: mean=80.02, std=8.56, range=(54, 100)
+  • trajectory_5: mean=80.06, std=8.60, range=(59, 96)
+  ... and 45 more trajectories
+
+---
+
+I have one algorithm with its code as follows:
+def compute_order_amount(current_inventory, pipeline_inventory, history_demand, holding_cost, lost_sales_cost, lead_time):
+    window_size = 5  # Optimized
+    base_safety_stock = 10  # Optimized
+    cost_ratio_factor = 0.5  # Optimized
+    
+    if len(history_demand) >= window_size:
+        forecast = sum(history_demand[-window_size:]) / window_size
+        demand_std = (sum((d - forecast)**2 for d in history_demand[-window_size:]) / window_size)**0.5
+    else:
+        forecast = 80.04
+        demand_std = 8.82
+    
+    cost_ratio = lost_sales_cost / (holding_cost + lost_sales_cost)
+    safety_stock = base_safety_stock + cost_ratio_factor * cost_ratio * demand_std
+    
+    target_inventory = forecast * (lead_time + 1) + safety_stock
+    order_amount = max(0, int(target_inventory - current_inventory - sum(pipeline_inventory)))
+    
+    return order_amount
+
+---
+
+Below is the performance of provided algorithm on demand data:
+
+No.1 algorithm:
+- Total trajectories: 50, periods per trajectory: 50
+- Below are sampled trajectories (row = trajectory, col = period):
+  order_matrix entries = order amount per period
+  cost_matrix entries = (holding_cost, lost_sale_cost) per period
+
+    Trajectory 39 (total cost=1540.00):
+    Orders: [93, 80, 63, 86, 83, 86, 89, 78, 70, 102, 58, 93, 76, 108, 54, 95, 81, 87, 86, 89, 71, 70, 81, 67, 69, 94, 78, 98, 84, 74, 81, 83, 67, 68, 80, 65, 72, 70, 93, 66, 86, 83, 84, 68, 95, 73, 87, 70, 91, 67]
+    Costs: [[0.0, 10.0], [60.0, 0.0], [48.0, 0.0], [8.0, 0.0], [8.0, 0.0], [0.0, 0.0], [22.0, 0.0], [52.0, 0.0], [16.0, 0.0], [26.0, 0.0], [48.0, 0.0], [12.0, 0.0], [2.0, 0.0], [22.0, 0.0], [64.0, 0.0], [4.0, 0.0], [26.0, 0.0], [8.0, 0.0], [14.0, 0.0], [36.0, 0.0], [68.0, 0.0], [46.0, 0.0], [38.0, 0.0], [52.0, 0.0], [10.0, 0.0], [0.0, 90.0], [2.0, 0.0], [0.0, 70.0], [48.0, 0.0], [50.0, 0.0], [32.0, 0.0], [44.0, 0.0], [64.0, 0.0], [40.0, 0.0], [36.0, 0.0], [46.0, 0.0], [32.0, 0.0], [4.0, 0.0], [4.0, 0.0], [28.0, 0.0], [0.0, 30.0], [10.0, 0.0], [30.0, 0.0], [22.0, 0.0], [8.0, 0.0], [26.0, 0.0], [26.0, 0.0], [28.0, 0.0], [22.0, 0.0], [48.0, 0.0]]
+    Trajectory 1 (total cost=2048.00):
+    Orders: [93, 80, 86, 78, 89, 76, 99, 64, 74, 60, 68, 91, 60, 92, 77, 93, 71, 84, 81, 67, 90, 90, 66, 102, 89, 93, 67, 76, 88, 73, 72, 70, 87, 83, 78, 81, 82, 83, 56, 114, 61, 69, 60, 73, 84, 85, 77, 88, 73, 74]
+    Costs: [[0.0, 80.0], [14.0, 0.0], [18.0, 0.0], [12.0, 0.0], [24.0, 0.0], [12.0, 0.0], [24.0, 0.0], [72.0, 0.0], [64.0, 0.0], [74.0, 0.0], [8.0, 0.0], [20.0, 0.0], [28.0, 0.0], [0.0, 20.0], [12.0, 0.0], [10.0, 0.0], [38.0, 0.0], [14.0, 0.0], [44.0, 0.0], [28.0, 0.0], [0.0, 160.0], [42.0, 0.0], [30.0, 0.0], [0.0, 100.0], [20.0, 0.0], [46.0, 0.0], [84.0, 0.0], [36.0, 0.0], [32.0, 0.0], [52.0, 0.0], [54.0, 0.0], [32.0, 0.0], [0.0, 0.0], [18.0, 0.0], [24.0, 0.0], [20.0, 0.0], [16.0, 0.0], [54.0, 0.0], [16.0, 0.0], [0.0, 90.0], [84.0, 0.0], [74.0, 0.0], [70.0, 0.0], [10.0, 0.0], [0.0, 110.0], [16.0, 0.0], [22.0, 0.0], [30.0, 0.0], [48.0, 0.0], [42.0, 0.0]]
+    Trajectory 7 (total cost=2696.00):
+    Orders: [93, 80, 74, 70, 90, 61, 51, 109, 61, 97, 83, 80, 60, 103, 59, 90, 86, 78, 69, 73, 51, 88, 60, 77, 89, 84, 62, 97, 86, 71, 87, 104, 86, 77, 74, 84, 83, 75, 86, 81, 56, 76, 97, 80, 102, 73, 61, 60, 73, 66]
+    Costs: [[0.0, 120.0], [38.0, 0.0], [58.0, 0.0], [26.0, 0.0], [38.0, 0.0], [92.0, 0.0], [18.0, 0.0], [0.0, 110.0], [28.0, 0.0], [0.0, 110.0], [42.0, 0.0], [66.0, 0.0], [38.0, 0.0], [20.0, 0.0], [48.0, 0.0], [0.0, 10.0], [28.0, 0.0], [46.0, 0.0], [58.0, 0.0], [74.0, 0.0], [46.0, 0.0], [20.0, 0.0], [42.0, 0.0], [0.0, 90.0], [0.0, 50.0], [40.0, 0.0], [32.0, 0.0], [0.0, 180.0], [42.0, 0.0], [42.0, 0.0], [0.0, 80.0], [2.0, 0.0], [44.0, 0.0], [68.0, 0.0], [52.0, 0.0], [22.0, 0.0], [34.0, 0.0], [30.0, 0.0], [22.0, 0.0], [68.0, 0.0], [70.0, 0.0], [0.0, 0.0], [0.0, 190.0], [4.0, 0.0], [22.0, 0.0], [96.0, 0.0], [104.0, 0.0], [66.0, 0.0], [34.0, 0.0], [36.0, 0.0]]
+
+---
+
+Please analyze the demand data, algorithm and its performance, and create an improved algorithm utilizing the above given information.
+
+First, describe your new algorithm and main steps in one sentence. The description must be inside a DOUBLE curly braces like this:{This is the algorithm description}.
+Next, implement it in Python as a function named compute_order_amount.
+This function should accept 6 input(s): 'current_inventory', 'pipeline_inventory', 'history_demand', 'holding_cost', 'lost_sales_cost', 'lead_time',
+and return 1 output(s): 1.
+
+        Inputs:
+        - `current_inventory` (float): On-hand inventory at the start of operation.
+        - `pipeline_inventory` (list[float]): Orders in transit, indexed as [oldest → newest].
+        - `history_demand` (list[float]): All historical demand values up to current period.
+        - `holding_cost` (float): Cost to hold one unit of inventory for one period.
+        - `lost_sales_cost` (float): Cost per unit of lost sales.
+        - `lead_time` (int): Fixed delay between order placement and arrival.
+
+        Output:
+        - `order_amount` (int): Units to order this period (≥0).
+        .
+
+        `pipeline_inventory` is a FIFO queue of length `lead_time`, where:
+             - `pipeline_inventory[0]`: Order placed `lead_time` periods ago (arriving next).
+             - `pipeline_inventory[-1]`: Order placed 1 period ago (arriving in `lead_time` periods).
+        .
+Then, Mark optimizable parameters in the code with `# OPT_PARAM: ` comments, like this:
+base_stock = 50  # OPT_PARAM: {'initial': 50, 'min': 10, 'max': 200, 'type': 'int'}
+Follow these requirements: 1. comments should follow the parameter in the same line.
+2. Only mark parameters that are assigned within the code body (not function inputs)
+3. Only mark continuous parameters assigned with an equals sign (`=`)
+
+Do not give additional explanations.

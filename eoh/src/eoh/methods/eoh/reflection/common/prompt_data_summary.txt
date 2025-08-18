@@ -1,0 +1,16 @@
+You are given the performance log of an inventory management policy, containing:
+- The policy code
+- The order_matrix: each row = one trajectory, each column = one period, each entry = order amount
+- The cost_matrix: each row = one trajectory, each column = one period, each entry = (holding_cost, lost_sale_cost)
+
+Here is the performance summary:
+{performance_full}
+
+Your tasks:
+1. Analyze why the policy performs well or poorly overall.
+2. Identify specific periods (early/mid/late) where the policy performs better or worse, and explain why.
+3. Discuss patterns you observe across different trajectories (e.g., consistent under-ordering, excessive holding costs, or reacting poorly to demand fluctuations).
+4. Propose concrete improvement directions for the policy code. These should be high-level strategies (e.g., "increase orders when demand variance is high", "reduce over-ordering in late periods") rather than exact code changes.
+5. If possible, suggest trade-offs to consider (e.g., balancing lost sales vs. holding costs).
+
+Output your analysis in a clear structured format,and be as concise as possible.

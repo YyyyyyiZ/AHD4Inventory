@@ -22,6 +22,8 @@ class OptimizationResult:
     optimized_lower: float
     optimized_upper: float
     optimized_trajectory: List[float]
+    optimized_cost_matrix: List[float]
+    optimized_order_matrix: List[float]
     success: bool
     error: Optional[str] = None
     error_location: Optional[str] = None
@@ -136,6 +138,8 @@ class ScipyOptimizer:
             optimized_lower=float('inf'),
             optimized_upper=float('inf'),
             optimized_trajectory=[],
+            optimized_cost_matrix=[],
+            optimized_order_matrix=[],
             success=False,
             history=[]
         )
@@ -165,6 +169,8 @@ class ScipyOptimizer:
                         'lower': fitness['lower'],
                         'upper': fitness['upper'],
                         'trajectory': fitness['trajectory'],
+                        'cost_matrix': fitness['cost_matrix'],
+                        'order_matrix': fitness['order_matrix'],
                         'code': modified_code,
                         'locations': locations
                     }
@@ -205,6 +211,8 @@ class ScipyOptimizer:
             result.optimized_lower = result.history[-1]['lower']
             result.optimized_upper = result.history[-1]['upper']
             result.optimized_trajectory = result.history[-1]['trajectory']
+            result.optimized_cost_matrix = result.history[-1]['cost_matrix']
+            result.optimized_order_matrix = result.history[-1]['order_matrix']
             result.success = opt_result.success
 
             if not opt_result.success:

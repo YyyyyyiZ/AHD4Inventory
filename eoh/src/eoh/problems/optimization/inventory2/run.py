@@ -56,10 +56,14 @@ class INVENTORY:
 
     def evaluate_mode(self, eva, instances):
         cost_list = []
+        order_matrix = []
+        cost_matrix = []
         for instance in instances:
             total_cost = 0.0
             history_demand = []
             current_inventory = instance['initial_inventory']
+            order_matrix_one_row = []
+            cost_matrix_one_row = []
 
             # Initialize pipeline inventory as FIFO queue with length = lead_time
             # Each element represents orders placed in previous periods that will arrive in future
@@ -80,6 +84,7 @@ class INVENTORY:
                     lead_time=instance['lead_time']
                 )
 
+
                 # Place new order (will arrive after lead_time periods)
                 pipeline_inventory.append(order_amount)
 
@@ -92,17 +97,24 @@ class INVENTORY:
                 lost_sales = max(0, current_demand - sales)
                 current_inventory -= sales
 
+
                 # Accumulate costs
                 holding_cost = instance['holding_cost'] * current_inventory
                 lost_sales_cost = instance['lost_sales_cost'] * lost_sales
+                order_matrix_one_row.append(order_amount)
+                cost_matrix_one_row.append((holding_cost, lost_sales_cost))
                 total_cost += holding_cost + lost_sales_cost
             cost_list.append(total_cost)
+            order_matrix.append(order_matrix_one_row)
+            cost_matrix.append(cost_matrix_one_row)
         ci = self.bootstrap_ci(cost_list)
         res = {
             'avg': sum(cost_list) / len(cost_list),
             'lower': ci[0],
             'upper': ci[1],
             'trajectory': cost_list,
+            'order_matrix': order_matrix,
+            'cost_matrix': cost_matrix,
         }
 
         return res

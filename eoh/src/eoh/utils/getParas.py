@@ -21,7 +21,7 @@ class Paras():
         self.K2=1
         self.prompt_type='original'
         self.external_optimizer = 'scipy'
-        self.iter_opt = 5
+        self.iter_opt = 20
         self.param_loc = 'default'
         self.background_info = False
         self.background_type = 'fix'
@@ -30,6 +30,8 @@ class Paras():
         self.repeat = 0
         self.filename='res'
         self.store_option = 'append'
+        self.algo_performance = 'plain'
+        self.data_summary='no'
 
 
         #####################

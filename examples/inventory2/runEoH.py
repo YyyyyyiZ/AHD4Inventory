@@ -9,8 +9,12 @@ parser = argparse.ArgumentParser('Run Inventory2')
 
 # LLM Config
 parser.add_argument('--llm_api_endpoint', type=str, default="api.deepseek.com")
-parser.add_argument('--llm_api_key', type=str, default="sk-30f87012f8d040c18901307dc7b8bc12")
+# api.openai.com, api.deepseek.com
+parser.add_argument('--llm_api_key', type=str, default="sk-87111791adf44964b428e56380bdcea4")
+# sk-87111791adf44964b428e56380bdcea4
+# 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
 parser.add_argument('--llm_model', type=str, default="deepseek-chat")
+# gpt-4.1, deepseek-chat
 
 parser.add_argument('--repeat', type=int, default=1, help='Repeat.')
 parser.add_argument('--filename', type=str, default='res', help='Filename.')
@@ -26,6 +30,9 @@ parser.add_argument('--prompt_type', type=str, default='old20')
 # flow prompt pattern only when background_info=datasepp
 parser.add_argument('--K1', type=int, default=0, help='Number of good performers.')
 parser.add_argument('--K2', type=int, default=0, help='Number of bad performers.')
+parser.add_argument('--data_summary', type=str, default='no')
+parser.add_argument('--algo_performance', type=str, default='reflected')
+# plain, processed, reflected
 
 # Background Information
 parser.add_argument('--background_info', type=str, default='no')
@@ -44,7 +51,7 @@ parser.add_argument('--param_loc', type=str, default='default')
 
 
 # General parameters
-parser.add_argument('--ecc_pop_size', type=int, default=30, help='number of samples in each population')
+parser.add_argument('--ecc_pop_size', type=int, default=4, help='number of samples in each population')
 parser.add_argument('--ec_n_pop', type=int, default=10, help='number of populations')
 parser.add_argument('--exp_n_proc', type=int, default=4, help='multi-core parallel')
 parser.add_argument('--exp_use_continue', type=int, default=1, help='# load existing heuristics.')
@@ -59,7 +66,7 @@ print(options)
 
 
 args.exp_output_path = '_'.join([args.dist, str(args.mean), str(args.n_train),
-                                 args.prompt_type, str(args.K1), str(args.K2),
+                                 args.prompt_type, args.data_summary, args.algo_performance, str(args.K1), str(args.K2),
                                  args.background_info, args.background_type, args.data_sep, args.cal_cost,
                                  args.external_opt, str(args.iter_opt), args.param_loc, 'r'+str(args.repeat)])
 
@@ -86,6 +93,8 @@ paras.set_paras(method = "eoh",
                 exp_output_path = args.exp_output_path,
                 K1=args.K1,
                 K2=args.K2,   # 'mimic_best_sample', 'correct_worst_sample', 'hybrid', 'multi_comparative_reflection'
+                data_summary=args.data_summary,
+                algo_performance = args.algo_performance,
                 external_optimizer=args.external_opt,
                 iter_opt = args.iter_opt,
                 background_info=args.background_info,
