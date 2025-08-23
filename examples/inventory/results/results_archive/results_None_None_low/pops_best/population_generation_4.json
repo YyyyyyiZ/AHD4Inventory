@@ -1,6 +1,0 @@
-{
-     "algorithm": "Propose a probabilistic safety stock policy that dynamically adjusts order amounts based on demand volatility and cost-optimal service levels, using quantile estimation from historical demand distribution.",
-     "code": "import numpy as np\n\ndef compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):\n    if len(history_demand) < 2:\n        recent_demand = history_demand[-1] if len(history_demand) > 0 else 0\n    else:\n        recent_demand = np.mean(history_demand)\n    \n    demand_std = np.std(history_demand) if len(history_demand) > 1 else 0\n    cost_ratio = lost_sales_cost / (holding_cost + lost_sales_cost)\n    safety_factor = np.percentile(history_demand, int(100 * cost_ratio)) if len(history_demand) > 0 else 0\n    target_level = int(recent_demand + safety_factor + demand_std * cost_ratio)\n    order_amount = max(0, target_level - history_inventory[-1])\n    return order_amount",
-     "objective": 2957.3,
-     "other_inf": null
-}

@@ -1,6 +1,0 @@
-{
-     "algorithm": "The new algorithm implements a Moving Average with Cost-Adjusted Safety Stock that dynamically adjusts order amounts based on recent demand trends and cost-sensitive safety buffers.",
-     "code": "def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):\n    if not history_demand:\n        return 100\n    \n    window_size = min(3, len(history_demand))\n    recent_demand = history_demand[-window_size:]\n    avg_demand = sum(recent_demand) / window_size\n    \n    cost_ratio = lost_sales_cost / (holding_cost + lost_sales_cost)\n    safety_stock = avg_demand * cost_ratio * 1.5\n    \n    target_level = avg_demand + safety_stock\n    current_inventory = history_inventory[-1] if history_inventory else 0\n    order_amount = max(0, target_level - current_inventory)\n    \n    return order_amount",
-     "objective": 3145.5875,
-     "other_inf": null
-}

@@ -17,16 +17,9 @@ class Paras():
         self.volatility = 'low'
         self.n_train = 50
         self.exp_create_initial = False
-        self.K1=1
-        self.K2=1
-        self.prompt_type='original'
         self.external_optimizer = 'scipy'
         self.iter_opt = 20
         self.param_loc = 'default'
-        self.background_info = False
-        self.background_type = 'fix'
-        self.data_sep = 'sep'
-        self.cal_cost = 'no'
         self.repeat = 0
         self.filename='res'
         self.store_option = 'append'
@@ -37,7 +30,7 @@ class Paras():
         #####################
         ###  EC settings  ###
         #####################
-        self.ec_pop_size = 30  # number of algorithms in each population, default = 10
+        self.ec_pop_size = 4  # number of algorithms in each population, default = 10
         self.ec_n_pop = 10 # number of populations, default = 10
         self.ec_operators = None # evolution operators: ['e1','e2','m1','m2'], default =  ['e1','e2','m1','m2']
         self.ec_m = 2  # number of parents for 'e1' and 'e2' operators, default = 2
@@ -121,10 +114,10 @@ class Paras():
             self.eva_numba_decorator  = True
         elif self.problem == 'tsp_construct':
             self.eva_timeout = 20
-        elif self.problem == 'inventory':
-            self.eva_timeout = 60
+        elif self.problem == 'tsp_stochastic':
+            self.eva_timeout = 20
         elif self.problem == 'inventory2':
-            self.eva_timeout = 60
+            self.eva_timeout = 180
 
                 
     def set_paras(self, *args, **kwargs):

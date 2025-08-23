@@ -4,10 +4,6 @@ class Probs():
         if not isinstance(paras.problem, str):
             self.prob = paras.problem
             print("- Prob local loaded ")
-        elif paras.problem == "inventory":
-            from .optimization.inventory import run
-            self.prob = run.INVENTORY(dist=paras.dist, demand=paras.demand, volatility=paras.volatility)
-            print("- Prob "+paras.problem+" loaded ")
         elif paras.problem == "inventory2":
             from .optimization.inventory2 import run
             self.prob = run.INVENTORY(dist=paras.dist, demand=paras.demand, volatility=paras.volatility, n_train=paras.n_train)

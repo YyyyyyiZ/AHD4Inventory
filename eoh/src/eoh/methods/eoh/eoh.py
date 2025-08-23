@@ -24,15 +24,6 @@ class EOH:
         self.api_key = paras.llm_api_key
         self.llm_model = paras.llm_model
 
-        # ------------------ RZ: use local LLM ------------------
-        # self.use_local_llm = kwargs.get('use_local_llm', False)
-        # assert isinstance(self.use_local_llm, bool)
-        # if self.use_local_llm:
-        #     assert 'url' in kwargs, 'The keyword "url" should be provided when use_local_llm is True.'
-        #     assert isinstance(kwargs.get('url'), str)
-        #     self.url = kwargs.get('url')
-        # -------------------------------------------------------
-
         # Experimental settings       
         self.pop_size = paras.ec_pop_size  # popopulation size, i.e., the number of algorithms in population
         self.n_pop = paras.ec_n_pop  # number of populations
@@ -62,32 +53,8 @@ class EOH:
         self.algo_performance = paras.algo_performance
         self.data_summary = paras.data_summary
 
-        self.K1 =paras.K1
-        self.K2 =paras.K2
-        if self.K1==0 and self.K2==0:
-            self.reflect = None
-        elif self.K1==0 and self.K2==1:
-            self.reflect = 'correct_worst_sample'
-        elif self.K1==1 and self.K2==0:
-            self.reflect = 'mimic_best_sample'
-        elif self.K1==1 and self.K2==1:
-            self.reflect = 'hybrid'
-        else:
-            self.reflect = 'multi_comparative_reflection'
-
-
-        self.prompt_type = paras.prompt_type
-
-        self.background_info = paras.background_info
-        if self.background_info == 'no':
-            self.background_info = None
-        if self.background_info == 'verbal':
-            self.reflect = 'in_context_learning'
         if self.data_summary == 'no':
             self.data_summary = None
-        self.background_type = paras.background_type
-        self.data_sep = paras.data_sep
-        self.cal_cost = paras.cal_cost
 
         self.external_optimizer=paras.external_optimizer
         if self.external_optimizer=='no':
@@ -153,41 +120,6 @@ class EOH:
         return final_instances
 
 
-    def get_data(self, offspring_pop=None, performance=False):
-        instances = self.get_instances(mode='train', n_traj=self.n_train)
-        data = []
-        if performance:
-            for idx, traj in enumerate(instances, start=1):
-                trajectory_data = {
-                    "trajectory_id": f"trajectory_{idx}",
-                    "demand": traj["demand"],
-                    f"best_codes_performance": [
-                        {
-                            "performance": offspring_pop[i]['trajectory'][idx - 1],
-                            "global_rank": i + 1
-                        }
-                        for i in range(self.K1)
-                    ],
-                    f"worst_codes_performance": [
-                        {
-                            "performance": offspring_pop[-j - 1]['trajectory'][idx - 1],
-                            "global_rank": len(offspring_pop) - j
-                        }
-                        for j in range(self.K2)
-                    ]
-                }
-                data.append(trajectory_data)
-            data = json.dumps(data, indent=2)
-        else:
-            for idx, traj in enumerate(instances, start=1):
-                trajectory_data = {
-                    "trajectory_id": f"trajectory_{idx}",
-                    "demand": traj["demand"],
-                }
-                data.append(trajectory_data)
-            data = json.dumps(data, indent=2)
-        return data
-
     def get_data_summary(self):
         instances = self.get_instances(mode='train', n_traj=self.n_train)
         data = []
@@ -245,103 +177,6 @@ class EOH:
 
         return "\n".join(data_summary)
 
-    def get_info(self, offspring_pop, data_reflection=None):
-        # Start with all codes
-        info = ""   # self.background_info == 'no', valid for both 'sep' and 'sepp'
-
-        if self.background_info == 'avg':
-            for i, offspring in enumerate(offspring_pop, 1):
-                info += f"\nAlgorithm {i}:\n{offspring['code']}\n"
-                info += f"Performance: {offspring['objective']}\n"
-
-        elif self.background_info == 'interval':
-            for i, offspring in enumerate(offspring_pop, 1):
-                info += f"\nAlgorithm {i}:\n{offspring['code']}\n"
-                info += f"Average Performance: {offspring['objective']}; 95% Confidence Interval: ({offspring['lower']}, {offspring['upper']})\n"
-
-        elif self.background_info == 'data':
-            info += (f"\nDemand dataset consists of multiple trajectories, "
-                     f"each representing a time series of demand values over 50 periods.\n{self.get_data()}\n")
-            for i, offspring in enumerate(offspring_pop, 1):
-                info += f"\nAlgorithm {i}:\n{offspring['code']}\n"
-                info += f"Performance on each trajectory: {offspring['trajectory']}\n"
-                info += f"Average Performance over all trajectories: {offspring['objective']}; 95% Confidence Interval: ({offspring['lower']}, {offspring['upper']})\n"
-
-        elif self.background_info == 'explicit':
-            info += 'Demand data follows poisson distribution with mean=80.'
-
-        elif self.background_info == 'dataonly' or self.data_sep == 'sep':
-            info += (f"\nDemand dataset consists of multiple trajectories, "
-                     f"each representing a time series of demand values over 50 periods.\n{self.get_data()}\n")
-
-        elif self.background_info == 'exactdata':
-            info += (f"\nThe demand dataset consists of multiple independent trajectories, each representing a complete time series of demand values across 50 consecutive periods. "
-                     f"For each trajectory, we evaluate all available codes and select:\n"
-                     f"- Top {self.K1} codes: Those with the highest average performance across ALL trajectories\n"
-                     f"- Bottom {self.K2} codes: Those with the lowest average performance across ALL trajectories\n"
-                     f"and provide these selected codes' actual performance specific to THIS particular trajectory.\n"
-                     f"{self.get_data(offspring_pop, performance=True)}\n")
-
-        elif self.background_info == 'refonly':
-            info += (f"\nBased on the demand data and corresponding performance of generated codes, "
-                     f"we have obtained the following key reflections:.\n{data_reflection}\n")
-
-        elif self.background_info == 'exactdataref':
-            info += (f"\nThe demand dataset consists of multiple independent trajectories. "
-                     f"Each trajectory represents a complete time series of demand values across 50 consecutive periods. "
-                     f"For each trajectory, we evaluate all available codes and select:\n"
-                     f"- Top {self.K1} codes: Those with the highest average performance across ALL trajectories\n"
-                     f"- Bottom {self.K2} codes: Those with the lowest average performance across ALL trajectories\n"
-                     f"and provide these selected codes' actual performance specific to THIS particular trajectory.\n"
-                     f"{self.get_data(offspring_pop, performance=True)}\n")
-            info += (f"\nBased on the demand data and corresponding performance of generated codes, "
-                     f"we have obtained the following key reflections:.\n{data_reflection}\n")
-        elif self.background_info == 'verbal':
-            n_heu = 3
-            n_heu = min(n_heu, len(offspring_pop))
-            n_traj = 5
-            data = json.loads(self.get_data())
-            sampled_traj_indices = random.sample(range(len(data)), n_traj)
-            if isinstance(offspring_pop, str):
-                offspring_pop = json.loads(offspring_pop)
-            sampled_offspring = random.sample(offspring_pop, n_heu)
-            # --- Generate heuristic descriptions (heu_descr) ---
-            heu_descr = ""
-            for i, offspring in enumerate(sampled_offspring, 1):
-                descr = offspring['algorithm']  # Assuming the field is 'descr', not 'algorithm' as in your snippet
-                heu_descr += f"- Heuristic H{i}: {descr}\n"
-
-            # --- Generate data table (data_tab) ---
-            header = "| trajectory |"   # Header: Trajectory | D_1 | D_2 | ... | Cost_H1 | Cost_H2 | ...
-            demand_length = len(data[0]["demand"])  # Get the number of demand values per trajectory
-            for d in range(1, demand_length + 1):   # Add D_1, D_2, ..., D_n columns
-                header += f" D_{d} |"
-            for h in range(1, n_heu + 1):   # Add Cost_H1, Cost_H2, ..., Cost_Hn columns
-                header += f" Cost_H{h} |"
-            separator = "|----------|" + "-----|" * demand_length + "--------|" * n_heu
-
-            # Initialize the table with header and separator
-            data_tab = f"{header}\n{separator}\n"
-
-            # Populate each row with trajectory data and heuristic costs
-            for kk, traj_idx in enumerate(sampled_traj_indices):
-                traj_data = data[traj_idx]
-                demand = traj_data["demand"]
-
-                row = f"| {kk + 1}        |"  # Add trajectory ID and demand values
-                for d in demand:
-                    row += f" {d}  |"
-
-                for offspring in sampled_offspring: # Add heuristic costs for this trajectory
-                    traj_costs = offspring['trajectory'][traj_idx]  # Get cost for this trajectory
-                    row += f" {traj_costs}     |"
-
-                data_tab += f"{row}\n"
-
-            info = [heu_descr, data_tab]
-
-        return info
-
 
     def run(self):
 
@@ -359,11 +194,7 @@ class EOH:
         interface_ec = InterfaceEC(self.pop_size, self.m, self.api_endpoint, self.api_key, self.llm_model, self.use_local_llm, self.llm_local_url,
                                    self.debug_mode, interface_prob,
                                    data_summary=self.get_data_summary() if self.data_summary else None, algo_performance=self.algo_performance,
-                                   reflect=self.reflect, K1=self.K1, K2=self.K2,
-                                   background_info = self.background_info, background_type=self.background_type, data_sep=self.data_sep,
-                                   prompt_type=self.prompt_type,
-                                   external_optimizer=self.external_optimizer, max_iter = self.iter_opt, param_loc=self.param_loc,
-                                   exp_output_path = self.output_path,
+                                   external_optimizer=self.external_optimizer, max_iter = self.iter_opt, param_loc=self.param_loc, exp_output_path=self.output_path,
                                    select=self.select,n_p=self.exp_n_proc, timeout = self.timeout, use_numba=self.use_numba
                                    )
 
@@ -441,53 +272,6 @@ class EOH:
                 population = self.manage.population_management(population, size_act)
                 offspring_pop = self.manage.population_management(offspring_pop, size_act)
                 print()
-            if pop != self.n_pop-1:
-                if self.background_info:
-                    # assert self.background_info in ['avg', 'quantile', 'all']
-                    data_reflection = None
-                    if self.data_sep in ['sepp'] and self.background_info in ['refonly', 'exactdataref']:
-                        try:
-                            data_reflection = interface_ec.get_data_reflection(
-                                self.get_data(offspring_pop, performance=True), iteration=pop)
-                        except:
-                            data_reflection = interface_ec.get_data_reflection(
-                                self.get_data(population, performance=True), iteration=pop)
-                    try:
-                        if self.background_info == 'verbal':
-                            info = self.get_info(population, data_reflection)
-                        else:
-                            info = self.get_info(offspring_pop, data_reflection)
-                    except:
-                        info = self.get_info(population, data_reflection)
-                else:
-                    info = ''
-                # if self.reflect:  # reevo style reflection
-                #     interface_ec.update_long_term_reevo(iteration=pop)
-                if self.reflect == 'mimic_best_sample':
-                    try:
-                        interface_ec.mimic_best_sample(info, offspring_pop, iteration=pop)
-                    except:
-                        interface_ec.mimic_best_sample(population, population, iteration=pop)
-                elif self.reflect == 'correct_worst_sample':
-                    try:
-                        interface_ec.correct_worst_sample(info, offspring_pop, iteration=pop)
-                    except:
-                        interface_ec.correct_worst_sample(info, population, iteration=pop)
-                elif self.reflect == 'hybrid':
-                    try:
-                        interface_ec.hybrid(info, offspring_pop, iteration=pop)
-                    except:
-                        interface_ec.hybrid(info, population, iteration=pop)
-                elif self.reflect == 'multi_comparative_reflection':
-                    try:
-                        interface_ec.multi_comparative_reflection(info, offspring_pop, iteration=pop)
-                    except:
-                        interface_ec.multi_comparative_reflection(info, population, iteration=pop)
-                elif self.reflect == 'in_context_learning':
-                    interface_ec.in_context_learning(info, iteration=pop)
-                else:
-                    pass    # No reflection
-
 
             # Save population to a file
             filename = f"{self.output_path}/pops/population_generation_" + str(pop + 1) + ".json"
@@ -514,23 +298,19 @@ class EOH:
     def save_results(self, population, pop_idx, mode='train'):
         parent_dir = Path(self.output_path).parent
         oneline = {
+            'LLM': self.llm_model,
             'problem': self.problem,
             'dist': self.dist,
             'demand_mean': self.demand_mean,
             'n_train': self.n_train,
-            'prompt_type': self.prompt_type,
-            'K1': self.K1,
-            'K2': self.K2,
-            'background_info': 'no' if self.background_info is None else self.background_info,
-            'background_type': self.background_type,
-            'data_sep': self.data_sep,
-            'cal_cost': self.cal_cost,
             'external_opt': 'no' if self.external_optimizer is None else self.external_optimizer,
             'iter_opt': '-' if self.external_optimizer is None else self.iter_opt,
             'param_loc': '-' if self.external_optimizer is None else self.param_loc,
             'repeat': self.repeat,
             'n_pop': pop_idx,
             'mode': mode,
+            'data_summary': self.data_summary,
+            'algo_performance': self.algo_performance
         }
         if mode == 'train':
             for i in range(min(30, len(population))):
@@ -545,10 +325,9 @@ class EOH:
 
         filename = f"{parent_dir}/{self.filename}.csv"
         fieldnames = [
-            'problem', 'dist', 'demand_mean', 'n_train', 'prompt_type',
-            'K1', 'K2', 'background_info', 'background_type', 'data_sep',
-            'cal_cost', 'external_opt', 'iter_opt', 'param_loc', 'repeat',
-            'pop_idx', 'mode',
+            'LLM','problem', 'dist', 'demand_mean', 'n_train',
+            'external_opt', 'iter_opt', 'param_loc', 'repeat',
+            'pop_idx', 'mode', 'data_summary', 'algo_performance',
             '1', '2', '3', '4', '5', '6', '7', '8', '9', '10',
             '11', '12', '13', '14', '15', '16', '17', '18', '19', '20',
             '21', '22', '23', '24', '25', '26', '27', '28', '29', '30',
@@ -563,23 +342,19 @@ class EOH:
 
         if self.store_option == 'cover':
             mask = (
+                    (df['LLM'] == oneline['LLM']) &
                     (df['problem'] == oneline['problem']) &
                     (df['dist'] == oneline['dist']) &
                     (df['demand_mean'] == oneline['demand_mean']) &
                     (df['n_train'] == oneline['n_train']) &
-                    (df['prompt_type'] == oneline['prompt_type']) &
-                    (df['K1'] == oneline['K1']) &
-                    (df['K2'] == oneline['K2']) &
                     (df['repeat'] == oneline['repeat']) &
                     (df['pop_idx'] == oneline['pop_idx']) &
                     (df['mode'] == oneline['mode']) &
-                    (df['background_info'] == oneline['background_info']) &
-                    (df['background_type'] == oneline['background_type']) &
-                    (df['data_sep'] == oneline['data_sep']) &
-                    (df['cal_cost'] == oneline['cal_cost']) &
                     (df['iter_opt'] == oneline['iter_opt']) &
                     (df['param_loc'] == oneline['param_loc']) &
-                    (df['external_opt'] == oneline['external_opt'])
+                    (df['external_opt'] == oneline['external_opt'] &
+                     df['data_summary'] == oneline['data_summary'] &
+                     df['algo_performance'] == oneline['algo_performance'])
             )
 
             if mask.any():

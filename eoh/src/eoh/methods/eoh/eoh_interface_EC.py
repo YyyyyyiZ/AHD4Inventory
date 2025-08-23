@@ -4,22 +4,22 @@ from .eoh_evolution import Evolution
 import warnings
 from joblib import Parallel, delayed
 from .evaluator_accelerate import add_numba_decorator
+from concurrent.futures import ThreadPoolExecutor, TimeoutError
 import re
 import concurrent.futures
 
 class InterfaceEC():
     def __init__(self, pop_size, m, api_endpoint, api_key, llm_model,llm_use_local,llm_local_url, debug_mode,
-                 interface_prob, data_summary, algo_performance, reflect, K1, K2, external_optimizer, max_iter, param_loc,
-                 exp_output_path, background_info, background_type, data_sep, prompt_type, select,n_p,timeout,use_numba,**kwargs):
+                 interface_prob, data_summary, algo_performance, external_optimizer, max_iter, param_loc,
+                 exp_output_path, select,n_p,timeout,use_numba,**kwargs):
 
         # LLM settings
         self.pop_size = pop_size
         self.interface_eval = interface_prob
         prompts = interface_prob.prompts
         self.evol = Evolution(api_endpoint, api_key, llm_model,llm_use_local,llm_local_url, debug_mode,prompts,
-                              data_summary, algo_performance, reflect, K1, K2, external_optimizer, param_loc, exp_output_path,
-                              background_info, background_type, data_sep,
-                              prompt_type, **kwargs)
+                              data_summary, algo_performance, external_optimizer, param_loc, exp_output_path,
+                              **kwargs)
         self.m = m
         self.debug = debug_mode
 
@@ -32,10 +32,8 @@ class InterfaceEC():
         self.timeout = timeout
         self.use_numba = use_numba
 
-        self.reflect = reflect
         self.external_optimizer = external_optimizer
         self.max_iter = max_iter
-        self.background_type = background_type
 
         
     def code2file(self,code):
@@ -59,16 +57,6 @@ class InterfaceEC():
                 return True
         return False
 
-    # def population_management(self,pop):
-    #     # Delete the worst individual
-    #     pop_new = heapq.nsmallest(self.pop_size, pop, key=lambda x: x['objective'])
-    #     return pop_new
-    
-    # def parent_selection(self,pop,m):
-    #     ranks = [i for i in range(len(pop))]
-    #     probs = [1 / (rank + 1 + len(pop)) for rank in ranks]
-    #     parents = random.choices(pop, weights=probs, k=m)
-    #     return parents
 
     def population_init_obj(self, pop, n_p):
         fitness = Parallel(n_jobs=n_p)(delayed(self.interface_eval.evaluate)(seed['code']) for seed in pop)
@@ -277,8 +265,7 @@ class InterfaceEC():
                 
 
         except Exception as e:
-            print(e)
-
+            # print(e)
             offspring = {
                 'algorithm': None,
                 'code': None,
@@ -292,41 +279,52 @@ class InterfaceEC():
                 'other_inf': None
             }
             p = None
-        # Round the objective values
         return p, offspring
 
-    def in_context_learning(self, info='', iteration=0):
-        self.evol.in_context_learning(info, iteration)
-
-    def mimic_best_sample(self, info='', population=None, iteration=0):
-        self.evol.mimic_best_sample(info, population, iteration)
-
-    def correct_worst_sample(self, info='', population=None, iteration=0):
-        self.evol.correct_worst_sample(info, population, iteration)
-
-    def hybrid(self, info='', population=None, iteration=0):
-        self.evol.hybrid(info, population, iteration)
-
-    def multi_comparative_reflection(self, info='', population=None, iteration=0):
-        self.evol.multi_comparative_reflection(info, population, iteration)
-
-    def get_data_reflection(self, data_content, iteration):
-        return self.evol.get_data_reflection_external(data_content, iteration)
-
-
+    @staticmethod
+    def run_with_timeout(func, args=(), kwargs=None, timeout=None):
+        if kwargs is None:
+            kwargs = {}
+        with ThreadPoolExecutor(max_workers=1) as executor:
+            future = executor.submit(func, *args, **kwargs)
+            try:
+                return future.result(timeout=timeout)
+            except TimeoutError:
+                print("Parallel time out .")
+                offspring = {
+                    'algorithm': None,
+                    'code': None,
+                    'objective': None,
+                    'test_objective': None,
+                    'lower': None,
+                    'upper': None,
+                    'trajectory': None,
+                    'cost_matrix': None,
+                    'order_matrix': None,
+                    'other_inf': None
+                }
+                p = None
+                return p, offspring
 
     def get_algorithm(self, pop, operator, n_pop=1):
 
-        results = []
-        try:
-            results = Parallel(n_jobs=self.n_p,timeout=self.timeout+120)(delayed(self.get_offspring)(pop, operator, n_pop) for _ in range(self.pop_size))
-        except Exception as e:
-            if self.debug:
-                print(f"Error: {e}")
-            print("Parallel time out .")
-            
-        time.sleep(2)
+        results = Parallel(n_jobs=self.n_p)(
+            delayed(self.run_with_timeout)(
+                self.get_offspring,
+                args=(pop, operator, n_pop),
+                timeout=self.timeout
+            ) for _ in range(self.pop_size)
+        )
 
+        # results = []
+        # try:
+        #     results = Parallel(n_jobs=self.n_p,timeout=self.timeout)(delayed(self.get_offspring)(pop, operator, n_pop) for _ in range(self.pop_size))
+        # except Exception as e:
+        #     if self.debug:
+        #         print(f"Error: {e}")
+        #     print("Parallel time out .")
+            
+        time.sleep(10)
 
         out_p = []
         out_off = []

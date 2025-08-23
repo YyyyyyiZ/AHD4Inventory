@@ -1,6 +1,0 @@
-{
-     "algorithm": "The algorithm implements a Demand-Adaptive Threshold Policy that dynamically adjusts order quantities based on recent demand patterns, inventory position, and cost ratio, while respecting lead time constraints.",
-     "code": "def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):\n    demand_window = 3\n    recent_demand = history_demand[-demand_window:]\n    avg_demand = sum(recent_demand) / demand_window\n    cost_ratio = lost_sales_cost / (holding_cost + lost_sales_cost)\n    safety_factor = 1.5 * cost_ratio\n    target_level = avg_demand * (1 + safety_factor)\n    current_position = history_inventory[-1]\n    order_amount = max(0, target_level - current_position)\n    return order_amount",
-     "objective": 3784.93333,
-     "other_inf": null
-}

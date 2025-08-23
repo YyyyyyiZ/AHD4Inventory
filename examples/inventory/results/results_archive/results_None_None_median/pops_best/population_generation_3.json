@@ -1,6 +1,0 @@
-{
-     "algorithm": "```",
-     "code": "def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):\n    if not history_demand:\n        return 0\n    \n    cost_ratio = lost_sales_cost / max(holding_cost, 1e-6)\n    demand_quantiles = sorted(history_demand)\n    median_demand = demand_quantiles[len(demand_quantiles)//2]\n    recent_trend = sum(history_demand[-min(3, len(history_demand)):]) / min(3, len(history_demand))\n    \n    dynamic_multiplier = 1.0 + (cost_ratio * 0.2) + (0.1 if history_lost and history_lost[-1] > 0 else 0)\n    base_target = (0.6 * median_demand + 0.4 * recent_trend) * dynamic_multiplier\n    \n    current_inv = history_inventory[-1] if history_inventory else 0\n    order_amount = max(0, base_target - current_inv)\n    \n    return order_amount",
-     "objective": 3488.78578,
-     "other_inf": null
-}

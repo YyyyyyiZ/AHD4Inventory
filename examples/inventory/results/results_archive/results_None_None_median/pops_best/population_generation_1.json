@@ -1,6 +1,0 @@
-{
-     "algorithm": "An adaptive threshold policy that dynamically adjusts the order-up-to level based on recent demand patterns and cost ratios, while enforcing a lead-time-aware safety stock buffer.",
-     "code": "def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):\n    demand_window = history_demand[-3:] if len(history_demand) >= 3 else history_demand\n    avg_demand = sum(demand_window) / len(demand_window) if demand_window else 0\n    cost_ratio = lost_sales_cost / (holding_cost + lost_sales_cost)\n    dynamic_base = avg_demand * (1 + cost_ratio)\n    safety_stock = max(history_demand[-3:], default=0) * 0.5\n    target_level = dynamic_base + safety_stock\n    order_amount = max(0, target_level - history_inventory[-1])\n    return order_amount",
-     "objective": 3805.15463,
-     "other_inf": null
-}

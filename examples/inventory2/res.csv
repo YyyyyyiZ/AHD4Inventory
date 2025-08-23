@@ -1,1 +1,7 @@
-problem,dist,demand_mean,n_train,prompt_type,K1,K2,background_info,background_type,data_sep,cal_cost,external_opt,iter_opt,param_loc,repeat,n_pop,mode,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30
+LLM,problem,dist,demand_mean,n_train,external_opt,iter_opt,param_loc,repeat,n_pop,mode,data_summary,algo_performance,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30
+deepseek-chat,inventory2,poisson1,80,10,scipy,2,default,1,1,train,,reflected,2351.9594,2500.4121,2688.2363,2769.8523,,,,,,,,,,,,,,,,,,,,,,,,,,
+deepseek-chat,inventory2,poisson1,80,10,scipy,2,default,1,1,test,,reflected,4432.4610,4709.7993,4713.5342,4999.8731,,,,,,,,,,,,,,,,,,,,,,,,,,
+deepseek-chat,inventory2,poisson1,80,10,scipy,2,default,1,1,train,,reflected,1808.6942,3950.0000,9649.7671,16187.2000,,,,,,,,,,,,,,,,,,,,,,,,,,
+deepseek-chat,inventory2,poisson1,80,10,scipy,2,default,1,1,test,,reflected,3636.9934,4391.2000,9670.8878,16275.0000,,,,,,,,,,,,,,,,,,,,,,,,,,
+deepseek-chat,inventory2,poisson1,80,10,scipy,2,default,1,1,train,,reflected,3248.4446,16187.2000,24959.6000,34459.6000,,,,,,,,,,,,,,,,,,,,,,,,,,
+deepseek-chat,inventory2,poisson1,80,10,scipy,2,default,1,1,test,,reflected,5297.7156,16275.0000,24913.4000,34413.4000,,,,,,,,,,,,,,,,,,,,,,,,,,

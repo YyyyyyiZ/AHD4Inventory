@@ -21,6 +21,8 @@ class OptimizationResult:
     optimized_lower: float
     optimized_upper: float
     optimized_trajectory: List[float]
+    optimized_cost_matrix: List[float]
+    optimized_order_matrix: List[float]
     success: bool
     error: Optional[str] = None
     error_location: Optional[str] = None
@@ -128,6 +130,8 @@ class NGOptimizer:
             optimized_lower=float('inf'),
             optimized_upper=float('inf'),
             optimized_trajectory=[],
+            optimized_cost_matrix=[],
+            optimized_order_matrix=[],
             success=False,
             history=[]
         )
@@ -163,6 +167,8 @@ class NGOptimizer:
                         'lower': fitness['lower'],
                         'upper': fitness['upper'],
                         'trajectory': fitness['trajectory'],
+                        'cost_matrix': fitness['cost_matrix'],
+                        'order_matrix': fitness['order_matrix'],
                         'code': modified_code,
                         'locations': locations
                     }
@@ -205,6 +211,8 @@ class NGOptimizer:
             result.optimized_lower = best_run['lower']
             result.optimized_upper = best_run['upper']
             result.optimized_trajectory = best_run['trajectory']
+            result.optimized_cost_matrix = result.history[-1]['cost_matrix']
+            result.optimized_order_matrix = result.history[-1]['order_matrix']
             result.success = True  # Nevergrad doesn't have success flag
 
         except Exception as e:

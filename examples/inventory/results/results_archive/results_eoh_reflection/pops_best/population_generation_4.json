@@ -1,6 +1,0 @@
-{
-     "algorithm": "A new algorithm that combines quantile-based demand forecasting with dynamic safety stock adjustments using weighted historical stockout rates and a non-linear cost-sensitive scaling factor.",
-     "code": "def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):\n    if not history_demand:\n        return 50\n    \n    # Quantile-based demand estimation (75th percentile)\n    sorted_demand = sorted(history_demand)\n    quantile_idx = min(int(0.75 * len(sorted_demand)), len(sorted_demand)-1)\n    base_demand = sorted_demand[quantile_idx]\n    \n    # Dynamic stockout weighting\n    stockout_rate = sum(history_lost[-3:]) / (sum(history_demand[-3:]) + 1e-6) if len(history_demand) >= 3 else 0\n    cost_ratio = (lost_sales_cost / (holding_cost + 1e-6)) ** 0.7  # Non-linear scaling\n    \n    # Safety stock calculation\n    safety_stock = base_demand * (1 + min(stockout_rate * cost_ratio * 0.3, 0.6))\n    \n    current_inv = history_inventory[-1] if history_inventory else 0\n    order_amount = max(0, base_demand + safety_stock - current_inv)\n    return order_amount",
-     "objective": 2432.56927,
-     "other_inf": null
-}

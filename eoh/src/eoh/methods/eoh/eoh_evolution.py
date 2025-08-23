@@ -11,8 +11,7 @@ from .reflection.utils import *
 class Evolution():
 
     def __init__(self, api_endpoint, api_key, model_LLM,llm_use_local,llm_local_url, debug_mode,prompts,
-                 data_summary, algo_performance, reflect,  K1, K2, external_optimizer, param_loc, exp_output_path,
-                 background_info, background_type, data_sep, prompt_type, **kwargs):
+                 data_summary, algo_performance, external_optimizer, param_loc, exp_output_path, **kwargs):
 
         # set prompt interface
         #getprompts = GetPrompts()
@@ -38,23 +37,23 @@ class Evolution():
         self.model_LLM = model_LLM
         self.debug_mode = debug_mode # close prompt checking
         self.exp_output_path = exp_output_path
-        self.prompt_type = prompt_type
+        # self.prompt_type = prompt_type
         self.init_base_prompt()
         self.algo_performance = algo_performance
 
 
         self.interface_llm = InterfaceLLM(self.api_endpoint, self.api_key, self.model_LLM,llm_use_local,llm_local_url, self.debug_mode)
         self.data_summary = data_summary
-        self.reflect = reflect
-        self.K1 = K1
-        self.K2 = K2
-        if self.reflect:
-            self.short_term_reflection_str = ""
+        # self.reflect = reflect
+        # self.K1 = K1
+        # self.K2 = K2
+        # if self.reflect:
+        #     self.short_term_reflection_str = ""
         self.external_optimizer = external_optimizer
         self.param_loc = param_loc
-        self.background_info = background_info
-        self.background_type = background_type
-        self.data_sep = data_sep
+        # self.background_info = background_info
+        # self.background_type = background_type
+        # self.data_sep = data_sep
 
 
     def init_base_prompt(self):
@@ -66,13 +65,7 @@ class Evolution():
         self.prompt_e2 = file_to_string(f'{self.file_path}/common/prompt_e2.txt')
         self.prompt_m1 = file_to_string(f'{self.file_path}/common/prompt_m1.txt')
         self.prompt_m2 = file_to_string(f'{self.file_path}/common/prompt_m2.txt')
-
-        self.prompt_data = file_to_string(f'{self.file_path}/common/prompt_data.txt')
         self.prompt_data_summary = file_to_string(f'{self.file_path}/common/prompt_data_summary.txt')
-        self.prompt_mimic_best_sample = file_to_string(f'{self.file_path}/common/{self.prompt_type}/mimic_best_sample.txt')
-        self.prompt_correct_worst_sample = file_to_string(f'{self.file_path}/common/{self.prompt_type}/correct_worst_sample.txt')
-        self.prompt_hybrid = file_to_string(f'{self.file_path}/common/{self.prompt_type}/hybrid.txt')
-        self.prompt_multi_comparative_reflection = file_to_string(f'{self.file_path}/common/{self.prompt_type}/multi_comparative_reflection.txt')
 
     def external_optimizer_prompt(self):
         if self.param_loc == 'start':
@@ -116,20 +109,6 @@ class Evolution():
                              + "\n" + "2. Only mark parameters that are assigned within the code body (not function inputs)" \
                              + "\n" + "3. Only mark continuous parameters assigned with an equals sign (`=`)"
         return prompt_content
-
-    def get_data_hint(self):
-        data_hint = '''
-        Here are some data-specific hints based on the provided demand trajectories:
-        1. **Demand Variability**: The demand values fluctuate between 49 and 114 across trajectories, with no clear seasonality. This suggests a stochastic rather than predictable pattern, so the algorithm should account for high variability.
-        2. **Outliers**: Some trajectories (e.g., trajectory_12 with 114, trajectory_34 with 111) have extreme values. The algorithm should be robust to sporadic spikes without overreacting.
-        3. **Central Tendency**: Most demands cluster between 70–90, with a median around 80. This could serve as a baseline for heuristic adjustments.
-        4. **Lead Time Consideration**: Since orders are in transit (pipeline inventory), the algorithm should prioritize avoiding stockouts during the lead time window, especially given the unpredictability of demand.
-        5. **Trajectory Similarity**: Despite variability, trajectories share similar ranges and distributions. Pooling data across trajectories could improve demand estimation.
-        6. **No Zero-Demand Periods**: There are no periods with zero demand, so the algorithm need not handle intermittent demand patterns.
-        7. **Cost Sensitivity**: Given the lost sales (no backorders), the cost of underordering likely outweighs holding costs, suggesting a bias toward higher safety stock.
-        '''
-        return data_hint
-
 
     def get_performance_summary_plain(self, indivs, n_sample=3):
         summaries = []
@@ -284,7 +263,6 @@ class Evolution():
             prompt_inout_inf=self.prompt_inout_inf,
             prompt_other_inf=self.prompt_other_inf,
             external_optimizer=self.external_optimizer_prompt() if self.external_optimizer else '',
-            # reflection_content=self.short_term_reflection_str if self.reflect else '',
         )
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         file_name = f"{self.exp_output_path}/prompt_for_code/e1_{timestamp}.txt"
@@ -318,7 +296,6 @@ class Evolution():
             prompt_inout_inf=self.prompt_inout_inf,
             prompt_other_inf=self.prompt_other_inf,
             external_optimizer=self.external_optimizer_prompt() if self.external_optimizer else '',
-            # reflection_content=self.short_term_reflection_str if self.reflect else '',
         )
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         file_name = f"{self.exp_output_path}/prompt_for_code/e2_{timestamp}.txt"
@@ -349,7 +326,6 @@ class Evolution():
             prompt_inout_inf=self.prompt_inout_inf,
             prompt_other_inf=self.prompt_other_inf,
             external_optimizer=self.external_optimizer_prompt() if self.external_optimizer else '',
-            # reflection_content=self.short_term_reflection_str if self.reflect else '',
         )
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         file_name = f"{self.exp_output_path}/prompt_for_code/m1_{timestamp}.txt"
@@ -368,7 +344,6 @@ class Evolution():
             performance = None
         prompt_content = self.prompt_m2.format(
             prompt_task=self.prompt_task,
-            # algo_descr=indiv1['algorithm'],
             algo_code=indiv1['code'],
             data_summary=self.data_summary,
             algo_performance=performance,
@@ -380,7 +355,6 @@ class Evolution():
             prompt_inout_inf=self.prompt_inout_inf,
             prompt_other_inf=self.prompt_other_inf,
             external_optimizer=self.external_optimizer_prompt() if self.external_optimizer else '',
-            # reflection_content=self.short_term_reflection_str if self.reflect else '',
         )
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         file_name = f"{self.exp_output_path}/prompt_for_code/m2_{timestamp}.txt"
@@ -463,21 +437,6 @@ class Evolution():
     def _get_reflection(self, prompt_content):
         response = self.interface_llm.get_response(prompt_content)
         return response
-
-    def get_data_reflection_external(self, prompt_content, iteration):
-        data_hint = self.prompt_data.format(
-            prompt_task=self.prompt_task,
-            info=prompt_content
-        )
-        file_name = f"{self.exp_output_path}/prompt_for_reflection/data_{self.reflect}_{iteration}.txt"
-        with open(file_name, 'a') as file:
-            file.writelines(data_hint + '\n')
-        result= self._get_reflection(data_hint)
-        file_name = f"{self.exp_output_path}/reflection/data_reflection_{iteration}.txt"
-        with open(file_name, 'a') as file:
-            file.writelines(result + '\n')
-        # print(result)
-        return result
 
     def i1(self):
 
@@ -573,210 +532,3 @@ class Evolution():
             input()
 
         return [code_all, algorithm, optim_params, cost]
-
-
-    def in_context_learning(self, info, iteration):
-        self.prompt_gen_narrative = file_to_string(f'{self.file_path}/common/prompt_gen_narrative.txt')
-        self.prompt_gen_ref = file_to_string(f'{self.file_path}/common/prompt_gen_ref.txt')
-        prompt_narrative = self.prompt_gen_narrative.format(
-            heu_descr=info[0],
-            data_tab=info[1],
-        )
-        file_name = f"{self.exp_output_path}/prompt_for_reflection/narrative_{iteration}.txt"
-        with open(file_name, 'a') as file:
-            file.writelines(prompt_narrative + '\n')
-        narrative = self._get_reflection(prompt_narrative)
-
-        user = self.prompt_gen_ref.format(
-            prompt_task=self.prompt_task,
-            narrative=narrative
-        )
-        file_name = f"{self.exp_output_path}/prompt_for_reflection/reflection_{iteration}.txt"
-        with open(file_name, 'a') as file:
-            file.writelines(user + '\n')
-        temp = self._get_reflection(user)
-        file_name = f"{self.exp_output_path}/reflection/reflection_content_{iteration}.txt"
-        with open(file_name, 'a') as file:
-            file.writelines(temp + '\n')
-        self.short_term_reflection_str = temp
-
-    def mimic_best_sample(self, info, population, iteration):
-        best_ind = population[0]
-        best_code = filter_code(best_ind["code"])
-        short_term_reflection = ''
-        if self.data_sep =='sep':
-            data_hint = self.prompt_data.format(
-                prompt_task=self.prompt_task,
-                info=info
-            )
-            file_name = f"{self.exp_output_path}/prompt_for_reflection/data_{self.reflect}_{iteration}.txt"
-            with open(file_name, 'a') as file:
-                file.writelines(data_hint + '\n')
-            if self.background_type == 'fix':
-                short_term_reflection = self.get_data_hint() + '\n'
-            elif self.background_type == 'nofix':
-                temp = self._get_reflection(data_hint) + '\n'
-                if temp:
-                    short_term_reflection += temp
-            else:
-                raise ValueError("Unknown background information type")
-        # elif self.data_sep =='sepp':
-        #     data_hint = self.prompt_data.format(
-        #         prompt_task=self.prompt_task,
-        #         info=info
-        #     )
-        #     file_name = f"{self.exp_output_path}/prompt_for_reflection/{self.reflect}_{iteration}.txt"
-        #     with open(file_name, 'a') as file:
-        #         file.writelines(data_hint + '\n')
-        #     short_term_reflection = self._get_reflection(data_hint) + '\n'
-        #     info = short_term_reflection
-
-
-        user = self.prompt_mimic_best_sample.format(
-            prompt_task=self.prompt_task,
-            info = info if self.data_sep !='sep' else '',
-            best_code=best_code
-        )
-        file_name = f"{self.exp_output_path}/prompt_for_reflection/final_{self.reflect}_{iteration}.txt"
-        with open(file_name, 'a') as file:
-            file.writelines(user + '\n')
-        temp = self._get_reflection(user)
-        if temp:
-            short_term_reflection += temp
-        file_name = f"{self.exp_output_path}/reflection/final_reflection_{iteration}.txt"
-        with open(file_name, 'a') as file:
-            file.writelines(short_term_reflection + '\n')
-        self.short_term_reflection_str = short_term_reflection
-
-    def correct_worst_sample(self, info, population, iteration):
-        worst_ind = population[-1]
-        worst_code = filter_code(worst_ind["code"])
-        short_term_reflection = ''
-        if self.data_sep == 'sep':
-            data_hint = self.prompt_data.format(
-                prompt_task=self.prompt_task,
-                info=info
-            )
-            file_name = f"{self.exp_output_path}/prompt_for_reflection/data_{self.reflect}_{iteration}.txt"
-            with open(file_name, 'a') as file:
-                file.writelines(data_hint + '\n')
-            if self.background_type == 'fix':
-                short_term_reflection = self.get_data_hint() + '\n'
-            elif self.background_type == 'nofix':
-                temp = self._get_reflection(data_hint)
-                if temp:
-                    short_term_reflection += temp + '\n'
-            else:
-                raise ValueError("Unknown background information type")
-
-
-        user = self.prompt_correct_worst_sample.format(
-            prompt_task=self.prompt_task,
-            info = info if self.data_sep !='sep' else '',
-            worst_code=worst_code
-        )
-        file_name = f"{self.exp_output_path}/prompt_for_reflection/final_{self.reflect}_{iteration}.txt"
-        with open(file_name, 'a') as file:
-            file.writelines(user + '\n')
-        temp = self._get_reflection(user)
-        if temp:
-            short_term_reflection += temp
-        file_name = f"{self.exp_output_path}/reflection/final_reflection_{iteration}.txt"
-        with open(file_name, 'a') as file:
-            file.writelines(short_term_reflection + '\n')
-        self.short_term_reflection_str = short_term_reflection
-
-    def hybrid(self, info, population, iteration):
-        best_ind, worst_ind = population[0], population[-1]
-
-        worst_code = filter_code(worst_ind["code"])
-        best_code = filter_code(best_ind["code"])
-
-        short_term_reflection = ''
-        if self.data_sep == 'sep':
-            data_hint = self.prompt_data.format(
-                prompt_task=self.prompt_task,
-                info=info
-            )
-            file_name = f"{self.exp_output_path}/prompt_for_reflection/data_{self.reflect}_{iteration}.txt"
-            with open(file_name, 'a') as file:
-                file.writelines(data_hint + '\n')
-            if self.background_type == 'fix':
-                short_term_reflection = self.get_data_hint() + '\n'
-            elif self.background_type == 'nofix':
-                temp = self._get_reflection(data_hint)
-                if temp:
-                    short_term_reflection += temp + '\n'
-            else:
-                raise ValueError("Unknown background information type")
-
-
-        user = self.prompt_hybrid.format(
-            prompt_task=self.prompt_task,
-            info = info if self.data_sep !='sep' else '',
-            worst_code=worst_code,
-            best_code=best_code
-        )
-        file_name = f"{self.exp_output_path}/prompt_for_reflection/final_{self.reflect}_{iteration}.txt"
-        with open(file_name, 'a') as file:
-            file.writelines(user + '\n')
-
-        temp = self._get_reflection(user)
-        if temp:
-            short_term_reflection += temp
-        file_name = f"{self.exp_output_path}/reflection/final_reflection_{iteration}.txt"
-        with open(file_name, 'a') as file:
-            file.writelines(short_term_reflection + '\n')
-        self.short_term_reflection_str = short_term_reflection
-
-    def multi_comparative_reflection(self, info, population, iteration):
-        best_group = population[:self.K1] if self.K1 !=0 else [] # Take first K1 elements (best performers)
-        worst_group = population[-self.K2:] if self.K2 !=0 else []# Take last K2 elements (worst performers)
-
-        # Prepare code sections for the prompt
-        worst_sections = []
-        for i, ind in enumerate(worst_group, 1):
-            rank = "Worst" if i == 1 else f"{ordinal(i)} Worst"  # "Worst", "Second Worst", etc.
-            worst_sections.append(f"[{rank}]\n{filter_code(ind['code'])}\n")
-
-        best_sections = []
-        for i, ind in enumerate(best_group, 1):
-            rank = "Best" if i == 1 else f"{ordinal(i)} Best"  # "Best", "Second Best", etc.
-            best_sections.append(f"[{rank}]\n{filter_code(ind['code'])}\n")
-
-        short_term_reflection = ''
-        if self.data_sep == 'sep':
-            data_hint = self.prompt_data.format(
-                prompt_task=self.prompt_task,
-                info=info
-            )
-            file_name = f"{self.exp_output_path}/prompt_for_reflection/data_{self.reflect}_{iteration}.txt"
-            with open(file_name, 'a') as file:
-                file.writelines(data_hint + '\n')
-            if self.background_type == 'fix':
-                short_term_reflection = self.get_data_hint() + '\n'
-            elif self.background_type == 'nofix':
-                temp = self._get_reflection(data_hint)
-                if temp:
-                    short_term_reflection += temp + '\n'
-            else:
-                raise ValueError("Unknown background information type")
-
-        user = self.prompt_multi_comparative_reflection.format(
-            prompt_task=self.prompt_task,
-            info = info if self.data_sep !='sep' else '',
-            worst="".join(worst_sections),
-            best="".join(best_sections)
-        )
-
-        file_name = f"{self.exp_output_path}/prompt_for_reflection/final_{self.reflect}_{iteration}.txt"
-        with open(file_name, 'a') as file:
-            file.writelines(user + '\n')
-
-        temp = self._get_reflection(user)
-        if temp:
-            short_term_reflection += temp
-        file_name = f"{self.exp_output_path}/reflection/final_reflection_{iteration}.txt"
-        with open(file_name, 'a') as file:
-            file.writelines(short_term_reflection + '\n')
-        self.short_term_reflection_str = short_term_reflection

@@ -40,12 +40,12 @@ class Methods():
         elif self.paras.method in ['ls','sa']:   
             from .localsearch.ls import LS
             return LS(self.paras,self.problem,self.select,self.manage)
-        elif self.paras.method == "funsearch":   
-            from .funsearch.funsearch import FunSearch
-            return FunSearch(self.paras,self.problem,self.select,self.manage)
-        elif self.paras.method == "reevo":
-            from .reevo.reevo import ReEVO
-            return ReEVO(self.paras,self.problem,self.select,self.manage)
+        # elif self.paras.method == "funsearch":
+        #     from .funsearch.funsearch import FunSearch
+        #     return FunSearch(self.paras,self.problem,self.select,self.manage)
+        # elif self.paras.method == "reevo":
+        #     from .reevo.reevo import ReEVO
+        #     return ReEVO(self.paras,self.problem,self.select,self.manage)
         else:
             print("method "+self.method+" has not been implemented!")
             exit()

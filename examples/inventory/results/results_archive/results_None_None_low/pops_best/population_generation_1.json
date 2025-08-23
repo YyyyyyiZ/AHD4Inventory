@@ -1,6 +1,0 @@
-{
-     "algorithm": "The algorithm implements a Demand-Weighted Adaptive Threshold Policy that dynamically adjusts the order-up-to level based on recent demand patterns and cost ratios, while smoothing order quantities to avoid extreme fluctuations.",
-     "code": "def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):\n    demand_window = history_demand[-5:] if len(history_demand) >= 5 else history_demand\n    avg_demand = sum(demand_window) / len(demand_window) if demand_window else 0\n    cost_ratio = lost_sales_cost / (holding_cost + lost_sales_cost)\n    dynamic_stock = avg_demand * (1 + cost_ratio) * 1.5  # Lead time factor\n    smoothing_factor = 0.7\n    order_amount = max(0, smoothing_factor * (dynamic_stock - history_inventory[-1]))\n    return order_amount",
-     "objective": 3230.66207,
-     "other_inf": null
-}

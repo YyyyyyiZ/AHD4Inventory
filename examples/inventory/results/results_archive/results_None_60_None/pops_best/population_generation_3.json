@@ -1,6 +1,0 @@
-{
-     "algorithm": " A probabilistic demand coverage algorithm that dynamically sets order quantities based on demand percentiles weighted by cost ratios, with a lead-time buffer. ",
-     "code": "def compute_order_amount(history_demand, history_inventory, history_lost, holding_cost, lost_sales_cost):\n    if len(history_demand) == 0:\n        return 100\n    \n    cost_ratio = lost_sales_cost / (holding_cost + lost_sales_cost)\n    percentile = min(0.95, max(0.5, cost_ratio * 1.2))\n    \n    sorted_demand = sorted(history_demand)\n    idx = min(len(sorted_demand) - 1, int(percentile * len(sorted_demand)))\n    demand_estimate = sorted_demand[idx]\n    \n    lead_time_buffer = max(history_demand[-3:]) if len(history_demand) >= 3 else max(history_demand)\n    target_level = demand_estimate + lead_time_buffer\n    \n    order_amount = max(0, target_level - history_inventory[-1])\n    \n    return order_amount",
-     "objective": 3261.76667,
-     "other_inf": null
-}
