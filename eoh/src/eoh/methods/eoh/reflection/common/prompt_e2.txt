@@ -20,7 +20,7 @@ Below is the performance of provided algorithms on demand data:
 Please utilize the above given information, analyze the demand data, algorithms and their performances, and create an improved algorithm that is totally different from the given ones but can be motivated from them.
 
 First, describe your new algorithm and main steps in one sentence. The description must be inside a DOUBLE curly braces like this:{{This is the algorithm description}}.
-Next, implement it in Python as a function named {prompt_func_name}.
+Next, implement it in Python as a function named `{prompt_func_name}`.
 This function should accept {prompt_func_num_inputs} input(s): {prompt_func_inputs},
 and return {prompt_func_num_outputs} output(s): {prompt_func_num_outputs}.
 {prompt_inout_inf}.

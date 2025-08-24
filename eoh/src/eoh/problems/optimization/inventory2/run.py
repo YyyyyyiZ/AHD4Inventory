@@ -15,11 +15,11 @@ class INVENTORY:
         self.volatility = volatility
         self.prompts = GetPrompts()
         self.mode = 'train'
-        self.train_instances = self._load_instances(mode='train', n_traj=n_train)
-        self.test_instances = self._load_instances(mode='test')
+        self.train_instances = self.load_instances(mode='train', n_traj=n_train)
+        self.test_instances = self.load_instances(mode='test')
         self.instances = None
 
-    def _load_instances(self, mode='train', n_traj=None):
+    def load_instances(self, mode='train', n_traj=None):
         # Determine the file pattern based on parameters
         if self.dist is None and self.demand is None and self.volatility is None:
             pattern = f"evaluation/data/*_{mode}_*.json"
@@ -37,7 +37,6 @@ class INVENTORY:
             pattern = f"evaluation/data/{self.dist}_{mode}_*_{self.volatility}.json"
         else:
             pattern = f"evaluation/data/{self.dist}_{mode}_{self.demand}_{self.volatility}.json"
-        print(f"Instances loaded {pattern}......")
 
         # Find all matching files and load their contents
         instances = []

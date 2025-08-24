@@ -10,27 +10,39 @@ class Paras():
         self.management = None
 
         #####################
-        ### Self defined  ###
+        ### Self defined ###
         #####################
-        self.demand = 80
-        self.dist = 'poisson'
-        self.volatility = 'low'
         self.n_train = 50
         self.exp_create_initial = False
         self.external_optimizer = 'scipy'
         self.iter_opt = 20
         self.param_loc = 'default'
         self.repeat = 0
-        self.filename='res'
+        self.filename = 'res'
         self.store_option = 'append'
         self.algo_performance = 'plain'
-        self.data_summary='no'
+        self.data_summary = 'no'
+
+        #####################
+        ### Self defined for Inventory ###
+        #####################
+        self.demand = 80
+        self.dist = 'poisson'
+        self.volatility = 'low'
+
+
+        #####################
+        ### Self defined for TSP ###
+        #####################
+        self.option = 'stochastic'
+        self.n_node = 50
+
 
 
         #####################
         ###  EC settings  ###
         #####################
-        self.ec_pop_size = 4  # number of algorithms in each population, default = 10
+        self.ec_pop_size = 30  # number of algorithms in each population, default = 10
         self.ec_n_pop = 10 # number of populations, default = 10
         self.ec_operators = None # evolution operators: ['e1','e2','m1','m2'], default =  ['e1','e2','m1','m2']
         self.ec_m = 2  # number of parents for 'e1' and 'e2' operators, default = 2
@@ -83,18 +95,17 @@ class Paras():
         
         if self.selection == None:
             self.selection = 'prob_rank'
-            
         
         if self.ec_operators == None:
             if self.method == 'eoh':
                 # self.ec_operators  = ['e1','e2','m1','m2']
                 self.ec_operators = ['e1', 'e2', 'm2']
-            elif self.method == 'ael':
-                self.ec_operators  = ['crossover','mutation']
-            elif self.method == 'ls':
-                self.ec_operators  = ['m1']
-            elif self.method == 'sa':
-                self.ec_operators  = ['m1']
+            # elif self.method == 'ael':
+            #     self.ec_operators  = ['crossover','mutation']
+            # elif self.method == 'ls':
+            #     self.ec_operators  = ['m1']
+            # elif self.method == 'sa':
+            #     self.ec_operators  = ['m1']
 
         if self.ec_operator_weights == None:
             self.ec_operator_weights = [1 for _ in range(len(self.ec_operators))]
@@ -102,10 +113,10 @@ class Paras():
             print("Warning! Lengths of ec_operator_weights and ec_operator shoud be the same.")
             self.ec_operator_weights = [1 for _ in range(len(self.ec_operators))]
                     
-        if self.method in ['ls','sa'] and self.ec_pop_size >1:
-            self.ec_pop_size = 1
-            self.exp_n_proc = 1
-            print("> single-point-based, set pop size to 1. ")
+        # if self.method in ['ls','sa'] and self.ec_pop_size >1:
+        #     self.ec_pop_size = 1
+        #     self.exp_n_proc = 1
+        #     print("> single-point-based, set pop size to 1. ")
             
     def set_evaluation(self):
         # Initialize evaluation settings
@@ -114,8 +125,8 @@ class Paras():
             self.eva_numba_decorator  = True
         elif self.problem == 'tsp_construct':
             self.eva_timeout = 20
-        elif self.problem == 'tsp_stochastic':
-            self.eva_timeout = 20
+        elif self.problem == 'tsp':
+            self.eva_timeout = 180
         elif self.problem == 'inventory2':
             self.eva_timeout = 180
 

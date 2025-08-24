@@ -4,10 +4,9 @@ import json
 import random
 import time
 from pathlib import Path
-import csv
-import glob
 
 from .eoh_interface_EC import InterfaceEC
+
 # main class for eoh
 class EOH:
 
@@ -64,12 +63,26 @@ class EOH:
 
         # for saving results to .csv
         self.problem = paras.problem
-        self.dist = paras.dist
-        self.demand_mean = paras.demand
-        self.volatility = paras.volatility
         self.n_train = paras.n_train
         self.filename = paras.filename
         self.store_option = paras.store_option
+        if self.problem =='inventory2':
+            from ...problems.optimization.inventory2.analyze import InventoryAnalyzer as Analyzer
+            self.analyzer = Analyzer(self.prob, self.n_train, self.data_summary, self.algo_performance)
+        if self.problem =='tsp':
+            from ...problems.optimization.tsp.analyze import TSPAnalyzer as Analyzer
+            self.analyzer = Analyzer(self.prob, self.n_train, self.data_summary, self.algo_performance)
+        else:
+            from ...problems.optimization.tsp.analyze import TSPAnalyzer as Analyzer
+            self.analyzer = Analyzer(self.prob, self.n_train, None, 'no')
+
+        # inventory
+        self.dist = paras.dist
+        self.demand_mean = paras.demand
+        self.volatility = paras.volatility
+        # tsp
+        self.option=paras.option
+        self.n_node = paras.n_node
 
         print("- EoH parameters loaded -")
 
@@ -84,98 +97,6 @@ class EOH:
                     if (self.debug_mode):
                         print("duplicated result, retrying ... ")
             population.append(off)
-
-    def get_instances(self, mode='train', n_traj=None):
-        # Determine the file pattern based on parameters
-        if self.dist is None and self.demand_mean is None and self.volatility is None:
-            pattern = f"evaluation/data/*_{mode}_*.json"
-        elif self.dist is None and self.demand_mean is None:
-            pattern = f"evaluation/data/*_{mode}_*_{self.volatility}.json"
-        elif self.dist is None and self.volatility is None:
-            pattern = f"evaluation/data/*_{mode}_{self.demand_mean}_*.json"
-        elif self.demand_mean is None and self.volatility is None:
-            pattern = f"evaluation/data/{self.dist}_{mode}_*.json"
-        elif self.dist is None:
-            pattern = f"evaluation/data/*_{mode}_{self.demand_mean}_{self.volatility}.json"
-        elif self.volatility is None:
-            pattern = f"evaluation/data/{self.dist}_{mode}_{self.demand_mean}_*.json"
-        elif self.demand_mean is None:
-            pattern = f"evaluation/data/{self.dist}_{mode}_*_{self.volatility}.json"
-        else:
-            pattern = f"evaluation/data/{self.dist}_{mode}_{self.demand_mean}_{self.volatility}.json"
-
-        # Find all matching files and load their contents
-        instances = []
-        for file_path in glob.glob(pattern):
-            with open(file_path, 'r') as f:
-                data = json.load(f)
-                if isinstance(data, list):  # If file contains a list of instances
-                    instances.extend(data)
-                else:  # If file contains a single instance
-                    instances.append(data)
-        if n_traj is not None:
-            final_instances = instances[:n_traj]
-        else:
-            final_instances = instances
-        return final_instances
-
-
-    def get_data_summary(self):
-        instances = self.get_instances(mode='train', n_traj=self.n_train)
-        data = []
-        all_demands = []
-
-        for idx, traj in enumerate(instances, start=1):
-            demand_array = np.array(traj["demand"])
-            trajectory_data = {
-                "trajectory_id": f"trajectory_{idx}",
-                "demand": traj["demand"],
-            }
-            data.append(trajectory_data)
-            all_demands.append(demand_array)
-
-        # Convert list of arrays into one big array
-        all_demands = np.concatenate(all_demands)
-
-        # Basic statistics
-        mean_demand = np.mean(all_demands)
-        std_demand = np.std(all_demands)
-        min_demand = np.min(all_demands)
-        max_demand = np.max(all_demands)
-        cv_demand = std_demand / mean_demand if mean_demand != 0 else float("inf")
-
-        # Per-trajectory stats (to see diversity)
-        per_traj_stats = []
-        for traj in data:
-            arr = np.array(traj["demand"])
-            per_traj_stats.append({
-                "id": traj["trajectory_id"],
-                "mean": np.mean(arr),
-                "std": np.std(arr),
-                "min": np.min(arr),
-                "max": np.max(arr)
-            })
-
-        # Construct text summary
-        data_summary = []
-        data_summary.append("Demand Data Summary (across all trajectories):")
-        data_summary.append(f"- Total number of trajectories: {len(data)}")
-        data_summary.append(f"- Total number of periods: {len(all_demands)}")
-        data_summary.append(f"- Mean demand: {mean_demand:.2f}")
-        data_summary.append(f"- Std deviation: {std_demand:.2f}")
-        data_summary.append(f"- Min demand: {min_demand}, Max demand: {max_demand}")
-        data_summary.append(f"- Coefficient of Variation (CV): {cv_demand:.2f}")
-
-        data_summary.append("\nPer-trajectory statistics (mean ± std, min-max):")
-        for stat in per_traj_stats[:5]:  # show first 5 for brevity
-            data_summary.append(
-                f"  • {stat['id']}: mean={stat['mean']:.2f}, std={stat['std']:.2f}, "
-                f"range=({stat['min']}, {stat['max']})"
-            )
-        if len(per_traj_stats) > 5:
-            data_summary.append(f"  ... and {len(per_traj_stats) - 5} more trajectories")
-
-        return "\n".join(data_summary)
 
 
     def run(self):
@@ -192,8 +113,7 @@ class EOH:
 
         # interface for ec operators
         interface_ec = InterfaceEC(self.pop_size, self.m, self.api_endpoint, self.api_key, self.llm_model, self.use_local_llm, self.llm_local_url,
-                                   self.debug_mode, interface_prob,
-                                   data_summary=self.get_data_summary() if self.data_summary else None, algo_performance=self.algo_performance,
+                                   self.debug_mode, interface_prob,self.analyzer,
                                    external_optimizer=self.external_optimizer, max_iter = self.iter_opt, param_loc=self.param_loc, exp_output_path=self.output_path,
                                    select=self.select,n_p=self.exp_n_proc, timeout = self.timeout, use_numba=self.use_numba
                                    )
@@ -294,14 +214,12 @@ class EOH:
             self.save_results(population, pop + 1, 'train')
             self.save_results(population, pop + 1, 'test')
 
-
     def save_results(self, population, pop_idx, mode='train'):
         parent_dir = Path(self.output_path).parent
+
         oneline = {
             'LLM': self.llm_model,
             'problem': self.problem,
-            'dist': self.dist,
-            'demand_mean': self.demand_mean,
             'n_train': self.n_train,
             'external_opt': 'no' if self.external_optimizer is None else self.external_optimizer,
             'iter_opt': '-' if self.external_optimizer is None else self.iter_opt,
@@ -312,6 +230,23 @@ class EOH:
             'data_summary': self.data_summary,
             'algo_performance': self.algo_performance
         }
+
+        problem_fields = {
+            'inventory2': {
+                'dist': getattr(self, 'dist', None),
+                'demand_mean': getattr(self, 'demand_mean', None)
+            },
+            'tsp': {
+                'option': getattr(self, 'option', None),
+                'n_node': getattr(self, 'n_node', None)
+            },
+            # More problems
+            # 'new_problem': {...}
+        }
+
+        if self.problem in problem_fields:
+            oneline.update(problem_fields[self.problem])
+
         if mode == 'train':
             for i in range(min(30, len(population))):
                 oneline[str(i + 1)] = population[i]['objective']
@@ -322,16 +257,16 @@ class EOH:
         for i in range(len(population), 30):
             oneline[str(i + 1)] = None
 
+        base_fields = [
+            'LLM', 'problem', 'n_train', 'external_opt', 'iter_opt',
+            'param_loc', 'repeat', 'n_pop', 'mode',
+            'data_summary', 'algo_performance'
+        ]
+        problem_specific_fields = set().union(*problem_fields.values())
+        score_fields = [str(i) for i in range(1, 31)]
+        fieldnames = base_fields + list(problem_specific_fields) + score_fields
 
         filename = f"{parent_dir}/{self.filename}.csv"
-        fieldnames = [
-            'LLM','problem', 'dist', 'demand_mean', 'n_train',
-            'external_opt', 'iter_opt', 'param_loc', 'repeat',
-            'pop_idx', 'mode', 'data_summary', 'algo_performance',
-            '1', '2', '3', '4', '5', '6', '7', '8', '9', '10',
-            '11', '12', '13', '14', '15', '16', '17', '18', '19', '20',
-            '21', '22', '23', '24', '25', '26', '27', '28', '29', '30',
-        ]
 
         try:
             df = pd.read_csv(filename)
@@ -340,32 +275,83 @@ class EOH:
 
         new_row = pd.DataFrame([oneline])
 
-        if self.store_option == 'cover':
-            mask = (
-                    (df['LLM'] == oneline['LLM']) &
-                    (df['problem'] == oneline['problem']) &
-                    (df['dist'] == oneline['dist']) &
-                    (df['demand_mean'] == oneline['demand_mean']) &
-                    (df['n_train'] == oneline['n_train']) &
-                    (df['repeat'] == oneline['repeat']) &
-                    (df['pop_idx'] == oneline['pop_idx']) &
-                    (df['mode'] == oneline['mode']) &
-                    (df['iter_opt'] == oneline['iter_opt']) &
-                    (df['param_loc'] == oneline['param_loc']) &
-                    (df['external_opt'] == oneline['external_opt'] &
-                     df['data_summary'] == oneline['data_summary'] &
-                     df['algo_performance'] == oneline['algo_performance'])
-            )
+        df = pd.concat([df, new_row], ignore_index=True)
+        df.to_csv(filename, index=False, float_format='%.2f')
 
-            if mask.any():
-                df.loc[mask] = new_row.values
-            else:
-                df = pd.concat([df, new_row], ignore_index=True)
-        elif self.store_option == 'append':
-            df = pd.concat([df, new_row], ignore_index=True)
-        else:
-            raise ValueError(f"Unknown store_option: {self.store_option}")
+    # def save_results(self, population, pop_idx, mode='train'):
+    #     parent_dir = Path(self.output_path).parent
+    #     oneline = {
+    #         'LLM': self.llm_model,
+    #         'problem': self.problem,
+    #         # 'dist': self.dist,    # self.problem='inventory2'
+    #         # 'demand_mean': self.demand_mean,  # self.problem='inventory2'
+    #         'option': self.option,  # self.problem='tsp'
+    #         'n_node': self.n_node,  # self.problem='tsp'
+    #         'n_train': self.n_train,
+    #         'external_opt': 'no' if self.external_optimizer is None else self.external_optimizer,
+    #         'iter_opt': '-' if self.external_optimizer is None else self.iter_opt,
+    #         'param_loc': '-' if self.external_optimizer is None else self.param_loc,
+    #         'repeat': self.repeat,
+    #         'n_pop': pop_idx,
+    #         'mode': mode,
+    #         'data_summary': self.data_summary,
+    #         'algo_performance': self.algo_performance
+    #     }
+    #     if mode == 'train':
+    #         for i in range(min(30, len(population))):
+    #             oneline[str(i + 1)] = population[i]['objective']
+    #     elif mode == 'test':
+    #         for i in range(min(30, len(population))):
+    #             oneline[str(i + 1)] = population[i]['test_objective']
+    #
+    #     for i in range(len(population), 30):
+    #         oneline[str(i + 1)] = None
+    #
+    #
+    #     filename = f"{parent_dir}/{self.filename}.csv"
+    #     fieldnames = [
+    #         'LLM','problem', 'dist', 'demand_mean', 'n_train',
+    #         'external_opt', 'iter_opt', 'param_loc', 'repeat',
+    #         'pop_idx', 'mode', 'data_summary', 'algo_performance',
+    #         '1', '2', '3', '4', '5', '6', '7', '8', '9', '10',
+    #         '11', '12', '13', '14', '15', '16', '17', '18', '19', '20',
+    #         '21', '22', '23', '24', '25', '26', '27', '28', '29', '30',
+    #     ]
+    #
+    #     try:
+    #         df = pd.read_csv(filename)
+    #     except (FileNotFoundError, pd.errors.EmptyDataError):
+    #         df = pd.DataFrame(columns=fieldnames)
+    #
+    #     new_row = pd.DataFrame([oneline])
+    #
+    #     if self.store_option == 'cover':
+    #         mask = (
+    #                 (df['LLM'] == oneline['LLM']) &
+    #                 (df['problem'] == oneline['problem']) &
+    #                 (df['dist'] == oneline['dist']) &
+    #                 (df['demand_mean'] == oneline['demand_mean']) &
+    #                 (df['n_train'] == oneline['n_train']) &
+    #                 (df['repeat'] == oneline['repeat']) &
+    #                 (df['pop_idx'] == oneline['pop_idx']) &
+    #                 (df['mode'] == oneline['mode']) &
+    #                 (df['iter_opt'] == oneline['iter_opt']) &
+    #                 (df['param_loc'] == oneline['param_loc']) &
+    #                 (df['external_opt'] == oneline['external_opt'] &
+    #                  df['data_summary'] == oneline['data_summary'] &
+    #                  df['algo_performance'] == oneline['algo_performance'])
+    #         )
+    #
+    #         if mask.any():
+    #             df.loc[mask] = new_row.values
+    #         else:
+    #             df = pd.concat([df, new_row], ignore_index=True)
+    #     elif self.store_option == 'append':
+    #         df = pd.concat([df, new_row], ignore_index=True)
+    #     else:
+    #         raise ValueError(f"Unknown store_option: {self.store_option}")
+    #
+    #     df.to_csv(filename, index=False, float_format='%.4f')
 
-        df.to_csv(filename, index=False, float_format='%.4f')
 
 
