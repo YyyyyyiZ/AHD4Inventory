@@ -28,6 +28,18 @@ class InventoryAnalyzer:
         else:
             return ""
 
+    def get_data(self):
+        instances = self.prob.load_instances(mode='train', n_traj=self.n_train)
+        data = []
+        for idx, traj in enumerate(instances, start=1):
+            trajectory_data = {
+                "trajectory_id": f"trajectory_{idx}",
+                "demand": traj["demand"],
+            }
+            data.append(trajectory_data)
+
+        return data
+
     def get_data_summary(self, num_traj=5):
         if self.data_summary:
             instances = self.prob.load_instances(mode='train', n_traj=self.n_train)

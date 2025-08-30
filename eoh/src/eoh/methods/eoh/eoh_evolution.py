@@ -14,12 +14,14 @@ class Evolution:
 
         # set prompt interface
         #getprompts = GetPrompts()
-        self.prompt_task = prompts.get_task()+analyzer.param
+        self.prompt_task = prompts.get_task() + analyzer.param
         self.prompt_func_name = prompts.get_func_name()
         self.prompt_func_inputs = prompts.get_func_inputs()
         self.prompt_func_outputs = prompts.get_func_outputs()
         self.prompt_inout_inf = prompts.get_inout_inf()
         self.prompt_other_inf = prompts.get_other_inf()
+        self.problem_data_descr = prompts.get_data_descr()
+        self.data = analyzer.get_data()
         if len(self.prompt_func_inputs) > 1:
             self.joined_inputs = ", ".join("'" + s + "'" for s in self.prompt_func_inputs)
         else:
@@ -53,6 +55,7 @@ class Evolution:
         self.prompt_e2 = file_to_string(f'{self.file_path}/common/prompt_e2.txt')
         self.prompt_m1 = file_to_string(f'{self.file_path}/common/prompt_m1.txt')
         self.prompt_m2 = file_to_string(f'{self.file_path}/common/prompt_m2.txt')
+        self.prompt_agentB = file_to_string(f'{self.file_path}/common/prompt_agentB.txt')
         self.prompt_data_summary = file_to_string(f'{self.file_path}/common/prompt_data_summary.txt')
 
     def external_optimizer_prompt(self):
@@ -114,7 +117,7 @@ class Evolution:
         )
         return prompt_content
 
-    def get_prompt_e1(self, indivs):
+    def get_prompt_e1(self, indivs, memory):
         prompt_indiv = ""
         for i in range(len(indivs)):
             prompt_indiv = prompt_indiv + "No." + str(i + 1) + " algorithm: \n" + indivs[i]['code'] + "\n"
@@ -122,8 +125,8 @@ class Evolution:
             prompt_task=self.prompt_task,
             num_indivs=str(len(indivs)),
             code_indivs=prompt_indiv,
-            data_summary=self.analyzer.get_data_summary(),
             algo_performance=self.analyzer.get_algo_performance(indivs),
+            memory=memory,
             prompt_func_name=self.prompt_func_name,
             prompt_func_num_inputs=str(len(self.prompt_func_inputs)),
             prompt_func_inputs=self.joined_inputs,
@@ -139,7 +142,7 @@ class Evolution:
             file.writelines(prompt_content + '\n')
         return prompt_content
 
-    def get_prompt_e2(self, indivs):
+    def get_prompt_e2(self, indivs, memory):
         prompt_indiv = ""
         for i in range(len(indivs)):
             prompt_indiv = prompt_indiv + "No." + str(i + 1) + " algorithm: \n" + indivs[i]['code'] + "\n"
@@ -147,8 +150,8 @@ class Evolution:
             prompt_task=self.prompt_task,
             num_indivs=str(len(indivs)),
             code_indivs=prompt_indiv,
-            data_summary=self.analyzer.get_data_summary(),
             algo_performance=self.analyzer.get_algo_performance(indivs),
+            memory=memory,
             prompt_func_name=self.prompt_func_name,
             prompt_func_num_inputs=str(len(self.prompt_func_inputs)),
             prompt_func_inputs=self.joined_inputs,
@@ -164,13 +167,13 @@ class Evolution:
             file.writelines(prompt_content + '\n')
         return prompt_content
 
-    def get_prompt_m1(self, indiv1):
+    def get_prompt_m1(self, indiv1, memory):
         prompt_content = self.prompt_m1.format(
             prompt_task=self.prompt_task,
             # algo_decsr=indiv1['algorithm'],
             algo_code=indiv1['code'],
-            data_summary=self.analyzer.get_data_summary(),
             algo_performance=self.analyzer.get_algo_performance([indiv1]),
+            memory=memory,
             prompt_func_name=self.prompt_func_name,
             prompt_func_num_inputs=str(len(self.prompt_func_inputs)),
             prompt_func_inputs=self.joined_inputs,
@@ -186,12 +189,12 @@ class Evolution:
             file.writelines(prompt_content + '\n')
         return prompt_content
 
-    def get_prompt_m2(self, indiv1):
+    def get_prompt_m2(self, indiv1, memory):
         prompt_content = self.prompt_m2.format(
             prompt_task=self.prompt_task,
             algo_code=indiv1['code'],
-            data_summary=self.analyzer.get_data_summary(),
             algo_performance=self.analyzer.get_algo_performance([indiv1]),
+            memory=memory,
             prompt_func_name=self.prompt_func_name,
             prompt_func_num_inputs=str(len(self.prompt_func_inputs)),
             prompt_func_inputs=self.joined_inputs,
@@ -207,9 +210,7 @@ class Evolution:
             file.writelines(prompt_content + '\n')
         return prompt_content
 
-    def _get_alg(self, prompt_content):
-
-        response = self.interface_llm.get_response(prompt_content)
+    def _get_alg(self, response):
 
         algorithm = re.findall(r"\{\{(.*?)\}\}", response, re.DOTALL)
         # cost = re.findall(r"\[\[\[(.*?)\]\]\]", response, re.DOTALL)
@@ -235,37 +236,35 @@ class Evolution:
                     param_config = json.loads(param_str)
                     optim_params[param_name] = param_config
 
-        n_retry = 1
-        while len(algorithm) == 0 or len(code) == 0:
-            if self.debug_mode:
-                print("Error: algorithm or code not identified, wait 1 seconds and retrying ... ")
-
-            response = self.interface_llm.get_response(prompt_content)
-
-            algorithm = re.findall(r"\{\{(.*?)\}\}", response, re.DOTALL)
-            if len(algorithm) == 0:
-                if 'python' in response:
-                    algorithm = re.findall(r'^.*?(?=python)', response, re.DOTALL)
-                elif 'import' in response:
-                    algorithm = re.findall(r'^.*?(?=import)', response, re.DOTALL)
-                else:
-                    algorithm = re.findall(r'^.*?(?=def)', response, re.DOTALL)
-
-            code = re.findall(r"import.*return", response, re.DOTALL)
-            if len(code) == 0:
-                code = re.findall(r"def.*return", response, re.DOTALL)
-
-            if self.external_optimizer:
-                for line in code[0].split('\n'):
-                    if "OPT_PARAM:" in line:
-                        param_name = self._extract_param_name(line)
-                        param_str = line.split("OPT_PARAM:")[1].strip()
-                        param_str = param_str.replace("'", '"')
-                        param_config = json.loads(param_str)
-                        optim_params[param_name] = param_config
-            if n_retry > 3:
-                break
-            n_retry += 1
+        # n_retry = 1
+        # while len(algorithm) == 0 or len(code) == 0:
+        #     if self.debug_mode:
+        #         print("Error: algorithm or code not identified, wait 1 seconds and retrying ... ")
+        #
+        #     algorithm = re.findall(r"\{\{(.*?)\}\}", response, re.DOTALL)
+        #     if len(algorithm) == 0:
+        #         if 'python' in response:
+        #             algorithm = re.findall(r'^.*?(?=python)', response, re.DOTALL)
+        #         elif 'import' in response:
+        #             algorithm = re.findall(r'^.*?(?=import)', response, re.DOTALL)
+        #         else:
+        #             algorithm = re.findall(r'^.*?(?=def)', response, re.DOTALL)
+        #
+        #     code = re.findall(r"import.*return", response, re.DOTALL)
+        #     if len(code) == 0:
+        #         code = re.findall(r"def.*return", response, re.DOTALL)
+        #
+        #     if self.external_optimizer:
+        #         for line in code[0].split('\n'):
+        #             if "OPT_PARAM:" in line:
+        #                 param_name = self._extract_param_name(line)
+        #                 param_str = line.split("OPT_PARAM:")[1].strip()
+        #                 param_str = param_str.replace("'", '"')
+        #                 param_config = json.loads(param_str)
+        #                 optim_params[param_name] = param_config
+        #     if n_retry > 3:
+        #         break
+        #     n_retry += 1
 
         algorithm = algorithm[0]
         code = code[0]
@@ -303,77 +302,97 @@ class Evolution:
         return [code_all, algorithm]
 
     def e1(self, parents):
-
-        prompt_content = self.get_prompt_e1(parents)
-
-        if self.debug_mode:
-            print("\n >>> check prompt for creating algorithm using [ e1 ] : \n", prompt_content)
-            print(">>> Press 'Enter' to continue")
-            input()
-
-        [code_all, algorithm, optim_params, cost] = self._get_alg(prompt_content)
-
-        if self.debug_mode:
-            print("\n >>> check designed algorithm: \n", algorithm)
-            print("\n >>> check designed code: \n", code_all)
-            print(">>> Press 'Enter' to continue")
-            input()
-
-        return [code_all, algorithm, optim_params, cost]
+        memory = ""
+        while True:
+            prompt_content = self.get_prompt_e1(parents, memory)
+            response = self.interface_llm.get_response(prompt_content, role='code')
+            if response.strip().startswith("QUESTION"):
+                memory += response+"\n"
+                prompt_content_B = self.prompt_agentB.format(
+                    description=self.problem_data_descr,
+                    data=self.data,
+                    question=response
+                )
+                response_B = self.interface_llm.get_response(prompt_content_B, role='data')
+                memory += response_B+"\n"
+            elif response.strip().startswith("GENERATION"):
+                [code_all, algorithm, optim_params, cost] = self._get_alg(response)
+                timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+                file_name = f"{self.exp_output_path}/conversation/e1_{timestamp}.txt"
+                with open(file_name, 'a') as file:
+                    file.writelines(memory + '\n')
+                return [code_all, algorithm, optim_params, cost]
+            else:
+                print("Unexpected response:", response)
 
     def e2(self, parents):
-
-        prompt_content = self.get_prompt_e2(parents)
-
-        if self.debug_mode:
-            print("\n >>> check prompt for creating algorithm using [ e2 ] : \n", prompt_content)
-            print(">>> Press 'Enter' to continue")
-            input()
-
-        [code_all, algorithm, optim_params, cost] = self._get_alg(prompt_content)
-
-        if self.debug_mode:
-            print("\n >>> check designed algorithm: \n", algorithm)
-            print("\n >>> check designed code: \n", code_all)
-            print(">>> Press 'Enter' to continue")
-            input()
-
-        return [code_all, algorithm, optim_params, cost]
+        memory = ""
+        while True:
+            prompt_content = self.get_prompt_e2(parents, memory)
+            response = self.interface_llm.get_response(prompt_content, role='code')
+            if response.strip().startswith("QUESTION"):
+                memory += response+"\n"
+                prompt_content_B = self.prompt_agentB.format(
+                    description=self.problem_data_descr,
+                    data=self.data,
+                    question=response
+                )
+                response_B = self.interface_llm.get_response(prompt_content_B, role='data')
+                memory += response_B+"\n"
+            elif response.strip().startswith("GENERATION"):
+                [code_all, algorithm, optim_params, cost] = self._get_alg(response)
+                timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+                file_name = f"{self.exp_output_path}/conversation/e2_{timestamp}.txt"
+                with open(file_name, 'a') as file:
+                    file.writelines(memory + '\n')
+                return [code_all, algorithm, optim_params, cost]
+            else:
+                print("Unexpected response:", response)
 
     def m1(self, parents):
-
-        prompt_content = self.get_prompt_m1(parents)
-
-        if self.debug_mode:
-            print("\n >>> check prompt for creating algorithm using [ m1 ] : \n", prompt_content)
-            print(">>> Press 'Enter' to continue")
-            input()
-
-        [code_all, algorithm, optim_params, cost] = self._get_alg(prompt_content)
-
-        if self.debug_mode:
-            print("\n >>> check designed algorithm: \n", algorithm)
-            print("\n >>> check designed code: \n", code_all)
-            print(">>> Press 'Enter' to continue")
-            input()
-
-        return [code_all, algorithm, optim_params, cost]
+        memory = ""
+        while True:
+            prompt_content = self.get_prompt_m1(parents, memory)
+            response = self.interface_llm.get_response(prompt_content, role='code')
+            if response.strip().startswith("QUESTION"):
+                memory += response+"\n"
+                prompt_content_B = self.prompt_agentB.format(
+                    description=self.problem_data_descr,
+                    data=self.data,
+                    question=response
+                )
+                response_B = self.interface_llm.get_response(prompt_content_B, role='data')
+                memory += response_B+"\n"
+            elif response.strip().startswith("GENERATION"):
+                [code_all, algorithm, optim_params, cost] = self._get_alg(response)
+                timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+                file_name = f"{self.exp_output_path}/conversation/m1_{timestamp}.txt"
+                with open(file_name, 'a') as file:
+                    file.writelines(memory + '\n')
+                return [code_all, algorithm, optim_params, cost]
+            else:
+                print("Unexpected response:", response)
 
     def m2(self, parents):
-
-        prompt_content = self.get_prompt_m2(parents)
-
-        if self.debug_mode:
-            print("\n >>> check prompt for creating algorithm using [ m2 ] : \n", prompt_content)
-            print(">>> Press 'Enter' to continue")
-            input()
-
-        [code_all, algorithm, optim_params, cost] = self._get_alg(prompt_content)
-
-        if self.debug_mode:
-            print("\n >>> check designed algorithm: \n", algorithm)
-            print("\n >>> check designed code: \n", code_all)
-            print(">>> Press 'Enter' to continue")
-            input()
-
-        return [code_all, algorithm, optim_params, cost]
+        memory = ""
+        while True:
+            prompt_content = self.get_prompt_m2(parents, memory)
+            response = self.interface_llm.get_response(prompt_content, role='code')
+            if response.strip().startswith("QUESTION"):
+                memory += response+"\n"
+                prompt_content_B = self.prompt_agentB.format(
+                    description=self.problem_data_descr,
+                    data=self.data,
+                    question=response
+                )
+                response_B = self.interface_llm.get_response(prompt_content_B, role='data')
+                memory += response_B+"\n"
+            elif response.strip().startswith("GENERATION"):
+                [code_all, algorithm, optim_params, cost] = self._get_alg(response)
+                timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+                file_name = f"{self.exp_output_path}/conversation/m2_{timestamp}.txt"
+                with open(file_name, 'a') as file:
+                    file.writelines(memory + '\n')
+                return [code_all, algorithm, optim_params, cost]
+            else:
+                print("Unexpected response:", response)

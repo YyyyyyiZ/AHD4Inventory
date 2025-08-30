@@ -2,29 +2,45 @@ Task: {prompt_task}
 
 ---
 
-Here are some characteristics of the data:
-{data_summary}
-
----
-
 I have {num_indivs} existing algorithms with their codes as follows:
 {code_indivs}
 
 ---
 
-Below is the performance of provided algorithms on data:
+The performance of this algorithm on the data is as follows:
 {algo_performance}
 
 ---
 
-Please utilize the above given information, analyze the data, algorithms and their performances, and create an improved algorithm that is totally different from the given ones.
+Your final task is to create an improved algorithm that is totally different from the given ones..
 
-First, describe your new algorithm and main steps in one sentence. The description must be inside a DOUBLE curly braces like this:{{This is the algorithm description}}.
-Next, implement it in Python as a function named `{prompt_func_name}`.
-This function should accept {prompt_func_num_inputs} input(s): {prompt_func_inputs},
-and return {prompt_func_num_outputs} output(s): {prompt_func_num_outputs}.
-{prompt_inout_inf}.
-{prompt_other_inf}.
+Below are some conversions you had with agent B before:
+{memory}
+
+---
+
+If you still need more data information, you may ask agent B a question.
+- To do so, begin your response with `QUESTION`.
+- Example:
+  `QUESTION: Based on the demand realizations, what is the possible underlying distribution?`
+
+---
+
+If you are ready to generate code:
+
+First, start your response with `GENERATION`
+
+Next, provide a one-sentence description of your new algorithm and its main steps.
+   This description must be enclosed in DOUBLE curly braces, for example:
+   `{{This is the algorithm description}}`
+
+Then, implement the algorithm in Python as a function named `{prompt_func_name}`.
+   - The function must accept {prompt_func_num_inputs} input(s): {prompt_func_inputs}
+   - The function must return {prompt_func_num_outputs}: {prompt_func_outputs}
+   - Follow the I/O specification below:
+     {prompt_inout_inf}
+   - Additional information (if any): {prompt_other_inf}
+
 {external_optimizer}
 
-Do not give additional explanations.
+Do not provide explanations outside this required format.

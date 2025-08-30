@@ -1,8 +1,10 @@
 from ..llm.api_general import InterfaceAPI
+
+
 # from ..llm.api_local_llm import InterfaceLocalLLM
 
 class InterfaceLLM:
-    def __init__(self, api_endpoint, api_key, model_LLM,llm_use_local,llm_local_url, debug_mode):
+    def __init__(self, api_endpoint, api_key, model_LLM, llm_use_local, llm_local_url, debug_mode):
         self.api_endpoint = api_endpoint
         self.api_key = api_key
         self.model_LLM = model_LLM
@@ -15,7 +17,7 @@ class InterfaceLLM:
         if self.llm_use_local:
             # print('local llm delopyment is used ...')
             raise ValueError("local llm delopyment is used ...")
-            
+
             # if self.llm_local_url == None or self.llm_local_url == 'xxx' :
             #     print(">> Stop with empty url for local llm !")
             #     exit()
@@ -27,8 +29,9 @@ class InterfaceLLM:
         else:
             print('remote llm api is used ...')
 
-            if self.api_key == None or self.api_endpoint ==None or self.api_key == 'xxx' or self.api_endpoint == 'xxx':
-                print(">> Stop with wrong API setting: Set api_endpoint (e.g., api.chat...) and api_key (e.g., kx-...) !")
+            if self.api_key == None or self.api_endpoint == None or self.api_key == 'xxx' or self.api_endpoint == 'xxx':
+                print(
+                    ">> Stop with wrong API setting: Set api_endpoint (e.g., api.chat...) and api_key (e.g., kx-...) !")
                 exit()
 
             self.interface_llm = InterfaceAPI(
@@ -38,14 +41,13 @@ class InterfaceLLM:
                 self.debug_mode,
             )
 
-            
         res = self.interface_llm.get_response("1+1=?")
 
         if res == None:
             print(">> Error in LLM API, wrong endpoint, key, model or local deployment!")
             exit()
 
-    def get_response(self, prompt_content):
-        response = self.interface_llm.get_response(prompt_content)
+    def get_response(self, prompt_content, role='code'):
+        response = self.interface_llm.get_response(prompt_content, role)
 
         return response

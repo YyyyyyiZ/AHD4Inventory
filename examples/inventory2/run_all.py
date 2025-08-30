@@ -8,11 +8,11 @@ dist_list = ['poisson1']
 mean_list = [80]
 external_opt_list = ['scipy']
 # external_opt_list =['no', 'ng', 'deap', 'scipy']
-algo_performance_list = ['no']
+algo_performance_list = ['processed']
 # algo_performance_list=['no','plain','processed']
 data_summary_list = ['yes']
 # data_summary_list = ['no','yes']
-n_train_list = [100]
+n_train_list = [50]
 iter_opt_list = [30]
 param_loc_list = ['default']
 # param_loc_list = ['start', 'default']
@@ -30,7 +30,10 @@ for repeat in range(repeat_num):
                                 for data_summary in data_summary_list:
                                     command = (
                                         f"E:\\Anaconda3\\envs\\EoH\\python runEoH.py "  # change this line according to the path of python.exe
-                                        f"--llm_api_key sk-c93307e529a64f46852478f357a7cdbd "
+                                        f"--llm_api_key sk-8440069ccac7435593d3d8f0ebb648b9 "
+                                        # sk-8440069ccac7435593d3d8f0ebb648b9
+                                        # sk-20502d3c42ad4f3fb0df0d65f55ecc98
+                                        # sk-c93307e529a64f46852478f357a7cdbd
                                         f"--dist {dist} "
                                         f"--mean {mean_demand} "
                                         f"--external_opt {external_opt} "
@@ -39,7 +42,7 @@ for repeat in range(repeat_num):
                                         f"--algo_performance {algo_performance} "
                                         f"--data_summary {data_summary} "
                                         f"--repeat {repeat} "
-                                        f"--filename res "
+                                        f"--filename res_performance2 "
                                         f"--store_option append "
                                     )
                                     print(f"Running: {command}")

@@ -34,6 +34,11 @@ class GetPrompts():
              - `pipeline_inventory[-1]`: Order placed 1 period ago (arriving in `lead_time` periods).
         """
 
+        self.problem_data_descr = """
+        The task is to design a policy that determines the order quantity in each period so as to minimize the total cost. 
+        The generated policy will be evaluated on a two-dimensional demand dataset, represented as trajectories across different scenarios.
+        """
+
     def get_task(self):
         return self.prompt_task
     
@@ -51,4 +56,7 @@ class GetPrompts():
 
     def get_other_inf(self):
         return self.prompt_other_inf
+
+    def get_data_descr(self):
+        return self.problem_data_descr
 
