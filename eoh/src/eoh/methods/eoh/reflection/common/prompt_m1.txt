@@ -2,11 +2,6 @@ Task: {prompt_task}
 
 ---
 
-Here are some characteristics of the data:
-{data_summary}
-
----
-
 I have one algorithm with its code as follows:
 {algo_code}
 
@@ -17,7 +12,13 @@ Below is the performance of provided algorithm on data:
 
 ---
 
-Please utilize the above given information, analyze the data, algorithm and its performance, identify the main algorithm parameters and create an improved algorithm that has a different parameter settings of the function provided.
+Your final task is to create an improved algorithm that has a different parameter setting of the function provided.
+
+There is another agent mastering the demand data, which is a 2d dataset with different scenarios, each scenario various periods. Before creating, you can choose to ask the agent some information about data.
+If you choose to ask question, start with `QUESTION`.
+Question: according to the demand data realization, what is its possible distribution.
+
+if you choose to generate code, start with `CODE` and follow the following pattern:
 
 First, describe your new algorithm and main steps in one sentence. The description must be inside a DOUBLE curly braces like this:{{This is the algorithm description}}.
 Next, implement it in Python as a function named `{prompt_func_name}`.
@@ -28,3 +29,47 @@ and return {prompt_func_num_outputs} output(s): {prompt_func_num_outputs}.
 {external_optimizer}
 
 Do not give additional explanations.
+
+Task: {prompt_task}
+
+---
+
+Here is an existing algorithm with its code:
+{algo_code}
+
+---
+
+The performance of this algorithm on the data is as follows:
+{algo_performance}
+
+---
+
+Your final task is to create an improved algorithm by adjusting the parameter settings of the provided function.
+
+**Note**: There is another agent who has access to the demand data. The demand data is a 2D dataset containing multiple scenarios, each with several time periods.
+- If you need additional information about the demand data before generating your solution, you may ask the other agent a question.
+- To do so, begin your response with `QUESTION`.
+- Example:
+  `QUESTION: Based on the demand realizations, what is the possible underlying distribution?`
+
+Below are some conversions you had with the other agent before:
+{memory}
+
+---
+
+If you are ready to generate code, begin your response with `CODE` and strictly follow this pattern:
+
+First, provide a one-sentence description of your new algorithm and its main steps.
+   This description **must** be enclosed in DOUBLE curly braces, for example:
+   `{{This is the algorithm description}}`
+
+Next, implement the algorithm in Python as a function named `{prompt_func_name}`.
+   - The function must accept {prompt_func_num_inputs} input(s): {prompt_func_inputs}
+   - The function must return {prompt_func_num_outputs}: {prompt_func_outputs}
+   - Follow the I/O specification below:
+     {prompt_inout_inf}
+   - Additional information (if any): {prompt_other_inf}
+
+{external_optimizer}
+
+⚠️ Do not provide explanations outside this required format.
