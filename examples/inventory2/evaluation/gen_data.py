@@ -101,17 +101,17 @@ if __name__ == "__main__":
     lead_time = 1
     num_periods = 50
     volatility = ['low']
-    distribution = 'normal'
+    distribution = 'poisson'
     # volatility = ['low', 'median', 'high']
     demands = [80]
     for vol in volatility:
         for demand_mean in demands:
             test_instances = [generate_random_instance(dist=distribution, num_periods=num_periods, lead_time=lead_time, demand_mean = demand_mean,
                                                        holding_cost=2, lost_sales_cost=10, volatility=vol,
-                                                       instance_id=f"test_{i}") for i in range(10)]
+                                                       instance_id=f"test_{i}") for i in range(500)]
             save_instances(test_instances, f"data/{distribution}1_test_{demand_mean}_{vol}.json")
 
-            training_instances = [generate_random_instance(dist=distribution, num_periods=num_periods, lead_time=lead_time, demand_mean=demand_mean,
-                                                           holding_cost=2, lost_sales_cost=10, volatility=vol,
-                                                           instance_id=f"train_{i}") for i in range(100)]
-            save_instances(training_instances, f"data/{distribution}3_train_{demand_mean}_{vol}.json")
+            # training_instances = [generate_random_instance(dist=distribution, num_periods=num_periods, lead_time=lead_time, demand_mean=demand_mean,
+            #                                                holding_cost=2, lost_sales_cost=10, volatility=vol,
+            #                                                instance_id=f"train_{i}") for i in range(100)]
+            # save_instances(training_instances, f"data/{distribution}1_train_{demand_mean}_{vol}.json")

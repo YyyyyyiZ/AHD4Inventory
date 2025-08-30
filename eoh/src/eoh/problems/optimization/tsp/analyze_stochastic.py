@@ -1,16 +1,22 @@
 import numpy as np
 from collections import Counter, defaultdict
 
+
 class TSPAnalyzer:
-    def __init__(self, prob, n_train, data_summary=None, algo_performance='no', summary_text=True):
+    def __init__(self, prob, n_train, data_summary=None, algo_performance='no', summary_text=True, param_info=None):
         self.prob = prob
         self.n_train = n_train
         self.data_summary = data_summary
         self.algo_performance = algo_performance
         self.summary_text = summary_text
+        self.param_info = param_info
+        self.param = self.get_param_info()
 
+    def get_param_info(self):
+        return ""
 
-    def get_data_summary(self, k_top=3, include_edge_stats=True, include_neighbor_stability=True, include_global_stats=True):
+    def get_data_summary(self, k_top=3, include_edge_stats=True, include_neighbor_stability=True,
+                         include_global_stats=True):
         """
         Summarize the TSP *data* across scenarios.
 
@@ -54,37 +60,52 @@ class TSPAnalyzer:
 
             text_lines = ["The distance matrix is stochastic. Below are the data summaries."]
             text_lines.append(f"- Number of scenarios: {n_scenarios}")
-            text_lines.append(f"- Number of nodes: {n_cities}")
+            text_lines.append(f"- Number of nodes in each scenario: {n_cities}")
 
             # --- Edge-level statistics across scenarios ---
             if include_edge_stats:
-                mean_D = D.mean(axis=0)                 # (N, N)
-                std_D  = D.std(axis=0)                  # (N, N)
+                mean_dist = D.mean(axis=0)
+                std_dist = D.std(axis=0)
                 with np.errstate(divide='ignore', invalid='ignore'):
-                    cv_D = np.where(mean_D != 0, std_D / mean_D, 0.0)
+                    cv_dist = np.where(mean_dist != 0, std_dist / mean_dist, 0.0)
 
                 summary["edge_stats"] = {
-                    "mean_distance_matrix": mean_D.tolist(),
-                    "std_distance_matrix": std_D.tolist(),
-                    "cv_distance_matrix": cv_D.tolist()
+                    "mean_distance_matrix": mean_dist.tolist(),
+                    "std_distance_matrix": std_dist.tolist(),
+                    "cv_distance_matrix": cv_dist.tolist()
                 }
-            # --- Global edge statistics (distributional view) ---
-            if include_global_stats:
-                upper_mask = np.triu(np.ones((n_cities, n_cities), dtype=bool), k=1)
-                all_edges = D[:, upper_mask]  # (S, E)
-                all_edges_flat = all_edges.flatten()
-                g_mean = float(np.mean(all_edges_flat))
-                g_std  = float(np.std(all_edges_flat))
-                g_min  = float(np.min(all_edges_flat))
-                g_max  = float(np.max(all_edges_flat))
-                summary["global_edge_stats"] = {
-                    "mean": g_mean,
-                    "std": g_std,
-                    "min": g_min,
-                    "max": g_max
-                }
-                text_lines.append(f"- Global edge length mean={g_mean:.3f}, std={g_std:.3f}, "
-                                      f"min={g_min:.3f}, max={g_max:.3f}")
+
+                text_lines.append(
+                    f"- Mean distance matrix: Each entry (i, j) represents the average distance "
+                    f"between node i and node j across all scenarios.\n{mean_dist}"
+                )
+                text_lines.append(
+                    f"- Standard deviation matrix: Each entry (i, j) represents the variability "
+                    f"(standard deviation) of the distance between node i and node j across scenarios.\n{std_dist}"
+                )
+                text_lines.append(
+                    f"- Coefficient of variation (CV) matrix: Each entry (i, j) is the ratio of the "
+                    f"standard deviation to the mean distance between node i and node j, indicating the "
+                    f"relative uncertainty of that edge.\n{cv_dist}"
+                )
+
+            # # --- Global edge statistics (distributional view) ---
+            # if include_global_stats:
+            #     upper_mask = np.triu(np.ones((n_cities, n_cities), dtype=bool), k=1)
+            #     all_edges = D[:, upper_mask]  # (S, E)
+            #     all_edges_flat = all_edges.flatten()
+            #     g_mean = float(np.mean(all_edges_flat))
+            #     g_std = float(np.std(all_edges_flat))
+            #     g_min = float(np.min(all_edges_flat))
+            #     g_max = float(np.max(all_edges_flat))
+            #     summary["global_edge_stats"] = {
+            #         "mean": g_mean,
+            #         "std": g_std,
+            #         "min": g_min,
+            #         "max": g_max
+            #     }
+            #     text_lines.append(f"- Global edge length mean={g_mean:.3f}, std={g_std:.3f}, "
+            #                       f"min={g_min:.3f}, max={g_max:.3f}")
 
             # --- Nearest-neighbor stability & Top-K mean neighbors per node ---
             if include_neighbor_stability or k_top > 0:
@@ -92,7 +113,7 @@ class TSPAnalyzer:
                 # argmin over j != i
                 nn_counts = []  # list of Counter for each node
                 nn_mode_prob = np.zeros(n_cities)  # stability: P(same NN) across scenarios
-                topk_neighbors = {}               # top-k by *mean* distance
+                topk_neighbors = {}  # top-k by *mean* distance
 
                 # Precompute mean distances if needed
                 mean_D = D.mean(axis=0) if include_edge_stats else D.mean(axis=0)
@@ -121,12 +142,13 @@ class TSPAnalyzer:
                         "mean_mode_probability": float(nn_mode_prob.mean())
                     }
                     text_lines.append(f"- Nearest-neighbor stability (mean mode prob): "
-                                          f"{nn_mode_prob.mean():.3f}")
+                                      f"{nn_mode_prob.mean():.3f}")
 
                 if k_top > 0:
-                    summary["topk_mean_neighbors"] = {"k": int(k_top),"per_node_topk": topk_neighbors}
+                    summary["topk_mean_neighbors"] = {"k": int(k_top), "per_node_topk": topk_neighbors}
             return "\n".join(text_lines)
-        else: return None
+        else:
+            return None
 
     def get_algo_performance(self, indivs):
         """
@@ -138,10 +160,10 @@ class TSPAnalyzer:
         if self.algo_performance == 'plain':
             return self._get_plain(indivs, n_sample=3)
         elif self.algo_performance == 'processed':
-            summaries=''
+            summaries = ''
             for i, indiv in enumerate(indivs, start=1):
                 summaries = f"\nAlgorithm {i}:\n"
-                summaries += self._get_processed(indiv,)
+                summaries += self._get_processed(indiv, )
             return summaries
         else:
             return None
@@ -155,21 +177,21 @@ class TSPAnalyzer:
         for i, indiv in enumerate(indivs, start=1):
             order_matrix = np.array(indiv["order_matrix"])
             cost_matrix = np.array(indiv["cost_matrix"])
-            n_traj, n_steps = order_matrix.shape
+            n_traj, n_steps = cost_matrix.shape
             traj_total_cost = np.sum(cost_matrix, axis=1)
 
             sorted_indices = np.argsort(traj_total_cost)
-            selected_indices = [sorted_indices[0],sorted_indices[len(sorted_indices) // 2],sorted_indices[-1]][:n_sample]
+            selected_indices = [sorted_indices[0], sorted_indices[len(sorted_indices) // 2], sorted_indices[-1]][
+                               :n_sample]
 
             summary = [f"\nAlgorithm {i}:"]
-            summary.append(f"- Total scenarios: {n_traj}, steps per trajectory: {n_steps}")
+            summary.append(f"- Total scenarios: {n_traj}, total nodes per scenario: {n_steps}")
+            summary.append(f"- Visiting order: {order_matrix}")
             summary.append("- Representative scenarios (best, median, worst):")
             for idx in selected_indices:
-                orders = order_matrix[idx]
                 costs = cost_matrix[idx]
                 total_cost = traj_total_cost[idx]
-                summary.append(f"  • Trajectory {idx + 1}: total length={total_cost:.2f}")
-                summary.append(f"    Visiting order: {orders.tolist()}")
+                summary.append(f"  • Scenario {idx + 1}: total length={total_cost:.2f}")
                 summary.append(f"    Step costs: {costs.tolist()}")
             summaries.append("\n".join(summary))
         return "\n".join(summaries)
@@ -191,15 +213,15 @@ class TSPAnalyzer:
         perf_dict : dict
         perf_text : str
         """
-        routes = np.array(indiv["order_matrix"], dtype=int)       # (S, T)
+        route = np.array(indiv["order_matrix"], dtype=int)  # (S, T)
         step_costs = np.array(indiv["cost_matrix"], dtype=float)  # (S, T)
-        S, T = routes.shape
+        S, T = step_costs.shape
 
         totals = step_costs.sum(axis=1)
         mean_total = float(totals.mean())
-        std_total  = float(totals.std())
-        min_total  = float(totals.min())
-        max_total  = float(totals.max())
+        std_total = float(totals.std())
+        min_total = float(totals.min())
+        max_total = float(totals.max())
 
         perf = {
             "n_scenarios": int(S),
@@ -219,9 +241,8 @@ class TSPAnalyzer:
         if include_edge_usage:
             edge_counter = defaultdict(int)
             for s in range(S):
-                path = routes[s]
                 for t in range(T - 1):
-                    i, j = int(path[t]), int(path[t + 1])
+                    i, j = int(route[t]), int(route[t + 1])
                     edge_counter[(i, j)] += 1
             # normalize to probability
             total_transitions = S * (T - 1)
@@ -236,20 +257,20 @@ class TSPAnalyzer:
         # Per-step stats (early vs. late step quality)
         if include_step_stats:
             step_mean = step_costs.mean(axis=0)  # (T,)
-            step_std  = step_costs.std(axis=0)   # (T,)
+            step_std = step_costs.std(axis=0)  # (T,)
             perf["per_step_cost_stats"] = {
                 "mean": step_mean.tolist(),
                 "std": step_std.tolist()
             }
             text_lines.append(f"- First-step mean cost: {step_mean[0]:.3f}; "
-                                  f"last-step mean cost: {step_mean[-1]:.3f}")
+                              f"last-step mean cost: {step_mean[-1]:.3f}")
 
         # Representative scenarios (best / median / worst) for quick inspection
         order = np.argsort(totals)
-        rep_ids = [int(order[0]), int(order[len(order)//2]), int(order[-1])]
+        rep_ids = [int(order[0]), int(order[len(order) // 2]), int(order[-1])]
         perf["representative_scenarios"] = {
             "indices": rep_ids,
-            "routes": [routes[i].tolist() for i in rep_ids],
+            "route": [route.tolist() for i in rep_ids],
             "step_costs": [step_costs[i].tolist() for i in rep_ids],
             "totals": [float(totals[i]) for i in rep_ids]
         }
@@ -257,4 +278,3 @@ class TSPAnalyzer:
         text_lines.append(f"- Representative scenarios -> best:{b}, median:{m}, worst:{w}")
         "\n".join(text_lines)
         return "\n".join(text_lines)
-

@@ -7,6 +7,7 @@ from pathlib import Path
 
 from .eoh_interface_EC import InterfaceEC
 
+
 # main class for eoh
 class EOH:
 
@@ -15,7 +16,7 @@ class EOH:
         self.prob = problem
         self.select = select
         self.manage = manage
-        
+
         # LLM settings
         self.use_local_llm = paras.llm_use_local
         self.llm_local_url = paras.llm_local_url
@@ -24,7 +25,7 @@ class EOH:
         self.llm_model = paras.llm_model
 
         # Experimental settings       
-        self.pop_size = paras.ec_pop_size  # popopulation size, i.e., the number of algorithms in population
+        self.pop_size = paras.ec_pop_size  # population size, i.e., the number of algorithms in population
         self.n_pop = paras.ec_n_pop  # number of populations
 
         self.operators = paras.ec_operators
@@ -55,9 +56,9 @@ class EOH:
         if self.data_summary == 'no':
             self.data_summary = None
 
-        self.external_optimizer=paras.external_optimizer
-        if self.external_optimizer=='no':
-            self.external_optimizer=None
+        self.external_optimizer = paras.external_optimizer
+        if self.external_optimizer == 'no':
+            self.external_optimizer = None
         self.iter_opt = paras.iter_opt
         self.param_loc = paras.param_loc
 
@@ -66,23 +67,34 @@ class EOH:
         self.n_train = paras.n_train
         self.filename = paras.filename
         self.store_option = paras.store_option
-        if self.problem =='inventory2':
-            from ...problems.optimization.inventory2.analyze import InventoryAnalyzer as Analyzer
-            self.analyzer = Analyzer(self.prob, self.n_train, self.data_summary, self.algo_performance)
-        if self.problem =='tsp':
-            from ...problems.optimization.tsp.analyze import TSPAnalyzer as Analyzer
-            self.analyzer = Analyzer(self.prob, self.n_train, self.data_summary, self.algo_performance)
-        else:
-            from ...problems.optimization.tsp.analyze import TSPAnalyzer as Analyzer
-            self.analyzer = Analyzer(self.prob, self.n_train, None, 'no')
 
         # inventory
         self.dist = paras.dist
         self.demand_mean = paras.demand
         self.volatility = paras.volatility
         # tsp
-        self.option=paras.option
+        self.option = paras.option
         self.n_node = paras.n_node
+
+        if self.problem == 'inventory2':
+            from ...problems.optimization.inventory2.analyze import InventoryAnalyzer as Analyzer
+            self.analyzer = Analyzer(self.prob, self.n_train, self.data_summary, self.algo_performance,
+                                     param_info='yes')
+
+        elif self.problem == 'tsp' and self.option == 'deterministic':
+            from ...problems.optimization.tsp.analyze_deterministic import TSPAnalyzer as Analyzer
+            self.analyzer = Analyzer(self.prob, self.n_train, self.data_summary, self.algo_performance,
+                                     param_info='yes')
+
+        elif self.problem == 'tsp' and self.option == 'stochastic':
+            from ...problems.optimization.tsp.analyze_stochastic import TSPAnalyzer as Analyzer
+            self.analyzer = Analyzer(self.prob, self.n_train, self.data_summary, self.algo_performance,
+                                     param_info='yes')
+
+        else:
+            from ...problems.optimization.tsp.analyze_stochastic import TSPAnalyzer as Analyzer
+            self.analyzer = Analyzer(self.prob, self.n_train, None, 'no',
+                                     param_info=None)
 
         print("- EoH parameters loaded -")
 
@@ -98,7 +110,6 @@ class EOH:
                         print("duplicated result, retrying ... ")
             population.append(off)
 
-
     def run(self):
 
         print("- Evolution Start -")
@@ -112,10 +123,13 @@ class EOH:
         interface_prob = self.prob
 
         # interface for ec operators
-        interface_ec = InterfaceEC(self.pop_size, self.m, self.api_endpoint, self.api_key, self.llm_model, self.use_local_llm, self.llm_local_url,
-                                   self.debug_mode, interface_prob,self.analyzer,
-                                   external_optimizer=self.external_optimizer, max_iter = self.iter_opt, param_loc=self.param_loc, exp_output_path=self.output_path,
-                                   select=self.select,n_p=self.exp_n_proc, timeout = self.timeout, use_numba=self.use_numba
+        interface_ec = InterfaceEC(self.pop_size, self.m, self.api_endpoint, self.api_key, self.llm_model,
+                                   self.use_local_llm, self.llm_local_url,
+                                   self.debug_mode, interface_prob, self.analyzer,
+                                   external_optimizer=self.external_optimizer, max_iter=self.iter_opt,
+                                   param_loc=self.param_loc, exp_output_path=self.output_path,
+                                   select=self.select, n_p=self.exp_n_proc, timeout=self.timeout,
+                                   use_numba=self.use_numba
                                    )
 
         # initialization
@@ -123,7 +137,7 @@ class EOH:
         if self.use_seed:
             with open(self.seed_path) as file:
                 data = json.load(file)
-            population = interface_ec.population_generation_seed(data,self.exp_n_proc)
+            population = interface_ec.population_generation_seed(data, self.exp_n_proc)
             filename = f"{self.output_path}/pops/population_generation_0.json"
             with open(filename, 'w') as f:
                 json.dump(population, f, indent=5)
@@ -162,8 +176,7 @@ class EOH:
                 print("creating initial population:")
                 population = interface_ec.population_generation()
                 population = self.manage.population_management(population, self.pop_size)
-     
-                
+
                 print(f"3. Pop initial: ")
                 for off in population:
                     print(" Obj: ", off['objective'], end="|")
@@ -180,7 +193,7 @@ class EOH:
             offspring_pop = []
             for i in range(n_op):
                 op = self.operators[i]
-                print(f" OP: {op}, [{i + 1} / {n_op}] ", end="|") 
+                print(f" OP: {op}, [{i + 1} / {n_op}] ", end="|")
                 op_w = self.operator_weights[i]
                 if (np.random.rand() < op_w):
                     parents, offsprings = interface_ec.get_algorithm(population, op, n_pop=pop)
@@ -204,8 +217,8 @@ class EOH:
             with open(filename, 'w') as f:
                 json.dump(population[0], f, indent=5)
 
-
-            print(f"--- {pop + 1} of {self.n_pop} populations finished. Time Cost:  {((time.time()-time_start)/60):.1f} m")
+            print(
+                f"--- {pop + 1} of {self.n_pop} populations finished. Time Cost:  {((time.time() - time_start) / 60):.1f} m")
             print("Pop Objs: ", end=" ")
             for i in range(len(population)):
                 print(str(population[i]['objective']) + " ", end="")
@@ -352,6 +365,3 @@ class EOH:
     #         raise ValueError(f"Unknown store_option: {self.store_option}")
     #
     #     df.to_csv(filename, index=False, float_format='%.4f')
-
-
-

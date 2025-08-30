@@ -8,16 +8,17 @@ from concurrent.futures import ThreadPoolExecutor, TimeoutError
 import re
 import concurrent.futures
 
-class InterfaceEC():
-    def __init__(self, pop_size, m, api_endpoint, api_key, llm_model,llm_use_local,llm_local_url, debug_mode,
+
+class InterfaceEC:
+    def __init__(self, pop_size, m, api_endpoint, api_key, llm_model, llm_use_local, llm_local_url, debug_mode,
                  interface_prob, analyzer, external_optimizer, max_iter, param_loc,
-                 exp_output_path, select,n_p,timeout,use_numba,**kwargs):
+                 exp_output_path, select, n_p, timeout, use_numba, **kwargs):
 
         # LLM settings
         self.pop_size = pop_size
         self.interface_eval = interface_prob
         prompts = interface_prob.prompts
-        self.evol = Evolution(api_endpoint, api_key, llm_model,llm_use_local,llm_local_url, debug_mode,prompts,
+        self.evol = Evolution(api_endpoint, api_key, llm_model, llm_use_local, llm_local_url, debug_mode, prompts,
                               analyzer, external_optimizer, param_loc, exp_output_path,
                               **kwargs)
         self.m = m
@@ -28,21 +29,20 @@ class InterfaceEC():
 
         self.select = select
         self.n_p = n_p
-        
+
         self.timeout = timeout
         self.use_numba = use_numba
 
         self.external_optimizer = external_optimizer
         self.max_iter = max_iter
 
-        
-    def code2file(self,code):
+    def code2file(self, code):
         with open("./ael_alg.py", "w") as file:
-        # Write the code to the file
+            # Write the code to the file
             file.write(code)
-        return 
-    
-    def add2pop(self,population,offspring):
+        return
+
+    def add2pop(self, population, offspring):
         for ind in population:
             if ind['objective'] == offspring['objective']:
                 if self.debug:
@@ -50,13 +50,12 @@ class InterfaceEC():
                 return False
         population.append(offspring)
         return True
-    
-    def check_duplicate(self,population,code):
+
+    def check_duplicate(self, population, code):
         for ind in population:
             if code == ind['code']:
                 return True
         return False
-
 
     def population_init_obj(self, pop, n_p):
         fitness = Parallel(n_jobs=n_p)(delayed(self.interface_eval.evaluate)(seed['code']) for seed in pop)
@@ -72,19 +71,19 @@ class InterfaceEC():
         return pop
 
     def population_generation(self):
-        
+
         n_create = 2
-        
+
         population = []
 
         for i in range(n_create):
-            _,pop = self.get_algorithm([],'i1')
+            _, pop = self.get_algorithm([], 'i1')
             for p in pop:
                 population.append(p)
-             
+
         return population
-    
-    def population_generation_seed(self,seeds,n_p):
+
+    def population_generation_seed(self, seeds, n_p):
 
         population = []
 
@@ -119,12 +118,11 @@ class InterfaceEC():
                 print("Error in seed algorithm")
                 exit()
 
-        print("Initiliazation finished! Get "+str(len(seeds))+" seed algorithms")
+        print("Initiliazation finished! Get " + str(len(seeds)) + " seed algorithms")
 
         return population
-    
 
-    def _get_alg(self,pop,operator):
+    def _get_alg(self, pop, operator):
         offspring = {
             'algorithm': None,
             'code': None,
@@ -141,19 +139,23 @@ class InterfaceEC():
         }
         if operator == "i1":
             parents = None
-            [offspring['code'],offspring['algorithm']] =  self.evol.i1()
+            [offspring['code'], offspring['algorithm']] = self.evol.i1()
         elif operator == "e1":
-            parents = self.select.parent_selection(pop,self.m)
-            [offspring['code'],offspring['algorithm'], offspring['opt_params'], offspring['cost']] = self.evol.e1(parents)
+            parents = self.select.parent_selection(pop, self.m)
+            [offspring['code'], offspring['algorithm'], offspring['opt_params'], offspring['cost']] = self.evol.e1(
+                parents)
         elif operator == "e2":
-            parents = self.select.parent_selection(pop,self.m)
-            [offspring['code'],offspring['algorithm'], offspring['opt_params'], offspring['cost']] = self.evol.e2(parents)
+            parents = self.select.parent_selection(pop, self.m)
+            [offspring['code'], offspring['algorithm'], offspring['opt_params'], offspring['cost']] = self.evol.e2(
+                parents)
         elif operator == "m1":
-            parents = self.select.parent_selection(pop,1)
-            [offspring['code'],offspring['algorithm'], offspring['opt_params'], offspring['cost']] = self.evol.m1(parents[0])
+            parents = self.select.parent_selection(pop, 1)
+            [offspring['code'], offspring['algorithm'], offspring['opt_params'], offspring['cost']] = self.evol.m1(
+                parents[0])
         elif operator == "m2":
-            parents = self.select.parent_selection(pop,1)
-            [offspring['code'],offspring['algorithm'], offspring['opt_params'], offspring['cost']] = self.evol.m2(parents[0])
+            parents = self.select.parent_selection(pop, 1)
+            [offspring['code'], offspring['algorithm'], offspring['opt_params'], offspring['cost']] = self.evol.m2(
+                parents[0])
         else:
             print(f"Evolution operator [{operator}] has not been implemented ! \n")
 
@@ -193,7 +195,7 @@ class InterfaceEC():
                     break
 
             ext = False
-            if self.external_optimizer=='scipy' and len(offspring['opt_params'])!=0:
+            if self.external_optimizer == 'scipy' and len(offspring['opt_params']) != 0:
                 from .external_scipy import ScipyOptimizer as ExternalOptimizer
                 ext = True
             elif self.external_optimizer == 'ng':
@@ -262,7 +264,7 @@ class InterfaceEC():
                     offspring['order_matrix'] = fitness['order_matrix']
                     future.cancel()
                     # fitness = self.interface_eval.evaluate(code)
-                
+
 
         except Exception as e:
             # print(e)
@@ -308,22 +310,23 @@ class InterfaceEC():
 
     def get_algorithm(self, pop, operator, n_pop=1):
 
-        results = Parallel(n_jobs=self.n_p)(
-            delayed(self.run_with_timeout)(
-                self.get_offspring,
-                args=(pop, operator, n_pop),
-                timeout=self.timeout
-            ) for _ in range(self.pop_size)
-        )
+        # results = Parallel(n_jobs=self.n_p)(
+        #     delayed(self.run_with_timeout)(
+        #         self.get_offspring,
+        #         args=(pop, operator, n_pop),
+        #         timeout=self.timeout
+        #     ) for _ in range(self.pop_size)
+        # )
 
-        # results = []
-        # try:
-        #     results = Parallel(n_jobs=self.n_p,timeout=self.timeout)(delayed(self.get_offspring)(pop, operator, n_pop) for _ in range(self.pop_size))
-        # except Exception as e:
-        #     if self.debug:
-        #         print(f"Error: {e}")
-        #     print("Parallel time out .")
-            
+        results = []
+        try:
+            results = Parallel(n_jobs=self.n_p, timeout=self.timeout)(
+                delayed(self.get_offspring)(pop, operator, n_pop) for _ in range(self.pop_size))
+        except Exception as e:
+            if self.debug:
+                print(f"Error: {e}")
+            print("Parallel time out .")
+
         time.sleep(10)
 
         out_p = []
@@ -335,4 +338,3 @@ class InterfaceEC():
             if self.debug:
                 print(f">>> check offsprings: \n {off}")
         return out_p, out_off
-

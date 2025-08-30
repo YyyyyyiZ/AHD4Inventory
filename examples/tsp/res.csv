@@ -1,1 +1,5 @@
 LLM,problem,option,n_node,n_train,external_opt,iter_opt,param_loc,repeat,n_pop,mode,data_summary,algo_performance,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30
+deepseek-chat,tsp,stochastic,50,50,scipy,30,default,1,1,train,,no,166.88,167.00,182.74,210.21,,,,,,,,,,,,,,,,,,,,,,,,,,
+deepseek-chat,tsp,stochastic,50,50,scipy,30,default,1,1,test,,no,181.84,167.95,188.86,188.97,,,,,,,,,,,,,,,,,,,,,,,,,,
+deepseek-chat,tsp,stochastic,50,50,scipy,30,default,1,2,train,,no,152.18,165.32,166.88,167.00,,,,,,,,,,,,,,,,,,,,,,,,,,
+deepseek-chat,tsp,stochastic,50,50,scipy,30,default,1,2,test,,no,166.87,159.26,181.84,167.95,,,,,,,,,,,,,,,,,,,,,,,,,,

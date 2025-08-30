@@ -1,7 +1,7 @@
 class GetPrompts():
     def __init__(self):
         self.prompt_task = """
-        Design a novel algorithm for a inventory system with lost sales and lead time=1.
+        Design a novel algorithm for a inventory system with lost sales and lead time.
         Given historical demand data, pipeline inventory (orders in transit), and cost parameters, compute the optimal order amount each period to minimize total costs (holding + lost sales).
         """
         self.prompt_func_name = "compute_order_amount"

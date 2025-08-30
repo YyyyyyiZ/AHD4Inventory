@@ -43,7 +43,7 @@ parser.add_argument('--exp_output_path', type=str, default='unknown', help='resu
 
 args = parser.parse_args()
 options = vars(args)
-
+args.exp_continue_path = f"initial_pool_{args.option}.json"
 
 args.exp_output_path = '_'.join([args.llm_model, args.option, str(args.n_node), str(args.n_train),
                                  args.data_summary, args.algo_performance,

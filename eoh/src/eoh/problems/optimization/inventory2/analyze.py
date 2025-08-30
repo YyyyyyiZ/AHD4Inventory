@@ -1,13 +1,34 @@
 import numpy as np
 
+
 class InventoryAnalyzer:
-    def __init__(self, prob, n_train, data_summary=None, algo_performance='no'):
+    def __init__(self, prob, n_train, data_summary=None, algo_performance='no', param_info=None):
         self.prob = prob
         self.n_train = n_train
         self.data_summary = data_summary
         self.algo_performance = algo_performance
+        self.param_info = param_info
+        self.param = self.get_param_info()
 
-    def get_data_summary(self):
+    def get_param_info(self):
+        if self.param_info:
+            one_instance = self.prob.load_instances(mode='train', n_traj=self.n_train)[0]
+            lead_time = one_instance['lead_time']
+            initial_inventory = one_instance['initial_inventory']
+            holding_cost = one_instance['holding_cost']
+            lost_sales_cost = one_instance['lost_sales_cost']
+            param_info = (
+                f"Below are some problem parameters: "
+                f"lead_time={lead_time}, "
+                f"initial_inventory={initial_inventory}, "
+                f"holding_cost={holding_cost}, "
+                f"lost_sales_cost={lost_sales_cost}. "
+            )
+            return param_info
+        else:
+            return ""
+
+    def get_data_summary(self, num_traj=5):
         if self.data_summary:
             instances = self.prob.load_instances(mode='train', n_traj=self.n_train)
             data = []
@@ -55,13 +76,13 @@ class InventoryAnalyzer:
             data_summary.append(f"- Coefficient of Variation (CV): {cv_demand:.2f}")
 
             data_summary.append("\nPer-trajectory statistics (mean ± std, min-max):")
-            for stat in per_traj_stats[:5]:  # show first 5 for brevity
+            for stat in per_traj_stats[:num_traj]:  # show first num_traj for brevity
                 data_summary.append(
                     f"  • {stat['id']}: mean={stat['mean']:.2f}, std={stat['std']:.2f}, "
                     f"range=({stat['min']}, {stat['max']})"
                 )
             if len(per_traj_stats) > 5:
-                data_summary.append(f"  ... and {len(per_traj_stats) - 5} more trajectories")
+                data_summary.append(f"  ... and {len(per_traj_stats) - num_traj} more trajectories")
 
             return "\n".join(data_summary)
         else:
@@ -87,9 +108,9 @@ class InventoryAnalyzer:
             # Select representative trajectories: min, median, max cost
             sorted_indices = np.argsort(traj_total_cost)
             selected_indices = [sorted_indices[0],  # best (min cost)
-                                   sorted_indices[len(sorted_indices) // 2],  # median
-                                   sorted_indices[-1]  # worst (max cost)
-                               ][:n_sample]  # trim if fewer than 3 samples requested
+                                sorted_indices[len(sorted_indices) // 2],  # median
+                                sorted_indices[-1]  # worst (max cost)
+                                ][:n_sample]  # trim if fewer than 3 samples requested
 
             summary = [f"\nNo.{i} algorithm:"]
             summary.append(f"- Total trajectories: {n_traj}, periods per trajectory: {n_periods}")
@@ -109,7 +130,7 @@ class InventoryAnalyzer:
         performance_summary_plain = "\n".join(summaries)
         return performance_summary_plain
 
-    def _get_processed(self,indivs):
+    def _get_processed(self, indivs):
         summaries = []
 
         for i, indiv in enumerate(indivs, start=1):
@@ -146,4 +167,3 @@ class InventoryAnalyzer:
 
         performance_summary_processed = "\n".join(summaries)
         return performance_summary_processed
-

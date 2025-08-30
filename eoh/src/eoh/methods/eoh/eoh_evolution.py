@@ -3,24 +3,23 @@ import os
 import json
 from datetime import datetime
 
-
 from ...llm.interface_LLM import InterfaceLLM
 from .reflection.utils import *
 
 
-class Evolution():
+class Evolution:
 
-    def __init__(self, api_endpoint, api_key, model_LLM,llm_use_local,llm_local_url, debug_mode,prompts,
+    def __init__(self, api_endpoint, api_key, model_LLM, llm_use_local, llm_local_url, debug_mode, prompts,
                  analyzer, external_optimizer, param_loc, exp_output_path, **kwargs):
 
         # set prompt interface
         #getprompts = GetPrompts()
-        self.prompt_task         = prompts.get_task()
-        self.prompt_func_name    = prompts.get_func_name()
-        self.prompt_func_inputs  = prompts.get_func_inputs()
+        self.prompt_task = prompts.get_task()+analyzer.param
+        self.prompt_func_name = prompts.get_func_name()
+        self.prompt_func_inputs = prompts.get_func_inputs()
         self.prompt_func_outputs = prompts.get_func_outputs()
-        self.prompt_inout_inf    = prompts.get_inout_inf()
-        self.prompt_other_inf    = prompts.get_other_inf()
+        self.prompt_inout_inf = prompts.get_inout_inf()
+        self.prompt_other_inf = prompts.get_other_inf()
         if len(self.prompt_func_inputs) > 1:
             self.joined_inputs = ", ".join("'" + s + "'" for s in self.prompt_func_inputs)
         else:
@@ -35,16 +34,15 @@ class Evolution():
         self.api_endpoint = api_endpoint
         self.api_key = api_key
         self.model_LLM = model_LLM
-        self.debug_mode = debug_mode # close prompt checking
+        self.debug_mode = debug_mode  # close prompt checking
         self.exp_output_path = exp_output_path
         self.init_base_prompt()
         self.analyzer = analyzer
 
-
-        self.interface_llm = InterfaceLLM(self.api_endpoint, self.api_key, self.model_LLM,llm_use_local,llm_local_url, self.debug_mode)
+        self.interface_llm = InterfaceLLM(self.api_endpoint, self.api_key, self.model_LLM, llm_use_local, llm_local_url,
+                                          self.debug_mode)
         self.external_optimizer = external_optimizer
         self.param_loc = param_loc
-
 
     def init_base_prompt(self):
         self.current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -88,25 +86,27 @@ class Evolution():
                         # --- MAIN CODE ---
                         if inventory < reorder_point:
                             order = base_stock - current_inventory
-                            
+                        
+                        DON'T mark more than 10 optimizable parameters.
                         DON'T mark any optimizable parameters in the main code.
                         """
 
-        else:   # default parameter location
+        else:  # default parameter location
             prompt_content = "Then, Mark optimizable parameters in the code with `# OPT_PARAM: ` comments, like this:" \
                              + "\n" + "base_stock = 50  # OPT_PARAM: {'initial': 50, 'min': 10, 'max': 200, 'type': 'int'}" \
                              + "\n" + "Follow these requirements: 1. comments should follow the parameter in the same line." \
                              + "\n" + "2. Only mark parameters that are assigned within the code body (not function inputs)" \
-                             + "\n" + "3. Only mark continuous parameters assigned with an equals sign (`=`)"
-        return prompt_content
+                             + "\n" + "3. Only mark continuous parameters assigned with an equals sign (`=`)" \
+                             + "\n" + "4. DON'T mark more than 10 optimizable parameters."
 
+        return prompt_content
 
     def get_prompt_i1(self):
         prompt_content = self.prompt_i1.format(
             prompt_task=self.prompt_task,
-            prompt_func_name = self.prompt_func_name,
+            prompt_func_name=self.prompt_func_name,
             prompt_func_num_inputs=str(len(self.prompt_func_inputs)),
-            prompt_func_inputs = self.joined_inputs,
+            prompt_func_inputs=self.joined_inputs,
             prompt_func_num_outputs=str(len(self.prompt_func_outputs)),
             prompt_func_outputs=self.joined_outputs,
             prompt_inout_inf=self.prompt_inout_inf,
@@ -114,17 +114,16 @@ class Evolution():
         )
         return prompt_content
 
-        
-    def get_prompt_e1(self,indivs):
+    def get_prompt_e1(self, indivs):
         prompt_indiv = ""
         for i in range(len(indivs)):
-            prompt_indiv = prompt_indiv+"No."+str(i+1) +" algorithm: \n" + indivs[i]['code']+"\n"
+            prompt_indiv = prompt_indiv + "No." + str(i + 1) + " algorithm: \n" + indivs[i]['code'] + "\n"
         prompt_content = self.prompt_e1.format(
             prompt_task=self.prompt_task,
-            num_indivs = str(len(indivs)),
-            code_indivs = prompt_indiv,
-            data_summary = self.analyzer.get_data_summary(),
-            algo_performance = self.analyzer.get_algo_performance(indivs),
+            num_indivs=str(len(indivs)),
+            code_indivs=prompt_indiv,
+            data_summary=self.analyzer.get_data_summary(),
+            algo_performance=self.analyzer.get_algo_performance(indivs),
             prompt_func_name=self.prompt_func_name,
             prompt_func_num_inputs=str(len(self.prompt_func_inputs)),
             prompt_func_inputs=self.joined_inputs,
@@ -139,17 +138,17 @@ class Evolution():
         with open(file_name, 'a') as file:
             file.writelines(prompt_content + '\n')
         return prompt_content
-    
-    def get_prompt_e2(self,indivs):
+
+    def get_prompt_e2(self, indivs):
         prompt_indiv = ""
         for i in range(len(indivs)):
-            prompt_indiv = prompt_indiv+"No." + str(i + 1) + " algorithm: \n" + indivs[i]['code'] + "\n"
+            prompt_indiv = prompt_indiv + "No." + str(i + 1) + " algorithm: \n" + indivs[i]['code'] + "\n"
         prompt_content = self.prompt_e2.format(
             prompt_task=self.prompt_task,
             num_indivs=str(len(indivs)),
             code_indivs=prompt_indiv,
-            data_summary = self.analyzer.get_data_summary(),
-            algo_performance = self.analyzer.get_algo_performance(indivs),
+            data_summary=self.analyzer.get_data_summary(),
+            algo_performance=self.analyzer.get_algo_performance(indivs),
             prompt_func_name=self.prompt_func_name,
             prompt_func_num_inputs=str(len(self.prompt_func_inputs)),
             prompt_func_inputs=self.joined_inputs,
@@ -164,8 +163,8 @@ class Evolution():
         with open(file_name, 'a') as file:
             file.writelines(prompt_content + '\n')
         return prompt_content
-    
-    def get_prompt_m1(self,indiv1):
+
+    def get_prompt_m1(self, indiv1):
         prompt_content = self.prompt_m1.format(
             prompt_task=self.prompt_task,
             # algo_decsr=indiv1['algorithm'],
@@ -186,8 +185,8 @@ class Evolution():
         with open(file_name, 'a') as file:
             file.writelines(prompt_content + '\n')
         return prompt_content
-    
-    def get_prompt_m2(self,indiv1):
+
+    def get_prompt_m2(self, indiv1):
         prompt_content = self.prompt_m2.format(
             prompt_task=self.prompt_task,
             algo_code=indiv1['code'],
@@ -208,7 +207,7 @@ class Evolution():
             file.writelines(prompt_content + '\n')
         return prompt_content
 
-    def _get_alg(self,prompt_content):
+    def _get_alg(self, prompt_content):
 
         response = self.interface_llm.get_response(prompt_content)
 
@@ -216,11 +215,11 @@ class Evolution():
         # cost = re.findall(r"\[\[\[(.*?)\]\]\]", response, re.DOTALL)
         if len(algorithm) == 0:
             if 'python' in response:
-                algorithm = re.findall(r'^.*?(?=python)', response,re.DOTALL)
+                algorithm = re.findall(r'^.*?(?=python)', response, re.DOTALL)
             elif 'import' in response:
-                algorithm = re.findall(r'^.*?(?=import)', response,re.DOTALL)
+                algorithm = re.findall(r'^.*?(?=import)', response, re.DOTALL)
             else:
-                algorithm = re.findall(r'^.*?(?=def)', response,re.DOTALL)
+                algorithm = re.findall(r'^.*?(?=def)', response, re.DOTALL)
 
         code = re.findall(r"import.*return", response, re.DOTALL)
         if len(code) == 0:
@@ -246,11 +245,11 @@ class Evolution():
             algorithm = re.findall(r"\{\{(.*?)\}\}", response, re.DOTALL)
             if len(algorithm) == 0:
                 if 'python' in response:
-                    algorithm = re.findall(r'^.*?(?=python)', response,re.DOTALL)
+                    algorithm = re.findall(r'^.*?(?=python)', response, re.DOTALL)
                 elif 'import' in response:
-                    algorithm = re.findall(r'^.*?(?=import)', response,re.DOTALL)
+                    algorithm = re.findall(r'^.*?(?=import)', response, re.DOTALL)
                 else:
-                    algorithm = re.findall(r'^.*?(?=def)', response,re.DOTALL)
+                    algorithm = re.findall(r'^.*?(?=def)', response, re.DOTALL)
 
             code = re.findall(r"import.*return", response, re.DOTALL)
             if len(code) == 0:
@@ -266,14 +265,14 @@ class Evolution():
                         optim_params[param_name] = param_config
             if n_retry > 3:
                 break
-            n_retry +=1
+            n_retry += 1
 
         algorithm = algorithm[0]
         code = code[0]
         # cost = cost[0]
         cost = None
 
-        code_all = code+" "+", ".join(s for s in self.prompt_func_outputs)
+        code_all = code + " " + ", ".join(s for s in self.prompt_func_outputs)
         return [code_all, algorithm, optim_params, cost]
 
     def _extract_param_name(self, oneline) -> str:
@@ -289,10 +288,10 @@ class Evolution():
         prompt_content = self.get_prompt_i1()
 
         if self.debug_mode:
-            print("\n >>> check prompt for creating algorithm using [ i1 ] : \n", prompt_content )
+            print("\n >>> check prompt for creating algorithm using [ i1 ] : \n", prompt_content)
             print(">>> Press 'Enter' to continue")
             input()
-      
+
         [code_all, algorithm, optim_params] = self._get_alg(prompt_content)
 
         if self.debug_mode:
@@ -302,16 +301,16 @@ class Evolution():
             input()
 
         return [code_all, algorithm]
-    
-    def e1(self,parents):
-      
+
+    def e1(self, parents):
+
         prompt_content = self.get_prompt_e1(parents)
 
         if self.debug_mode:
-            print("\n >>> check prompt for creating algorithm using [ e1 ] : \n", prompt_content )
+            print("\n >>> check prompt for creating algorithm using [ e1 ] : \n", prompt_content)
             print(">>> Press 'Enter' to continue")
             input()
-      
+
         [code_all, algorithm, optim_params, cost] = self._get_alg(prompt_content)
 
         if self.debug_mode:
@@ -321,16 +320,16 @@ class Evolution():
             input()
 
         return [code_all, algorithm, optim_params, cost]
-    
-    def e2(self,parents):
-      
+
+    def e2(self, parents):
+
         prompt_content = self.get_prompt_e2(parents)
 
         if self.debug_mode:
-            print("\n >>> check prompt for creating algorithm using [ e2 ] : \n", prompt_content )
+            print("\n >>> check prompt for creating algorithm using [ e2 ] : \n", prompt_content)
             print(">>> Press 'Enter' to continue")
             input()
-      
+
         [code_all, algorithm, optim_params, cost] = self._get_alg(prompt_content)
 
         if self.debug_mode:
@@ -340,16 +339,16 @@ class Evolution():
             input()
 
         return [code_all, algorithm, optim_params, cost]
-    
-    def m1(self,parents):
-      
+
+    def m1(self, parents):
+
         prompt_content = self.get_prompt_m1(parents)
 
         if self.debug_mode:
-            print("\n >>> check prompt for creating algorithm using [ m1 ] : \n", prompt_content )
+            print("\n >>> check prompt for creating algorithm using [ m1 ] : \n", prompt_content)
             print(">>> Press 'Enter' to continue")
             input()
-      
+
         [code_all, algorithm, optim_params, cost] = self._get_alg(prompt_content)
 
         if self.debug_mode:
@@ -359,16 +358,16 @@ class Evolution():
             input()
 
         return [code_all, algorithm, optim_params, cost]
-    
-    def m2(self,parents):
-      
+
+    def m2(self, parents):
+
         prompt_content = self.get_prompt_m2(parents)
 
         if self.debug_mode:
-            print("\n >>> check prompt for creating algorithm using [ m2 ] : \n", prompt_content )
+            print("\n >>> check prompt for creating algorithm using [ m2 ] : \n", prompt_content)
             print(">>> Press 'Enter' to continue")
             input()
-      
+
         [code_all, algorithm, optim_params, cost] = self._get_alg(prompt_content)
 
         if self.debug_mode:
