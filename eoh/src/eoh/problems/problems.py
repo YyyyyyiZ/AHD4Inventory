@@ -8,6 +8,10 @@ class Probs():
             from .optimization.inventory2 import run
             self.prob = run.INVENTORY(dist=paras.dist, demand=paras.demand, volatility=paras.volatility, n_train=paras.n_train)
             print("- Prob "+paras.problem+" loaded ")
+        elif paras.problem == "inventory_ex":
+            from .optimization.inventory_ex import run
+            self.prob = run.INVENTORY(dist=paras.dist, demand=paras.demand, volatility=paras.volatility, n_train=paras.n_train, n_horizon=paras.n_horizon)
+            print("- Prob "+paras.problem+" loaded ")
         elif paras.problem == "tsp":
             from .optimization.tsp import run
             self.prob = run.TSP(option=paras.option, n_node=paras.n_node, n_train=paras.n_train)

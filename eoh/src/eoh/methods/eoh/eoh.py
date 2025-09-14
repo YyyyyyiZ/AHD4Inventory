@@ -53,9 +53,6 @@ class EOH:
         self.algo_performance = paras.algo_performance
         self.data_summary = paras.data_summary
 
-        if self.data_summary == 'no':
-            self.data_summary = None
-
         self.external_optimizer = paras.external_optimizer
         if self.external_optimizer == 'no':
             self.external_optimizer = None
@@ -65,6 +62,7 @@ class EOH:
         # for saving results to .csv
         self.problem = paras.problem
         self.n_train = paras.n_train
+        self.n_horizon = paras.n_horizon
         self.filename = paras.filename
         self.store_option = paras.store_option
 
@@ -78,6 +76,11 @@ class EOH:
 
         if self.problem == 'inventory2':
             from ...problems.optimization.inventory2.analyze import InventoryAnalyzer as Analyzer
+            self.analyzer = Analyzer(self.prob, self.n_train, self.data_summary, self.algo_performance,
+                                     param_info='yes')
+
+        if self.problem == 'inventory_ex':
+            from ...problems.optimization.inventory_ex.analyze import InventoryAnalyzer as Analyzer
             self.analyzer = Analyzer(self.prob, self.n_train, self.data_summary, self.algo_performance,
                                      param_info='yes')
 
@@ -228,22 +231,28 @@ class EOH:
             self.save_results(population, pop + 1, 'test')
 
     def save_results(self, population, pop_idx, mode='train'):
-        parent_dir = Path(self.output_path).parent
+        from pathlib import Path
+        import pandas as pd
 
+        parent_dir = Path(self.output_path).parent
+        filename = parent_dir / f"{self.filename}.csv"
+
+        # 基本字段（注意：不再包含 'repeat'）
         oneline = {
             'LLM': self.llm_model,
             'problem': self.problem,
             'n_train': self.n_train,
+            'n_horizon': self.n_horizon,
             'external_opt': 'no' if self.external_optimizer is None else self.external_optimizer,
             'iter_opt': '-' if self.external_optimizer is None else self.iter_opt,
             'param_loc': '-' if self.external_optimizer is None else self.param_loc,
-            'repeat': self.repeat,
             'n_pop': pop_idx,
             'mode': mode,
             'data_summary': self.data_summary,
             'algo_performance': self.algo_performance
         }
 
+        # problem-specific 字段
         problem_fields = {
             'inventory2': {
                 'dist': getattr(self, 'dist', None),
@@ -253,54 +262,93 @@ class EOH:
                 'option': getattr(self, 'option', None),
                 'n_node': getattr(self, 'n_node', None)
             },
-            # More problems
-            # 'new_problem': {...}
+            # more problems ...
         }
-
         if self.problem in problem_fields:
             oneline.update(problem_fields[self.problem])
 
-        if mode == 'train':
-            for i in range(min(30, len(population))):
-                oneline[str(i + 1)] = population[i]['objective']
-        elif mode == 'test':
-            for i in range(min(30, len(population))):
-                oneline[str(i + 1)] = population[i]['test_objective']
+        # score: population 假设只有一个元素
+        if len(population) == 0:
+            score_value = None
+        else:
+            if mode == 'train':
+                score_value = population[0].get('objective')
+            else:
+                score_value = population[0].get('test_objective')
 
-        for i in range(len(population), 30):
-            oneline[str(i + 1)] = None
-
-        base_fields = [
-            'LLM', 'problem', 'n_train', 'external_opt', 'iter_opt',
-            'param_loc', 'repeat', 'n_pop', 'mode',
-            'data_summary', 'algo_performance'
-        ]
-        problem_specific_fields = set().union(*problem_fields.values())
-        score_fields = [str(i) for i in range(1, 31)]
-        fieldnames = base_fields + list(problem_specific_fields) + score_fields
-
-        filename = f"{parent_dir}/{self.filename}.csv"
-
+        # 读取已有文件或创建空的 dataframe（包含基础和 problem-specific 列）
         try:
             df = pd.read_csv(filename)
         except (FileNotFoundError, pd.errors.EmptyDataError):
-            df = pd.DataFrame(columns=fieldnames)
+            problem_specific_fields = sorted({k for d in problem_fields.values() for k in d.keys()})
+            base_fields = [
+                'LLM', 'problem', 'n_train', 'n_horizon', 'external_opt', 'iter_opt',
+                'param_loc', 'n_pop', 'mode', 'data_summary', 'algo_performance'
+            ]
+            df = pd.DataFrame(columns=base_fields + problem_specific_fields)
 
-        new_row = pd.DataFrame([oneline])
+        # # 如果存在旧的 'repeat' 列，移除（你要求去掉这个字段）
+        # if 'repeat' in df.columns:
+        #     df = df.drop(columns=['repeat'])
 
-        df = pd.concat([df, new_row], ignore_index=True)
+        # 确保所有 oneline 的键都在 df 中（若缺失则添加列）
+        key_fields = list(oneline.keys())
+        for k in key_fields:
+            if k not in df.columns:
+                df[k] = None
+
+        # 用你说的行判断方式：比较关键字段是否完全相等
+        # 这里保留你原来的判定方法
+        if df.empty:
+            mask = pd.Series(dtype=bool)
+        else:
+            # 把 oneline 转为 Series（index 对齐 key_fields），然后比较
+            cmp_series = pd.Series(oneline)
+            mask = (df[key_fields] == cmp_series[key_fields]).all(axis=1)
+
+        # 要写入的列名直接由 self.repeat 决定
+        repeat_col = f"repeat_{self.repeat}"
+
+        if mask.any():
+            # 已有匹配行 -> 在该行的 repeat_col 写入 score_value
+            row_idx = mask[mask].index[0]
+            if repeat_col not in df.columns:
+                df[repeat_col] = None
+            df.at[row_idx, repeat_col] = score_value
+        else:
+            # 新行：把 oneline 的字段放进去，并在 repeat_col 放入 score_value
+            # 先确保 df 包含 repeat_col（以便后续 concat 时列对齐）
+            if repeat_col not in df.columns:
+                df[repeat_col] = None
+
+            # 准备一行完整的 new_row（包含 df 所有列）
+            new_row = {col: None for col in df.columns}
+            for k, v in oneline.items():
+                if k in new_row:
+                    new_row[k] = v
+                else:
+                    # 若 df 之前没有该列，则直接添加该列到 new_row（并随后确保 df 也有该列）
+                    new_row[k] = v
+            new_row[repeat_col] = score_value
+
+            # 如果 oneline 含有 df 中没有的列，先扩展 df 的列（保持列对齐）
+            for k in new_row.keys():
+                if k not in df.columns:
+                    df[k] = None
+
+            df = pd.concat([df, pd.DataFrame([new_row])], ignore_index=True)
+
+        # 保存回 CSV
         df.to_csv(filename, index=False, float_format='%.2f')
 
     # def save_results(self, population, pop_idx, mode='train'):
     #     parent_dir = Path(self.output_path).parent
+    #
     #     oneline = {
     #         'LLM': self.llm_model,
     #         'problem': self.problem,
-    #         # 'dist': self.dist,    # self.problem='inventory2'
-    #         # 'demand_mean': self.demand_mean,  # self.problem='inventory2'
-    #         'option': self.option,  # self.problem='tsp'
-    #         'n_node': self.n_node,  # self.problem='tsp'
     #         'n_train': self.n_train,
+    #         'n_horizon': self.n_horizon,
     #         'external_opt': 'no' if self.external_optimizer is None else self.external_optimizer,
     #         'iter_opt': '-' if self.external_optimizer is None else self.iter_opt,
     #         'param_loc': '-' if self.external_optimizer is None else self.param_loc,
@@ -310,6 +358,23 @@ class EOH:
     #         'data_summary': self.data_summary,
     #         'algo_performance': self.algo_performance
     #     }
+    #
+    #     problem_fields = {
+    #         'inventory2': {
+    #             'dist': getattr(self, 'dist', None),
+    #             'demand_mean': getattr(self, 'demand_mean', None)
+    #         },
+    #         'tsp': {
+    #             'option': getattr(self, 'option', None),
+    #             'n_node': getattr(self, 'n_node', None)
+    #         },
+    #         # More problems
+    #         # 'new_problem': {...}
+    #     }
+    #
+    #     if self.problem in problem_fields:
+    #         oneline.update(problem_fields[self.problem])
+    #
     #     if mode == 'train':
     #         for i in range(min(30, len(population))):
     #             oneline[str(i + 1)] = population[i]['objective']
@@ -320,16 +385,16 @@ class EOH:
     #     for i in range(len(population), 30):
     #         oneline[str(i + 1)] = None
     #
+    #     base_fields = [
+    #         'LLM', 'problem', 'n_train', 'external_opt', 'iter_opt',
+    #         'param_loc', 'repeat', 'n_pop', 'mode',
+    #         'data_summary', 'algo_performance'
+    #     ]
+    #     problem_specific_fields = set().union(*problem_fields.values())
+    #     score_fields = [str(i) for i in range(1, 31)]
+    #     fieldnames = base_fields + list(problem_specific_fields) + score_fields
     #
     #     filename = f"{parent_dir}/{self.filename}.csv"
-    #     fieldnames = [
-    #         'LLM','problem', 'dist', 'demand_mean', 'n_train',
-    #         'external_opt', 'iter_opt', 'param_loc', 'repeat',
-    #         'pop_idx', 'mode', 'data_summary', 'algo_performance',
-    #         '1', '2', '3', '4', '5', '6', '7', '8', '9', '10',
-    #         '11', '12', '13', '14', '15', '16', '17', '18', '19', '20',
-    #         '21', '22', '23', '24', '25', '26', '27', '28', '29', '30',
-    #     ]
     #
     #     try:
     #         df = pd.read_csv(filename)
@@ -338,30 +403,5 @@ class EOH:
     #
     #     new_row = pd.DataFrame([oneline])
     #
-    #     if self.store_option == 'cover':
-    #         mask = (
-    #                 (df['LLM'] == oneline['LLM']) &
-    #                 (df['problem'] == oneline['problem']) &
-    #                 (df['dist'] == oneline['dist']) &
-    #                 (df['demand_mean'] == oneline['demand_mean']) &
-    #                 (df['n_train'] == oneline['n_train']) &
-    #                 (df['repeat'] == oneline['repeat']) &
-    #                 (df['pop_idx'] == oneline['pop_idx']) &
-    #                 (df['mode'] == oneline['mode']) &
-    #                 (df['iter_opt'] == oneline['iter_opt']) &
-    #                 (df['param_loc'] == oneline['param_loc']) &
-    #                 (df['external_opt'] == oneline['external_opt'] &
-    #                  df['data_summary'] == oneline['data_summary'] &
-    #                  df['algo_performance'] == oneline['algo_performance'])
-    #         )
-    #
-    #         if mask.any():
-    #             df.loc[mask] = new_row.values
-    #         else:
-    #             df = pd.concat([df, new_row], ignore_index=True)
-    #     elif self.store_option == 'append':
-    #         df = pd.concat([df, new_row], ignore_index=True)
-    #     else:
-    #         raise ValueError(f"Unknown store_option: {self.store_option}")
-    #
-    #     df.to_csv(filename, index=False, float_format='%.4f')
+    #     df = pd.concat([df, new_row], ignore_index=True)
+    #     df.to_csv(filename, index=False, float_format='%.2f')

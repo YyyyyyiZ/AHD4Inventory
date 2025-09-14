@@ -33,7 +33,7 @@ def generate_random_instance(dist='poisson',num_periods=50, lead_time=1, demand_
         demand = np.random.poisson(demand_mean, size=num_periods)
     elif volatility == 'low' and dist == 'normal':
         # For low volatility, keep variance close to mean (like Poisson)
-        demand = np.random.normal(demand_mean, scale=20, size=num_periods)
+        demand = np.random.normal(demand_mean, scale=10, size=num_periods)
     elif volatility == 'high':
         # For high volatility, increase variance relative to mean
         # Using negative binomial which allows overdispersion
@@ -111,7 +111,7 @@ if __name__ == "__main__":
                                                        instance_id=f"test_{i}") for i in range(500)]
             save_instances(test_instances, f"data/{distribution}1_test_{demand_mean}_{vol}.json")
 
-            # training_instances = [generate_random_instance(dist=distribution, num_periods=num_periods, lead_time=lead_time, demand_mean=demand_mean,
-            #                                                holding_cost=2, lost_sales_cost=10, volatility=vol,
-            #                                                instance_id=f"train_{i}") for i in range(100)]
-            # save_instances(training_instances, f"data/{distribution}1_train_{demand_mean}_{vol}.json")
+            training_instances = [generate_random_instance(dist=distribution, num_periods=num_periods, lead_time=lead_time, demand_mean=demand_mean,
+                                                           holding_cost=2, lost_sales_cost=10, volatility=vol,
+                                                           instance_id=f"train_{i}") for i in range(100)]
+            save_instances(training_instances, f"data/{distribution}1_train_{demand_mean}_{vol}.json")

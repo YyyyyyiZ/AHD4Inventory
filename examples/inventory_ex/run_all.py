@@ -17,10 +17,10 @@ n_horizon_list = [3, 5, 10, 20, 50]
 iter_opt_list = [30]
 param_loc_list = ['default']
 # param_loc_list = ['start', 'default']
-repeat_num = 30
+repeat_num = 27
 
 for repeat in range(repeat_num):
-    repeat += 1
+    repeat += 4
     for dist in dist_list:
         for mean_demand in mean_list:
             for external_opt in external_opt_list:
@@ -32,7 +32,7 @@ for repeat in range(repeat_num):
                                     for data_summary in data_summary_list:
                                         command = (
                                             f"E:\\Anaconda3\\envs\\EoH\\python runEoH.py "  # change this line according to the path of python.exe
-                                            f"--llm_api_key sk-c93307e529a64f46852478f357a7cdbd "
+                                            f"--llm_api_key sk-c013a06a9a594166b80d2d0ae32d30ad "
                                             f"--dist {dist} "
                                             f"--mean {mean_demand} "
                                             f"--external_opt {external_opt} "

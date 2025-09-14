@@ -170,15 +170,15 @@ class Evolution:
             # algo_decsr=indiv1['algorithm'],
             algo_code=indiv1['code'],
             data_summary=self.analyzer.get_data_summary(),
-            algo_performance=self.analyzer.get_algo_performance([indiv1]),
-            prompt_func_name=self.prompt_func_name,
+            # algo_performance=self.analyzer.get_algo_performance([indiv1]),
+            # prompt_func_name=self.prompt_func_name,
             prompt_func_num_inputs=str(len(self.prompt_func_inputs)),
             prompt_func_inputs=self.joined_inputs,
             prompt_func_num_outputs=str(len(self.prompt_func_outputs)),
             prompt_func_outputs=self.joined_outputs,
             prompt_inout_inf=self.prompt_inout_inf,
             prompt_other_inf=self.prompt_other_inf,
-            external_optimizer=self.external_optimizer_prompt() if self.external_optimizer else '',
+            # external_optimizer=self.external_optimizer_prompt() if self.external_optimizer else '',
         )
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         file_name = f"{self.exp_output_path}/prompt_for_code/m1_{timestamp}.txt"

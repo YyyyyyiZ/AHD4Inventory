@@ -2,7 +2,7 @@ Task: {prompt_task}
 
 ---
 
-Here are some characteristics of the data:
+Here are some characteristics of the demand data:
 {data_summary}
 
 ---
@@ -12,19 +12,11 @@ I have one algorithm with its code as follows:
 
 ---
 
-Below is the performance of provided algorithm on data:
-{algo_performance}
-
----
-
-Please utilize the above given information, analyze the data, algorithm and its performance, identify the main algorithm parameters and create an improved algorithm that has a different parameter settings of the function provided.
-
-First, describe your new algorithm and main steps in one sentence. The description must be inside a DOUBLE curly braces like this:{{This is the algorithm description}}.
-Next, implement it in Python as a function named `{prompt_func_name}`.
-This function should accept {prompt_func_num_inputs} input(s): {prompt_func_inputs},
+This function accept {prompt_func_num_inputs} input(s): {prompt_func_inputs},
 and return {prompt_func_num_outputs} output(s): {prompt_func_num_outputs}.
 {prompt_inout_inf}.
 {prompt_other_inf}.
-{external_optimizer}
 
-Do not give additional explanations.
+
+Please utilize the demand data, adjust the parameters of the given code to generate an improved implementation.
+Only change the parameters. Don't modify anything else. Do not give additional explanations.

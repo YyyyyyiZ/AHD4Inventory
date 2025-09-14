@@ -13,6 +13,7 @@ class Paras():
         ### Self defined ###
         #####################
         self.n_train = 50
+        self.n_horizon = 2
         self.exp_create_initial = False
         self.external_optimizer = 'scipy'
         self.iter_opt = 20
@@ -42,8 +43,8 @@ class Paras():
         #####################
         ###  EC settings  ###
         #####################
-        self.ec_pop_size = 30  # number of algorithms in each population, default = 10
-        self.ec_n_pop = 10 # number of populations, default = 10
+        self.ec_pop_size = 1  # number of algorithms in each population, default = 10
+        self.ec_n_pop = 30 # number of populations, default = 10
         self.ec_operators = None # evolution operators: ['e1','e2','m1','m2'], default =  ['e1','e2','m1','m2']
         self.ec_m = 2  # number of parents for 'e1' and 'e2' operators, default = 2
         self.ec_operator_weights = None  # weights for operators, i.e., the probability of use the operator in each iteration, default = [1,1,1,1]
@@ -99,7 +100,7 @@ class Paras():
         if self.ec_operators == None:
             if self.method == 'eoh':
                 # self.ec_operators  = ['e1','e2','m1','m2']
-                self.ec_operators = ['e1', 'e2', 'm2']
+                self.ec_operators = ['m1']
             # elif self.method == 'ael':
             #     self.ec_operators  = ['crossover','mutation']
             # elif self.method == 'ls':
@@ -129,6 +130,8 @@ class Paras():
             self.eva_timeout = 180
         elif self.problem == 'inventory2':
             self.eva_timeout = 180
+        elif self.problem == 'inventory_ex':
+            self.eva_timeout = 30
 
                 
     def set_paras(self, *args, **kwargs):
