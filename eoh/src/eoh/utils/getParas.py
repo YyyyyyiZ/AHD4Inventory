@@ -30,6 +30,7 @@ class Paras():
         self.demand = 80
         self.dist = 'poisson'
         self.volatility = 'low'
+        self.order_option = 'order_before_sell'
 
 
         #####################

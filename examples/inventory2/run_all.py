@@ -8,7 +8,7 @@ dist_list = ['poisson1']
 mean_list = [80]
 external_opt_list = ['scipy']
 # external_opt_list =['no', 'ng', 'deap', 'scipy']
-algo_performance_list = ['no']
+algo_performance_list = ['processed']
 # algo_performance_list=['no','plain','processed']
 data_summary_list = ['yes']
 # data_summary_list = ['no','yes']
@@ -19,7 +19,7 @@ param_loc_list = ['default']
 repeat_num = 1
 
 for repeat in range(repeat_num):
-    repeat += 1
+    repeat += 4
     for dist in dist_list:
         for mean_demand in mean_list:
             for external_opt in external_opt_list:

@@ -8,8 +8,9 @@ import warnings
 import sys
 import glob
 
+
 class INVENTORY:
-    def __init__(self, dist = None, demand=None, volatility=None, n_train=50, n_horizon=None):
+    def __init__(self, dist=None, demand=None, volatility=None, n_train=50, n_horizon=None, order_option='order_before_sell'):
         self.dist = dist
         self.demand = demand
         self.volatility = volatility
@@ -19,6 +20,7 @@ class INVENTORY:
         self.train_instances = self.load_instances(mode='train', n_traj=n_train)
         self.test_instances = self.load_instances(mode='test')
         self.instances = None
+        self.option = order_option
 
     def load_instances(self, mode='train', n_traj=None):
         # Determine the file pattern based on parameters
@@ -78,15 +80,12 @@ class INVENTORY:
                 incoming_order = pipeline_inventory.pop(0)
                 current_inventory += incoming_order
 
-                # Compute order amount using the inventory policy
-                order_amount = eva.compute_order_amount(
-                    current_inventory=current_inventory,
-                    pipeline_inventory=pipeline_inventory.copy(),  # Pass current pipeline state
-                )
-
-
-                # Place new order (will arrive after lead_time periods)
-                pipeline_inventory.append(order_amount)
+                if self.option == 'order_before_sell':
+                    # Compute order amount using the inventory policy
+                    order_amount = eva.compute_order_amount(
+                        current_inventory=current_inventory,
+                        pipeline_inventory=pipeline_inventory.copy(),  # Pass current pipeline state
+                    )
 
                 # Record current period's demand
                 current_demand = instance['demand'][t]
@@ -97,6 +96,15 @@ class INVENTORY:
                 lost_sales = max(0, current_demand - sales)
                 current_inventory -= sales
 
+                if self.option == 'order_after_sell':
+                    # Compute order amount using the inventory policy
+                    order_amount = eva.compute_order_amount(
+                        current_inventory=current_inventory,
+                        pipeline_inventory=pipeline_inventory.copy(),  # Pass current pipeline state
+                    )
+
+                # Place new order (will arrive after lead_time periods)
+                pipeline_inventory.append(order_amount)
 
                 # Accumulate costs
                 holding_cost = instance['holding_cost'] * current_inventory
@@ -125,7 +133,6 @@ class INVENTORY:
         res_train['test_obj'] = res_test['avg']
         return res_train
 
-        
     def evaluate(self, code_string):
         # Suppress warnings
         with warnings.catch_warnings():
@@ -153,8 +160,3 @@ class INVENTORY:
         lower = np.percentile(means, (100 - ci) / 2)
         upper = np.percentile(means, 100 - (100 - ci) / 2)
         return lower, upper
-
-
-
-
-

@@ -18,5 +18,10 @@ and return {prompt_func_num_outputs} output(s): {prompt_func_num_outputs}.
 {prompt_other_inf}.
 
 
-Please utilize the demand data, adjust the parameters of the given code to generate an improved implementation.
-Only change the parameters. Don't modify anything else. Do not give additional explanations.
+Please use the provided demand data to adjust the parameters of the given code and generate an improved implementation. Modify only the parameters—do not change any other part of the code.
+
+After generating the new implementation, provide a concise explanation for your parameter choices inside double curly braces, like this:
+
+{{Your explanation here}}
+
+Do not give additional explanations.

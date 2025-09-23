@@ -1,14 +1,16 @@
 class GetPrompts():
     def __init__(self):
         self.prompt_task = r"""
-            Consider an inventory system with lost sales and positive lead time $L$. Formally,
-            State $(I_t, Q_t)$ with $I_t$ on-hand inventory and $Q_t=(q_{t,1},\dots,q_{t,L})$ pipeline orders.
-            Decision $a_t \ge 0$ (order amount).
-            Demand $D_t \sim \mathbb{P}(\cdot \mid \text{history})$.
-            Dynamics: \[ I_{t+1} = (I_t - D_t)_{+} + q_{t,1}, \quad Q_{t+1} = (q_{t,2}, \dots, q_{t,L}, a_t). \] 
-            Cost: \[ C_t = h (I_t - D_t)_{+} + p (D_t - I_t)_{+}. \] 
-            Objective: \[ \min_{\{a_t\}_{t\ge0}} \; \mathbb{E}\!\left[ \sum_{t=0}^T C_t \right]. \]  
-    
+            Consider an inventory system with lost sales and positive lead time $L$.
+            The total cost in this inventory problem is:
+                Total Cost = E[ sum_{t=1}^T ( h * max(0, I_t - D_t) + p * max(0, D_t - I_t) ) ]
+        
+                where:
+                - h = holding cost
+                - p = lost sales penalty
+                - I_t = inventory at time t
+                - D_t = demand at time t
+
             You are given a policy that computes the order quantity each period to minimize total costs (holding and lost sales), based on the current inventory and pipeline inventory (orders in transit).
             Your task is to adjust the parameters of this policy to generate an improved implementation.
             """

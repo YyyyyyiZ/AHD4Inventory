@@ -16,6 +16,7 @@ parser.add_argument('--llm_model', type=str, default="deepseek-chat")
 parser.add_argument('--repeat', type=int, default=1, help='Repeat.')
 parser.add_argument('--filename', type=str, default='res', help='Filename.')
 parser.add_argument('--store_option', type=str, default='append', help='append or cover.')
+parser.add_argument('--order_option', type=str, default='order_before_sell', help='order before or after sell.')
 
 # Data related
 parser.add_argument('--dist', type=str, default='poisson1', help='Demand distribution.')
@@ -80,6 +81,7 @@ paras.set_paras(method="eoh",
                 repeat=args.repeat,
                 filename=args.filename,
                 store_option=args.store_option,
+                order_option=args.order_option,
                 param_loc=args.param_loc,
                 )
 print("Run Inventory Toy Example")
