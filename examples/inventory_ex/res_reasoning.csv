@@ -1,317 +1,301 @@
-LLM,problem,dist,demand_mean,n_train,n_horizon,order_option,external_opt,iter_opt,param_loc,n_pop,mode,data_summary,algo_performance,repeat_1
-deepseek-chat,inventory_ex,normal1,80,50,3,order_before_sell,no,-,-,1,train,no,no,"The original base_stock level of 20 was increased to 25 to better balance the high lost sales cost (p=10) relative to holding cost (h=2). With a 5:1 cost ratio, it's optimal to carry more inventory to avoid stockouts. The higher base stock level provides better protection against demand variability while the cost structure favors holding excess inventory over losing sales."
-deepseek-chat,inventory_ex,normal1,80,50,3,order_before_sell,no,-,-,1,test,no,no,"The original base_stock level of 20 was increased to 25 to better balance the high lost sales cost (p=10) relative to holding cost (h=2). With a 5:1 cost ratio, it's optimal to carry more inventory to avoid stockouts. The higher base stock level provides better protection against demand variability while the cost structure favors holding excess inventory over losing sales."
-deepseek-chat,inventory_ex,normal1,80,50,3,order_before_sell,no,-,-,2,train,no,no,"The original base_stock level of 25 was increased to 30 to better balance the high lost sales cost (p=10) relative to the holding cost (h=2). With a 5:1 cost ratio, it's optimal to carry more inventory to avoid stockouts. The lead time of 1 period means inventory needs to cover demand during the replenishment cycle. The increased base stock level provides a larger buffer against demand variability, reducing the expected lost sales penalty which dominates the holding costs."
-deepseek-chat,inventory_ex,normal1,80,50,3,order_before_sell,no,-,-,2,test,no,no,"The original base_stock level of 25 was increased to 30 to better balance the high lost sales cost (p=10) relative to the holding cost (h=2). With a 5:1 cost ratio, it's optimal to carry more inventory to avoid stockouts. The lead time of 1 period means inventory needs to cover demand during the replenishment cycle. The increased base stock level provides a larger buffer against demand variability, reducing the expected lost sales penalty which dominates the holding costs."
-deepseek-chat,inventory_ex,normal1,80,50,3,order_before_sell,no,-,-,3,train,no,no,"The original base_stock level of 30 was increased to 40 to better balance the trade-off between holding costs (h=2) and lost sales costs (p=10). Since lost sales are 5 times more expensive than holding costs, it's optimal to carry more inventory to avoid stockouts. With lead_time=1 and initial_inventory=0, a higher base stock level reduces the risk of lost sales while the moderate holding cost makes additional inventory economically justifiable."
-deepseek-chat,inventory_ex,normal1,80,50,3,order_before_sell,no,-,-,3,test,no,no,"The original base_stock level of 30 was increased to 40 to better balance the trade-off between holding costs (h=2) and lost sales costs (p=10). Since lost sales are 5 times more expensive than holding costs, it's optimal to carry more inventory to avoid stockouts. With lead_time=1 and initial_inventory=0, a higher base stock level reduces the risk of lost sales while the moderate holding cost makes additional inventory economically justifiable."
-deepseek-chat,inventory_ex,normal1,80,50,3,order_before_sell,no,-,-,4,train,no,no,"The original base_stock level of 30 was increased to 40 to better balance the trade-off between holding costs (h=2) and lost sales costs (p=10). Since lost sales are 5 times more expensive than holding costs, it's optimal to carry more inventory to avoid stockouts. With lead_time=1 and initial_inventory=0, a higher base stock level reduces the risk of lost sales while the moderate holding cost makes additional inventory economically justifiable."
-deepseek-chat,inventory_ex,normal1,80,50,3,order_before_sell,no,-,-,4,test,no,no,"The original base_stock level of 30 was increased to 40 to better balance the trade-off between holding costs (h=2) and lost sales costs (p=10). Since lost sales are 5 times more expensive than holding costs, it's optimal to carry more inventory to avoid stockouts. With lead_time=1 and initial_inventory=0, a higher base stock level reduces the risk of lost sales while the moderate holding cost makes additional inventory economically justifiable."
-deepseek-chat,inventory_ex,normal1,80,50,3,order_before_sell,no,-,-,5,train,no,no,"The original base_stock level of 30 was increased to 40 to better balance the trade-off between holding costs (h=2) and lost sales costs (p=10). Since lost sales are 5 times more expensive than holding costs, it's optimal to carry more inventory to avoid stockouts. With lead_time=1 and initial_inventory=0, a higher base stock level reduces the risk of lost sales while the moderate holding cost makes additional inventory economically justifiable."
-deepseek-chat,inventory_ex,normal1,80,50,3,order_before_sell,no,-,-,5,test,no,no,"The original base_stock level of 30 was increased to 40 to better balance the trade-off between holding costs (h=2) and lost sales costs (p=10). Since lost sales are 5 times more expensive than holding costs, it's optimal to carry more inventory to avoid stockouts. With lead_time=1 and initial_inventory=0, a higher base stock level reduces the risk of lost sales while the moderate holding cost makes additional inventory economically justifiable."
-deepseek-chat,inventory_ex,normal1,80,50,3,order_before_sell,no,-,-,6,train,no,no,"The original base_stock of 40 was increased to 50 to better balance the high lost sales cost (p=10) relative to holding cost (h=2). With a 5:1 cost ratio, it's optimal to carry more inventory to avoid stockouts. The higher base stock level reduces the frequency and severity of lost sales, which are significantly more expensive than holding excess inventory. This adjustment accounts for the lead time of 1 period by maintaining sufficient inventory coverage during the replenishment cycle."
-deepseek-chat,inventory_ex,normal1,80,50,3,order_before_sell,no,-,-,6,test,no,no,"The original base_stock of 40 was increased to 50 to better balance the high lost sales cost (p=10) relative to holding cost (h=2). With a 5:1 cost ratio, it's optimal to carry more inventory to avoid stockouts. The higher base stock level reduces the frequency and severity of lost sales, which are significantly more expensive than holding excess inventory. This adjustment accounts for the lead time of 1 period by maintaining sufficient inventory coverage during the replenishment cycle."
-deepseek-chat,inventory_ex,normal1,80,50,3,order_before_sell,no,-,-,7,train,no,no,"The original base_stock of 50 was increased to 60 to better balance the cost tradeoff. With holding_cost=2 and lost_sales_cost=10, the critical ratio is 10/(2+10)=0.833, indicating a high service level target. The higher base_stock level reduces lost sales penalties that are 5x more expensive than holding costs, while the lead_time=1 allows for relatively quick inventory replenishment to avoid excessive holding costs."
-deepseek-chat,inventory_ex,normal1,80,50,3,order_before_sell,no,-,-,7,test,no,no,"The original base_stock of 50 was increased to 60 to better balance the cost tradeoff. With holding_cost=2 and lost_sales_cost=10, the critical ratio is 10/(2+10)=0.833, indicating a high service level target. The higher base_stock level reduces lost sales penalties that are 5x more expensive than holding costs, while the lead_time=1 allows for relatively quick inventory replenishment to avoid excessive holding costs."
-deepseek-chat,inventory_ex,normal1,80,50,3,order_before_sell,no,-,-,8,train,no,no,"The original base_stock of 50 was increased to 60 to better balance the cost tradeoff. With holding_cost=2 and lost_sales_cost=10, the critical ratio is 10/(2+10)=0.833, indicating a high service level target. The higher base_stock level reduces lost sales penalties that are 5x more expensive than holding costs, while the lead_time=1 allows for relatively quick inventory replenishment to avoid excessive holding costs."
-deepseek-chat,inventory_ex,normal1,80,50,3,order_before_sell,no,-,-,8,test,no,no,"The original base_stock of 50 was increased to 60 to better balance the cost tradeoff. With holding_cost=2 and lost_sales_cost=10, the critical ratio is 10/(2+10)=0.833, indicating a high service level target. The higher base_stock level reduces lost sales penalties that are 5x more expensive than holding costs, while the lead_time=1 allows for relatively quick inventory replenishment to avoid excessive holding costs."
-deepseek-chat,inventory_ex,normal1,80,50,3,order_before_sell,no,-,-,9,train,no,no,"The original base_stock of 50 was increased to 60 to better balance the cost tradeoff. With holding_cost=2 and lost_sales_cost=10, the critical ratio is 10/(2+10)=0.833, indicating a high service level target. The higher base_stock level reduces lost sales penalties that are 5x more expensive than holding costs, while the lead_time=1 allows for relatively quick inventory replenishment to avoid excessive holding costs."
-deepseek-chat,inventory_ex,normal1,80,50,3,order_before_sell,no,-,-,9,test,no,no,"The original base_stock of 50 was increased to 60 to better balance the cost tradeoff. With holding_cost=2 and lost_sales_cost=10, the critical ratio is 10/(2+10)=0.833, indicating a high service level target. The higher base_stock level reduces lost sales penalties that are 5x more expensive than holding costs, while the lead_time=1 allows for relatively quick inventory replenishment to avoid excessive holding costs."
-deepseek-chat,inventory_ex,normal1,80,50,3,order_before_sell,no,-,-,10,train,no,no,"The original base_stock of 50 was increased to 60 to better balance the cost tradeoff. With holding_cost=2 and lost_sales_cost=10, the critical ratio is 10/(2+10)=0.833, indicating a high service level target. The higher base_stock level reduces lost sales penalties that are 5x more expensive than holding costs, while the lead_time=1 allows for relatively quick inventory replenishment to avoid excessive holding costs."
-deepseek-chat,inventory_ex,normal1,80,50,3,order_before_sell,no,-,-,10,test,no,no,"The original base_stock of 50 was increased to 60 to better balance the cost tradeoff. With holding_cost=2 and lost_sales_cost=10, the critical ratio is 10/(2+10)=0.833, indicating a high service level target. The higher base_stock level reduces lost sales penalties that are 5x more expensive than holding costs, while the lead_time=1 allows for relatively quick inventory replenishment to avoid excessive holding costs."
-deepseek-chat,inventory_ex,normal1,80,50,3,order_before_sell,no,-,-,1,train,plain,no,"The base stock level of 95 was chosen by analyzing the demand patterns across all trajectories. The average demand per period is approximately 81, but with lead time=1 and high lost sales cost (p=10) relative to holding cost (h=2), it's optimal to carry safety stock. The 95th percentile of demand is around 95-100, providing good service level while balancing holding costs. This level covers most demand variability while minimizing the expensive lost sales."
-deepseek-chat,inventory_ex,normal1,80,50,3,order_before_sell,no,-,-,1,test,plain,no,"The base stock level of 95 was chosen by analyzing the demand patterns across all trajectories. The average demand per period is approximately 81, but with lead time=1 and high lost sales cost (p=10) relative to holding cost (h=2), it's optimal to carry safety stock. The 95th percentile of demand is around 95-100, providing good service level while balancing holding costs. This level covers most demand variability while minimizing the expensive lost sales."
-deepseek-chat,inventory_ex,normal1,80,50,3,order_before_sell,no,-,-,2,train,plain,no,"The base stock level of 95 was chosen by analyzing the demand patterns across all trajectories. The average demand per period is approximately 81, but with lead time=1 and high lost sales cost (p=10) relative to holding cost (h=2), it's optimal to carry safety stock. The 95th percentile of demand is around 95-100, providing good service level while balancing holding costs. This level covers most demand variability while minimizing the expensive lost sales."
-deepseek-chat,inventory_ex,normal1,80,50,3,order_before_sell,no,-,-,2,test,plain,no,"The base stock level of 95 was chosen by analyzing the demand patterns across all trajectories. The average demand per period is approximately 81, but with lead time=1 and high lost sales cost (p=10) relative to holding cost (h=2), it's optimal to carry safety stock. The 95th percentile of demand is around 95-100, providing good service level while balancing holding costs. This level covers most demand variability while minimizing the expensive lost sales."
-deepseek-chat,inventory_ex,normal1,80,50,3,order_before_sell,no,-,-,3,train,plain,no,"The base stock level of 95 was chosen by analyzing the demand patterns across all trajectories. The average demand per period is approximately 81, but with lead time=1 and high lost sales cost (p=10) relative to holding cost (h=2), it's optimal to carry safety stock. The 95th percentile of demand is around 95-100, providing good service level while balancing holding costs. This level covers most demand variability while minimizing the expensive lost sales."
-deepseek-chat,inventory_ex,normal1,80,50,3,order_before_sell,no,-,-,3,test,plain,no,"The base stock level of 95 was chosen by analyzing the demand patterns across all trajectories. The average demand per period is approximately 81, but with lead time=1 and high lost sales cost (p=10) relative to holding cost (h=2), it's optimal to carry safety stock. The 95th percentile of demand is around 95-100, providing good service level while balancing holding costs. This level covers most demand variability while minimizing the expensive lost sales."
-deepseek-chat,inventory_ex,normal1,80,50,3,order_before_sell,no,-,-,4,train,plain,no,"The base stock level of 95 was chosen by analyzing the demand patterns across all trajectories. The average demand per period is approximately 81, but with lead time=1 and high lost sales cost (p=10) relative to holding cost (h=2), it's optimal to carry safety stock. The 95th percentile of demand is around 95-100, providing good service level while balancing holding costs. This level covers most demand variability while minimizing the expensive lost sales."
-deepseek-chat,inventory_ex,normal1,80,50,3,order_before_sell,no,-,-,4,test,plain,no,"The base stock level of 95 was chosen by analyzing the demand patterns across all trajectories. The average demand per period is approximately 81, but with lead time=1 and high lost sales cost (p=10) relative to holding cost (h=2), it's optimal to carry safety stock. The 95th percentile of demand is around 95-100, providing good service level while balancing holding costs. This level covers most demand variability while minimizing the expensive lost sales."
-deepseek-chat,inventory_ex,normal1,80,50,3,order_before_sell,no,-,-,5,train,plain,no,"The base stock level of 95 was chosen by analyzing the demand patterns across all trajectories. The average demand per period is approximately 81, but with lead time=1 and high lost sales cost (p=10) relative to holding cost (h=2), it's optimal to carry safety stock. The 95th percentile of demand is around 95-100, providing good service level while balancing holding costs. This level covers most demand variability while minimizing the expensive lost sales."
-deepseek-chat,inventory_ex,normal1,80,50,3,order_before_sell,no,-,-,5,test,plain,no,"The base stock level of 95 was chosen by analyzing the demand patterns across all trajectories. The average demand per period is approximately 81, but with lead time=1 and high lost sales cost (p=10) relative to holding cost (h=2), it's optimal to carry safety stock. The 95th percentile of demand is around 95-100, providing good service level while balancing holding costs. This level covers most demand variability while minimizing the expensive lost sales."
-deepseek-chat,inventory_ex,normal1,80,50,3,order_before_sell,no,-,-,6,train,plain,no,"The base stock level of 95 was chosen by analyzing the demand patterns across all trajectories. The average demand per period is approximately 81, but with lead time=1 and high lost sales cost (p=10) relative to holding cost (h=2), it's optimal to carry safety stock. The 95th percentile of demand is around 95-100, providing good service level while balancing holding costs. This level covers most demand variability while minimizing the expensive lost sales."
-deepseek-chat,inventory_ex,normal1,80,50,3,order_before_sell,no,-,-,6,test,plain,no,"The base stock level of 95 was chosen by analyzing the demand patterns across all trajectories. The average demand per period is approximately 81, but with lead time=1 and high lost sales cost (p=10) relative to holding cost (h=2), it's optimal to carry safety stock. The 95th percentile of demand is around 95-100, providing good service level while balancing holding costs. This level covers most demand variability while minimizing the expensive lost sales."
-deepseek-chat,inventory_ex,normal1,80,50,3,order_before_sell,no,-,-,7,train,plain,no,"The base stock level of 95 was chosen by analyzing the demand patterns across all trajectories. The average demand per period is approximately 81, but with lead time=1 and high lost sales cost (p=10) relative to holding cost (h=2), it's optimal to carry safety stock. The 95th percentile of demand is around 95-100, providing good service level while balancing holding costs. This level covers most demand variability while minimizing the expensive lost sales."
-deepseek-chat,inventory_ex,normal1,80,50,3,order_before_sell,no,-,-,7,test,plain,no,"The base stock level of 95 was chosen by analyzing the demand patterns across all trajectories. The average demand per period is approximately 81, but with lead time=1 and high lost sales cost (p=10) relative to holding cost (h=2), it's optimal to carry safety stock. The 95th percentile of demand is around 95-100, providing good service level while balancing holding costs. This level covers most demand variability while minimizing the expensive lost sales."
-deepseek-chat,inventory_ex,normal1,80,50,3,order_before_sell,no,-,-,8,train,plain,no,"The base stock level of 95 was chosen by analyzing the demand patterns across all trajectories. The average demand per period is approximately 81, but with lead time=1 and high lost sales cost (p=10) relative to holding cost (h=2), it's optimal to carry safety stock. The 95th percentile of demand is around 95-100, providing good service level while balancing holding costs. This level covers most demand variability while minimizing the expensive lost sales."
-deepseek-chat,inventory_ex,normal1,80,50,3,order_before_sell,no,-,-,8,test,plain,no,"The base stock level of 95 was chosen by analyzing the demand patterns across all trajectories. The average demand per period is approximately 81, but with lead time=1 and high lost sales cost (p=10) relative to holding cost (h=2), it's optimal to carry safety stock. The 95th percentile of demand is around 95-100, providing good service level while balancing holding costs. This level covers most demand variability while minimizing the expensive lost sales."
-deepseek-chat,inventory_ex,normal1,80,50,3,order_before_sell,no,-,-,9,train,plain,no,"The demand data shows average demand around 80-85 units per period, with some periods reaching 100+. Given the cost ratio p/(p+h) = 10/(10+2) ≈ 0.833, the optimal service level is 83.3%. Looking at the empirical distribution, the 83rd percentile of demand is approximately 98 units. This base stock level balances holding costs against lost sales penalties more effectively than the original 92 units, which would result in higher lost sales given the observed demand pattern."
-deepseek-chat,inventory_ex,normal1,80,50,3,order_before_sell,no,-,-,9,test,plain,no,"The demand data shows average demand around 80-85 units per period, with some periods reaching 100+. Given the cost ratio p/(p+h) = 10/(10+2) ≈ 0.833, the optimal service level is 83.3%. Looking at the empirical distribution, the 83rd percentile of demand is approximately 98 units. This base stock level balances holding costs against lost sales penalties more effectively than the original 92 units, which would result in higher lost sales given the observed demand pattern."
-deepseek-chat,inventory_ex,normal1,80,50,3,order_before_sell,no,-,-,10,train,plain,no,"The demand data shows average demand around 80-85 units per period, with some periods reaching 100+. Given the cost ratio p/(p+h) = 10/(10+2) ≈ 0.833, the optimal service level is 83.3%. Looking at the empirical distribution, the 83rd percentile of demand is approximately 98 units. This base stock level balances holding costs against lost sales penalties more effectively than the original 92 units, which would result in higher lost sales given the observed demand pattern."
-deepseek-chat,inventory_ex,normal1,80,50,3,order_before_sell,no,-,-,10,test,plain,no,"The demand data shows average demand around 80-85 units per period, with some periods reaching 100+. Given the cost ratio p/(p+h) = 10/(10+2) ≈ 0.833, the optimal service level is 83.3%. Looking at the empirical distribution, the 83rd percentile of demand is approximately 98 units. This base stock level balances holding costs against lost sales penalties more effectively than the original 92 units, which would result in higher lost sales given the observed demand pattern."
-deepseek-chat,inventory_ex,normal1,80,50,3,order_before_sell,no,-,-,1,train,processed,no,"The mean demand is 81.79 with low variability (CV=0.12). With lead_time=1 and lost sales cost (10) significantly higher than holding cost (2), a base-stock level slightly above the mean demand (85 vs 81.79) balances the risk of lost sales against holding costs. This accounts for the 1-period lead time while providing a small buffer for demand variability."
-deepseek-chat,inventory_ex,normal1,80,50,3,order_before_sell,no,-,-,1,test,processed,no,"The mean demand is 81.79 with low variability (CV=0.12). With lead_time=1 and lost sales cost (10) significantly higher than holding cost (2), a base-stock level slightly above the mean demand (85 vs 81.79) balances the risk of lost sales against holding costs. This accounts for the 1-period lead time while providing a small buffer for demand variability."
-deepseek-chat,inventory_ex,normal1,80,50,3,order_before_sell,no,-,-,2,train,processed,no,"The original base_stock of 85 was below the mean demand of 81.79, which is risky given the lost sales cost (p=10) is much higher than the holding cost (h=2). Using the critical ratio p/(p+h) = 10/12 ≈ 0.833, the optimal service level targets the 83.3rd percentile of demand. With mean=81.79 and std=10.05, the 83.3rd percentile is approximately 81.79 + 0.97*10.05 ≈ 92. This higher base stock balances the cost trade-off more effectively, reducing expensive lost sales while accepting modest holding costs."
-deepseek-chat,inventory_ex,normal1,80,50,3,order_before_sell,no,-,-,2,test,processed,no,"The original base_stock of 85 was below the mean demand of 81.79, which is risky given the lost sales cost (p=10) is much higher than the holding cost (h=2). Using the critical ratio p/(p+h) = 10/12 ≈ 0.833, the optimal service level targets the 83.3rd percentile of demand. With mean=81.79 and std=10.05, the 83.3rd percentile is approximately 81.79 + 0.97*10.05 ≈ 92. This higher base stock balances the cost trade-off more effectively, reducing expensive lost sales while accepting modest holding costs."
-deepseek-chat,inventory_ex,normal1,80,50,3,order_before_sell,no,-,-,3,train,processed,no,"The original base_stock of 92 was slightly below the optimal level. Given mean demand of 81.79 and std deviation of 10.05, with a high lost sales cost (p=10) relative to holding cost (h=2), the critical ratio p/(p+h) = 10/12 ≈ 0.833 corresponds to a z-score of about 0.97. The safety stock should be 0.97 × 10.05 ≈ 9.75. Adding this to mean demand gives approximately 91.5, but considering lead time=1, we need to account for demand during lead time plus review period. Using the common approach of mean demand × (lead time + 1) + safety stock = 81.79 × 2 + 9.75 ≈ 173, but this seems too high. Re-evaluating: for lost sales with lead time, the base stock should cover demand until the next order arrives. Since lead time=1, the base stock should be mean demand during lead time (81.79) plus safety stock (9.75) ≈ 91.5. However, given the high penalty cost, a more conservative approach of rounding up to 95 provides better protection against stockouts while maintaining reasonable holding costs."
-deepseek-chat,inventory_ex,normal1,80,50,3,order_before_sell,no,-,-,3,test,processed,no,"The original base_stock of 92 was slightly below the optimal level. Given mean demand of 81.79 and std deviation of 10.05, with a high lost sales cost (p=10) relative to holding cost (h=2), the critical ratio p/(p+h) = 10/12 ≈ 0.833 corresponds to a z-score of about 0.97. The safety stock should be 0.97 × 10.05 ≈ 9.75. Adding this to mean demand gives approximately 91.5, but considering lead time=1, we need to account for demand during lead time plus review period. Using the common approach of mean demand × (lead time + 1) + safety stock = 81.79 × 2 + 9.75 ≈ 173, but this seems too high. Re-evaluating: for lost sales with lead time, the base stock should cover demand until the next order arrives. Since lead time=1, the base stock should be mean demand during lead time (81.79) plus safety stock (9.75) ≈ 91.5. However, given the high penalty cost, a more conservative approach of rounding up to 95 provides better protection against stockouts while maintaining reasonable holding costs."
-deepseek-chat,inventory_ex,normal1,80,50,3,order_before_sell,no,-,-,4,train,processed,no,"The original base_stock of 92 was slightly below the optimal level. Given mean demand of 81.79 and std deviation of 10.05, with a high lost sales cost (p=10) relative to holding cost (h=2), the critical ratio p/(p+h) = 10/12 ≈ 0.833 corresponds to a z-score of about 0.97. The safety stock should be 0.97 × 10.05 ≈ 9.75. Adding this to mean demand gives approximately 91.5, but considering lead time=1, we need to account for demand during lead time plus review period. Using the common approach of mean demand × (lead time + 1) + safety stock = 81.79 × 2 + 9.75 ≈ 173, but this seems too high. Re-evaluating: for lost sales with lead time, the base stock should cover demand until the next order arrives. Since lead time=1, the base stock should be mean demand during lead time (81.79) plus safety stock (9.75) ≈ 91.5. However, given the high penalty cost, a more conservative approach of rounding up to 95 provides better protection against stockouts while maintaining reasonable holding costs."
-deepseek-chat,inventory_ex,normal1,80,50,3,order_before_sell,no,-,-,4,test,processed,no,"The original base_stock of 92 was slightly below the optimal level. Given mean demand of 81.79 and std deviation of 10.05, with a high lost sales cost (p=10) relative to holding cost (h=2), the critical ratio p/(p+h) = 10/12 ≈ 0.833 corresponds to a z-score of about 0.97. The safety stock should be 0.97 × 10.05 ≈ 9.75. Adding this to mean demand gives approximately 91.5, but considering lead time=1, we need to account for demand during lead time plus review period. Using the common approach of mean demand × (lead time + 1) + safety stock = 81.79 × 2 + 9.75 ≈ 173, but this seems too high. Re-evaluating: for lost sales with lead time, the base stock should cover demand until the next order arrives. Since lead time=1, the base stock should be mean demand during lead time (81.79) plus safety stock (9.75) ≈ 91.5. However, given the high penalty cost, a more conservative approach of rounding up to 95 provides better protection against stockouts while maintaining reasonable holding costs."
-deepseek-chat,inventory_ex,normal1,80,50,3,order_before_sell,no,-,-,5,train,processed,no,"The original base_stock of 92 was slightly below the optimal level. Given mean demand of 81.79 and std deviation of 10.05, with a high lost sales cost (p=10) relative to holding cost (h=2), the critical ratio p/(p+h) = 10/12 ≈ 0.833 corresponds to a z-score of about 0.97. The safety stock should be 0.97 × 10.05 ≈ 9.75. Adding this to mean demand gives approximately 91.5, but considering lead time=1, we need to account for demand during lead time plus review period. Using the common approach of mean demand × (lead time + 1) + safety stock = 81.79 × 2 + 9.75 ≈ 173, but this seems too high. Re-evaluating: for lost sales with lead time, the base stock should cover demand until the next order arrives. Since lead time=1, the base stock should be mean demand during lead time (81.79) plus safety stock (9.75) ≈ 91.5. However, given the high penalty cost, a more conservative approach of rounding up to 95 provides better protection against stockouts while maintaining reasonable holding costs."
-deepseek-chat,inventory_ex,normal1,80,50,3,order_before_sell,no,-,-,5,test,processed,no,"The original base_stock of 92 was slightly below the optimal level. Given mean demand of 81.79 and std deviation of 10.05, with a high lost sales cost (p=10) relative to holding cost (h=2), the critical ratio p/(p+h) = 10/12 ≈ 0.833 corresponds to a z-score of about 0.97. The safety stock should be 0.97 × 10.05 ≈ 9.75. Adding this to mean demand gives approximately 91.5, but considering lead time=1, we need to account for demand during lead time plus review period. Using the common approach of mean demand × (lead time + 1) + safety stock = 81.79 × 2 + 9.75 ≈ 173, but this seems too high. Re-evaluating: for lost sales with lead time, the base stock should cover demand until the next order arrives. Since lead time=1, the base stock should be mean demand during lead time (81.79) plus safety stock (9.75) ≈ 91.5. However, given the high penalty cost, a more conservative approach of rounding up to 95 provides better protection against stockouts while maintaining reasonable holding costs."
-deepseek-chat,inventory_ex,normal1,80,50,3,order_before_sell,no,-,-,6,train,processed,no,"The original base_stock of 92 was slightly below the optimal level. Given mean demand of 81.79 and std deviation of 10.05, with a high lost sales cost (p=10) relative to holding cost (h=2), the critical ratio p/(p+h) = 10/12 ≈ 0.833 corresponds to a z-score of about 0.97. The safety stock should be 0.97 × 10.05 ≈ 9.75. Adding this to mean demand gives approximately 91.5, but considering lead time=1, we need to account for demand during lead time plus review period. Using the common approach of mean demand × (lead time + 1) + safety stock = 81.79 × 2 + 9.75 ≈ 173, but this seems too high. Re-evaluating: for lost sales with lead time, the base stock should cover demand until the next order arrives. Since lead time=1, the base stock should be mean demand during lead time (81.79) plus safety stock (9.75) ≈ 91.5. However, given the high penalty cost, a more conservative approach of rounding up to 95 provides better protection against stockouts while maintaining reasonable holding costs."
-deepseek-chat,inventory_ex,normal1,80,50,3,order_before_sell,no,-,-,6,test,processed,no,"The original base_stock of 92 was slightly below the optimal level. Given mean demand of 81.79 and std deviation of 10.05, with a high lost sales cost (p=10) relative to holding cost (h=2), the critical ratio p/(p+h) = 10/12 ≈ 0.833 corresponds to a z-score of about 0.97. The safety stock should be 0.97 × 10.05 ≈ 9.75. Adding this to mean demand gives approximately 91.5, but considering lead time=1, we need to account for demand during lead time plus review period. Using the common approach of mean demand × (lead time + 1) + safety stock = 81.79 × 2 + 9.75 ≈ 173, but this seems too high. Re-evaluating: for lost sales with lead time, the base stock should cover demand until the next order arrives. Since lead time=1, the base stock should be mean demand during lead time (81.79) plus safety stock (9.75) ≈ 91.5. However, given the high penalty cost, a more conservative approach of rounding up to 95 provides better protection against stockouts while maintaining reasonable holding costs."
-deepseek-chat,inventory_ex,normal1,80,50,3,order_before_sell,no,-,-,7,train,processed,no,"The original base_stock of 92 was slightly below the optimal level. Given mean demand of 81.79 and std deviation of 10.05, with a high lost sales cost (p=10) relative to holding cost (h=2), the critical ratio p/(p+h) = 10/12 ≈ 0.833 corresponds to a z-score of about 0.97. The safety stock should be 0.97 × 10.05 ≈ 9.75. Adding this to mean demand gives approximately 91.5, but considering lead time=1, we need to account for demand during lead time plus review period. Using the common approach of mean demand × (lead time + 1) + safety stock = 81.79 × 2 + 9.75 ≈ 173, but this seems too high. Re-evaluating: for lost sales with lead time, the base stock should cover demand until the next order arrives. Since lead time=1, the base stock should be mean demand during lead time (81.79) plus safety stock (9.75) ≈ 91.5. However, given the high penalty cost, a more conservative approach of rounding up to 95 provides better protection against stockouts while maintaining reasonable holding costs."
-deepseek-chat,inventory_ex,normal1,80,50,3,order_before_sell,no,-,-,7,test,processed,no,"The original base_stock of 92 was slightly below the optimal level. Given mean demand of 81.79 and std deviation of 10.05, with a high lost sales cost (p=10) relative to holding cost (h=2), the critical ratio p/(p+h) = 10/12 ≈ 0.833 corresponds to a z-score of about 0.97. The safety stock should be 0.97 × 10.05 ≈ 9.75. Adding this to mean demand gives approximately 91.5, but considering lead time=1, we need to account for demand during lead time plus review period. Using the common approach of mean demand × (lead time + 1) + safety stock = 81.79 × 2 + 9.75 ≈ 173, but this seems too high. Re-evaluating: for lost sales with lead time, the base stock should cover demand until the next order arrives. Since lead time=1, the base stock should be mean demand during lead time (81.79) plus safety stock (9.75) ≈ 91.5. However, given the high penalty cost, a more conservative approach of rounding up to 95 provides better protection against stockouts while maintaining reasonable holding costs."
-deepseek-chat,inventory_ex,normal1,80,50,3,order_before_sell,no,-,-,8,train,processed,no,"The original base_stock of 95 was below the mean demand of 81.79 plus safety stock. Given the high lost sales cost (p=10) relative to holding cost (h=2), it's optimal to carry more inventory to avoid stockouts. I increased base_stock to 102, which is mean demand (81.79) + lead time demand (81.79) + safety stock. The safety stock of approximately 20 units (2 std deviations of 10.05) provides 97.5% service level, balancing the 5:1 cost ratio between lost sales and holding costs. This reduces the risk of expensive stockouts while maintaining reasonable inventory levels."
-deepseek-chat,inventory_ex,normal1,80,50,3,order_before_sell,no,-,-,8,test,processed,no,"The original base_stock of 95 was below the mean demand of 81.79 plus safety stock. Given the high lost sales cost (p=10) relative to holding cost (h=2), it's optimal to carry more inventory to avoid stockouts. I increased base_stock to 102, which is mean demand (81.79) + lead time demand (81.79) + safety stock. The safety stock of approximately 20 units (2 std deviations of 10.05) provides 97.5% service level, balancing the 5:1 cost ratio between lost sales and holding costs. This reduces the risk of expensive stockouts while maintaining reasonable inventory levels."
-deepseek-chat,inventory_ex,normal1,80,50,3,order_before_sell,no,-,-,9,train,processed,no,"The original base_stock of 95 was below the mean demand of 81.79 plus safety stock. Given the high lost sales cost (p=10) relative to holding cost (h=2), it's optimal to carry more inventory to avoid stockouts. I increased base_stock to 102, which is mean demand (81.79) + lead time demand (81.79) + safety stock. The safety stock of approximately 20 units (2 std deviations of 10.05) provides 97.5% service level, balancing the 5:1 cost ratio between lost sales and holding costs. This reduces the risk of expensive stockouts while maintaining reasonable inventory levels."
-deepseek-chat,inventory_ex,normal1,80,50,3,order_before_sell,no,-,-,9,test,processed,no,"The original base_stock of 95 was below the mean demand of 81.79 plus safety stock. Given the high lost sales cost (p=10) relative to holding cost (h=2), it's optimal to carry more inventory to avoid stockouts. I increased base_stock to 102, which is mean demand (81.79) + lead time demand (81.79) + safety stock. The safety stock of approximately 20 units (2 std deviations of 10.05) provides 97.5% service level, balancing the 5:1 cost ratio between lost sales and holding costs. This reduces the risk of expensive stockouts while maintaining reasonable inventory levels."
-deepseek-chat,inventory_ex,normal1,80,50,3,order_before_sell,no,-,-,10,train,processed,no,"The original base_stock of 95 was below the mean demand of 81.79 plus safety stock. Given the high lost sales cost (p=10) relative to holding cost (h=2), it's optimal to carry more inventory to avoid stockouts. I increased base_stock to 102, which is mean demand (81.79) + lead time demand (81.79) + safety stock. The safety stock of approximately 20 units (2 std deviations of 10.05) provides 97.5% service level, balancing the 5:1 cost ratio between lost sales and holding costs. This reduces the risk of expensive stockouts while maintaining reasonable inventory levels."
-deepseek-chat,inventory_ex,normal1,80,50,3,order_before_sell,no,-,-,10,test,processed,no,"The original base_stock of 95 was below the mean demand of 81.79 plus safety stock. Given the high lost sales cost (p=10) relative to holding cost (h=2), it's optimal to carry more inventory to avoid stockouts. I increased base_stock to 102, which is mean demand (81.79) + lead time demand (81.79) + safety stock. The safety stock of approximately 20 units (2 std deviations of 10.05) provides 97.5% service level, balancing the 5:1 cost ratio between lost sales and holding costs. This reduces the risk of expensive stockouts while maintaining reasonable inventory levels."
-deepseek-chat,inventory_ex,normal1,80,50,5,order_before_sell,no,-,-,1,train,no,no,
-deepseek-chat,inventory_ex,normal1,80,50,5,order_before_sell,no,-,-,1,test,no,no,
-deepseek-chat,inventory_ex,normal1,80,50,5,order_before_sell,no,-,-,2,train,no,no,
-deepseek-chat,inventory_ex,normal1,80,50,5,order_before_sell,no,-,-,2,test,no,no,
-deepseek-chat,inventory_ex,normal1,80,50,5,order_before_sell,no,-,-,3,train,no,no,
-deepseek-chat,inventory_ex,normal1,80,50,5,order_before_sell,no,-,-,3,test,no,no,
-deepseek-chat,inventory_ex,normal1,80,50,5,order_before_sell,no,-,-,4,train,no,no,
-deepseek-chat,inventory_ex,normal1,80,50,5,order_before_sell,no,-,-,4,test,no,no,
-deepseek-chat,inventory_ex,normal1,80,50,5,order_before_sell,no,-,-,5,train,no,no,
-deepseek-chat,inventory_ex,normal1,80,50,5,order_before_sell,no,-,-,5,test,no,no,
-deepseek-chat,inventory_ex,normal1,80,50,5,order_before_sell,no,-,-,6,train,no,no,
-deepseek-chat,inventory_ex,normal1,80,50,5,order_before_sell,no,-,-,6,test,no,no,
-deepseek-chat,inventory_ex,normal1,80,50,5,order_before_sell,no,-,-,7,train,no,no,
-deepseek-chat,inventory_ex,normal1,80,50,5,order_before_sell,no,-,-,7,test,no,no,
-deepseek-chat,inventory_ex,normal1,80,50,5,order_before_sell,no,-,-,8,train,no,no,
-deepseek-chat,inventory_ex,normal1,80,50,5,order_before_sell,no,-,-,8,test,no,no,
-deepseek-chat,inventory_ex,normal1,80,50,5,order_before_sell,no,-,-,9,train,no,no,
-deepseek-chat,inventory_ex,normal1,80,50,5,order_before_sell,no,-,-,9,test,no,no,
-deepseek-chat,inventory_ex,normal1,80,50,5,order_before_sell,no,-,-,10,train,no,no,
-deepseek-chat,inventory_ex,normal1,80,50,5,order_before_sell,no,-,-,10,test,no,no,
-deepseek-chat,inventory_ex,normal1,80,50,5,order_before_sell,no,-,-,1,train,plain,no,"I will use the provided demand trajectories to simulate the inventory system and compute total costs for different base_stock values. The cost is calculated by tracking inventory levels over time, applying holding costs for excess inventory and lost sales costs for unmet demand. I'll search for the optimal base_stock parameter by testing values around the initial guess of 20, evaluating performance across all demand trajectories to find the value that minimizes average total cost. I'm building on the previous parameter by using it as a starting point for my search range.
-
-```"
-deepseek-chat,inventory_ex,normal1,80,50,5,order_before_sell,no,-,-,1,test,plain,no,"I will use the provided demand trajectories to simulate the inventory system and compute total costs for different base_stock values. The cost is calculated by tracking inventory levels over time, applying holding costs for excess inventory and lost sales costs for unmet demand. I'll search for the optimal base_stock parameter by testing values around the initial guess of 20, evaluating performance across all demand trajectories to find the value that minimizes average total cost. I'm building on the previous parameter by using it as a starting point for my search range.
-
-```"
-deepseek-chat,inventory_ex,normal1,80,50,5,order_before_sell,no,-,-,2,train,plain,no,"{First, I will compute the total cost for each trajectory using the given cost function by simulating the inventory system with the provided policy and base_stock parameter. Then, I will search for an improved base_stock value by evaluating a range of candidate values (e.g., 80 to 110) and selecting the one that minimizes the average total cost across all 50 demand trajectories. I will build on the previous parameter (90) by testing nearby values to find a local optimum.}
-
-```"
-deepseek-chat,inventory_ex,normal1,80,50,5,order_before_sell,no,-,-,2,test,plain,no,"{First, I will compute the total cost for each trajectory using the given cost function by simulating the inventory system with the provided policy and base_stock parameter. Then, I will search for an improved base_stock value by evaluating a range of candidate values (e.g., 80 to 110) and selecting the one that minimizes the average total cost across all 50 demand trajectories. I will build on the previous parameter (90) by testing nearby values to find a local optimum.}
-
-```"
-deepseek-chat,inventory_ex,normal1,80,50,5,order_before_sell,no,-,-,3,train,plain,no,"{First, I will compute the total cost for each trajectory using the given cost function by simulating the inventory system with the provided policy and base_stock parameter. Then, I will search for an improved base_stock value by evaluating a range of candidate values (e.g., 80 to 110) and selecting the one that minimizes the average total cost across all 50 demand trajectories. I will build on the previous parameter (90) by testing nearby values to find a local optimum.}
-
-```"
-deepseek-chat,inventory_ex,normal1,80,50,5,order_before_sell,no,-,-,3,test,plain,no,"{First, I will compute the total cost for each trajectory using the given cost function by simulating the inventory system with the provided policy and base_stock parameter. Then, I will search for an improved base_stock value by evaluating a range of candidate values (e.g., 80 to 110) and selecting the one that minimizes the average total cost across all 50 demand trajectories. I will build on the previous parameter (90) by testing nearby values to find a local optimum.}
-
-```"
-deepseek-chat,inventory_ex,normal1,80,50,5,order_before_sell,no,-,-,4,train,plain,no,"I will use the provided demand trajectories to simulate the inventory system and compute total costs for different base-stock levels. The cost calculation follows the given formula: for each period, holding cost applies to leftover inventory after demand, and lost sales cost applies to unmet demand. I will search for the optimal base-stock parameter by testing values around the given 91, evaluating performance across all trajectories to find the level that minimizes average total cost. This builds on the previous parameter by using the demand data to empirically optimize rather than relying on the initial value.
-
-```"
-deepseek-chat,inventory_ex,normal1,80,50,5,order_before_sell,no,-,-,4,test,plain,no,"I will use the provided demand trajectories to simulate the inventory system and compute total costs for different base-stock levels. The cost calculation follows the given formula: for each period, holding cost applies to leftover inventory after demand, and lost sales cost applies to unmet demand. I will search for the optimal base-stock parameter by testing values around the given 91, evaluating performance across all trajectories to find the level that minimizes average total cost. This builds on the previous parameter by using the demand data to empirically optimize rather than relying on the initial value.
-
-```"
-deepseek-chat,inventory_ex,normal1,80,50,5,order_before_sell,no,-,-,5,train,plain,no,"I will use the provided demand trajectories to simulate the inventory system and evaluate total costs for different base_stock levels. The cost function calculates holding cost on leftover inventory and lost sales cost on unmet demand each period. I will search for an optimal base_stock parameter by testing values around the given 95, computing average costs across all trajectories. I'll build on the previous parameter by starting from 95 and exploring nearby values to find the cost-minimizing level."
-deepseek-chat,inventory_ex,normal1,80,50,5,order_before_sell,no,-,-,5,test,plain,no,"I will use the provided demand trajectories to simulate the inventory system and evaluate total costs for different base_stock levels. The cost function calculates holding cost on leftover inventory and lost sales cost on unmet demand each period. I will search for an optimal base_stock parameter by testing values around the given 95, computing average costs across all trajectories. I'll build on the previous parameter by starting from 95 and exploring nearby values to find the cost-minimizing level."
-deepseek-chat,inventory_ex,normal1,80,50,5,order_before_sell,no,-,-,6,train,plain,no,"I will use the provided demand trajectories to simulate the inventory system and evaluate total costs for different base_stock levels. The cost function calculates holding cost on leftover inventory and lost sales cost on unmet demand each period. I will search for an optimal base_stock parameter by testing values around the given 95, computing average costs across all trajectories. I'll build on the previous parameter by starting from 95 and exploring nearby values to find the cost-minimizing level."
-deepseek-chat,inventory_ex,normal1,80,50,5,order_before_sell,no,-,-,6,test,plain,no,"I will use the provided demand trajectories to simulate the inventory system and evaluate total costs for different base_stock levels. The cost function calculates holding cost on leftover inventory and lost sales cost on unmet demand each period. I will search for an optimal base_stock parameter by testing values around the given 95, computing average costs across all trajectories. I'll build on the previous parameter by starting from 95 and exploring nearby values to find the cost-minimizing level."
-deepseek-chat,inventory_ex,normal1,80,50,5,order_before_sell,no,-,-,7,train,plain,no,"I will use the provided demand trajectories to simulate the inventory system and evaluate total costs for different base_stock levels. The cost function calculates holding cost on leftover inventory and lost sales cost on unmet demand each period. I will search for an optimal base_stock parameter by testing values around the given 95, computing average costs across all trajectories. I'll build on the previous parameter by starting from 95 and exploring nearby values to find the cost-minimizing level."
-deepseek-chat,inventory_ex,normal1,80,50,5,order_before_sell,no,-,-,7,test,plain,no,"I will use the provided demand trajectories to simulate the inventory system and evaluate total costs for different base_stock levels. The cost function calculates holding cost on leftover inventory and lost sales cost on unmet demand each period. I will search for an optimal base_stock parameter by testing values around the given 95, computing average costs across all trajectories. I'll build on the previous parameter by starting from 95 and exploring nearby values to find the cost-minimizing level."
-deepseek-chat,inventory_ex,normal1,80,50,5,order_before_sell,no,-,-,8,train,plain,no,
-deepseek-chat,inventory_ex,normal1,80,50,5,order_before_sell,no,-,-,8,test,plain,no,
-deepseek-chat,inventory_ex,normal1,80,50,5,order_before_sell,no,-,-,9,train,plain,no,
-deepseek-chat,inventory_ex,normal1,80,50,5,order_before_sell,no,-,-,9,test,plain,no,
-deepseek-chat,inventory_ex,normal1,80,50,5,order_before_sell,no,-,-,10,train,plain,no,
-deepseek-chat,inventory_ex,normal1,80,50,5,order_before_sell,no,-,-,10,test,plain,no,
-deepseek-chat,inventory_ex,normal1,80,50,5,order_before_sell,no,-,-,1,train,processed,no,
-deepseek-chat,inventory_ex,normal1,80,50,5,order_before_sell,no,-,-,1,test,processed,no,
-deepseek-chat,inventory_ex,normal1,80,50,5,order_before_sell,no,-,-,2,train,processed,no,
-deepseek-chat,inventory_ex,normal1,80,50,5,order_before_sell,no,-,-,2,test,processed,no,
-deepseek-chat,inventory_ex,normal1,80,50,5,order_before_sell,no,-,-,3,train,processed,no,
-deepseek-chat,inventory_ex,normal1,80,50,5,order_before_sell,no,-,-,3,test,processed,no,
-deepseek-chat,inventory_ex,normal1,80,50,5,order_before_sell,no,-,-,4,train,processed,no,
-deepseek-chat,inventory_ex,normal1,80,50,5,order_before_sell,no,-,-,4,test,processed,no,
-deepseek-chat,inventory_ex,normal1,80,50,5,order_before_sell,no,-,-,5,train,processed,no,
-deepseek-chat,inventory_ex,normal1,80,50,5,order_before_sell,no,-,-,5,test,processed,no,
-deepseek-chat,inventory_ex,normal1,80,50,5,order_before_sell,no,-,-,6,train,processed,no,
-deepseek-chat,inventory_ex,normal1,80,50,5,order_before_sell,no,-,-,6,test,processed,no,
-deepseek-chat,inventory_ex,normal1,80,50,5,order_before_sell,no,-,-,7,train,processed,no,
-deepseek-chat,inventory_ex,normal1,80,50,5,order_before_sell,no,-,-,7,test,processed,no,
-deepseek-chat,inventory_ex,normal1,80,50,5,order_before_sell,no,-,-,8,train,processed,no,
-deepseek-chat,inventory_ex,normal1,80,50,5,order_before_sell,no,-,-,8,test,processed,no,
-deepseek-chat,inventory_ex,normal1,80,50,5,order_before_sell,no,-,-,9,train,processed,no,
-deepseek-chat,inventory_ex,normal1,80,50,5,order_before_sell,no,-,-,9,test,processed,no,
-deepseek-chat,inventory_ex,normal1,80,50,5,order_before_sell,no,-,-,10,train,processed,no,
-deepseek-chat,inventory_ex,normal1,80,50,5,order_before_sell,no,-,-,10,test,processed,no,
-deepseek-chat,inventory_ex,normal1,80,50,10,order_before_sell,no,-,-,1,train,no,no,
-deepseek-chat,inventory_ex,normal1,80,50,10,order_before_sell,no,-,-,1,test,no,no,
-deepseek-chat,inventory_ex,normal1,80,50,10,order_before_sell,no,-,-,2,train,no,no,
-deepseek-chat,inventory_ex,normal1,80,50,10,order_before_sell,no,-,-,2,test,no,no,
-deepseek-chat,inventory_ex,normal1,80,50,10,order_before_sell,no,-,-,3,train,no,no,
-deepseek-chat,inventory_ex,normal1,80,50,10,order_before_sell,no,-,-,3,test,no,no,
-deepseek-chat,inventory_ex,normal1,80,50,10,order_before_sell,no,-,-,4,train,no,no,
-deepseek-chat,inventory_ex,normal1,80,50,10,order_before_sell,no,-,-,4,test,no,no,
-deepseek-chat,inventory_ex,normal1,80,50,10,order_before_sell,no,-,-,5,train,no,no,
-deepseek-chat,inventory_ex,normal1,80,50,10,order_before_sell,no,-,-,5,test,no,no,
-deepseek-chat,inventory_ex,normal1,80,50,10,order_before_sell,no,-,-,6,train,no,no,
-deepseek-chat,inventory_ex,normal1,80,50,10,order_before_sell,no,-,-,6,test,no,no,
-deepseek-chat,inventory_ex,normal1,80,50,10,order_before_sell,no,-,-,7,train,no,no,
-deepseek-chat,inventory_ex,normal1,80,50,10,order_before_sell,no,-,-,7,test,no,no,
-deepseek-chat,inventory_ex,normal1,80,50,10,order_before_sell,no,-,-,8,train,no,no,
-deepseek-chat,inventory_ex,normal1,80,50,10,order_before_sell,no,-,-,8,test,no,no,
-deepseek-chat,inventory_ex,normal1,80,50,10,order_before_sell,no,-,-,9,train,no,no,
-deepseek-chat,inventory_ex,normal1,80,50,10,order_before_sell,no,-,-,9,test,no,no,
-deepseek-chat,inventory_ex,normal1,80,50,10,order_before_sell,no,-,-,10,train,no,no,
-deepseek-chat,inventory_ex,normal1,80,50,10,order_before_sell,no,-,-,10,test,no,no,
-deepseek-chat,inventory_ex,normal1,80,50,10,order_before_sell,no,-,-,1,train,plain,no,
-deepseek-chat,inventory_ex,normal1,80,50,10,order_before_sell,no,-,-,1,test,plain,no,
-deepseek-chat,inventory_ex,normal1,80,50,10,order_before_sell,no,-,-,2,train,plain,no,
-deepseek-chat,inventory_ex,normal1,80,50,10,order_before_sell,no,-,-,2,test,plain,no,
-deepseek-chat,inventory_ex,normal1,80,50,10,order_before_sell,no,-,-,3,train,plain,no,
-deepseek-chat,inventory_ex,normal1,80,50,10,order_before_sell,no,-,-,3,test,plain,no,
-deepseek-chat,inventory_ex,normal1,80,50,10,order_before_sell,no,-,-,4,train,plain,no,
-deepseek-chat,inventory_ex,normal1,80,50,10,order_before_sell,no,-,-,4,test,plain,no,
-deepseek-chat,inventory_ex,normal1,80,50,10,order_before_sell,no,-,-,5,train,plain,no,
-deepseek-chat,inventory_ex,normal1,80,50,10,order_before_sell,no,-,-,5,test,plain,no,
-deepseek-chat,inventory_ex,normal1,80,50,10,order_before_sell,no,-,-,6,train,plain,no,
-deepseek-chat,inventory_ex,normal1,80,50,10,order_before_sell,no,-,-,6,test,plain,no,
-deepseek-chat,inventory_ex,normal1,80,50,10,order_before_sell,no,-,-,7,train,plain,no,
-deepseek-chat,inventory_ex,normal1,80,50,10,order_before_sell,no,-,-,7,test,plain,no,
-deepseek-chat,inventory_ex,normal1,80,50,10,order_before_sell,no,-,-,8,train,plain,no,
-deepseek-chat,inventory_ex,normal1,80,50,10,order_before_sell,no,-,-,8,test,plain,no,
-deepseek-chat,inventory_ex,normal1,80,50,10,order_before_sell,no,-,-,9,train,plain,no,
-deepseek-chat,inventory_ex,normal1,80,50,10,order_before_sell,no,-,-,9,test,plain,no,
-deepseek-chat,inventory_ex,normal1,80,50,10,order_before_sell,no,-,-,10,train,plain,no,
-deepseek-chat,inventory_ex,normal1,80,50,10,order_before_sell,no,-,-,10,test,plain,no,
-deepseek-chat,inventory_ex,normal1,80,50,10,order_before_sell,no,-,-,1,train,processed,no,
-deepseek-chat,inventory_ex,normal1,80,50,10,order_before_sell,no,-,-,1,test,processed,no,
-deepseek-chat,inventory_ex,normal1,80,50,10,order_before_sell,no,-,-,2,train,processed,no,
-deepseek-chat,inventory_ex,normal1,80,50,10,order_before_sell,no,-,-,2,test,processed,no,
-deepseek-chat,inventory_ex,normal1,80,50,10,order_before_sell,no,-,-,3,train,processed,no,
-deepseek-chat,inventory_ex,normal1,80,50,10,order_before_sell,no,-,-,3,test,processed,no,
-deepseek-chat,inventory_ex,normal1,80,50,10,order_before_sell,no,-,-,4,train,processed,no,
-deepseek-chat,inventory_ex,normal1,80,50,10,order_before_sell,no,-,-,4,test,processed,no,
-deepseek-chat,inventory_ex,normal1,80,50,10,order_before_sell,no,-,-,5,train,processed,no,
-deepseek-chat,inventory_ex,normal1,80,50,10,order_before_sell,no,-,-,5,test,processed,no,
-deepseek-chat,inventory_ex,normal1,80,50,10,order_before_sell,no,-,-,6,train,processed,no,
-deepseek-chat,inventory_ex,normal1,80,50,10,order_before_sell,no,-,-,6,test,processed,no,
-deepseek-chat,inventory_ex,normal1,80,50,10,order_before_sell,no,-,-,7,train,processed,no,
-deepseek-chat,inventory_ex,normal1,80,50,10,order_before_sell,no,-,-,7,test,processed,no,
-deepseek-chat,inventory_ex,normal1,80,50,10,order_before_sell,no,-,-,8,train,processed,no,
-deepseek-chat,inventory_ex,normal1,80,50,10,order_before_sell,no,-,-,8,test,processed,no,
-deepseek-chat,inventory_ex,normal1,80,50,10,order_before_sell,no,-,-,9,train,processed,no,
-deepseek-chat,inventory_ex,normal1,80,50,10,order_before_sell,no,-,-,9,test,processed,no,
-deepseek-chat,inventory_ex,normal1,80,50,10,order_before_sell,no,-,-,10,train,processed,no,
-deepseek-chat,inventory_ex,normal1,80,50,10,order_before_sell,no,-,-,10,test,processed,no,
-deepseek-chat,inventory_ex,normal1,80,50,20,order_before_sell,no,-,-,1,train,no,no,
-deepseek-chat,inventory_ex,normal1,80,50,20,order_before_sell,no,-,-,1,test,no,no,
-deepseek-chat,inventory_ex,normal1,80,50,20,order_before_sell,no,-,-,2,train,no,no,
-deepseek-chat,inventory_ex,normal1,80,50,20,order_before_sell,no,-,-,2,test,no,no,
-deepseek-chat,inventory_ex,normal1,80,50,20,order_before_sell,no,-,-,3,train,no,no,
-deepseek-chat,inventory_ex,normal1,80,50,20,order_before_sell,no,-,-,3,test,no,no,
-deepseek-chat,inventory_ex,normal1,80,50,20,order_before_sell,no,-,-,4,train,no,no,
-deepseek-chat,inventory_ex,normal1,80,50,20,order_before_sell,no,-,-,4,test,no,no,
-deepseek-chat,inventory_ex,normal1,80,50,20,order_before_sell,no,-,-,5,train,no,no,
-deepseek-chat,inventory_ex,normal1,80,50,20,order_before_sell,no,-,-,5,test,no,no,
-deepseek-chat,inventory_ex,normal1,80,50,20,order_before_sell,no,-,-,6,train,no,no,
-deepseek-chat,inventory_ex,normal1,80,50,20,order_before_sell,no,-,-,6,test,no,no,
-deepseek-chat,inventory_ex,normal1,80,50,20,order_before_sell,no,-,-,7,train,no,no,
-deepseek-chat,inventory_ex,normal1,80,50,20,order_before_sell,no,-,-,7,test,no,no,
-deepseek-chat,inventory_ex,normal1,80,50,20,order_before_sell,no,-,-,8,train,no,no,
-deepseek-chat,inventory_ex,normal1,80,50,20,order_before_sell,no,-,-,8,test,no,no,
-deepseek-chat,inventory_ex,normal1,80,50,20,order_before_sell,no,-,-,9,train,no,no,
-deepseek-chat,inventory_ex,normal1,80,50,20,order_before_sell,no,-,-,9,test,no,no,
-deepseek-chat,inventory_ex,normal1,80,50,20,order_before_sell,no,-,-,10,train,no,no,
-deepseek-chat,inventory_ex,normal1,80,50,20,order_before_sell,no,-,-,10,test,no,no,
-deepseek-chat,inventory_ex,normal1,80,50,20,order_before_sell,no,-,-,1,train,plain,no,
-deepseek-chat,inventory_ex,normal1,80,50,20,order_before_sell,no,-,-,1,test,plain,no,
-deepseek-chat,inventory_ex,normal1,80,50,20,order_before_sell,no,-,-,2,train,plain,no,
-deepseek-chat,inventory_ex,normal1,80,50,20,order_before_sell,no,-,-,2,test,plain,no,
-deepseek-chat,inventory_ex,normal1,80,50,20,order_before_sell,no,-,-,3,train,plain,no,
-deepseek-chat,inventory_ex,normal1,80,50,20,order_before_sell,no,-,-,3,test,plain,no,
-deepseek-chat,inventory_ex,normal1,80,50,20,order_before_sell,no,-,-,4,train,plain,no,
-deepseek-chat,inventory_ex,normal1,80,50,20,order_before_sell,no,-,-,4,test,plain,no,
-deepseek-chat,inventory_ex,normal1,80,50,20,order_before_sell,no,-,-,5,train,plain,no,
-deepseek-chat,inventory_ex,normal1,80,50,20,order_before_sell,no,-,-,5,test,plain,no,
-deepseek-chat,inventory_ex,normal1,80,50,20,order_before_sell,no,-,-,6,train,plain,no,
-deepseek-chat,inventory_ex,normal1,80,50,20,order_before_sell,no,-,-,6,test,plain,no,
-deepseek-chat,inventory_ex,normal1,80,50,20,order_before_sell,no,-,-,7,train,plain,no,
-deepseek-chat,inventory_ex,normal1,80,50,20,order_before_sell,no,-,-,7,test,plain,no,
-deepseek-chat,inventory_ex,normal1,80,50,20,order_before_sell,no,-,-,8,train,plain,no,
-deepseek-chat,inventory_ex,normal1,80,50,20,order_before_sell,no,-,-,8,test,plain,no,
-deepseek-chat,inventory_ex,normal1,80,50,20,order_before_sell,no,-,-,9,train,plain,no,
-deepseek-chat,inventory_ex,normal1,80,50,20,order_before_sell,no,-,-,9,test,plain,no,
-deepseek-chat,inventory_ex,normal1,80,50,20,order_before_sell,no,-,-,10,train,plain,no,
-deepseek-chat,inventory_ex,normal1,80,50,20,order_before_sell,no,-,-,10,test,plain,no,
-deepseek-chat,inventory_ex,normal1,80,50,20,order_before_sell,no,-,-,1,train,processed,no,
-deepseek-chat,inventory_ex,normal1,80,50,20,order_before_sell,no,-,-,1,test,processed,no,
-deepseek-chat,inventory_ex,normal1,80,50,20,order_before_sell,no,-,-,2,train,processed,no,
-deepseek-chat,inventory_ex,normal1,80,50,20,order_before_sell,no,-,-,2,test,processed,no,
-deepseek-chat,inventory_ex,normal1,80,50,20,order_before_sell,no,-,-,3,train,processed,no,
-deepseek-chat,inventory_ex,normal1,80,50,20,order_before_sell,no,-,-,3,test,processed,no,
-deepseek-chat,inventory_ex,normal1,80,50,20,order_before_sell,no,-,-,4,train,processed,no,
-deepseek-chat,inventory_ex,normal1,80,50,20,order_before_sell,no,-,-,4,test,processed,no,
-deepseek-chat,inventory_ex,normal1,80,50,20,order_before_sell,no,-,-,5,train,processed,no,
-deepseek-chat,inventory_ex,normal1,80,50,20,order_before_sell,no,-,-,5,test,processed,no,
-deepseek-chat,inventory_ex,normal1,80,50,20,order_before_sell,no,-,-,6,train,processed,no,
-deepseek-chat,inventory_ex,normal1,80,50,20,order_before_sell,no,-,-,6,test,processed,no,
-deepseek-chat,inventory_ex,normal1,80,50,20,order_before_sell,no,-,-,7,train,processed,no,
-deepseek-chat,inventory_ex,normal1,80,50,20,order_before_sell,no,-,-,7,test,processed,no,
-deepseek-chat,inventory_ex,normal1,80,50,20,order_before_sell,no,-,-,8,train,processed,no,
-deepseek-chat,inventory_ex,normal1,80,50,20,order_before_sell,no,-,-,8,test,processed,no,
-deepseek-chat,inventory_ex,normal1,80,50,20,order_before_sell,no,-,-,9,train,processed,no,
-deepseek-chat,inventory_ex,normal1,80,50,20,order_before_sell,no,-,-,9,test,processed,no,
-deepseek-chat,inventory_ex,normal1,80,50,20,order_before_sell,no,-,-,10,train,processed,no,
-deepseek-chat,inventory_ex,normal1,80,50,20,order_before_sell,no,-,-,10,test,processed,no,
-deepseek-chat,inventory_ex,normal1,80,50,50,order_before_sell,no,-,-,1,train,no,no,
-deepseek-chat,inventory_ex,normal1,80,50,50,order_before_sell,no,-,-,1,test,no,no,
-deepseek-chat,inventory_ex,normal1,80,50,50,order_before_sell,no,-,-,2,train,no,no,
-deepseek-chat,inventory_ex,normal1,80,50,50,order_before_sell,no,-,-,2,test,no,no,
-deepseek-chat,inventory_ex,normal1,80,50,50,order_before_sell,no,-,-,3,train,no,no,
-deepseek-chat,inventory_ex,normal1,80,50,50,order_before_sell,no,-,-,3,test,no,no,
-deepseek-chat,inventory_ex,normal1,80,50,50,order_before_sell,no,-,-,4,train,no,no,
-deepseek-chat,inventory_ex,normal1,80,50,50,order_before_sell,no,-,-,4,test,no,no,
-deepseek-chat,inventory_ex,normal1,80,50,50,order_before_sell,no,-,-,5,train,no,no,
-deepseek-chat,inventory_ex,normal1,80,50,50,order_before_sell,no,-,-,5,test,no,no,
-deepseek-chat,inventory_ex,normal1,80,50,50,order_before_sell,no,-,-,6,train,no,no,
-deepseek-chat,inventory_ex,normal1,80,50,50,order_before_sell,no,-,-,6,test,no,no,
-deepseek-chat,inventory_ex,normal1,80,50,50,order_before_sell,no,-,-,7,train,no,no,
-deepseek-chat,inventory_ex,normal1,80,50,50,order_before_sell,no,-,-,7,test,no,no,
-deepseek-chat,inventory_ex,normal1,80,50,50,order_before_sell,no,-,-,8,train,no,no,
-deepseek-chat,inventory_ex,normal1,80,50,50,order_before_sell,no,-,-,8,test,no,no,
-deepseek-chat,inventory_ex,normal1,80,50,50,order_before_sell,no,-,-,9,train,no,no,
-deepseek-chat,inventory_ex,normal1,80,50,50,order_before_sell,no,-,-,9,test,no,no,
-deepseek-chat,inventory_ex,normal1,80,50,50,order_before_sell,no,-,-,10,train,no,no,
-deepseek-chat,inventory_ex,normal1,80,50,50,order_before_sell,no,-,-,10,test,no,no,
-deepseek-chat,inventory_ex,normal1,80,50,50,order_before_sell,no,-,-,1,train,plain,no,
-deepseek-chat,inventory_ex,normal1,80,50,50,order_before_sell,no,-,-,1,test,plain,no,
-deepseek-chat,inventory_ex,normal1,80,50,50,order_before_sell,no,-,-,2,train,plain,no,
-deepseek-chat,inventory_ex,normal1,80,50,50,order_before_sell,no,-,-,2,test,plain,no,
-deepseek-chat,inventory_ex,normal1,80,50,50,order_before_sell,no,-,-,3,train,plain,no,
-deepseek-chat,inventory_ex,normal1,80,50,50,order_before_sell,no,-,-,3,test,plain,no,
-deepseek-chat,inventory_ex,normal1,80,50,50,order_before_sell,no,-,-,4,train,plain,no,
-deepseek-chat,inventory_ex,normal1,80,50,50,order_before_sell,no,-,-,4,test,plain,no,
-deepseek-chat,inventory_ex,normal1,80,50,50,order_before_sell,no,-,-,5,train,plain,no,
-deepseek-chat,inventory_ex,normal1,80,50,50,order_before_sell,no,-,-,5,test,plain,no,
-deepseek-chat,inventory_ex,normal1,80,50,50,order_before_sell,no,-,-,6,train,plain,no,
-deepseek-chat,inventory_ex,normal1,80,50,50,order_before_sell,no,-,-,6,test,plain,no,
-deepseek-chat,inventory_ex,normal1,80,50,50,order_before_sell,no,-,-,7,train,plain,no,
-deepseek-chat,inventory_ex,normal1,80,50,50,order_before_sell,no,-,-,7,test,plain,no,
-deepseek-chat,inventory_ex,normal1,80,50,50,order_before_sell,no,-,-,8,train,plain,no,
-deepseek-chat,inventory_ex,normal1,80,50,50,order_before_sell,no,-,-,8,test,plain,no,
-deepseek-chat,inventory_ex,normal1,80,50,50,order_before_sell,no,-,-,9,train,plain,no,
-deepseek-chat,inventory_ex,normal1,80,50,50,order_before_sell,no,-,-,9,test,plain,no,
-deepseek-chat,inventory_ex,normal1,80,50,50,order_before_sell,no,-,-,10,train,plain,no,
-deepseek-chat,inventory_ex,normal1,80,50,50,order_before_sell,no,-,-,10,test,plain,no,
-deepseek-chat,inventory_ex,normal1,80,50,50,order_before_sell,no,-,-,1,train,processed,no,
-deepseek-chat,inventory_ex,normal1,80,50,50,order_before_sell,no,-,-,1,test,processed,no,
-deepseek-chat,inventory_ex,normal1,80,50,50,order_before_sell,no,-,-,2,train,processed,no,
-deepseek-chat,inventory_ex,normal1,80,50,50,order_before_sell,no,-,-,2,test,processed,no,
-deepseek-chat,inventory_ex,normal1,80,50,50,order_before_sell,no,-,-,3,train,processed,no,
-deepseek-chat,inventory_ex,normal1,80,50,50,order_before_sell,no,-,-,3,test,processed,no,
-deepseek-chat,inventory_ex,normal1,80,50,50,order_before_sell,no,-,-,4,train,processed,no,
-deepseek-chat,inventory_ex,normal1,80,50,50,order_before_sell,no,-,-,4,test,processed,no,
-deepseek-chat,inventory_ex,normal1,80,50,50,order_before_sell,no,-,-,5,train,processed,no,
-deepseek-chat,inventory_ex,normal1,80,50,50,order_before_sell,no,-,-,5,test,processed,no,
-deepseek-chat,inventory_ex,normal1,80,50,50,order_before_sell,no,-,-,6,train,processed,no,
-deepseek-chat,inventory_ex,normal1,80,50,50,order_before_sell,no,-,-,6,test,processed,no,
-deepseek-chat,inventory_ex,normal1,80,50,50,order_before_sell,no,-,-,7,train,processed,no,
-deepseek-chat,inventory_ex,normal1,80,50,50,order_before_sell,no,-,-,7,test,processed,no,
-deepseek-chat,inventory_ex,normal1,80,50,50,order_before_sell,no,-,-,8,train,processed,no,
-deepseek-chat,inventory_ex,normal1,80,50,50,order_before_sell,no,-,-,8,test,processed,no,
-deepseek-chat,inventory_ex,normal1,80,50,50,order_before_sell,no,-,-,9,train,processed,no,
-deepseek-chat,inventory_ex,normal1,80,50,50,order_before_sell,no,-,-,9,test,processed,no,
-deepseek-chat,inventory_ex,normal1,80,50,50,order_before_sell,no,-,-,10,train,processed,no,
-deepseek-chat,inventory_ex,normal1,80,50,50,order_before_sell,no,-,-,10,test,processed,no,
+LLM,problem,dist,demand_mean,n_train,n_horizon,order_option,external_opt,iter_opt,param_loc,n_pop,mode,data_summary,algo_performance
+deepseek-chat,inventory_ex,normal0,80,50,3,order_before_sell,no,-,-,1,train,no,no
+deepseek-chat,inventory_ex,normal0,80,50,3,order_before_sell,no,-,-,1,test,no,no
+deepseek-chat,inventory_ex,normal0,80,50,3,order_before_sell,no,-,-,2,train,no,no
+deepseek-chat,inventory_ex,normal0,80,50,3,order_before_sell,no,-,-,2,test,no,no
+deepseek-chat,inventory_ex,normal0,80,50,3,order_before_sell,no,-,-,3,train,no,no
+deepseek-chat,inventory_ex,normal0,80,50,3,order_before_sell,no,-,-,3,test,no,no
+deepseek-chat,inventory_ex,normal0,80,50,3,order_before_sell,no,-,-,4,train,no,no
+deepseek-chat,inventory_ex,normal0,80,50,3,order_before_sell,no,-,-,4,test,no,no
+deepseek-chat,inventory_ex,normal0,80,50,3,order_before_sell,no,-,-,5,train,no,no
+deepseek-chat,inventory_ex,normal0,80,50,3,order_before_sell,no,-,-,5,test,no,no
+deepseek-chat,inventory_ex,normal0,80,50,3,order_before_sell,no,-,-,6,train,no,no
+deepseek-chat,inventory_ex,normal0,80,50,3,order_before_sell,no,-,-,6,test,no,no
+deepseek-chat,inventory_ex,normal0,80,50,3,order_before_sell,no,-,-,7,train,no,no
+deepseek-chat,inventory_ex,normal0,80,50,3,order_before_sell,no,-,-,7,test,no,no
+deepseek-chat,inventory_ex,normal0,80,50,3,order_before_sell,no,-,-,8,train,no,no
+deepseek-chat,inventory_ex,normal0,80,50,3,order_before_sell,no,-,-,8,test,no,no
+deepseek-chat,inventory_ex,normal0,80,50,3,order_before_sell,no,-,-,9,train,no,no
+deepseek-chat,inventory_ex,normal0,80,50,3,order_before_sell,no,-,-,9,test,no,no
+deepseek-chat,inventory_ex,normal0,80,50,3,order_before_sell,no,-,-,10,train,no,no
+deepseek-chat,inventory_ex,normal0,80,50,3,order_before_sell,no,-,-,10,test,no,no
+deepseek-chat,inventory_ex,normal0,80,50,3,order_before_sell,no,-,-,1,train,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,3,order_before_sell,no,-,-,1,test,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,3,order_before_sell,no,-,-,2,train,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,3,order_before_sell,no,-,-,2,test,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,3,order_before_sell,no,-,-,3,train,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,3,order_before_sell,no,-,-,3,test,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,3,order_before_sell,no,-,-,4,train,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,3,order_before_sell,no,-,-,4,test,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,3,order_before_sell,no,-,-,5,train,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,3,order_before_sell,no,-,-,5,test,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,3,order_before_sell,no,-,-,6,train,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,3,order_before_sell,no,-,-,6,test,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,3,order_before_sell,no,-,-,7,train,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,3,order_before_sell,no,-,-,7,test,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,3,order_before_sell,no,-,-,8,train,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,3,order_before_sell,no,-,-,8,test,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,3,order_before_sell,no,-,-,9,train,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,3,order_before_sell,no,-,-,9,test,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,3,order_before_sell,no,-,-,10,train,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,3,order_before_sell,no,-,-,10,test,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,3,order_before_sell,no,-,-,1,train,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,3,order_before_sell,no,-,-,1,test,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,3,order_before_sell,no,-,-,2,train,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,3,order_before_sell,no,-,-,2,test,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,3,order_before_sell,no,-,-,3,train,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,3,order_before_sell,no,-,-,3,test,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,3,order_before_sell,no,-,-,4,train,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,3,order_before_sell,no,-,-,4,test,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,3,order_before_sell,no,-,-,5,train,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,3,order_before_sell,no,-,-,5,test,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,3,order_before_sell,no,-,-,6,train,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,3,order_before_sell,no,-,-,6,test,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,3,order_before_sell,no,-,-,7,train,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,3,order_before_sell,no,-,-,7,test,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,3,order_before_sell,no,-,-,8,train,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,3,order_before_sell,no,-,-,8,test,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,3,order_before_sell,no,-,-,9,train,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,3,order_before_sell,no,-,-,9,test,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,3,order_before_sell,no,-,-,10,train,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,3,order_before_sell,no,-,-,10,test,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,5,order_before_sell,no,-,-,1,train,no,no
+deepseek-chat,inventory_ex,normal0,80,50,5,order_before_sell,no,-,-,1,test,no,no
+deepseek-chat,inventory_ex,normal0,80,50,5,order_before_sell,no,-,-,2,train,no,no
+deepseek-chat,inventory_ex,normal0,80,50,5,order_before_sell,no,-,-,2,test,no,no
+deepseek-chat,inventory_ex,normal0,80,50,5,order_before_sell,no,-,-,3,train,no,no
+deepseek-chat,inventory_ex,normal0,80,50,5,order_before_sell,no,-,-,3,test,no,no
+deepseek-chat,inventory_ex,normal0,80,50,5,order_before_sell,no,-,-,4,train,no,no
+deepseek-chat,inventory_ex,normal0,80,50,5,order_before_sell,no,-,-,4,test,no,no
+deepseek-chat,inventory_ex,normal0,80,50,5,order_before_sell,no,-,-,5,train,no,no
+deepseek-chat,inventory_ex,normal0,80,50,5,order_before_sell,no,-,-,5,test,no,no
+deepseek-chat,inventory_ex,normal0,80,50,5,order_before_sell,no,-,-,6,train,no,no
+deepseek-chat,inventory_ex,normal0,80,50,5,order_before_sell,no,-,-,6,test,no,no
+deepseek-chat,inventory_ex,normal0,80,50,5,order_before_sell,no,-,-,7,train,no,no
+deepseek-chat,inventory_ex,normal0,80,50,5,order_before_sell,no,-,-,7,test,no,no
+deepseek-chat,inventory_ex,normal0,80,50,5,order_before_sell,no,-,-,8,train,no,no
+deepseek-chat,inventory_ex,normal0,80,50,5,order_before_sell,no,-,-,8,test,no,no
+deepseek-chat,inventory_ex,normal0,80,50,5,order_before_sell,no,-,-,9,train,no,no
+deepseek-chat,inventory_ex,normal0,80,50,5,order_before_sell,no,-,-,9,test,no,no
+deepseek-chat,inventory_ex,normal0,80,50,5,order_before_sell,no,-,-,10,train,no,no
+deepseek-chat,inventory_ex,normal0,80,50,5,order_before_sell,no,-,-,10,test,no,no
+deepseek-chat,inventory_ex,normal0,80,50,5,order_before_sell,no,-,-,1,train,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,5,order_before_sell,no,-,-,1,test,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,5,order_before_sell,no,-,-,2,train,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,5,order_before_sell,no,-,-,2,test,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,5,order_before_sell,no,-,-,3,train,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,5,order_before_sell,no,-,-,3,test,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,5,order_before_sell,no,-,-,4,train,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,5,order_before_sell,no,-,-,4,test,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,5,order_before_sell,no,-,-,5,train,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,5,order_before_sell,no,-,-,5,test,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,5,order_before_sell,no,-,-,6,train,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,5,order_before_sell,no,-,-,6,test,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,5,order_before_sell,no,-,-,7,train,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,5,order_before_sell,no,-,-,7,test,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,5,order_before_sell,no,-,-,8,train,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,5,order_before_sell,no,-,-,8,test,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,5,order_before_sell,no,-,-,9,train,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,5,order_before_sell,no,-,-,9,test,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,5,order_before_sell,no,-,-,10,train,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,5,order_before_sell,no,-,-,10,test,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,5,order_before_sell,no,-,-,1,train,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,5,order_before_sell,no,-,-,1,test,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,5,order_before_sell,no,-,-,2,train,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,5,order_before_sell,no,-,-,2,test,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,5,order_before_sell,no,-,-,3,train,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,5,order_before_sell,no,-,-,3,test,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,5,order_before_sell,no,-,-,4,train,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,5,order_before_sell,no,-,-,4,test,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,5,order_before_sell,no,-,-,5,train,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,5,order_before_sell,no,-,-,5,test,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,5,order_before_sell,no,-,-,6,train,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,5,order_before_sell,no,-,-,6,test,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,5,order_before_sell,no,-,-,7,train,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,5,order_before_sell,no,-,-,7,test,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,5,order_before_sell,no,-,-,8,train,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,5,order_before_sell,no,-,-,8,test,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,5,order_before_sell,no,-,-,9,train,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,5,order_before_sell,no,-,-,9,test,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,5,order_before_sell,no,-,-,10,train,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,5,order_before_sell,no,-,-,10,test,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,10,order_before_sell,no,-,-,1,train,no,no
+deepseek-chat,inventory_ex,normal0,80,50,10,order_before_sell,no,-,-,1,test,no,no
+deepseek-chat,inventory_ex,normal0,80,50,10,order_before_sell,no,-,-,2,train,no,no
+deepseek-chat,inventory_ex,normal0,80,50,10,order_before_sell,no,-,-,2,test,no,no
+deepseek-chat,inventory_ex,normal0,80,50,10,order_before_sell,no,-,-,3,train,no,no
+deepseek-chat,inventory_ex,normal0,80,50,10,order_before_sell,no,-,-,3,test,no,no
+deepseek-chat,inventory_ex,normal0,80,50,10,order_before_sell,no,-,-,4,train,no,no
+deepseek-chat,inventory_ex,normal0,80,50,10,order_before_sell,no,-,-,4,test,no,no
+deepseek-chat,inventory_ex,normal0,80,50,10,order_before_sell,no,-,-,5,train,no,no
+deepseek-chat,inventory_ex,normal0,80,50,10,order_before_sell,no,-,-,5,test,no,no
+deepseek-chat,inventory_ex,normal0,80,50,10,order_before_sell,no,-,-,6,train,no,no
+deepseek-chat,inventory_ex,normal0,80,50,10,order_before_sell,no,-,-,6,test,no,no
+deepseek-chat,inventory_ex,normal0,80,50,10,order_before_sell,no,-,-,7,train,no,no
+deepseek-chat,inventory_ex,normal0,80,50,10,order_before_sell,no,-,-,7,test,no,no
+deepseek-chat,inventory_ex,normal0,80,50,10,order_before_sell,no,-,-,8,train,no,no
+deepseek-chat,inventory_ex,normal0,80,50,10,order_before_sell,no,-,-,8,test,no,no
+deepseek-chat,inventory_ex,normal0,80,50,10,order_before_sell,no,-,-,9,train,no,no
+deepseek-chat,inventory_ex,normal0,80,50,10,order_before_sell,no,-,-,9,test,no,no
+deepseek-chat,inventory_ex,normal0,80,50,10,order_before_sell,no,-,-,10,train,no,no
+deepseek-chat,inventory_ex,normal0,80,50,10,order_before_sell,no,-,-,10,test,no,no
+deepseek-chat,inventory_ex,normal0,80,50,10,order_before_sell,no,-,-,1,train,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,10,order_before_sell,no,-,-,1,test,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,10,order_before_sell,no,-,-,2,train,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,10,order_before_sell,no,-,-,2,test,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,10,order_before_sell,no,-,-,3,train,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,10,order_before_sell,no,-,-,3,test,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,10,order_before_sell,no,-,-,4,train,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,10,order_before_sell,no,-,-,4,test,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,10,order_before_sell,no,-,-,5,train,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,10,order_before_sell,no,-,-,5,test,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,10,order_before_sell,no,-,-,6,train,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,10,order_before_sell,no,-,-,6,test,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,10,order_before_sell,no,-,-,7,train,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,10,order_before_sell,no,-,-,7,test,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,10,order_before_sell,no,-,-,8,train,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,10,order_before_sell,no,-,-,8,test,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,10,order_before_sell,no,-,-,9,train,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,10,order_before_sell,no,-,-,9,test,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,10,order_before_sell,no,-,-,10,train,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,10,order_before_sell,no,-,-,10,test,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,10,order_before_sell,no,-,-,1,train,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,10,order_before_sell,no,-,-,1,test,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,10,order_before_sell,no,-,-,2,train,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,10,order_before_sell,no,-,-,2,test,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,10,order_before_sell,no,-,-,3,train,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,10,order_before_sell,no,-,-,3,test,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,10,order_before_sell,no,-,-,4,train,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,10,order_before_sell,no,-,-,4,test,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,10,order_before_sell,no,-,-,5,train,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,10,order_before_sell,no,-,-,5,test,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,10,order_before_sell,no,-,-,6,train,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,10,order_before_sell,no,-,-,6,test,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,10,order_before_sell,no,-,-,7,train,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,10,order_before_sell,no,-,-,7,test,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,10,order_before_sell,no,-,-,8,train,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,10,order_before_sell,no,-,-,8,test,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,10,order_before_sell,no,-,-,9,train,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,10,order_before_sell,no,-,-,9,test,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,10,order_before_sell,no,-,-,10,train,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,10,order_before_sell,no,-,-,10,test,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,20,order_before_sell,no,-,-,1,train,no,no
+deepseek-chat,inventory_ex,normal0,80,50,20,order_before_sell,no,-,-,1,test,no,no
+deepseek-chat,inventory_ex,normal0,80,50,20,order_before_sell,no,-,-,2,train,no,no
+deepseek-chat,inventory_ex,normal0,80,50,20,order_before_sell,no,-,-,2,test,no,no
+deepseek-chat,inventory_ex,normal0,80,50,20,order_before_sell,no,-,-,3,train,no,no
+deepseek-chat,inventory_ex,normal0,80,50,20,order_before_sell,no,-,-,3,test,no,no
+deepseek-chat,inventory_ex,normal0,80,50,20,order_before_sell,no,-,-,4,train,no,no
+deepseek-chat,inventory_ex,normal0,80,50,20,order_before_sell,no,-,-,4,test,no,no
+deepseek-chat,inventory_ex,normal0,80,50,20,order_before_sell,no,-,-,5,train,no,no
+deepseek-chat,inventory_ex,normal0,80,50,20,order_before_sell,no,-,-,5,test,no,no
+deepseek-chat,inventory_ex,normal0,80,50,20,order_before_sell,no,-,-,6,train,no,no
+deepseek-chat,inventory_ex,normal0,80,50,20,order_before_sell,no,-,-,6,test,no,no
+deepseek-chat,inventory_ex,normal0,80,50,20,order_before_sell,no,-,-,7,train,no,no
+deepseek-chat,inventory_ex,normal0,80,50,20,order_before_sell,no,-,-,7,test,no,no
+deepseek-chat,inventory_ex,normal0,80,50,20,order_before_sell,no,-,-,8,train,no,no
+deepseek-chat,inventory_ex,normal0,80,50,20,order_before_sell,no,-,-,8,test,no,no
+deepseek-chat,inventory_ex,normal0,80,50,20,order_before_sell,no,-,-,9,train,no,no
+deepseek-chat,inventory_ex,normal0,80,50,20,order_before_sell,no,-,-,9,test,no,no
+deepseek-chat,inventory_ex,normal0,80,50,20,order_before_sell,no,-,-,10,train,no,no
+deepseek-chat,inventory_ex,normal0,80,50,20,order_before_sell,no,-,-,10,test,no,no
+deepseek-chat,inventory_ex,normal0,80,50,20,order_before_sell,no,-,-,1,train,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,20,order_before_sell,no,-,-,1,test,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,20,order_before_sell,no,-,-,2,train,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,20,order_before_sell,no,-,-,2,test,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,20,order_before_sell,no,-,-,3,train,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,20,order_before_sell,no,-,-,3,test,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,20,order_before_sell,no,-,-,4,train,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,20,order_before_sell,no,-,-,4,test,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,20,order_before_sell,no,-,-,5,train,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,20,order_before_sell,no,-,-,5,test,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,20,order_before_sell,no,-,-,6,train,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,20,order_before_sell,no,-,-,6,test,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,20,order_before_sell,no,-,-,7,train,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,20,order_before_sell,no,-,-,7,test,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,20,order_before_sell,no,-,-,8,train,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,20,order_before_sell,no,-,-,8,test,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,20,order_before_sell,no,-,-,9,train,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,20,order_before_sell,no,-,-,9,test,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,20,order_before_sell,no,-,-,10,train,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,20,order_before_sell,no,-,-,10,test,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,20,order_before_sell,no,-,-,1,train,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,20,order_before_sell,no,-,-,1,test,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,20,order_before_sell,no,-,-,2,train,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,20,order_before_sell,no,-,-,2,test,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,20,order_before_sell,no,-,-,3,train,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,20,order_before_sell,no,-,-,3,test,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,20,order_before_sell,no,-,-,4,train,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,20,order_before_sell,no,-,-,4,test,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,20,order_before_sell,no,-,-,5,train,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,20,order_before_sell,no,-,-,5,test,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,20,order_before_sell,no,-,-,6,train,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,20,order_before_sell,no,-,-,6,test,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,20,order_before_sell,no,-,-,7,train,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,20,order_before_sell,no,-,-,7,test,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,20,order_before_sell,no,-,-,8,train,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,20,order_before_sell,no,-,-,8,test,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,20,order_before_sell,no,-,-,9,train,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,20,order_before_sell,no,-,-,9,test,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,20,order_before_sell,no,-,-,10,train,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,20,order_before_sell,no,-,-,10,test,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,50,order_before_sell,no,-,-,1,train,no,no
+deepseek-chat,inventory_ex,normal0,80,50,50,order_before_sell,no,-,-,1,test,no,no
+deepseek-chat,inventory_ex,normal0,80,50,50,order_before_sell,no,-,-,2,train,no,no
+deepseek-chat,inventory_ex,normal0,80,50,50,order_before_sell,no,-,-,2,test,no,no
+deepseek-chat,inventory_ex,normal0,80,50,50,order_before_sell,no,-,-,3,train,no,no
+deepseek-chat,inventory_ex,normal0,80,50,50,order_before_sell,no,-,-,3,test,no,no
+deepseek-chat,inventory_ex,normal0,80,50,50,order_before_sell,no,-,-,4,train,no,no
+deepseek-chat,inventory_ex,normal0,80,50,50,order_before_sell,no,-,-,4,test,no,no
+deepseek-chat,inventory_ex,normal0,80,50,50,order_before_sell,no,-,-,5,train,no,no
+deepseek-chat,inventory_ex,normal0,80,50,50,order_before_sell,no,-,-,5,test,no,no
+deepseek-chat,inventory_ex,normal0,80,50,50,order_before_sell,no,-,-,6,train,no,no
+deepseek-chat,inventory_ex,normal0,80,50,50,order_before_sell,no,-,-,6,test,no,no
+deepseek-chat,inventory_ex,normal0,80,50,50,order_before_sell,no,-,-,7,train,no,no
+deepseek-chat,inventory_ex,normal0,80,50,50,order_before_sell,no,-,-,7,test,no,no
+deepseek-chat,inventory_ex,normal0,80,50,50,order_before_sell,no,-,-,8,train,no,no
+deepseek-chat,inventory_ex,normal0,80,50,50,order_before_sell,no,-,-,8,test,no,no
+deepseek-chat,inventory_ex,normal0,80,50,50,order_before_sell,no,-,-,9,train,no,no
+deepseek-chat,inventory_ex,normal0,80,50,50,order_before_sell,no,-,-,9,test,no,no
+deepseek-chat,inventory_ex,normal0,80,50,50,order_before_sell,no,-,-,10,train,no,no
+deepseek-chat,inventory_ex,normal0,80,50,50,order_before_sell,no,-,-,10,test,no,no
+deepseek-chat,inventory_ex,normal0,80,50,50,order_before_sell,no,-,-,1,train,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,50,order_before_sell,no,-,-,1,test,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,50,order_before_sell,no,-,-,2,train,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,50,order_before_sell,no,-,-,2,test,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,50,order_before_sell,no,-,-,3,train,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,50,order_before_sell,no,-,-,3,test,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,50,order_before_sell,no,-,-,4,train,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,50,order_before_sell,no,-,-,4,test,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,50,order_before_sell,no,-,-,5,train,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,50,order_before_sell,no,-,-,5,test,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,50,order_before_sell,no,-,-,6,train,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,50,order_before_sell,no,-,-,6,test,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,50,order_before_sell,no,-,-,7,train,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,50,order_before_sell,no,-,-,7,test,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,50,order_before_sell,no,-,-,8,train,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,50,order_before_sell,no,-,-,8,test,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,50,order_before_sell,no,-,-,9,train,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,50,order_before_sell,no,-,-,9,test,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,50,order_before_sell,no,-,-,10,train,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,50,order_before_sell,no,-,-,10,test,plain,no
+deepseek-chat,inventory_ex,normal0,80,50,50,order_before_sell,no,-,-,1,train,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,50,order_before_sell,no,-,-,1,test,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,50,order_before_sell,no,-,-,2,train,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,50,order_before_sell,no,-,-,2,test,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,50,order_before_sell,no,-,-,3,train,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,50,order_before_sell,no,-,-,3,test,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,50,order_before_sell,no,-,-,4,train,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,50,order_before_sell,no,-,-,4,test,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,50,order_before_sell,no,-,-,5,train,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,50,order_before_sell,no,-,-,5,test,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,50,order_before_sell,no,-,-,6,train,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,50,order_before_sell,no,-,-,6,test,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,50,order_before_sell,no,-,-,7,train,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,50,order_before_sell,no,-,-,7,test,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,50,order_before_sell,no,-,-,8,train,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,50,order_before_sell,no,-,-,8,test,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,50,order_before_sell,no,-,-,9,train,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,50,order_before_sell,no,-,-,9,test,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,50,order_before_sell,no,-,-,10,train,processed,no
+deepseek-chat,inventory_ex,normal0,80,50,50,order_before_sell,no,-,-,10,test,processed,no
