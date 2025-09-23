@@ -9,7 +9,7 @@ external_opt_list = ['no']
 # external_opt_list =['no', 'ng', 'deap', 'scipy']
 algo_performance_list = ['no']
 # algo_performance_list=['no','plain','processed']
-data_summary_list = ['plain']
+data_summary_list = ['plain','processed','no']
 # data_summary_list = ['no','plain','processed']
 n_train_list = [50]
 n_horizon_list = [3, 5, 10, 20, 50]
@@ -17,8 +17,8 @@ n_horizon_list = [3, 5, 10, 20, 50]
 iter_opt_list = [30]
 param_loc_list = ['default']
 # param_loc_list = ['start', 'default']
-order_option_list = ['order_before_sell', 'order_after_sell']
-repeat_num = 30
+order_option_list = ['order_before_sell']
+repeat_num = 2
 
 for repeat in range(repeat_num):
     repeat += 1
@@ -45,7 +45,7 @@ for repeat in range(repeat_num):
                                                 f"--algo_performance {algo_performance} "
                                                 f"--data_summary {data_summary} "
                                                 f"--repeat {repeat} "
-                                                f"--filename res2 "
+                                                f"--filename res "
                                                 f"--store_option append "
                                             )
                                             print(f"Running: {command}")

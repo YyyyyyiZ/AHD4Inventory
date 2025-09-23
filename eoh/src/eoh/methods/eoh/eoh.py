@@ -212,7 +212,6 @@ class EOH:
                 print()
             offspring_pop_last = offspring_pop_current
 
-
             # Save population to a file
             filename = f"{self.output_path}/pops/population_generation_" + str(pop + 1) + ".json"
             # filename = self.output_path + "/results/pops/population_generation_" + str(pop + 1) + ".json"
@@ -270,7 +269,10 @@ class EOH:
         if self.problem in problem_fields:
             oneline.update(problem_fields[self.problem])
 
-        # score: population 假设只有一个元素
+        if len(population) == 0:
+            reasoning = None
+        else:
+            reasoning = population[0].get('algorithm')
         if len(population) == 0:
             score_value = None
         else:
@@ -279,7 +281,6 @@ class EOH:
             else:
                 score_value = population[0].get('test_objective')
 
-        # 读取已有文件或创建空的 dataframe（包含基础和 problem-specific 列）
         try:
             df = pd.read_csv(filename)
         except (FileNotFoundError, pd.errors.EmptyDataError):
@@ -319,6 +320,54 @@ class EOH:
                 else:
                     new_row[k] = v
             new_row[repeat_col] = score_value
+
+            for k in new_row.keys():
+                if k not in df.columns:
+                    df[k] = None
+
+            df = pd.concat([df, pd.DataFrame([new_row])], ignore_index=True)
+        df.to_csv(filename, index=False, float_format='%.2f')
+
+        filename = parent_dir / f"{self.filename}_reasoning.csv"
+        try:
+            df = pd.read_csv(filename)
+        except (FileNotFoundError, pd.errors.EmptyDataError):
+            problem_specific_fields = sorted({k for d in problem_fields.values() for k in d.keys()})
+            base_fields = [
+                'LLM', 'problem', 'n_train', 'n_horizon', 'order_option', 'external_opt', 'iter_opt',
+                'param_loc', 'n_pop', 'mode', 'data_summary', 'algo_performance'
+            ]
+            df = pd.DataFrame(columns=base_fields + problem_specific_fields)
+
+        key_fields = list(oneline.keys())
+        for k in key_fields:
+            if k not in df.columns:
+                df[k] = None
+
+        if df.empty:
+            mask = pd.Series(dtype=bool)
+        else:
+            cmp_series = pd.Series(oneline)
+            mask = (df[key_fields] == cmp_series[key_fields]).all(axis=1)
+
+        repeat_col = f"repeat_{self.repeat}"
+
+        if mask.any():
+            row_idx = mask[mask].index[0]
+            if repeat_col not in df.columns:
+                df[repeat_col] = None
+            df.at[row_idx, repeat_col] = reasoning
+        else:
+            if repeat_col not in df.columns:
+                df[repeat_col] = None
+
+            new_row = {col: None for col in df.columns}
+            for k, v in oneline.items():
+                if k in new_row:
+                    new_row[k] = v
+                else:
+                    new_row[k] = v
+            new_row[repeat_col] = reasoning
 
             for k in new_row.keys():
                 if k not in df.columns:
