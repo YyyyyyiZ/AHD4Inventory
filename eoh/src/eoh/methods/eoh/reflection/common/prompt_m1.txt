@@ -20,11 +20,7 @@ and return {prompt_func_num_outputs} output(s): {prompt_func_num_outputs}.
 
 Please use the provided demand data to adjust the parameters of the given code and generate an improved implementation. Modify only the parameters—do not change any other part of the code.
 
-BEFORE producing code, briefly state how you will use the provided data summary in your reasoning,
-then explain (1) how you compute cost using the given cost function, (2) how you will search for a
-better parameter (e.g., base_stock), and (3) whether and how you are building on the previous
-parameters. Keep it concise and **do not** include step-by-step chain-of-thought—just a short,
-high-level summary. The summary should be inside double curly braces, like this:
+After generating the new implementation, provide a concise explanation for your parameter choices inside double curly braces, like this:
 
 {{Your explanation here}}
 
