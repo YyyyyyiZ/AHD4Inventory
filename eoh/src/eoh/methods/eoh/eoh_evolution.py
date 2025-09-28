@@ -170,7 +170,7 @@ class Evolution:
             # algo_decsr=indiv1['algorithm'],
             algo_code=indiv1['code'],
             data_summary=self.analyzer.get_data_summary(),
-            # algo_performance=self.analyzer.get_algo_performance([indiv1]),
+            algo_performance=self.analyzer.get_algo_performance([indiv1]),
             # prompt_func_name=self.prompt_func_name,
             prompt_func_num_inputs=str(len(self.prompt_func_inputs)),
             prompt_func_inputs=self.joined_inputs,

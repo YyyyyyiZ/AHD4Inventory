@@ -1,18 +1,38 @@
 class GetPrompts():
     def __init__(self):
         self.prompt_task = """
-        Consider an inventory system with lost sales and lead time. 
-        The total cost in this inventory problem is:
-            Total Cost = E[ sum_{t=1}^T ( h * max(0, I_t - D_t) + p * max(0, D_t - I_t) ) ]
-    
-            where:
-            - h = holding cost
-            - p = lost sales penalty
-            - I_t = inventory at time t
-            - D_t = demand at time t
+        We consider a single-product inventory system that operates in discrete periods $t=1,2,\dots,T$. 
+        The system has positive lead time $L$ and lost sales.  
+
+        At the beginning of period $t$, the state consists of:  
+        - On-hand inventory $I_t \geq 0$.  
+        - Pipeline orders $Q_t = (q_{t,1}, q_{t,2}, \dots, q_{t,L})$, where $q_{t,k}$ will arrive in $k$ periods.  
+
+        The sequence of events in each period is:  
+        1. Arrival: $I_t \leftarrow I_t + q_{t,1}$.  
+        2. Order placement: a new replenishment order $a_t \geq 0$ is placed; it will arrive after $L$ periods.  
+        3. Demand realization: random demand $D_t$ occurs. Sales and lost sales are
+        \[
+        S_t = \min(I_t, D_t), \quad 
+        L_t = \max(0, D_t - I_t), \quad 
+        I_{t+1} = \max(0, I_t - D_t).
+        \]  
+        4. Pipeline update:  
+        \[
+        Q_{t+1} = (q_{t,2}, \dots, q_{t,L}, a_t).
+        \]  
+
+        The cost in period $t$ is  
+        \[
+        c_t = h \cdot \max(0, I_t - D_t) \;+\; p \cdot \max(0, D_t - I_t).
+        \]  
+
+        The objective is  
+        \[
+        \min_{\{a_t \geq 0\}_{t=1}^T} \; \mathbb{E}\!\left[\sum_{t=1}^T c_t\right].
+        \]  
 
         You are given a policy that computes the order quantity each period to minimize total costs (holding and lost sales), based on the current inventory and pipeline inventory (orders in transit).
-        Importantly, in each period the order is placed before the demand is realized, which means the base-stock policy should anticipate upcoming sales that have not yet occurred. 
         Your task is to adjust the parameters of this policy to generate an improved implementation.
         """
         self.prompt_func_name = "compute_order_amount"

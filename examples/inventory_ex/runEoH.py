@@ -25,8 +25,8 @@ parser.add_argument('--n_train', type=int, default=50, help='Number of training 
 parser.add_argument('--n_horizon', type=int, default=3, help='Number of horizons.')
 
 parser.add_argument('--data_summary', type=str, default='no')
-parser.add_argument('--algo_performance', type=str, default='reflected')
-# plain, processed, reflected
+parser.add_argument('--algo_performance', type=str, default='no')
+# no, plain, processed
 
 
 # Optimizer

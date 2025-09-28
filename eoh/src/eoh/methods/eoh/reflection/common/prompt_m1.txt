@@ -12,6 +12,11 @@ I have one algorithm with its code as follows:
 
 ---
 
+Below is the performance of the provided algorithm on data:
+{algo_performance}
+
+---
+
 This function accept {prompt_func_num_inputs} input(s): {prompt_func_inputs},
 and return {prompt_func_num_outputs} output(s): {prompt_func_num_outputs}.
 {prompt_inout_inf}.

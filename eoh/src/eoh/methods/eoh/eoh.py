@@ -201,7 +201,7 @@ class EOH:
                 print(f" OP: {op}, [{i + 1} / {n_op}] ", end="|")
                 op_w = self.operator_weights[i]
                 if (np.random.rand() < op_w):
-                    parents, offsprings = interface_ec.get_algorithm(offspring_pop_last, op, n_pop=pop)  # population
+                    parents, offsprings = interface_ec.get_algorithm(population, op, n_pop=pop)  # population
                 self.add2pop(population, offsprings)  # Check duplication, and add the new offspring
                 self.add2pop(offspring_pop_current, offsprings)
                 for off in offsprings:

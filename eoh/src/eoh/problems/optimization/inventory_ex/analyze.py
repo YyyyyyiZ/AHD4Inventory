@@ -19,10 +19,10 @@ class InventoryAnalyzer:
             lost_sales_cost = one_instance['lost_sales_cost']
             param_info = (
                 f"Below are some problem parameters: "
-                f"lead_time={lead_time}, "
-                f"initial_inventory={initial_inventory}, "
-                f"holding_cost={holding_cost}, "
-                f"lost_sales_cost={lost_sales_cost}. "
+                f"lead_time $L$ ={lead_time}, "
+                f"initial_inventory $I_0$ ={initial_inventory}, "
+                f"holding_cost $h$ ={holding_cost}, "
+                f"lost_sales_cost $p$ ={lost_sales_cost}. "
             )
             return param_info
         else:
