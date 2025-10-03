@@ -3,6 +3,7 @@ import pandas as pd
 import json
 import random
 import time
+import csv
 from pathlib import Path
 
 from .eoh_interface_EC import InterfaceEC
@@ -108,11 +109,20 @@ class EOH:
     # add new individual to population
     def add2pop(self, population, offspring):
         for off in offspring:
-            for ind in population:
+            # Check if there's an existing individual with same objective
+            replaced = False
+            for i, ind in enumerate(population):
                 if ind['objective'] == off['objective']:
-                    if (self.debug_mode):
-                        print("duplicated result, retrying ... ")
-            population.append(off)
+                    # Same performance found - replace old individual with fresh response
+                    if self.debug_mode:
+                        print(f"Same objective found, updating with fresh response (obj: {off['objective']})")
+                    population[i] = off  # Replace old individual with new one
+                    replaced = True
+                    break
+
+            # If no duplicate found, add new individual
+            if not replaced:
+                population.append(off)
 
     def run(self):
 
@@ -260,6 +270,10 @@ class EOH:
                 'dist': getattr(self, 'dist', None),
                 'demand_mean': getattr(self, 'demand_mean', None)
             },
+            'inventory_ex': {
+                'dist': getattr(self, 'dist', None),
+                'demand_mean': getattr(self, 'demand_mean', None)
+            },
             'tsp': {
                 'option': getattr(self, 'option', None),
                 'n_node': getattr(self, 'n_node', None)
@@ -326,18 +340,24 @@ class EOH:
                     df[k] = None
 
             df = pd.concat([df, pd.DataFrame([new_row])], ignore_index=True)
-        df.to_csv(filename, index=False, float_format='%.2f')
+        df.to_csv(filename, index=False, float_format='%.2f', quoting=csv.QUOTE_NONNUMERIC)
 
         filename = parent_dir / f"{self.filename}_reasoning.csv"
         try:
-            df = pd.read_csv(filename)
+            # Try reading with quoting first (new format)
+            df = pd.read_csv(filename, quoting=csv.QUOTE_NONNUMERIC)
         except (FileNotFoundError, pd.errors.EmptyDataError):
+            # File doesn't exist or is empty, create new DataFrame
             problem_specific_fields = sorted({k for d in problem_fields.values() for k in d.keys()})
             base_fields = [
                 'LLM', 'problem', 'n_train', 'n_horizon', 'order_option', 'external_opt', 'iter_opt',
                 'param_loc', 'n_pop', 'mode', 'data_summary', 'algo_performance'
             ]
             df = pd.DataFrame(columns=base_fields + problem_specific_fields)
+        except (pd.errors.ParserError, ValueError):
+            # Fall back to reading without quoting (old corrupted format)
+            # This will likely still fail with corrupted data, but we'll skip the bad rows
+            df = pd.read_csv(filename, on_bad_lines='skip')
 
         key_fields = list(oneline.keys())
         for k in key_fields:
@@ -375,4 +395,4 @@ class EOH:
 
             df = pd.concat([df, pd.DataFrame([new_row])], ignore_index=True)
 
-        df.to_csv(filename, index=False, float_format='%.2f')
+        df.to_csv(filename, index=False, float_format='%.2f', quoting=csv.QUOTE_NONNUMERIC)

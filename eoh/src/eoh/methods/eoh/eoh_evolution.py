@@ -165,7 +165,11 @@ class Evolution:
         return prompt_content
 
     def get_prompt_m1(self, indiv1):
+        # Generate timestamp for debugging
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S_%f")[:-3]  # Include milliseconds
+
         prompt_content = self.prompt_m1.format(
+            timestamp=timestamp,
             prompt_task=self.prompt_task,
             # algo_decsr=indiv1['algorithm'],
             algo_code=indiv1['code'],

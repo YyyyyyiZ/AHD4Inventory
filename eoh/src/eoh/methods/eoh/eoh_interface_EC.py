@@ -43,11 +43,14 @@ class InterfaceEC:
         return
 
     def add2pop(self, population, offspring):
-        for ind in population:
+        for i, ind in enumerate(population):
             if ind['objective'] == offspring['objective']:
+                # Same performance found - replace old individual with fresh response
                 if self.debug:
-                    print("duplicated result, retrying ... ")
-                return False
+                    print(f"Same objective found, updating with fresh response (obj: {offspring['objective']})")
+                population[i] = offspring  # Replace old individual with new one
+                return True
+        # No duplicate performance found, add new individual
         population.append(offspring)
         return True
 
