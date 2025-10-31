@@ -1,9 +1,53 @@
+Task: {prompt_task}
 
+---
 
-First, you need to identify the main components in the function below.
-Next, analyze whether any of these components can be overfit to the in-distribution instances.
-Then, based on your analysis, simplify the components to enhance the generalization to potential out-of-distribution instances.
-Finally, provide the revised code, keeping the function name, inputs, and outputs unchanged.
+Here are some characteristics of the demand data:
+{data_summary}
+
+---
+
+I have one algorithm with its code as follows:
 {algo_code}
-{prompt_inout_inf}
+
+---
+
+Below is the performance of the provided algorithm on data:
+{algo_performance}
+
+---
+
+{optimizable_params}
+
+---
+
+This function accept {prompt_func_num_inputs} input(s): {prompt_func_inputs},
+and return {prompt_func_num_outputs} output(s): {prompt_func_num_outputs}.
+{prompt_inout_inf}.
+{prompt_other_inf}.
+
+
+IMPORTANT: You MUST redesign the policy structure. Do NOT just adjust parameters.
+
+Please analyze the demand data, provided policy and corresponding performance to generate a NEW policy with a DIFFERENT structure:
+
+**Your Task - Policy Structure Redesign**:
+Based on the demand characteristics and the weaknesses of the current policy, propose a completely new policy with different decision-making logic and structure. This means you should fundamentally change how the policy makes ordering decisions.
+
+Examples of structural changes you can make:
+- Change from base-stock to (s,S) policy or order-up-to policy
+- Add adaptive/dynamic components that respond to demand patterns
+- Introduce forecasting or moving average mechanisms
+- Use different inventory position calculations
+- Add safety stock with dynamic adjustment
+- Implement multi-threshold decision rules
+
+DO NOT simply adjust the numerical parameters of the existing policy. You must create a NEW policy structure.
+
+{external_optimizer}
+
+After generating the new implementation, provide a concise explanation for your changes inside double curly braces, like this:
+
+{{Your explanation here. First, briefly describe what you learned from analyzing the demand data and the current policy's performance. Then, explain what NEW policy structure you designed and why it should work better than the previous approach.}}
+
 Do not give additional explanations.

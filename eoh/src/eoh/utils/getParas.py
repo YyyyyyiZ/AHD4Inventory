@@ -31,6 +31,7 @@ class Paras():
         self.dist = 'poisson'
         self.volatility = 'low'
         self.order_option = 'order_before_sell'
+        self.prompt_version = 'v2'  # 'v1' = old version, 'v2' = new version
 
 
         #####################

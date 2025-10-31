@@ -53,6 +53,7 @@ class Evolution:
         self.prompt_e2 = file_to_string(f'{self.file_path}/common/prompt_e2.txt')
         self.prompt_m1 = file_to_string(f'{self.file_path}/common/prompt_m1.txt')
         self.prompt_m2 = file_to_string(f'{self.file_path}/common/prompt_m2.txt')
+        self.prompt_m3 = file_to_string(f'{self.file_path}/common/prompt_m3.txt')
         self.prompt_data_summary = file_to_string(f'{self.file_path}/common/prompt_data_summary.txt')
 
     def external_optimizer_prompt(self):
@@ -165,11 +166,7 @@ class Evolution:
         return prompt_content
 
     def get_prompt_m1(self, indiv1):
-        # Generate timestamp for debugging
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S_%f")[:-3]  # Include milliseconds
-
         prompt_content = self.prompt_m1.format(
-            timestamp=timestamp,
             prompt_task=self.prompt_task,
             # algo_decsr=indiv1['algorithm'],
             algo_code=indiv1['code'],
@@ -182,7 +179,7 @@ class Evolution:
             prompt_func_outputs=self.joined_outputs,
             prompt_inout_inf=self.prompt_inout_inf,
             prompt_other_inf=self.prompt_other_inf,
-            # external_optimizer=self.external_optimizer_prompt() if self.external_optimizer else '',
+            external_optimizer=self.external_optimizer_prompt() if self.external_optimizer else '',
         )
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         file_name = f"{self.exp_output_path}/prompt_for_code/m1_{timestamp}.txt"
@@ -191,11 +188,15 @@ class Evolution:
         return prompt_content
 
     def get_prompt_m2(self, indiv1):
+        # Extract optimizable parameters from the parent code
+        optimizable_params_text = self._extract_optimizable_params_info(indiv1)
+
         prompt_content = self.prompt_m2.format(
             prompt_task=self.prompt_task,
             algo_code=indiv1['code'],
             data_summary=self.analyzer.get_data_summary(),
             algo_performance=self.analyzer.get_algo_performance([indiv1]),
+            optimizable_params=optimizable_params_text,
             prompt_func_name=self.prompt_func_name,
             prompt_func_num_inputs=str(len(self.prompt_func_inputs)),
             prompt_func_inputs=self.joined_inputs,
@@ -207,6 +208,31 @@ class Evolution:
         )
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         file_name = f"{self.exp_output_path}/prompt_for_code/m2_{timestamp}.txt"
+        with open(file_name, 'a') as file:
+            file.writelines(prompt_content + '\n')
+        return prompt_content
+
+    def get_prompt_m3(self, indiv1):
+        # Extract optimizable parameters from the parent code
+        optimizable_params_text = self._extract_optimizable_params_info(indiv1)
+
+        prompt_content = self.prompt_m3.format(
+            prompt_task=self.prompt_task,
+            algo_code=indiv1['code'],
+            data_summary=self.analyzer.get_data_summary(),
+            algo_performance=self.analyzer.get_algo_performance([indiv1]),
+            optimizable_params=optimizable_params_text,
+            prompt_func_name=self.prompt_func_name,
+            prompt_func_num_inputs=str(len(self.prompt_func_inputs)),
+            prompt_func_inputs=self.joined_inputs,
+            prompt_func_num_outputs=str(len(self.prompt_func_outputs)),
+            prompt_func_outputs=self.joined_outputs,
+            prompt_inout_inf=self.prompt_inout_inf,
+            prompt_other_inf=self.prompt_other_inf,
+            external_optimizer=self.external_optimizer_prompt() if self.external_optimizer else '',
+        )
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        file_name = f"{self.exp_output_path}/prompt_for_code/m3_{timestamp}.txt"
         with open(file_name, 'a') as file:
             file.writelines(prompt_content + '\n')
         return prompt_content
@@ -282,6 +308,58 @@ class Evolution:
     def _extract_param_name(self, oneline) -> str:
         match = re.match(r'^\s*(\w+)\s*(?:==|>=|<=|=|>|<)', oneline)
         return match.group(1) if match else oneline.strip()
+
+    def _extract_optimizable_params_info(self, indiv):
+        """Extract optimizable parameters from the parent code and format them for the prompt."""
+        code = indiv['code']
+        opt_params = {}
+        simple_params = {}
+
+        # Extract parameters marked with OPT_PARAM
+        for line in code.split('\n'):
+            if "OPT_PARAM:" in line:
+                param_name = self._extract_param_name(line)
+                param_str = line.split("OPT_PARAM:")[1].strip()
+                param_str = param_str.replace("'", '"')
+                try:
+                    param_config = json.loads(param_str)
+                    opt_params[param_name] = param_config
+                except:
+                    pass
+            else:
+                # Try to extract simple numeric assignments (e.g., base_stock = 20)
+                # Skip function definitions and returns
+                if 'def ' not in line and 'return ' not in line and '=' in line:
+                    # Simple pattern: variable_name = numeric_value
+                    import re
+                    match = re.match(r'^\s*(\w+)\s*=\s*([0-9.]+)\s*(?:#.*)?$', line.strip())
+                    if match:
+                        param_name = match.group(1)
+                        param_value = match.group(2)
+                        # Convert to appropriate type
+                        if '.' in param_value:
+                            simple_params[param_name] = float(param_value)
+                        else:
+                            simple_params[param_name] = int(param_value)
+
+        # Format the parameters for the prompt
+        if opt_params:
+            params_text = "The current algorithm has the following optimizable parameters:\n"
+            for param_name, config in opt_params.items():
+                params_text += f"- {param_name}: current value = {config.get('initial', 'N/A')}, "
+                params_text += f"min = {config.get('min', 'N/A')}, max = {config.get('max', 'N/A')}, "
+                params_text += f"type = {config.get('type', 'N/A')}\n"
+            params_text += "\nIf you choose Option 1 (Parameter Adjustment), you should focus on adjusting these parameters."
+        elif simple_params:
+            params_text = "The current algorithm has the following numerical parameters that could be adjusted:\n"
+            for param_name, value in simple_params.items():
+                param_type = 'float' if isinstance(value, float) else 'int'
+                params_text += f"- {param_name}: current value = {value} (type: {param_type})\n"
+            params_text += "\nIf you choose Option 1 (Parameter Adjustment), you should focus on adjusting these parameters."
+        else:
+            params_text = "No explicit optimizable parameters were identified in the current algorithm.\nIf you choose Option 1 (Parameter Adjustment), identify which numerical values in the code should be treated as adjustable parameters."
+
+        return params_text
 
     def _get_reflection(self, prompt_content):
         response = self.interface_llm.get_response(prompt_content)
@@ -369,6 +447,25 @@ class Evolution:
 
         if self.debug_mode:
             print("\n >>> check prompt for creating algorithm using [ m2 ] : \n", prompt_content)
+            print(">>> Press 'Enter' to continue")
+            input()
+
+        [code_all, algorithm, optim_params, cost] = self._get_alg(prompt_content)
+
+        if self.debug_mode:
+            print("\n >>> check designed algorithm: \n", algorithm)
+            print("\n >>> check designed code: \n", code_all)
+            print(">>> Press 'Enter' to continue")
+            input()
+
+        return [code_all, algorithm, optim_params, cost]
+
+    def m3(self, parents):
+
+        prompt_content = self.get_prompt_m3(parents)
+
+        if self.debug_mode:
+            print("\n >>> check prompt for creating algorithm using [ m3 ] : \n", prompt_content)
             print(">>> Press 'Enter' to continue")
             input()
 

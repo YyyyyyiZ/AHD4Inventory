@@ -16,8 +16,8 @@ print(sys.executable)  # path of python.exe
 
 # Uncomment one of the following lines to test different configurations:
 # dist_list = ['normal1']           # Lead time = 1, initial_inventory = 80
-dist_list = ['normal0', 'leadtime2_0', 'leadtime3_0', 'cost2_4_lt1_0', 'cost2_4_lt2_0', 'cost2_4_lt3_0']           # Lead time = 1, initial_inventory = 0
-# dist_list = ['normal2']           # Lead time = 1, initial_inventory = 60
+# dist_list = ['normal0', 'leadtime2_0', 'leadtime3_0', 'cost2_4_lt1_0', 'cost2_4_lt2_0', 'cost2_4_lt3_0']           # Lead time = 1, initial_inventory = 0
+dist_list = ['normal0']           # Lead time = 1, initial_inventory = 60
 # dist_list = ['leadtime2_1']       # Lead time = 2, initial_inventory = 80
 # dist_list = ['leadtime2_0']       # Lead time = 2, initial_inventory = 0
 # dist_list = ['leadtime2_2']       # Lead time = 2, initial_inventory = 60
@@ -54,7 +54,7 @@ operator_list = ['m1']  # Choose from: 'm1', 'm2', 'm3', or combinations
 # ['m1', 'm3']: Test parameter-only vs structure-only separately
 # ['m1,m3']: Use both operators in same run (50% each)
 # ['m1', 'm2', 'm3']: Test all three approaches separately
-repeat_num = 5
+repeat_num = 10
 
 for repeat in range(repeat_num):
     repeat += 1

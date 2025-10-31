@@ -2,7 +2,7 @@ Task: {prompt_task}
 
 ---
 
-Here are some characteristics of the data:
+Here are some characteristics of the demand data:
 {data_summary}
 
 ---
@@ -12,19 +12,35 @@ I have one algorithm with its code as follows:
 
 ---
 
-Below is the performance of provided algorithm on data:
+Below is the performance of the provided algorithm on data:
 {algo_performance}
 
 ---
 
-Please analyze the data, algorithm and its performance, and create an improved algorithm utilizing the above given information.
+{optimizable_params}
 
-First, describe your new algorithm and main steps in one sentence. The description must be inside a DOUBLE curly braces like this:{{This is the algorithm description}}.
-Next, implement it in Python as a function named `{prompt_func_name}`.
-This function should accept {prompt_func_num_inputs} input(s): {prompt_func_inputs},
+---
+
+This function accept {prompt_func_num_inputs} input(s): {prompt_func_inputs},
 and return {prompt_func_num_outputs} output(s): {prompt_func_num_outputs}.
 {prompt_inout_inf}.
 {prompt_other_inf}.
+
+
+Please analyze the demand data, provided policy and corresponding performance (if any) to redesign the policy structure and generate an improved implementation.
+
+You should focus on **changing the policy structure** rather than just tuning parameters. This means:
+- Propose a completely new policy with different decision-making logic and structure
+- Fundamentally change how the policy makes ordering decisions (e.g., from base-stock to (s,S), from static to adaptive, from reactive to predictive)
+- Introduce new control mechanisms or decision rules that better align with the demand characteristics
+- You may introduce new parameters as needed for your new policy structure
+
+Do not simply adjust the numerical values of existing parameters—that is handled by a different operator. Your goal is to explore alternative policy architectures that may better suit the demand patterns.
+
 {external_optimizer}
+
+After generating the new implementation, provide a concise explanation for your changes inside double curly braces, like this:
+
+{{Your explanation here. First, briefly describe what you learned from analyzing the demand data and the current policy's performance. Then, explain what new policy structure you designed and why it should perform better than the original structure.}}
 
 Do not give additional explanations.

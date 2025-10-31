@@ -1,34 +1,35 @@
-Prompt Timestamp: {timestamp}
-
 Task: {prompt_task}
 
 ---
 
-Here are some characteristics of the demand data:
+Here are some characteristics of the historical demand trajectories:
 {data_summary}
 
 ---
 
-I have one algorithm with its code as follows:
+I have one policy with its code as follows:
 {algo_code}
 
 ---
 
-Below is the performance of the provided algorithm on data:
+Below is the performance of the provided policy on the historical demand trajectories:
 {algo_performance}
 
 ---
 
-This function accept {prompt_func_num_inputs} input(s): {prompt_func_inputs},
-and return {prompt_func_num_outputs} output(s): {prompt_func_num_outputs}.
+This policy function accepts {prompt_func_num_inputs} input(s): {prompt_func_inputs},
+and returns {prompt_func_num_outputs} output(s): {prompt_func_outputs}.
 {prompt_inout_inf}.
 {prompt_other_inf}.
 
+{external_optimizer}
 
-Please analyze the provided policy and corresponding performance (if any) to adjust the parameters of the given code and generate an improved implementation on the demand data. Modify only the parameters—do not change any other part of the code.
+Please analyze the provided policy and corresponding performance (if any) to adjust the parameters of the given code and generate an improved implementation on the historical demand trajectories. 
+Parameters are marked with `# OPT_PARAM:` followed by a dictionary specifying: 'initial' (the current value), 'min' (minimum allowed value), 'max' (maximum allowed value), and 'type' (either 'int' or 'float'). You should adjust the parameter values within the specified min-max range.
+Modify only the parameters—do not change any other part of the code.
 
 After generating the new implementation, provide a concise explanation for your parameter choices inside double curly braces, like this:
 
-{{Your explanation here. At the end, include: "Prompt timestamp: [TIMESTAMP]" where [TIMESTAMP] is the timestamp shown at the beginning of this prompt.}}
+{{Your explanation here.}}
 
 Do not give additional explanations.

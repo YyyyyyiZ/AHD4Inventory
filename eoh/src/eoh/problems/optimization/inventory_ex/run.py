@@ -10,11 +10,12 @@ import glob
 
 
 class INVENTORY:
-    def __init__(self, dist=None, demand=None, volatility=None, n_train=50, n_horizon=None, order_option='order_before_sell'):
+    def __init__(self, dist=None, demand=None, volatility=None, n_train=50, n_horizon=None, order_option='order_before_sell', prompt_version='v2'):
         self.dist = dist
         self.demand = demand
         self.volatility = volatility
-        self.prompts = GetPrompts()
+        self.version = prompt_version  # 'v1' = old version, 'v2' = new version
+        self.prompts = GetPrompts(prompt_version=prompt_version)
         self.mode = 'train'
         self.n_horizon = n_horizon
         self.train_instances = self.load_instances(mode='train', n_traj=n_train)
@@ -82,10 +83,16 @@ class INVENTORY:
 
                 if self.option == 'order_before_sell':
                     # Compute order amount using the inventory policy
-                    order_amount = eva.compute_order_amount(
-                        current_inventory=current_inventory,
-                        pipeline_inventory=pipeline_inventory.copy(),  # Pass current pipeline state
-                    )
+                    if self.version == 'v1':
+                        order_amount = eva.compute_order_amount(
+                            current_inventory=current_inventory,
+                            pipeline_inventory=pipeline_inventory.copy(),
+                        )
+                    else:  # v2
+                        order_amount = eva.compute_order_amount(
+                            on_hand_inventory=current_inventory,
+                            pipeline_orders=pipeline_inventory.copy(),
+                        )
 
                 # Record current period's demand
                 current_demand = instance['demand'][t]
@@ -98,10 +105,16 @@ class INVENTORY:
 
                 if self.option == 'order_after_sell':
                     # Compute order amount using the inventory policy
-                    order_amount = eva.compute_order_amount(
-                        current_inventory=current_inventory,
-                        pipeline_inventory=pipeline_inventory.copy(),  # Pass current pipeline state
-                    )
+                    if self.version == 'v1':
+                        order_amount = eva.compute_order_amount(
+                            current_inventory=current_inventory,
+                            pipeline_inventory=pipeline_inventory.copy(),
+                        )
+                    else:  # v2
+                        order_amount = eva.compute_order_amount(
+                            on_hand_inventory=current_inventory,
+                            pipeline_orders=pipeline_inventory.copy(),
+                        )
 
                 # Place new order (will arrive after lead_time periods)
                 pipeline_inventory.append(order_amount)
