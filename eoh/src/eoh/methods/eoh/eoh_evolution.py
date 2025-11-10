@@ -229,7 +229,7 @@ class Evolution:
             prompt_func_outputs=self.joined_outputs,
             prompt_inout_inf=self.prompt_inout_inf,
             prompt_other_inf=self.prompt_other_inf,
-            external_optimizer=self.external_optimizer_prompt() if self.external_optimizer else '',
+            external_optimizer=self.external_optimizer_prompt(),
         )
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         file_name = f"{self.exp_output_path}/prompt_for_code/m3_{timestamp}.txt"

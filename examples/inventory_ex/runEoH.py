@@ -38,7 +38,7 @@ parser.add_argument('--operator', type=str, default='m1', help='Evolution operat
 
 # General parameters
 parser.add_argument('--ecc_pop_size', type=int, default=4, help='number of samples in each population')
-parser.add_argument('--ec_n_pop', type=int, default=5, help='number of populations')
+parser.add_argument('--ec_n_pop', type=int, default=10, help='number of populations')
 parser.add_argument('--exp_n_proc', type=int, default=4, help='multi-core parallel')
 parser.add_argument('--exp_use_continue', type=int, default=1, help='# load existing heuristics.')
 parser.add_argument('--exp_continue_path', type=str, default="initial_pool.json", help='path to existing heuristics')

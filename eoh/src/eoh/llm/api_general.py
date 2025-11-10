@@ -35,17 +35,20 @@ class InterfaceAPI:
             if n_trial > self.n_trial:
                 return response
             try:
-                conn = http.client.HTTPSConnection(self.api_endpoint)
+                # Add timeout to prevent hanging indefinitely
+                conn = http.client.HTTPSConnection(self.api_endpoint, timeout=180)
                 conn.request("POST", "/v1/chat/completions", payload_explanation, headers)
                 res = conn.getresponse()
                 data = res.read()
                 json_data = json.loads(data)
                 response = json_data["choices"][0]["message"]["content"]
                 break
-            except:
+            except Exception as e:
                 if self.debug_mode:
-                    print("Error in API. Restarting the process...")
+                    print(f"Error in API: {e}. Restarting the process...")
                 continue
+            finally:
+                conn.close()
             
 
         return response

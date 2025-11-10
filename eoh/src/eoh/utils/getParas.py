@@ -133,7 +133,7 @@ class Paras():
         elif self.problem == 'inventory2':
             self.eva_timeout = 180
         elif self.problem == 'inventory_ex':
-            self.eva_timeout = 30
+            self.eva_timeout = 60  # 60 seconds per evaluation (reasonable for inventory problem)
 
                 
     def set_paras(self, *args, **kwargs):

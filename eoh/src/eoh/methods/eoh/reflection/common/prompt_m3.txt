@@ -2,52 +2,34 @@ Task: {prompt_task}
 
 ---
 
-Here are some characteristics of the demand data:
+Here are some characteristics of the historical demand trajectories:
 {data_summary}
 
 ---
 
-I have one algorithm with its code as follows:
+I have one policy with its code as follows:
 {algo_code}
 
 ---
 
-Below is the performance of the provided algorithm on data:
+Below is the performance of the provided policy on the historical demand trajectories:
 {algo_performance}
 
 ---
 
-{optimizable_params}
-
----
-
-This function accept {prompt_func_num_inputs} input(s): {prompt_func_inputs},
-and return {prompt_func_num_outputs} output(s): {prompt_func_num_outputs}.
+This policy function accepts {prompt_func_num_inputs} input(s): {prompt_func_inputs},
+and returns {prompt_func_num_outputs} output(s): {prompt_func_outputs}.
 {prompt_inout_inf}.
 {prompt_other_inf}.
 
-
-IMPORTANT: You MUST redesign the policy structure. Do NOT just adjust parameters.
-
-Please analyze the demand data, provided policy and corresponding performance to generate a NEW policy with a DIFFERENT structure:
-
-**Your Task - Policy Structure Redesign**:
-Based on the demand characteristics and the weaknesses of the current policy, propose a completely new policy with different decision-making logic and structure. This means you should fundamentally change how the policy makes ordering decisions.
-
-Examples of structural changes you can make:
-- Change from base-stock to (s,S) policy or order-up-to policy
-- Add adaptive/dynamic components that respond to demand patterns
-- Introduce forecasting or moving average mechanisms
-- Use different inventory position calculations
-- Add safety stock with dynamic adjustment
-- Implement multi-threshold decision rules
-
-DO NOT simply adjust the numerical parameters of the existing policy. You must create a NEW policy structure.
-
 {external_optimizer}
+
+Please analyze the provided policy and corresponding performance (if any) to generate an improved implementation on the historical demand trajectories. You may either redesign the policy structure or adjust the parameters.
+
+Note: Parameters are marked with `# OPT_PARAM:` followed by a dictionary specifying: 'initial' (the current value), 'min' (minimum allowed value), 'max' (maximum allowed value), and 'type' (either 'int' or 'float'). You can adjust parameter values within the specified min-max range or change the policy structure and logic to achieve better performance.
 
 After generating the new implementation, provide a concise explanation for your changes inside double curly braces, like this:
 
-{{Your explanation here. First, briefly describe what you learned from analyzing the demand data and the current policy's performance. Then, explain what NEW policy structure you designed and why it should work better than the previous approach.}}
+{{Your explanation here.}}
 
 Do not give additional explanations.

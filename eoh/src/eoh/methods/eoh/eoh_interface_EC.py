@@ -73,6 +73,100 @@ class InterfaceEC:
             pop[i]['order_matrix'] = fitness[i]['order_matrix']
         return pop
 
+    def optimize_individual(self, individual):
+        """Optimize a single individual if it has parameters and external optimizer is enabled."""
+        if self.external_optimizer is None:
+            return individual
+
+        # Extract opt_params from code if not already present
+        if 'opt_params' not in individual or len(individual.get('opt_params', {})) == 0:
+            individual['opt_params'] = self._extract_opt_params_from_code(individual['code'])
+
+        # Check if individual has opt_params after extraction
+        if len(individual.get('opt_params', {})) == 0:
+            if self.debug:
+                print("Individual has no parameters to optimize, skipping.")
+            return individual
+
+        # Determine which optimizer to use
+        if self.external_optimizer == 'scipy':
+            from .external_scipy import ScipyOptimizer as ExternalOptimizer
+        elif self.external_optimizer == 'ng':
+            from .external_nevergrad import NGOptimizer as ExternalOptimizer
+        elif self.external_optimizer == 'deap':
+            from .external_deap import DEAPOptimizer as ExternalOptimizer
+        else:
+            return individual
+
+        # Store original performance for comparison
+        original_objective = individual.get('objective', float('inf'))
+
+        try:
+            optimizer = ExternalOptimizer(
+                interface_eval=self.interface_eval,
+                max_iter=self.max_iter,
+                timeout=self.timeout
+            )
+
+            opt_result = optimizer.optimize(
+                original_code=individual['code'],
+                opt_params=individual['opt_params'],
+                param_vars=list(individual['opt_params'].keys()),
+                executor=concurrent.futures.ThreadPoolExecutor()
+            )
+
+            # Compare optimized result with original, use better one
+            if opt_result.optimized_fitness < original_objective:
+                # Optimization improved performance
+                individual.update({
+                    'code': opt_result.optimized_code,
+                    'objective': np.round(opt_result.optimized_fitness, 5),
+                    'test_objective': np.round(opt_result.optimized_test_fitness, 5),
+                    'lower': np.round(opt_result.optimized_lower, 5),
+                    'upper': np.round(opt_result.optimized_upper, 5),
+                    'trajectory': opt_result.optimized_trajectory,
+                    'cost_matrix': opt_result.optimized_cost_matrix,
+                    'order_matrix': opt_result.optimized_order_matrix,
+                    'opt_params': opt_result.optimized_params
+                })
+
+                if self.debug:
+                    print(f"Optimized individual improved: {original_objective} -> {opt_result.optimized_fitness}")
+            else:
+                # Original was better, keep it
+                if self.debug:
+                    print(f"Original individual was better: {original_objective} vs {opt_result.optimized_fitness}")
+
+        except Exception as e:
+            if self.debug:
+                print(f"Failed to optimize individual: {e}")
+            # Keep original individual as-is
+
+        return individual
+
+    def _extract_opt_params_from_code(self, code):
+        """Extract optimizable parameters from code with OPT_PARAM comments."""
+        import json
+        opt_params = {}
+
+        for line in code.split('\n'):
+            if "OPT_PARAM:" in line:
+                # Extract parameter name
+                match = re.match(r'^\s*(\w+)\s*=', line)
+                if match:
+                    param_name = match.group(1)
+                    # Extract parameter configuration
+                    param_str = line.split("OPT_PARAM:")[1].strip()
+                    param_str = param_str.replace("'", '"')
+                    try:
+                        param_config = json.loads(param_str)
+                        opt_params[param_name] = param_config
+                    except:
+                        if self.debug:
+                            print(f"Failed to parse OPT_PARAM for {param_name}")
+
+        return opt_params
+
     def population_generation(self):
 
         n_create = 2
@@ -216,6 +310,12 @@ class InterfaceEC:
             # if ext and n_pop==9:
             if ext:
                 try:
+                    # First evaluate original code for comparison
+                    with concurrent.futures.ThreadPoolExecutor() as executor:
+                        future = executor.submit(self.interface_eval.evaluate, code)
+                        original_fitness = future.result(timeout=self.timeout)
+                        future.cancel()
+
                     # print(f"Original parameters: {offspring['opt_params']}")
                     optimizer = ExternalOptimizer(
                         interface_eval=self.interface_eval,
@@ -230,33 +330,39 @@ class InterfaceEC:
                         executor=concurrent.futures.ThreadPoolExecutor()
                     )
 
-                    offspring.update({
-                        'code': opt_result.optimized_code,
-                        'objective': np.round(opt_result.optimized_fitness, 5),
-                        'test_objective': np.round(opt_result.optimized_test_fitness, 5),
-                        'lower': np.round(opt_result.optimized_lower, 5),
-                        'upper': np.round(opt_result.optimized_upper, 5),
-                        'trajectory': opt_result.optimized_trajectory,
-                        'cost_matrix': opt_result.optimized_cost_matrix,
-                        'order_matrix': opt_result.optimized_order_matrix,
-                        'opt_params': opt_result.optimized_params
-                    })
+                    # Compare optimized vs original, use better one
+                    if opt_result.optimized_fitness < original_fitness['avg']:
+                        # Use optimized result
+                        offspring.update({
+                            'code': opt_result.optimized_code,
+                            'objective': np.round(opt_result.optimized_fitness, 5),
+                            'test_objective': np.round(opt_result.optimized_test_fitness, 5),
+                            'lower': np.round(opt_result.optimized_lower, 5),
+                            'upper': np.round(opt_result.optimized_upper, 5),
+                            'trajectory': opt_result.optimized_trajectory,
+                            'cost_matrix': opt_result.optimized_cost_matrix,
+                            'order_matrix': opt_result.optimized_order_matrix,
+                            'opt_params': opt_result.optimized_params
+                        })
+                    else:
+                        # Use original result
+                        offspring.update({
+                            'objective': np.round(original_fitness['avg'], 5),
+                            'test_objective': np.round(original_fitness['test_obj'], 5),
+                            'lower': np.round(original_fitness['lower'], 5),
+                            'upper': np.round(original_fitness['upper'], 5),
+                            'trajectory': original_fitness['trajectory'],
+                            'cost_matrix': original_fitness['cost_matrix'],
+                            'order_matrix': original_fitness['order_matrix']
+                        })
 
                     # print(f"optimized parameters: {opt_result.optimized_params}")
 
-                except:
-                    # self.code2file(offspring['code'])
-                    with concurrent.futures.ThreadPoolExecutor() as executor:
-                        future = executor.submit(self.interface_eval.evaluate, code)
-                        fitness = future.result(timeout=self.timeout)
-                        offspring['objective'] = np.round(fitness['avg'], 5)
-                        offspring['test_objective'] = np.round(fitness['test_obj'], 5)
-                        offspring['lower'] = np.round(fitness['lower'], 5)
-                        offspring['upper'] = np.round(fitness['upper'], 5)
-                        offspring['trajectory'] = fitness['trajectory']
-                        offspring['cost_matrix'] = fitness['cost_matrix']
-                        offspring['order_matrix'] = fitness['order_matrix']
-                        future.cancel()
+                except Exception as e:
+                    # Both original evaluation and optimization failed, re-raise to outer handler
+                    if self.debug:
+                        print(f"Failed to evaluate/optimize offspring: {e}")
+                    raise
             else:
                 #self.code2file(offspring['code'])
                 with concurrent.futures.ThreadPoolExecutor() as executor:
@@ -327,12 +433,14 @@ class InterfaceEC:
 
         results = []
         try:
+            # Use configured timeout for parallel execution
             results = Parallel(n_jobs=self.n_p, timeout=self.timeout)(
                 delayed(self.get_offspring)(pop, operator, n_pop) for _ in range(self.pop_size))
         except Exception as e:
             if self.debug:
                 print(f"Error: {e}")
-            print("Parallel time out .")
+            print("Parallel execution error or timeout - continuing with partial results.")
+            # If timeout, results will be empty, which is handled below
 
         time.sleep(10)
 

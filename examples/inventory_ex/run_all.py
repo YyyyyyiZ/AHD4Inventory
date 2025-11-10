@@ -17,7 +17,7 @@ print(sys.executable)  # path of python.exe
 # Uncomment one of the following lines to test different configurations:
 # dist_list = ['normal1']           # Lead time = 1, initial_inventory = 80
 # dist_list = ['normal0', 'leadtime2_0', 'leadtime3_0', 'cost2_4_lt1_0', 'cost2_4_lt2_0', 'cost2_4_lt3_0']           # Lead time = 1, initial_inventory = 0
-dist_list = ['normal0']           # Lead time = 1, initial_inventory = 60
+# dist_list = ['normal0']           # Lead time = 1, initial_inventory = 0
 # dist_list = ['leadtime2_1']       # Lead time = 2, initial_inventory = 80
 # dist_list = ['leadtime2_0']       # Lead time = 2, initial_inventory = 0
 # dist_list = ['leadtime2_2']       # Lead time = 2, initial_inventory = 60
@@ -25,7 +25,7 @@ dist_list = ['normal0']           # Lead time = 1, initial_inventory = 60
 # dist_list = ['leadtime3_0']       # Lead time = 3, initial_inventory = 0
 # dist_list = ['leadtime3_2']       # Lead time = 3, initial_inventory = 60
 # dist_list = ['cost2_4_lt1_0', 'cost2_4_lt2_0']     # Lead time = 1, initial_inventory = 0, holding_cost=2, lost_sales_cost=4
-# dist_list = ['cost2_4_lt2_0']     # Lead time = 2, initial_inventory = 0, holding_cost=2, lost_sales_cost=4
+dist_list = ['cost2_4_lt2_0']     # Lead time = 2, initial_inventory = 0, holding_cost=2, lost_sales_cost=4
 # dist_list = ['cost2_4_lt3_0']     # Lead time = 3, initial_inventory = 0, holding_cost=2, lost_sales_cost=4
 
 # Compare multiple configurations:
@@ -42,11 +42,11 @@ data_summary_list = ['plain']
 n_train_list = [50]
 n_horizon_list = [50]
 # n_horizon_list = [3, 5, 10, 20, 50]
-iter_opt_list = [30]
+iter_opt_list = [15]
 param_loc_list = ['default']
 # param_loc_list = ['start', 'default']
 order_option_list = ['order_before_sell']
-operator_list = ['m1']  # Choose from: 'm1', 'm2', 'm3', or combinations
+operator_list = ['m3']  # Choose from: 'm1', 'm2', 'm3', or combinations
 # Operator options:
 # 'm1': Only parameter adjustment (restrictive)
 # 'm2': Parameter adjustment OR structure change (flexible, but LLMs tend to be lazy)
@@ -54,7 +54,7 @@ operator_list = ['m1']  # Choose from: 'm1', 'm2', 'm3', or combinations
 # ['m1', 'm3']: Test parameter-only vs structure-only separately
 # ['m1,m3']: Use both operators in same run (50% each)
 # ['m1', 'm2', 'm3']: Test all three approaches separately
-repeat_num = 10
+repeat_num = 1
 
 for repeat in range(repeat_num):
     repeat += 1

@@ -62,7 +62,7 @@ class GetPrompts():
         ```
 
         Given the demand distribution is unknown, you are provided with historical demand data. Your task is to
-        adjust the parameters of a given policy to generate an improved implementation that minimizes total costs
+        improve a given policy to generate an implementation that minimizes total costs
         on the training data.
         """
         self.prompt_func_name = "compute_order_amount"
@@ -171,7 +171,7 @@ class GetPrompts():
 
         Return average_cumulative_total_cost
 
-        Given a policy and the demand trajectories, your task is to adjust the parameters of the given policy to produce an improved implementation that achieves a lower average cumulative total cost on the training demand trajectories.
+        Given a policy and the demand trajectories, your task is to change the policy to produce an improved implementation that achieves a lower average cumulative total cost on the training demand trajectories.
         """
         self.prompt_func_name = "compute_order_amount"
         self.prompt_func_inputs = [

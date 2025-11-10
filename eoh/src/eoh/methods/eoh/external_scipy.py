@@ -1,5 +1,6 @@
 import re
 import numpy as np
+import json
 from scipy.optimize import minimize
 from typing import Dict, List, Callable, Optional, Tuple, Any
 import concurrent.futures
@@ -46,6 +47,20 @@ class ScipyOptimizer:
             # Get leading whitespace (indentation) of current line
             leading_whitespace = line[:len(line) - len(line.lstrip())]
 
+            # Check if line has OPT_PARAM comment to preserve
+            opt_param_comment = None
+            if "OPT_PARAM:" in line:
+                try:
+                    # Extract the OPT_PARAM comment
+                    comment_start = line.index("OPT_PARAM:")
+                    param_str = line[comment_start + len("OPT_PARAM:"):].strip()
+                    # Replace single quotes with double quotes for JSON parsing
+                    param_str = param_str.replace("'", '"')
+                    param_config = json.loads(param_str)
+                    opt_param_comment = param_config
+                except:
+                    pass
+
             # Try AST parsing method
             try:
                 node = ast.parse(line).body[0]
@@ -55,8 +70,14 @@ class ScipyOptimizer:
                             # Found parameter assignment line
                             param = target.id
                             new_value = param_values[param]
-                            # Preserve original indentation
-                            new_line = f"{leading_whitespace}{param} = {new_value}  # Optimized"
+
+                            # Preserve OPT_PARAM format if it exists
+                            if opt_param_comment:
+                                opt_param_comment['initial'] = new_value
+                                new_line = f"{leading_whitespace}{param} = {new_value}  # OPT_PARAM: {json.dumps(opt_param_comment)}"
+                            else:
+                                new_line = f"{leading_whitespace}{param} = {new_value}  # Optimized"
+
                             lines[i] = new_line
                             param_locations[param] = (i + 1, new_line)
                             param_found[param] = True
@@ -69,8 +90,14 @@ class ScipyOptimizer:
                         if match:
                             existing_indent = match.group(1)  # Capture original indentation
                             new_value = param_values[param]
-                            # Use original indentation
-                            new_line = f"{existing_indent}{param} = {new_value}  # Optimized"
+
+                            # Preserve OPT_PARAM format if it exists
+                            if opt_param_comment:
+                                opt_param_comment['initial'] = new_value
+                                new_line = f"{existing_indent}{param} = {new_value}  # OPT_PARAM: {json.dumps(opt_param_comment)}"
+                            else:
+                                new_line = f"{existing_indent}{param} = {new_value}  # Optimized"
+
                             lines[i] = new_line
                             param_locations[param] = (i + 1, new_line)
                             param_found[param] = True
@@ -192,37 +219,82 @@ class ScipyOptimizer:
                 initial_values,
                 bounds=bounds,
                 method='L-BFGS-B',
-                options={'maxiter': self.max_iter, 'disp': True}
+                options={
+                    'maxiter': self.max_iter,
+                    'disp': True,
+                    'eps': 0.1,  # Larger epsilon for numerical gradients (default is ~1e-8)
+                    'ftol': 1e-6,  # Function tolerance
+                    'gtol': 1e-4   # Gradient tolerance (relax from default 1e-5)
+                }
             )
 
-            # 5. Generate final optimized code
-            raw_optimized_params = dict(zip(param_vars, opt_result.x))
-
-            optimized_params = self.data_type(raw_optimized_params)
-
-            optimized_code, _ = self._replace_parameters(original_code, optimized_params)
-
-            # Update results
-            result.optimized_code = optimized_code
-            result.optimized_params = optimized_params
-            result.optimized_fitness = float(opt_result.fun)
+            # 5. Process optimization results
+            # Sort history to find best result
             result.history = sorted(result.history, key=lambda x: x['fitness'], reverse=True)
-            result.optimized_test_fitness = result.history[-1]['test_objective']
-            result.optimized_lower = result.history[-1]['lower']
-            result.optimized_upper = result.history[-1]['upper']
-            result.optimized_trajectory = result.history[-1]['trajectory']
-            result.optimized_cost_matrix = result.history[-1]['cost_matrix']
-            result.optimized_order_matrix = result.history[-1]['order_matrix']
-            result.success = opt_result.success
 
-            if not opt_result.success:
+            if not opt_result.success and result.history:
+                # Optimization didn't converge properly, use best from history
+                logger.warning(f"Optimization incomplete: {opt_result.message}")
+                logger.info(f"Using best result from {len(result.history)} evaluations")
+                best_partial = result.history[-1]  # Best (lowest fitness) is last
+
+                result.optimized_code = best_partial['code']
+                result.optimized_params = best_partial['params']
+                result.optimized_fitness = float(best_partial['fitness'])
+                result.optimized_test_fitness = best_partial['test_objective']
+                result.optimized_lower = best_partial['lower']
+                result.optimized_upper = best_partial['upper']
+                result.optimized_trajectory = best_partial['trajectory']
+                result.optimized_cost_matrix = best_partial['cost_matrix']
+                result.optimized_order_matrix = best_partial['order_matrix']
+                result.success = True  # We have a valid result
                 result.error = opt_result.message
-                result.error_location = f"Final parameters: {optimized_params}"
+                result.error_location = f"Using best from history instead of final: {best_partial['params']}"
+                logger.info(f"Best partial fitness: {result.optimized_fitness}")
+            else:
+                # Optimization succeeded or no history available, use scipy's result
+                raw_optimized_params = dict(zip(param_vars, opt_result.x))
+                optimized_params = self.data_type(raw_optimized_params)
+                optimized_code, _ = self._replace_parameters(original_code, optimized_params)
+
+                result.optimized_code = optimized_code
+                result.optimized_params = optimized_params
+                result.optimized_fitness = float(opt_result.fun)
+                result.optimized_test_fitness = result.history[-1]['test_objective']
+                result.optimized_lower = result.history[-1]['lower']
+                result.optimized_upper = result.history[-1]['upper']
+                result.optimized_trajectory = result.history[-1]['trajectory']
+                result.optimized_cost_matrix = result.history[-1]['cost_matrix']
+                result.optimized_order_matrix = result.history[-1]['order_matrix']
+                result.success = opt_result.success
+
+                if not opt_result.success:
+                    result.error = opt_result.message
+                    result.error_location = f"Final parameters: {optimized_params}"
 
         except Exception as e:
             result.error = str(e)
             result.error_location = traceback.format_exc()
             logger.error(f"Optimization failed: {result.error}")
+
+            # Use best partial result if any evaluations succeeded
+            if result.history:
+                logger.info(f"Using best partial result from {len(result.history)} evaluations")
+                # Sort history by fitness (descending), so best (lowest) is last
+                result.history = sorted(result.history, key=lambda x: x['fitness'], reverse=True)
+                best_partial = result.history[-1]  # Best (lowest fitness) is last
+
+                result.optimized_code = best_partial['code']
+                result.optimized_params = best_partial['params']
+                result.optimized_fitness = float(best_partial['fitness'])
+                result.optimized_test_fitness = best_partial['test_objective']
+                result.optimized_lower = best_partial['lower']
+                result.optimized_upper = best_partial['upper']
+                result.optimized_trajectory = best_partial['trajectory']
+                result.optimized_cost_matrix = best_partial['cost_matrix']
+                result.optimized_order_matrix = best_partial['order_matrix']
+                result.success = True  # Mark as success since we have a valid result
+                logger.info(f"Best partial fitness: {result.optimized_fitness}")
 
         return result
 

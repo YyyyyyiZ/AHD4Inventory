@@ -176,11 +176,20 @@ class EOH:
                 else:
                     print("2. No initial population created...")
 
-                print(f"3. Pop initial: ")
+                # Optimize generation 0 if external optimizer is enabled
+                if self.external_optimizer is not None:
+                    print("3. Optimizing generation 0...")
+                    for i in range(len(population)):
+                        population[i] = interface_ec.optimize_individual(population[i])
+                        print(f"   Individual {i}: Obj = {population[i]['objective']}")
+                else:
+                    print("3. No optimization for generation 0...")
+
+                print(f"4. Pop initial: ")
                 for off in population:
                     print(" Obj: ", off['objective'], end="|")
                 print()
-                # Save population to a file
+                # Save population to a file (optimized if optimizer is on, un-optimized otherwise)
                 filename = f"{self.output_path}/pops/population_generation_0.json"
                 with open(filename, 'w') as f:
                     json.dump(population, f, indent=5)
@@ -256,7 +265,7 @@ class EOH:
             'n_horizon': self.n_horizon,
             'order_option': self.order_option,
             'external_opt': 'no' if self.external_optimizer is None else self.external_optimizer,
-            'iter_opt': '-' if self.external_optimizer is None else self.iter_opt,
+            'iter_opt': '-' if self.external_optimizer is None else str(self.iter_opt),
             'param_loc': '-' if self.external_optimizer is None else self.param_loc,
             'n_pop': pop_idx,
             'mode': mode,
