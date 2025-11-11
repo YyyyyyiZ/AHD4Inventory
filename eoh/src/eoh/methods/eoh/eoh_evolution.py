@@ -62,7 +62,7 @@ class Evolution:
                         1. DECLARE ALL OPTIMIZABLE PARAMETERS AT THE BEGINNING:
                            - Group all optimizable parameters in a dedicated section at the start
                            - Each declaration must use this format:
-                             param_name = initial_value  # OPT_PARAM: {'initial': 50, 'min': 10, 'max': 200, 'type': 'int'}"
+                             param_name = initial_value  # OPT_PARAM: {'initial': 50, 'min': 10, 'max': 200, 'type': 'float'}"
 
                         2. PARAMETER USAGE IN CODE:
                            - After declaration section, only reference parameters by name
@@ -94,7 +94,7 @@ class Evolution:
 
         else:  # default parameter location
             prompt_content = "Then, Mark optimizable parameters in the code with `# OPT_PARAM: ` comments, like this:" \
-                             + "\n" + "base_stock = 50  # OPT_PARAM: {'initial': 50, 'min': 10, 'max': 200, 'type': 'int'}" \
+                             + "\n" + "base_stock = 50  # OPT_PARAM: {'initial': 50, 'min': 10, 'max': 200, 'type': 'float'}" \
                              + "\n" + "Follow these requirements: 1. comments should follow the parameter in the same line." \
                              + "\n" + "2. Only mark parameters that are assigned within the code body (not function inputs)" \
                              + "\n" + "3. Only mark continuous parameters assigned with an equals sign (`=`)" \

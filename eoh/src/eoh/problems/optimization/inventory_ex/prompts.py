@@ -147,7 +147,6 @@ class GetPrompts():
             For each period t = 1, 2, …, T:
                 # 1. Arrival of oldest pipeline order
                 q_{t,1} = first element of Q_t
-                I_t = I_t + q_{t,1}
 
                 # 2. Order placement
                 a_t = policy(I_t, Q_t)
