@@ -4,114 +4,200 @@ import os
 from datetime import datetime
 import glob
 
+# ----------------------------
+# Core instance generation
+# ----------------------------
+def _sample_demand(dist: str, num_periods: int, *, std_normal: int | None = None, pareto_alpha: float = 3.0):
+    """
+    Return an integer demand array of length num_periods with theoretical mean 100.
+    - dist ∈ {'poisson','normal','exponential','pareto'}
+    - For normal, pass std_normal in {10,20,30}; negatives are clipped to 0.
+    - For pareto, Type-I Pareto with alpha, scaled so mean=100.
+    """
+    mean = 100.0
 
-def generate_random_instance(dist='poisson',num_periods=50, lead_time=1, demand_mean = 50,  initial_inventory=80,
-                             holding_cost=2, lost_sales_cost=10, volatility='median', instance_id=None):
+    if dist == "poisson":
+        demand = np.random.poisson(lam=mean, size=num_periods).astype(int)
+
+    elif dist == "normal":
+        if std_normal is None:
+            raise ValueError("std_normal must be provided for normal distribution.")
+        x = np.random.normal(loc=mean, scale=float(std_normal), size=num_periods)
+        x = np.clip(x, 0, None)               # truncate left side
+        demand = np.rint(x).astype(int)
+
+    elif dist == "exponential":
+        # numpy uses scale=1/lambda; scale == mean for exponential
+        x = np.random.exponential(scale=mean, size=num_periods)
+        demand = np.rint(x).astype(int)
+
+    elif dist == "pareto":
+        # NumPy Pareto: Y = xm * (1 + X), X ~ Pareto(a) with mean = a/(a-1) for a>1 when xm=1
+        # We want E[Y] = xm * a/(a-1) = 100  -> xm = 100 * (a-1)/a
+        a = float(pareto_alpha)
+        xm = mean * (a - 1.0) / a
+        y = xm * (np.random.pareto(a, size=num_periods) + 1.0)
+        demand = np.rint(y).astype(int)
+
+    else:
+        raise ValueError(f"Unknown dist: {dist}")
+
+    return demand.tolist()
+
+
+def generate_random_instance(
+    dist: str,
+    num_periods: int = 50,
+    lead_time: int = 1,
+    initial_inventory: int | None = 80,
+    holding_cost: float = 2.0,
+    lost_sales_cost: float = 10.0,
+    std_normal: int | None = None,
+    pareto_alpha: float = 3.0,
+    instance_id: str | None = None,
+):
     """
-    Generate a random inventory problem instance.
-    Args:
-        num_periods (int): Number of simulation periods (default: 30).
-        demand_mean (float)
-        holding_cost (float)
-        lost_sales_cost (float)
-        volatility: 'low', 'median', or 'high' to control demand variability
-        instance_id (str): Unique identifier for the instance (auto-generated if None).
-    Returns:
-        dict: Randomly generated instance parameters.
+    Generate one inventory instance with demand of length num_periods.
+    Output format matches the existing code (a dict with the same keys).
     """
-    # Random initial inventory (50-150 units)
     if initial_inventory is None:
         initial_inventory = np.random.randint(60, 100)
 
-    # Random demand (Poisson distribution, lambda=40-80)
-    if demand_mean is None:
-        demand_mean = np.random.randint(50, 80)
+    demand = _sample_demand(dist, num_periods, std_normal=std_normal, pareto_alpha=pareto_alpha)
 
-    # Adjust variance based on volatility level
-    if volatility == 'low' and dist == 'poisson':
-        # For low volatility, keep variance close to mean (like Poisson)
-        demand = np.random.poisson(demand_mean, size=num_periods)
-    elif volatility == 'low' and dist == 'normal':
-        # For low volatility, keep variance close to mean (like Poisson)
-        demand = np.random.normal(demand_mean, scale=10, size=num_periods)
-    elif volatility == 'high':
-        # For high volatility, increase variance relative to mean
-        # Using negative binomial which allows overdispersion
-        # We set variance = 2*mean (can adjust this factor)
-        p = demand_mean / (2 * demand_mean)  # p = mean/variance
-        demand = np.random.negative_binomial(demand_mean, p, size=num_periods)
-    else:  # 'median'
-        # For medium volatility, moderate increase in variance
-        # Using negative binomial with variance = 1.5*mean
-        p = demand_mean / (1.5 * demand_mean)
-        demand = np.random.negative_binomial(demand_mean, p, size=num_periods)
-
-        # Ensure mean stays exactly at demand_mean by scaling
-    current_mean = np.mean(demand)
-    demand = np.round(demand * (demand_mean / current_mean)).astype(int).tolist()
-
-
-    # Auto-generate instance_id if not provided
     if instance_id is None:
-        instance_id = f"instance_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+        instance_id = f"instance_{datetime.now().strftime('%Y%m%d_%H%M%S_%f')}"
 
     return {
-        'instance_id': instance_id,
-        'initial_inventory': initial_inventory,
-        'demand': demand,
-        'num_periods': num_periods,
-        'holding_cost': holding_cost,
-        'lost_sales_cost': lost_sales_cost,
-        'lead_time': lead_time
+        "instance_id": instance_id,
+        "initial_inventory": initial_inventory,
+        "demand": demand,
+        "num_periods": num_periods,
+        "holding_cost": holding_cost,
+        "lost_sales_cost": lost_sales_cost,
+        "lead_time": lead_time,
     }
 
+
+# ----------------------------
+# I/O helpers (unchanged format)
+# ----------------------------
 def save_instances(instances, file_path):
-    """
-    Save a list of instances to a JSON file.
-    Args:
-        instances (list): List of instances to save.
-        file_path (str): Path to the output JSON file.
-    """
     os.makedirs(os.path.dirname(file_path), exist_ok=True)
-    with open(file_path, 'w') as f:
+    with open(file_path, "w") as f:
         json.dump(instances, f, indent=4)
     print(f"Saved {len(instances)} instances to {file_path}")
 
 
-
 def load_instances(pattern):
-    """
-    Load instances from a JSON file.
-    Args:
-        file_path (str): Path to the JSON file.
-    Returns:
-        list: Loaded instances.
-    """
     instances = []
     for file_path in glob.glob(pattern):
-        with open(file_path, 'r') as f:
+        with open(file_path, "r") as f:
             data = json.load(f)
-            if isinstance(data, list):  # If file contains a list of instances
+            if isinstance(data, list):
                 instances.extend(data)
-            else:  # If file contains a single instance
+            else:
                 instances.append(data)
     return instances
 
-if __name__ == "__main__":
-    lead_time = 1
-    num_periods = 50
-    volatility = ['low']
-    distribution = 'normal'
-    # volatility = ['low', 'median', 'high']
-    demands = [80]
-    for vol in volatility:
-        for demand_mean in demands:
-            test_instances = [generate_random_instance(dist=distribution, num_periods=num_periods, lead_time=lead_time, demand_mean = demand_mean,
-                                                       holding_cost=2, lost_sales_cost=10, volatility=vol,
-                                                       instance_id=f"test_{i}") for i in range(500)]
-            save_instances(test_instances, f"data/{distribution}1_test_{demand_mean}_{vol}.json")
 
-            training_instances = [generate_random_instance(dist=distribution, num_periods=num_periods, lead_time=lead_time, demand_mean=demand_mean,
-                                                           holding_cost=2, lost_sales_cost=10, volatility=vol,
-                                                           instance_id=f"train_{i}") for i in range(100)]
-            save_instances(training_instances, f"data/{distribution}1_train_{demand_mean}_{vol}.json")
+# ----------------------------
+# Dataset builder
+# ----------------------------
+if __name__ == "__main__":
+    np.random.seed()  # or set a fixed seed if you want reproducibility
+
+    num_periods = 50
+    initial_inventory = 0
+    lead_times = [2, 4, 6]
+    cost_pairs = [(2, 4), (2, 10)]
+
+    # Distributions to generate
+    dists = ["poisson", "exponential", "pareto"]
+    normal_stds = [10, 20, 30]  # only used for 'normal'
+
+    # how many trajectories per file
+    N_TEST = 100
+    N_TRAIN = 50
+
+    # ---------- NORMAL (three std levels) ----------
+    for std in normal_stds:
+        for L in lead_times:
+            for hc, lc in cost_pairs:
+                # test
+                test_instances = [
+                    generate_random_instance(
+                        dist="normal",
+                        num_periods=num_periods,
+                        lead_time=L,
+                        initial_inventory=initial_inventory,
+                        holding_cost=hc,
+                        lost_sales_cost=lc,
+                        std_normal=std,
+                        instance_id=f"test_normstd{std}_L{L}_c{hc}-{lc}_{i}",
+                    )
+                    for i in range(N_TEST)
+                ]
+                save_instances(
+                    test_instances,
+                    f"data/normal_test_std{std}_L{L}_c{hc}-{lc}.json",
+                )
+
+                # train
+                train_instances = [
+                    generate_random_instance(
+                        dist="normal",
+                        num_periods=num_periods,
+                        lead_time=L,
+                        initial_inventory=initial_inventory,
+                        holding_cost=hc,
+                        lost_sales_cost=lc,
+                        std_normal=std,
+                        instance_id=f"train_normstd{std}_L{L}_c{hc}-{lc}_{i}",
+                    )
+                    for i in range(N_TRAIN)
+                ]
+                save_instances(
+                    train_instances,
+                    f"data/normal_train_std{std}_L{L}_c{hc}-{lc}.json",
+                )
+
+    # ---------- OTHER DISTS (single config each) ----------
+    for dist in dists:  # poisson, exponential, pareto
+        for L in lead_times:
+            for hc, lc in cost_pairs:
+                # test
+                test_instances = [
+                    generate_random_instance(
+                        dist=dist,
+                        num_periods=num_periods,
+                        lead_time=L,
+                        initial_inventory=initial_inventory,
+                        holding_cost=hc,
+                        lost_sales_cost=lc,
+                        instance_id=f"test_{dist}_L{L}_c{hc}-{lc}_{i}",
+                    )
+                    for i in range(N_TEST)
+                ]
+                save_instances(
+                    test_instances,
+                    f"data/{dist}_test_L{L}_c{hc}-{lc}.json",
+                )
+
+                # train
+                train_instances = [
+                    generate_random_instance(
+                        dist=dist,
+                        num_periods=num_periods,
+                        lead_time=L,
+                        initial_inventory=initial_inventory,
+                        holding_cost=hc,
+                        lost_sales_cost=lc,
+                        instance_id=f"train_{dist}_L{L}_c{hc}-{lc}_{i}",
+                    )
+                    for i in range(N_TRAIN)
+                ]
+                save_instances(
+                    train_instances,
+                    f"data/{dist}_train_L{L}_c{hc}-{lc}.json",
+                )
