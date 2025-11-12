@@ -110,7 +110,7 @@ if __name__ == "__main__":
     num_periods = 50
     initial_inventory = 0
     lead_times = [2, 4, 6]
-    cost_pairs = [(2, 4), (2, 10)]
+    cost_pairs = [(1, 2), (1, 5)]
 
     # Distributions to generate
     dists = ["poisson", "exponential", "pareto"]
