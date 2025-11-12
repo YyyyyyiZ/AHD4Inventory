@@ -134,13 +134,13 @@ if __name__ == "__main__":
                         holding_cost=hc,
                         lost_sales_cost=lc,
                         std_normal=std,
-                        instance_id=f"test_normstd{std}_L{L}_c{hc}-{lc}_{i}",
+                        instance_id=f"test_normstd{std}_L{L}_c{hc}_{lc}_{i}",
                     )
                     for i in range(N_TEST)
                 ]
                 save_instances(
                     test_instances,
-                    f"data/normal_test_std{std}_L{L}_c{hc}-{lc}.json",
+                    f"data/normal_std{std}_L{L}_c{hc}_{lc}_test.json",
                 )
 
                 # train
@@ -153,13 +153,13 @@ if __name__ == "__main__":
                         holding_cost=hc,
                         lost_sales_cost=lc,
                         std_normal=std,
-                        instance_id=f"train_normstd{std}_L{L}_c{hc}-{lc}_{i}",
+                        instance_id=f"train_normstd{std}_L{L}_c{hc}_{lc}_{i}",
                     )
                     for i in range(N_TRAIN)
                 ]
                 save_instances(
                     train_instances,
-                    f"data/normal_train_std{std}_L{L}_c{hc}-{lc}.json",
+                    f"data/normal_std{std}_L{L}_c{hc}_{lc}_train.json",
                 )
 
     # ---------- OTHER DISTS (single config each) ----------
@@ -175,13 +175,13 @@ if __name__ == "__main__":
                         initial_inventory=initial_inventory,
                         holding_cost=hc,
                         lost_sales_cost=lc,
-                        instance_id=f"test_{dist}_L{L}_c{hc}-{lc}_{i}",
+                        instance_id=f"test_{dist}_L{L}_c{hc}_{lc}_{i}",
                     )
                     for i in range(N_TEST)
                 ]
                 save_instances(
                     test_instances,
-                    f"data/{dist}_test_L{L}_c{hc}-{lc}.json",
+                    f"data/{dist}_L{L}_c{hc}_{lc}_test.json",
                 )
 
                 # train
@@ -199,5 +199,5 @@ if __name__ == "__main__":
                 ]
                 save_instances(
                     train_instances,
-                    f"data/{dist}_train_L{L}_c{hc}-{lc}.json",
+                    f"data/{dist}_L{L}_c{hc}_{lc}_train.json",
                 )

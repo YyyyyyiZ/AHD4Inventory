@@ -25,22 +25,27 @@ class INVENTORY:
 
     def load_instances(self, mode='train', n_traj=None):
         # Determine the file pattern based on parameters
-        if self.dist is None and self.demand is None and self.volatility is None:
-            pattern = f"evaluation/data/*_{mode}_*.json"
-        elif self.dist is None and self.demand is None:
-            pattern = f"evaluation/data/*_{mode}_*_{self.volatility}.json"
-        elif self.dist is None and self.volatility is None:
-            pattern = f"evaluation/data/*_{mode}_{self.demand}_*.json"
-        elif self.demand is None and self.volatility is None:
-            pattern = f"evaluation/data/{self.dist}_{mode}_*.json"
-        elif self.dist is None:
-            pattern = f"evaluation/data/*_{mode}_{self.demand}_{self.volatility}.json"
-        elif self.volatility is None:
-            pattern = f"evaluation/data/{self.dist}_{mode}_{self.demand}_*.json"
-        elif self.demand is None:
-            pattern = f"evaluation/data/{self.dist}_{mode}_*_{self.volatility}.json"
+        # if self.dist is None and self.demand is None and self.volatility is None:
+        #     pattern = f"evaluation/data/*_{mode}_*.json"
+        # elif self.dist is None and self.demand is None:
+        #     pattern = f"evaluation/data/*_{mode}_*_{self.volatility}.json"
+        # elif self.dist is None and self.volatility is None:
+        #     pattern = f"evaluation/data/*_{mode}_{self.demand}_*.json"
+        # elif self.demand is None and self.volatility is None:
+        #     pattern = f"evaluation/data/{self.dist}_{mode}_*.json"
+        # elif self.dist is None:
+        #     pattern = f"evaluation/data/*_{mode}_{self.demand}_{self.volatility}.json"
+        # elif self.volatility is None:
+        #     pattern = f"evaluation/data/{self.dist}_{mode}_{self.demand}_*.json"
+        # elif self.demand is None:
+        #     pattern = f"evaluation/data/{self.dist}_{mode}_*_{self.volatility}.json"
+        # else:
+        #     pattern = f"evaluation/data/{self.dist}_{mode}_{self.demand}_{self.volatility}.json"
+
+        if self.dist is None:
+            pattern = f"evaluation/data/*_{mode}.json"
         else:
-            pattern = f"evaluation/data/{self.dist}_{mode}_{self.demand}_{self.volatility}.json"
+            pattern = f"evaluation/data/{self.dist}_{mode}.json"
 
         # Find all matching files and load their contents
         instances = []
