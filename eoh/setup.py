@@ -20,6 +20,7 @@ setup(
         "numba",
         "joblib",
         "pandas",
+        "scipy",
     ],
     test_suite="tests"
 )

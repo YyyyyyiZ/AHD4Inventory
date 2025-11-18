@@ -1,7 +1,7 @@
 [
      {
           "algorithm": "The algorithm implements Base Stock Policy where the inventory level is always brought back to a fixed target level 'base_stock' at the beginning of each period.",
-          "code": "def compute_order_amount(current_inventory, pipeline_inventory):\n    base_stock = 100  # OPT_PARAM: {'initial': 100, 'min': 10, 'max': 300, 'type': 'int'}\n    order_amount = max(0, base_stock - current_inventory - sum(pipeline_inventory))\n    return order_amount",
+          "code": "def compute_order_amount(current_inventory, pipeline_inventory):\n    base_stock = 100  # OPT_PARAM: {'initial': 100, 'min': 10, 'max': 1000, 'type': 'int'}\n    order_amount = max(0, base_stock - current_inventory - sum(pipeline_inventory))\n    return order_amount",
           "objective": null,
           "other_inf": null
      }

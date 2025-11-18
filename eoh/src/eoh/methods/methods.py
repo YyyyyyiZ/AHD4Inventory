@@ -30,15 +30,15 @@ class Methods():
 
     def get_method(self):
 
-        if self.paras.method == "ael":
-            from .ael.ael import AEL
-            return AEL(self.paras, self.problem, self.select, self.manage)
-        elif self.paras.method == "eoh":
+        if self.paras.method == "eoh":
             from .eoh.eoh import EOH
             return EOH(self.paras, self.problem, self.select, self.manage)
-        elif self.paras.method in ['ls', 'sa']:
-            from .localsearch.ls import LS
-            return LS(self.paras, self.problem, self.select, self.manage)
+        # elif self.paras.method == "ael":
+        #     from .ael.ael import AEL
+        #     return AEL(self.paras, self.problem, self.select, self.manage)
+        # elif self.paras.method in ['ls', 'sa']:
+        #     from .localsearch.ls import LS
+        #     return LS(self.paras, self.problem, self.select, self.manage)
         # elif self.paras.method == "funsearch":
         #     from .funsearch.funsearch import FunSearch
         #     return FunSearch(self.paras,self.problem,self.select,self.manage)

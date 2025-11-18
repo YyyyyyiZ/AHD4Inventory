@@ -257,12 +257,11 @@ class EOH:
         parent_dir = Path(self.output_path).parent
         filename = parent_dir / f"{self.filename}.csv"
 
-        # 基本字段（注意：不再包含 'repeat'）
         oneline = {
             'LLM': self.llm_model,
             'problem': self.problem,
             'n_train': self.n_train,
-            'n_horizon': self.n_horizon,
+            # 'n_horizon': self.n_horizon,
             'order_option': self.order_option,
             'external_opt': 'no' if self.external_optimizer is None else self.external_optimizer,
             'iter_opt': '-' if self.external_optimizer is None else str(self.iter_opt),
@@ -276,12 +275,10 @@ class EOH:
         # problem-specific 字段
         problem_fields = {
             'inventory2': {
-                'dist': getattr(self, 'dist', None),
-                'demand_mean': getattr(self, 'demand_mean', None)
+                'dist': getattr(self, 'dist', None)
             },
             'inventory_ex': {
-                'dist': getattr(self, 'dist', None),
-                'demand_mean': getattr(self, 'demand_mean', None)
+                'dist': getattr(self, 'dist', None)
             },
             'tsp': {
                 'option': getattr(self, 'option', None),
@@ -309,7 +306,7 @@ class EOH:
         except (FileNotFoundError, pd.errors.EmptyDataError):
             problem_specific_fields = sorted({k for d in problem_fields.values() for k in d.keys()})
             base_fields = [
-                'LLM', 'problem', 'n_train', 'n_horizon', 'order_option', 'external_opt', 'iter_opt',
+                'LLM', 'problem', 'n_train', 'order_option', 'external_opt', 'iter_opt',
                 'param_loc', 'n_pop', 'mode', 'data_summary', 'algo_performance'
             ]
             df = pd.DataFrame(columns=base_fields + problem_specific_fields)
@@ -359,7 +356,7 @@ class EOH:
             # File doesn't exist or is empty, create new DataFrame
             problem_specific_fields = sorted({k for d in problem_fields.values() for k in d.keys()})
             base_fields = [
-                'LLM', 'problem', 'n_train', 'n_horizon', 'order_option', 'external_opt', 'iter_opt',
+                'LLM', 'problem', 'n_train', 'order_option', 'external_opt', 'iter_opt',
                 'param_loc', 'n_pop', 'mode', 'data_summary', 'algo_performance'
             ]
             df = pd.DataFrame(columns=base_fields + problem_specific_fields)

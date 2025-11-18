@@ -169,8 +169,7 @@ class GetPrompts():
             average_cumulative_total_cost = (1 / N) * average_cumulative_total_cost
 
         Return average_cumulative_total_cost
-
-        Given a policy and the demand trajectories, your task is to change the policy to produce an improved implementation that achieves a lower average cumulative total cost on the training demand trajectories.
+        
         """
         self.prompt_func_name = "compute_order_amount"
         self.prompt_func_inputs = [
@@ -179,7 +178,7 @@ class GetPrompts():
         ]
         self.prompt_func_outputs = ["order_amount"]
 
-        self.prompt_inout_inf = """
+        self.prompt_inout_inf = r"""
         Inputs:
         - `on_hand_inventory` (float): On-hand inventory $I_t$ at the start of current period.
         - `pipeline_orders` (list[float]): Pipeline orders $Q_t = (q_{t,1}, q_{t,2}, \ldots, q_{t,L})$, indexed as [oldest → newest].

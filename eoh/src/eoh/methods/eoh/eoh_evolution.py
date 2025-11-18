@@ -1,10 +1,9 @@
-import numpy as np
 import os
 import json
 from datetime import datetime
 
 from ...llm.interface_LLM import InterfaceLLM
-from .reflection.utils import *
+from .utils import *
 
 
 class Evolution:
@@ -46,15 +45,14 @@ class Evolution:
 
     def init_base_prompt(self):
         self.current_dir = os.path.dirname(os.path.abspath(__file__))
-        self.file_path = os.path.join(self.current_dir, 'reflection')
+        self.file_path = os.path.join(self.current_dir)
 
-        self.prompt_i1 = file_to_string(f'{self.file_path}/common/prompt_i1.txt')
-        self.prompt_e1 = file_to_string(f'{self.file_path}/common/prompt_e1.txt')
-        self.prompt_e2 = file_to_string(f'{self.file_path}/common/prompt_e2.txt')
-        self.prompt_m1 = file_to_string(f'{self.file_path}/common/prompt_m1.txt')
-        self.prompt_m2 = file_to_string(f'{self.file_path}/common/prompt_m2.txt')
-        self.prompt_m3 = file_to_string(f'{self.file_path}/common/prompt_m3.txt')
-        self.prompt_data_summary = file_to_string(f'{self.file_path}/common/prompt_data_summary.txt')
+        self.prompt_i1 = file_to_string(f'{self.file_path}/operator/prompt_i1.txt')
+        self.prompt_e1 = file_to_string(f'{self.file_path}/operator/prompt_e1.txt')
+        self.prompt_e2 = file_to_string(f'{self.file_path}/operator/prompt_e2.txt')
+        self.prompt_m1 = file_to_string(f'{self.file_path}/operator/prompt_m1.txt')
+        self.prompt_m2 = file_to_string(f'{self.file_path}/operator/prompt_m2.txt')
+        self.prompt_m3 = file_to_string(f'{self.file_path}/operator/prompt_m3.txt')
 
     def external_optimizer_prompt(self):
         if self.param_loc == 'start':
@@ -95,12 +93,23 @@ class Evolution:
         else:  # default parameter location
             prompt_content = "Then, Mark optimizable parameters in the code with `# OPT_PARAM: ` comments, like this:" \
                              + "\n" + "base_stock = 50  # OPT_PARAM: {'initial': 50, 'min': 10, 'max': 200, 'type': 'float'}" \
-                             + "\n" + "Follow these requirements: 1. comments should follow the parameter in the same line." \
+                             + "\n" + "Follow these requirements:" \
+                             + "\n" + "1. comments should follow the parameter in the same line." \
                              + "\n" + "2. Only mark parameters that are assigned within the code body (not function inputs)" \
                              + "\n" + "3. Only mark continuous parameters assigned with an equals sign (`=`)" \
                              + "\n" + "4. DON'T mark more than 10 optimizable parameters."
 
         return prompt_content
+
+    def op_prompt(self, operator):
+        if operator == 'm1' or operator == 'm2' or operator == 'm3':
+            op_prompt_content="\nGiven a policy and the demand trajectories, your task is to change the policy to produce an improved implementation that achieves a lower average cumulative total cost on the training demand trajectories.\n"
+        elif operator == 'e1' or operator == 'e2':
+            op_prompt_content = "\nGiven a policy and the demand trajectories, your task is to change the policy to produce a new implementation.\n"
+        else:
+            raise ValueError(f"Operator {operator} not recognized")
+        return op_prompt_content
+
 
     def get_prompt_i1(self):
         prompt_content = self.prompt_i1.format(
@@ -116,11 +125,11 @@ class Evolution:
         return prompt_content
 
     def get_prompt_e1(self, indivs):
-        prompt_indiv = ""
+        prompt_indiv = "\n"
         for i in range(len(indivs)):
-            prompt_indiv = prompt_indiv + "No." + str(i + 1) + " algorithm: \n" + indivs[i]['code'] + "\n"
+            prompt_indiv = prompt_indiv + "No." + str(i + 1) + " algorithm: \n" + indivs[i]['code'] + "\n" + "\n"
         prompt_content = self.prompt_e1.format(
-            prompt_task=self.prompt_task,
+            prompt_task=self.prompt_task + self.op_prompt('e1'),
             num_indivs=str(len(indivs)),
             code_indivs=prompt_indiv,
             data_summary=self.analyzer.get_data_summary(),
@@ -141,11 +150,11 @@ class Evolution:
         return prompt_content
 
     def get_prompt_e2(self, indivs):
-        prompt_indiv = ""
+        prompt_indiv = "\n"
         for i in range(len(indivs)):
-            prompt_indiv = prompt_indiv + "No." + str(i + 1) + " algorithm: \n" + indivs[i]['code'] + "\n"
+            prompt_indiv = prompt_indiv + "No." + str(i + 1) + " algorithm: \n" + indivs[i]['code'] + "\n" + "\n"
         prompt_content = self.prompt_e2.format(
-            prompt_task=self.prompt_task,
+            prompt_task=self.prompt_task + self.op_prompt('e2'),
             num_indivs=str(len(indivs)),
             code_indivs=prompt_indiv,
             data_summary=self.analyzer.get_data_summary(),
@@ -167,7 +176,7 @@ class Evolution:
 
     def get_prompt_m1(self, indiv1):
         prompt_content = self.prompt_m1.format(
-            prompt_task=self.prompt_task,
+            prompt_task=self.prompt_task + self.op_prompt('m1'),
             # algo_decsr=indiv1['algorithm'],
             algo_code=indiv1['code'],
             data_summary=self.analyzer.get_data_summary(),
@@ -192,7 +201,7 @@ class Evolution:
         optimizable_params_text = self._extract_optimizable_params_info(indiv1)
 
         prompt_content = self.prompt_m2.format(
-            prompt_task=self.prompt_task,
+            prompt_task=self.prompt_task + self.op_prompt('m2'),
             algo_code=indiv1['code'],
             data_summary=self.analyzer.get_data_summary(),
             algo_performance=self.analyzer.get_algo_performance([indiv1]),
@@ -217,7 +226,7 @@ class Evolution:
         optimizable_params_text = self._extract_optimizable_params_info(indiv1)
 
         prompt_content = self.prompt_m3.format(
-            prompt_task=self.prompt_task,
+            prompt_task=self.prompt_task + self.op_prompt('m3'),
             algo_code=indiv1['code'],
             data_summary=self.analyzer.get_data_summary(),
             algo_performance=self.analyzer.get_algo_performance([indiv1]),
