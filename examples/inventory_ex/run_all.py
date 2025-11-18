@@ -22,9 +22,9 @@ dist_list = [
     # 'pareto_L2_c1_2','pareto_L2_c1_5','pareto_L4_c1_2','pareto_L4_c1_5','pareto_L6_c1_2','pareto_L6_c1_5',
 ]
 problem = "inventory2"     # inventory2 inventory_ex
-ec_pop_size = 10
-external_opt_list = ['no']       # external_opt_list =['no', 'ng', 'deap', 'scipy']
-algo_performance_list = ['processed']     # no: no performance feedback, plain: detailed trajectories, processed: statistical summaries
+ec_pop_size = 30
+external_opt_list = ['scipy']       # external_opt_list =['no', 'ng', 'deap', 'scipy']
+algo_performance_list = ['no', 'processed']     # no: no performance feedback, plain: detailed trajectories, processed: statistical summaries
 data_summary_list = ['plain']       # data_summary_list = ['no','plain','processed']
 n_train_list = [50]
 n_horizon_list = [50]       # n_horizon_list = [3, 5, 10, 20, 50]
@@ -32,10 +32,10 @@ iter_opt_list = [15]
 param_loc_list = ['default']        # param_loc_list = ['start', 'default']
 order_option_list = ['order_before_sell']
 operator_list = ['e1', 'e2', 'm2']
-repeat_num = 10
+repeat_num = 3
 
 for repeat in range(repeat_num):
-    repeat += 1
+    repeat += 4
     for dist in dist_list:
         for external_opt in external_opt_list:
             for n_train in n_train_list:
@@ -47,7 +47,7 @@ for repeat in range(repeat_num):
                                     for data_summary in data_summary_list:
                                         command = (
                                             f"E:\\Anaconda3\\envs\\EoH\\python runEoH.py "  # change this line according to the path of python.exe
-                                            f"--llm_api_key sk-8dad0165ee794c5ab892db1612a33cbb "  # sk-b91d11eb3de9494db3a48cae9568ba49; sk-5d290dc8a98e43c99f0e5d09ffb40d72; sk-a27cbbbd15504a278f922fd3204d8ddd; sk-faf6d1042965448d8315ff9122b56990; sk-01975fe796644850a6d96accf30b2480; sk-8dad0165ee794c5ab892db1612a33cbb
+                                            f"--llm_api_key sk-5d290dc8a98e43c99f0e5d09ffb40d72 "  # sk-b91d11eb3de9494db3a48cae9568ba49; sk-5d290dc8a98e43c99f0e5d09ffb40d72; sk-a27cbbbd15504a278f922fd3204d8ddd; sk-faf6d1042965448d8315ff9122b56990; sk-01975fe796644850a6d96accf30b2480; sk-8dad0165ee794c5ab892db1612a33cbb
                                             f"--problem {problem} "
                                             f"--ec_pop_size {ec_pop_size} "
                                             f"--dist {dist} "
@@ -59,7 +59,8 @@ for repeat in range(repeat_num):
                                             f"--algo_performance {algo_performance} "
                                             f"--data_summary {data_summary} "
                                             f"--operator {' '.join(operator_list)} "
-                                            f"--filename template2 "
+                                            f"--repeat {repeat} "
+                                            f"--filename res_normal30_L2_C15_2 "
                                             f"--store_option append "
                                         )
                                         print(f"Running: {command}")
