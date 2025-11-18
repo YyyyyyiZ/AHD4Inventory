@@ -103,9 +103,11 @@ class Evolution:
 
     def op_prompt(self, operator):
         if operator == 'm1' or operator == 'm2' or operator == 'm3':
-            op_prompt_content="\nGiven a policy and the demand trajectories, your task is to change the policy to produce an improved implementation that achieves a lower average cumulative total cost on the training demand trajectories.\n"
-        elif operator == 'e1' or operator == 'e2':
-            op_prompt_content = "\nGiven a policy and the demand trajectories, your task is to change the policy to produce a new implementation.\n"
+            op_prompt_content="\n\nGiven a policy and the demand trajectories, your task is to change the policy to produce an improved implementation that achieves a lower average cumulative total cost on the training demand trajectories.\n\n"
+        elif operator == 'e1':
+            op_prompt_content = "\n\nGiven some policies and the demand trajectories, your task is to change the policies to produce a different implementation.\n\n"
+        elif operator == 'e2':
+            op_prompt_content = "\n\nGiven some policies and the demand trajectories, your task is to change the policies to produce a similar implementation.\n\n"
         else:
             raise ValueError(f"Operator {operator} not recognized")
         return op_prompt_content
