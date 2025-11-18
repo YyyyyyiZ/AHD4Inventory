@@ -24,8 +24,7 @@ and returns {prompt_func_num_outputs} output(s): {prompt_func_outputs}.
 
 {external_optimizer}
 
-Please analyze the provided policies and corresponding performance (if any) to create a new implementation that is meaningfully different from the given ones,
-giving priority to structural novelty: the new policy MUST introduce at least one genuinely new form of decision logic.
+Please analyze the provided policies and corresponding performance (if any) to create a new implementation that is meaningfully different from the given ones, giving priority to structural novelty: the new policy MUST introduce at least one genuinely new form of decision logic.
 
 This policy must be strictly stationary:
     The order amount must depend only on the current arguments on_hand_inventory and pipeline_orders.

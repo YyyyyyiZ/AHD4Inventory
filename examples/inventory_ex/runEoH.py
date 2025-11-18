@@ -5,6 +5,8 @@ import argparse
 
 parser = argparse.ArgumentParser('Run Inventory_ex')
 
+parser.add_argument('--problem', type=str, default="inventory2")
+
 # LLM Config
 parser.add_argument('--llm_api_endpoint', type=str, default="api.deepseek.com")
 parser.add_argument('--llm_api_key', type=str, default="")
@@ -29,12 +31,14 @@ parser.add_argument('--prompt_version', type=str, default='v2', help='Prompt ver
 
 # Optimizer
 parser.add_argument('--external_opt', type=str, default='no', help='Type of external optimizer.')
-parser.add_argument('--iter_opt', type=int, default=30, help='Iterations of external optimizer.')
+parser.add_argument('--iter_opt', type=int, default=15, help='Iterations of external optimizer.')
 parser.add_argument('--param_loc', type=str, default='default')
-parser.add_argument('--operator', type=str, default='m1', help='Evolution operator: m1, m2, or m1,m2')
+# parser.add_argument('--operator', type=str, default='m1', help='Evolution operator: m1, m2, or m1,m2')
+parser.add_argument("--operator", nargs="+", type=str)
+
 
 # General parameters
-parser.add_argument('--ecc_pop_size', type=int, default=1, help='number of samples in each population')
+parser.add_argument('--ec_pop_size', type=int, default=4, help='number of samples in each population')
 parser.add_argument('--ec_n_pop', type=int, default=10, help='number of populations')
 parser.add_argument('--exp_n_proc', type=int, default=4, help='multi-core parallel')
 parser.add_argument('--exp_use_continue', type=int, default=1, help='# load existing heuristics.')
@@ -53,28 +57,24 @@ if args.exp_continue_path == "initial_pool.json" and args.prompt_version == 'v1'
     print(f"Note: Using {args.exp_continue_path} for prompt version v1")
 
 args.exp_output_path = '_'.join([args.llm_model, args.dist, str(args.n_train), args.data_summary, args.algo_performance,
-                                 args.external_opt, str(args.iter_opt), args.param_loc, args.operator, 'r' + str(args.repeat)])
+                                 args.external_opt, str(args.iter_opt), args.param_loc, '-'.join(args.operator), 'r' + str(args.repeat)])
 
 # Parameter initilization #
 paras = Paras()
 
-# Parse operator argument (support comma-separated values like "m1,m2")
-operator_list = [op.strip() for op in args.operator.split(',')]
 
 # Set parameters #
 paras.set_paras(method="eoh",
-                problem="inventory_ex",
-                dist=args.dist,  # normal
-                # demand=args.mean,
-                # volatility='low',
+                problem=args.problem,
+                dist=args.dist,
                 n_train=args.n_train,
                 n_horizon=args.n_horizon,
                 llm_api_endpoint=args.llm_api_endpoint,  # LLM endpoint
                 llm_api_key=args.llm_api_key,  # key
                 llm_model=args.llm_model,  # Model
-                ecc_pop_size=args.ecc_pop_size,  # number of samples in each population
+                ec_pop_size=args.ec_pop_size,  # number of samples in each population
                 ec_n_pop=args.ec_n_pop,  # number of populations
-                ec_operators=operator_list,  # Evolution operators
+                ec_operators=args.operator,  # Evolution operators
                 exp_n_proc=args.exp_n_proc,  # multi-core parallel
                 exp_use_continue=args.exp_use_continue,  # load existing heuristics
                 exp_continue_path=args.exp_continue_path,  # path to existing heuristics
@@ -91,7 +91,13 @@ paras.set_paras(method="eoh",
                 param_loc=args.param_loc,
                 prompt_version=args.prompt_version,
                 )
-print("Run Inventory Toy Example")
+if args.problem == 'inventory2':
+    print("Run Inventory")
+elif args.problem == 'inventory_ex':
+    print("Run Inventory Toy Example")
+else:
+    raise ValueError("Invalid Problem")
+
 # initilization
 evolution = eoh.EVOL(paras)
 
