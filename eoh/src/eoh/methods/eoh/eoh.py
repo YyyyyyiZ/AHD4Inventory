@@ -65,40 +65,13 @@ class EOH:
         self.n_horizon = paras.n_horizon
         self.order_option = paras.order_option
         self.filename = paras.filename
-        self.store_option = paras.store_option
 
         # inventory
         self.dist = paras.dist
-        self.demand_mean = paras.demand
-        self.volatility = paras.volatility
-        # tsp
-        self.option = paras.option
-        self.n_node = paras.n_node
 
-        from ...problems.optimization.inventory_ex.analyze import InventoryAnalyzer as Analyzer
+        from ...problems.optimization.inventory.analyze import InventoryAnalyzer as Analyzer
         self.analyzer = Analyzer(self.prob, self.n_train, self.data_summary, self.algo_performance,
                                  param_info='yes', prompt_version=paras.prompt_version)
-
-        # if self.problem == 'inventory2':
-        #     from ...problems.optimization.inventory2.analyze import InventoryAnalyzer as Analyzer
-        #     self.analyzer = Analyzer(self.prob, self.n_train, self.data_summary, self.algo_performance,
-        #                              param_info='yes')
-        #
-        # if self.problem == 'inventory_ex':
-        #     from ...problems.optimization.inventory_ex.analyze import InventoryAnalyzer as Analyzer
-        #     self.analyzer = Analyzer(self.prob, self.n_train, self.data_summary, self.algo_performance,
-        #                              param_info='yes', prompt_version=paras.prompt_version)
-        # elif self.problem == 'tsp' and self.option == 'deterministic':
-        #     from ...problems.optimization.tsp.analyze_deterministic import TSPAnalyzer as Analyzer
-        #     self.analyzer = Analyzer(self.prob, self.n_train, self.data_summary, self.algo_performance,
-        #                              param_info='yes')
-        #
-        # elif self.problem == 'tsp' and self.option == 'stochastic':
-        #     from ...problems.optimization.tsp.analyze_stochastic import TSPAnalyzer as Analyzer
-        #     self.analyzer = Analyzer(self.prob, self.n_train, self.data_summary, self.algo_performance,
-        #                              param_info='yes')
-        # else:
-        #     raise ValueError('Problem must be either inventory_ex or inventory2')
 
         print("- EoH parameters loaded -")
 
@@ -158,8 +131,6 @@ class EOH:
         else:
             if self.load_pop:  # load population from files
                 print("1. Load initial population from " + self.load_pop_path)
-                # import os
-                # print(os.getcwd())
                 with open(self.load_pop_path) as file:
                     data = json.load(file)
                 for individual in data:
@@ -254,7 +225,16 @@ class EOH:
     def save_results(self, population, pop_idx, mode='train'):
         parent_dir = Path(self.output_path).parent
 
-        if self.problem == 'inventory2':
+        problem_fields = {
+            'inventory_ex': {
+                'dist': getattr(self, 'dist', None)
+            },
+            'inventory': {
+                'dist': getattr(self, 'dist', None),
+            },
+        }
+
+        if self.problem == 'inventory':
 
             oneline = {
                 'LLM': self.llm_model,
@@ -271,21 +251,7 @@ class EOH:
                 'algo_performance': self.algo_performance
             }
 
-            problem_fields = {
-                'inventory_ex': {
-                    'dist': getattr(self, 'dist', None)
-                },
-                'inventory2': {
-                    'dist': getattr(self, 'dist', None),
-                    # 'demand_mean': getattr(self, 'demand_mean', None)
-                },
-                # 'tsp': {
-                #     'option': getattr(self, 'option', None),
-                #     'n_node': getattr(self, 'n_node', None)
-                # },
-                # More problems
-                # 'new_problem': {...}
-            }
+
 
             if self.problem in problem_fields:
                 oneline.update(problem_fields[self.problem])
@@ -340,26 +306,13 @@ class EOH:
                 'algo_performance': self.algo_performance
             }
 
-            problem_fields = {
-                'inventory2': {
-                    'dist': getattr(self, 'dist', None)
-                },
-                'inventory_ex': {
-                    'dist': getattr(self, 'dist', None)
-                },
-                'tsp': {
-                    'option': getattr(self, 'option', None),
-                    'n_node': getattr(self, 'n_node', None)
-                },
-                # more problems ...
-            }
             if self.problem in problem_fields:
                 oneline.update(problem_fields[self.problem])
 
-            if len(population) == 0:
-                reasoning = None
-            else:
-                reasoning = population[0].get('algorithm')
+            # if len(population) == 0:
+            #     reasoning = None
+            # else:
+            #     reasoning = population[0].get('algorithm')
             if len(population) == 0:
                 score_value = None
             else:
@@ -415,60 +368,58 @@ class EOH:
                 df = pd.concat([df, pd.DataFrame([new_row])], ignore_index=True)
             df.to_csv(filename, index=False, float_format='%.2f', quoting=csv.QUOTE_NONNUMERIC)
 
-            filename = parent_dir / f"{self.filename}_reasoning.csv"
-            try:
-                # Try reading with quoting first (new format)
-                df = pd.read_csv(filename, quoting=csv.QUOTE_NONNUMERIC)
-            except (FileNotFoundError, pd.errors.EmptyDataError):
-                # File doesn't exist or is empty, create new DataFrame
-                problem_specific_fields = sorted({k for d in problem_fields.values() for k in d.keys()})
-                base_fields = [
-                    'LLM', 'problem', 'n_train', 'order_option', 'external_opt', 'iter_opt',
-                    'param_loc', 'n_pop', 'mode', 'data_summary', 'algo_performance'
-                ]
-                df = pd.DataFrame(columns=base_fields + problem_specific_fields)
-            except (pd.errors.ParserError, ValueError):
-                # Fall back to reading without quoting (old corrupted format)
-                # This will likely still fail with corrupted data, but we'll skip the bad rows
-                df = pd.read_csv(filename, on_bad_lines='skip')
-
-            key_fields = list(oneline.keys())
-            for k in key_fields:
-                if k not in df.columns:
-                    df[k] = None
-
-            if df.empty:
-                mask = pd.Series(dtype=bool)
-            else:
-                cmp_series = pd.Series(oneline)
-                mask = (df[key_fields] == cmp_series[key_fields]).all(axis=1)
-
-            repeat_col = f"repeat_{self.repeat}"
-
-            if mask.any():
-                row_idx = mask[mask].index[0]
-                if repeat_col not in df.columns:
-                    df[repeat_col] = None
-                df.at[row_idx, repeat_col] = reasoning
-            else:
-                if repeat_col not in df.columns:
-                    df[repeat_col] = None
-
-                new_row = {col: None for col in df.columns}
-                for k, v in oneline.items():
-                    if k in new_row:
-                        new_row[k] = v
-                    else:
-                        new_row[k] = v
-                new_row[repeat_col] = reasoning
-
-                for k in new_row.keys():
-                    if k not in df.columns:
-                        df[k] = None
-
-                df = pd.concat([df, pd.DataFrame([new_row])], ignore_index=True)
-
-            df.to_csv(filename, index=False, float_format='%.2f', quoting=csv.QUOTE_NONNUMERIC)
+            # filename = parent_dir / f"{self.filename}_reasoning.csv"
+            # try:
+            #     # Try reading with quoting first (new format)
+            #     df = pd.read_csv(filename, quoting=csv.QUOTE_NONNUMERIC)
+            # except (FileNotFoundError, pd.errors.EmptyDataError):
+            #     # File doesn't exist or is empty, create new DataFrame
+            #     problem_specific_fields = sorted({k for d in problem_fields.values() for k in d.keys()})
+            #     base_fields = [
+            #         'LLM', 'problem', 'n_train', 'order_option', 'external_opt', 'iter_opt',
+            #         'param_loc', 'n_pop', 'mode', 'data_summary', 'algo_performance'
+            #     ]
+            #     df = pd.DataFrame(columns=base_fields + problem_specific_fields)
+            # except (pd.errors.ParserError, ValueError):
+            #     df = pd.read_csv(filename, on_bad_lines='skip')
+            #
+            # key_fields = list(oneline.keys())
+            # for k in key_fields:
+            #     if k not in df.columns:
+            #         df[k] = None
+            #
+            # if df.empty:
+            #     mask = pd.Series(dtype=bool)
+            # else:
+            #     cmp_series = pd.Series(oneline)
+            #     mask = (df[key_fields] == cmp_series[key_fields]).all(axis=1)
+            #
+            # repeat_col = f"repeat_{self.repeat}"
+            #
+            # if mask.any():
+            #     row_idx = mask[mask].index[0]
+            #     if repeat_col not in df.columns:
+            #         df[repeat_col] = None
+            #     df.at[row_idx, repeat_col] = reasoning
+            # else:
+            #     if repeat_col not in df.columns:
+            #         df[repeat_col] = None
+            #
+            #     new_row = {col: None for col in df.columns}
+            #     for k, v in oneline.items():
+            #         if k in new_row:
+            #             new_row[k] = v
+            #         else:
+            #             new_row[k] = v
+            #     new_row[repeat_col] = reasoning
+            #
+            #     for k in new_row.keys():
+            #         if k not in df.columns:
+            #             df[k] = None
+            #
+            #     df = pd.concat([df, pd.DataFrame([new_row])], ignore_index=True)
+            #
+            # df.to_csv(filename, index=False, float_format='%.2f', quoting=csv.QUOTE_NONNUMERIC)
 
         else:
             raise ValueError('Problem must be either inventory_ex or inventory2')

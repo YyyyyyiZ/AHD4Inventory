@@ -19,24 +19,21 @@ class Paras():
         self.param_loc = 'default'
         self.repeat = 0
         self.filename = 'res'
-        self.store_option = 'append'
         self.algo_performance = 'plain'
         self.data_summary = 'no'
 
         #####################
         ### Self defined for Inventory ###
         #####################
-        self.demand = 80
-        self.dist = 'poisson'
-        self.volatility = 'low'
+        self.dist = 'normal_std30_L6_c1_5'
         self.order_option = 'order_before_sell'
         self.prompt_version = 'v2'  # 'v1' = old version, 'v2' = new version
 
-        #####################
-        ### Self defined for TSP ###
-        #####################
-        self.option = 'stochastic'
-        self.n_node = 50
+        # #####################
+        # ### Self defined for TSP ###
+        # #####################
+        # self.option = 'stochastic'
+        # self.n_node = 50
 
         #####################
         ###  EC settings  ###
@@ -84,12 +81,6 @@ class Paras():
     def set_ec(self):
         if self.management == None:
             self.management = 'pop_greedy'
-            # if self.method in ['ael', 'eoh']:
-            #     self.management = 'pop_greedy'
-            # elif self.method == 'ls':
-            #     self.management = 'ls_greedy'
-            # elif self.method == 'sa':
-            #     self.management = 'ls_sa'
 
         if self.selection == None:
             self.selection = 'prob_rank'
@@ -103,10 +94,6 @@ class Paras():
             print("Warning! Lengths of ec_operator_weights and ec_operator shoud be the same.")
             self.ec_operator_weights = [1 for _ in range(len(self.ec_operators))]
 
-        # if self.method in ['ls','sa'] and self.ec_pop_size >1:
-        #     self.ec_pop_size = 1
-        #     self.exp_n_proc = 1
-        #     print("> single-point-based, set pop size to 1. ")
 
     def set_evaluation(self):
         # Initialize evaluation settings
@@ -114,7 +101,6 @@ class Paras():
             self.eva_timeout = 180
         elif self.problem == 'inventory_ex':
             self.eva_timeout = 60  # 60 seconds per evaluation (reasonable for inventory problem)
-            self.ec_pop_size = 1
 
     def set_paras(self, *args, **kwargs):
 
