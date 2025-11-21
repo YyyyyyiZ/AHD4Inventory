@@ -10,7 +10,7 @@ import glob
 def _sample_demand(dist: str, num_periods: int, *, std_normal: int | None = None, pareto_alpha: float = 3.0):
     """
     Return an integer demand array of length num_periods with theoretical mean 100.
-    - dist ∈ {'poisson','normal','exponential','pareto'}
+    - dist ∈ {'poisson','normal','exponential','pareto','lomax'}
     - For normal, pass std_normal in {10,20,30}; negatives are clipped to 0.
     - For pareto, Type-I Pareto with alpha, scaled so mean=100.
     """
@@ -37,6 +37,18 @@ def _sample_demand(dist: str, num_periods: int, *, std_normal: int | None = None
         a = float(pareto_alpha)
         xm = mean * (a - 1.0) / a
         y = xm * (np.random.pareto(a, size=num_periods) + 1.0)
+        demand = np.rint(y).astype(int)
+
+    elif dist == "lomax":
+        # Lomax(alpha, lambda) with mean lambda/(alpha-1) = 100.
+        # In NumPy, np.random.pareto(a) already gives a Lomax(alpha=a, lambda=1)
+        # with pdf f(x) = a (1 + x)^(-a-1), x >= 0.
+        # So we just scale by lambda = 100 * (a - 1).
+        a = float(pareto_alpha)
+        if a <= 1.0:
+            raise ValueError("pareto_alpha (shape for lomax) must be > 1 for finite mean.")
+        lam = mean * (a - 1.0)   # so that lam/(a-1) = mean = 100
+        y = lam * np.random.pareto(a, size=num_periods)
         demand = np.rint(y).astype(int)
 
     else:
@@ -76,6 +88,9 @@ def generate_random_instance(
         "holding_cost": holding_cost,
         "lost_sales_cost": lost_sales_cost,
         "lead_time": lead_time,
+        "distribution": dist,
+        "std_normal": std_normal,
+        "pareto_alpha": pareto_alpha,
     }
 
 
@@ -113,7 +128,7 @@ if __name__ == "__main__":
     cost_pairs = [(1, 2), (1, 5)]
 
     # Distributions to generate
-    dists = ["poisson", "exponential", "pareto"]
+    dists = ["lomax"]
     normal_stds = [10, 20, 30]  # only used for 'normal'
 
     # how many trajectories per file
@@ -121,49 +136,49 @@ if __name__ == "__main__":
     N_TRAIN = 50
 
     # ---------- NORMAL (three std levels) ----------
-    for std in normal_stds:
-        for L in lead_times:
-            for hc, lc in cost_pairs:
-                # test
-                test_instances = [
-                    generate_random_instance(
-                        dist="normal",
-                        num_periods=num_periods,
-                        lead_time=L,
-                        initial_inventory=initial_inventory,
-                        holding_cost=hc,
-                        lost_sales_cost=lc,
-                        std_normal=std,
-                        instance_id=f"test_normstd{std}_L{L}_c{hc}_{lc}_{i}",
-                    )
-                    for i in range(N_TEST)
-                ]
-                save_instances(
-                    test_instances,
-                    f"data/normal_std{std}_L{L}_c{hc}_{lc}_test.json",
-                )
-
-                # train
-                train_instances = [
-                    generate_random_instance(
-                        dist="normal",
-                        num_periods=num_periods,
-                        lead_time=L,
-                        initial_inventory=initial_inventory,
-                        holding_cost=hc,
-                        lost_sales_cost=lc,
-                        std_normal=std,
-                        instance_id=f"train_normstd{std}_L{L}_c{hc}_{lc}_{i}",
-                    )
-                    for i in range(N_TRAIN)
-                ]
-                save_instances(
-                    train_instances,
-                    f"data/normal_std{std}_L{L}_c{hc}_{lc}_train.json",
-                )
+    # for std in normal_stds:
+    #     for L in lead_times:
+    #         for hc, lc in cost_pairs:
+    #             # test
+    #             test_instances = [
+    #                 generate_random_instance(
+    #                     dist="normal",
+    #                     num_periods=num_periods,
+    #                     lead_time=L,
+    #                     initial_inventory=initial_inventory,
+    #                     holding_cost=hc,
+    #                     lost_sales_cost=lc,
+    #                     std_normal=std,
+    #                     instance_id=f"test_normstd{std}_L{L}_c{hc}_{lc}_{i}",
+    #                 )
+    #                 for i in range(N_TEST)
+    #             ]
+    #             save_instances(
+    #                 test_instances,
+    #                 f"data/normal_std{std}_L{L}_c{hc}_{lc}_test.json",
+    #             )
+    #
+    #             # train
+    #             train_instances = [
+    #                 generate_random_instance(
+    #                     dist="normal",
+    #                     num_periods=num_periods,
+    #                     lead_time=L,
+    #                     initial_inventory=initial_inventory,
+    #                     holding_cost=hc,
+    #                     lost_sales_cost=lc,
+    #                     std_normal=std,
+    #                     instance_id=f"train_normstd{std}_L{L}_c{hc}_{lc}_{i}",
+    #                 )
+    #                 for i in range(N_TRAIN)
+    #             ]
+    #             save_instances(
+    #                 train_instances,
+    #                 f"data/normal_std{std}_L{L}_c{hc}_{lc}_train.json",
+    #             )
 
     # ---------- OTHER DISTS (single config each) ----------
-    for dist in dists:  # poisson, exponential, pareto
+    for dist in dists:  # poisson, exponential, pareto, lomax
         for L in lead_times:
             for hc, lc in cost_pairs:
                 # test

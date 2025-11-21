@@ -22,8 +22,8 @@ dist_list = [
     # # exponential
     # 'exponential_L2_c1_2','exponential_L2_c1_5','exponential_L4_c1_2','exponential_L4_c1_5','exponential_L6_c1_2','exponential_L6_c1_5',
     #
-    # # pareto
-    # 'pareto_L2_c1_2','pareto_L2_c1_5','pareto_L4_c1_2','pareto_L4_c1_5','pareto_L6_c1_2','pareto_L6_c1_5',
+    # # lomax
+    # 'lomax_L2_c1_2','lomax_L2_c1_5','lomax_L4_c1_2','lomax_L4_c1_5','lomax_L6_c1_2','lomax_L6_c1_5',
 ]
 problem = "inventory_ex"  # inventory inventory_ex
 ec_pop_size = 2
