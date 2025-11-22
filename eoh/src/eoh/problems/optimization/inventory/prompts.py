@@ -90,50 +90,81 @@ class GetPrompts():
     def _init_v2(self):
         """New version with improved notation"""
         self.prompt_task = r"""
-        We consider the problem of controlling the inventory of a product over $T$ discrete periods faced by a manager. 
-        At the beginning of each period $t = 1, 2, \dots, T$, the manager observes the on-hand inventory $I_t \ge 0$, 
-        representing the stock available at the end of the previous period, and the pipeline orders 
-        $Q_t = (q_{t,1}, q_{t,2}, \dots, q_{t,L})$, where $q_{t,k}$ denotes the quantity of product scheduled to arrive at the beginning of period $t+k-1$. 
-        The lead time $L$ is fixed and known to the manager.
+        We consider an inventory control problem for a single product over a finite
+        discrete horizon. The system has a selling horizon of $T$ periods and a fixed,
+        deterministic delivery lead time $L$. An order placed at the beginning of
+        period $t$ arrives at the beginning of period $t+L$.
 
-        At the beginning of period $t$, the order $q_{t,1}$ arrives. Thus, before meeting the demand, 
-        the manager has a total of $I_t + q_{t,1}$ units available for sales. After observing the state $(I_t, Q_t)$, 
-        the manager places a new replenishment order $a_t \ge 0$, which will arrive after $L$ periods.
+        There are two phases:
 
-        Then, the random demand $D_t$ is realized. We define the sales and lost sales quantities by explicitly separating the on-hand and arriving inventory:
+        1. **Planning Phase ($t=1,\dots,L$):**
+           No customer demand occurs. The manager may place orders, but no costs are
+           incurred. In the historical data, these periods appear as zeros, which are
+           placeholders indicating absence of demand.
+
+        2. **Selling Phase ($t=L+1,\dots,L+T$):**
+           Customer demand occurs and costs are incurred. The objective is to minimize
+           total cost over these $T$ selling periods.
+
+        At the beginning of each period $t=1,\dots,L+T$, the manager observes:
+        - On-hand inventory $I_t \ge 0$.
+        - Pipeline vector
+          $Q_t = (q_{t,1}, q_{t,2}, \dots, q_{t,L})$,
+          where $q_{t,k}$ is the quantity scheduled to arrive at the beginning of
+          period $t+k-1$.
+        We assume $I_1 = 0$.
+
+        At the start of period $t$, the order $q_{t,1}$ arrives. Before demand, the
+        available inventory is $I_t + q_{t,1}$. The manager then places an order
+        $a_t \ge 0$, which will arrive at period $t+L$.
+
+        After ordering, the demand $D_t$ is realized. Sales and lost sales are:
         \[
-        S_t = \min(I_t + q_{t,1},\, D_t),
-        \qquad
+        S_t = \min(I_t + q_{t,1},\, D_t), \qquad
         L_t = \max(0,\, D_t - I_t - q_{t,1}).
         \]
-        The leftover inventory that carries over to the next period is 
+
+        The next on-hand inventory is:
         \[
-        I_{t+1} = \max(0,\, I_t + q_{t,1} - D_t),
+        I_{t+1} = \max(0,\, I_t + q_{t,1} - D_t).
         \]
-        and the pipeline orders transition as follows. 
-        After $q_{t,1}$ arrives at the beginning of period $t$ and the manager places a new order $a_t$, 
-        each remaining order moves one step closer to arrival. 
-        Hence, the pipeline at the beginning of $t+1$ is
+
+        Pipeline orders shift forward and the new order enters the last slot:
         \[
         Q_{t+1} = (q_{t,2}, q_{t,3}, \dots, q_{t,L}, a_t).
         \]
 
-        During each period $t$, the manager incurs an immediate holding cost of $h \times \max(0,\, I_t + q_{t,1} - D_t)$ for leftover inventory 
-        and an immediate lost-sales cost of $p \times \max(0,\, D_t - I_t - q_{t,1})$ for unmet demand, where $h$ is a fixed holding cost per unit per period and $p$ is a fixed lost-sales cost per unit known to the manager.
-        Hence, the immediate total cost in period $t$ is the sum of the immediate holding cost and immediate lost-sales cost
+        During the selling phase ($t=L+1,\dots,L+T$), the manager incurs:
+        - holding cost $h \cdot \max(0, I_t + q_{t,1} - D_t)$,
+        - lost-sales cost $p \cdot \max(0, D_t - I_t - q_{t,1})$.
+
+        Thus the period-$t$ cost is:
         \[
-        c(I_t, q_{t,1}, D_t) 
-        = h \cdot \max(0,\, I_t + q_{t,1} - D_t)
-        + p \cdot \max(0,\, D_t - I_t - q_{t,1}).
+        c(I_t, q_{t,1}, D_t)
+        = h\,\max(0, I_t + q_{t,1} - D_t)
+        + p\,\max(0, D_t - I_t - q_{t,1}).
         \]
 
-        The manager seeks a stationary policy $\pi$ that maps the observed state $(I_t, Q_t)$ to an order quantity $a_t = \pi(I_t, Q_t)$. Given $N$ historical demand trajectories $(D_1^n, D_2^n, \dots, D_T^n)$ for $n = 1, 2, \dots, N$, 
-        the objective is to find a stationary policy that minimizes the average cumulative total cost. That is, to find an optimal policy that minimizes the following empirical optimization problem:
+        A stationary policy $\pi$ maps each state $(I_t, Q_t)$ to an order quantity
+        $a_t = \pi(I_t, Q_t)$.
+
+        We are given $N$ historical demand trajectories:
         \[
-        \min_{\pi} \frac{1}{N}\sum_{n=1}^N\sum_{t=1}^T 
-        c\big(I_t^{\pi,n}, q_{t,1}^{\,\pi,n}, D_t^n\big),
+        (D_1^n, \dots, D_L^n, D_{L+1}^n, \dots, D_{L+T}^n),
+        \qquad n=1,\dots,N,
         \]
-        where $I_t^{\pi,n}$ and $q_{t,1}^{\,\pi,n}$ denote, respectively, the on-hand inventory and the arriving order under the stationary policy $\pi$ along demand trajectory $n$.
+        where $D_1^n,\dots,D_L^n$ are zeros (Notice that this indicates NO demand in the planning phase) and the remaining $T$
+        entries are actual demands.
+
+        The objective is to find a stationary policy minimizing the average total cost:
+        \[
+        \min_{\pi}\;
+        \frac{1}{N}\sum_{n=1}^N
+        \sum_{t=L+1}^{L+T}
+        c\big(I_t^{\pi,n},\; q_{t,1}^{\,\pi,n},\; D_t^n\big),
+        \]
+        where $I_t^{\pi,n}$ and $q_{t,1}^{\,\pi,n}$ denote the on-hand and arriving
+        inventory under policy $\pi$ along trajectory $n$.
 
 
         The dynamics can be described with the following pseudocode:
@@ -141,10 +172,10 @@ class GetPrompts():
         Initialize average_cumulative_total_cost = 0
 
         For each demand trajectory n = 1, 2, …, N:
-            Set I_1 = initial_inventory
+            Set I_1 = 0
             Set Q_1 = (0, 0, …, 0)   # length L
 
-            For each period t = 1, 2, …, T:
+            For each period t = 1, 2, …, L+T:
                 # 1. Arrival of oldest pipeline order
                 q_{t,1} = first element of Q_t
 
@@ -152,14 +183,15 @@ class GetPrompts():
                 a_t = policy(I_t, Q_t)
 
                 # 3. Demand realization
-                D_t = D_t^n
+                D_t = D_t^n   # D_t = 0 for t = 1, …, L (planning phase)
 
-                # 4. Immediate cost calculation
-                c(I_t, q_{t,1}, D_t)
-                    = h * max(0, I_t + q_{t,1} - D_t)
-                    + p * max(0, D_t - I_t - q_{t,1})
+                # 4. Immediate cost calculation (only for selling phase)
+                if t > L:
+                    c(I_t, q_{t,1}, D_t)
+                        = h * max(0, I_t + q_{t,1} - D_t)
+                        + p * max(0, D_t - I_t - q_{t,1})
 
-                Add c(I_t, q_{t,1}, D_t) to average_cumulative_total_cost
+                    Add c(I_t, q_{t,1}, D_t) to average_cumulative_total_cost
 
                 # 5. State transition to next period
                 I_{t+1} = max(0, I_t + q_{t,1} - D_t)
@@ -169,7 +201,7 @@ class GetPrompts():
             average_cumulative_total_cost = (1 / N) * average_cumulative_total_cost
 
         Return average_cumulative_total_cost
-        
+
         """
         self.prompt_func_name = "compute_order_amount"
         self.prompt_func_inputs = [

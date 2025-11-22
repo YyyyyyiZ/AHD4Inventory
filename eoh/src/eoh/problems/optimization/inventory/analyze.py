@@ -19,6 +19,10 @@ class InventoryAnalyzer:
             holding_cost = one_instance['holding_cost']
             lost_sales_cost = one_instance['lost_sales_cost']
 
+            # Get selling horizon T (number of periods excluding planning phase)
+            # The demand length minus lead_time gives us the selling horizon
+            selling_horizon = len(one_instance['demand']) - lead_time
+
             if self.version == 'v1':
                 param_info = (
                     f"Below are some problem parameters: "
@@ -29,11 +33,11 @@ class InventoryAnalyzer:
                 )
             else:  # v2
                 param_info = (
-                    f"Below are some problem parameters: "
-                    f"lead time $L$ = {lead_time}, "
-                    f"initial on-hand inventory $I_1$ = {initial_inventory}, "
-                    f"holding cost $h$ = {holding_cost}, "
-                    f"lost-sales cost $p$ = {lost_sales_cost}. "
+                    f"Below are some problem parameters:\n"
+                    f"- Selling phase horizon: $T$ = {selling_horizon} periods\n"
+                    f"- Lead time: $L$ = {lead_time} periods\n"
+                    f"- Holding cost: $h$ = {holding_cost} per unit per period\n"
+                    f"- Lost-sales cost: $p$ = {lost_sales_cost} per unit\n"
                 )
             return param_info
         else:
@@ -82,8 +86,8 @@ class InventoryAnalyzer:
                     demand_text += f"Trajectory {idx} demand sequence: {traj['demand']}\n"
                     demand_text += f"Trajectory {idx} demand sequence: {traj['demand'][traj['lead_time']:]}\n"
                 else:  # v2
-                    # demand_text += f"Historical demand trajectory $D^{{{idx}}}$: {traj['demand']}\n"
-                    demand_text += f"Historical demand trajectory $D^{{{idx}}}$: {traj['demand'][traj['lead_time']:]}\n"
+                    demand_text += f"Historical demand trajectory $D^{{{idx}}}$: {traj['demand']}\n"
+                    # demand_text += f"Historical demand trajectory $D^{{{idx}}}$: {traj['demand'][traj['lead_time']:]}\n"
             return demand_text
         else:   # self.data_summary == 'no'
             return None
@@ -181,14 +185,14 @@ class InventoryAnalyzer:
                 summaries.append(f"""
     No.{i} policy:
     - Average total cost per period:
-      $\\frac{{1}}{{NT}} \\sum_{{n=1}}^N \\sum_{{t=1}}^T \\Big[ h \\cdot \\max(0,\\, I_t^{{\\pi,n}} + q_{{t,1}}^{{\\,\\pi,n}} - D_t^n) + p \\cdot \\max(0,\\, D_t^n - I_t^{{\\pi,n}} - q_{{t,1}}^{{\\,\\pi,n}}) \\Big]$ = {mean_total:.2f} (std={std_total:.2f})
+      $\\frac{{1}}{{NT}} \\sum_{{n=1}}^N \\sum_{{t=L+1}}^{{L+T}} \\Big[ h \\cdot \\max(0,\\, I_t^{{\\pi,n}} + q_{{t,1}}^{{\\,\\pi,n}} - D_t^n) + p \\cdot \\max(0,\\, D_t^n - I_t^{{\\pi,n}} - q_{{t,1}}^{{\\,\\pi,n}}) \\Big]$ = {mean_total:.2f} (std={std_total:.2f})
     - Average holding cost per period:
-      $\\frac{{1}}{{NT}} \\sum_{{n=1}}^N \\sum_{{t=1}}^T h \\cdot \\max(0,\\, I_t^{{\\pi,n}} + q_{{t,1}}^{{\\,\\pi,n}} - D_t^n)$ = {mean_holding:.2f}
+      $\\frac{{1}}{{NT}} \\sum_{{n=1}}^N \\sum_{{t=L+1}}^{{L+T}} h \\cdot \\max(0,\\, I_t^{{\\pi,n}} + q_{{t,1}}^{{\\,\\pi,n}} - D_t^n)$ = {mean_holding:.2f}
     - Average lost-sales cost per period:
-      $\\frac{{1}}{{NT}} \\sum_{{n=1}}^N \\sum_{{t=1}}^T p \\cdot \\max(0,\\, D_t^n - I_t^{{\\pi,n}} - q_{{t,1}}^{{\\,\\pi,n}})$ = {mean_lostsale:.2f}
+      $\\frac{{1}}{{NT}} \\sum_{{n=1}}^N \\sum_{{t=L+1}}^{{L+T}} p \\cdot \\max(0,\\, D_t^n - I_t^{{\\pi,n}} - q_{{t,1}}^{{\\,\\pi,n}})$ = {mean_lostsale:.2f}
     - Ratio holding : lost-sales = {mean_holding:.1f} : {mean_lostsale:.1f}
     - Per-trajectory total cost:
-      $\\sum_{{t=1}}^T \\Big[ h \\cdot \\max(0,\\, I_t^{{\\pi,n}} + q_{{t,1}}^{{\\,\\pi,n}} - D_t^n) + p \\cdot \\max(0,\\, D_t^n - I_t^{{\\pi,n}} - q_{{t,1}}^{{\\,\\pi,n}}) \\Big]$
+      $\\sum_{{t=L+1}}^{{L+T}} \\Big[ h \\cdot \\max(0,\\, I_t^{{\\pi,n}} + q_{{t,1}}^{{\\,\\pi,n}} - D_t^n) + p \\cdot \\max(0,\\, D_t^n - I_t^{{\\pi,n}} - q_{{t,1}}^{{\\,\\pi,n}}) \\Big]$
       mean = {traj_mean:.2f}, std={traj_std:.2f}, range=({traj_min:.2f}, {traj_max:.2f})
             """)
 
