@@ -10,11 +10,11 @@ dist_list = [
     # 'normal_std20_L2_c1_2','normal_std20_L2_c1_5','normal_std20_L4_c1_2','normal_std20_L4_c1_5','normal_std20_L6_c1_2','normal_std20_L6_c1_5',
 
     # 'normal_std30_L2_c1_2',
-    # 'normal_std30_L2_c1_5',
+    'normal_std30_L2_c1_5',
     # 'normal_std30_L4_c1_2',
     'normal_std30_L4_c1_5',
     # 'normal_std30_L6_c1_2',
-    # 'normal_std30_L6_c1_5',
+    'normal_std30_L6_c1_5',
 
     # # poisson
     # 'poisson_L2_c1_2','poisson_L2_c1_5','poisson_L4_c1_2','poisson_L4_c1_5','poisson_L6_c1_2','poisson_L6_c1_5',
@@ -26,10 +26,10 @@ dist_list = [
     # 'lomax_L2_c1_2','lomax_L2_c1_5','lomax_L4_c1_2','lomax_L4_c1_5','lomax_L6_c1_2','lomax_L6_c1_5',
 ]
 problem = "inventory_ex"  # inventory inventory_ex
-ec_pop_size = 2
+ec_pop_size = 4
 ec_n_pop = 2
 ec_m = 2
-external_opt_list = ['no']  # external_opt_list =['no', 'ng', 'deap', 'scipy']
+external_opt_list = ['scipy']  # external_opt_list =['no', 'ng', 'deap', 'scipy']
 algo_performance_list = ['processed']  # no: no performance feedback, plain: detailed trajectories, processed: statistical summaries
 data_summary_list = ['plain']  # data_summary_list = ['no','plain','processed']
 n_train_list = [50]
@@ -38,10 +38,10 @@ iter_opt_list = [15]
 param_loc_list = ['default']  # param_loc_list = ['start', 'default']
 order_option_list = ['order_before_sell']
 operator_list = ['e1']  # 'e1', 'e2', 'm2'
-repeat_num = 3
+repeat_num = 1
 
 for repeat in range(repeat_num):
-    repeat += 2
+    repeat += 1
     for dist in dist_list:
         for external_opt in external_opt_list:
             for n_train in n_train_list:

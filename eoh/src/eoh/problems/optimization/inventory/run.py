@@ -42,8 +42,8 @@ class INVENTORY:
             final_instances = instances
         if self.n_horizon is not None:
             for inst in final_instances:
-                inst["demand"] = inst["demand"][:self.n_horizon]
-                inst["num_periods"] = self.n_horizon
+                inst["demand"] = [0]*inst["lead_time"] + inst["demand"][:self.n_horizon]
+                inst["num_periods"] = inst["lead_time"] + self.n_horizon
         return final_instances
 
     def evaluate_mode(self, eva, instances):

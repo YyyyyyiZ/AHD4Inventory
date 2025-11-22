@@ -80,8 +80,10 @@ class InventoryAnalyzer:
             for idx, traj in enumerate(instances, start=1):
                 if self.version == 'v1':
                     demand_text += f"Trajectory {idx} demand sequence: {traj['demand']}\n"
+                    demand_text += f"Trajectory {idx} demand sequence: {traj['demand'][traj['lead_time']:]}\n"
                 else:  # v2
-                    demand_text += f"Historical demand trajectory $D^{{{idx}}}$: {traj['demand']}\n"
+                    # demand_text += f"Historical demand trajectory $D^{{{idx}}}$: {traj['demand']}\n"
+                    demand_text += f"Historical demand trajectory $D^{{{idx}}}$: {traj['demand'][traj['lead_time']:]}\n"
             return demand_text
         else:   # self.data_summary == 'no'
             return None
