@@ -1,4 +1,3 @@
-
 import json
 from collections import deque
 from pathlib import Path
@@ -13,17 +12,22 @@ import pandas as pd
 
 FILE_PREFIXES = [
     # normal (std = 10, 20, 30)
-    'normal_std10_L2_c1_2','normal_std10_L2_c1_5','normal_std10_L4_c1_2','normal_std10_L4_c1_5','normal_std10_L6_c1_2','normal_std10_L6_c1_5',
-    'normal_std30_L2_c1_2','normal_std30_L2_c1_5','normal_std30_L4_c1_2','normal_std30_L4_c1_5','normal_std30_L6_c1_2','normal_std30_L6_c1_5',
+    'normal_std10_L2_c1_2', 'normal_std10_L2_c1_5', 'normal_std10_L4_c1_2', 'normal_std10_L4_c1_5',
+    'normal_std10_L6_c1_2', 'normal_std10_L6_c1_5',
+    'normal_std30_L2_c1_2', 'normal_std30_L2_c1_5', 'normal_std30_L4_c1_2', 'normal_std30_L4_c1_5',
+    'normal_std30_L6_c1_2', 'normal_std30_L6_c1_5',
 
     # poisson
-    'poisson_L2_c1_2','poisson_L2_c1_5','poisson_L4_c1_2','poisson_L4_c1_5','poisson_L6_c1_2','poisson_L6_c1_5',
+    'poisson_L2_c1_2', 'poisson_L2_c1_5', 'poisson_L4_c1_2', 'poisson_L4_c1_5', 'poisson_L6_c1_2', 'poisson_L6_c1_5',
 
     # exponential
-    'exponential_L2_c1_2','exponential_L2_c1_5','exponential_L4_c1_2','exponential_L4_c1_5','exponential_L6_c1_2','exponential_L6_c1_5',
+    'exponential_L2_c1_2', 'exponential_L2_c1_5', 'exponential_L4_c1_2', 'exponential_L4_c1_5', 'exponential_L6_c1_2',
+    'exponential_L6_c1_5',
 
     # pareto
-    'pareto_L2_c1_2','pareto_L2_c1_5','pareto_L4_c1_2','pareto_L4_c1_5','pareto_L6_c1_2','pareto_L6_c1_5',
+    'pareto_L2_c1_2', 'pareto_L2_c1_5', 'pareto_L4_c1_2', 'pareto_L4_c1_5', 'pareto_L6_c1_2', 'pareto_L6_c1_5',
+    # lomax
+    'lomax_L2_c1_2','lomax_L2_c1_5','lomax_L4_c1_2','lomax_L4_c1_5','lomax_L6_c1_2','lomax_L6_c1_5',
 ]
 
 # 所有 json 与脚本放在同一目录；如需调整路径，在这里改
@@ -44,8 +48,8 @@ def simulate_instance(instance: Dict[str, Any], S: int) -> Tuple[float, float]:
     L = instance["lead_time"]
     h = instance["holding_cost"]
     p = instance["lost_sales_cost"]
-    T = instance["num_periods"]
-    demand = instance["demand"]
+    T = instance["lead_time"] + instance["num_periods"]
+    demand = [0]*instance["lead_time"] + instance["demand"]
     on_hand = instance["initial_inventory"]
 
     # 初始管道队列全 0，长度 L
@@ -160,7 +164,7 @@ def optimize_for_dataset(path: Path, dataset_name: str) -> Dict[str, Any]:
     return {
         "dataset": dataset_name,
         "opt_basestock": int(best_S),
-        "opt_cost_50": float(best_avg50)*50,
+        "opt_cost_50": float(best_avg50) * 50,
         "total_cost_all": float(best_total_cost),
         "L": L,
         "h": h,
@@ -192,7 +196,7 @@ def main():
 
             # 只保留你需要的三列 + dataset 名
             results.append({
-                "dataset": summary["dataset"],          # 文件名（含 _train/_test）
+                "dataset": summary["dataset"],  # 文件名（含 _train/_test）
                 "opt_basestock": summary["opt_basestock"],
                 "opt_cost_50": summary["opt_cost_50"],
             })

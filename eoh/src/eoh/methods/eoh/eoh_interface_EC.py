@@ -168,16 +168,12 @@ class InterfaceEC:
         return opt_params
 
     def population_generation(self):
-
-        n_create = 2
-
+        n_create = 1
         population = []
-
         for i in range(n_create):
             _, pop = self.get_algorithm([], 'i1')
             for p in pop:
                 population.append(p)
-
         return population
 
     def population_generation_seed(self, seeds, n_p):
@@ -236,7 +232,8 @@ class InterfaceEC:
         }
         if operator == "i1":
             parents = None
-            [offspring['code'], offspring['algorithm']] = self.evol.i1()
+            [offspring['code'], offspring['algorithm'], offspring['opt_params'], offspring['cost']] = self.evol.i1()
+            # print("off:", offspring)
         elif operator == "e1":
             parents = self.select.parent_selection(pop, self.m)
             [offspring['code'], offspring['algorithm'], offspring['opt_params'], offspring['cost']] = self.evol.e1(
@@ -294,6 +291,7 @@ class InterfaceEC:
 
                 if n_retry > 1:
                     break
+            # print("offspring:", offspring)
 
             ext = False
             if self.external_optimizer == 'scipy' and len(offspring['opt_params']) != 0:

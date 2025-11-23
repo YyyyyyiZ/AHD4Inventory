@@ -25,11 +25,11 @@ dist_list = [
     # # lomax
     # 'lomax_L2_c1_2','lomax_L2_c1_5','lomax_L4_c1_2','lomax_L4_c1_5','lomax_L6_c1_2','lomax_L6_c1_5',
 ]
-problem = "inventory_ex"  # inventory inventory_ex
+problem = "inventory_ex"  # inventory
 ec_pop_size = 4
 ec_n_pop = 2
-ec_m = 2
-external_opt_list = ['scipy']  # external_opt_list =['no', 'ng', 'deap', 'scipy']
+ec_m = 3
+external_opt_list = ['no']  # external_opt_list =['no', 'ng', 'deap', 'scipy']
 algo_performance_list = ['processed']  # no: no performance feedback, plain: detailed trajectories, processed: statistical summaries
 data_summary_list = ['plain']  # data_summary_list = ['no','plain','processed']
 n_train_list = [50]
@@ -54,13 +54,6 @@ for repeat in range(repeat_num):
                                         command = (
                                             # f"/home/sjtu/.conda/envs/ahd/bin/python runEoH.py "
                                             f"E:\\Anaconda3\\envs\\EoH\\python runEoH.py "  # change this line according to the path of python.exe
-                                            # sk-b91d11eb3de9494db3a48cae9568ba49
-                                            # sk-5d290dc8a98e43c99f0e5d09ffb40d72
-                                            # sk-a27cbbbd15504a278f922fd3204d8ddd
-                                            # sk-faf6d1042965448d8315ff9122b56990
-                                            # sk-01975fe796644850a6d96accf30b2480
-                                            # sk-8dad0165ee794c5ab892db1612a33cbb
-                                            # sk-21b0b2dbd4ba40a4bbe64b0eec1ada0d
                                             f"--llm_api_key sk-b91d11eb3de9494db3a48cae9568ba49 "
                                             f"--problem {problem} "
                                             f"--ec_pop_size {ec_pop_size} "
@@ -76,7 +69,7 @@ for repeat in range(repeat_num):
                                             f"--data_summary {data_summary} "
                                             f"--operator {' '.join(operator_list)} "
                                             f"--repeat {repeat} "
-                                            f"--filename template_toy "
+                                            f"--filename template_toy_active "
                                         )
                                         print(f"Running: {command}")
                                         try:

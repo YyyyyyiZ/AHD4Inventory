@@ -38,7 +38,7 @@ class EOH:
         self.debug_mode = paras.exp_debug_mode  # if debug
         self.ndelay = 1  # default
 
-        self.use_seed = paras.exp_use_seed
+        # self.use_seed = paras.exp_use_seed
         self.seed_path = paras.exp_seed_path
         self.load_pop = paras.exp_use_continue
         self.load_pop_path = paras.exp_continue_path
@@ -120,64 +120,75 @@ class EOH:
 
         # initialization
         population = []
-        if self.use_seed:
-            with open(self.seed_path) as file:
+        # if self.use_seed:
+        #     with open(self.seed_path) as file:
+        #         data = json.load(file)
+        #     population = interface_ec.population_generation_seed(data, self.exp_n_proc)
+        #     filename = f"{self.output_path}/pops/population_generation_0.json"
+        #     with open(filename, 'w') as f:
+        #         json.dump(population, f, indent=5)
+        #     n_start = 0
+        # else:
+        if self.load_pop:  # load population from files
+            print("1. Load initial population from " + self.load_pop_path)
+            with open(self.load_pop_path) as file:
                 data = json.load(file)
-            population = interface_ec.population_generation_seed(data, self.exp_n_proc)
+            for individual in data:
+                population.append(individual)
+            population = interface_ec.population_init_obj(population, self.exp_n_proc)
+
+            if self.create_initial:
+                print("2. Creating initial population...")
+                population_1 = interface_ec.population_generation()
+                population_1 = self.manage.population_management(population_1, self.pop_size)
+                for pop in population_1:
+                    population.append(pop)
+            else:
+                print("2. No initial population created...")
+
+            # Optimize generation 0 if external optimizer is enabled
+            if self.external_optimizer is not None:
+                print("3. Optimizing generation 0...")
+                for i in range(len(population)):
+                    population[i] = interface_ec.optimize_individual(population[i])
+                    print(f"   Individual {i}: Obj = {population[i]['objective']}")
+            else:
+                print("3. No optimization for generation 0...")
+
+            print(f"4. Pop initial: ")
+            for off in population:
+                print(" Obj: ", off['objective'], end="|")
+            print()
+            # Save population to a file (optimized if optimizer is on, un-optimized otherwise)
+            filename = f"{self.output_path}/pops/population_generation_0.json"
+            with open(filename, 'w') as f:
+                json.dump(population, f, indent=5)
+
+            n_start = self.load_pop_id
+        else:  # create new population
+            print("1. creating initial population...")
+            population = interface_ec.population_generation()
+            population = self.manage.population_management(population, self.pop_size)
+
+            print(f"2. Pop initial: \n")
+            for i in range(len(population)):
+                print(f"   Individual {i}: Obj = {population[i]['objective']}")
+            # Optimize generation 0 if external optimizer is enabled
+            # if self.external_optimizer is not None:
+            #     print("3. Optimizing generation 0...")
+            #     for i in range(len(population)):
+            #         population[i] = interface_ec.optimize_individual(population[i])
+            #         print(f"   Individual {i}: Obj = {population[i]['objective']}")
+            # else:
+            #     print("3. No optimization for generation 0...")
+
+            # for off in population:
+            #     print(" Obj: ", off['objective'], end="|")
+            # Save population to a file
             filename = f"{self.output_path}/pops/population_generation_0.json"
             with open(filename, 'w') as f:
                 json.dump(population, f, indent=5)
             n_start = 0
-        else:
-            if self.load_pop:  # load population from files
-                print("1. Load initial population from " + self.load_pop_path)
-                with open(self.load_pop_path) as file:
-                    data = json.load(file)
-                for individual in data:
-                    population.append(individual)
-                population = interface_ec.population_init_obj(population, self.exp_n_proc)
-
-                if self.create_initial:
-                    print("2. Creating initial population...")
-                    population_1 = interface_ec.population_generation()
-                    population_1 = self.manage.population_management(population_1, self.pop_size)
-                    for pop in population_1:
-                        population.append(pop)
-                else:
-                    print("2. No initial population created...")
-
-                # Optimize generation 0 if external optimizer is enabled
-                if self.external_optimizer is not None:
-                    print("3. Optimizing generation 0...")
-                    for i in range(len(population)):
-                        population[i] = interface_ec.optimize_individual(population[i])
-                        print(f"   Individual {i}: Obj = {population[i]['objective']}")
-                else:
-                    print("3. No optimization for generation 0...")
-
-                print(f"4. Pop initial: ")
-                for off in population:
-                    print(" Obj: ", off['objective'], end="|")
-                print()
-                # Save population to a file (optimized if optimizer is on, un-optimized otherwise)
-                filename = f"{self.output_path}/pops/population_generation_0.json"
-                with open(filename, 'w') as f:
-                    json.dump(population, f, indent=5)
-
-                n_start = self.load_pop_id
-            else:  # create new population
-                print("creating initial population:")
-                population = interface_ec.population_generation()
-                population = self.manage.population_management(population, self.pop_size)
-
-                print(f"3. Pop initial: ")
-                for off in population:
-                    print(" Obj: ", off['objective'], end="|")
-                # Save population to a file
-                filename = f"{self.output_path}/pops/population_generation_0.json"
-                with open(filename, 'w') as f:
-                    json.dump(population, f, indent=5)
-                n_start = 0
 
         # main loop
         n_op = len(self.operators)
@@ -240,18 +251,19 @@ class EOH:
                 'LLM': self.llm_model,
                 'problem': self.problem,
                 'n_train': self.n_train,
-                'order_option': self.order_option,
+                # 'n_horizon': self.n_horizon,
+                'p': self.m,
+                'initial': self.load_pop,
+                # 'order_option': self.order_option,
                 'external_opt': 'no' if self.external_optimizer is None else self.external_optimizer,
-                'iter_opt': '-' if self.external_optimizer is None else self.iter_opt,
-                'param_loc': '-' if self.external_optimizer is None else self.param_loc,
+                # 'iter_opt': '-' if self.external_optimizer is None else self.iter_opt,
+                # 'param_loc': '-' if self.external_optimizer is None else self.param_loc,
                 'repeat': self.repeat,
                 'n_pop': pop_idx,
                 'mode': mode,
-                'data_summary': self.data_summary,
+                # 'data_summary': self.data_summary,
                 'algo_performance': self.algo_performance
             }
-
-
 
             if self.problem in problem_fields:
                 oneline.update(problem_fields[self.problem])
@@ -266,10 +278,14 @@ class EOH:
             for i in range(len(population), 30):
                 oneline[str(i + 1)] = None
 
+            # base_fields = [
+            #     'LLM', 'problem', 'n_train', 'n_horizon', 'p', 'initial' 'order_option', 'external_opt', 'iter_opt',
+            #     'param_loc', 'repeat', 'n_pop', 'mode',
+            #     'data_summary', 'algo_performance'
+            # ]
             base_fields = [
-                'LLM', 'problem', 'n_train', 'order_option', 'external_opt', 'iter_opt',
-                'param_loc', 'repeat', 'n_pop', 'mode',
-                'data_summary', 'algo_performance'
+                'LLM', 'problem', 'n_train', 'p', 'initial' 'external_opt', 'repeat', 'n_pop', 'mode',
+                'algo_performance'
             ]
 
             problem_specific_fields = set().union(*problem_fields.values())
@@ -296,13 +312,15 @@ class EOH:
                 'problem': self.problem,
                 'n_train': self.n_train,
                 # 'n_horizon': self.n_horizon,
-                'order_option': self.order_option,
+                'p': self.m,
+                'initial': self.load_pop,
+                # 'order_option': self.order_option,
                 'external_opt': 'no' if self.external_optimizer is None else self.external_optimizer,
-                'iter_opt': '-' if self.external_optimizer is None else str(self.iter_opt),
-                'param_loc': '-' if self.external_optimizer is None else self.param_loc,
+                # 'iter_opt': '-' if self.external_optimizer is None else str(self.iter_opt),
+                # 'param_loc': '-' if self.external_optimizer is None else self.param_loc,
                 'n_pop': pop_idx,
                 'mode': mode,
-                'data_summary': self.data_summary,
+                # 'data_summary': self.data_summary,
                 'algo_performance': self.algo_performance
             }
 
@@ -325,9 +343,13 @@ class EOH:
                 df = pd.read_csv(filename)
             except (FileNotFoundError, pd.errors.EmptyDataError):
                 problem_specific_fields = sorted({k for d in problem_fields.values() for k in d.keys()})
+                # base_fields = [
+                #     'LLM', 'problem', 'n_train', 'n_horizon', 'p', 'initial' 'order_option', 'external_opt', 'iter_opt',
+                #     'param_loc', 'n_pop', 'mode', 'data_summary', 'algo_performance'
+                # ]
                 base_fields = [
-                    'LLM', 'problem', 'n_train', 'order_option', 'external_opt', 'iter_opt',
-                    'param_loc', 'n_pop', 'mode', 'data_summary', 'algo_performance'
+                    'LLM', 'problem', 'n_train', 'p', 'initial' 'external_opt', 'n_pop', 'mode',
+                    'algo_performance'
                 ]
                 df = pd.DataFrame(columns=base_fields + problem_specific_fields)
 

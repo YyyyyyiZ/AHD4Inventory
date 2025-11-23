@@ -108,6 +108,8 @@ class Evolution:
             op_prompt_content = "\n\nGiven some policies and the demand trajectories, your task is to change the policies to produce a different implementation.\n\n"
         elif operator == 'e2':
             op_prompt_content = "\n\nGiven some policies and the demand trajectories, your task is to change the policies to produce a similar implementation.\n\n"
+        elif operator == 'i1':
+            op_prompt_content = "\n\nGiven the demand trajectories, your task is to design policies for the above problem.\n\n"
         else:
             raise ValueError(f"Operator {operator} not recognized")
         return op_prompt_content
@@ -115,15 +117,21 @@ class Evolution:
 
     def get_prompt_i1(self):
         prompt_content = self.prompt_i1.format(
-            prompt_task=self.prompt_task,
+            prompt_task=self.prompt_task + self.op_prompt('i1'),
+            data_summary=self.analyzer.get_data_summary(),
             prompt_func_name=self.prompt_func_name,
             prompt_func_num_inputs=str(len(self.prompt_func_inputs)),
             prompt_func_inputs=self.joined_inputs,
             prompt_func_num_outputs=str(len(self.prompt_func_outputs)),
             prompt_func_outputs=self.joined_outputs,
             prompt_inout_inf=self.prompt_inout_inf,
-            prompt_other_inf=self.prompt_other_inf
+            prompt_other_inf=self.prompt_other_inf,
+            external_optimizer=self.external_optimizer_prompt() if self.external_optimizer else '',
         )
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        file_name = f"{self.exp_output_path}/prompt_for_code/i1_{timestamp}.txt"
+        with open(file_name, 'a') as file:
+            file.writelines(prompt_content + '\n')
         return prompt_content
 
     def get_prompt_e1(self, indivs):
@@ -252,6 +260,7 @@ class Evolution:
 
         response = self.interface_llm.get_response(prompt_content)
 
+
         algorithm = re.findall(r"\{\{(.*?)\}\}", response, re.DOTALL)
         # cost = re.findall(r"\[\[\[(.*?)\]\]\]", response, re.DOTALL)
         if len(algorithm) == 0:
@@ -277,7 +286,7 @@ class Evolution:
                     optim_params[param_name] = param_config
 
         n_retry = 1
-        while len(algorithm) == 0 or len(code) == 0:
+        while len(algorithm) == 0:
             if self.debug_mode:
                 print("Error: algorithm or code not identified, wait 1 seconds and retrying ... ")
 
@@ -314,6 +323,7 @@ class Evolution:
         cost = None
 
         code_all = code + " " + ", ".join(s for s in self.prompt_func_outputs)
+        # print("llm response:", code_all)
         return [code_all, algorithm, optim_params, cost]
 
     def _extract_param_name(self, oneline) -> str:
@@ -385,7 +395,7 @@ class Evolution:
             print(">>> Press 'Enter' to continue")
             input()
 
-        [code_all, algorithm, optim_params] = self._get_alg(prompt_content)
+        [code_all, algorithm, optim_params, cost] = self._get_alg(prompt_content)
 
         if self.debug_mode:
             print("\n >>> check designed algorithm: \n", algorithm)
@@ -393,7 +403,7 @@ class Evolution:
             print(">>> Press 'Enter' to continue")
             input()
 
-        return [code_all, algorithm]
+        return [code_all, algorithm, optim_params, cost]
 
     def e1(self, parents):
 

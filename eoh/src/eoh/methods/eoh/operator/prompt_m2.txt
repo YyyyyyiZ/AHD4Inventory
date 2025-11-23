@@ -17,7 +17,7 @@ Below is the performance of the provided policy on the historical demand traject
 
 ---
 
-This policy function accepts {prompt_func_num_inputs} input(s): {prompt_func_inputs},
+This ``compute_order_amount`` function accepts {prompt_func_num_inputs} input(s): {prompt_func_inputs},
 and returns {prompt_func_num_outputs} output(s): {prompt_func_outputs}.
 {prompt_inout_inf}.
 {prompt_other_inf}.
