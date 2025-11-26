@@ -92,8 +92,8 @@ class INVENTORY:
                     # Compute order amount using the inventory policy
                     if self.version == 'v1':
                         order_amount = eva.compute_order_amount(
-                            current_inventory=current_inventory,
-                            pipeline_inventory=pipeline_inventory.copy(),
+                            on_hand_inventory=current_inventory,
+                            pipeline_orders=pipeline_inventory.copy(),
                         )
                     else:  # v2
                         order_amount = eva.compute_order_amount(

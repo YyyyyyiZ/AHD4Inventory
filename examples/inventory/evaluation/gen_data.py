@@ -129,90 +129,90 @@ if __name__ == "__main__":
 
     # Distributions to generate
     dists = ["lomax"]
-    normal_stds = [10, 20, 30]  # only used for 'normal'
+    normal_stds = [50]  # only used for 'normal'
 
     # how many trajectories per file
     N_TEST = 100
     N_TRAIN = 50
 
     # ---------- NORMAL (three std levels) ----------
-    # for std in normal_stds:
-    #     for L in lead_times:
-    #         for hc, lc in cost_pairs:
-    #             # test
-    #             test_instances = [
-    #                 generate_random_instance(
-    #                     dist="normal",
-    #                     num_periods=num_periods,
-    #                     lead_time=L,
-    #                     initial_inventory=initial_inventory,
-    #                     holding_cost=hc,
-    #                     lost_sales_cost=lc,
-    #                     std_normal=std,
-    #                     instance_id=f"test_normstd{std}_L{L}_c{hc}_{lc}_{i}",
-    #                 )
-    #                 for i in range(N_TEST)
-    #             ]
-    #             save_instances(
-    #                 test_instances,
-    #                 f"data/normal_std{std}_L{L}_c{hc}_{lc}_test.json",
-    #             )
-    #
-    #             # train
-    #             train_instances = [
-    #                 generate_random_instance(
-    #                     dist="normal",
-    #                     num_periods=num_periods,
-    #                     lead_time=L,
-    #                     initial_inventory=initial_inventory,
-    #                     holding_cost=hc,
-    #                     lost_sales_cost=lc,
-    #                     std_normal=std,
-    #                     instance_id=f"train_normstd{std}_L{L}_c{hc}_{lc}_{i}",
-    #                 )
-    #                 for i in range(N_TRAIN)
-    #             ]
-    #             save_instances(
-    #                 train_instances,
-    #                 f"data/normal_std{std}_L{L}_c{hc}_{lc}_train.json",
-    #             )
-
-    # ---------- OTHER DISTS (single config each) ----------
-    for dist in dists:  # poisson, exponential, pareto, lomax
+    for std in normal_stds:
         for L in lead_times:
             for hc, lc in cost_pairs:
                 # test
                 test_instances = [
                     generate_random_instance(
-                        dist=dist,
+                        dist="normal",
                         num_periods=num_periods,
                         lead_time=L,
                         initial_inventory=initial_inventory,
                         holding_cost=hc,
                         lost_sales_cost=lc,
-                        instance_id=f"test_{dist}_L{L}_c{hc}_{lc}_{i}",
+                        std_normal=std,
+                        instance_id=f"test_normstd{std}_L{L}_c{hc}_{lc}_{i}",
                     )
                     for i in range(N_TEST)
                 ]
                 save_instances(
                     test_instances,
-                    f"data/{dist}_L{L}_c{hc}_{lc}_test.json",
+                    f"data/normal_std{std}_L{L}_c{hc}_{lc}_test.json",
                 )
 
                 # train
                 train_instances = [
                     generate_random_instance(
-                        dist=dist,
+                        dist="normal",
                         num_periods=num_periods,
                         lead_time=L,
                         initial_inventory=initial_inventory,
                         holding_cost=hc,
                         lost_sales_cost=lc,
-                        instance_id=f"train_{dist}_L{L}_c{hc}-{lc}_{i}",
+                        std_normal=std,
+                        instance_id=f"train_normstd{std}_L{L}_c{hc}_{lc}_{i}",
                     )
                     for i in range(N_TRAIN)
                 ]
                 save_instances(
                     train_instances,
-                    f"data/{dist}_L{L}_c{hc}_{lc}_train.json",
+                    f"data/normal_std{std}_L{L}_c{hc}_{lc}_train.json",
                 )
+
+    # ---------- OTHER DISTS (single config each) ----------
+    # for dist in dists:  # poisson, exponential, pareto, lomax
+    #     for L in lead_times:
+    #         for hc, lc in cost_pairs:
+    #             # test
+    #             test_instances = [
+    #                 generate_random_instance(
+    #                     dist=dist,
+    #                     num_periods=num_periods,
+    #                     lead_time=L,
+    #                     initial_inventory=initial_inventory,
+    #                     holding_cost=hc,
+    #                     lost_sales_cost=lc,
+    #                     instance_id=f"test_{dist}_L{L}_c{hc}_{lc}_{i}",
+    #                 )
+    #                 for i in range(N_TEST)
+    #             ]
+    #             save_instances(
+    #                 test_instances,
+    #                 f"data/{dist}_L{L}_c{hc}_{lc}_test.json",
+    #             )
+    #
+    #             # train
+    #             train_instances = [
+    #                 generate_random_instance(
+    #                     dist=dist,
+    #                     num_periods=num_periods,
+    #                     lead_time=L,
+    #                     initial_inventory=initial_inventory,
+    #                     holding_cost=hc,
+    #                     lost_sales_cost=lc,
+    #                     instance_id=f"train_{dist}_L{L}_c{hc}-{lc}_{i}",
+    #                 )
+    #                 for i in range(N_TRAIN)
+    #             ]
+    #             save_instances(
+    #                 train_instances,
+    #                 f"data/{dist}_L{L}_c{hc}_{lc}_train.json",
+    #             )
