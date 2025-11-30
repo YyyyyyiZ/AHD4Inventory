@@ -11,27 +11,31 @@ import pandas as pd
 # ----------------------------------------------------------------------
 
 FILE_PREFIXES = [
-    # normal (std = 10, 20, 30)
     'normal_std10_L2_c1_2', 'normal_std10_L2_c1_5', 'normal_std10_L4_c1_2', 'normal_std10_L4_c1_5',
     'normal_std10_L6_c1_2', 'normal_std10_L6_c1_5',
     'normal_std30_L2_c1_2', 'normal_std30_L2_c1_5', 'normal_std30_L4_c1_2', 'normal_std30_L4_c1_5',
     'normal_std30_L6_c1_2', 'normal_std30_L6_c1_5',
 
-    # poisson
+    'normal_std50_L2_c1_2',
+    'normal_std50_L2_c1_5',
+    'normal_std50_L4_c1_2',
+    'normal_std50_L4_c1_5',
+    'normal_std50_L6_c1_2',
+    'normal_std50_L6_c1_5',
+
     'poisson_L2_c1_2', 'poisson_L2_c1_5', 'poisson_L4_c1_2', 'poisson_L4_c1_5', 'poisson_L6_c1_2', 'poisson_L6_c1_5',
 
-    # exponential
     'exponential_L2_c1_2', 'exponential_L2_c1_5', 'exponential_L4_c1_2', 'exponential_L4_c1_5', 'exponential_L6_c1_2',
     'exponential_L6_c1_5',
-
-    # pareto
-    'pareto_L2_c1_2', 'pareto_L2_c1_5', 'pareto_L4_c1_2', 'pareto_L4_c1_5', 'pareto_L6_c1_2', 'pareto_L6_c1_5',
-    # lomax
-    'lomax_L2_c1_2','lomax_L2_c1_5','lomax_L4_c1_2','lomax_L4_c1_5','lomax_L6_c1_2','lomax_L6_c1_5',
+    #
+    # # pareto
+    # 'pareto_L2_c1_2', 'pareto_L2_c1_5', 'pareto_L4_c1_2', 'pareto_L4_c1_5', 'pareto_L6_c1_2', 'pareto_L6_c1_5',
+    # # lomax
+    # 'lomax_L2_c1_2','lomax_L2_c1_5','lomax_L4_c1_2','lomax_L4_c1_5','lomax_L6_c1_2','lomax_L6_c1_5',
 ]
 
 # 所有 json 与脚本放在同一目录；如需调整路径，在这里改
-BASE_DIR = Path(".")
+BASE_DIR = Path("../data")
 
 
 # ----------------------------------------------------------------------
