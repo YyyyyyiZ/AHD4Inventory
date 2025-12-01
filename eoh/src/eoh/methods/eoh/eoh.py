@@ -30,9 +30,11 @@ class EOH:
 
         self.operators = paras.ec_operators
         self.operator_weights = paras.ec_operator_weights
-        if paras.ec_m > self.pop_size or paras.ec_m == 1:
-            print("m should not be larger than pop size or smaller than 2, adjust it to m=2")
-            paras.ec_m = 2
+        # Feng: Comment this because we set the number of parents of e1 and e2 to be 1.
+        
+        # if paras.ec_m > self.pop_size or paras.ec_m == 1:
+        #     print("m should not be larger than pop size or smaller than 2, adjust it to m=2")
+        #     paras.ec_m = 2
         self.m = paras.ec_m
 
         self.debug_mode = paras.exp_debug_mode  # if debug

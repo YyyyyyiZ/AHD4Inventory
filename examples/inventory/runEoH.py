@@ -37,7 +37,7 @@ parser.add_argument('--ec_n_pop', type=int, default=10, help='number of populati
 parser.add_argument('--ec_m', type=int, default=2, help='number of parents for e1 and e2 operators')
 parser.add_argument('--exp_n_proc', type=int, default=4, help='multi-core parallel')
 parser.add_argument('--exp_use_continue', type=int, default=1, help='# load existing heuristics.')
-parser.add_argument('--exp_continue_path', type=str, default="initial_pool.json", help='path to existing heuristics')
+parser.add_argument('--exp_continue_path', type=str, default="base_stock.json", help='path to existing heuristics')
 parser.add_argument('--exp_create_initial', type=int, default=0)
 parser.add_argument('--exp_output_path', type=str, default='unknown',
                     help='results wil be saved in "{exp_output_path}/pops')

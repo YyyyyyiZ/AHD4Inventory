@@ -4,6 +4,8 @@ import sys
 print(sys.executable)  # path of python.exe
 
 # === DATASET CONFIGURATION ===
+# Feng: Modify this part to select the dataset that you want to run
+# Feng: What we need is normal_std10, normal_std30, normal_std50, poisson, exponenial
 dist_list = [
 
     # 'normal_std10_L2_c1_2','normal_std10_L2_c1_5','normal_std10_L4_c1_2','normal_std10_L4_c1_5','normal_std10_L6_c1_2','normal_std10_L6_c1_5',
@@ -26,23 +28,24 @@ dist_list = [
 
     # 'exponential_L2_c1_2','exponential_L2_c1_5','exponential_L4_c1_2','exponential_L4_c1_5','exponential_L6_c1_2','exponential_L6_c1_5',
 
+    # Feng: normal_std20 and lomax are no longer needed in our full model
     ## 'normal_std20_L2_c1_2','normal_std20_L2_c1_5','normal_std20_L4_c1_2','normal_std20_L4_c1_5','normal_std20_L6_c1_2','normal_std20_L6_c1_5',
     ## 'lomax_L2_c1_2','lomax_L2_c1_5','lomax_L4_c1_2','lomax_L4_c1_5','lomax_L6_c1_2','lomax_L6_c1_5',
 ]
 problem = "inventory"  # inventory
-ec_pop_size = 210
-ec_n_pop = 10
-ec_m = 2
+ec_pop_size = 1 # Feng: Fixed number of offsprings for each operator
+ec_n_pop = 15 # Feng: Fixed Number of generations
+ec_m = 1 # Feng: Fixed Number of parents for e1 and e2
 external_opt_list = ['scipy']  # external_opt_list =['no', 'ng', 'deap', 'scipy']
 algo_performance_list = ['processed']  # no: no performance feedback, plain: detailed trajectories, processed: statistical summaries
 data_summary_list = ['plain']  # data_summary_list = ['no','plain','processed']
-n_train_list = [50]
+n_train_list = [50] # Feng: Number of training trajectories
 n_horizon_list = [50]  # n_horizon_list = [3, 5, 10, 20, 50]
 iter_opt_list = [15]
 param_loc_list = ['default']  # param_loc_list = ['start', 'default']
 order_option_list = ['order_before_sell']
 operator_list = ['e1', 'e2', 'm2']  # 'e1', 'e2', 'm2'
-repeat_num = 1
+repeat_num = 1 # Feng: Number of repeats, aim for 10 repeats on each dataset
 
 for repeat in range(repeat_num):
     repeat += 1
@@ -56,8 +59,8 @@ for repeat in range(repeat_num):
                                 for algo_performance in algo_performance_list:
                                     for data_summary in data_summary_list:
                                         command = (
-                                            f"E:\\Anaconda3\\envs\\EoH\\python runEoH.py "  # change this line according to the path of python.exe
-                                            f"--llm_api_key sk-b91d11eb3de9494db3a48cae9568ba49 "
+                                            f"python3 runEoH.py "  # Feng: change this line according to your path
+                                            f"--llm_api_key sk-b91d11eb3de9494db3a48cae9568ba49 " # Feng: When running a script, use a unique API key.
                                             f"--problem {problem} "
                                             f"--ec_pop_size {ec_pop_size} "
                                             f"--ec_n_pop {ec_n_pop} "
@@ -72,7 +75,7 @@ for repeat in range(repeat_num):
                                             f"--data_summary {data_summary} "
                                             f"--operator {' '.join(operator_list)} "
                                             f"--repeat {repeat} "
-                                            f"--filename template_active "
+                                            f"--filename template_active " # Feng: Output filename
                                         )
                                         print(f"Running: {command}")
                                         try:
