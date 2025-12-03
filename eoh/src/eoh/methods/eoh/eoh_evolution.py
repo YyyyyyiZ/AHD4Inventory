@@ -91,13 +91,13 @@ class Evolution:
                         """
 
         else:  # default parameter location
-            prompt_content = "Then, Mark optimizable parameters in the code with `# OPT_PARAM: ` comments, like this:" \
+            prompt_content = "1. Mark optimizable parameters in the code with `# OPT_PARAM: ` comments, like this:" \
                              + "\n" + "base_stock = 50  # OPT_PARAM: {'initial': 50, 'min': 10, 'max': 200, 'type': 'float'}" \
-                             + "\n" + "Follow these requirements:" \
-                             + "\n" + "1. comments should follow the parameter in the same line." \
-                             + "\n" + "2. Only mark parameters that are assigned within the code body (not function inputs)" \
-                             + "\n" + "3. Only mark continuous parameters assigned with an equals sign (`=`)" \
-                             + "\n" + "4. DON'T mark more than 10 optimizable parameters."
+                             + "\n" + "2. comments should follow the parameter in the same line." \
+                             + "\n" + "3. Only mark parameters that are assigned within the code body (not function inputs)" \
+                             + "\n" + "4. Only mark continuous parameters assigned with an equals sign (`=`)" \
+                             + "\n" + "5. DON'T mark more than 10 optimizable parameters." \
+                             + "\n" + "6. "
 
         return prompt_content
 
@@ -117,7 +117,7 @@ class Evolution:
 
     def get_prompt_i1(self):
         prompt_content = self.prompt_i1.format(
-            prompt_task=self.prompt_task + self.op_prompt('i1'),
+            prompt_task=self.prompt_task,
             data_summary=self.analyzer.get_data_summary(),
             prompt_func_name=self.prompt_func_name,
             prompt_func_num_inputs=str(len(self.prompt_func_inputs)),
@@ -135,11 +135,11 @@ class Evolution:
         return prompt_content
 
     def get_prompt_e1(self, indivs):
-        prompt_indiv = "\n"
+        prompt_indiv = ""
         for i in range(len(indivs)):
-            prompt_indiv = prompt_indiv + "No." + str(i + 1) + " algorithm: \n" + indivs[i]['code'] + "\n" + "\n"
+            prompt_indiv = prompt_indiv + "No." + str(i + 1) + " policy code: \n" + indivs[i]['code'] + "\n" + "\n"
         prompt_content = self.prompt_e1.format(
-            prompt_task=self.prompt_task + self.op_prompt('e1'),
+            prompt_task=self.prompt_task,
             num_indivs=str(len(indivs)),
             code_indivs=prompt_indiv,
             data_summary=self.analyzer.get_data_summary(),
@@ -160,11 +160,11 @@ class Evolution:
         return prompt_content
 
     def get_prompt_e2(self, indivs):
-        prompt_indiv = "\n"
+        prompt_indiv = ""
         for i in range(len(indivs)):
-            prompt_indiv = prompt_indiv + "No." + str(i + 1) + " algorithm: \n" + indivs[i]['code'] + "\n" + "\n"
+            prompt_indiv = prompt_indiv + "No." + str(i + 1) + " policy code: \n" + indivs[i]['code'] + "\n" + "\n"
         prompt_content = self.prompt_e2.format(
-            prompt_task=self.prompt_task + self.op_prompt('e2'),
+            prompt_task=self.prompt_task,
             num_indivs=str(len(indivs)),
             code_indivs=prompt_indiv,
             data_summary=self.analyzer.get_data_summary(),
@@ -211,7 +211,7 @@ class Evolution:
         optimizable_params_text = self._extract_optimizable_params_info(indiv1)
 
         prompt_content = self.prompt_m2.format(
-            prompt_task=self.prompt_task + self.op_prompt('m2'),
+            prompt_task=self.prompt_task,
             algo_code=indiv1['code'],
             data_summary=self.analyzer.get_data_summary(),
             algo_performance=self.analyzer.get_algo_performance([indiv1]),

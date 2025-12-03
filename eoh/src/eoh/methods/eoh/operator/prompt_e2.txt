@@ -1,33 +1,22 @@
-Task: {prompt_task}
-
----
-
-Here are some characteristics of the data:
+{prompt_task}
 {data_summary}
 
----
+Section 3 Main Task:
 
-I have {num_indivs} policies with their codes as follows:
-{code_indivs}
+Given problem parameters and demand trajectories in Section 2, you must use the historical policies and corresponding cost statistics (if any) in Section 4 to create a new policy. The new policy can be motivated by the historical policies from Section 4 but should be meaningfully different from them. Give priority to structural similarity such that the new policy MUST retain the main decision structure of at least one provided policy and MUST differ from it through refinements or extensions.
 
----
-
-Below is the performance of the provided policies on the historical demand trajectories:
-{algo_performance}
-
----
-
-This ``compute_order_amount`` function accepts {prompt_func_num_inputs} input(s): {prompt_func_inputs},
+Each policy (historical and new) is represented by a Python code, named ``{prompt_func_name}``, that accepts {prompt_func_num_inputs} input(s): {prompt_func_inputs},
 and returns {prompt_func_num_outputs} output(s): {prompt_func_outputs}.
-{prompt_inout_inf}.
-{prompt_other_inf}.
 
-{external_optimizer}
+{prompt_inout_inf}
 
-Please analyze the provided policies and corresponding performance (if any) to create a new implementation that is meaningfully different from the given ones but can be motivated from them, giving priority to structural similarity: the new policy MUST retain the main decision structure of at least one provided policy and MUST differ from it through refinements or extensions.
+{prompt_other_inf}
 
 
-This policy must be strictly stationary:
+Instructions for generating the new policy:
+
+Follow these requirements as you generate the new policy:
+{external_optimizer}This policy must be strictly stationary:
     The order amount must depend only on the current arguments on_hand_inventory and pipeline_orders.
     No dependence on time, step counters, or episode index.
     No dependence on any past calls or hidden state.
@@ -37,12 +26,19 @@ This policy must be strictly stationary:
     Global or module-level variables to store history.
     Closures that capture mutable state across calls.
 
-Note: Parameters are marked with `# OPT_PARAM:` followed by a dictionary specifying: 'initial' (the current value), 'min' (minimum allowed value), 'max' (maximum allowed value), and 'type' (either 'int' or 'float').
+7. Note: Parameters are marked with `# OPT_PARAM:` followed by a dictionary specifying: 'initial' (the current value), 'min' (minimum allowed value), 'max' (maximum allowed value), and 'type' (either 'int' or 'float').
 
-After generating the new implementation, provide a concise explanation for your changes inside double curly braces, like this:
+8. After generating the new implementation, provide a concise explanation for your changes inside double curly braces, like this:
 
-{{Your explanation here.}}
+{{{{Your explanation here.}}}}
 
-Do not give additional explanations.
+9. Do not give additional explanations.
 
 
+
+Section 4 Historical Policies and Cost Statistics:
+
+{code_indivs}
+
+Below is the cost statistics of the provided policies on the historical demand trajectories:
+{algo_performance}

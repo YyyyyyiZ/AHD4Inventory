@@ -33,7 +33,8 @@ class InventoryAnalyzer:
                 )
             else:  # v2
                 param_info = (
-                    f"Below are some problem parameters:\n"
+                    f"\nSection 2 Problem Parameters:\n\n"
+                    f"        Below are some problem parameters:\n"
                     f"- Selling phase horizon: $T$ = {selling_horizon} periods\n"
                     f"- Lead time: $L$ = {lead_time} periods\n"
                     f"- Holding cost: $h$ = {holding_cost} per unit per period\n"
@@ -81,6 +82,8 @@ class InventoryAnalyzer:
         elif self.data_summary == 'plain':
             instances = self.prob.load_instances(mode='train', n_traj=self.n_train)
             demand_text = ''
+            if self.version == 'v2':
+                demand_text = '\nDemand trajectories:\n'
             for idx, traj in enumerate(instances, start=1):
                 if self.version == 'v1':
                     demand_text += f"Trajectory {idx} demand sequence: {traj['demand']}\n"
@@ -191,7 +194,7 @@ class InventoryAnalyzer:
     - Average lost-sales cost per period:
       $\\frac{{1}}{{NT}} \\sum_{{n=1}}^N \\sum_{{t=L+1}}^{{L+T}} p \\cdot \\max(0,\\, D_t^n - I_t^{{\\pi,n}} - q_{{t,1}}^{{\\,\\pi,n}})$ = {mean_lostsale:.2f}
     - Ratio holding : lost-sales = {mean_holding:.1f} : {mean_lostsale:.1f}
-    - Per-trajectory total cost:
+    - Per-trajectory long-run total cost:
       $\\sum_{{t=L+1}}^{{L+T}} \\Big[ h \\cdot \\max(0,\\, I_t^{{\\pi,n}} + q_{{t,1}}^{{\\,\\pi,n}} - D_t^n) + p \\cdot \\max(0,\\, D_t^n - I_t^{{\\pi,n}} - q_{{t,1}}^{{\\,\\pi,n}}) \\Big]$
       mean = {traj_mean:.2f}, std={traj_std:.2f}, range=({traj_min:.2f}, {traj_max:.2f})
             """)

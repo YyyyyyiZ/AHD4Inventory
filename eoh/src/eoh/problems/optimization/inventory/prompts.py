@@ -89,7 +89,7 @@ class GetPrompts():
 
     def _init_v2(self):
         """New version with improved notation"""
-        self.prompt_task = r"""
+        self.prompt_task = r"""Section 1 Problem Statement:
         We consider an inventory control problem for a single product over a finite
         discrete horizon. The system has a selling horizon of $T$ periods and a fixed,
         deterministic delivery lead time $L$. An order placed at the beginning of
@@ -97,12 +97,12 @@ class GetPrompts():
 
         There are two phases:
 
-        1. **Planning Phase ($t=1,\dots,L$):**
+        1. Planning Phase ($t=1,\dots,L$):
            No customer demand occurs. The manager may place orders, but no costs are
            incurred. In the historical data, these periods appear as zeros, which are
            placeholders indicating absence of demand.
 
-        2. **Selling Phase ($t=L+1,\dots,L+T$):**
+        2. Selling Phase ($t=L+1,\dots,L+T$):
            Customer demand occurs and costs are incurred. The objective is to minimize
            total cost over these $T$ selling periods.
 
@@ -169,7 +169,7 @@ class GetPrompts():
 
         The dynamics can be described with the following pseudocode:
 
-        Initialize average_cumulative_total_cost = 0
+        Initialize average_long_run_total_cost = 0
 
         For each demand trajectory n = 1, 2, …, N:
             Set I_1 = 0
@@ -185,22 +185,22 @@ class GetPrompts():
                 # 3. Demand realization
                 D_t = D_t^n   # D_t = 0 for t = 1, …, L (planning phase)
 
-                # 4. Immediate cost calculation (only for selling phase)
+                # 4. Total cost calculation (only for selling phase)
                 if t > L:
                     c(I_t, q_{t,1}, D_t)
                         = h * max(0, I_t + q_{t,1} - D_t)
                         + p * max(0, D_t - I_t - q_{t,1})
 
-                    Add c(I_t, q_{t,1}, D_t) to average_cumulative_total_cost
+                    Add c(I_t, q_{t,1}, D_t) to average_long_run_total_cost
 
                 # 5. State transition to next period
                 I_{t+1} = max(0, I_t + q_{t,1} - D_t)
                 Q_{t+1} = (q_{t,2}, q_{t,3}, …, q_{t,L}, a_t)
 
         Compute:
-            average_cumulative_total_cost = (1 / N) * average_cumulative_total_cost
+            average_long_run_total_cost = (1 / N) * average_long_run_total_cost
 
-        Return average_cumulative_total_cost
+        Return average_long_run_total_cost
 
         """
         self.prompt_func_name = "compute_order_amount"

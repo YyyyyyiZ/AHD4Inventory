@@ -1,32 +1,22 @@
-Task: {prompt_task}
-
----
-
-Here are some characteristics of the historical demand trajectories:
+{prompt_task}
 {data_summary}
 
----
+Section 3 Main Task:
 
-I have one policy with its code as follows:
-{algo_code}
+Given problem parameters and demand trajectories in Section 2, you must use the historical policy and its corresponding cost statistics (if any) in Section 4 to come up with the modified version of this historical policy. The modified version should achieve a lower average long-run total cost on the historical demand trajectories in Section 2.
 
----
-
-Below is the performance of the provided policy on the historical demand trajectories:
-{algo_performance}
-
----
-
-This ``compute_order_amount`` function accepts {prompt_func_num_inputs} input(s): {prompt_func_inputs},
+Each policy (historical and new) is represented by a Python code, named ``{prompt_func_name}``, that accepts {prompt_func_num_inputs} input(s): {prompt_func_inputs},
 and returns {prompt_func_num_outputs} output(s): {prompt_func_outputs}.
-{prompt_inout_inf}.
-{prompt_other_inf}.
 
-{external_optimizer}
+{prompt_inout_inf}
 
-Please analyze the provided policy and corresponding performance (if any) to redesign the policy structure and generate an improved implementation on the historical demand trajectories. You should focus on changing the policy structure instead of only changing the parameters.
+{prompt_other_inf}
 
-This policy must be strictly stationary:
+
+Instructions for generating the modified policy:
+
+Follow these requirements as you generate the modified policy:
+{external_optimizer}This policy must be strictly stationary:
     The order amount must depend only on the current arguments on_hand_inventory and pipeline_orders.
     No dependence on time, step counters, or episode index.
     No dependence on any past calls or hidden state.
@@ -36,10 +26,20 @@ This policy must be strictly stationary:
     Global or module-level variables to store history.
     Closures that capture mutable state across calls.
 
-Note: Parameters are marked with `# OPT_PARAM:` followed by a dictionary specifying: 'initial' (the current value), 'min' (minimum allowed value), 'max' (maximum allowed value), and 'type' (either 'int' or 'float').
+7. Note: Parameters are marked with `# OPT_PARAM:` followed by a dictionary specifying: 'initial' (the current value), 'min' (minimum allowed value), 'max' (maximum allowed value), and 'type' (either 'int' or 'float').
 
-After generating the new implementation, provide a concise explanation for your changes inside double curly braces, like this:
+8. After generating the modified implementation, provide a concise explanation for your changes inside double curly braces, like this:
 
-{{Your explanation here.}}
+{{{{Your explanation here.}}}}
 
-Do not give additional explanations.
+9. Do not give additional explanations.
+
+
+
+Section 4 Historical Policy and Cost Statistics:
+
+I have one policy with its code as follows:
+{algo_code}
+
+Below is the cost statistics of the provided policies on the historical demand trajectories:
+{algo_performance}
