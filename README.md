@@ -1,141 +1,72 @@
+# AHD4Inventory: Evolutionary Heuristic Design for Inventory Control
 
+AHD4Inventory provides the **Evolution of Heuristics (EoH)** pipeline that couples evolutionary computation with large language models (LLMs) to automatically design inventory-control policies. The system targets single-product, lost-sales settings with fixed lead times and supports multiple demand distributions through configurable datasets and prompts.
 
-<div align=center>
-<h1 align="center">
-EoH: Evolution of Heuristics 
-</h1>
-<h3 align="center">
-A Platform of Evolutionary Computation (EC) + Large Language Model (LLM) for Efficient Automatic Algorithm Design 
-</h3>
+## Key Features
+- **LLM-informed search** that iteratively refines candidate ordering policies using curated prompt templates (classic `v1` and expanded `v2`).【F:eoh/src/eoh/problems/optimization/inventory/prompts.py†L1-L118】
+- **Evolutionary optimization** with configurable selection and population management, external optimizers, and optional warm-start from existing heuristics.【F:eoh/src/eoh/methods/eoh/eoh.py†L12-L171】
+- **Inventory-focused analyzers** that summarize training trajectories and guide reflection during search.【F:eoh/src/eoh/methods/eoh/eoh.py†L46-L60】
+- **Ready-to-run example** for training and evaluating heuristics on synthetic inventory datasets, including tools for generating data and extracting/evaluating LLM-generated code.【F:examples/inventory/runEoH.py†L1-L87】【F:docs/inventory.md†L1-L78】
 
-</div>
-<br>
-
-
-A Platform for **Evolutionary Computation** + **Large Language Model** for automatic algorithm design.
-
-<img src="./docs/figures/eoh.JPG" alt="eoh" width="600" height="280" div align=center>
-
+## Repository Layout
+- `eoh/`: Python package implementing the EoH framework, including the main entry point (`eoh.py`), inventory prompts, evolutionary operators, and utilities.【F:eoh/src/eoh/eoh.py†L1-L36】【F:eoh/src/eoh/problems/optimization/inventory/prompts.py†L1-L118】
+- `examples/inventory/`: Scripts and configuration templates for running EoH on inventory datasets; includes prebuilt heuristic pools and sanity checks.【F:examples/inventory/runEoH.py†L1-L87】
+- `examples/inventory/evaluation/`: Data generation utilities and train/test trajectories used by the inventory example.【F:docs/inventory.md†L3-L15】【F:examples/inventory/evaluation/data/compute_opt.py†L1-L45】
+- `docs/`: Task-specific guides outlining dataset preparation, training parameters, and evaluation helpers for the inventory tasks.【F:docs/inventory.md†L1-L78】【F:docs/inventory2.md†L1-L82】
 
 ## Requirements
+- Python 3.10+
+- NumPy, Numba, Joblib, Pandas, SciPy (installed automatically when installing the `eoh` package).【F:eoh/setup.py†L1-L24】
 
-- python >= 3.10
-- numba
-- numpy
-- joblib
-
-
-
-## EoH Example Usage 💻 
-
-#### Step 1: Install EoH
-
-We suggest install and run EoH in [conda](https://conda.io/projects/conda/en/latest/index.html) env with python>=3.10
+## Installation
+Install the EoH package in editable mode from the repository root:
 
 ```bash
 cd eoh
-
 pip install -e .
-pip install requests
 ```
 
-#### Step 2: Try Example: 
+This exposes the `eoh` module and installs required dependencies.
 
-**<span style="color: red;">Setup your Endpoint and Key for remote LLM or Setup your local LLM before start !</span>** 
+## Quickstart: Train Heuristics for Inventory Control
+1. **Prepare LLM access**: provide an API endpoint, key, and model name (e.g., DeepSeek via `api.deepseek.com`).【F:examples/inventory/runEoH.py†L9-L32】
+2. **Launch training** from the repository root:
+   ```bash
+   python examples/inventory/runEoH.py \
+     --llm_api_endpoint <ENDPOINT> \
+     --llm_api_key <API_KEY> \
+     --llm_model <MODEL> \
+     --operator e1 e2 m2 \
+     --exp_continue_path base_stock.json \
+     --exp_use_continue 1 \
+     --ec_pop_size 4 --ec_n_pop 10 \
+     --dist normal_std30_L6_c1_5 --n_train 50 --n_horizon 50
+   ```
+   Key options:
+   - `--prompt_version {v1,v2}` selects the prompt template; `v2` is the new default.【F:examples/inventory/runEoH.py†L23-L33】
+   - `--operator` chooses evolutionary operators; population size and generations are set via `ec_pop_size` and `ec_n_pop`.【F:examples/inventory/runEoH.py†L34-L47】
+   - `--exp_use_continue/--exp_continue_path` load an initial heuristic pool (e.g., `base_stock.json`) and can be combined with `--exp_create_initial` to let the LLM generate additional starters.【F:examples/inventory/runEoH.py†L40-L54】【F:eoh/src/eoh/methods/eoh/eoh.py†L70-L116】
+   - `--external_opt` and related arguments enable optional fine-tuning of heuristic parameters via external optimizers (e.g., SciPy).【F:examples/inventory/runEoH.py†L34-L41】【F:eoh/src/eoh/methods/eoh/eoh.py†L38-L54】
 
-For example, set the llm_api_endpoint to "api.deepseek.com", set llm_api_key to "your key", and set llm_model to "deepseek-chat".
+3. **Outputs**: Results (populations, reflections, and CSV summaries) are written under the `exp_output_path`, which is auto-generated from the provided configuration unless explicitly set.【F:examples/inventory/runEoH.py†L56-L64】【F:eoh/src/eoh/methods/eoh/eoh.py†L88-L116】
 
-```python
-from eoh import eoh
-from eoh.utils.getParas import Paras
-
-# Parameter initilization #
-paras = Paras() 
-
-# Set parameters #
-paras.set_paras(method = "eoh",    # ['ael','eoh']
-                problem = "bp_online", #['inventory','tsp_construct','bp_online']
-                llm_api_endpoint = "xxx", # set your LLM endpoint
-                llm_api_key = "xxx",   # set your LLM key
-                llm_model = "gpt-3.5-turbo-1106",
-                ec_pop_size = 5, # number of samples in each population
-                ec_n_pop = 5,  # number of populations
-                exp_n_proc = 4,  # multi-core parallel
-                exp_debug_mode = False)
-
-# initilization
-evolution = eoh.EVOL(paras)
-
-# run 
-evolution.run()
-```
-
-
-
-###### Example 1: Inventory
+## Dataset Preparation
+Use the helper script to create training and testing trajectories:
 
 ```bash
-cd examples/inventory
-
-python runEoH.py
-
-```
-**Evaluation**
-```bash
-cd examples/inventory/evaluation
-
-copy your heuristic to heuristic.py (Note that the function name/input/output must align with the evaluation block!!)
-or use extract_code.py to extract codes from the output .json file, and run autoEval.py
-
-python runEval.py
+python examples/inventory/evaluation/gen_data.py
 ```
 
-###### Example 2: Online Bin Packing 
+Generated JSON files are stored in `examples/inventory/evaluation/data/` with names encoding demand distribution and cost parameters (e.g., `normal_std30_L6_c1_5_train.json`).【F:docs/inventory.md†L3-L15】 Adjust distribution, demand level, and volatility in the script to match your experiment.
 
-```bash
-cd examples/bp_online
+## Evaluation Utilities
+- **Manual evaluation**: integrate candidate heuristics into the evaluation harness to measure average costs on the selected dataset.【F:docs/inventory.md†L29-L48】
+- **Automatic processing**: use `examples/inventory/extract_code.py` to collect LLM outputs and `examples/inventory/evaluation/autoEval.py` to batch-evaluate them, producing consolidated metrics in `examples/inventory/evaluation/eval_results.txt`.【F:docs/inventory.md†L48-L65】
 
-python runEoH.py
-```
-**Evaluation**
-```bash
-cd examples/bp_online/evaluation
+## Extending the Framework
+- Adapt prompt templates or problem definitions under `eoh/src/eoh/problems/optimization/inventory/` to target new inventory settings.【F:eoh/src/eoh/problems/optimization/inventory/prompts.py†L1-L118】
+- Customize evolutionary operators and reflection strategies in `eoh/src/eoh/methods/eoh/` to experiment with alternative search dynamics.【F:eoh/src/eoh/methods/eoh/eoh.py†L12-L171】
+- Swap or integrate different LLM providers by configuring the API endpoint/key or pointing to a locally hosted model URL in the parameter set (`Paras`).【F:eoh/src/eoh/utils/getParas.py†L38-L66】
 
-copy your heuristic to heuristic.py (Note that the function name/input/output must align with the evaluation block!!)
-
-python runEval.py
-```
-
-
-
-## Use EoH in Your Application
-
-A Step-by-step guide is provided in [here](./docs/QuickGuide.md) (coming soon)
-
-
-
-## LLMs 
-
-1) Remote LLM + API (e.g., GPT3.5, Deepseek, Gemini Pro) (**Recommended !**):
-   + OpenAI API.
-   + [Deepseek API](https://platform.deepseek.com/)
-   + Other APIs: 
-     + https://yukonnet.site/
-     + https://github.com/chatanywhere/GPT_API_free
-     + https://www.api2d.com/
-2) Local LLM Deployment + API (e.g., Llamacode, instruct Llama, gemma, deepseek, ...):
-   + Step 1: Download Huggingface Model, for example, download gemma-2b-it (git clone https://huggingface.co/google/gemma-2b-it)
-   + Step 2: 
-     + cd llm_server
-     + python gemma_instruct_server.py
-   + Step 3: Copy your url generated by running your server to request.py ( For example, set url='http://127.0.0.1:11012/completions') to test your server deployment. 
-   + Step 4: Copy your url generated by running your server to runEoH.py in your example. (For example, set url='http://127.0.0.1:11012/completions')
-   + Step 5: Python runEoH.py
-3) Your Implementation: 
-   + If you want to use other LLM or if you want to use your own GPT API or local LLMs, please add your interface in ael/llm
-
-
-
-## Related Works on LLM4Opt
-Welcome to visit [a collection of references and research papers on LLM4Opt](https://github.com/FeiLiu36/LLM4Opt)
-
+## Licensing
+This project is released under the MIT License. See [LICENSE](LICENSE) for details.
