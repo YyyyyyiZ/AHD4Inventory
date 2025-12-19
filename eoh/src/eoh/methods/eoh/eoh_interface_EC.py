@@ -250,6 +250,10 @@ class InterfaceEC:
             parents = self.select.parent_selection(pop, 1)
             [offspring['code'], offspring['algorithm'], offspring['opt_params'], offspring['cost']] = self.evol.m2(
                 parents[0])
+        elif operator == "m2plural":
+            parents = self.select.parent_selection(pop, self.m)
+            [offspring['code'], offspring['algorithm'], offspring['opt_params'], offspring['cost']] = self.evol.m2plural(
+                parents)
         elif operator == "m3":
             parents = self.select.parent_selection(pop, 1)
             [offspring['code'], offspring['algorithm'], offspring['opt_params'], offspring['cost']] = self.evol.m3(

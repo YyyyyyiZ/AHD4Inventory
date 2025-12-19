@@ -12,8 +12,8 @@ class Evolution:
                  analyzer, external_optimizer, param_loc, exp_output_path, **kwargs):
 
         # set prompt interface
-        #getprompts = GetPrompts()
-        self.prompt_task = prompts.get_task()+analyzer.param
+        # getprompts = GetPrompts()
+        self.prompt_task = prompts.get_task() + analyzer.param
         self.prompt_func_name = prompts.get_func_name()
         self.prompt_func_inputs = prompts.get_func_inputs()
         self.prompt_func_outputs = prompts.get_func_outputs()
@@ -52,6 +52,7 @@ class Evolution:
         self.prompt_e2 = file_to_string(f'{self.file_path}/operator/prompt_e2.txt')
         self.prompt_m1 = file_to_string(f'{self.file_path}/operator/prompt_m1.txt')
         self.prompt_m2 = file_to_string(f'{self.file_path}/operator/prompt_m2.txt')
+        self.prompt_m2plural = file_to_string(f'{self.file_path}/operator/prompt_m2plural.txt')
         self.prompt_m3 = file_to_string(f'{self.file_path}/operator/prompt_m3.txt')
 
     def external_optimizer_prompt(self):
@@ -85,7 +86,7 @@ class Evolution:
                         # --- MAIN CODE ---
                         if inventory < reorder_point:
                             order = base_stock - current_inventory
-                        
+
                         DON'T mark more than 10 optimizable parameters.
                         DON'T mark any optimizable parameters in the main code.
                         """
@@ -103,7 +104,9 @@ class Evolution:
 
     def op_prompt(self, operator):
         if operator == 'm1' or operator == 'm2' or operator == 'm3':
-            op_prompt_content="\n\nGiven a policy and the demand trajectories, your task is to change the policy to produce an improved implementation that achieves a lower average cumulative total cost on the training demand trajectories.\n\n"
+            op_prompt_content = "\n\nGiven a policy and the demand trajectories, your task is to change the policy to produce an improved implementation that achieves a lower average cumulative total cost on the training demand trajectories.\n\n"
+        elif operator == 'm2plural':
+            op_prompt_content = "\n\nGiven some policies and the demand trajectories, your task is to change the policies to produce an improved implementation that achieves a lower average cumulative total cost on the training demand trajectories.\n\n"
         elif operator == 'e1':
             op_prompt_content = "\n\nGiven some policies and the demand trajectories, your task is to change the policies to produce a different implementation.\n\n"
         elif operator == 'e2':
@@ -113,7 +116,6 @@ class Evolution:
         else:
             raise ValueError(f"Operator {operator} not recognized")
         return op_prompt_content
-
 
     def get_prompt_i1(self):
         prompt_content = self.prompt_i1.format(
@@ -231,6 +233,31 @@ class Evolution:
             file.writelines(prompt_content + '\n')
         return prompt_content
 
+    def get_prompt_m2plural(self, indivs):
+        prompt_indiv = ""
+        for i in range(len(indivs)):
+            prompt_indiv = prompt_indiv + "No." + str(i + 1) + " policy code: \n" + indivs[i]['code'] + "\n" + "\n"
+        prompt_content = self.prompt_m2plural.format(
+            prompt_task=self.prompt_task,
+            num_indivs=str(len(indivs)),
+            algo_code=prompt_indiv,
+            data_summary=self.analyzer.get_data_summary(),
+            algo_performance=self.analyzer.get_algo_performance(indivs),
+            prompt_func_name=self.prompt_func_name,
+            prompt_func_num_inputs=str(len(self.prompt_func_inputs)),
+            prompt_func_inputs=self.joined_inputs,
+            prompt_func_num_outputs=str(len(self.prompt_func_outputs)),
+            prompt_func_outputs=self.joined_outputs,
+            prompt_inout_inf=self.prompt_inout_inf,
+            prompt_other_inf=self.prompt_other_inf,
+            external_optimizer=self.external_optimizer_prompt() if self.external_optimizer else '',
+        )
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        file_name = f"{self.exp_output_path}/prompt_for_code/m2plural_{timestamp}.txt"
+        with open(file_name, 'a') as file:
+            file.writelines(prompt_content + '\n')
+        return prompt_content
+
     def get_prompt_m3(self, indiv1):
         # Extract optimizable parameters from the parent code
         optimizable_params_text = self._extract_optimizable_params_info(indiv1)
@@ -259,7 +286,6 @@ class Evolution:
     def _get_alg(self, prompt_content):
 
         response = self.interface_llm.get_response(prompt_content)
-
 
         algorithm = re.findall(r"\{\{(.*?)\}\}", response, re.DOTALL)
         # cost = re.findall(r"\[\[\[(.*?)\]\]\]", response, re.DOTALL)
@@ -468,6 +494,25 @@ class Evolution:
 
         if self.debug_mode:
             print("\n >>> check prompt for creating algorithm using [ m2 ] : \n", prompt_content)
+            print(">>> Press 'Enter' to continue")
+            input()
+
+        [code_all, algorithm, optim_params, cost] = self._get_alg(prompt_content)
+
+        if self.debug_mode:
+            print("\n >>> check designed algorithm: \n", algorithm)
+            print("\n >>> check designed code: \n", code_all)
+            print(">>> Press 'Enter' to continue")
+            input()
+
+        return [code_all, algorithm, optim_params, cost]
+
+    def m2plural(self, parents):
+
+        prompt_content = self.get_prompt_m2plural(parents)
+
+        if self.debug_mode:
+            print("\n >>> check prompt for creating algorithm using [ m2plural ] : \n", prompt_content)
             print(">>> Press 'Enter' to continue")
             input()
 
