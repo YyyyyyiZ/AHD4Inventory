@@ -1,6 +1,5 @@
 import os
 import json
-import re
 from datetime import datetime
 
 from ...llm.interface_LLM import InterfaceLLM
@@ -49,25 +48,27 @@ class Evolution:
         self.policyCreator_user = file_to_string(f'{self.file_path}/prompt/policyCreator_user.txt')
 
     def workflow(self, parents):
-
         data = self.interface_llm.get_response(self.demandAgent_sys, self.get_prompt_data())
         self.save_txt(data, 'response', 'data')
 
         eval_user = self.get_prompt_eval(parents, data)
         evalA = self.interface_llm.get_response(self.EvaluatorA_sys, eval_user)
         self.save_txt(evalA, 'response', 'evalA')
-        evalB = self.interface_llm.get_response(self.EvaluatorB_sys, eval_user)
-        self.save_txt(evalB, 'response', 'evalB')
-        evalC = self.interface_llm.get_response(self.EvaluatorC_sys, eval_user)
-        self.save_txt(evalC, 'response', 'evalC')
+        # evalB = self.interface_llm.get_response(self.EvaluatorB_sys, eval_user)
+        # self.save_txt(evalB, 'response', 'evalB')
+        # evalC = self.interface_llm.get_response(self.EvaluatorC_sys, eval_user)
+        # self.save_txt(evalC, 'response', 'evalC')
 
-        eval_all = [evalA, evalB, evalC]
+        # eval_all = [evalA, evalB, evalC]
+        eval_all = [evalA]
         insight = self.interface_llm.get_response(self.insightAgg_sys, self.get_prompt_insight(parents, eval_all))
         self.save_txt(insight, 'response', 'insight')
 
-        [code_all, algorithm, optim_params, cost] = self._get_alg(self.policyCreator_sys,
-                                                                  self.get_prompt_creator(insight, parents, data))
 
+        [code_all, algorithm, optim_params, cost] = self._get_alg(
+            self.policyCreator_sys,
+            self.get_prompt_creator(insight, parents, data)
+        )
         return [code_all, algorithm, optim_params, cost]
 
     def get_prompt_data(self):
@@ -81,20 +82,20 @@ class Evolution:
     def get_prompt_eval(self, indivs, data):
         prompt_indiv = ""
         for i in range(len(indivs)):
-            prompt_indiv = prompt_indiv + "No." + str(i + 1) + " policy code: \n" + indivs[i]['code'] + "\n" + "\n"
+            prompt_indiv = prompt_indiv + "No." + str(i + 1) + " policy code: \n" + indivs[i]['code'] + "\n\n"
         prompt_content = self.Evaluator_user.format(
             PROBLEM_SPEC_JSON=self.problem_spec,
             POLICY_ARTIFACT_JSON=prompt_indiv,
             DEMAND_BATCH_JSON=data,
             SIM_RESULT_JSON=self.analyzer.get_sim_results(indivs, data),
         )
-        self.save_txt(prompt_content, 'prompt_for_code', 'eval')
+        self.save_txt(prompt_content, 'prompt_for_code', 'evaluator')
         return prompt_content
 
     def get_prompt_insight(self, indivs, evaluation):
         prompt_indiv = ""
         for i in range(len(indivs)):
-            prompt_indiv = prompt_indiv + "No." + str(i + 1) + " policy code: \n" + indivs[i]['code'] + "\n" + "\n"
+            prompt_indiv = prompt_indiv + "No." + str(i + 1) + " policy code: \n" + indivs[i]['code'] + "\n\n"
         prompt_content = self.insightAgg_user.format(
             PROBLEM_SPEC_JSON=self.problem_spec,
             CANDIDATE_POLICIES_JSON=prompt_indiv,
@@ -127,15 +128,15 @@ class Evolution:
 
         response = self.interface_llm.get_response(system, user)
 
-        algorithm = re.findall(r"\{\{(.*?)\}\}", response, re.DOTALL)
-        # cost = re.findall(r"\[\[\[(.*?)\]\]\]", response, re.DOTALL)
-        if len(algorithm) == 0:
-            if 'python' in response:
-                algorithm = re.findall(r'^.*?(?=python)', response, re.DOTALL)
-            elif 'import' in response:
-                algorithm = re.findall(r'^.*?(?=import)', response, re.DOTALL)
-            else:
-                algorithm = re.findall(r'^.*?(?=def)', response, re.DOTALL)
+        # algorithm = re.findall(r"\{\{(.*?)\}\}", response, re.DOTALL)
+        # # cost = re.findall(r"\[\[\[(.*?)\]\]\]", response, re.DOTALL)
+        # if len(algorithm) == 0:
+        #     if 'python' in response:
+        #         algorithm = re.findall(r'^.*?(?=python)', response, re.DOTALL)
+        #     elif 'import' in response:
+        #         algorithm = re.findall(r'^.*?(?=import)', response, re.DOTALL)
+        #     else:
+        #         algorithm = re.findall(r'^.*?(?=def)', response, re.DOTALL)
 
         code = re.findall(r"import.*return", response, re.DOTALL)
         if len(code) == 0:
@@ -152,20 +153,19 @@ class Evolution:
                     optim_params[param_name] = param_config
 
         n_retry = 1
-        while len(algorithm) == 0:
+        while len(code) == 0:
             if self.debug_mode:
                 print("Error: algorithm or code not identified, wait 1 seconds and retrying ... ")
 
             response = self.interface_llm.get_response(system, user)
-
-            algorithm = re.findall(r"\{\{(.*?)\}\}", response, re.DOTALL)
-            if len(algorithm) == 0:
-                if 'python' in response:
-                    algorithm = re.findall(r'^.*?(?=python)', response, re.DOTALL)
-                elif 'import' in response:
-                    algorithm = re.findall(r'^.*?(?=import)', response, re.DOTALL)
-                else:
-                    algorithm = re.findall(r'^.*?(?=def)', response, re.DOTALL)
+            # algorithm = re.findall(r"\{\{(.*?)\}\}", response, re.DOTALL)
+            # if len(algorithm) == 0:
+            #     if 'python' in response:
+            #         algorithm = re.findall(r'^.*?(?=python)', response, re.DOTALL)
+            #     elif 'import' in response:
+            #         algorithm = re.findall(r'^.*?(?=import)', response, re.DOTALL)
+            #     else:
+            #         algorithm = re.findall(r'^.*?(?=def)', response, re.DOTALL)
 
             code = re.findall(r"import.*return", response, re.DOTALL)
             if len(code) == 0:
@@ -183,7 +183,8 @@ class Evolution:
                 break
             n_retry += 1
 
-        algorithm = algorithm[0]
+        # algorithm = algorithm[0]
+        algorithm = ""
         code = code[0]
         # cost = cost[0]
         cost = None

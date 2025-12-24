@@ -1,4 +1,6 @@
 import numpy as np
+import json
+import os
 
 
 class InventoryAnalyzer:
@@ -11,389 +13,498 @@ class InventoryAnalyzer:
         self.version = prompt_version  # 'v1' = old version, 'v2' = new version
 
     def get_problem_spec(self):
-        """
-        [
-            {
-                "instance_id": "test_poisson_L2_c1_2_0",
-                "initial_inventory": 0,
-                "demand": [
-                    94,
-                    84,
-                    79,
-                    93,
-                    90,
-                    ...
-                ],
-                "num_periods": 50,
-                "holding_cost": 1,
-                "lost_sales_cost": 2,
-                "lead_time": 2,
-                "distribution": "poisson",
-                "std_normal": null,
-                "pareto_alpha": 3.0
-            },
-            ...
-        ]
-        """
-        return
+        """Read ProblemSpec.json from the current directory and fill (L,T,h,p)."""
+        # 1) infer params from first train instance (same as before)
+        instances = self.prob.load_instances(mode="train", n_traj=1)
+        inst0 = instances[0] if isinstance(instances, (list, tuple)) else instances
+
+        L = int(inst0.get("lead_time", 0) or 0)
+        h = float(inst0.get("holding_cost", 0.0) or 0.0)
+        p = float(inst0.get("lost_sales_cost", 0.0) or 0.0)
+        init_inv = float(inst0.get("initial_inventory", 0.0) or 0.0)
+        demand0 = inst0.get("demand", []) or []
+
+        T = inst0.get("num_periods", None)
+        if T is None:
+            T = max(0, len(demand0) - L) if isinstance(demand0, (list, tuple)) and len(demand0) >= L else 0
+        else:
+            try:
+                T = int(T)
+            except Exception:
+                T = 0
+
+        if isinstance(demand0, (list, tuple)) and len(demand0) > 0:
+            implied_T = (len(demand0) - L) if (len(demand0) >= L) else len(demand0)
+            if implied_T > 0 and implied_T != T:
+                T = implied_T
+
+        # 2) read + fill template
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        file_path = os.path.join(current_dir)
+        with open(f"{file_path}/ProblemSpec.json", "r", encoding="utf-8") as f:
+            spec = json.loads(f.read())
+
+        spec["L"] = int(L)
+        spec["T"] = int(T)
+        spec["h"] = float(h)
+        spec["p"] = float(p)
+
+        # optional: align initial inventory if the template has this field
+        if isinstance(spec.get("initial_state", None), dict):
+            spec["initial_state"]["I_1"] = float(init_inv)
+
+        return json.dumps(spec, indent=2, ensure_ascii=False)
 
     def get_demand_data(self):
         instances = self.prob.load_instances(mode='train', n_traj=self.n_train)
         demand_text = ''
         for idx, traj in enumerate(instances, start=1):
             demand_text += f"Historical demand trajectory $D^{{{idx}}}$: {traj['demand']}\n"
-        return
+        return demand_text
 
     def get_sim_results(self, indivs, data):
-        return
-
-    def _get_sensitivity(
-            self,
-            indivs,
-            max_params: int = 1,
-            n_points: int = 5,
-            rel_span: float = 0.10,
-            timeout: float = 15.0,
-            prefer_param_name_keywords=(
-                    "base", "stock", "target", "level", "mean", "mu", "safety", "cap", "alpha", "beta"),
-    ):
-        """
-        Wrapper that appends PARAM SENSITIVITY after the performance/diagnostics text returned by _get_temp(indivs).
-
-        It:
-        - extracts OPT_PARAM configs from policy code,
-        - performs a small local sweep around the parameter initial value,
-        - re-evaluates modified code,
-        - formats results into prompt-ready sensitivity block(s),
-        - returns: _get_temp(indivs) + "\n\n" + sensitivity_text
+        """Evaluate candidate policies and return a prompt-ready simulation summary (JSON-like text).
 
         Parameters
         ----------
-        max_params : sweep at most this many parameters per policy (default 1 to control evaluation budget)
-        n_points   : number of sweep points per parameter (default 5)
-        rel_span   : sweep range around initial: initial*(1±rel_span) (default ±10%)
-        timeout    : per-evaluation timeout (best-effort, only used if we can run in a separate thread)
+        indivs : list of dict
+            Each dict should contain a 'code' field (Python policy code).
+        data : str
+            DemandAgent output. Expected to contain selected trajectory ids (typically 1-based).
         """
-        import re
-        import json
-        import ast
-        import traceback
-        import concurrent.futures
-
-        # ------------------------------------------------------------
-        # 0) Helper: locate evaluator
-        # ------------------------------------------------------------
-        def _locate_evaluator():
-            # Priority 1: self.interface_eval.evaluate
-            if hasattr(self, "interface_eval") and hasattr(self.interface_eval, "evaluate"):
-                return self.interface_eval.evaluate
-            # Priority 2: self.prob.interface_eval.evaluate
-            if hasattr(self, "prob") and hasattr(self.prob, "interface_eval") and hasattr(self.prob.interface_eval,
-                                                                                          "evaluate"):
-                return self.prob.interface_eval.evaluate
-            # Priority 3: self.prob.evaluate
-            if hasattr(self, "prob") and hasattr(self.prob, "evaluate") and callable(self.prob.evaluate):
-                return self.prob.evaluate
-            # Priority 4: self.evaluate (if you attached it externally)
-            if hasattr(self, "evaluate") and callable(self.evaluate):
-                return self.evaluate
-            return None
-
-        evaluate_fn = _locate_evaluator()
-
-        # ------------------------------------------------------------
-        # 1) Helper: parse OPT_PARAM lines in code
-        # ------------------------------------------------------------
-        def _parse_opt_params(code: str):
-            """
-            Returns:
-              opt_params: dict[param_name] = {"initial":..., "min":..., "max":..., "type":...}
-            """
-            opt_params = {}
-            if not code or not isinstance(code, str):
-                return opt_params
-
-            for line in code.splitlines():
-                if "OPT_PARAM:" not in line:
-                    continue
-
-                # Extract param name from assignment
-                m_name = re.match(r"^\s*([A-Za-z_]\w*)\s*=", line)
-                if not m_name:
-                    continue
-                param_name = m_name.group(1)
-
-                # Extract the OPT_PARAM dict substring
-                try:
-                    idx = line.index("OPT_PARAM:")
-                    param_str = line[idx + len("OPT_PARAM:"):].strip()
-                except Exception:
-                    continue
-
-                # Try JSON first; fallback to python literal
-                cfg = None
-                try:
-                    cfg = json.loads(param_str)
-                except Exception:
-                    try:
-                        cfg = ast.literal_eval(param_str)
-                    except Exception:
-                        # try a common fix: single quotes -> double quotes
-                        try:
-                            cfg = json.loads(param_str.replace("'", '"'))
-                        except Exception:
-                            cfg = None
-
-                if isinstance(cfg, dict):
-                    # normalize keys
-                    out = {
-                        "initial": cfg.get("initial", None),
-                        "min": cfg.get("min", None),
-                        "max": cfg.get("max", None),
-                        "type": cfg.get("type", "float"),
-                    }
-                    opt_params[param_name] = out
-
-            return opt_params
-
-        # ------------------------------------------------------------
-        # 2) Helper: replace parameter assignment line in code (preserve OPT_PARAM comment)
-        # ------------------------------------------------------------
-        def _replace_one_param(code: str, param_name: str, new_value):
-            lines = code.split("\n")
-            replaced = False
-
-            for i, line in enumerate(lines):
-                if "OPT_PARAM:" not in line:
-                    continue
-                if not re.match(rf"^\s*{re.escape(param_name)}\s*=", line):
-                    continue
-
-                indent = line[:len(line) - len(line.lstrip())]
-
-                # Preserve OPT_PARAM dict if possible
-                cfg = None
-                try:
-                    idx = line.index("OPT_PARAM:")
-                    param_str = line[idx + len("OPT_PARAM:"):].strip()
-                    try:
-                        cfg = json.loads(param_str)
-                    except Exception:
-                        try:
-                            cfg = ast.literal_eval(param_str)
-                        except Exception:
-                            try:
-                                cfg = json.loads(param_str.replace("'", '"'))
-                            except Exception:
-                                cfg = None
-                except Exception:
-                    cfg = None
-
-                if isinstance(cfg, dict):
-                    cfg["initial"] = float(new_value) if cfg.get("type", "float") != "int" else int(new_value)
-                    new_line = f"{indent}{param_name} = {cfg['initial']}  # OPT_PARAM: {json.dumps(cfg)}"
-                else:
-                    new_line = f"{indent}{param_name} = {new_value}  # Optimized"
-
-                lines[i] = new_line
-                replaced = True
-                break
-
-            # Fallback: if not found in OPT_PARAM line, do a coarse regex replace on any assignment
-            if not replaced:
-                for i, line in enumerate(lines):
-                    m = re.match(rf"^(\s*){re.escape(param_name)}\s*=\s*([^#\n]+)", line)
-                    if m:
-                        indent = m.group(1)
-                        lines[i] = f"{indent}{param_name} = {new_value}"
-                        break
-
-            return "\n".join(lines)
-
-        # ------------------------------------------------------------
-        # 3) Helper: summarize avg/holding/lost from evaluation output
-        # ------------------------------------------------------------
-        # We reuse the same slicing logic idea as in _get_temp: try to infer L,T and slice selling phase.
-        def _infer_LT_from_problem():
-            # lead time
-            L = None
-            if hasattr(self, "param") and isinstance(self.param, dict):
-                L = self.param.get("lead_time", None) or self.param.get("L", None)
-            if L is None and hasattr(self, "prob"):
-                if hasattr(self.prob, "lead_time"):
-                    L = getattr(self.prob, "lead_time")
-            if L is None:
-                # try from train instances
-                try:
-                    inst = self.prob.load_instances(mode="train", n_traj=1)
-                    if inst and isinstance(inst[0], dict) and "lead_time" in inst[0]:
-                        L = inst[0]["lead_time"]
-                except Exception:
-                    L = None
-            L = int(L) if L is not None else 0
-
-            # selling horizon
-            T = None
+        # ---------- helpers (no extra imports) ----------
+        def _safe_float(x, default=0.0):
             try:
-                inst = self.prob.load_instances(mode="train", n_traj=1)
-                if inst and isinstance(inst[0], dict) and "demand" in inst[0]:
-                    T = len(inst[0]["demand"]) - L
+                return float(x)
             except Exception:
-                T = None
+                return float(default)
 
-            return L, T
+        def _safe_int(x, default=0):
+            try:
+                return int(x)
+            except Exception:
+                return int(default)
 
-        L_global, T_global = _infer_LT_from_problem()
+        def _extract_ids(text, n_max):
+            """Best-effort extraction of trajectory ids from a small JSON-ish text."""
+            if not isinstance(text, str):
+                return []
+            s = text
+            lower = s.lower()
+            # common keys, in priority order
+            keys = [
+                'selected_trajectory_ids',
+                'trajectory_ids',
+                'selected_ids',
+                'traj_ids',
+                'trajectory_id',
+                'ids',
+            ]
+            bracket = None
+            for k in keys:
+                pos = lower.find(k)
+                if pos != -1:
+                    lb = s.find('[', pos)
+                    rb = s.find(']', lb+1) if lb != -1 else -1
+                    if lb != -1 and rb != -1 and rb > lb:
+                        bracket = s[lb+1:rb]
+                        break
+            if bracket is None:
+                # fallback: first bracketed list in the text
+                lb = s.find('[')
+                rb = s.find(']', lb+1) if lb != -1 else -1
+                if lb != -1 and rb != -1 and rb > lb:
+                    bracket = s[lb+1:rb]
+            if bracket is None:
+                return []
+            parts = bracket.replace('\n', ' ').split(',')
+            ids = []
+            for part in parts:
+                token = ''.join(ch for ch in part if (ch.isdigit() or ch == '-'))
+                if token in ('', '-'):
+                    continue
+                try:
+                    ids.append(int(token))
+                except Exception:
+                    continue
+            # clamp and deduplicate, preserve order
+            seen = set()
+            cleaned = []
+            for v in ids:
+                if v in seen:
+                    continue
+                seen.add(v)
+                cleaned.append(v)
+            # do not clamp here; caller will map to available N
+            return cleaned[:max(0, int(n_max))] if n_max is not None else cleaned
 
-        def _summarize_costs_from_cost_matrix(cost_matrix):
-            """
-            Returns (avg_total_per_period, avg_holding_per_period, avg_lost_per_period)
-            """
-            cm = np.asarray(cost_matrix, dtype=float)
-            if cm.size == 0:
-                return float("nan"), float("nan"), float("nan")
-
-            # cm can be [N, P, 2] or [P, 2]
-            if cm.ndim == 2 and cm.shape[1] == 2:
-                holding = cm[:, 0]
-                lost = cm[:, 1]
-                total = holding + lost
-                return float(np.mean(total)), float(np.mean(holding)), float(np.mean(lost))
-
-            if cm.ndim != 3 or cm.shape[2] != 2:
-                # unknown shape
-                return float("nan"), float("nan"), float("nan")
-
-            N = cm.shape[0]
-            P = cm.shape[1]
-
-            # Slice selling phase if possible
-            if (T_global is not None) and (P == T_global):
-                cm_sell = cm
-            elif (T_global is not None) and (P == (L_global + T_global)):
-                cm_sell = cm[:, L_global:, :]
-            elif (T_global is not None) and (P > T_global):
-                cm_sell = cm[:, -T_global:, :]
-            else:
-                cm_sell = cm
-
-            holding = cm_sell[:, :, 0]
-            lost = cm_sell[:, :, 1]
-            total = holding + lost
-            return float(np.mean(total)), float(np.mean(holding)), float(np.mean(lost))
-
-    def get_data_summary(self, num_traj=5):
-        if self.data_summary == 'processed':
-            instances = self.prob.load_instances(mode='train', n_traj=self.n_train)
-            all_demands = []
-
-            for idx, traj in enumerate(instances, start=1):
-                demand_array = np.array(traj["demand"])
-                all_demands.extend(demand_array)
-
-            # Convert to numpy array for calculations
-            all_demands_array = np.array(all_demands)
-
-            # Basic statistics
-            mean_demand = np.mean(all_demands_array)
-            std_demand = np.std(all_demands_array)
-            min_demand = np.min(all_demands_array)
-            max_demand = np.max(all_demands_array)
-            cv_demand = std_demand / mean_demand if mean_demand != 0 else float("inf")
-
-            # Calculate quantiles (10, 20, ..., 90)
-            quantiles = [10, 20, 30, 40, 50, 60, 70, 80, 90]
-            demand_quantiles = np.percentile(all_demands_array, quantiles)
-
-            # Construct text summary
-            data_summary = []
-            data_summary.append("Demand Data Summary (across all trajectories):")
-            data_summary.append(f"- Total number of trajectories: {len(instances)}")
-            data_summary.append(f"- Total number of periods: {len(all_demands_array)}")
-            data_summary.append(f"- Mean demand: {mean_demand:.2f}")
-            data_summary.append(f"- Std deviation: {std_demand:.2f}")
-            data_summary.append(f"- Min demand: {min_demand}, Max demand: {max_demand}")
-            data_summary.append(f"- Coefficient of Variation (CV): {cv_demand:.2f}")
-            data_summary.append(f"- Demand quantiles (10-90%): {[f'{q:.1f}' for q in demand_quantiles]}")
-
-            return "\n".join(data_summary)
-        elif self.data_summary == 'plain':
-            instances = self.prob.load_instances(mode='train', n_traj=self.n_train)
-            demand_text = ''
-            if self.version == 'v2':
-                demand_text = '\nDemand trajectories:\n'
-            for idx, traj in enumerate(instances, start=1):
-                if self.version == 'v1':
-                    demand_text += f"Trajectory {idx} demand sequence: {traj['demand']}\n"
-                    demand_text += f"Trajectory {idx} demand sequence: {traj['demand'][traj['lead_time']:]}\n"
-                else:  # v2
-                    demand_text += f"Historical demand trajectory $D^{{{idx}}}$: {traj['demand']}\n"
-                    # demand_text += f"Historical demand trajectory $D^{{{idx}}}$: {traj['demand'][traj['lead_time']:]}\n"
-            return demand_text
-        else:   # self.data_summary == 'no'
+        def _locate_evaluate():
+            """Find an evaluate(callable) in self / prob."""
+            if hasattr(self, 'interface_eval') and hasattr(self.interface_eval, 'evaluate'):
+                return getattr(self.interface_eval, 'evaluate')
+            if hasattr(self.prob, 'interface_eval') and hasattr(self.prob.interface_eval, 'evaluate'):
+                return getattr(self.prob.interface_eval, 'evaluate')
+            if hasattr(self.prob, 'evaluate') and callable(getattr(self.prob, 'evaluate')):
+                return getattr(self.prob, 'evaluate')
+            if hasattr(self, 'evaluate') and callable(getattr(self, 'evaluate')):
+                return getattr(self, 'evaluate')
             return None
 
-    def _get_processed(self, indivs):
-        summaries = []
+        def _slice_selling(arr, L, T):
+            """Slice an array over time to the selling window (best-effort)."""
+            if arr is None:
+                return None, 0
+            if len(arr.shape) == 1:
+                P = arr.shape[0]
+                if P == T:
+                    return arr, L
+                if P == L + T and L < P:
+                    return arr[L:], L
+                if P > T:
+                    return arr[-T:], L
+                return arr, L
+            # arr has time axis at -1 or 1; here we only use time axis=1
+            if len(arr.shape) >= 2:
+                P = arr.shape[1]
+                if P == T:
+                    return arr, L
+                if P == L + T and L < P:
+                    return arr[:, L:], L
+                if P > T:
+                    return arr[:, -T:], L
+                return arr, L
+            return arr, L
 
-        for i, indiv in enumerate(indivs, start=1):
-            order_matrix = np.array(indiv["order_matrix"])  # shape: [n_traj, n_periods]
-            cost_matrix = np.array(indiv["cost_matrix"])  # shape: [n_traj, n_periods, 2]  (holding, lost-sales)
+        def _build_full_actions(order_row, L, demand_len):
+            """Align order decisions to a full horizon of length demand_len (best-effort)."""
+            if order_row is None:
+                return [0.0] * int(demand_len)
+            order_list = list(order_row.tolist()) if hasattr(order_row, 'tolist') else list(order_row)
+            P = len(order_list)
+            if P == demand_len:
+                return [float(x) for x in order_list]
+            if demand_len >= L and P == demand_len - L:
+                return [0.0] * int(L) + [float(x) for x in order_list]
+            if P < demand_len:
+                pad = demand_len - P
+                return [0.0] * int(pad) + [float(x) for x in order_list]
+            # P > demand_len
+            return [float(x) for x in order_list[-demand_len:]]
 
-            # Aggregate costs
-            holding_costs = cost_matrix[:, :, 0]
-            lostsale_costs = cost_matrix[:, :, 1]
-            total_costs = holding_costs + lostsale_costs
+        # ---------- load instances / parameters ----------
+        try:
+            instances = self.prob.load_instances(mode='train', n_traj=self.n_train)
+        except Exception:
+            instances = []
 
-            if self.version == 'v1':
-                # Old version: per-period statistics
-                mean_total = np.mean(total_costs)
-                std_total = np.std(total_costs)
-                mean_holding = np.mean(holding_costs)
-                mean_lostsale = np.mean(lostsale_costs)
+        if not instances:
+            return '{"error": "No training instances available."}'
 
-                # Per-trajectory robustness analysis
-                traj_total = np.sum(total_costs, axis=1)  # total cost per trajectory
-                traj_mean = np.mean(traj_total)
-                traj_std = np.std(traj_total)
-                traj_min = np.min(traj_total)
-                traj_max = np.max(traj_total)
+        inst0 = instances[0]
+        L = _safe_int(inst0.get('lead_time', 0), 0)
+        h = _safe_float(inst0.get('holding_cost', 0.0), 0.0)
+        p = _safe_float(inst0.get('lost_sales_cost', 0.0), 0.0)
+        demand0 = inst0.get('demand', []) or []
+        # selling horizon
+        T = inst0.get('num_periods', None)
+        if T is None:
+            T = max(0, len(demand0) - L) if isinstance(demand0, (list, tuple)) else 0
+        T = _safe_int(T, max(0, len(demand0) - L) if isinstance(demand0, (list, tuple)) else 0)
+        if isinstance(demand0, (list, tuple)) and len(demand0) > 0:
+            implied_T = len(demand0) - L if len(demand0) >= L else len(demand0)
+            if implied_T > 0:
+                T = implied_T
 
-                summaries.append(f"""
-    No.{i} algorithm:
-    - Average total cost per period = {mean_total:.2f} (std={std_total:.2f})
-    - Average holding cost per period = {mean_holding:.2f}
-    - Average lost-sale cost per period = {mean_lostsale:.2f}
-    - Ratio holding : lost-sale = {mean_holding:.1f} : {mean_lostsale:.1f}
-    - Per-trajectory total cost summary: mean = {traj_mean:.2f}, std={traj_std:.2f}, range=({traj_min:.2f}, {traj_max:.2f})
-            """)
-            else:  # v2
-                # New version: per-period statistics (same as v1 but with "policy" label)
-                mean_total = np.mean(total_costs)
-                std_total = np.std(total_costs)
-                mean_holding = np.mean(holding_costs)
-                mean_lostsale = np.mean(lostsale_costs)
+        N_total = len(instances)
+        # DemandAgent-selected trajectory ids
+        raw_ids = _extract_ids(data, n_max=N_total)
+        if not raw_ids:
+            # fallback: use all, but keep it small to control prompt size
+            raw_ids = list(range(1, min(N_total, 10) + 1))
 
-                # Per-trajectory robustness analysis
-                traj_total = np.sum(total_costs, axis=1)  # total cost per trajectory
-                traj_mean = np.mean(traj_total)
-                traj_std = np.std(traj_total)
-                traj_min = np.min(traj_total)
-                traj_max = np.max(traj_total)
+        # Determine whether ids are 0-based or 1-based
+        min_id = min(raw_ids) if raw_ids else 1
+        max_id = max(raw_ids) if raw_ids else 0
+        if min_id == 0 and max_id <= (N_total - 1):
+            sel_idx = [i for i in raw_ids if 0 <= i < N_total]
+            sel_ids_1based = [i + 1 for i in sel_idx]
+        else:
+            sel_idx = [i - 1 for i in raw_ids if 1 <= i <= N_total]
+            sel_ids_1based = [i + 1 for i in sel_idx]
 
-                summaries.append(f"""
-    No.{i} policy:
-    - Average total cost per period:
-      $\\frac{{1}}{{NT}} \\sum_{{n=1}}^N \\sum_{{t=L+1}}^{{L+T}} \\Big[ h \\cdot \\max(0,\\, I_t^{{\\pi,n}} + q_{{t,1}}^{{\\,\\pi,n}} - D_t^n) + p \\cdot \\max(0,\\, D_t^n - I_t^{{\\pi,n}} - q_{{t,1}}^{{\\,\\pi,n}}) \\Big]$ = {mean_total:.2f} (std={std_total:.2f})
-    - Average holding cost per period:
-      $\\frac{{1}}{{NT}} \\sum_{{n=1}}^N \\sum_{{t=L+1}}^{{L+T}} h \\cdot \\max(0,\\, I_t^{{\\pi,n}} + q_{{t,1}}^{{\\,\\pi,n}} - D_t^n)$ = {mean_holding:.2f}
-    - Average lost-sales cost per period:
-      $\\frac{{1}}{{NT}} \\sum_{{n=1}}^N \\sum_{{t=L+1}}^{{L+T}} p \\cdot \\max(0,\\, D_t^n - I_t^{{\\pi,n}} - q_{{t,1}}^{{\\,\\pi,n}})$ = {mean_lostsale:.2f}
-    - Ratio holding : lost-sales = {mean_holding:.1f} : {mean_lostsale:.1f}
-    - Per-trajectory long-run total cost:
-      $\\sum_{{t=L+1}}^{{L+T}} \\Big[ h \\cdot \\max(0,\\, I_t^{{\\pi,n}} + q_{{t,1}}^{{\\,\\pi,n}} - D_t^n) + p \\cdot \\max(0,\\, D_t^n - I_t^{{\\pi,n}} - q_{{t,1}}^{{\\,\\pi,n}}) \\Big]$
-      mean = {traj_mean:.2f}, std={traj_std:.2f}, range=({traj_min:.2f}, {traj_max:.2f})
-            """)
+        if not sel_idx:
+            sel_idx = list(range(0, min(N_total, 10)))
+            sel_ids_1based = [i + 1 for i in sel_idx]
 
-        performance_summary_processed = "\n".join(summaries)
-        return performance_summary_processed
+        # ---------- evaluate policies ----------
+        evaluate_fn = _locate_evaluate()
+        if evaluate_fn is None:
+            return '{"error": "No evaluation interface (interface_eval.evaluate) found."}'
+
+        policies_out = []
+        for pol_i, indiv in enumerate(indivs, start=1):
+            code = ''
+            if isinstance(indiv, dict):
+                code = indiv.get('code', indiv.get('policy_code', indiv.get('python_code', '')))
+            else:
+                code = str(indiv)
+
+            # Run evaluation (best-effort). We do not re-implement simulation here.
+            eval_error = None
+            eval_result = None
+            try:
+                executor = getattr(self, 'executor', None)
+                if executor is None:
+                    executor = getattr(self.prob, 'executor', None)
+                timeout = getattr(self, 'timeout', None)
+                if timeout is None:
+                    timeout = getattr(self.prob, 'timeout', None)
+
+                if executor is not None and hasattr(executor, 'submit'):
+                    future = executor.submit(evaluate_fn, code)
+                    if timeout is not None:
+                        eval_result = future.result(timeout=timeout)
+                    else:
+                        eval_result = future.result()
+                else:
+                    eval_result = evaluate_fn(code)
+            except Exception as e:
+                eval_error = str(e)
+
+            # Basic payload
+            policy_payload = {
+                'policy_index': pol_i,
+                'error': eval_error,
+            }
+
+            if not isinstance(eval_result, dict):
+                # If the evaluator returns a scalar objective, still report it.
+                if eval_error is None and eval_result is not None:
+                    policy_payload['avg_total_cost_per_period'] = _safe_float(eval_result, 0.0)
+                policies_out.append(policy_payload)
+                continue
+
+            # Extract matrices
+            cm = eval_result.get('cost_matrix', None)
+            om = eval_result.get('order_matrix', None)
+            try:
+                cm = np.array(cm) if cm is not None else None
+            except Exception:
+                cm = None
+            try:
+                om = np.array(om) if om is not None else None
+            except Exception:
+                om = None
+
+            # Filter selected trajectories if shapes match
+            cm_sel = cm
+            if cm is not None and cm.ndim >= 2 and cm.shape[0] == N_total:
+                cm_sel = cm[sel_idx]
+            om_sel = om
+            if om is not None and om.ndim >= 2 and om.shape[0] == N_total:
+                om_sel = om[sel_idx]
+
+            # If cost matrix is missing, we cannot compute detailed diagnostics reliably
+            if cm_sel is None or cm_sel.ndim != 3 or cm_sel.shape[2] < 2:
+                # Still pass through aggregate objectives if available
+                if 'avg' in eval_result:
+                    policy_payload['avg_total_cost_per_period'] = _safe_float(eval_result.get('avg'), 0.0)
+                if 'lower' in eval_result:
+                    policy_payload['lower'] = _safe_float(eval_result.get('lower'), 0.0)
+                if 'upper' in eval_result:
+                    policy_payload['upper'] = _safe_float(eval_result.get('upper'), 0.0)
+                policies_out.append(policy_payload)
+                continue
+
+            # Slice to selling window
+            cm_sell, period_offset = _slice_selling(cm_sel, L, T)
+            holding_costs = cm_sell[:, :, 0]
+            lost_costs = cm_sell[:, :, 1]
+            total_costs = holding_costs + lost_costs
+
+            mean_total = float(np.mean(total_costs))
+            std_total = float(np.std(total_costs))
+            mean_hold = float(np.mean(holding_costs))
+            mean_lost = float(np.mean(lost_costs))
+
+            # Orders (optional)
+            avg_order = None
+            var_order = None
+            om_sell = None
+            if om_sel is not None and om_sel.ndim >= 2:
+                om_sell, _ = _slice_selling(om_sel, L, T)
+                try:
+                    avg_order = float(np.mean(om_sell))
+                    var_order = float(np.var(om_sell))
+                except Exception:
+                    avg_order, var_order = None, None
+
+            # Fill rate (units) from lost costs if p>0
+            fill_rate = None
+            lost_units = None
+            if p > 0:
+                lost_units = lost_costs / p
+                # Demand totals over selected trajectories for matching horizon length
+                total_demand = 0.0
+                for local_j, global_idx in enumerate(sel_idx):
+                    d = instances[global_idx].get('demand', []) or []
+                    if isinstance(d, (list, tuple)):
+                        if len(d) >= L + cm_sell.shape[1]:
+                            d_sell = d[L:L + cm_sell.shape[1]]
+                        elif len(d) >= cm_sell.shape[1]:
+                            d_sell = d[:cm_sell.shape[1]]
+                        else:
+                            d_sell = d
+                        total_demand += float(np.sum(np.array(d_sell, dtype=float))) if d_sell else 0.0
+                total_lost = float(np.sum(lost_units)) if lost_units is not None else 0.0
+                if total_demand > 0:
+                    fill_rate = float(max(0.0, min(1.0, 1.0 - total_lost / total_demand)))
+                else:
+                    fill_rate = None
+
+            # Period-wise diagnostics
+            diag = {}
+            try:
+                avg_hold_per_period = np.mean(holding_costs, axis=0)
+                top_hold_idx = np.argsort(-avg_hold_per_period)[:5]
+                diag['top_holding_periods'] = [
+                    [int(period_offset + int(t) + 1), float(avg_hold_per_period[t])]
+                    for t in top_hold_idx
+                ]
+            except Exception:
+                diag['top_holding_periods'] = []
+
+            try:
+                if lost_units is None and p > 0:
+                    lost_units = lost_costs / p
+                if lost_units is not None:
+                    avg_lost_units_period = np.mean(lost_units, axis=0)
+                    top_lost_idx = np.argsort(-avg_lost_units_period)[:5]
+                    diag['top_lost_sales_periods'] = [
+                        [int(period_offset + int(t) + 1), float(avg_lost_units_period[t])]
+                        for t in top_lost_idx
+                    ]
+                else:
+                    diag['top_lost_sales_periods'] = []
+            except Exception:
+                diag['top_lost_sales_periods'] = []
+
+            # Counterexample states (best-effort reconstruction from orders + demand)
+            lost_states = []
+            over_states = []
+            try:
+                # Need per-trajectory order decisions; if missing, skip
+                if om_sel is not None and om_sel.ndim == 2:
+                    for local_j, global_idx in enumerate(sel_idx):
+                        demand_full = instances[global_idx].get('demand', []) or []
+                        if not isinstance(demand_full, (list, tuple)):
+                            continue
+                        demand_len = len(demand_full)
+                        orders_row = om_sel[local_j] if om_sel.shape[0] == len(sel_idx) else om_sel[global_idx]
+                        actions_full = _build_full_actions(orders_row, L, demand_len)
+                        I = 0.0
+                        Q = [0.0] * int(L)
+                        for t0 in range(demand_len):
+                            D_t = float(demand_full[t0])
+                            q_arrive = float(Q[0]) if L > 0 else 0.0
+                            available = I + q_arrive
+                            lost_u = max(0.0, D_t - available)
+                            end_inv = max(0.0, available - D_t)
+                            # selling phase periods: t0 >= L (0-based)
+                            if t0 >= L:
+                                if lost_u > 0:
+                                    lost_states.append([float(I), [float(x) for x in Q], float(D_t), float(lost_u)])
+                                if end_inv > 0:
+                                    over_states.append([float(I), [float(x) for x in Q], float(D_t), float(end_inv)])
+                            # update state
+                            I = end_inv
+                            if L > 0:
+                                # place order at period t0 (start), then pipeline shifts to next period
+                                a_t = float(actions_full[t0]) if t0 < len(actions_full) else 0.0
+                                Q = Q[1:] + [a_t]
+            except Exception:
+                pass
+
+            # Keep top events by severity
+            try:
+                lost_states_sorted = sorted(lost_states, key=lambda x: x[3], reverse=True)[:10]
+            except Exception:
+                lost_states_sorted = lost_states[:10]
+            try:
+                over_states_sorted = sorted(over_states, key=lambda x: x[3], reverse=True)[:10]
+            except Exception:
+                over_states_sorted = over_states[:10]
+            diag['top_lost_sales_states'] = lost_states_sorted
+            diag['top_overstock_states'] = over_states_sorted
+
+            # Attach metrics
+            policy_payload.update({
+                'avg_total_cost_per_period': mean_total,
+                'std_total_cost_per_period': std_total,
+                'avg_holding_cost_per_period': mean_hold,
+                'avg_lost_sales_cost_per_period': mean_lost,
+                'fill_rate': fill_rate,
+                'avg_order': avg_order,
+                'order_variance': var_order,
+                'diagnostics': diag,
+            })
+
+            # Pass-through common evaluation outputs (if present)
+            for k in ('avg', 'test_obj', 'lower', 'upper'):
+                if k in eval_result:
+                    policy_payload[k] = eval_result.get(k)
+
+            policies_out.append(policy_payload)
+
+        # ---------- format JSON-like output ----------
+        # Manual formatting to avoid json import. Keys/strings use double quotes.
+        def _json_escape(s):
+            if s is None:
+                return ''
+            return str(s).replace('\\', '\\\\').replace('"', '\\"')
+
+        out_lines = []
+        out_lines.append('{')
+        out_lines.append(f'  "selected_trajectory_ids": {sel_ids_1based},')
+        out_lines.append('  "policies": [')
+        for j, pol in enumerate(policies_out):
+            comma = ',' if j < len(policies_out) - 1 else ''
+            out_lines.append('    {')
+            out_lines.append(f'      "policy_index": {pol.get("policy_index")},')
+            if pol.get('error') is not None:
+                out_lines.append(f'      "error": "{_json_escape(pol.get("error"))}"')
+                out_lines.append('    }' + comma)
+                continue
+            # numeric fields
+            def _maybe_num_line(key, last=False):
+                if key in pol and pol[key] is not None:
+                    v = pol[key]
+                    return f'      "{key}": {v}' + ('' if last else ',')
+                return None
+
+            num_keys = [
+                'avg_total_cost_per_period',
+                'std_total_cost_per_period',
+                'avg_holding_cost_per_period',
+                'avg_lost_sales_cost_per_period',
+                'fill_rate',
+                'avg_order',
+                'order_variance',
+            ]
+            for k in num_keys:
+                line = _maybe_num_line(k, last=False)
+                if line:
+                    out_lines.append(line)
+
+            # diagnostics
+            diag = pol.get('diagnostics', {}) if isinstance(pol.get('diagnostics', {}), dict) else {}
+            out_lines.append('      "diagnostics": {')
+            out_lines.append(f'        "top_holding_periods": {diag.get("top_holding_periods", [])},')
+            out_lines.append(f'        "top_lost_sales_periods": {diag.get("top_lost_sales_periods", [])},')
+            out_lines.append(f'        "top_lost_sales_states": {diag.get("top_lost_sales_states", [])},')
+            out_lines.append(f'        "top_overstock_states": {diag.get("top_overstock_states", [])}')
+            out_lines.append('      }')
+            out_lines.append('    }' + comma)
+        out_lines.append('  ]')
+        out_lines.append('}')
+        return "\n".join(out_lines)

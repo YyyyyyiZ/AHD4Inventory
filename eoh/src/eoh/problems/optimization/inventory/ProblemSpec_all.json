@@ -22,6 +22,26 @@
   "action_definition": {
     "a_t": "order quantity placed at start of period t, >= 0; arrives at start of period t+L"
   },
+  "demand_definition": {
+    "D_t": "exogenous demand in period t; D_t=0 for t<=L (planning phase); for evaluation, demands follow N historical trajectories (D_1^n,...,D_{L+T}^n)"
+  },
+  "within_period_timeline": [
+    "1) Arrival: receive q_{t,1} (the first element of Q_t). Available inventory before demand is I_t + q_{t,1}.",
+    "2) Ordering: choose action a_t = pi(I_t, Q_t) with a_t >= 0.",
+    "3) Demand: observe/realize D_t (trajectory-specific).",
+    "4) Sales / lost sales: S_t = min(I_t + q_{t,1}, D_t); LS_t = max(0, D_t - I_t - q_{t,1}).",
+    "5) Inventory transition: I_{t+1} = max(0, I_t + q_{t,1} - D_t).",
+    "6) Pipeline transition: Q_{t+1} = (q_{t,2},...,q_{t,L}, a_t)."
+  ],
+  "cost_definition": {
+    "incurred_when": "only in selling phase (t>L)",
+    "holding_cost": "h * max(0, I_t + q_{t,1} - D_t)",
+    "lost_sales_cost": "p * max(0, D_t - I_t - q_{t,1})",
+    "period_cost": "c(I_t,q_{t,1},D_t) = h*max(0, I_t + q_{t,1} - D_t) + p*max(0, D_t - I_t - q_{t,1})"
+  },
+  "policy_class": {
+    "stationary_policy": "pi maps state (I_t, Q_t) to action a_t; depends only on current (I_t,Q_t) and not on time or past history"
+  },
   "objective": {
     "evaluation_metric": "average total cost over selling periods across N trajectories",
     "formula": "(1/N) * sum_{n=1}^N sum_{t=L+1}^{L+T} c(I_t^{pi,n}, q_{t,1}^{pi,n}, D_t^n)"

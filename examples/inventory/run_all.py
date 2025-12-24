@@ -33,7 +33,7 @@ dist_list = [
     # 'exponential_L6_c1_5',
 ]
 problem = "inventory"  # inventory
-ec_pop_size = 10 # Feng: Fixed number of offsprings for each operator
+ec_pop_size = 2 # Feng: Fixed number of offsprings for each operator
 ec_n_pop = 10 # Feng: Fixed Number of generations
 ec_m_list = [1,2,4] # Feng: Fixed Number of parents for e1 and e2
 external_opt_list = ['scipy']  # external_opt_list =['no', 'ng', 'deap', 'scipy']
@@ -63,8 +63,9 @@ for repeat in range(repeat_num):
                                             command = (
                                                 # f"/zfs/projects/faculty/yh2987-choice-modeling/.venv/bin/python runEoH.py "
                                                 # f"/home/sjtu/.conda/envs/ahd/bin/python runEoH.py "
-                                                f"python3 runEoH.py "  # change this line according to the path of python.exe
-                                                f"--llm_api_key sk-faf6d1042965448d8315ff9122b56990 "
+                                                # f"python3 runEoH.py "  # change this line according to the path of python.exe
+                                                f"E:\\Anaconda3\\envs\\EoH\\python runEoH.py "
+                                                f"--llm_api_key sk-21b0b2dbd4ba40a4bbe64b0eec1ada0d "
                                                 f"--problem {problem} "
                                                 f"--ec_pop_size {ec_pop_size} "
                                                 f"--ec_n_pop {ec_n_pop} "

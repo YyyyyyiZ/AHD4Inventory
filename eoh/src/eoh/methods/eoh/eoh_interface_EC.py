@@ -238,9 +238,8 @@ class InterfaceEC:
         }
 
         parents = self.select.parent_selection(pop, self.m)
-        [offspring['description'], offspring['code'], offspring['intuition'], offspring['algorithm'], offspring['opt_params'], offspring['cost']] = self.evol.workflow(
+        [offspring['code'], offspring['algorithm'], offspring['opt_params'], offspring['cost']] = self.evol.workflow(
             parents)
-        offspring['reasoning'] = offspring['algorithm'] if offspring['algorithm'] is not None else ''
         return parents, offspring
 
     def get_offspring(self, pop, operator, n_pop):
@@ -422,7 +421,9 @@ class InterfaceEC:
         results = []
         try:
             # Use configured timeout for parallel execution
-            results = Parallel(n_jobs=self.n_p, timeout=self.timeout)(
+            # results = Parallel(n_jobs=self.n_p, timeout=self.timeout)(
+            #     delayed(self.get_offspring)(pop, operator, n_pop) for _ in range(self.pop_size))
+            results = Parallel(n_jobs=self.n_p)(
                 delayed(self.get_offspring)(pop, operator, n_pop) for _ in range(self.pop_size))
         except Exception as e:
             if self.debug:

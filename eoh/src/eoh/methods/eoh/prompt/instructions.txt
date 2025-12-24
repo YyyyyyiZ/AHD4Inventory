@@ -1,9 +1,7 @@
-INVENTORY POLICY CODE REQUIREMENTS (MANDATORY)
 
 Output ONLY valid Python code. Do NOT output Markdown, backticks, JSON, or any explanations outside the code.
 
 Your code must define exactly this public entry point:
-
 def compute_order_amount(on_hand_inventory, pipeline_orders):
     ...
     return order_amount
@@ -21,10 +19,9 @@ Hard constraints
 3) No side effects: no printing, no file/network I/O, no reading environment variables, no mutation of pipeline_orders in-place.
 4) Robustness: handle edge cases (e.g., empty/None pipeline_orders, non-numeric inputs) and always return a valid non-negative finite number.
 
-Optimizable parameters (optional, recommended)
+Optimizable parameters
 - You may introduce up to 10 scalar tunable parameters as simple assignments inside compute_order_amount.
 - Mark each tunable parameter on the SAME LINE with an OPT_PARAM comment EXACTLY in this format:
-
 param_name = 50.0  # OPT_PARAM: {"initial": 50.0, "min": 0.0, "max": 200.0, "type": "float"}
 
 Rules for OPT_PARAM:
@@ -32,7 +29,3 @@ Rules for OPT_PARAM:
 - type must be "float" or "int".
 - Only mark true design parameters (constants you want to tune), not intermediate computed variables.
 - Do not mark function inputs.
-
-Output formatting
-- Output only Python code (no surrounding quotes).
-- Ensure compute_order_amount is defined and returns order_amount.
