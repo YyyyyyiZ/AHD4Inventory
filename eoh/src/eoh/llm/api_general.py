@@ -10,13 +10,13 @@ class InterfaceAPI:
         self.debug_mode = debug_mode
         self.n_trial = 5
 
-    def get_response(self, prompt_content):
+    def get_response(self, system, user):
         payload_explanation = json.dumps(
             {
                 "model": self.model_LLM,
                 "messages": [
-                    # {"role": "system", "content": "You are a helpful assistant."},
-                    {"role": "user", "content": prompt_content}
+                    {"role": "system", "content": system},
+                    {"role": "user", "content": user}
                 ],
             }
         )

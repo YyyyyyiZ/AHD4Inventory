@@ -39,13 +39,13 @@ class InterfaceLLM:
             )
 
             
-        res = self.interface_llm.get_response("1+1=?")
+        res = self.interface_llm.get_response("You are good at calculating.","1+1=?")
 
         if res == None:
             print(">> Error in LLM API, wrong endpoint, key, model or local deployment!")
             exit()
 
-    def get_response(self, prompt_content):
-        response = self.interface_llm.get_response(prompt_content)
+    def get_response(self, system,user):
+        response = self.interface_llm.get_response(system,user)
 
         return response

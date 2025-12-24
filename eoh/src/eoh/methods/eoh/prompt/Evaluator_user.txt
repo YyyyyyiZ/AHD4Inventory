@@ -1,0 +1,13 @@
+ProblemSpec:
+{PROBLEM_SPEC_JSON}
+
+Policy:
+{POLICY_ARTIFACT_JSON}
+
+Demand data:
+{DEMAND_BATCH_JSON}
+
+Simulation result:
+{SIM_RESULT_JSON}
+
+Task: Produce EvalReport JSON.

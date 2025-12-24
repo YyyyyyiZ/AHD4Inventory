@@ -236,37 +236,10 @@ class InterfaceEC:
             'order_matrix': None,
             'other_inf': None
         }
-        if operator == "i1":
-            parents = None
-            [offspring['code'], offspring['algorithm'], offspring['opt_params'], offspring['cost']] = self.evol.i1()
-            # print("off:", offspring)
-        elif operator == "e1":
-            parents = self.select.parent_selection(pop, self.m)
-            [offspring['code'], offspring['algorithm'], offspring['opt_params'], offspring['cost']] = self.evol.e1(
-                parents)
-        elif operator == "e2":
-            parents = self.select.parent_selection(pop, self.m)
-            [offspring['code'], offspring['algorithm'], offspring['opt_params'], offspring['cost']] = self.evol.e2(
-                parents)
-        elif operator == "m1":
-            parents = self.select.parent_selection(pop, 1)
-            [offspring['code'], offspring['algorithm'], offspring['opt_params'], offspring['cost']] = self.evol.m1(
-                parents[0])
-        elif operator == "m2":
-            parents = self.select.parent_selection(pop, 1)
-            [offspring['description'], offspring['code'], offspring['intuition'], offspring['algorithm'], offspring['opt_params'], offspring['cost']] = self.evol.m2(
-                parents[0])
-        elif operator == "m2plural":
-            parents = self.select.parent_selection(pop, self.m)
-            [offspring['description'], offspring['code'], offspring['intuition'], offspring['algorithm'], offspring['opt_params'], offspring['cost']] = self.evol.m2plural(
-                parents)
-        elif operator == "m3":
-            parents = self.select.parent_selection(pop, 1)
-            [offspring['code'], offspring['algorithm'], offspring['opt_params'], offspring['cost']] = self.evol.m3(
-                parents[0])
-        else:
-            print(f"Evolution operator [{operator}] has not been implemented ! \n")
 
+        parents = self.select.parent_selection(pop, self.m)
+        [offspring['description'], offspring['code'], offspring['intuition'], offspring['algorithm'], offspring['opt_params'], offspring['cost']] = self.evol.workflow(
+            parents)
         offspring['reasoning'] = offspring['algorithm'] if offspring['algorithm'] is not None else ''
         return parents, offspring
 

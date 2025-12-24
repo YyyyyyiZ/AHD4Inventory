@@ -73,7 +73,7 @@ class EOH:
         # inventory
         self.dist = paras.dist
 
-        from ...problems.optimization.inventory.analyze import InventoryAnalyzer as Analyzer
+        from ...problems.optimization.inventory.analyzeAgent import InventoryAnalyzer as Analyzer
         self.analyzer = Analyzer(self.prob, self.n_train, self.data_summary, self.algo_performance,
                                  param_info='yes', prompt_version=paras.prompt_version)
 
