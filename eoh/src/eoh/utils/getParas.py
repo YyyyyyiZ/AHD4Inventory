@@ -83,7 +83,7 @@ class Paras():
             self.management = 'pop_greedy'
 
         if self.selection == None:
-            self.selection = 'prob_rank'
+            self.selection = 'best_deterministic'
 
         if self.ec_operators == None:
             self.ec_operators = ['e1', 'e2', 'm2']

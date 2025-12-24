@@ -1,4 +1,4 @@
-from .selection import prob_rank, equal, roulette_wheel, tournament
+from .selection import prob_rank, equal, roulette_wheel, tournament, best_deterministic
 from .management import pop_greedy, ls_greedy, ls_sa
 
 
@@ -8,6 +8,8 @@ class Methods():
         self.problem = problem
         if paras.selection == "prob_rank":
             self.select = prob_rank
+        elif paras.selection == "best_deterministic":
+            self.select = best_deterministic
         # elif paras.selection == "equal":
         #     self.select = equal
         # elif paras.selection == 'roulette_wheel':

@@ -11,11 +11,11 @@ dist_list = [
     # 'normal_std10_L2_c1_2','normal_std10_L2_c1_5','normal_std10_L4_c1_2','normal_std10_L4_c1_5','normal_std10_L6_c1_2','normal_std10_L6_c1_5',
 
     'normal_std30_L2_c1_2',
-    'normal_std30_L2_c1_5',
-    'normal_std30_L4_c1_2',
-    'normal_std30_L4_c1_5',
-    'normal_std30_L6_c1_2',
-    'normal_std30_L6_c1_5',
+    # 'normal_std30_L2_c1_5',
+    # 'normal_std30_L4_c1_2',
+    # 'normal_std30_L4_c1_5',
+    # 'normal_std30_L6_c1_2',
+    # 'normal_std30_L6_c1_5',
 
     # 'normal_std50_L2_c1_2',
     # 'normal_std50_L2_c1_5',
@@ -35,7 +35,7 @@ dist_list = [
 problem = "inventory"  # inventory
 ec_pop_size = 10 # Feng: Fixed number of offsprings for each operator
 ec_n_pop = 10 # Feng: Fixed Number of generations
-ec_m = 2 # Feng: Fixed Number of parents for e1 and e2
+ec_m = 4 # Feng: Fixed Number of parents for e1 and e2
 external_opt_list = ['scipy']  # external_opt_list =['no', 'ng', 'deap', 'scipy']
 algo_performance_list = ['processed']  # no: no performance feedback, plain: detailed trajectories, processed: statistical summaries
 data_summary_list = ['plain']  # data_summary_list = ['no','plain','processed']
@@ -61,7 +61,7 @@ for repeat in range(repeat_num):
                                         command = (
                                             # f"/zfs/projects/faculty/yh2987-choice-modeling/.venv/bin/python runEoH.py "
                                             # f"/home/sjtu/.conda/envs/ahd/bin/python runEoH.py "
-                                            f"E:\\Anaconda3\\envs\\EoH\\python runEoH.py "  # change this line according to the path of python.exe
+                                            f"python3 runEoH.py "  # change this line according to the path of python.exe
                                             f"--llm_api_key sk-faf6d1042965448d8315ff9122b56990 "
                                             f"--problem {problem} "
                                             f"--ec_pop_size {ec_pop_size} "
