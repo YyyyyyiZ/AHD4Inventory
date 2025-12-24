@@ -1,0 +1,26 @@
+[FIXED SPEC — do NOT change between generations]
+
+{prompt_task}
+
+Demand trajectories (historical):
+- For each n=1..50, the full trajectory is:
+  D^n = [0, 0, 0, 0, 0, 0] + SELLING_DEMANDS[n-1]
+- The evaluator uses EXACTLY these values.
+
+SELLING_DEMANDS (N=50 trajectories, each length T=50; full D^n = [0]*L + SELLING_DEMANDS[n-1]):
+{data_summary}
+
+[ITERATION FEEDBACK — update every generation]
+
+INCUMBENT POLICIES:
+{algo_code}
+
+{algo_performance}
+
+
+SELF-CHECKLIST (must silently verify before output):
+- Stationary? (no time, no memory)
+- <=10 OPT_PARAM lines? correct JSON? inline comment?
+- Returns int >= 0 always?
+- No forbidden Python constructs (globals/attrs/cache)?
+If any fail, regenerate internally and output only the corrected final result.

@@ -68,7 +68,7 @@ class Paras():
         #####################
         ###  Evaluation settings  ###
         #####################
-        self.eva_timeout = 60
+        self.eva_timeout = 180
         self.eva_numba_decorator = False
 
     def set_parallel(self):

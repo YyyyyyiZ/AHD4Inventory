@@ -52,6 +52,7 @@ class Evolution:
         self.prompt_e2 = file_to_string(f'{self.file_path}/operator/prompt_e2.txt')
         self.prompt_m1 = file_to_string(f'{self.file_path}/operator/prompt_m1.txt')
         self.prompt_m2 = file_to_string(f'{self.file_path}/operator/prompt_m2.txt')
+        self.prompt_temp = file_to_string(f'{self.file_path}/operator/prompt_temp.txt')
         self.prompt_m2plural = file_to_string(f'{self.file_path}/operator/prompt_m2plural.txt')
         self.prompt_m3 = file_to_string(f'{self.file_path}/operator/prompt_m3.txt')
 
@@ -254,6 +255,112 @@ class Evolution:
         )
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         file_name = f"{self.exp_output_path}/prompt_for_code/m2plural_{timestamp}.txt"
+        with open(file_name, 'a') as file:
+            file.writelines(prompt_content + '\n')
+        return prompt_content
+
+    def get_temp_task(self):
+        task = """
+ROLE:
+You are a research engineer specializing in inventory control (lost-sales, deterministic lead time).
+Your job is to write a STRICTLY STATIONARY Python policy.
+
+TASK:
+Given the simulator definition and historical demand trajectories, propose a modified policy
+```compute_order_amount(on_hand_inventory, pipeline_orders)    return order_amount``` that achieves a LOWER average cost
+than the incumbent.
+
+HARD CONSTRAINTS (must satisfy ALL):
+- Strict stationarity: output depends ONLY on current inputs.
+- No hidden state: no globals, no function attributes, no caching, no mutation across calls.
+- Return a NON-NEGATIVE INT.
+- Use only Python built-ins (and math if needed). Keep it fast and deterministic.
+- Mark <= 10 tunable parameters using EXACT inline format:
+  x = 1.0  # OPT_PARAM: {"initial": 1.0, "min": 0.0, "max": 10.0, "type": "float"}
+  (Only parameters assigned with "=" inside function body; no more than 10.)
+
+OUTPUT FORMAT (STRICT):
+1) Output only ONE Python function named compute_order_amount (no extra helper functions).
+2) After the function, output exactly one line:
+   {{concise explanation of what changed and why it should reduce cost}}
+No other text.
+
+SIMULATOR + DATA
+
+Inventory control, single item, finite horizon.
+- Selling horizon: T = 50 periods
+- Deterministic delivery lead time: L = 6 periods
+- Total periods per trajectory: L+T = 56 (t = 1..56)
+- Two phases:
+  (1) Planning phase (t = 1..L): D_t = 0 (NO demand; zeros are placeholders), and NO costs are incurred.
+  (2) Selling phase  (t = L+1..L+T): demand occurs and costs are incurred.
+
+State observed at the START of period t:
+- On-hand inventory I_t >= 0 (pre-arrival inventory)
+- Pipeline orders Q_t = [q_{t,1}, q_{t,2}, ..., q_{t,L}] (length L, FIFO oldest->newest)
+  * pipeline_orders[0] = q_{t,1} arrives at the beginning of the CURRENT period t
+  * pipeline_orders[-1] = q_{t,L} arrives at the beginning of period t+L-1
+
+Within each period t (evaluator dynamics):
+1) Arrival of oldest pipeline order:
+   q_arrive = q_{t,1} = Q_t[0]
+   Available before demand = I_t + q_arrive
+2) Order placement:
+   a_t = policy(I_t, Q_t)   # a_t >= 0, arrives at beginning of period t+L
+3) Demand realization:
+   D_t is exogenous (historical). For t<=L, D_t=0.
+4) Cost (ONLY for selling phase t > L):
+   holding = h * max(0, I_t + q_arrive - D_t)
+   lost    = p * max(0, D_t - I_t - q_arrive)
+   cost_t  = holding + lost
+5) State transition:
+   I_{t+1} = max(0, I_t + q_arrive - D_t)
+   Q_{t+1} = [q_{t,2}, q_{t,3}, ..., q_{t,L}, a_t]
+
+Initial state (for every trajectory):
+- I_1 = 0
+- Q_1 = [0, 0, 0, 0, 0, 0]  # length L
+
+Objective (how you are evaluated):
+Given N historical demand trajectories, minimize the average total cost over the selling phase:
+avg_cost = (1/N) * sum_{n=1..N} sum_{t=L+1..L+T} cost_t^{(n)}
+
+Equivalent evaluator pseudocode:
+total_cost = 0
+for each trajectory n in 1..N:
+  I = 0
+  Q = [0]*L
+  for t in 1..L+T:
+    q_arrive = Q[0]
+    a = policy(I, Q)
+    D = 0 if t<=L else SELLING_DEMANDS[n-1][t-L-1]
+    if t > L:
+      total_cost += h*max(0, I + q_arrive - D) + p*max(0, D - I - q_arrive)
+    I = max(0, I + q_arrive - D)
+    Q = Q[1:] + [a]
+avg_cost_per_period = total_cost / (N*T)
+
+Problem parameters:
+- L = 6
+- T = 50
+- h = 1
+- p = 2
+- N = 50
+        """
+        return task
+
+    def get_prompt_temp(self, indivs):
+        prompt_indiv = ""
+        for i in range(len(indivs)):
+            prompt_indiv = prompt_indiv + "No." + str(i + 1) + " policy code: \n" + indivs[i]['code'] + "\n" + "\n"
+        prompt_content = self.prompt_temp.format(
+            prompt_task=self.get_temp_task(),
+            algo_code=prompt_indiv,
+            data_summary=self.analyzer.get_data_summary(),
+            algo_performance=self.analyzer.get_algo_performance(indivs),
+        )
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        file_name = f"{self.exp_output_path}/prompt_for_code/temp_{timestamp}.txt"
         with open(file_name, 'a') as file:
             file.writelines(prompt_content + '\n')
         return prompt_content
@@ -513,6 +620,25 @@ class Evolution:
 
         if self.debug_mode:
             print("\n >>> check prompt for creating algorithm using [ m2plural ] : \n", prompt_content)
+            print(">>> Press 'Enter' to continue")
+            input()
+
+        [code_all, algorithm, optim_params, cost] = self._get_alg(prompt_content)
+
+        if self.debug_mode:
+            print("\n >>> check designed algorithm: \n", algorithm)
+            print("\n >>> check designed code: \n", code_all)
+            print(">>> Press 'Enter' to continue")
+            input()
+
+        return [code_all, algorithm, optim_params, cost]
+
+    def op_temp(self, parents):
+
+        prompt_content = self.get_prompt_temp(parents)
+
+        if self.debug_mode:
+            print("\n >>> check prompt for creating algorithm using [ temp ] : \n", prompt_content)
             print(">>> Press 'Enter' to continue")
             input()
 

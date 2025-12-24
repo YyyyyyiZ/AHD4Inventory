@@ -1,13 +1,15 @@
 import re
-import numpy as np
+import ast
 import json
-from scipy.optimize import minimize
-from typing import Dict, List, Callable, Optional, Tuple, Any
+import traceback
 import concurrent.futures
 import logging
-import ast
-import traceback
 from dataclasses import dataclass
+from typing import Dict, List, Optional, Tuple, Any
+
+import numpy as np
+from scipy.optimize import minimize
+
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
@@ -31,131 +33,202 @@ class OptimizationResult:
     history: Optional[List[Dict[str, Any]]] = None
 
 
+class _EarlyStop(Exception):
+    """Internal exception to stop SciPy minimize early based on evaluation budget."""
+    pass
+
+
 class ScipyOptimizer:
-    def __init__(self, interface_eval, max_iter=30, timeout: float = 10.0):
+    """
+    Plan 1 (directly replace your old code):
+
+    - Add max_evals hard cap to avoid extremely long optimization runs
+    - Cache repeated evaluations (common with rounding / line-search / integer params)
+    - Never propagate exceptions/NaNs into SciPy (return finite penalty instead)
+    - Improve timeout/error handling
+    - Track best result incrementally (avoid sorting for selection)
+    - Speed up parameter replacement (regex-based, no per-line AST parse)
+    """
+
+    def __init__(
+        self,
+        interface_eval,
+        max_iter: int = 30,
+        timeout: float = 10.0,
+        *,
+        max_evals: Optional[int] = 300,
+        penalty: float = 1e18,
+        cache_round_decimals: int = 10,
+        lbfgsb_eps: float = 1e-2,
+        lbfgsb_maxls: int = 10,
+        ftol: float = 1e-6,
+        gtol: float = 1e-4,
+        disp: bool = True
+    ):
         self.interface_eval = interface_eval
         self.timeout = timeout
-        self.history = []
+        self.history: List[Dict[str, Any]] = []
         self.max_iter = max_iter
 
-    def _replace_parameters(self, code: str, param_values: Dict[str, float]) -> Tuple[str, Dict[str, Tuple[int, str]]]:
+        # Plan-1 controls
+        self.max_evals = max_evals
+        self.penalty = float(penalty)
+        self.cache_round_decimals = int(cache_round_decimals)
+
+        # L-BFGS-B tuning
+        self.lbfgsb_eps = float(lbfgsb_eps)
+        self.lbfgsb_maxls = int(lbfgsb_maxls)
+        self.ftol = float(ftol)
+        self.gtol = float(gtol)
+        self.disp = bool(disp)
+
+        # Internal: regex cache for parameter replacement
+        self._pattern_key: Optional[Tuple[str, ...]] = None
+        self._param_patterns: Dict[str, re.Pattern] = {}
+        self._current_param_vars: List[str] = []
+
+        # Provided at optimize() time
+        self.opt_params: Dict[str, Dict[str, float]] = {}
+
+    def _get_param_patterns(self, param_vars: List[str]) -> Dict[str, re.Pattern]:
+        key = tuple(param_vars)
+        if self._pattern_key != key:
+            self._pattern_key = key
+            self._param_patterns = {
+                p: re.compile(rf"^(\s*){re.escape(p)}\s*=\s*([^#\n]+)")
+                for p in param_vars
+            }
+        return self._param_patterns
+
+    def _parse_opt_param_comment(self, line: str) -> Optional[Dict[str, Any]]:
+        """Parse OPT_PARAM JSON/Python-dict comment if present."""
+        if "OPT_PARAM:" not in line:
+            return None
+        try:
+            comment_start = line.index("OPT_PARAM:")
+            param_str = line[comment_start + len("OPT_PARAM:"):].strip()
+
+            # Try JSON first
+            try:
+                param_str_json = param_str.replace("'", '"')
+                return json.loads(param_str_json)
+            except Exception:
+                # Fallback to Python literal dict
+                return ast.literal_eval(param_str)
+        except Exception:
+            return None
+
+    def _replace_parameters(
+        self,
+        code: str,
+        param_values: Dict[str, float]
+    ) -> Tuple[str, Dict[str, Tuple[int, str]]]:
+        """
+        Fast parameter replacement (regex-based).
+        Keeps indentation and preserves OPT_PARAM comment when available.
+        """
         lines = code.split('\n')
-        param_locations = {}
+        param_locations: Dict[str, Tuple[int, str]] = {}
         param_found = {p: False for p in param_values.keys()}
 
+        param_vars = self._current_param_vars or list(param_values.keys())
+        patterns = self._get_param_patterns(param_vars)
+
         for i, line in enumerate(lines):
-            # Get leading whitespace (indentation) of current line
-            leading_whitespace = line[:len(line) - len(line.lstrip())]
+            if '=' not in line:
+                continue
 
-            # Check if line has OPT_PARAM comment to preserve
-            opt_param_comment = None
-            if "OPT_PARAM:" in line:
-                try:
-                    # Extract the OPT_PARAM comment
-                    comment_start = line.index("OPT_PARAM:")
-                    param_str = line[comment_start + len("OPT_PARAM:"):].strip()
-                    # Replace single quotes with double quotes for JSON parsing
-                    param_str = param_str.replace("'", '"')
-                    param_config = json.loads(param_str)
-                    opt_param_comment = param_config
-                except:
-                    pass
+            opt_param_comment = self._parse_opt_param_comment(line)
 
-            # Try AST parsing method
-            try:
-                node = ast.parse(line).body[0]
-                if isinstance(node, ast.Assign):
-                    for target in node.targets:
-                        if isinstance(target, ast.Name) and target.id in param_values:
-                            # Found parameter assignment line
-                            param = target.id
-                            new_value = param_values[param]
+            for param in param_vars:
+                if param not in param_values or param_found.get(param, False):
+                    continue
 
-                            # Preserve OPT_PARAM format if it exists
-                            if opt_param_comment:
-                                opt_param_comment['initial'] = new_value
-                                new_line = f"{leading_whitespace}{param} = {new_value}  # OPT_PARAM: {json.dumps(opt_param_comment)}"
-                            else:
-                                new_line = f"{leading_whitespace}{param} = {new_value}  # Optimized"
+                m = patterns[param].match(line)
+                if not m:
+                    continue
 
-                            lines[i] = new_line
-                            param_locations[param] = (i + 1, new_line)
-                            param_found[param] = True
-            except (SyntaxError, IndexError):
-                # AST parsing failed, use regex method while preserving indentation
-                for param in param_values:
-                    if not param_found[param]:
-                        # Match param = value pattern, keeping original indentation
-                        match = re.match(fr"^(\s*){param}\s*=\s*([^#\n]+)", line)
-                        if match:
-                            existing_indent = match.group(1)  # Capture original indentation
-                            new_value = param_values[param]
+                indent = m.group(1)
+                new_value = param_values[param]
 
-                            # Preserve OPT_PARAM format if it exists
-                            if opt_param_comment:
-                                opt_param_comment['initial'] = new_value
-                                new_line = f"{existing_indent}{param} = {new_value}  # OPT_PARAM: {json.dumps(opt_param_comment)}"
-                            else:
-                                new_line = f"{existing_indent}{param} = {new_value}  # Optimized"
+                if opt_param_comment is not None and isinstance(opt_param_comment, dict):
+                    cfg = dict(opt_param_comment)
+                    cfg['initial'] = new_value
+                    new_line = f"{indent}{param} = {new_value}  # OPT_PARAM: {json.dumps(cfg)}"
+                else:
+                    new_line = f"{indent}{param} = {new_value}  # Optimized"
 
-                            lines[i] = new_line
-                            param_locations[param] = (i + 1, new_line)
-                            param_found[param] = True
+                lines[i] = new_line
+                param_locations[param] = (i + 1, new_line)
+                param_found[param] = True
+
+            if all(param_found.values()):
+                break
 
         return '\n'.join(lines), param_locations
 
-    def _evaluate_code(self, modified_code: str,
-                       executor: Optional[concurrent.futures.ThreadPoolExecutor] = None):
-        """Evaluate code and handle potential errors"""
+    def _evaluate_code(
+        self,
+        modified_code: str,
+        executor: Optional[concurrent.futures.ThreadPoolExecutor] = None
+    ):
+        """Evaluate code with robust timeout/error handling."""
         try:
             if executor:
                 future = executor.submit(self.interface_eval.evaluate, modified_code)
-                result = future.result(timeout=self.timeout)
+                try:
+                    return future.result(timeout=self.timeout)
+                except concurrent.futures.TimeoutError as e:
+                    try:
+                        future.cancel()
+                    except Exception:
+                        pass
+                    msg = f"Evaluation timed out after {self.timeout} seconds"
+                    logger.error(msg)
+                    raise RuntimeError(msg) from e
             else:
-                result = self.interface_eval.evaluate(modified_code)
+                return self.interface_eval.evaluate(modified_code)
 
-            # if not isinstance(result, (int, float)):
-            #     raise ValueError(f"Evaluation function should return a number, got {type(result)}")
-
-            return result
-
-        except concurrent.futures.TimeoutError:
-            error_msg = f"Evaluation timed out after {self.timeout} seconds"
-            logger.error(error_msg)
-            raise RuntimeError
-            # raise RuntimeError(error_msg)
         except Exception as e:
-            error_msg = f"Evaluation failed: {str(e)}\n{traceback.format_exc()}"
-            logger.error(error_msg)
-            raise RuntimeError
-            # raise RuntimeError(error_msg)
+            if isinstance(e, RuntimeError):
+                raise
+            msg = f"Evaluation failed: {str(e)}\n{traceback.format_exc()}"
+            logger.error(msg)
+            raise RuntimeError(msg) from e
+
+    def data_type(self, raw_optimized_params: Dict[str, Any]) -> Dict[str, float]:
+        """Convert optimization vector into configured types (int/float)."""
+        optimized_params: Dict[str, float] = {}
+        for param, value in raw_optimized_params.items():
+            param_config = self.opt_params.get(param, {})
+            param_type = param_config.get("type", 'float')
+
+            if param_type == 'int':
+                optimized_params[param] = int(round(float(value)))
+            else:
+                optimized_params[param] = float(value)
+        return optimized_params
 
     def optimize(
-            self,
-            original_code: str,
-            opt_params: Dict[str, Dict[str, float]],
-            param_vars: List[str],
-            executor: Optional[concurrent.futures.ThreadPoolExecutor] = None
+        self,
+        original_code: str,
+        opt_params: Dict[str, Dict[str, float]],
+        param_vars: List[str],
+        executor: Optional[concurrent.futures.ThreadPoolExecutor] = None
     ) -> OptimizationResult:
         """
-        Improved optimization method with detailed error handling
-
-        Args:
-            original_code: Python code containing optimizable parameters
-            opt_params: {"param1": {"initial": 1.0, "min": 0.1, "max": 2.0}, ...}
-            param_vars: List of parameter names to optimize
-            executor: Optional thread pool executor
-
-        Returns:
-            OptimizationResult: Object containing optimization results and detailed error information
+        Run optimization with evaluation budget/caching and safe failure handling.
         """
         self.opt_params = opt_params
+        self._current_param_vars = list(param_vars)
+        self.history = []  # reset per run
+
+        # Keep your original behavior: cast int params for bounds/initial
         for param in param_vars:
-            if opt_params[param]["type"] == 'int':
+            if opt_params[param].get("type") == 'int':
                 opt_params[param]["initial"] = int(opt_params[param]["initial"])
                 opt_params[param]["min"] = int(opt_params[param]["min"])
                 opt_params[param]["max"] = int(opt_params[param]["max"])
-
 
         result = OptimizationResult(
             optimized_code=original_code,
@@ -171,141 +244,159 @@ class ScipyOptimizer:
             history=[]
         )
 
+        # Prepare variables
+        initial_values = [opt_params[p]['initial'] for p in param_vars]
+        bounds = [(opt_params[p]['min'], opt_params[p]['max']) for p in param_vars]
+
+        # Eval cache: key -> objective value
+        eval_cache: Dict[Tuple[Any, ...], float] = {}
+        expensive_evals = 0
+        best_entry: Optional[Dict[str, Any]] = None
+
+        def make_key(params: Dict[str, float]) -> Tuple[Any, ...]:
+            key_parts: List[Any] = []
+            for p in param_vars:
+                if self.opt_params.get(p, {}).get("type") == "int":
+                    key_parts.append(int(params[p]))
+                else:
+                    key_parts.append(round(float(params[p]), self.cache_round_decimals))
+            return tuple(key_parts)
+
+        def objective(x):
+            nonlocal expensive_evals, best_entry
+
+            current_params = self.data_type(dict(zip(param_vars, x)))
+            key = make_key(current_params)
+
+            # Cache hit
+            if key in eval_cache:
+                return eval_cache[key]
+
+            # Budget check (budget counts real evaluations, not cache hits)
+            if self.max_evals is not None and expensive_evals >= self.max_evals:
+                raise _EarlyStop(f"Reached max_evals={self.max_evals}")
+
+            try:
+                modified_code, locations = self._replace_parameters(original_code, current_params)
+                fitness = self._evaluate_code(modified_code, executor)
+
+                fval = float(fitness["avg"])
+                if not np.isfinite(fval):
+                    raise ValueError(f"Non-finite fitness['avg']: {fval}")
+
+                history_entry = {
+                    'params': current_params.copy(),
+                    'fitness': fval,
+                    'test_objective': fitness.get('test_obj'),
+                    'lower': fitness.get('lower'),
+                    'upper': fitness.get('upper'),
+                    'trajectory': fitness.get('trajectory'),
+                    'cost_matrix': fitness.get('cost_matrix'),
+                    'order_matrix': fitness.get('order_matrix'),
+                    'code': modified_code,
+                    'locations': locations
+                }
+
+                self.history.append(history_entry)
+                result.history.append(history_entry)
+
+                expensive_evals += 1
+                eval_cache[key] = fval
+
+                if best_entry is None or fval < float(best_entry['fitness']):
+                    best_entry = history_entry
+
+                return fval
+
+            except Exception as e:
+                # Do NOT raise into SciPy; return penalty to keep optimizer stable
+                msg = f"Objective failed at params={current_params}: {e}"
+                logger.warning(msg)
+
+                expensive_evals += 1
+                eval_cache[key] = self.penalty
+
+                result.error = msg
+                result.error_location = f"Parameter values: {current_params}"
+                return self.penalty
+
+        # Run SciPy minimize
+        opt_result = None
+        early_stop_msg = None
+
+        options = {
+            'maxiter': self.max_iter,
+            'disp': self.disp,
+            'eps': self.lbfgsb_eps,
+            'ftol': self.ftol,
+            'gtol': self.gtol,
+            'maxls': self.lbfgsb_maxls,
+        }
+        if self.max_evals is not None:
+            options['maxfun'] = int(self.max_evals)
+
         try:
-            # 1. Sanity check: skip
-
-            # 2. Prepare optimization variables
-            initial_values = [opt_params[p]['initial'] for p in param_vars]
-            bounds = [(opt_params[p]['min'], opt_params[p]['max']) for p in param_vars]
-
-            # 3. Define objective function
-            def objective(x):
-                try:
-                    # Create parameter dictionary
-                    current_params = dict(zip(param_vars, x))
-                    current_params = self.data_type(current_params)
-                    # Replace parameters and record locations
-                    modified_code, locations = self._replace_parameters(original_code, current_params)
-                    # Evaluate code
-                    fitness = self._evaluate_code(modified_code, executor)
-                    # Record history
-                    history_entry = {
-                        'params': current_params.copy(),
-                        'fitness': fitness['avg'],
-                        'test_objective': fitness['test_obj'],
-                        'lower': fitness['lower'],
-                        'upper': fitness['upper'],
-                        'trajectory': fitness['trajectory'],
-                        'cost_matrix': fitness['cost_matrix'],
-                        'order_matrix': fitness['order_matrix'],
-                        'code': modified_code,
-                        'locations': locations
-                    }
-                    self.history.append(history_entry)
-                    result.history.append(history_entry)
-
-                    return fitness['avg']
-
-                except Exception as e:
-                    error_msg = f"Objective function failed at parameters {current_params}: {str(e)}"
-                    logger.error(error_msg)
-                    result.error = error_msg
-                    result.error_location = f"Parameter values: {current_params}"
-                    raise
-
-            # 4. Run optimization
             opt_result = minimize(
                 objective,
                 initial_values,
                 bounds=bounds,
                 method='L-BFGS-B',
-                options={
-                    'maxiter': self.max_iter,
-                    'disp': True,
-                    'eps': 0.1,  # Larger epsilon for numerical gradients (default is ~1e-8)
-                    'ftol': 1e-6,  # Function tolerance
-                    'gtol': 1e-4   # Gradient tolerance (relax from default 1e-5)
-                }
+                options=options
             )
-
-            # 5. Process optimization results
-            # Sort history to find best result
-            result.history = sorted(result.history, key=lambda x: x['fitness'], reverse=True)
-
-            if not opt_result.success and result.history:
-                # Optimization didn't converge properly, use best from history
-                logger.warning(f"Optimization incomplete: {opt_result.message}")
-                logger.info(f"Using best result from {len(result.history)} evaluations")
-                best_partial = result.history[-1]  # Best (lowest fitness) is last
-
-                result.optimized_code = best_partial['code']
-                result.optimized_params = best_partial['params']
-                result.optimized_fitness = float(best_partial['fitness'])
-                result.optimized_test_fitness = best_partial['test_objective']
-                result.optimized_lower = best_partial['lower']
-                result.optimized_upper = best_partial['upper']
-                result.optimized_trajectory = best_partial['trajectory']
-                result.optimized_cost_matrix = best_partial['cost_matrix']
-                result.optimized_order_matrix = best_partial['order_matrix']
-                result.success = True  # We have a valid result
-                result.error = opt_result.message
-                result.error_location = f"Using best from history instead of final: {best_partial['params']}"
-                logger.info(f"Best partial fitness: {result.optimized_fitness}")
-            else:
-                # Optimization succeeded or no history available, use scipy's result
-                raw_optimized_params = dict(zip(param_vars, opt_result.x))
-                optimized_params = self.data_type(raw_optimized_params)
-                optimized_code, _ = self._replace_parameters(original_code, optimized_params)
-
-                result.optimized_code = optimized_code
-                result.optimized_params = optimized_params
-                result.optimized_fitness = float(opt_result.fun)
-                result.optimized_test_fitness = result.history[-1]['test_objective']
-                result.optimized_lower = result.history[-1]['lower']
-                result.optimized_upper = result.history[-1]['upper']
-                result.optimized_trajectory = result.history[-1]['trajectory']
-                result.optimized_cost_matrix = result.history[-1]['cost_matrix']
-                result.optimized_order_matrix = result.history[-1]['order_matrix']
-                result.success = opt_result.success
-
-                if not opt_result.success:
-                    result.error = opt_result.message
-                    result.error_location = f"Final parameters: {optimized_params}"
-
+        except _EarlyStop as e:
+            early_stop_msg = str(e)
+            logger.warning(f"Early stop: {early_stop_msg}")
         except Exception as e:
             result.error = str(e)
             result.error_location = traceback.format_exc()
             logger.error(f"Optimization failed: {result.error}")
 
-            # Use best partial result if any evaluations succeeded
-            if result.history:
-                logger.info(f"Using best partial result from {len(result.history)} evaluations")
-                # Sort history by fitness (descending), so best (lowest) is last
-                result.history = sorted(result.history, key=lambda x: x['fitness'], reverse=True)
-                best_partial = result.history[-1]  # Best (lowest fitness) is last
+        # Use best evaluated result (most robust)
+        if best_entry is not None:
+            result.optimized_code = best_entry['code']
+            result.optimized_params = best_entry['params']
+            result.optimized_fitness = float(best_entry['fitness'])
 
-                result.optimized_code = best_partial['code']
-                result.optimized_params = best_partial['params']
-                result.optimized_fitness = float(best_partial['fitness'])
-                result.optimized_test_fitness = best_partial['test_objective']
-                result.optimized_lower = best_partial['lower']
-                result.optimized_upper = best_partial['upper']
-                result.optimized_trajectory = best_partial['trajectory']
-                result.optimized_cost_matrix = best_partial['cost_matrix']
-                result.optimized_order_matrix = best_partial['order_matrix']
-                result.success = True  # Mark as success since we have a valid result
-                logger.info(f"Best partial fitness: {result.optimized_fitness}")
+            # Optional fields
+            test_obj = best_entry.get('test_objective')
+            try:
+                result.optimized_test_fitness = float(test_obj) if test_obj is not None else float('inf')
+            except Exception:
+                result.optimized_test_fitness = test_obj
+
+            result.optimized_lower = best_entry.get('lower', float('inf'))
+            result.optimized_upper = best_entry.get('upper', float('inf'))
+            result.optimized_trajectory = best_entry.get('trajectory', []) or []
+            result.optimized_cost_matrix = best_entry.get('cost_matrix', []) or []
+            result.optimized_order_matrix = best_entry.get('order_matrix', []) or []
+
+            result.success = True
+
+            # Provide helpful messages if scipy didn't "success" or we early-stopped
+            if early_stop_msg:
+                result.error = early_stop_msg
+                result.error_location = f"Used best result from {len(result.history)} evaluations (early stop)."
+            elif opt_result is not None and not bool(getattr(opt_result, "success", False)):
+                result.error = str(getattr(opt_result, "message", "Optimization incomplete"))
+                result.error_location = f"Used best result from {len(result.history)} evaluations (scipy incomplete)."
+
+            logger.info(f"Using best result from {len(result.history)} evaluations")
+            logger.info(f"Best partial fitness: {result.optimized_fitness}")
+
+        else:
+            result.success = False
+            if early_stop_msg:
+                result.error = early_stop_msg
+            if result.error is None:
+                result.error = "No successful evaluations (all runs failed or timed out)."
+            if result.error_location is None:
+                result.error_location = "Check evaluate() timeouts/exceptions."
+
+        # Keep your old behavior: sort history by fitness descending (best is last)
+        if result.history:
+            try:
+                result.history = sorted(result.history, key=lambda h: h['fitness'], reverse=True)
+            except Exception:
+                pass
 
         return result
-
-    def data_type(self, raw_optimized_params):
-        optimized_params = {}
-        for param, value in raw_optimized_params.items():  # raw_optimized_params contains raw optimization results
-            param_config = self.opt_params.get(param, {})
-            param_type = param_config.get("type", 'float')  # Default to float
-
-            if param_type == 'int':
-                optimized_params[param] = int(round(value))  # Round to nearest integer
-            else:
-                optimized_params[param] = value  # Keep as float
-        return optimized_params
