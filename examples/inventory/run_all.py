@@ -10,7 +10,7 @@ dist_list = [
 
     # 'normal_std10_L2_c1_2','normal_std10_L2_c1_5','normal_std10_L4_c1_2','normal_std10_L4_c1_5','normal_std10_L6_c1_2','normal_std10_L6_c1_5',
 
-    'normal_std30_L2_c1_2',
+    # 'normal_std30_L2_c1_2',
     # 'normal_std30_L2_c1_5',
     # 'normal_std30_L4_c1_2',
     # 'normal_std30_L4_c1_5',
@@ -25,7 +25,7 @@ dist_list = [
     # 'normal_std50_L6_c1_5',
 
     # 'poisson_L2_c1_2','poisson_L2_c1_5','poisson_L4_c1_2','poisson_L4_c1_5',
-    # 'poisson_L6_c1_2',
+    'poisson_L6_c1_2',
     # 'poisson_L6_c1_5',
 
     # 'exponential_L2_c1_2','exponential_L2_c1_5','exponential_L4_c1_2','exponential_L4_c1_5',
@@ -46,6 +46,7 @@ param_loc_list = ['default']  # param_loc_list = ['start', 'default']
 order_option_list = ['order_before_sell']
 operator_list = ['m2plural']  # 'e1', 'e2', 'm2','m2plural'
 repeat_num = 5 # Feng: Number of repeats, aim for 10 repeats on each dataset
+prompt_with_explanations = True  # include DESCRIPTION/INTUITION/REASONING in m2 prompts
 
 for repeat in range(repeat_num):
     repeat += 1
@@ -78,6 +79,7 @@ for repeat in range(repeat_num):
                                             f"--operator {' '.join(operator_list)} "
                                             f"--repeat {repeat} "
                                             f"--filename m2plural " # Feng: Output filename
+                                            f"{'--prompt_with_explanations ' if prompt_with_explanations else ''}"
                                         )
                                         print(f"Running: {command}")
                                         try:

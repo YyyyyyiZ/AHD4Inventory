@@ -24,6 +24,8 @@ parser.add_argument('--n_horizon', type=int, default=50, help='Number of horizon
 parser.add_argument('--data_summary', type=str, default='no')
 parser.add_argument('--algo_performance', type=str, default='no')
 parser.add_argument('--prompt_version', type=str, default='v2', help='Prompt version: v1 (old) or v2 (new)')
+parser.add_argument('--prompt_with_explanations', action='store_true',
+                    help='Include DESCRIPTION/INTUITION/REASONING sections in m2 prompts.')
 
 # Optimizer
 parser.add_argument('--external_opt', type=str, default='no', help='Type of external optimizer.')
@@ -85,6 +87,7 @@ paras.set_paras(method="eoh",
                 order_option=args.order_option,
                 param_loc=args.param_loc,
                 prompt_version=args.prompt_version,
+                prompt_with_explanations=args.prompt_with_explanations,
                 )
 if args.problem == 'inventory':
     print("Run Inventory")
