@@ -28,35 +28,18 @@ Follow these requirements as you generate the modified policy:
 
 7. Note: Parameters are marked with `# OPT_PARAM:` followed by a dictionary specifying: 'initial' (the current value), 'min' (minimum allowed value), 'max' (maximum allowed value), and 'type' (either 'int' or 'float').
 
-8. Your response must follow this EXACT format with three sections:
+8. After generating the modified implementation, provide a concise explanation for your changes inside double curly braces, like this:
 
-DESCRIPTION:
-[Provide a concise verbal explanation of what the modified policy is doing and how it works]
+{{{{Your explanation here.}}}}
 
-CODE:
-[Provide the complete Python implementation here]
-
-INTUITION:
-[Explain why this modified policy is reasonable and why it should achieve better performance than the historical policy]
-
-9. Inside the curly braces {reasoning_braces}, provide your step-by-step reasoning process: How did you arrive at this policy? What were the key considerations, trade-offs you analyzed, and thought process that led you to this solution? Walk through your reasoning step by step.
-{reasoning_block}
-
-
-10. Do not give additional explanations outside of the sections above.
+9. Do not give additional explanations.
 
 
 
 Section 4 Historical Policy and Cost Statistics:
 
-I have one policy with the following information:
-
-Description: {algo_description}
-
-Code:
+I have one policy with its code as follows:
 {algo_code}
-
-Intuition: {algo_intuition}
 
 Below is the cost statistics of the provided policies on the historical demand trajectories:
 {algo_performance}

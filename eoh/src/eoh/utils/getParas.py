@@ -28,6 +28,7 @@ class Paras():
         self.dist = 'normal_std30_L6_c1_5'
         self.order_option = 'order_before_sell'
         self.prompt_version = 'v2'  # 'v1' = old version, 'v2' = new version
+        self.prompt_with_explanations = False
 
         # #####################
         # ### Self defined for TSP ###

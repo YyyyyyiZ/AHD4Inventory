@@ -4,6 +4,7 @@ import json
 import random
 import time
 import csv
+import copy
 from pathlib import Path
 
 from .eoh_interface_EC import InterfaceEC
@@ -60,6 +61,7 @@ class EOH:
             self.external_optimizer = None
         self.iter_opt = paras.iter_opt
         self.param_loc = paras.param_loc
+        self.prompt_with_explanations = getattr(paras, "prompt_with_explanations", False)
 
         # for saving results to .csv
         self.problem = paras.problem
@@ -98,6 +100,19 @@ class EOH:
             if not replaced:
                 population.append(off)
 
+    @staticmethod
+    def _json_ready_individual(indiv):
+        """Return a JSON-safe copy without the 'algorithm' field."""
+        if indiv is None:
+            return indiv
+        indiv_copy = copy.deepcopy(indiv)
+        indiv_copy.pop('algorithm', None)
+        return indiv_copy
+
+    def _json_ready_population(self, population):
+        """Return a JSON-safe copy of population without the 'algorithm' field."""
+        return [self._json_ready_individual(indiv) for indiv in population]
+
     def run(self):
 
         print("- Evolution Start -")
@@ -117,7 +132,8 @@ class EOH:
                                    external_optimizer=self.external_optimizer, max_iter=self.iter_opt,
                                    param_loc=self.param_loc, exp_output_path=self.output_path,
                                    select=self.select, n_p=self.exp_n_proc, timeout=self.timeout,
-                                   use_numba=self.use_numba
+                                   use_numba=self.use_numba,
+                                   prompt_with_explanations=self.prompt_with_explanations,
                                    )
 
         # initialization
@@ -164,7 +180,7 @@ class EOH:
             # Save population to a file (optimized if optimizer is on, un-optimized otherwise)
             filename = f"{self.output_path}/pops/population_generation_0.json"
             with open(filename, 'w') as f:
-                json.dump(population, f, indent=5)
+                json.dump(self._json_ready_population(population), f, indent=5)
 
             n_start = self.load_pop_id
         else:  # create new population
@@ -189,7 +205,7 @@ class EOH:
             # Save population to a file
             filename = f"{self.output_path}/pops/population_generation_0.json"
             with open(filename, 'w') as f:
-                json.dump(population, f, indent=5)
+                json.dump(self._json_ready_population(population), f, indent=5)
             n_start = 0
 
         # main loop
@@ -218,12 +234,12 @@ class EOH:
             filename = f"{self.output_path}/pops/population_generation_" + str(pop + 1) + ".json"
             # filename = self.output_path + "/results/pops/population_generation_" + str(pop + 1) + ".json"
             with open(filename, 'w') as f:
-                json.dump(population, f, indent=5)
+                json.dump(self._json_ready_population(population), f, indent=5)
 
             # Save the best one to a file
             filename = f"{self.output_path}/pops_best/population_generation_" + str(pop + 1) + ".json"
             with open(filename, 'w') as f:
-                json.dump(population[0], f, indent=5)
+                json.dump(self._json_ready_individual(population[0]), f, indent=5)
 
             print(
                 f"--- {pop + 1} of {self.n_pop} populations finished. Time Cost:  {((time.time() - time_start) / 60):.1f} m")

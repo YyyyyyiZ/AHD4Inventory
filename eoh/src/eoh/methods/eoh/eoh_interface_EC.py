@@ -187,6 +187,9 @@ class InterfaceEC:
                 seed_alg = {
                     'algorithm': seeds[i]['algorithm'],
                     'code': seeds[i]['code'],
+                    'description': seeds[i].get('description', ''),
+                    'intuition': seeds[i].get('intuition', ''),
+                    'reasoning': seeds[i].get('reasoning', seeds[i].get('algorithm', '')),
                     'objective': None,
                     'test_objective': None,
                     'lower': None,
@@ -219,6 +222,9 @@ class InterfaceEC:
         offspring = {
             'algorithm': None,
             'code': None,
+            'description': '',
+            'intuition': '',
+            'reasoning': '',
             'opt_params': {},
             'cost': None,
             'objective': None,
@@ -248,11 +254,11 @@ class InterfaceEC:
                 parents[0])
         elif operator == "m2":
             parents = self.select.parent_selection(pop, 1)
-            [offspring['code'], offspring['algorithm'], offspring['opt_params'], offspring['cost']] = self.evol.m2(
+            [offspring['description'], offspring['code'], offspring['intuition'], offspring['algorithm'], offspring['opt_params'], offspring['cost']] = self.evol.m2(
                 parents[0])
         elif operator == "m2plural":
             parents = self.select.parent_selection(pop, self.m)
-            [offspring['code'], offspring['algorithm'], offspring['opt_params'], offspring['cost']] = self.evol.m2plural(
+            [offspring['description'], offspring['code'], offspring['intuition'], offspring['algorithm'], offspring['opt_params'], offspring['cost']] = self.evol.m2plural(
                 parents)
         elif operator == "m3":
             parents = self.select.parent_selection(pop, 1)
@@ -261,6 +267,7 @@ class InterfaceEC:
         else:
             print(f"Evolution operator [{operator}] has not been implemented ! \n")
 
+        offspring['reasoning'] = offspring['algorithm'] if offspring['algorithm'] is not None else ''
         return parents, offspring
 
     def get_offspring(self, pop, operator, n_pop):
@@ -386,6 +393,9 @@ class InterfaceEC:
             offspring = {
                 'algorithm': None,
                 'code': None,
+                'description': '',
+                'intuition': '',
+                'reasoning': '',
                 'objective': None,
                 'test_objective': None,
                 'lower': None,
@@ -411,6 +421,9 @@ class InterfaceEC:
                 offspring = {
                     'algorithm': None,
                     'code': None,
+                    'description': '',
+                    'intuition': '',
+                    'reasoning': '',
                     'objective': None,
                     'test_objective': None,
                     'lower': None,

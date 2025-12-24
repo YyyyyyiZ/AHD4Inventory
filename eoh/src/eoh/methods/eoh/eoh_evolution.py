@@ -35,6 +35,7 @@ class Evolution:
         self.model_LLM = model_LLM
         self.debug_mode = debug_mode  # close prompt checking
         self.exp_output_path = exp_output_path
+        self.prompt_with_explanations = kwargs.get("prompt_with_explanations", False)
         self.init_base_prompt()
         self.analyzer = analyzer
 
@@ -51,8 +52,12 @@ class Evolution:
         self.prompt_e1 = file_to_string(f'{self.file_path}/operator/prompt_e1.txt')
         self.prompt_e2 = file_to_string(f'{self.file_path}/operator/prompt_e2.txt')
         self.prompt_m1 = file_to_string(f'{self.file_path}/operator/prompt_m1.txt')
-        self.prompt_m2 = file_to_string(f'{self.file_path}/operator/prompt_m2.txt')
-        self.prompt_m2plural = file_to_string(f'{self.file_path}/operator/prompt_m2plural.txt')
+        if self.prompt_with_explanations:
+            self.prompt_m2 = file_to_string(f'{self.file_path}/operator/prompt_m2.txt')
+            self.prompt_m2plural = file_to_string(f'{self.file_path}/operator/prompt_m2plural.txt')
+        else:
+            self.prompt_m2 = file_to_string(f'{self.file_path}/operator/prompt_m2_legacy.txt')
+            self.prompt_m2plural = file_to_string(f'{self.file_path}/operator/prompt_m2plural_legacy.txt')
         self.prompt_m3 = file_to_string(f'{self.file_path}/operator/prompt_m3.txt')
 
     def external_optimizer_prompt(self):
@@ -132,7 +137,7 @@ class Evolution:
         )
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         file_name = f"{self.exp_output_path}/prompt_for_code/i1_{timestamp}.txt"
-        with open(file_name, 'a') as file:
+        with open(file_name, 'w') as file:
             file.writelines(prompt_content + '\n')
         return prompt_content
 
@@ -157,7 +162,7 @@ class Evolution:
         )
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         file_name = f"{self.exp_output_path}/prompt_for_code/e1_{timestamp}.txt"
-        with open(file_name, 'a') as file:
+        with open(file_name, 'w') as file:
             file.writelines(prompt_content + '\n')
         return prompt_content
 
@@ -182,7 +187,7 @@ class Evolution:
         )
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         file_name = f"{self.exp_output_path}/prompt_for_code/e2_{timestamp}.txt"
-        with open(file_name, 'a') as file:
+        with open(file_name, 'w') as file:
             file.writelines(prompt_content + '\n')
         return prompt_content
 
@@ -204,17 +209,46 @@ class Evolution:
         )
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         file_name = f"{self.exp_output_path}/prompt_for_code/m1_{timestamp}.txt"
-        with open(file_name, 'a') as file:
+        with open(file_name, 'w') as file:
             file.writelines(prompt_content + '\n')
         return prompt_content
+
+    def _clean_reasoning_markers(self, text):
+        """Remove any {{{{}}}} or {{}} reasoning markers from text to ensure they don't appear in prompts."""
+        if not text:
+            return text
+        # Remove quadruple brace content {{{{...}}}}
+        cleaned = re.sub(r'\{\{\{\{.*?\}\}\}\}', '', text, flags=re.DOTALL)
+        # Also remove double brace content {{...}} (for backward compatibility)
+        cleaned = re.sub(r'\{\{.*?\}\}', '', cleaned, flags=re.DOTALL)
+        return cleaned.strip()
+
+    def _extract_reasoning_block(self, text):
+        """Extract reasoning wrapped in {{{{...}}}} or {{...}} for m2-style operators."""
+        if not text:
+            return ""
+        match = re.search(r"\{\{\{\{(.*?)\}\}\}\}", text, re.DOTALL)
+        if match:
+            return match.group(1).strip()
+        match = re.search(r"\{\{(.*?)\}\}", text, re.DOTALL)
+        if match:
+            return match.group(1).strip()
+        return ""
 
     def get_prompt_m2(self, indiv1):
         # Extract optimizable parameters from the parent code
         optimizable_params_text = self._extract_optimizable_params_info(indiv1)
 
+        # Clean any reasoning markers from fields before showing in prompt
+        clean_description = self._clean_reasoning_markers(indiv1.get('description', 'Not provided'))
+        clean_code = self._clean_reasoning_markers(indiv1['code'])
+        clean_intuition = self._clean_reasoning_markers(indiv1.get('intuition', 'Not provided'))
+
         prompt_content = self.prompt_m2.format(
             prompt_task=self.prompt_task,
-            algo_code=indiv1['code'],
+            algo_code=clean_code,
+            algo_description=clean_description,
+            algo_intuition=clean_intuition,
             data_summary=self.analyzer.get_data_summary(),
             algo_performance=self.analyzer.get_algo_performance([indiv1]),
             optimizable_params=optimizable_params_text,
@@ -225,18 +259,28 @@ class Evolution:
             prompt_func_outputs=self.joined_outputs,
             prompt_inout_inf=self.prompt_inout_inf,
             prompt_other_inf=self.prompt_other_inf,
+            reasoning_braces="{{}}",
+            reasoning_block="{{Your step-by-step reasoning process here.}}",
             external_optimizer=self.external_optimizer_prompt() if self.external_optimizer else '',
         )
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         file_name = f"{self.exp_output_path}/prompt_for_code/m2_{timestamp}.txt"
-        with open(file_name, 'a') as file:
+        with open(file_name, 'w') as file:
             file.writelines(prompt_content + '\n')
         return prompt_content
 
     def get_prompt_m2plural(self, indivs):
         prompt_indiv = ""
         for i in range(len(indivs)):
-            prompt_indiv = prompt_indiv + "No." + str(i + 1) + " policy code: \n" + indivs[i]['code'] + "\n" + "\n"
+            # Clean any reasoning markers from fields before showing in prompt
+            clean_description = self._clean_reasoning_markers(indivs[i].get('description', 'Not provided'))
+            clean_code = self._clean_reasoning_markers(indivs[i]['code'])
+            clean_intuition = self._clean_reasoning_markers(indivs[i].get('intuition', 'Not provided'))
+
+            prompt_indiv += f"No.{i + 1} policy:\n\n"
+            prompt_indiv += f"Description: {clean_description}\n\n"
+            prompt_indiv += f"Code:\n{clean_code}\n\n"
+            prompt_indiv += f"Intuition: {clean_intuition}\n\n"
         prompt_content = self.prompt_m2plural.format(
             prompt_task=self.prompt_task,
             num_indivs=str(len(indivs)),
@@ -250,11 +294,13 @@ class Evolution:
             prompt_func_outputs=self.joined_outputs,
             prompt_inout_inf=self.prompt_inout_inf,
             prompt_other_inf=self.prompt_other_inf,
+            reasoning_braces="{{}}",
+            reasoning_block="{{Your step-by-step reasoning process here.}}",
             external_optimizer=self.external_optimizer_prompt() if self.external_optimizer else '',
         )
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         file_name = f"{self.exp_output_path}/prompt_for_code/m2plural_{timestamp}.txt"
-        with open(file_name, 'a') as file:
+        with open(file_name, 'w') as file:
             file.writelines(prompt_content + '\n')
         return prompt_content
 
@@ -279,9 +325,112 @@ class Evolution:
         )
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         file_name = f"{self.exp_output_path}/prompt_for_code/m3_{timestamp}.txt"
-        with open(file_name, 'a') as file:
+        with open(file_name, 'w') as file:
             file.writelines(prompt_content + '\n')
         return prompt_content
+
+    def _get_alg_with_metadata(self, prompt_content):
+        """
+        Parse LLM response that includes DESCRIPTION, CODE, and INTUITION sections.
+        Returns: [code, algorithm, description, intuition, optim_params, cost]
+        """
+        response = self.interface_llm.get_response(prompt_content)
+
+        # Extract description
+        description_match = re.search(r'DESCRIPTION:\s*(.*?)(?=CODE:|$)', response, re.DOTALL | re.IGNORECASE)
+        description = description_match.group(1).strip() if description_match else ""
+
+        # Extract intuition (stop at quadruple braces {{{{)
+        intuition_match = re.search(r'INTUITION:\s*(.*?)(?=\{\{\{\{|\{\{|$)', response, re.DOTALL | re.IGNORECASE)
+        intuition = intuition_match.group(1).strip() if intuition_match else ""
+
+        # Extract algorithm explanation (from quadruple curly braces {{{{...}}}}) - this is for storage only, not for next gen prompts
+        algorithm = [self._extract_reasoning_block(response) or ""]
+
+        # Extract code - stop before {{}} to exclude reasoning from code
+        # First try to extract from CODE: section until INTUITION: or {{
+        code_match = re.search(r'CODE:\s*(.*?)(?=INTUITION:|$)', response, re.DOTALL | re.IGNORECASE)
+        if code_match:
+            code_section = code_match.group(1)
+            # Now extract actual Python code from this section
+            code = re.findall(r"(?:import.*?return|def.*?return)", code_section, re.DOTALL)
+        else:
+            # Fallback: extract code the old way but stop before {{
+            code = re.findall(r"import.*?(?=\{\{)", response, re.DOTALL)
+            if len(code) == 0:
+                code = re.findall(r"def.*?(?=\{\{)", response, re.DOTALL)
+            if len(code) == 0:
+                code = re.findall(r"import.*return", response, re.DOTALL)
+            if len(code) == 0:
+                code = re.findall(r"def.*return", response, re.DOTALL)
+
+        # Extract optimizable parameters
+        optim_params = {}
+        if self.external_optimizer and len(code) > 0:
+            for line in code[0].split('\n'):
+                if "OPT_PARAM:" in line:
+                    param_name = self._extract_param_name(line)
+                    param_str = line.split("OPT_PARAM:")[1].strip()
+                    param_str = param_str.replace("'", '"')
+                    try:
+                        param_config = json.loads(param_str)
+                        optim_params[param_name] = param_config
+                    except:
+                        pass
+
+        # Retry logic if parsing fails
+        n_retry = 1
+        while len(code) == 0 and n_retry <= 3:
+            if self.debug_mode:
+                print("Error: code not identified, wait 1 seconds and retrying ... ")
+
+            response = self.interface_llm.get_response(prompt_content)
+
+            # Re-extract all components
+            description_match = re.search(r'DESCRIPTION:\s*(.*?)(?=CODE:|$)', response, re.DOTALL | re.IGNORECASE)
+            description = description_match.group(1).strip() if description_match else ""
+
+            intuition_match = re.search(r'INTUITION:\s*(.*?)(?=\{\{\{\{|\{\{|$)', response, re.DOTALL | re.IGNORECASE)
+            intuition = intuition_match.group(1).strip() if intuition_match else ""
+
+            algorithm = [self._extract_reasoning_block(response) or ""]
+
+            # Extract code - stop before {{}} to exclude reasoning from code
+            code_match = re.search(r'CODE:\s*(.*?)(?=INTUITION:|$)', response, re.DOTALL | re.IGNORECASE)
+            if code_match:
+                code_section = code_match.group(1)
+                code = re.findall(r"(?:import.*?return|def.*?return)", code_section, re.DOTALL)
+            else:
+                code = re.findall(r"import.*?(?=\{\{)", response, re.DOTALL)
+                if len(code) == 0:
+                    code = re.findall(r"def.*?(?=\{\{)", response, re.DOTALL)
+                if len(code) == 0:
+                    code = re.findall(r"import.*return", response, re.DOTALL)
+                if len(code) == 0:
+                    code = re.findall(r"def.*return", response, re.DOTALL)
+
+            if self.external_optimizer and len(code) > 0:
+                optim_params = {}
+                for line in code[0].split('\n'):
+                    if "OPT_PARAM:" in line:
+                        param_name = self._extract_param_name(line)
+                        param_str = line.split("OPT_PARAM:")[1].strip()
+                        param_str = param_str.replace("'", '"')
+                        try:
+                            param_config = json.loads(param_str)
+                            optim_params[param_name] = param_config
+                        except:
+                            pass
+
+            n_retry += 1
+
+        algorithm = algorithm[0] if len(algorithm) > 0 else ""
+        code = code[0] if len(code) > 0 else ""
+        cost = None
+
+        code_all = code + " " + ", ".join(s for s in self.prompt_func_outputs)
+
+        return [description, code_all, intuition, algorithm, optim_params, cost]
 
     def _get_alg(self, prompt_content):
 
@@ -497,15 +646,27 @@ class Evolution:
             print(">>> Press 'Enter' to continue")
             input()
 
-        [code_all, algorithm, optim_params, cost] = self._get_alg(prompt_content)
+        if self.prompt_with_explanations:
+            [description, code_all, intuition, algorithm, optim_params, cost] = self._get_alg_with_metadata(
+                prompt_content)
+        else:
+            [code_all, algorithm, optim_params, cost] = self._get_alg(prompt_content)
+            description = ""
+            intuition = ""
 
         if self.debug_mode:
-            print("\n >>> check designed algorithm: \n", algorithm)
-            print("\n >>> check designed code: \n", code_all)
+            if self.prompt_with_explanations:
+                print("\n >>> check description: \n", description)
+                print("\n >>> check designed code: \n", code_all)
+                print("\n >>> check intuition: \n", intuition)
+                print("\n >>> check designed algorithm: \n", algorithm)
+            else:
+                print("\n >>> check designed code: \n", code_all)
+                print("\n >>> check designed algorithm: \n", algorithm)
             print(">>> Press 'Enter' to continue")
             input()
 
-        return [code_all, algorithm, optim_params, cost]
+        return [description, code_all, intuition, algorithm, optim_params, cost]
 
     def m2plural(self, parents):
 
@@ -516,15 +677,27 @@ class Evolution:
             print(">>> Press 'Enter' to continue")
             input()
 
-        [code_all, algorithm, optim_params, cost] = self._get_alg(prompt_content)
+        if self.prompt_with_explanations:
+            [description, code_all, intuition, algorithm, optim_params, cost] = self._get_alg_with_metadata(
+                prompt_content)
+        else:
+            [code_all, algorithm, optim_params, cost] = self._get_alg(prompt_content)
+            description = ""
+            intuition = ""
 
         if self.debug_mode:
-            print("\n >>> check designed algorithm: \n", algorithm)
-            print("\n >>> check designed code: \n", code_all)
+            if self.prompt_with_explanations:
+                print("\n >>> check description: \n", description)
+                print("\n >>> check designed code: \n", code_all)
+                print("\n >>> check intuition: \n", intuition)
+                print("\n >>> check designed algorithm: \n", algorithm)
+            else:
+                print("\n >>> check designed code: \n", code_all)
+                print("\n >>> check designed algorithm: \n", algorithm)
             print(">>> Press 'Enter' to continue")
             input()
 
-        return [code_all, algorithm, optim_params, cost]
+        return [description, code_all, intuition, algorithm, optim_params, cost]
 
     def m3(self, parents):
 
