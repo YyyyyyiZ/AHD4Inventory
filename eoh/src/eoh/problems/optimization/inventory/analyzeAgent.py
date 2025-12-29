@@ -508,3 +508,124 @@ class InventoryAnalyzer:
         out_lines.append('  ]')
         out_lines.append('}')
         return "\n".join(out_lines)
+
+    def _get_eval_matrices(self, indiv):
+        order_matrix = None
+        cost_matrix = None
+        if isinstance(indiv, dict):
+            order_matrix = indiv.get("order_matrix")
+            cost_matrix = indiv.get("cost_matrix")
+        if order_matrix is not None and cost_matrix is not None:
+            return order_matrix, cost_matrix, None
+
+        code = ''
+        if isinstance(indiv, dict):
+            code = indiv.get('code', indiv.get('policy_code', indiv.get('python_code', '')))
+        else:
+            code = str(indiv)
+
+        try:
+            eval_result = self.prob.evaluate(code)
+        except Exception as exc:
+            return None, None, str(exc)
+
+        order_matrix = eval_result.get('order_matrix')
+        cost_matrix = eval_result.get('cost_matrix')
+        if order_matrix is None or cost_matrix is None:
+            return None, None, "missing order_matrix or cost_matrix from evaluate()"
+        return order_matrix, cost_matrix, None
+
+    def get_algo_performance(self, indivs):
+        if self.algo_performance == 'plain':
+            return self._get_plain(indivs, n_sample=3)
+        if self.algo_performance == 'processed':
+            return self._get_processed(indivs)
+        return None
+
+    def _get_plain(self, indivs, n_sample):
+        summaries = []
+        for i, indiv in enumerate(indivs, start=1):
+            order_matrix, cost_matrix, err = self._get_eval_matrices(indiv)
+            if err is not None:
+                summaries.append(f"\nNo.{i} algorithm:\n- Performance unavailable: {err}")
+                continue
+            order_matrix = np.array(order_matrix)  # shape: [n_traj, n_periods]
+            cost_matrix = np.array(cost_matrix)  # shape: [n_traj, n_periods, 2]
+            n_traj, n_periods = order_matrix.shape
+            # Compute total cost per trajectory
+            traj_total_cost = np.sum(cost_matrix[:, :, 0] + cost_matrix[:, :, 1], axis=1)
+
+            # Select representative trajectories: min, median, max cost
+            sorted_indices = np.argsort(traj_total_cost)
+            selected_indices = [
+                sorted_indices[0],
+                sorted_indices[len(sorted_indices) // 2],
+                sorted_indices[-1],
+            ][:n_sample]
+
+            summary = [f"\nNo.{i} algorithm:"]
+            summary.append(f"- Total trajectories: {n_traj}, periods per trajectory: {n_periods}")
+            summary.append("- Below are sampled trajectories (row = trajectory, col = period):")
+            summary.append("  order_matrix entries = order amount per period")
+            summary.append("  cost_matrix entries = (holding_cost, lost_sale_cost) per period\n")
+
+            for idx in selected_indices:
+                orders = order_matrix[idx]
+                costs = cost_matrix[idx]
+                total_cost = traj_total_cost[idx]
+
+                summary.append(f"    Trajectory {idx + 1} (total cost={total_cost:.2f}):")
+                summary.append(f"    Orders: {orders.tolist()}")
+                summary.append(f"    Costs: {costs.tolist()}")
+            summaries.append("\n".join(summary))
+        return "\n".join(summaries)
+
+    def _get_processed(self, indivs):
+        summaries = []
+        for i, indiv in enumerate(indivs, start=1):
+            order_matrix, cost_matrix, err = self._get_eval_matrices(indiv)
+            if err is not None:
+                summaries.append(f"\nNo.{i} policy:\n- Performance unavailable: {err}")
+                continue
+            order_matrix = np.array(order_matrix)  # shape: [n_traj, n_periods]
+            cost_matrix = np.array(cost_matrix)  # shape: [n_traj, n_periods, 2]
+
+            holding_costs = cost_matrix[:, :, 0]
+            lostsale_costs = cost_matrix[:, :, 1]
+            total_costs = holding_costs + lostsale_costs
+
+            mean_total = np.mean(total_costs)
+            std_total = np.std(total_costs)
+            mean_holding = np.mean(holding_costs)
+            mean_lostsale = np.mean(lostsale_costs)
+
+            traj_total = np.sum(total_costs, axis=1)
+            traj_mean = np.mean(traj_total)
+            traj_std = np.std(traj_total)
+            traj_min = np.min(traj_total)
+            traj_max = np.max(traj_total)
+
+            if self.version == 'v1':
+                summaries.append(f"""
+    No.{i} algorithm:
+    - Average total cost per period = {mean_total:.2f} (std={std_total:.2f})
+    - Average holding cost per period = {mean_holding:.2f}
+    - Average lost-sale cost per period = {mean_lostsale:.2f}
+    - Ratio holding : lost-sale = {mean_holding:.1f} : {mean_lostsale:.1f}
+    - Per-trajectory total cost summary: mean = {traj_mean:.2f}, std={traj_std:.2f}, range=({traj_min:.2f}, {traj_max:.2f})
+            """)
+            else:
+                summaries.append(f"""
+    No.{i} policy:
+    - Average total cost per period:
+      $\\frac{{1}}{{NT}} \\sum_{{n=1}}^N \\sum_{{t=L+1}}^{{L+T}} \\Big[ h \\cdot \\max(0,\\, I_t^{{\\pi,n}} + q_{{t,1}}^{{\\,\\pi,n}} - D_t^n) + p \\cdot \\max(0,\\, D_t^n - I_t^{{\\pi,n}} - q_{{t,1}}^{{\\,\\pi,n}}) \\Big]$ = {mean_total:.2f} (std={std_total:.2f})
+    - Average holding cost per period:
+      $\\frac{{1}}{{NT}} \\sum_{{n=1}}^N \\sum_{{t=L+1}}^{{L+T}} h \\cdot \\max(0,\\, I_t^{{\\pi,n}} + q_{{t,1}}^{{\\,\\pi,n}} - D_t^n)$ = {mean_holding:.2f}
+    - Average lost-sales cost per period:
+      $\\frac{{1}}{{NT}} \\sum_{{n=1}}^N \\sum_{{t=L+1}}^{{L+T}} p \\cdot \\max(0,\\, D_t^n - I_t^{{\\pi,n}} - q_{{t,1}}^{{\\,\\pi,n}})$ = {mean_lostsale:.2f}
+    - Ratio holding : lost-sales = {mean_holding:.1f} : {mean_lostsale:.1f}
+    - Per-trajectory long-run total cost:
+      $\\sum_{{t=L+1}}^{{L+T}} \\Big[ h \\cdot \\max(0,\\, I_t^{{\\pi,n}} + q_{{t,1}}^{{\\,\\pi,n}} - D_t^n) + p \\cdot \\max(0,\\, D_t^n - I_t^{{\\pi,n}} - q_{{t,1}}^{{\\,\\pi,n}}) \\Big]$
+      mean = {traj_mean:.2f}, std={traj_std:.2f}, range=({traj_min:.2f}, {traj_max:.2f})
+            """)
+        return "\n".join(summaries)

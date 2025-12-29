@@ -1,10 +1,8 @@
-ProblemSpec:
-{PROBLEM_SPEC_JSON}
+Here are the insights from the demand analyzer agent:
+{DEMAND_BATCH_JSON}
 
-Candidate policies:
+Here are the candidate policies:
 {CANDIDATE_POLICIES_JSON}
 
-Evaluator reports:
+Here are the evaluator reports from each policy evaluator agents:
 {EVAL_REPORTS_JSON}
-
-Task: Produce CreatorBrief JSON only.

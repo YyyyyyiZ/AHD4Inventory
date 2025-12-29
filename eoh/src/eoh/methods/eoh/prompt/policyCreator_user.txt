@@ -1,16 +1,8 @@
-ProblemSpec:
-{PROBLEM_SPEC_JSON}
-
-CreatorBrief:
+Here is the recommendation from the insight aggregator:
 {CREATOR_BRIEF_JSON}
 
-Seed policies (incumbent/top-K):
+Here are the parent policies:
 {SEED_POLICIES_JSON}
-
-Demand data:
-{DEMAND_DATA_JSON}
 
 Requirement:
 {INSTRUCTIONS}
-
-Task: create a modified policy.
