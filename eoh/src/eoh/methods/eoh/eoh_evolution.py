@@ -87,12 +87,15 @@ class Evolution:
         return formatted
 
     def workflow(self, parents):
-        try:
-            data = self.interface_llm.get_response(self.demandAgent_sys, self.get_prompt_data())
-            self.save_txt(data, 'response', 'data')
-        except Exception as exc:
-            data = f"[demandAgent_error] {exc}"
-            self.save_txt(data, 'response', 'data_error')
+        # try:
+        #     data = self.interface_llm.get_response(self.demandAgent_sys, self.get_prompt_data())
+        #     self.save_txt(data, 'response', 'data')
+        # except Exception as exc:
+        #     data = f"[demandAgent_error] {exc}"
+        #     self.save_txt(data, 'response', 'data_error')
+
+        data = self.analyzer.get_demand_stats()
+        self.save_txt(data, 'response', 'data')
 
         # Evaluate each parent policy individually
         eval_all = []

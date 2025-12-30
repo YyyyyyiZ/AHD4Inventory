@@ -62,6 +62,74 @@ class InventoryAnalyzer:
             demand_text += f"Historical demand trajectory $D^{{{idx}}}$: {traj['demand']}\n"
         return demand_text
 
+    def get_demand_stats(self):
+        instances = self.prob.load_instances(mode='train', n_traj=self.n_train)
+
+        # Collect pooled demand observations
+        all_demand = []
+        for traj in instances:
+            d = traj.get('demand', [])
+            for v in d:
+                try:
+                    all_demand.append(float(v))
+                except Exception:
+                    pass
+
+        n_obs = len(all_demand)
+        d_sorted = sorted(all_demand)
+
+        # pooled mean / std (population std, ddof=0)
+        mean = sum(all_demand) / float(n_obs)
+        var = 0.0
+        for x in all_demand:
+            dx = x - mean
+            var += dx * dx
+        var /= float(n_obs)
+        std = var ** 0.5
+
+        d_min = d_sorted[0]
+        d_max = d_sorted[-1]
+
+        # empirical quantile with linear interpolation (Type-7 style)
+        def _quantile(q):
+            n = len(d_sorted)
+            if n == 1:
+                return float(d_sorted[0])
+            if q <= 0.0:
+                return float(d_sorted[0])
+            if q >= 1.0:
+                return float(d_sorted[-1])
+            pos = q * float(n - 1)
+            lo = int(pos)  # floor (pos >= 0)
+            hi = lo + 1
+            if hi >= n:
+                hi = n - 1
+            w = pos - float(lo)
+            return float(d_sorted[lo] + w * (d_sorted[hi] - d_sorted[lo]))
+
+        # build quantile table (0%,5%,...,100%)
+        q_lines = []
+        q_lines.append("Percentile | Demand")
+        q_lines.append("---|---")
+        k = 0
+        while k <= 20:
+            q = 0.05 * float(k)
+            val = _quantile(q)
+            pct = int(round(100.0 * q))
+            q_lines.append(f"{pct}% | {val:.3f}")
+            k += 1
+
+        stats_text = ""
+        stats_text += "Demand Statistics\n"
+        stats_text += f"- demand mean: {mean:.6f}\n"
+        stats_text += f"- demand std: {std:.6f}\n"
+        stats_text += "\nQuantiles (5% increments):\n"
+        stats_text += "\n".join(q_lines) + "\n\n"
+
+        print(stats_text)
+
+        return stats_text
+
     def get_sim_results(self, indivs, data):
         """Evaluate candidate policies and return a prompt-ready simulation summary (JSON-like text).
 
