@@ -1,8 +1,11 @@
-Here is the recommendation from the insight aggregator:
-{CREATOR_BRIEF_JSON}
+Here is the demand analysis:
+{DEMAND_STATS_JSON}
 
 Here are the parent policies:
 {SEED_POLICIES_JSON}
+
+Here are the evaluations from the Policy Evaluator Agents:
+{EVALUATOR_OUTPUTS_JSON}
 
 Requirement:
 {INSTRUCTIONS}

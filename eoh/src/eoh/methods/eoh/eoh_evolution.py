@@ -32,26 +32,30 @@ class Evolution:
         self.current_dir = os.path.dirname(os.path.abspath(__file__))
         self.file_path = os.path.join(self.current_dir)
 
-        self.demandAgent_sys = self._format_system_prompt(
-            file_to_string(f'{self.file_path}/prompt/demandAgent_sys.txt')
-        )
-        self.demandAgent_user = file_to_string(f'{self.file_path}/prompt/demandAgent_user.txt')
+        # Demand Agent is not used (using template-based calculation instead)
+        # self.demandAgent_sys = self._format_system_prompt(
+        #     file_to_string(f'{self.file_path}/prompt/demandAgent_sys.txt')
+        # )
+        # self.demandAgent_user = file_to_string(f'{self.file_path}/prompt/demandAgent_user.txt')
 
-        self.Evaluator_user = file_to_string(f'{self.file_path}/prompt/Evaluator_user.txt')
+        self.EvaluatorA_user = file_to_string(f'{self.file_path}/prompt/EvaluatorA_user.txt')
         self.EvaluatorA_sys = self._format_system_prompt(
             file_to_string(f'{self.file_path}/prompt/EvaluatorA_sys.txt')
         )
+        self.EvaluatorB_user = file_to_string(f'{self.file_path}/prompt/EvaluatorB_user.txt')
         self.EvaluatorB_sys = self._format_system_prompt(
             file_to_string(f'{self.file_path}/prompt/EvaluatorB_sys.txt')
         )
+        self.EvaluatorC_user = file_to_string(f'{self.file_path}/prompt/EvaluatorC_user.txt')
         self.EvaluatorC_sys = self._format_system_prompt(
             file_to_string(f'{self.file_path}/prompt/EvaluatorC_sys.txt')
         )
 
-        self.insightAgg_sys = self._format_system_prompt(
-            file_to_string(f'{self.file_path}/prompt/insightAgg_sys.txt')
-        )
-        self.insightAgg_user = file_to_string(f'{self.file_path}/prompt/insightAgg_user.txt')
+        # Insight Aggregator is not used (evaluator outputs go directly to policy creator)
+        # self.insightAgg_sys = self._format_system_prompt(
+        #     file_to_string(f'{self.file_path}/prompt/insightAgg_sys.txt')
+        # )
+        # self.insightAgg_user = file_to_string(f'{self.file_path}/prompt/insightAgg_user.txt')
 
         self.instructions = file_to_string(f'{self.file_path}/prompt/instructions.txt')
         self.policyCreator_sys = self._format_system_prompt(
@@ -61,11 +65,11 @@ class Evolution:
         self._save_system_prompts()
 
     def _save_system_prompts(self):
-        self.save_txt(self.demandAgent_sys, 'prompt_for_code', 'system_demandAgent')
+        # self.save_txt(self.demandAgent_sys, 'prompt_for_code', 'system_demandAgent')  # Demand Agent not used
         self.save_txt(self.EvaluatorA_sys, 'prompt_for_code', 'system_evaluatorA')
         self.save_txt(self.EvaluatorB_sys, 'prompt_for_code', 'system_evaluatorB')
         self.save_txt(self.EvaluatorC_sys, 'prompt_for_code', 'system_evaluatorC')
-        self.save_txt(self.insightAgg_sys, 'prompt_for_code', 'system_insightAgg')
+        # self.save_txt(self.insightAgg_sys, 'prompt_for_code', 'system_insightAgg')  # Insight Aggregator not used
         self.save_txt(self.policyCreator_sys, 'prompt_for_code', 'system_policyCreator')
 
     def _format_system_prompt(self, template):
@@ -100,22 +104,25 @@ class Evolution:
         # Evaluate each parent policy individually
         eval_all = []
         for i, parent in enumerate(parents):
-            eval_user = self.get_prompt_eval(parent, data)
-            evalA = self.interface_llm.get_response(self.EvaluatorA_sys, eval_user)
+            eval_userA = self.get_prompt_evalA(parent, data)
+            evalA = self.interface_llm.get_response(self.EvaluatorA_sys, eval_userA)
             self.save_txt(evalA, 'response', f'evalA_policy{i+1}')
             eval_all.append(evalA)
-            # evalB = self.interface_llm.get_response(self.EvaluatorB_sys, eval_user)
+            # eval_userB = self.get_prompt_evalB(parent, data)
+            # evalB = self.interface_llm.get_response(self.EvaluatorB_sys, eval_userB)
             # self.save_txt(evalB, 'response', f'evalB_policy{i+1}')
-            # evalC = self.interface_llm.get_response(self.EvaluatorC_sys, eval_user)
+            # eval_userC = self.get_prompt_evalC(parent, data)
+            # evalC = self.interface_llm.get_response(self.EvaluatorC_sys, eval_userC)
             # self.save_txt(evalC, 'response', f'evalC_policy{i+1}')
             # eval_all.append([evalA, evalB, evalC])
-        insight = self.interface_llm.get_response(self.insightAgg_sys, self.get_prompt_insight(parents, eval_all, data))
-        self.save_txt(insight, 'response', 'insight')
 
+        # Insight Aggregator is not used - evaluator outputs go directly to policy creator
+        # insight = self.interface_llm.get_response(self.insightAgg_sys, self.get_prompt_insight(parents, eval_all, data))
+        # self.save_txt(insight, 'response', 'insight')
 
         [code_all, algorithm, optim_params, cost] = self._get_alg(
             self.policyCreator_sys,
-            self.get_prompt_creator(insight, parents, data)
+            self.get_prompt_creator(eval_all, parents, data)
         )
         return [code_all, algorithm, optim_params, cost]
 
@@ -127,40 +134,79 @@ class Evolution:
         self.save_txt(prompt_content, 'prompt_for_code', 'data')
         return prompt_content
 
-    def get_prompt_eval(self, indiv, data):
+    def get_prompt_evalA(self, indiv, data):
         # Get algorithm performance for single policy (returns None if algo_performance is 'no')
         algo_performance = self.analyzer.get_algo_performance([indiv])
         if algo_performance is None:
             algo_performance = "Performance data not available."
 
-        prompt_content = self.Evaluator_user.format(
-            POLICY_ARTIFACT_JSON=indiv['code'],
+        prompt_content = self.EvaluatorA_user.format(
             HISTORICAL_DEMANDS_JSON=self.analyzer.get_demand_data(),
             DEMAND_BATCH_JSON=data,
+            POLICY_ARTIFACT_JSON=indiv['code'],
             ALGO_PERFORMANCE_JSON=algo_performance,
         )
-        self.save_txt(prompt_content, 'prompt_for_code', 'evaluator')
+        self.save_txt(prompt_content, 'prompt_for_code', 'evaluatorA')
         return prompt_content
 
-    def get_prompt_insight(self, indivs, evaluation, data):
-        prompt_indiv = ""
-        for i in range(len(indivs)):
-            prompt_indiv = prompt_indiv + "No." + str(i + 1) + " policy code: \n" + indivs[i]['code'] + "\n\n"
-        prompt_content = self.insightAgg_user.format(
+    def get_prompt_evalB(self, indiv, data):
+        # Get algorithm performance for single policy (returns None if algo_performance is 'no')
+        algo_performance = self.analyzer.get_algo_performance([indiv])
+        if algo_performance is None:
+            algo_performance = "Performance data not available."
+
+        prompt_content = self.EvaluatorB_user.format(
+            HISTORICAL_DEMANDS_JSON=self.analyzer.get_demand_data(),
             DEMAND_BATCH_JSON=data,
-            CANDIDATE_POLICIES_JSON=prompt_indiv,
-            EVAL_REPORTS_JSON=evaluation,
+            POLICY_ARTIFACT_JSON=indiv['code'],
+            ALGO_PERFORMANCE_JSON=algo_performance,
         )
-        self.save_txt(prompt_content, 'prompt_for_code', 'insight')
+        self.save_txt(prompt_content, 'prompt_for_code', 'evaluatorB')
         return prompt_content
 
-    def get_prompt_creator(self, insight, indivs, data):
+    def get_prompt_evalC(self, indiv, data):
+        # Get algorithm performance for single policy (returns None if algo_performance is 'no')
+        algo_performance = self.analyzer.get_algo_performance([indiv])
+        if algo_performance is None:
+            algo_performance = "Performance data not available."
+
+        prompt_content = self.EvaluatorC_user.format(
+            HISTORICAL_DEMANDS_JSON=self.analyzer.get_demand_data(),
+            DEMAND_BATCH_JSON=data,
+            POLICY_ARTIFACT_JSON=indiv['code'],
+            ALGO_PERFORMANCE_JSON=algo_performance,
+        )
+        self.save_txt(prompt_content, 'prompt_for_code', 'evaluatorC')
+        return prompt_content
+
+    # Insight Aggregator is not used - commenting out this method
+    # def get_prompt_insight(self, indivs, evaluation, data):
+    #     prompt_indiv = ""
+    #     for i in range(len(indivs)):
+    #         prompt_indiv = prompt_indiv + "No." + str(i + 1) + " policy code: \n" + indivs[i]['code'] + "\n\n"
+    #     prompt_content = self.insightAgg_user.format(
+    #         DEMAND_BATCH_JSON=data,
+    #         CANDIDATE_POLICIES_JSON=prompt_indiv,
+    #         EVAL_REPORTS_JSON=evaluation,
+    #     )
+    #     self.save_txt(prompt_content, 'prompt_for_code', 'insight')
+    #     return prompt_content
+
+    def get_prompt_creator(self, evaluator_outputs, indivs, data):
+        """Generate prompt for policy creator with direct evaluator outputs."""
         prompt_indiv = ""
         for i in range(len(indivs)):
             prompt_indiv = prompt_indiv + "No." + str(i + 1) + " policy code: \n" + indivs[i]['code'] + "\n" + "\n"
+
+        # Format evaluator outputs
+        eval_text = ""
+        for i, eval_output in enumerate(evaluator_outputs):
+            eval_text += f"Evaluation of Policy No.{i+1}:\n{eval_output}\n\n"
+
         prompt_content = self.policyCreator_user.format(
-            CREATOR_BRIEF_JSON=insight,
+            DEMAND_STATS_JSON=data,
             SEED_POLICIES_JSON=prompt_indiv,
+            EVALUATOR_OUTPUTS_JSON=eval_text,
             INSTRUCTIONS=self.instructions
         )
         self.save_txt(prompt_content, 'prompt_for_code', 'create')

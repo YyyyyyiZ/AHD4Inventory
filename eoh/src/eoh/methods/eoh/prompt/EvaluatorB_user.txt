@@ -1,0 +1,11 @@
+Here are the historical demand trajectories:
+{HISTORICAL_DEMANDS_JSON}
+
+Here are the insights from the demand analyzer agent:
+{DEMAND_BATCH_JSON}
+
+Here is one parent policy I have:
+{POLICY_ARTIFACT_JSON}
+
+Here is the performance summary of the parent policy on the historical trajectories:
+{ALGO_PERFORMANCE_JSON}

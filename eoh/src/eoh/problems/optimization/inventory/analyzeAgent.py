@@ -65,11 +65,14 @@ class InventoryAnalyzer:
     def get_demand_stats(self):
         instances = self.prob.load_instances(mode='train', n_traj=self.n_train)
 
-        # Collect pooled demand observations
+        # Collect pooled demand observations (excluding lead time periods)
         all_demand = []
         for traj in instances:
             d = traj.get('demand', [])
-            for v in d:
+            lead_time = traj.get('lead_time', 0)
+            # Only include actual demand from selling periods, skip lead time zeros
+            actual_demand = d[lead_time:]
+            for v in actual_demand:
                 try:
                     all_demand.append(float(v))
                 except Exception:

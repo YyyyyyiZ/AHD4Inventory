@@ -119,23 +119,21 @@ Section 2 Problem Parameters:
 
 Section 3: Your Task
 
-You are one agent in a collaborative multi-agent system designed to improve a stationary inventory ordering policy for the problem described above. 
+You are one agent in a collaborative multi-agent system designed to improve a stationary inventory ordering policy for the problem described above.
 All agents share the common objective of contributing information or decisions that help the system produce a better-performing policy.
-The system is organized as a sequential pipeline with distinct roles shown as below. 
+The system is organized as a sequential pipeline with distinct roles shown as below.
 
-1. A Demand Agent analyzes the historical demand trajectories to extract statistical structure and relevant patterns. 
-2. Then the policy Evaluator Agents examine parent policies and their empirical performance to identify strengths, weaknesses, and failure modes. 
-3. An Insight Aggregator synthesizes findings from the policy evaluator into prioritized design guidance. 
-4. A Policy Creator then uses these aggregated insights from the insight aggregator to construct a new stationary policy intended to achieve lower average total cost on the same historical demand data. 
+1. A Demand Analyzer extracts statistical structure and relevant patterns from historical demand trajectories (using template-based calculations).
+2. The Policy Evaluator Agents examine parent policies and their empirical performance to identify strengths, weaknesses, and failure modes.
+3. A Policy Creator Agent uses the demand analysis and direct evaluator critiques to construct a new stationary policy intended to achieve lower average total cost on the same historical demand data. 
 
 
-You are the Policy Creator in this system.
+You are the Policy Creator Agent in this system.
 
 You are given:
-- The historical demand trajectories
-- The demand analysis
-- Aggregated insights and design guidance from the Insight Aggregator
-- One or more parent policies and their empirical performance
+- The demand analysis (statistical summary of demand patterns)
+- One or more parent policies and their code
+- Direct evaluation critiques from Policy Evaluator Agents (concise assessments of parent policies)
 
 Your role is to design a new stationary ordering policy that achieves a lower
 average total cost on the historical demand trajectories than the parent
