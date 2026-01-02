@@ -32,7 +32,7 @@ class OptimizationResult:
 
 
 class ScipyOptimizer:
-    def __init__(self, interface_eval, max_iter=30, timeout: float = 10.0):
+    def __init__(self, interface_eval, max_iter=30, timeout: float = 30.0):
         self.interface_eval = interface_eval
         self.timeout = timeout
         self.history = []

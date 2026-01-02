@@ -43,6 +43,7 @@ class Paras():
         self.ec_n_pop = 10  # number of populations, default = 10
         self.ec_operators = None  # evolution operators: ['e1','e2','m1','m2'], default =  ['e1','e2','m1','m2']
         self.ec_m = 2  # number of parents for 'e1' and 'e2' operators, default = 2
+        self.k = 1
         self.ec_operator_weights = None  # weights for operators, i.e., the probability of use the operator in each iteration, default = [1,1,1,1]
 
         #####################
@@ -94,7 +95,6 @@ class Paras():
         elif len(self.ec_operator) != len(self.ec_operator_weights):
             print("Warning! Lengths of ec_operator_weights and ec_operator shoud be the same.")
             self.ec_operator_weights = [1 for _ in range(len(self.ec_operators))]
-
 
     def set_evaluation(self):
         # Initialize evaluation settings

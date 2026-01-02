@@ -32,7 +32,7 @@ class EOH:
         self.operators = paras.ec_operators
         self.operator_weights = paras.ec_operator_weights
         # Feng: Comment this because we set the number of parents of e1 and e2 to be 1.
-        
+
         # if paras.ec_m > self.pop_size or paras.ec_m == 1:
         #     print("m should not be larger than pop size or smaller than 2, adjust it to m=2")
         #     paras.ec_m = 2
@@ -42,6 +42,7 @@ class EOH:
         self.ndelay = 1  # default
 
         # self.use_seed = paras.exp_use_seed
+        self.k = paras.k
         self.seed_path = paras.exp_seed_path
         self.load_pop = paras.exp_use_continue
         self.load_pop_path = paras.exp_continue_path
@@ -134,6 +135,7 @@ class EOH:
                                    select=self.select, n_p=self.exp_n_proc, timeout=self.timeout,
                                    use_numba=self.use_numba,
                                    prompt_with_explanations=self.prompt_with_explanations,
+                                   k=self.k
                                    )
 
         # initialization
@@ -271,6 +273,7 @@ class EOH:
                 'n_train': self.n_train,
                 # 'n_horizon': self.n_horizon,
                 'p': self.m,
+                'k': self.k,
                 'initial': self.load_pop,
                 # 'order_option': self.order_option,
                 'external_opt': 'no' if self.external_optimizer is None else self.external_optimizer,
@@ -302,9 +305,8 @@ class EOH:
             #     'data_summary', 'algo_performance'
             # ]
             base_fields = [
-                'LLM', 'problem', 'n_train', 'p', 'initial' 'external_opt', 'repeat', 'n_pop', 'mode',
-                'algo_performance'
-            ]
+                'LLM', 'problem', 'n_train', 'p', 'k', 'initial' 'external_opt', 'repeat', 'n_pop', 'mode',
+                'algo_performance']
 
             problem_specific_fields = set().union(*problem_fields.values())
             score_fields = [str(i) for i in range(1, 31)]
@@ -331,6 +333,7 @@ class EOH:
                 'n_train': self.n_train,
                 # 'n_horizon': self.n_horizon,
                 'p': self.m,
+                'k': self.k,
                 'initial': self.load_pop,
                 # 'order_option': self.order_option,
                 'external_opt': 'no' if self.external_optimizer is None else self.external_optimizer,
@@ -366,7 +369,7 @@ class EOH:
                 #     'param_loc', 'n_pop', 'mode', 'data_summary', 'algo_performance'
                 # ]
                 base_fields = [
-                    'LLM', 'problem', 'n_train', 'p', 'initial' 'external_opt', 'n_pop', 'mode',
+                    'LLM', 'problem', 'n_train', 'p', 'k', 'initial' 'external_opt', 'n_pop', 'mode',
                     'algo_performance'
                 ]
                 df = pd.DataFrame(columns=base_fields + problem_specific_fields)

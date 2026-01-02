@@ -30,6 +30,7 @@ parser.add_argument('--prompt_with_explanations', action='store_true',
 # Optimizer
 parser.add_argument('--external_opt', type=str, default='no', help='Type of external optimizer.')
 parser.add_argument('--iter_opt', type=int, default=15, help='Iterations of external optimizer.')
+parser.add_argument('--k', type=int, default=1, help='Number of policy evluators.')
 parser.add_argument('--param_loc', type=str, default='default')
 parser.add_argument("--operator", nargs="+", type=str)
 
@@ -54,7 +55,7 @@ if args.exp_continue_path == "initial_pool.json" and args.prompt_version == 'v1'
     print(f"Note: Using {args.exp_continue_path} for prompt version v1")
 
 args.exp_output_path = '_'.join([args.llm_model, args.dist, str(args.n_train), args.data_summary, args.algo_performance,
-                                 args.external_opt, str(args.iter_opt), args.param_loc, '-'.join(args.operator), str(args.ec_m),
+                                 args.external_opt, str(args.iter_opt), args.param_loc, '-'.join(args.operator), str(args.ec_m), str(args.k),
                                  'r' + str(args.repeat)])
 
 # Parameter initilization #
@@ -73,6 +74,7 @@ paras.set_paras(method="eoh",
                 ec_n_pop=args.ec_n_pop,  # number of populations
                 ec_operators=args.operator,  # Evolution operators
                 ec_m=args.ec_m,
+                k=args.k,
                 exp_n_proc=args.exp_n_proc,  # multi-core parallel
                 exp_use_continue=args.exp_use_continue,  # load existing heuristics
                 exp_continue_path=args.exp_continue_path,  # path to existing heuristics

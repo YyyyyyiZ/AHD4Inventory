@@ -129,8 +129,6 @@ class InventoryAnalyzer:
         stats_text += "\nQuantiles (5% increments):\n"
         stats_text += "\n".join(q_lines) + "\n\n"
 
-        print(stats_text)
-
         return stats_text
 
     def get_sim_results(self, indivs, data):

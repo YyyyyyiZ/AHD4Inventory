@@ -33,9 +33,10 @@ dist_list = [
     # 'exponential_L6_c1_5',
 ]
 problem = "inventory"  # inventory
-ec_pop_size = 2 # Feng: Fixed number of offsprings for each operator
+ec_pop_size = 10 # Feng: Fixed number of offsprings for each operator
 ec_n_pop = 10 # Feng: Fixed Number of generations
-ec_m_list = [1,2,4] # Feng: Fixed Number of parents for e1 and e2
+ec_m_list = [1] # Feng: Fixed Number of parents for e1 and e2
+k_list = [2]
 external_opt_list = ['scipy']  # external_opt_list =['no', 'ng', 'deap', 'scipy']
 algo_performance_list = ['processed']  # no: no performance feedback, plain: detailed trajectories, processed: statistical summaries
 data_summary_list = ['plain']  # data_summary_list = ['no','plain','processed']
@@ -49,43 +50,45 @@ repeat_num = 5 # Feng: Number of repeats, aim for 10 repeats on each dataset
 prompt_with_explanations = False  # include DESCRIPTION/INTUITION/REASONING in m2 prompts
 
 for repeat in range(repeat_num):
-    repeat += 1
+    repeat += 6
     for dist in dist_list:
         for external_opt in external_opt_list:
             for n_train in n_train_list:
                 for n_horizon in n_horizon_list:
                     for order_option in order_option_list:
                         for ec_m in ec_m_list:
-                            for param_loc in param_loc_list:  # invalid if external_optimizer=='no'
-                                for iter_opt in iter_opt_list:  # invalid if external_optimizer=='no'
-                                    for algo_performance in algo_performance_list:
-                                        for data_summary in data_summary_list:
-                                            command = (
-                                                # f"/zfs/projects/faculty/yh2987-choice-modeling/.venv/bin/python runEoH.py "
-                                                # f"/home/sjtu/.conda/envs/ahd/bin/python runEoH.py "
-                                                # f"python3 runEoH.py "  # change this line according to the path of python.exe
-                                                f"E:\\Anaconda3\\envs\\EoH\\python runEoH.py "
-                                                f"--llm_api_key sk-21b0b2dbd4ba40a4bbe64b0eec1ada0d "
-                                                f"--problem {problem} "
-                                                f"--ec_pop_size {ec_pop_size} "
-                                                f"--ec_n_pop {ec_n_pop} "
-                                                f"--ec_m {ec_m} "
-                                                f"--dist {dist} "
-                                                f"--external_opt {external_opt} "
-                                                f"--n_train {n_train} "
-                                                f"--n_horizon {n_horizon} "
-                                                f"--order_option {order_option} "
-                                                f"--iter_opt {iter_opt} "
-                                                f"--algo_performance {algo_performance} "
-                                                f"--data_summary {data_summary} "
-                                                f"--operator {' '.join(operator_list)} "
-                                                f"--repeat {repeat} "
-                                                f"--filename m2plural " # Feng: Output filename
-                                                f"{'--prompt_with_explanations ' if prompt_with_explanations else ''}"
-                                            )
-                                            print(f"Running: {command}")
-                                            try:
-                                                subprocess.run(command, shell=True, check=True)
-                                            except subprocess.CalledProcessError as e:
-                                                print(f"Command failed: {command}")
-                                                print(f"Error: {e}")
+                            for k in k_list:
+                                for param_loc in param_loc_list:  # invalid if external_optimizer=='no'
+                                    for iter_opt in iter_opt_list:  # invalid if external_optimizer=='no'
+                                        for algo_performance in algo_performance_list:
+                                            for data_summary in data_summary_list:
+                                                command = (
+                                                    # f"/zfs/projects/faculty/yh2987-choice-modeling/.venv/bin/python runEoH.py "
+                                                    # f"/home/sjtu/.conda/envs/ahd/bin/python runEoH.py "
+                                                    # f"python3 runEoH.py "  # change this line according to the path of python.exe
+                                                    f"E:\\Anaconda3\\envs\\EoH\\python runEoH.py "
+                                                    f"--llm_api_key sk-faf6d1042965448d8315ff9122b56990 "
+                                                    f"--problem {problem} "
+                                                    f"--ec_pop_size {ec_pop_size} "
+                                                    f"--ec_n_pop {ec_n_pop} "
+                                                    f"--ec_m {ec_m} "
+                                                    f"--k {k} "
+                                                    f"--dist {dist} "
+                                                    f"--external_opt {external_opt} "
+                                                    f"--n_train {n_train} "
+                                                    f"--n_horizon {n_horizon} "
+                                                    f"--order_option {order_option} "
+                                                    f"--iter_opt {iter_opt} "
+                                                    f"--algo_performance {algo_performance} "
+                                                    f"--data_summary {data_summary} "
+                                                    f"--operator {' '.join(operator_list)} "
+                                                    f"--repeat {repeat} "
+                                                    f"--filename agent " # Feng: Output filename
+                                                    f"{'--prompt_with_explanations ' if prompt_with_explanations else ''}"
+                                                )
+                                                print(f"Running: {command}")
+                                                try:
+                                                    subprocess.run(command, shell=True, check=True)
+                                                except subprocess.CalledProcessError as e:
+                                                    print(f"Command failed: {command}")
+                                                    print(f"Error: {e}")
