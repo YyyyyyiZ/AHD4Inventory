@@ -105,31 +105,11 @@ class Evolution:
         # Evaluate each parent policy individually
         eval_all = []
         for i, parent in enumerate(parents):
-            if self.k==1:
-                eval_userA = self.get_prompt_evalA(parent, data)
-                evalA = self.interface_llm.get_response(self.EvaluatorA_sys, eval_userA)
-                self.save_txt(evalA, 'response', f'evalA_policy{i+1}')
-                eval_all.append(evalA)
-            elif self.k==2:
-                eval_userA = self.get_prompt_evalA(parent, data)
-                evalA = self.interface_llm.get_response(self.EvaluatorA_sys, eval_userA)
-                self.save_txt(evalA, 'response', f'evalA_policy{i+1}')
-                eval_userB = self.get_prompt_evalB(parent, data)
-                evalB = self.interface_llm.get_response(self.EvaluatorB_sys, eval_userB)
-                self.save_txt(evalB, 'response', f'evalB_policy{i+1}')
-                eval_all.append([evalA, evalB])
-            elif self.k==3:
-                eval_userA = self.get_prompt_evalA(parent, data)
-                evalA = self.interface_llm.get_response(self.EvaluatorA_sys, eval_userA)
-                self.save_txt(evalA, 'response', f'evalA_policy{i+1}')
-                eval_userB = self.get_prompt_evalB(parent, data)
-                evalB = self.interface_llm.get_response(self.EvaluatorB_sys, eval_userB)
-                self.save_txt(evalB, 'response', f'evalB_policy{i+1}')
-                eval_userC = self.get_prompt_evalC(parent, data)
-                evalC = self.interface_llm.get_response(self.EvaluatorC_sys, eval_userC)
-                eval_all.append([evalA, evalB, evalC])
-            else:
-                raise ValueError("k should be 1, 2, or 3.")
+            eval_userA = self.get_prompt_evalA(parent, data)
+            evalA = self.interface_llm.get_response(self.EvaluatorA_sys, eval_userA)
+            self.save_txt(evalA, 'response', f'evalA_policy{i+1}')
+            eval_all.append(evalA)
+
 
         # Insight Aggregator is not used - evaluator outputs go directly to policy creator
         # insight = self.interface_llm.get_response(self.insightAgg_sys, self.get_prompt_insight(parents, eval_all, data))
