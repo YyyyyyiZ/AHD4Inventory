@@ -1,6 +1,6 @@
 # Auto-extracted policy code
 # Source JSON: exponential_L6_c1_2.json
-# Extracted at: 2026-01-03 22:47:14
+# Extracted at: 2026-01-04 09:19:33
 
 def compute_order_amount(on_hand_inventory, pipeline_orders):
     base_stock = 449.0551589336057  # OPT_PARAM: {"initial": 449.0551589336057, "min": 300, "max": 600, "type": "float"}

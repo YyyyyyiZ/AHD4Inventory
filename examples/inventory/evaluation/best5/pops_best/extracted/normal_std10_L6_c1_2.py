@@ -1,6 +1,6 @@
 # Auto-extracted policy code
 # Source JSON: normal_std10_L6_c1_2.json
-# Extracted at: 2026-01-03 22:47:14
+# Extracted at: 2026-01-04 09:19:33
 
 def compute_order_amount(on_hand_inventory, pipeline_orders):
     base_stock = 664.9760660333361  # OPT_PARAM: {"initial": 664.9760660333361, "min": 10, "max": 1000, "type": "float"}

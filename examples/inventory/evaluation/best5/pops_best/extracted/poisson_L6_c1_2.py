@@ -1,6 +1,6 @@
 # Auto-extracted policy code
 # Source JSON: poisson_L6_c1_2.json
-# Extracted at: 2026-01-03 22:47:14
+# Extracted at: 2026-01-04 09:19:33
 
 def compute_order_amount(on_hand_inventory, pipeline_orders):
     base_stock = 663.9895492381544  # OPT_PARAM: {"initial": 663.9895492381544, "min": 10, "max": 1000, "type": "float"}
