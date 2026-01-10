@@ -1,5 +1,5 @@
 """
-utils/tuner_scipy.py  (Pro v3, derivative-free)
+utils/tuner_scipy.py  (derivative-free)
 
 Despite the filename, v3 does NOT rely on SciPy for tuning. The key issue observed in results is that
 gradient-based L-BFGS-B often returns the original OPT_PARAM initial values across many datasets

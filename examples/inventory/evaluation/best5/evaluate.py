@@ -45,7 +45,7 @@ N_BOOTSTRAP = 300  # set 0 to disable CI bootstrap for speed
 OUT_CSV_DETAILED = "policy_generalization_results.csv"
 
 # Matrix output (costs only)
-OUT_CSV_MATRIX = "policy_generalization_cost_matrix.csv"
+OUT_CSV_MATRIX = "cost_matrix_l2.csv"
 DATASET_COL = "dataset"  # first column name in matrix CSV
 
 
@@ -114,7 +114,7 @@ def _append_matrix_rows(matrix_csv: Path, policy_ids: List[str], rows: List[Dict
 def main():
     base_dir = Path(__file__).resolve().parent
 
-    data_dir = base_dir.parent / "generalize"
+    data_dir = base_dir.parent / "generalize2"
     policies_dir = base_dir / "pops_best" / "extracted"
 
     if not data_dir.exists():

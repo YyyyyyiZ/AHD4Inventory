@@ -106,7 +106,7 @@ def summarize(values: np.ndarray) -> Dict[str, float]:
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--csv", type=str, default="cost_matrix3.csv")
+    parser.add_argument("--csv", type=str, default="cost_matrix_capped_l2.csv")
     parser.add_argument("--split", type=str, default="test", choices=["train", "test"])
     parser.add_argument("--bins", type=int, default=40)
     parser.add_argument("--robust", action="store_true", help="Use robust x-limits based on quantiles (still includes 0).")
@@ -137,7 +137,7 @@ def main():
     df = coerce_numeric(df, BASELINE_COLS + policy_cols)
 
     # Filter by split suffix
-    suffix = f"_{args.split}"
+    suffix = f"_{args.split}.json"
     df = df[df[DATASET_COL].astype(str).str.endswith(suffix)].copy()
     if df.empty:
         raise ValueError(f"No rows ending with '{suffix}' found.")
