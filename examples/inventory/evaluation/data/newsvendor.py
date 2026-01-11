@@ -5,7 +5,6 @@ reporting both empirical and parametric results.
 
 Given:
   demand_ext = [0]*L + demand
-  Horizon length T = len(demand_ext) = 50 + L (or whatever the JSON provides)
 
 We partition into non-overlapping 2-period blocks: (0,1), (2,3), ...
 If T is odd, we append one extra 0 to make it even (does not add demand).
@@ -22,8 +21,7 @@ For each type we compute an optimal newsvendor base-stock level S*:
                (Normal std is taken from JSON 'std_normal' if present, otherwise parsed from filename 'STDxx').
 
 Cost per block: h*(S - D)^+ + p*(D - S)^+   (lost sales penalty, no backorders)
-Trajectory total LB = sum over blocks
-File-level output: mean/std/min/max over trajectories, one row per JSON file.
+Trajectory total LB = sum over blocks、
 """
 
 from __future__ import annotations
