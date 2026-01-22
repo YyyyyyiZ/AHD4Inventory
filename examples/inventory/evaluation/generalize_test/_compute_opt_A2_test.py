@@ -1,11 +1,27 @@
 import argparse
 import json
+import re
 from collections import deque
 from pathlib import Path
 from typing import Dict, Any, List, Tuple
 
 import numpy as np
 import pandas as pd
+
+def _rewrite_dataset_id(file_name: str, L: int, p: float) -> str:
+    """Rewrite file_name by replacing embedded lead time / cost token with (L, p)."""
+    pt = str(int(p)) if float(p).is_integer() else str(p)
+    out = re.sub(r"_L\d+(?=[^0-9]|$)", f"_L{int(L)}", file_name)
+    out = re.sub(r"_c\d+_\d+(?=[^0-9A-Za-z]|$)", f"_p{pt}", out)
+    out = re.sub(r"_p\d+(?:p\d+)?(?=[^0-9A-Za-z]|$)", f"_p{pt}", out)
+
+    if out == file_name:
+        m = re.search(r"(_train|_test)(\.json)?$", file_name)
+        suffix = m.group(0) if m else ""
+        base = file_name[:-len(suffix)] if suffix else file_name
+        out = f"{base}_L{int(L)}_p{pt}{suffix}"
+    return out
+
 
 
 def simulate_policy(instance: Dict[str, Any], policy: str, S: int = None, q: int = None) -> Tuple[float, float]:
@@ -132,8 +148,8 @@ def optimize_for_dataset(path: Path, lead_time_override: int = None, lost_sales_
     print()
 
     return {
-        "dataset": f"{path.name}_L{L}_p{int(p)}",
-        # "source_file": path.name,
+        "dataset": _rewrite_dataset_id(path.name, L, p),
+        "source_file": path.name,
         "L": L,
         "h": h,
         "p": p,

@@ -1,5 +1,6 @@
 import argparse
 import json
+import re
 from pathlib import Path
 from typing import Dict, Any, List, Tuple
 
@@ -7,23 +8,43 @@ import numpy as np
 import pandas as pd
 
 
+def _rewrite_dataset_id(file_name: str, L: int, p: float) -> str:
+    """Rewrite file_name by replacing embedded lead time / cost token with (L, p)."""
+    pt = str(int(p)) if float(p).is_integer() else str(p)
+    out = re.sub(r"_L\d+(?=[^0-9]|$)", f"_L{int(L)}", file_name)
+    out = re.sub(r"_c\d+_\d+(?=[^0-9A-Za-z]|$)", f"_p{pt}", out)
+    out = re.sub(r"_p\d+(?:p\d+)?(?=[^0-9A-Za-z]|$)", f"_p{pt}", out)
+
+    if out == file_name:
+        m = re.search(r"(_train|_test)(\.json)?$", file_name)
+        suffix = m.group(0) if m else ""
+        base = file_name[:-len(suffix)] if suffix else file_name
+        out = f"{base}_L{int(L)}_p{pt}{suffix}"
+    return out
+
+
 # ----------------------------
-# Dataset discovery (new)
+# Dataset pairing (new)
 # ----------------------------
-def discover_json_datasets(base_dir: Path) -> List[Path]:
-    train = sorted(base_dir.glob("*_train.json"))
-    test = sorted(base_dir.glob("*_test.json"))
-    return train + test
+def discover_train_test_pairs(base_dir: Path) -> List[Tuple[Path, Path]]:
+    """Return list of (train_path, test_path) pairs discovered in base_dir."""
+    pairs: List[Tuple[Path, Path]] = []
+    for train_path in sorted(base_dir.glob("*_train.json")):
+        test_name = train_path.name.replace("_train.json", "_test.json")
+        test_path = base_dir / test_name
+        if not test_path.exists():
+            # Per user: skip incomplete pairs with a warning (they claim won't happen).
+            print(f"[WARN] Missing matching test file for {train_path.name}: expected {test_name}. Skipping.")
+            continue
+        pairs.append((train_path, test_path))
+    return pairs
 
 
 # ----------------------------
 # Vectorized simulation
 # ----------------------------
 def pack_dataset(data: List[Dict[str, Any]]) -> Dict[str, Any]:
-    """
-    Convert list-of-instances JSON into vectorized arrays for fast simulation.
-    Assumes all instances share same L, T, h, p, num_periods.
-    """
+    """Convert list-of-instances JSON into vectorized arrays for fast simulation."""
     if not data:
         raise ValueError("Empty dataset.")
 
@@ -38,12 +59,13 @@ def pack_dataset(data: List[Dict[str, Any]]) -> Dict[str, Any]:
 
     init_inv = np.array([int(inst["initial_inventory"]) for inst in data], dtype=np.int64)
 
-    # demand matrix with lead-time zeros padded in front
     demand = np.zeros((N, T_total), dtype=np.int64)
     for i, inst in enumerate(data):
         d = inst.get("demand", [])
         if len(d) != num_periods:
-            raise ValueError(f"Instance {i} demand length mismatch: expected {num_periods}, got {len(d)}")
+            raise ValueError(
+                f"Instance {i} demand length mismatch: expected {num_periods}, got {len(d)}"
+            )
         demand[i, L:] = np.array(d, dtype=np.int64)
 
     return {
@@ -59,11 +81,7 @@ def pack_dataset(data: List[Dict[str, Any]]) -> Dict[str, Any]:
 
 
 def simulate_capped_batch(pack: Dict[str, Any], S: int, cap: int) -> float:
-    """
-    Vectorized simulation for capped basestock:
-      order = min(max(0, S - on_hand - outstanding), cap)
-    Returns: average cost per period, averaged over instances.
-    """
+    """Vectorized simulation for capped basestock; returns average cost per period per instance."""
     N = pack["N"]
     L = pack["L"]
     T_total = pack["T_total"]
@@ -82,16 +100,13 @@ def simulate_capped_batch(pack: Dict[str, Any], S: int, cap: int) -> float:
 
     for t in range(T_total):
         if L > 0:
-            # arrivals
             on_hand += pipeline[:, 0]
-            # shift left
             if L > 1:
                 pipeline[:, :-1] = pipeline[:, 1:]
             pipeline[:, -1] = 0
 
             outstanding = pipeline.sum(axis=1)
             gap = S - on_hand - outstanding
-            # order = clip(gap, 0, cap)
             order = np.clip(gap, 0, cap).astype(np.int64)
             pipeline[:, -1] = order
         else:
@@ -106,7 +121,6 @@ def simulate_capped_batch(pack: Dict[str, Any], S: int, cap: int) -> float:
 
         total_cost += float(h) * float(on_hand.sum()) + float(p) * float(lost.sum())
 
-    # average per period per instance
     return total_cost / float(N)
 
 
@@ -114,22 +128,17 @@ def simulate_capped_batch(pack: Dict[str, Any], S: int, cap: int) -> float:
 # Two-stage search (coarse -> refine)
 # ----------------------------
 def optimize_capped(pack_full: Dict[str, Any], mean_d: float) -> Tuple[int, int, float]:
-    """
-    Coarse-to-fine search to avoid full 2D grid.
-    Returns: (best_S, best_cap, best_avg_cost)
-    """
+    """Coarse-to-fine search for (S, cap). Returns (best_S, best_cap, best_avg_cost)."""
 
     L = pack_full["L"]
-    # keep the original center logic, but avoid full grid enumeration
     center = mean_d * (L + 1)
     S_min = int(max(0, center - 300))
     S_max = int(center + 300)
 
-    # ---- Stage 0: subsample for screening ----
+    # Stage 0: subsample screening
     N = pack_full["N"]
     rng = np.random.default_rng(0)
-
-    n0 = min(120, N)  # screening subset size
+    n0 = min(120, N)
     idx = rng.choice(N, size=n0, replace=False)
 
     pack0 = dict(pack_full)
@@ -137,23 +146,18 @@ def optimize_capped(pack_full: Dict[str, Any], mean_d: float) -> Tuple[int, int,
     pack0["init_inv"] = pack_full["init_inv"][idx].copy()
     pack0["demand"] = pack_full["demand"][idx, :].copy()
 
-    # Coarse grids (tunable)
     S_step0 = 10
     cap_step0 = 25
-
     S_grid0 = list(range(S_min, S_max + 1, S_step0))
     cap_grid0 = list(range(0, S_max + 1, cap_step0))
-    if cap_grid0[-1] != S_max:
+    if cap_grid0 and cap_grid0[-1] != S_max:
         cap_grid0.append(S_max)
 
-    # Evaluate coarse grid on subset, keep top-K pairs
     K = 12
-    best_list: List[Tuple[float, int, int]] = []  # (cost, S, cap)
-
+    best_list: List[Tuple[float, int, int]] = []
     for cap in cap_grid0:
         for S in S_grid0:
             c = simulate_capped_batch(pack0, S=S, cap=cap)
-
             if len(best_list) < K:
                 best_list.append((c, S, cap))
                 best_list.sort(key=lambda x: x[0])
@@ -162,31 +166,26 @@ def optimize_capped(pack_full: Dict[str, Any], mean_d: float) -> Tuple[int, int,
                     best_list[-1] = (c, S, cap)
                     best_list.sort(key=lambda x: x[0])
 
-    # ---- Stage 1: refine around top-K on full dataset ----
-    # Local windows around coarse winners (tunable)
+    # Stage 1: local refinement on full dataset
     S_win = 40
     cap_win = 80
     S_step1 = 2
     cap_step1 = 5
 
     best_cost = float("inf")
-    best_S = None
-    best_cap = None
+    best_S = 0
+    best_cap = 0
 
-    # Evaluate union of local grids (deduplicate pairs)
     cand_pairs = set()
     for _, S0, cap0 in best_list:
         S_lo = max(0, S0 - S_win)
         S_hi = S0 + S_win
         cap_lo = max(0, cap0 - cap_win)
         cap_hi = cap0 + cap_win
-
         for cap in range(cap_lo, cap_hi + 1, cap_step1):
             for S in range(S_lo, S_hi + 1, S_step1):
                 cand_pairs.add((S, cap))
 
-    # Run full eval on candidates
-    # (Optional speedup: evaluate smaller caps first — typically more likely binding)
     for (S, cap) in sorted(cand_pairs, key=lambda z: (z[1], z[0])):
         c = simulate_capped_batch(pack_full, S=S, cap=cap)
         if c < best_cost:
@@ -197,37 +196,42 @@ def optimize_capped(pack_full: Dict[str, Any], mean_d: float) -> Tuple[int, int,
     return int(best_S), int(best_cap), float(best_cost)
 
 
-def optimize_for_dataset(path: Path, lead_time_override: int = None, lost_sales_cost_override: float = None) -> Dict[str, Any]:
+def _load_and_override(path: Path, lead_time_override: int = None, lost_sales_cost_override: float = None) -> List[Dict[str, Any]]:
     with path.open("r") as f:
         data = json.load(f)
 
-    # Optional in-memory overrides (keep demand data unchanged)
+    if not isinstance(data, list) or len(data) == 0:
+        raise ValueError(f"Dataset file {path.name} is empty or not a list.")
+
     if lead_time_override is not None or lost_sales_cost_override is not None:
         for inst in data:
             if lead_time_override is not None:
                 inst["lead_time"] = int(lead_time_override)
             if lost_sales_cost_override is not None:
                 inst["lost_sales_cost"] = float(lost_sales_cost_override)
+    return data
 
-    if not isinstance(data, list) or len(data) == 0:
-        raise ValueError(f"Dataset file {path.name} is empty or not a list.")
 
-    # pooled mean demand (same as before)
+def optimize_on_train(train_path: Path, lead_time_override: int, lost_sales_cost_override: float) -> Tuple[Dict[str, Any], int, int]:
+    """Optimize (S,cap) on train; return train_row and (S*,cap*)."""
+    data = _load_and_override(train_path, lead_time_override, lost_sales_cost_override)
+
     all_demands = np.array([d for inst in data for d in inst["demand"]], dtype=float)
     mean_d = float(all_demands.mean()) if all_demands.size > 0 else 0.0
-
     pack = pack_dataset(data)
 
     best_S, best_cap, best_avg = optimize_capped(pack, mean_d)
 
-    print(f"=== {path.name} ===")
-    print(f"L={pack['L']}, h={pack['h']}, p={pack['p']}, N={pack['N']}, num_periods={pack['num_periods']}, mean_d={mean_d:.4f}")
+    print(f"=== TRAIN {train_path.name} ===")
+    print(
+        f"L={pack['L']}, h={pack['h']}, p={pack['p']}, N={pack['N']}, num_periods={pack['num_periods']}, mean_d={mean_d:.4f}"
+    )
     print(f"Optimal capped basestock (S,cap)=({best_S},{best_cap}), avg cost={best_avg:.6f}")
     print()
 
-    return {
-        "dataset": f"{path.name}__L{pack['L']}__p{pack['p']}",
-        "source_file": path.name,
+    row = {
+        "dataset": _rewrite_dataset_id(train_path.name, pack["L"], pack["p"]),
+        "source_file": train_path.name,
         "L": pack["L"],
         "h": pack["h"],
         "p": pack["p"],
@@ -236,21 +240,74 @@ def optimize_for_dataset(path: Path, lead_time_override: int = None, lost_sales_
         "mean_d": mean_d,
         "opt_capped_S": best_S,
         "opt_capped_cap": best_cap,
-        "avg_cost_capped": best_avg,
+        "avg_cost_capped": float(best_avg),
+    }
+    return row, best_S, best_cap
+
+
+def evaluate_on_test(
+    test_path: Path,
+    S: int,
+    cap: int,
+    lead_time_override: int,
+    lost_sales_cost_override: float,
+) -> Dict[str, Any]:
+    """Evaluate capped basestock on test using provided (S,cap); return test_row."""
+    data = _load_and_override(test_path, lead_time_override, lost_sales_cost_override)
+
+    all_demands = np.array([d for inst in data for d in inst["demand"]], dtype=float)
+    mean_d = float(all_demands.mean()) if all_demands.size > 0 else 0.0
+    pack = pack_dataset(data)
+
+    avg = simulate_capped_batch(pack, S=S, cap=cap)
+
+    print(f"=== TEST  {test_path.name} ===")
+    print(
+        f"L={pack['L']}, h={pack['h']}, p={pack['p']}, N={pack['N']}, num_periods={pack['num_periods']}, mean_d={mean_d:.4f}"
+    )
+    print(f"Evaluate capped basestock (S,cap)=({S},{cap}), avg cost={avg:.6f}")
+    print()
+
+    return {
+        "dataset": _rewrite_dataset_id(test_path.name, pack["L"], pack["p"]),
+        "source_file": test_path.name,
+        "L": pack["L"],
+        "h": pack["h"],
+        "p": pack["p"],
+        "N": pack["N"],
+        "num_periods": pack["num_periods"],
+        "mean_d": mean_d,
+        "opt_capped_S": int(S),
+        "opt_capped_cap": int(cap),
+        "avg_cost_capped": float(avg),
     }
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Compute optimal capped basestock (S,cap) for each dataset, under a grid of (lead_time, lost_sales_cost) overrides.")
-    parser.add_argument("--lead_time", type=int, default=None, help="Optional: override lead_time (L). If omitted, run the full grid {2,4,6,8}.")
-    parser.add_argument("--lost_sales_cost", type=float, default=None, help="Optional: override lost_sales_cost (p). If omitted, run the full grid {2,4,6,10}.")
+    parser = argparse.ArgumentParser(
+        description=(
+            "Optimize capped basestock (S,cap) on TRAIN only, then evaluate on TEST, "
+            "for each dataset pair under a grid of (lead_time, lost_sales_cost) overrides."
+        )
+    )
+    parser.add_argument(
+        "--lead_time",
+        type=int,
+        default=None,
+        help="Optional: override lead_time (L). If omitted, run the full grid {2,4,6,8}.",
+    )
+    parser.add_argument(
+        "--lost_sales_cost",
+        type=float,
+        default=None,
+        help="Optional: override lost_sales_cost (p). If omitted, run the full grid {2,4,6,10}.",
+    )
     args = parser.parse_args()
 
     base_dir = Path(__file__).resolve().parent
-    paths = discover_json_datasets(base_dir)
-
-    if not paths:
-        raise FileNotFoundError(f"No *_train.json / *_test.json found in {base_dir}")
+    pairs = discover_train_test_pairs(base_dir)
+    if not pairs:
+        raise FileNotFoundError(f"No *_train.json found in {base_dir}")
 
     lead_times = [2, 4, 6, 8] if args.lead_time is None else [int(args.lead_time)]
     lost_sales_costs = [2, 4, 6, 10] if args.lost_sales_cost is None else [float(args.lost_sales_cost)]
@@ -261,13 +318,24 @@ def main():
             print(f"Running configuration: L={L}, lost_sales_cost={p}")
             print("==============================\n")
 
-            results = []
-            for i, path in enumerate(paths, start=1):
-                print(f"[{i}/{len(paths)}] Processing {path.name}")
+            results: List[Dict[str, Any]] = []
+            for i, (train_path, test_path) in enumerate(pairs, start=1):
+                print(f"[{i}/{len(pairs)}] Pair: {train_path.name}  <->  {test_path.name}")
                 try:
-                    results.append(optimize_for_dataset(path, lead_time_override=L, lost_sales_cost_override=p))
+                    train_row, S_star, cap_star = optimize_on_train(
+                        train_path, lead_time_override=L, lost_sales_cost_override=p
+                    )
+                    results.append(train_row)
+                    test_row = evaluate_on_test(
+                        test_path,
+                        S=S_star,
+                        cap=cap_star,
+                        lead_time_override=L,
+                        lost_sales_cost_override=p,
+                    )
+                    results.append(test_row)
                 except Exception as e:
-                    print(f"[ERROR] Failed on {path.name}: {e}")
+                    print(f"[ERROR] Failed on pair {train_path.name} / {test_path.name}: {e}")
 
             df = pd.DataFrame(results)
             csv_path = base_dir / f"capped_basestock_summary_L{L}_p{int(p) if float(p).is_integer() else p}.csv"
