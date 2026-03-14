@@ -332,7 +332,7 @@ def main(argv: List[str] | None = None):
     )
     args = parser.parse_args(argv)
 
-    data_dir = base_dir.parent / "generalize"
+    data_dir = base_dir.parent / "generalize_add"
     policies_dir = base_dir / "pops_best" / "extracted"
 
     if not data_dir.exists():
