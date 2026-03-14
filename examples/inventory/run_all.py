@@ -69,7 +69,8 @@ for repeat in range(repeat_num):
                                                     # f"/home/sjtu/.conda/envs/ahd/bin/python runEoH.py "
                                                     # f"E:\\Anaconda3\\envs\\EoH\\python runEoH.py "
                                                     # f"python3 runEoH.py "  # change this line according to the path of python.exe
-                                                    f"--llm_api_key {os.getenv('OPENROUTER_API_KEY', '')} "
+                                                    # f"--llm_api_key {os.getenv('OPENROUTER_API_KEY', '')} "
+                                                    f"--llm_api_key sk-or-v1 "
                                                     f"--problem {problem} "
                                                     f"--ec_pop_size {ec_pop_size} "
                                                     f"--ec_n_pop {ec_n_pop} "
