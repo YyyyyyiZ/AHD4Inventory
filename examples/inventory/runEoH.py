@@ -9,7 +9,7 @@ parser = argparse.ArgumentParser('Inventory Problems')
 parser.add_argument('--problem', type=str, default="inventory")
 
 # LLM Config
-parser.add_argument('--llm_api_endpoint', type=str, default="openrouter.ai")
+parser.add_argument('--llm_api_endpoint', type=str, default="https://openrouter.ai/api/v1")
 parser.add_argument('--llm_api_key', type=str, default=os.getenv("OPENROUTER_API_KEY", ""))
 parser.add_argument('--llm_model', type=str, default="deepseek/deepseek-chat-v3-0324")
 
