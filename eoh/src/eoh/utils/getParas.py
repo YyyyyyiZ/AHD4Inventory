@@ -51,9 +51,9 @@ class Paras():
         #####################
         self.llm_use_local = False  # if use local model
         self.llm_local_url = None  # your local server 'http://127.0.0.1:11012/completions'
-        self.llm_api_endpoint = None  # endpoint for remote LLM, e.g., api.deepseek.com
-        self.llm_api_key = None  # API key for remote LLM, e.g., sk-xxxx
-        self.llm_model = None  # model type for remote LLM, e.g., deepseek-chat
+        self.llm_api_endpoint = None  # kept for compatibility; remote LLM is routed via OpenRouter
+        self.llm_api_key = None  # remote LLM API key (prefer OPENROUTER_API_KEY)
+        self.llm_model = None  # OpenRouter model id, e.g., deepseek/deepseek-chat-v3-0324
 
         #####################
         ###  Exp settings  ###

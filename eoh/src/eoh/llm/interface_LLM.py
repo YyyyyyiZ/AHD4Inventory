@@ -1,4 +1,5 @@
 from ..llm.api_general import InterfaceAPI
+import os
 # from ..llm.api_local_llm import InterfaceLocalLLM
 
 class InterfaceLLM:
@@ -27,8 +28,13 @@ class InterfaceLLM:
         else:
             print('remote llm api is used ...')
 
-            if self.api_key == None or self.api_endpoint ==None or self.api_key == 'xxx' or self.api_endpoint == 'xxx':
-                print(">> Stop with wrong API setting: Set api_endpoint (e.g., api.chat...) and api_key (e.g., kx-...) !")
+            # Unified routing via OpenRouter.
+            env_openrouter_key = os.getenv("OPENROUTER_API_KEY")
+            if env_openrouter_key:
+                self.api_key = env_openrouter_key
+
+            if self.api_key == None or self.api_key == 'xxx':
+                print(">> Stop with wrong API setting: set OPENROUTER_API_KEY (or llm_api_key) for OpenRouter access!")
                 exit()
 
             self.interface_llm = InterfaceAPI(

@@ -2,15 +2,16 @@ from eoh import eoh
 from eoh.utils.getParas import Paras
 import sys
 import argparse
+import os
 
 parser = argparse.ArgumentParser('Inventory Problems')
 
 parser.add_argument('--problem', type=str, default="inventory")
 
 # LLM Config
-parser.add_argument('--llm_api_endpoint', type=str, default="api.deepseek.com")
-parser.add_argument('--llm_api_key', type=str, default="")
-parser.add_argument('--llm_model', type=str, default="deepseek-chat")
+parser.add_argument('--llm_api_endpoint', type=str, default="openrouter.ai")
+parser.add_argument('--llm_api_key', type=str, default=os.getenv("OPENROUTER_API_KEY", ""))
+parser.add_argument('--llm_model', type=str, default="deepseek/deepseek-chat-v3-0324")
 
 parser.add_argument('--repeat', type=int, default=1, help='Repeat.')
 parser.add_argument('--filename', type=str, default='res', help='Result Output Filename.')
