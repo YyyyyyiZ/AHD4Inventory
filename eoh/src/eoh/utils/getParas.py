@@ -17,6 +17,7 @@ class Paras():
         self.external_optimizer = 'scipy'
         self.iter_opt = 20
         self.param_loc = 'default'
+        self.param_num = 0
         self.repeat = 0
         self.filename = 'res'
         self.algo_performance = 'plain'

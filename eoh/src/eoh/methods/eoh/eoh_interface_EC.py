@@ -11,7 +11,7 @@ import concurrent.futures
 
 class InterfaceEC:
     def __init__(self, pop_size, m, api_endpoint, api_key, llm_model, llm_use_local, llm_local_url, debug_mode,
-                 interface_prob, analyzer, external_optimizer, max_iter, param_loc,
+                 interface_prob, analyzer, external_optimizer, max_iter, param_loc, param_num,
                  exp_output_path, select, n_p, timeout, use_numba, **kwargs):
 
         # LLM settings
@@ -19,7 +19,7 @@ class InterfaceEC:
         self.interface_eval = interface_prob
         prompts = interface_prob.prompts
         self.evol = Evolution(api_endpoint, api_key, llm_model, llm_use_local, llm_local_url, debug_mode, prompts,
-                              analyzer, external_optimizer, param_loc, exp_output_path,
+                              analyzer, external_optimizer, param_loc, param_num, exp_output_path,
                               **kwargs)
         self.m = m
         self.debug = debug_mode

@@ -9,7 +9,7 @@ from .utils import *
 class Evolution:
 
     def __init__(self, api_endpoint, api_key, model_LLM, llm_use_local, llm_local_url, debug_mode, prompts,
-                 analyzer, external_optimizer, param_loc, exp_output_path, **kwargs):
+                 analyzer, external_optimizer, param_loc, param_num, exp_output_path, **kwargs):
 
         # set prompt interface
         # getprompts = GetPrompts()
@@ -43,6 +43,7 @@ class Evolution:
                                           self.debug_mode)
         self.external_optimizer = external_optimizer
         self.param_loc = param_loc
+        self.param_num = param_num
 
     def init_base_prompt(self):
         self.current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -62,48 +63,51 @@ class Evolution:
 
     def external_optimizer_prompt(self):
         if self.param_loc == 'start':
-            prompt_content = """When providing code, follow these requirements for optimizable parameters:
-                        1. DECLARE ALL OPTIMIZABLE PARAMETERS AT THE BEGINNING:
-                           - Group all optimizable parameters in a dedicated section at the start
-                           - Each declaration must use this format:
-                             param_name = initial_value  # OPT_PARAM: {'initial': 50, 'min': 10, 'max': 200, 'type': 'float'}"
+            prompt_content = f"""When providing code, follow these requirements for optimizable parameters:
+                            1. DECLARE ALL OPTIMIZABLE PARAMETERS AT THE BEGINNING:
+                               - Group all optimizable parameters in a dedicated section at the start
+                               - Each declaration must use this format:
+                                 param_name = initial_value  # OPT_PARAM: {{'initial': 50, 'min': 10, 'max': 200, 'type': 'float'}}
 
-                        2. PARAMETER USAGE IN CODE:
-                           - After declaration section, only reference parameters by name
-                           - Never use hard-coded numeric values that should be parameters
-                           - Example correct usage:
-                             order_quantity = base_stock * 2  # NOT: order_quantity = 100
+                            2. PARAMETER USAGE IN CODE:
+                               - After declaration section, only reference parameters by name
+                               - Never use hard-coded numeric values that should be parameters
+                               - Example correct usage:
+                                 order_quantity = base_stock * 2  # NOT: order_quantity = 100
 
-                        3. REQUIREMENTS:
-                           - All optimizable parameters must be continuous variables
-                           - Include these attributes for each parameter:
-                             * initial: Starting value
-                             * min: Minimum allowed value
-                             * max: Maximum allowed value
-                             * type: Data type ('int' or 'float')
-                           - No function parameters may be marked as optimizable. Only mark parameters that are assigned within the code body.
+                            3. REQUIREMENTS:
+                               - All optimizable parameters must be continuous variables
+                               - Include these attributes for each parameter:
+                                 * initial: Starting value
+                                 * min: Minimum allowed value
+                                 * max: Maximum allowed value
+                                 * type: Data type ('int' or 'float')
+                               - No function parameters may be marked as optimizable. Only mark parameters that are assigned within the code body.
 
-                        Example structure:
-                        # --- OPTIMIZABLE PARAMETERS ---
-                        base_stock = 50  # OPT_PARAM: {'initial': 50, 'min': 10, 'max': 200, 'type': 'int'}
-                        reorder_point = 30  # OPT_PARAM: {'initial': 30, 'min': 5, 'max': 150, 'type': 'int'}
+                            Example structure:
+                            # --- OPTIMIZABLE PARAMETERS ---
+                            base_stock = 50  # OPT_PARAM: {{'initial': 50, 'min': 10, 'max': 200, 'type': 'int'}}
+                            reorder_point = 30  # OPT_PARAM: {{'initial': 30, 'min': 5, 'max': 150, 'type': 'int'}}
 
-                        # --- MAIN CODE ---
-                        if inventory < reorder_point:
-                            order = base_stock - current_inventory
+                            # --- MAIN CODE ---
+                            if inventory < reorder_point:
+                                order = base_stock - current_inventory
 
-                        DON'T mark more than 10 optimizable parameters.
-                        DON'T mark any optimizable parameters in the main code.
-                        """
+                            DON'T mark more than 10 optimizable parameters.
+                            DON'T mark any optimizable parameters in the main code.
+                            """
 
         else:  # default parameter location
-            prompt_content = "1. Mark optimizable parameters in the code with `# OPT_PARAM: ` comments, like this:" \
-                             + "\n" + "base_stock = 50  # OPT_PARAM: {'initial': 50, 'min': 10, 'max': 200, 'type': 'float'}" \
-                             + "\n" + "2. comments should follow the parameter in the same line." \
-                             + "\n" + "3. Only mark parameters that are assigned within the code body (not function inputs)" \
-                             + "\n" + "4. Only mark continuous parameters assigned with an equals sign (`=`)" \
-                             + "\n" + "5. DON'T mark more than 10 optimizable parameters." \
-                             + "\n" + "6. "
+            prompt_content = (
+                    "1. Mark optimizable parameters in the code with `# OPT_PARAM: ` comments, like this:"
+                    + "\n" + "base_stock = 50  # OPT_PARAM: {'initial': 50, 'min': 10, 'max': 200, 'type': 'float'}"
+                    + "\n" + "2. comments should follow the parameter in the same line."
+                    + "\n" + "3. Only mark parameters that are assigned within the code body (not function inputs)"
+                    + "\n" + "4. Only mark continuous parameters assigned with an equals sign (`=`)"
+                    + "\n" + f"5. DON'T mark more than 10 optimizable parameters."
+                    + "\n" + f"6. The generated code must contain at most {self.param_num} parameters that satisfy the criteria for optimizable parameters. Do not merely leave extra eligible parameters unmarked; instead, structure the code so that no more than {self.param_num} parameters are eligible to be marked."
+                    + "\n" + "7. "
+            )
 
         return prompt_content
 

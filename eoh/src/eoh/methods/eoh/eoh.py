@@ -61,6 +61,7 @@ class EOH:
             self.external_optimizer = None
         self.iter_opt = paras.iter_opt
         self.param_loc = paras.param_loc
+        self.param_num = paras.param_num
         self.prompt_with_explanations = getattr(paras, "prompt_with_explanations", False)
 
         # for saving results to .csv
@@ -130,7 +131,7 @@ class EOH:
                                    self.use_local_llm, self.llm_local_url,
                                    self.debug_mode, interface_prob, self.analyzer,
                                    external_optimizer=self.external_optimizer, max_iter=self.iter_opt,
-                                   param_loc=self.param_loc, exp_output_path=self.output_path,
+                                   param_loc=self.param_loc, param_num=self.param_num, exp_output_path=self.output_path,
                                    select=self.select, n_p=self.exp_n_proc, timeout=self.timeout,
                                    use_numba=self.use_numba,
                                    prompt_with_explanations=self.prompt_with_explanations,

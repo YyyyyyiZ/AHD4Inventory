@@ -31,6 +31,7 @@ parser.add_argument('--prompt_with_explanations', action='store_true',
 parser.add_argument('--external_opt', type=str, default='no', help='Type of external optimizer.')
 parser.add_argument('--iter_opt', type=int, default=15, help='Iterations of external optimizer.')
 parser.add_argument('--param_loc', type=str, default='default')
+parser.add_argument('--param_num', type=int, default=1, help='Number of optimizable parameters.')
 parser.add_argument("--operator", nargs="+", type=str)
 
 # General parameters
@@ -86,6 +87,7 @@ paras.set_paras(method="eoh",
                 filename=args.filename,
                 order_option=args.order_option,
                 param_loc=args.param_loc,
+                param_num=args.param_num,
                 prompt_version=args.prompt_version,
                 prompt_with_explanations=args.prompt_with_explanations,
                 )

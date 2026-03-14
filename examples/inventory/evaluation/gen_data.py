@@ -7,14 +7,13 @@ import glob
 # ----------------------------
 # Core instance generation
 # ----------------------------
-def _sample_demand(dist: str, num_periods: int, *, std_normal: int | None = None, pareto_alpha: float = 3.0):
+def _sample_demand(dist: str, num_periods: int, mean: int, *, std_normal: int | None = None, pareto_alpha: float = 3.0):
     """
     Return an integer demand array of length num_periods with theoretical mean 100.
     - dist ∈ {'poisson','normal','exponential','pareto','lomax'}
     - For normal, pass std_normal in {10,20,30}; negatives are clipped to 0.
     - For pareto, Type-I Pareto with alpha, scaled so mean=100.
     """
-    mean = 100.0
 
     if dist == "poisson":
         demand = np.random.poisson(lam=mean, size=num_periods).astype(int)
@@ -60,6 +59,7 @@ def _sample_demand(dist: str, num_periods: int, *, std_normal: int | None = None
 def generate_random_instance(
     dist: str,
     num_periods: int = 50,
+    mean: int = 100,
     lead_time: int = 1,
     initial_inventory: int | None = 80,
     holding_cost: float = 2.0,
@@ -75,7 +75,7 @@ def generate_random_instance(
     if initial_inventory is None:
         initial_inventory = np.random.randint(60, 100)
 
-    demand = _sample_demand(dist, num_periods, std_normal=std_normal, pareto_alpha=pareto_alpha)
+    demand = _sample_demand(dist, num_periods, mean=mean, std_normal=std_normal, pareto_alpha=pareto_alpha)
 
     if instance_id is None:
         instance_id = f"instance_{datetime.now().strftime('%Y%m%d_%H%M%S_%f')}"
@@ -124,95 +124,102 @@ if __name__ == "__main__":
 
     num_periods = 50
     initial_inventory = 0
-    lead_times = [2, 4, 6]
-    cost_pairs = [(1, 2), (1, 5)]
+    lead_times = [2, 4, 6, 8]
+    cost_pairs = [(1, 2), (1, 4), (1, 6), (1, 10)]
 
     # Distributions to generate
     dists = ["poisson", "exponential"]
-    normal_stds = [10, 30, 50]  # only used for 'normal'
+    means = [50, 75, 100, 125, 150]
+    normal_stds = [10, 20, 30, 50, 100]  # only used for 'normal'
 
     # how many trajectories per file
     N_TEST = 1000
     N_TRAIN = 100
 
     # ---------- NORMAL (three std levels) ----------
-    for std in normal_stds:
-        for L in lead_times:
-            for hc, lc in cost_pairs:
-                # test
-                test_instances = [
-                    generate_random_instance(
-                        dist="normal",
-                        num_periods=num_periods,
-                        lead_time=L,
-                        initial_inventory=initial_inventory,
-                        holding_cost=hc,
-                        lost_sales_cost=lc,
-                        std_normal=std,
-                        instance_id=f"test_normstd{std}_L{L}_c{hc}_{lc}_{i}",
+    for mean in means:
+        for std in normal_stds:
+            for L in lead_times:
+                for hc, lc in cost_pairs:
+                    # test
+                    test_instances = [
+                        generate_random_instance(
+                            dist="normal",
+                            num_periods=num_periods,
+                            mean=mean,
+                            lead_time=L,
+                            initial_inventory=initial_inventory,
+                            holding_cost=hc,
+                            lost_sales_cost=lc,
+                            std_normal=std,
+                            instance_id=f"test_normstd{std}_{mean}_L{L}_c{hc}_{lc}_{i}",
+                        )
+                        for i in range(N_TEST)
+                    ]
+                    save_instances(
+                        test_instances,
+                        f"generalize_add/normal_std{std}_{mean}_L{L}_c{hc}_{lc}_test.json",
                     )
-                    for i in range(N_TEST)
-                ]
-                save_instances(
-                    test_instances,
-                    f"data/normal_std{std}_L{L}_c{hc}_{lc}_test.json",
-                )
 
-                # train
-                train_instances = [
-                    generate_random_instance(
-                        dist="normal",
-                        num_periods=num_periods,
-                        lead_time=L,
-                        initial_inventory=initial_inventory,
-                        holding_cost=hc,
-                        lost_sales_cost=lc,
-                        std_normal=std,
-                        instance_id=f"train_normstd{std}_L{L}_c{hc}_{lc}_{i}",
+                    # train
+                    train_instances = [
+                        generate_random_instance(
+                            dist="normal",
+                            num_periods=num_periods,
+                            mean=mean,
+                            lead_time=L,
+                            initial_inventory=initial_inventory,
+                            holding_cost=hc,
+                            lost_sales_cost=lc,
+                            std_normal=std,
+                            instance_id=f"train_normstd{std}_{mean}_L{L}_c{hc}_{lc}_{i}",
+                        )
+                        for i in range(N_TRAIN)
+                    ]
+                    save_instances(
+                        train_instances,
+                        f"generalize_add/normal_std{std}_{mean}_L{L}_c{hc}_{lc}_train.json",
                     )
-                    for i in range(N_TRAIN)
-                ]
-                save_instances(
-                    train_instances,
-                    f"data/normal_std{std}_L{L}_c{hc}_{lc}_train.json",
-                )
 
     # ---------- OTHER DISTS (single config each) ----------
-    for dist in dists:  # poisson, exponential, pareto, lomax
-        for L in lead_times:
-            for hc, lc in cost_pairs:
-                # test
-                test_instances = [
-                    generate_random_instance(
-                        dist=dist,
-                        num_periods=num_periods,
-                        lead_time=L,
-                        initial_inventory=initial_inventory,
-                        holding_cost=hc,
-                        lost_sales_cost=lc,
-                        instance_id=f"test_{dist}_L{L}_c{hc}_{lc}_{i}",
+    for mean in means:
+        for dist in dists:  # poisson, exponential, pareto, lomax
+            for L in lead_times:
+                for hc, lc in cost_pairs:
+                    # test
+                    test_instances = [
+                        generate_random_instance(
+                            dist=dist,
+                            num_periods=num_periods,
+                            mean=mean,
+                            lead_time=L,
+                            initial_inventory=initial_inventory,
+                            holding_cost=hc,
+                            lost_sales_cost=lc,
+                            instance_id=f"test_{dist}_{mean}_L{L}_c{hc}_{lc}_{i}",
+                        )
+                        for i in range(N_TEST)
+                    ]
+                    save_instances(
+                        test_instances,
+                        f"generalize_add/{dist}_{mean}_L{L}_c{hc}_{lc}_test.json",
                     )
-                    for i in range(N_TEST)
-                ]
-                save_instances(
-                    test_instances,
-                    f"data/{dist}_L{L}_c{hc}_{lc}_test.json",
-                )
 
-                # train
-                train_instances = [
-                    generate_random_instance(
-                        dist=dist,
-                        num_periods=num_periods,
-                        lead_time=L,
-                        initial_inventory=initial_inventory,
-                        holding_cost=hc,
-                        lost_sales_cost=lc,
-                        instance_id=f"train_{dist}_L{L}_c{hc}-{lc}_{i}",
+                    # train
+                    train_instances = [
+                        generate_random_instance(
+                            dist=dist,
+                            num_periods=num_periods,
+                            mean=mean,
+                            lead_time=L,
+                            initial_inventory=initial_inventory,
+                            holding_cost=hc,
+                            lost_sales_cost=lc,
+                            instance_id=f"train_{dist}_{mean}_L{L}_c{hc}-{lc}_{i}",
+                        )
+                        for i in range(N_TRAIN)
+                    ]
+                    save_instances(
+                        train_instances,
+                        f"generalize_add/{dist}_{mean}_L{L}_c{hc}_{lc}_train.json",
                     )
-                    for i in range(N_TRAIN)
-                ]
-                save_instances(
-                    train_instances,
-                    f"data/{dist}_L{L}_c{hc}_{lc}_train.json",
-                )
