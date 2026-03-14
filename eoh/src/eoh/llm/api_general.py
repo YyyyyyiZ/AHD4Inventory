@@ -4,7 +4,9 @@ import json
 
 class InterfaceAPI:
     def __init__(self, api_endpoint, api_key, model_LLM, debug_mode):
-        self.api_endpoint = api_endpoint
+        # Route all remote model calls through OpenRouter's OpenAI-compatible API.
+        # Keep the constructor signature for caller compatibility.
+        self.api_endpoint = "openrouter.ai"
         self.api_key = api_key
         self.model_LLM = model_LLM
         self.debug_mode = debug_mode
@@ -23,9 +25,8 @@ class InterfaceAPI:
 
         headers = {
             "Authorization": "Bearer " + self.api_key,
-            "User-Agent": "Apifox/1.0.0 (https://apifox.com)",
             "Content-Type": "application/json",
-            "x-api2d-no-cache": 1,
+            "User-Agent": "eoh-openrouter-client/1.0",
         }
         
         response = None
@@ -37,7 +38,7 @@ class InterfaceAPI:
             try:
                 # Add timeout to prevent hanging indefinitely
                 conn = http.client.HTTPSConnection(self.api_endpoint, timeout=180)
-                conn.request("POST", "/v1/chat/completions", payload_explanation, headers)
+                conn.request("POST", "/api/v1/chat/completions", payload_explanation, headers)
                 res = conn.getresponse()
                 data = res.read()
                 json_data = json.loads(data)
