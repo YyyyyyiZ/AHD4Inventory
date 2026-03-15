@@ -1,0 +1,254 @@
+Section 1 Problem Statement:
+        We consider an inventory control problem for a single product over a finite
+        discrete horizon. The system has a selling horizon of $T$ periods and a fixed,
+        deterministic delivery lead time $L$. An order placed at the beginning of
+        period $t$ arrives at the beginning of period $t+L$.
+
+        There are two phases:
+
+        1. Planning Phase ($t=1,\dots,L$):
+           No customer demand occurs. The manager may place orders, but no costs are
+           incurred. In the historical data, these periods appear as zeros, which are
+           placeholders indicating absence of demand.
+
+        2. Selling Phase ($t=L+1,\dots,L+T$):
+           Customer demand occurs and costs are incurred. The objective is to minimize
+           total cost over these $T$ selling periods.
+
+        At the beginning of each period $t=1,\dots,L+T$, the manager observes:
+        - On-hand inventory $I_t \ge 0$.
+        - Pipeline vector
+          $Q_t = (q_{t,1}, q_{t,2}, \dots, q_{t,L})$,
+          where $q_{t,k}$ is the quantity scheduled to arrive at the beginning of
+          period $t+k-1$.
+        We assume $I_1 = 0$.
+
+        At the start of period $t$, the order $q_{t,1}$ arrives. Before demand, the
+        available inventory is $I_t + q_{t,1}$. The manager then places an order
+        $a_t \ge 0$, which will arrive at period $t+L$.
+
+        After ordering, the demand $D_t$ is realized. Sales and lost sales are:
+        \[
+        S_t = \min(I_t + q_{t,1},\, D_t), \qquad
+        L_t = \max(0,\, D_t - I_t - q_{t,1}).
+        \]
+
+        The next on-hand inventory is:
+        \[
+        I_{t+1} = \max(0,\, I_t + q_{t,1} - D_t).
+        \]
+
+        Pipeline orders shift forward and the new order enters the last slot:
+        \[
+        Q_{t+1} = (q_{t,2}, q_{t,3}, \dots, q_{t,L}, a_t).
+        \]
+
+        During the selling phase ($t=L+1,\dots,L+T$), the manager incurs:
+        - holding cost $h \cdot \max(0, I_t + q_{t,1} - D_t)$,
+        - lost-sales cost $p \cdot \max(0, D_t - I_t - q_{t,1})$.
+
+        Thus the period-$t$ cost is:
+        \[
+        c(I_t, q_{t,1}, D_t)
+        = h\,\max(0, I_t + q_{t,1} - D_t)
+        + p\,\max(0, D_t - I_t - q_{t,1}).
+        \]
+
+        A stationary policy $\pi$ maps each state $(I_t, Q_t)$ to an order quantity
+        $a_t = \pi(I_t, Q_t)$.
+
+        We are given $N$ historical demand trajectories:
+        \[
+        (D_1^n, \dots, D_L^n, D_{L+1}^n, \dots, D_{L+T}^n),
+        \qquad n=1,\dots,N,
+        \]
+        where $D_1^n,\dots,D_L^n$ are zeros (Notice that this indicates NO demand in the planning phase) and the remaining $T$
+        entries are actual demands.
+
+        The objective is to find a stationary policy minimizing the average total cost:
+        \[
+        \min_{\pi}\;
+        \frac{1}{N}\sum_{n=1}^N
+        \sum_{t=L+1}^{L+T}
+        c\big(I_t^{\pi,n},\; q_{t,1}^{\,\pi,n},\; D_t^n\big),
+        \]
+        where $I_t^{\pi,n}$ and $q_{t,1}^{\,\pi,n}$ denote the on-hand and arriving
+        inventory under policy $\pi$ along trajectory $n$.
+
+
+        The dynamics can be described with the following pseudocode:
+
+        Initialize average_long_run_total_cost = 0
+
+        For each demand trajectory n = 1, 2, …, N:
+            Set I_1 = 0
+            Set Q_1 = (0, 0, …, 0)   # length L
+
+            For each period t = 1, 2, …, L+T:
+                # 1. Arrival of oldest pipeline order
+                q_{t,1} = first element of Q_t
+
+                # 2. Order placement
+                a_t = policy(I_t, Q_t)
+
+                # 3. Demand realization
+                D_t = D_t^n   # D_t = 0 for t = 1, …, L (planning phase)
+
+                # 4. Total cost calculation (only for selling phase)
+                if t > L:
+                    c(I_t, q_{t,1}, D_t)
+                        = h * max(0, I_t + q_{t,1} - D_t)
+                        + p * max(0, D_t - I_t - q_{t,1})
+
+                    Add c(I_t, q_{t,1}, D_t) to average_long_run_total_cost
+
+                # 5. State transition to next period
+                I_{t+1} = max(0, I_t + q_{t,1} - D_t)
+                Q_{t+1} = (q_{t,2}, q_{t,3}, …, q_{t,L}, a_t)
+
+        Compute:
+            average_long_run_total_cost = (1 / N) * average_long_run_total_cost
+
+        Return average_long_run_total_cost
+
+        
+Section 2 Problem Parameters:
+
+        Below are some problem parameters:
+- Selling phase horizon: $T$ = 50 periods
+- Lead time: $L$ = 6 periods
+- Holding cost: $h$ = 1 per unit per period
+- Lost-sales cost: $p$ = 2 per unit
+
+
+Demand trajectories:
+Historical demand trajectory $D^{1}$: [0, 0, 0, 0, 0, 0, 93, 117, 98, 89, 106, 101, 80, 107, 103, 101, 109, 98, 110, 103, 107, 128, 93, 104, 92, 86, 104, 92, 97, 104, 88, 103, 90, 108, 111, 109, 115, 93, 113, 106, 116, 99, 97, 106, 93, 109, 88, 105, 106, 90, 98, 95, 105, 88, 95, 100]
+Historical demand trajectory $D^{2}$: [0, 0, 0, 0, 0, 0, 107, 101, 97, 116, 91, 98, 102, 98, 98, 103, 102, 113, 82, 105, 105, 99, 112, 94, 105, 100, 82, 93, 122, 93, 81, 99, 102, 91, 114, 90, 92, 101, 127, 92, 115, 81, 82, 85, 112, 102, 85, 99, 103, 103, 85, 118, 97, 117, 88, 110]
+Historical demand trajectory $D^{3}$: [0, 0, 0, 0, 0, 0, 114, 91, 95, 108, 101, 105, 112, 87, 109, 97, 108, 95, 92, 88, 112, 90, 102, 90, 73, 92, 94, 104, 101, 94, 95, 85, 89, 103, 99, 82, 97, 120, 117, 99, 96, 97, 87, 109, 93, 105, 104, 115, 99, 99, 94, 92, 113, 85, 114, 105]
+Historical demand trajectory $D^{4}$: [0, 0, 0, 0, 0, 0, 89, 92, 100, 100, 95, 108, 101, 89, 94, 103, 98, 78, 95, 99, 91, 103, 104, 83, 115, 117, 96, 115, 96, 106, 100, 93, 104, 96, 115, 109, 112, 93, 102, 93, 101, 130, 101, 99, 78, 96, 81, 107, 100, 110, 96, 105, 104, 114, 107, 101]
+Historical demand trajectory $D^{5}$: [0, 0, 0, 0, 0, 0, 96, 86, 103, 101, 105, 88, 107, 104, 83, 90, 117, 118, 114, 92, 84, 102, 84, 70, 101, 105, 95, 114, 105, 110, 82, 113, 110, 102, 106, 118, 88, 100, 111, 100, 108, 92, 96, 106, 84, 114, 107, 93, 96, 126, 110, 102, 102, 103, 101, 107]
+Historical demand trajectory $D^{6}$: [0, 0, 0, 0, 0, 0, 99, 76, 95, 98, 103, 93, 103, 112, 114, 123, 94, 108, 97, 101, 112, 109, 84, 90, 91, 79, 111, 93, 110, 102, 95, 92, 86, 116, 110, 98, 88, 118, 86, 98, 106, 92, 117, 94, 95, 110, 93, 96, 94, 83, 101, 103, 80, 88, 90, 90]
+Historical demand trajectory $D^{7}$: [0, 0, 0, 0, 0, 0, 80, 113, 100, 99, 109, 93, 95, 102, 99, 119, 78, 94, 124, 89, 108, 105, 98, 95, 99, 94, 97, 109, 119, 98, 102, 120, 102, 98, 92, 113, 97, 90, 96, 115, 103, 112, 89, 80, 91, 91, 89, 109, 95, 110, 101, 116, 110, 104, 105, 101]
+Historical demand trajectory $D^{8}$: [0, 0, 0, 0, 0, 0, 96, 113, 106, 102, 93, 109, 95, 94, 98, 97, 72, 97, 103, 98, 92, 102, 113, 100, 104, 107, 87, 97, 119, 100, 80, 97, 78, 95, 103, 110, 105, 92, 107, 89, 102, 98, 89, 89, 103, 106, 86, 89, 85, 116, 94, 100, 89, 90, 84, 94]
+Historical demand trajectory $D^{9}$: [0, 0, 0, 0, 0, 0, 105, 108, 97, 96, 101, 88, 103, 102, 98, 94, 115, 98, 125, 106, 101, 101, 101, 100, 109, 125, 102, 111, 115, 105, 107, 88, 123, 100, 105, 110, 104, 101, 103, 93, 103, 95, 96, 99, 103, 109, 114, 115, 108, 114, 92, 88, 100, 93, 112, 94]
+Historical demand trajectory $D^{10}$: [0, 0, 0, 0, 0, 0, 102, 92, 99, 108, 76, 81, 114, 109, 96, 97, 104, 90, 108, 101, 105, 99, 92, 112, 89, 96, 113, 94, 92, 104, 101, 111, 94, 81, 89, 114, 113, 85, 105, 102, 104, 96, 91, 104, 100, 110, 107, 93, 85, 88, 74, 104, 80, 104, 90, 97]
+Historical demand trajectory $D^{11}$: [0, 0, 0, 0, 0, 0, 111, 103, 104, 103, 87, 110, 92, 110, 119, 96, 100, 107, 95, 95, 93, 100, 108, 111, 104, 101, 90, 98, 99, 96, 99, 102, 120, 112, 92, 96, 101, 102, 120, 104, 125, 82, 113, 94, 89, 101, 109, 108, 113, 111, 97, 98, 105, 106, 98, 126]
+Historical demand trajectory $D^{12}$: [0, 0, 0, 0, 0, 0, 116, 96, 93, 108, 115, 95, 98, 93, 99, 103, 112, 104, 103, 90, 95, 75, 99, 96, 113, 109, 98, 106, 100, 105, 104, 93, 92, 134, 91, 104, 89, 130, 96, 89, 101, 91, 104, 94, 99, 89, 107, 96, 104, 97, 93, 97, 100, 108, 103, 96]
+Historical demand trajectory $D^{13}$: [0, 0, 0, 0, 0, 0, 92, 101, 98, 104, 115, 82, 98, 93, 108, 100, 98, 105, 103, 88, 120, 95, 110, 111, 87, 85, 102, 83, 83, 122, 111, 85, 97, 101, 100, 105, 84, 110, 112, 105, 99, 99, 89, 93, 94, 116, 108, 113, 113, 106, 94, 116, 90, 92, 110, 103]
+Historical demand trajectory $D^{14}$: [0, 0, 0, 0, 0, 0, 99, 106, 104, 125, 95, 84, 102, 87, 104, 105, 111, 99, 93, 116, 119, 98, 121, 102, 88, 90, 95, 106, 112, 103, 110, 114, 107, 88, 117, 94, 97, 95, 94, 106, 101, 82, 106, 93, 97, 103, 83, 93, 97, 98, 102, 94, 98, 93, 107, 95]
+Historical demand trajectory $D^{15}$: [0, 0, 0, 0, 0, 0, 77, 93, 89, 107, 95, 103, 93, 91, 84, 85, 104, 88, 125, 102, 103, 97, 103, 109, 100, 85, 89, 99, 116, 90, 99, 88, 87, 105, 123, 93, 94, 121, 104, 100, 100, 100, 99, 106, 106, 100, 93, 92, 86, 116, 93, 93, 111, 114, 107, 109]
+Historical demand trajectory $D^{16}$: [0, 0, 0, 0, 0, 0, 105, 104, 88, 112, 90, 115, 107, 109, 93, 101, 106, 94, 89, 97, 104, 116, 94, 107, 89, 92, 88, 105, 90, 110, 104, 110, 96, 108, 114, 98, 110, 116, 116, 87, 102, 112, 97, 97, 90, 108, 98, 112, 104, 87, 108, 111, 117, 99, 102, 85]
+Historical demand trajectory $D^{17}$: [0, 0, 0, 0, 0, 0, 105, 105, 105, 98, 105, 94, 110, 100, 103, 98, 137, 91, 120, 106, 98, 117, 90, 105, 115, 85, 99, 109, 121, 102, 110, 100, 117, 113, 101, 97, 98, 91, 104, 109, 102, 104, 101, 93, 111, 111, 100, 102, 91, 106, 78, 89, 101, 110, 104, 97]
+Historical demand trajectory $D^{18}$: [0, 0, 0, 0, 0, 0, 90, 96, 129, 104, 90, 118, 90, 102, 105, 96, 89, 120, 99, 113, 91, 99, 116, 98, 102, 127, 97, 98, 98, 99, 105, 111, 105, 123, 96, 89, 98, 88, 93, 113, 96, 103, 84, 90, 85, 100, 95, 108, 116, 94, 100, 102, 101, 114, 84, 108]
+Historical demand trajectory $D^{19}$: [0, 0, 0, 0, 0, 0, 88, 97, 92, 101, 116, 96, 102, 102, 93, 91, 113, 91, 87, 107, 103, 107, 97, 88, 97, 95, 108, 95, 90, 107, 106, 98, 111, 101, 109, 90, 96, 90, 89, 85, 106, 95, 102, 89, 69, 95, 107, 111, 110, 102, 114, 98, 102, 103, 103, 83]
+Historical demand trajectory $D^{20}$: [0, 0, 0, 0, 0, 0, 108, 108, 96, 89, 115, 99, 97, 99, 98, 108, 103, 95, 84, 96, 117, 109, 107, 110, 91, 101, 87, 86, 103, 81, 102, 87, 119, 115, 79, 110, 98, 91, 105, 116, 93, 105, 86, 101, 102, 101, 114, 99, 103, 107, 107, 111, 107, 107, 102, 103]
+Historical demand trajectory $D^{21}$: [0, 0, 0, 0, 0, 0, 95, 100, 99, 103, 103, 88, 106, 97, 110, 111, 105, 109, 106, 97, 106, 127, 114, 93, 107, 101, 91, 108, 96, 97, 94, 98, 89, 97, 89, 91, 91, 101, 97, 109, 79, 96, 109, 109, 102, 74, 90, 105, 109, 100, 98, 108, 101, 75, 94, 105]
+Historical demand trajectory $D^{22}$: [0, 0, 0, 0, 0, 0, 89, 113, 100, 90, 101, 85, 127, 104, 113, 89, 104, 98, 101, 108, 99, 97, 96, 104, 103, 108, 85, 117, 97, 114, 92, 115, 90, 92, 102, 100, 98, 116, 94, 131, 86, 90, 115, 113, 90, 98, 89, 106, 104, 84, 90, 104, 112, 100, 104, 115]
+Historical demand trajectory $D^{23}$: [0, 0, 0, 0, 0, 0, 84, 102, 104, 93, 105, 94, 111, 99, 115, 79, 108, 95, 122, 109, 93, 97, 96, 91, 96, 101, 89, 87, 111, 107, 102, 104, 118, 104, 96, 130, 102, 97, 98, 94, 89, 101, 97, 97, 98, 100, 90, 93, 94, 96, 109, 92, 97, 106, 101, 102]
+Historical demand trajectory $D^{24}$: [0, 0, 0, 0, 0, 0, 103, 81, 93, 101, 102, 107, 112, 113, 117, 94, 105, 96, 126, 101, 97, 96, 98, 95, 95, 97, 87, 114, 114, 100, 101, 103, 97, 94, 93, 111, 101, 112, 101, 86, 98, 105, 101, 101, 109, 92, 100, 106, 108, 105, 107, 75, 94, 101, 119, 93]
+Historical demand trajectory $D^{25}$: [0, 0, 0, 0, 0, 0, 108, 84, 85, 102, 108, 116, 102, 102, 101, 97, 111, 89, 99, 100, 100, 121, 90, 104, 110, 82, 106, 103, 90, 85, 98, 113, 88, 100, 113, 103, 102, 66, 105, 104, 93, 100, 98, 102, 90, 93, 104, 97, 96, 115, 95, 106, 116, 87, 84, 111]
+Historical demand trajectory $D^{26}$: [0, 0, 0, 0, 0, 0, 90, 91, 107, 99, 114, 100, 108, 69, 122, 94, 94, 111, 118, 92, 96, 109, 86, 98, 107, 85, 104, 124, 92, 109, 87, 104, 102, 84, 118, 98, 105, 67, 102, 112, 90, 87, 104, 126, 96, 111, 120, 118, 96, 96, 91, 92, 100, 108, 109, 102]
+Historical demand trajectory $D^{27}$: [0, 0, 0, 0, 0, 0, 99, 87, 102, 113, 105, 88, 106, 104, 104, 102, 101, 89, 113, 101, 102, 94, 117, 101, 92, 105, 109, 84, 110, 110, 101, 105, 98, 101, 89, 76, 101, 93, 107, 109, 108, 89, 126, 101, 90, 82, 101, 90, 112, 99, 112, 108, 78, 92, 111, 99]
+Historical demand trajectory $D^{28}$: [0, 0, 0, 0, 0, 0, 106, 109, 107, 99, 90, 89, 96, 120, 100, 105, 101, 80, 88, 84, 89, 101, 105, 110, 120, 101, 105, 94, 90, 112, 110, 113, 112, 100, 105, 71, 111, 105, 93, 112, 103, 119, 91, 99, 102, 98, 97, 107, 114, 104, 134, 90, 118, 106, 108, 86]
+Historical demand trajectory $D^{29}$: [0, 0, 0, 0, 0, 0, 100, 94, 100, 91, 106, 101, 96, 99, 89, 90, 109, 109, 97, 89, 109, 92, 105, 102, 100, 85, 101, 99, 100, 99, 113, 110, 122, 97, 106, 93, 104, 86, 91, 102, 110, 95, 101, 92, 91, 95, 84, 80, 98, 84, 109, 104, 92, 107, 98, 104]
+Historical demand trajectory $D^{30}$: [0, 0, 0, 0, 0, 0, 99, 112, 94, 114, 105, 105, 82, 107, 93, 88, 101, 103, 92, 94, 105, 113, 104, 110, 119, 112, 106, 98, 104, 100, 84, 96, 100, 102, 102, 82, 124, 98, 103, 94, 105, 91, 89, 85, 106, 91, 97, 104, 87, 87, 91, 100, 128, 92, 101, 80]
+Historical demand trajectory $D^{31}$: [0, 0, 0, 0, 0, 0, 116, 127, 114, 102, 110, 96, 105, 89, 98, 96, 111, 118, 113, 113, 101, 92, 95, 96, 96, 107, 87, 97, 107, 91, 99, 110, 107, 92, 101, 100, 108, 95, 91, 101, 87, 97, 114, 95, 95, 107, 107, 118, 115, 103, 101, 84, 98, 108, 106, 90]
+Historical demand trajectory $D^{32}$: [0, 0, 0, 0, 0, 0, 113, 94, 105, 89, 110, 112, 96, 104, 90, 91, 95, 100, 87, 103, 97, 97, 108, 96, 107, 109, 106, 115, 107, 95, 96, 87, 106, 110, 96, 112, 105, 96, 97, 129, 113, 100, 102, 109, 107, 102, 97, 95, 108, 94, 108, 108, 105, 96, 99, 102]
+Historical demand trajectory $D^{33}$: [0, 0, 0, 0, 0, 0, 112, 130, 112, 103, 111, 104, 101, 97, 128, 117, 111, 97, 109, 111, 95, 82, 104, 86, 89, 106, 81, 107, 91, 100, 86, 113, 89, 95, 89, 100, 108, 121, 113, 91, 88, 98, 110, 114, 94, 96, 77, 96, 109, 102, 108, 115, 113, 87, 111, 101]
+Historical demand trajectory $D^{34}$: [0, 0, 0, 0, 0, 0, 106, 105, 96, 113, 93, 103, 86, 80, 111, 99, 103, 99, 85, 102, 91, 100, 101, 85, 102, 105, 79, 106, 103, 108, 108, 104, 119, 120, 117, 92, 109, 115, 103, 89, 97, 86, 97, 79, 106, 110, 100, 91, 126, 94, 87, 107, 110, 99, 96, 112]
+Historical demand trajectory $D^{35}$: [0, 0, 0, 0, 0, 0, 111, 115, 104, 85, 96, 97, 82, 85, 102, 127, 79, 85, 82, 92, 85, 93, 87, 97, 111, 98, 109, 90, 91, 91, 108, 106, 100, 79, 96, 87, 119, 90, 107, 106, 108, 99, 97, 85, 101, 90, 95, 93, 102, 101, 106, 102, 113, 109, 111, 111]
+Historical demand trajectory $D^{36}$: [0, 0, 0, 0, 0, 0, 86, 108, 86, 95, 85, 83, 125, 80, 84, 104, 98, 90, 94, 90, 113, 102, 95, 97, 86, 111, 102, 109, 91, 101, 103, 104, 89, 98, 118, 86, 110, 104, 116, 81, 87, 83, 126, 92, 104, 99, 102, 91, 90, 94, 120, 112, 97, 107, 106, 106]
+Historical demand trajectory $D^{37}$: [0, 0, 0, 0, 0, 0, 85, 106, 100, 109, 98, 93, 84, 91, 107, 108, 106, 104, 91, 102, 81, 97, 107, 85, 106, 79, 102, 106, 92, 102, 101, 115, 102, 96, 87, 99, 104, 85, 110, 101, 92, 98, 102, 94, 88, 101, 82, 95, 97, 91, 105, 112, 98, 117, 117, 107]
+Historical demand trajectory $D^{38}$: [0, 0, 0, 0, 0, 0, 103, 110, 101, 93, 89, 113, 102, 101, 96, 106, 91, 100, 105, 91, 101, 94, 105, 100, 71, 110, 92, 103, 112, 93, 103, 91, 95, 99, 109, 84, 105, 103, 86, 90, 105, 102, 110, 78, 91, 104, 104, 108, 95, 94, 102, 94, 98, 98, 90, 96]
+Historical demand trajectory $D^{39}$: [0, 0, 0, 0, 0, 0, 100, 97, 93, 94, 87, 109, 95, 100, 93, 107, 104, 96, 87, 100, 81, 96, 99, 100, 82, 108, 80, 105, 114, 107, 105, 108, 106, 110, 88, 89, 92, 105, 97, 86, 95, 97, 115, 102, 107, 125, 101, 94, 95, 86, 109, 80, 104, 112, 99, 96]
+Historical demand trajectory $D^{40}$: [0, 0, 0, 0, 0, 0, 96, 110, 97, 97, 89, 104, 99, 100, 100, 88, 93, 95, 100, 124, 93, 95, 128, 94, 95, 98, 95, 91, 110, 79, 102, 118, 97, 94, 80, 89, 100, 98, 96, 97, 83, 89, 113, 86, 96, 104, 93, 108, 99, 105, 92, 99, 105, 104, 107, 110]
+Historical demand trajectory $D^{41}$: [0, 0, 0, 0, 0, 0, 85, 117, 104, 116, 95, 97, 85, 118, 107, 102, 101, 111, 77, 99, 104, 110, 104, 104, 101, 97, 100, 117, 99, 84, 107, 97, 103, 90, 105, 91, 110, 108, 123, 95, 96, 93, 101, 113, 90, 106, 107, 106, 78, 113, 114, 118, 107, 109, 117, 107]
+Historical demand trajectory $D^{42}$: [0, 0, 0, 0, 0, 0, 91, 91, 97, 96, 87, 96, 90, 99, 93, 99, 91, 81, 91, 103, 92, 80, 96, 95, 86, 88, 89, 110, 90, 85, 111, 82, 104, 93, 96, 104, 106, 98, 94, 99, 103, 93, 96, 90, 99, 99, 85, 103, 102, 103, 108, 119, 97, 114, 97, 102]
+Historical demand trajectory $D^{43}$: [0, 0, 0, 0, 0, 0, 90, 98, 88, 96, 92, 104, 79, 105, 118, 108, 108, 102, 111, 99, 111, 106, 86, 107, 102, 101, 87, 102, 102, 110, 106, 95, 109, 105, 95, 85, 91, 104, 102, 108, 102, 100, 122, 100, 97, 109, 94, 103, 116, 95, 92, 97, 120, 73, 93, 95]
+Historical demand trajectory $D^{44}$: [0, 0, 0, 0, 0, 0, 91, 118, 114, 86, 98, 77, 92, 96, 115, 110, 99, 104, 101, 102, 109, 99, 88, 111, 98, 105, 78, 91, 90, 88, 90, 96, 99, 104, 111, 98, 86, 94, 101, 95, 106, 105, 83, 99, 86, 88, 82, 102, 112, 102, 76, 98, 111, 91, 95, 98]
+Historical demand trajectory $D^{45}$: [0, 0, 0, 0, 0, 0, 114, 99, 85, 95, 98, 106, 99, 107, 128, 95, 86, 96, 99, 117, 105, 98, 102, 89, 112, 92, 99, 90, 110, 107, 92, 106, 95, 107, 95, 94, 88, 93, 100, 100, 86, 96, 103, 98, 80, 103, 82, 108, 110, 100, 119, 100, 91, 98, 122, 112]
+Historical demand trajectory $D^{46}$: [0, 0, 0, 0, 0, 0, 89, 105, 96, 88, 109, 118, 101, 103, 95, 81, 103, 101, 113, 93, 97, 90, 87, 98, 81, 101, 95, 86, 97, 100, 106, 109, 117, 102, 97, 113, 104, 101, 103, 125, 99, 86, 92, 104, 96, 102, 123, 105, 111, 109, 104, 120, 98, 95, 83, 102]
+Historical demand trajectory $D^{47}$: [0, 0, 0, 0, 0, 0, 83, 94, 83, 104, 93, 97, 102, 113, 99, 91, 99, 105, 98, 101, 98, 97, 113, 88, 94, 97, 83, 96, 100, 87, 98, 104, 110, 96, 101, 97, 97, 105, 98, 95, 92, 99, 105, 108, 114, 89, 91, 82, 99, 107, 115, 94, 103, 88, 89, 110]
+Historical demand trajectory $D^{48}$: [0, 0, 0, 0, 0, 0, 91, 102, 114, 96, 107, 84, 98, 105, 90, 95, 87, 107, 101, 95, 118, 121, 97, 105, 90, 94, 109, 94, 97, 103, 106, 106, 94, 98, 97, 95, 78, 96, 81, 81, 91, 103, 109, 87, 100, 102, 83, 105, 86, 92, 92, 105, 102, 110, 99, 101]
+Historical demand trajectory $D^{49}$: [0, 0, 0, 0, 0, 0, 100, 83, 112, 97, 97, 94, 87, 103, 107, 97, 95, 94, 96, 97, 103, 91, 117, 97, 98, 103, 121, 110, 105, 99, 105, 97, 90, 96, 111, 108, 109, 112, 110, 100, 87, 92, 90, 90, 101, 104, 92, 108, 109, 96, 94, 95, 114, 91, 116, 87]
+Historical demand trajectory $D^{50}$: [0, 0, 0, 0, 0, 0, 99, 95, 93, 98, 104, 106, 86, 74, 90, 97, 100, 120, 102, 89, 76, 88, 91, 82, 103, 98, 101, 101, 101, 113, 84, 110, 93, 87, 88, 103, 96, 116, 96, 87, 88, 102, 88, 88, 118, 81, 98, 93, 96, 104, 112, 98, 104, 84, 111, 87]
+
+
+Section 3 Main Task:
+
+Given problem parameters and demand trajectories in Section 2, you must use the historical policy and its corresponding cost statistics (if any) in Section 4 to come up with the modified version of this historical policy. The modified version should achieve a lower average long-run total cost on the historical demand trajectories in Section 2.
+
+Each policy (historical and new) is represented by a Python code, named ``compute_order_amount``, that accepts 2 input(s): 'on_hand_inventory', 'pipeline_orders',
+and returns 1 output(s): 'order_amount'.
+
+
+        Inputs:
+        - `on_hand_inventory` (float): On-hand inventory $I_t$ at the start of current period.
+        - `pipeline_orders` (list[float]): Pipeline orders $Q_t = (q_{t,1}, q_{t,2}, \ldots, q_{t,L})$, indexed as [oldest → newest].
+
+        Output:
+        - `order_amount` (int): Order quantity $a_t$ for this period (≥0).
+        
+
+
+        Note: `pipeline_orders` is a FIFO queue of length $L$ (lead time), where:
+             - `pipeline_orders[0]` = $q_{t,1}$: Order placed $L$ periods ago (arriving at the beginning of period $t$).
+             - `pipeline_orders[-1]` = $q_{t,L}$: Order placed 1 period ago (arriving in $L$ periods).
+        
+
+
+Instructions for generating the modified policy:
+
+Follow these requirements as you generate the modified policy:
+1. Mark optimizable parameters in the code with `# OPT_PARAM: ` comments, like this:
+base_stock = 50  # OPT_PARAM: {'initial': 50, 'min': 10, 'max': 200, 'type': 'float'}
+2. comments should follow the parameter in the same line.
+3. Only mark parameters that are assigned within the code body (not function inputs)
+4. Only mark continuous parameters assigned with an equals sign (`=`)
+5. DON'T mark more than 10 optimizable parameters.
+6. The generated code must contain at most 2 parameters that satisfy the criteria for optimizable parameters. Do not merely leave extra eligible parameters unmarked; instead, structure the code so that no more than 2 parameters are eligible to be marked.
+7. This policy must be strictly stationary:
+    The order amount must depend only on the current arguments on_hand_inventory and pipeline_orders.
+    No dependence on time, step counters, or episode index.
+    No dependence on any past calls or hidden state.
+
+    Strictly forbidden:
+    Function attributes or cached state.
+    Global or module-level variables to store history.
+    Closures that capture mutable state across calls.
+
+7. Note: Parameters are marked with `# OPT_PARAM:` followed by a dictionary specifying: 'initial' (the current value), 'min' (minimum allowed value), 'max' (maximum allowed value), and 'type' (either 'int' or 'float').
+
+8. After generating the modified implementation, provide a concise explanation for your changes inside double curly braces, like this:
+
+{{Your explanation here.}}
+
+9. Do not give additional explanations.
+
+
+
+Section 4 Historical Policy and Cost Statistics:
+
+I have one policy with its code as follows:
+def compute_order_amount(on_hand_inventory, pipeline_orders):
+    base_stock = 120.0  # OPT_PARAM: {"initial": 120.0, "min": 80, "max": 200, "type": "float"}
+    smoothing_factor = 0.9650177593261507  # OPT_PARAM: {"initial": 0.9650177593261507, "min": 0.5, "max": 1.0, "type": "float"}
+    projected_inventory = on_hand_inventory + sum(pipeline_orders)
+    order_amount = max(0, int(round(base_stock * smoothing_factor - projected_inventory * (1 - smoothing_factor))))
+    return order_amount
+
+Below is the cost statistics of the provided policies on the historical demand trajectories:
+
+    No.1 policy:
+    - Average total cost per period:
+      $\frac{1}{NT} \sum_{n=1}^N \sum_{t=L+1}^{L+T} \Big[ h \cdot \max(0,\, I_t^{\pi,n} + q_{t,1}^{\,\pi,n} - D_t^n) + p \cdot \max(0,\, D_t^n - I_t^{\pi,n} - q_{t,1}^{\,\pi,n}) \Big]$ = 18.32 (std=18.12)
+    - Average holding cost per period:
+      $\frac{1}{NT} \sum_{n=1}^N \sum_{t=L+1}^{L+T} h \cdot \max(0,\, I_t^{\pi,n} + q_{t,1}^{\,\pi,n} - D_t^n)$ = 12.02
+    - Average lost-sales cost per period:
+      $\frac{1}{NT} \sum_{n=1}^N \sum_{t=L+1}^{L+T} p \cdot \max(0,\, D_t^n - I_t^{\pi,n} - q_{t,1}^{\,\pi,n})$ = 6.30
+    - Ratio holding : lost-sales = 12.0 : 6.3
+    - Per-trajectory long-run total cost:
+      $\sum_{t=L+1}^{L+T} \Big[ h \cdot \max(0,\, I_t^{\pi,n} + q_{t,1}^{\,\pi,n} - D_t^n) + p \cdot \max(0,\, D_t^n - I_t^{\pi,n} - q_{t,1}^{\,\pi,n}) \Big]$
+      mean = 1025.78, std=374.74, range=(573.00, 3025.00)
+            
+
