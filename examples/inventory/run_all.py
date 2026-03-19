@@ -45,7 +45,7 @@ n_train_list = [50]  # Feng: Number of training trajectories
 n_horizon_list = [50]  # n_horizon_list = [3, 5, 10, 20, 50]
 iter_opt_list = [15]
 param_loc_list = ['default']  # param_loc_list = ['start', 'default']
-param_num_list = [1, 2, 4]  # param_num_list = [10, 1, 2, 4], 10 is the default restriction
+param_num_list = [1,2,4]  # param_num_list = [10, 1, 2, 4], 10 is the default restriction
 order_option_list = ['order_before_sell']
 operator_list = ['m2plural']  # 'e1', 'e2', 'm2','m2plural',
 repeat_num = 5  # Feng: Number of repeats, aim for 10 repeats on each dataset
@@ -65,12 +65,12 @@ for repeat in range(repeat_num):
                                         for algo_performance in algo_performance_list:
                                             for data_summary in data_summary_list:
                                                 command = (
-                                                    f"/zfs/projects/faculty/yh2987-choice-modeling/.venv/bin/python runEoH.py "
+                                                    # f"/zfs/projects/faculty/yh2987-choice-modeling/.venv/bin/python runEoH.py "
                                                     # f"/home/sjtu/.conda/envs/ahd/bin/python runEoH.py "
-                                                    # f"E:\\Anaconda3\\envs\\EoH\\python runEoH.py "
+                                                    f"E:\\Anaconda3\\envs\\EoH\\python runEoH.py "
                                                     # f"python3 runEoH.py "  # change this line according to the path of python.exe
                                                     # f"--llm_api_key {os.getenv('OPENROUTER_API_KEY', '')} "
-                                                    f"--llm_api_key sk-or-v1 "
+                                                    f"--llm_api_key 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 "
                                                     f"--problem {problem} "
                                                     f"--ec_pop_size {ec_pop_size} "
                                                     f"--ec_n_pop {ec_n_pop} "

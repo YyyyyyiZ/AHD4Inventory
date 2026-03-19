@@ -9,7 +9,7 @@ parser = argparse.ArgumentParser('Inventory Problems')
 parser.add_argument('--problem', type=str, default="inventory")
 
 # LLM Config
-parser.add_argument('--llm_api_endpoint', type=str, default="https://openrouter.ai/api/v1")
+parser.add_argument('--llm_api_endpoint', type=str, default="openrouter.ai")
 parser.add_argument('--llm_api_key', type=str, default=os.getenv("OPENROUTER_API_KEY", ""))
 parser.add_argument('--llm_model', type=str, default="deepseek/deepseek-chat-v3-0324")
 
@@ -57,7 +57,7 @@ if args.exp_continue_path == "initial_pool.json" and args.prompt_version == 'v1'
 
 args.exp_output_path = '_'.join([args.llm_model, args.dist, str(args.n_train), args.data_summary, args.algo_performance,
                                  args.external_opt, str(args.iter_opt), args.param_loc, '-'.join(args.operator), str(args.ec_m),
-                                 'r' + str(args.repeat)])
+                                 'p' + str(args.param_num), 'r' + str(args.repeat)])
 
 # Parameter initilization #
 paras = Paras()

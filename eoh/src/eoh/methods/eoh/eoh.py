@@ -278,6 +278,7 @@ class EOH:
                 # 'iter_opt': '-' if self.external_optimizer is None else self.iter_opt,
                 # 'param_loc': '-' if self.external_optimizer is None else self.param_loc,
                 'repeat': self.repeat,
+                'param_num': self.param_num,
                 'n_pop': pop_idx,
                 'mode': mode,
                 # 'data_summary': self.data_summary,
@@ -303,7 +304,7 @@ class EOH:
             #     'data_summary', 'algo_performance'
             # ]
             base_fields = [
-                'LLM', 'problem', 'n_train', 'p', 'initial' 'external_opt', 'repeat', 'n_pop', 'mode',
+                'LLM', 'problem', 'n_train', 'p', 'initial' 'external_opt', 'repeat', 'param_num', 'n_pop', 'mode',
                 'algo_performance'
             ]
 

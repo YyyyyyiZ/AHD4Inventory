@@ -1,0 +1,7 @@
+policy,split,L,p,baseline,mean_%,median_%,pct_pos_%,pct_neg_%,n_rows_total,n_valid,n_missing_or_invalid
+exponential_L6_c1_2,test,4,10,avg_cost_basestock,18.032397976764404,15.10282649778523,100.0,0.0,433,433,0
+exponential_L6_c1_2,test,4,10,avg_cost_constant,9.160604358159235,9.518288675512414,99.30715935334872,0.4618937644341801,433,433,0
+normal_std30_L6_c1_2,test,4,10,avg_cost_basestock,19.19875410735276,15.847755901440227,100.0,0.0,433,433,0
+normal_std30_L6_c1_2,test,4,10,avg_cost_constant,10.610751366799894,11.168694629487181,100.0,0.0,433,433,0
+poisson_L6_c1_2,test,4,10,avg_cost_basestock,20.99669516330071,17.667539448847354,100.0,0.0,433,433,0
+poisson_L6_c1_2,test,4,10,avg_cost_constant,12.812660061244927,14.094470472546641,100.0,0.0,433,433,0
