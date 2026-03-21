@@ -1,0 +1,9 @@
+{
+  "generation": 6,
+  "mean_cost": 781.27,
+  "source_run": "gpt-5-nano_poisson_L6_c1_2_50_plain_processed_scipy_15_default_m2_4_r8",
+  "source_txt_file": "m2_20260116_232618.txt",
+  "source_txt_path": "examples/inventory/gpt-5-nano_poisson_L6_c1_2_50_plain_processed_scipy_15_default_m2_4_r8/prompt_for_code/m2_20260116_232618.txt",
+  "timestamp": "2026-01-16T23:26:18",
+  "code": "def compute_order_amount(on_hand_inventory, pipeline_orders):\n    base_stock = 67.8546013640647  # OPT_PARAM: {\"initial\": 67.8546013640647, \"min\": 10, \"max\": 1000, \"type\": \"float\"}\n    lead_factor = 1.7763562087145155  # OPT_PARAM: {\"initial\": 1.7763562087145155, \"min\": 0.0, \"max\": 2.0, \"type\": \"float\"}\n    max_order = 500  # OPT_PARAM: {\"initial\": 500, \"min\": 0, \"max\": 2000, \"type\": \"int\"}\n    scale_target = 0.8215263158131066  # OPT_PARAM: {\"initial\": 0.8215263158131066, \"min\": 0.5, \"max\": 2.0, \"type\": \"float\"}\n    pipeline_weight = 0.0  # OPT_PARAM: {\"initial\": 0.0, \"min\": 0.0, \"max\": 0.2, \"type\": \"float\"}\n    on_hand_bias = 0.039754612322939704  # OPT_PARAM: {\"initial\": 0.039754612322939704, \"min\": 0.0, \"max\": 2.0, \"type\": \"float\"}\n\n    target = base_stock * lead_factor * scale_target\n    sum_pipeline = sum(pipeline_orders)\n    order_amount = target - on_hand_inventory * on_hand_bias - sum_pipeline * pipeline_weight\n    if order_amount < 0:\n        order_amount = 0\n    if order_amount > max_order:\n        order_amount = max_order\n    return order_amount"
+}

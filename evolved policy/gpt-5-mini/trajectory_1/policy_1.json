@@ -1,0 +1,9 @@
+{
+  "mean_cost": 2557.3,
+  "source_run": "gpt-5-mini_poisson_L6_c1_2_50_plain_processed_scipy_15_default_m2_4_r8",
+  "source_txt_file": "m2_20260117_112942.txt",
+  "source_txt_path": "examples/inventory/gpt-5-mini_poisson_L6_c1_2_50_plain_processed_scipy_15_default_m2_4_r8/prompt_for_code/m2_20260117_112942.txt",
+  "timestamp": "2026-01-17T11:29:42",
+  "code": "def compute_order_amount(on_hand_inventory, pipeline_orders):\n    base_stock = 600.0  # OPT_PARAM: {\"initial\": 600.0, \"min\": 10, \"max\": 1000, \"type\": \"float\"}\n    min_order = 0.0     # OPT_PARAM: {\"initial\": 0.0, \"min\": 0.0, \"max\": 500.0, \"type\": \"float\"}\n    max_order = 200.0   # OPT_PARAM: {\"initial\": 200.0, \"min\": 0.0, \"max\": 2000.0, \"type\": \"float\"}\n\n    inventory_position = on_hand_inventory + sum(pipeline_orders)\n    raw_order = base_stock - inventory_position\n    raw_order = max(min_order, raw_order)\n    raw_order = min(max_order, raw_order)\n    order_amount = int(max(0, round(raw_order)))\n    return order_amount",
+  "generation": 1
+}

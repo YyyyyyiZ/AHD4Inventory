@@ -1,0 +1,9 @@
+{
+  "mean_cost": 1980.64,
+  "source_run": "gpt-5-mini_poisson_L6_c1_2_50_plain_processed_scipy_15_default_m2_4_r8",
+  "source_txt_file": "m2_20260117_113308.txt",
+  "source_txt_path": "examples/inventory/gpt-5-mini_poisson_L6_c1_2_50_plain_processed_scipy_15_default_m2_4_r8/prompt_for_code/m2_20260117_113308.txt",
+  "timestamp": "2026-01-17T11:33:08",
+  "code": "def compute_order_amount(on_hand_inventory, pipeline_orders):\n    # Estimate of average demand per period (used to size lead-time coverage)\n    mean_demand = 100.16405882688387  # OPT_PARAM: {\"initial\": 100.16405882688387, \"min\": 50.0, \"max\": 150.0, \"type\": \"float\"}\n    # Factor to scale lead-time coverage (trades off holding vs lost-sales; ~service-level)\n    service_factor = 0.8674557465238618  # OPT_PARAM: {\"initial\": 0.8674557465238618, \"min\": 0.4, \"max\": 1.2, \"type\": \"float\"}\n    # Extra coverage in units of periods (small buffer beyond scaled lead-time coverage)\n    extra_periods = 2.364372319083231  # OPT_PARAM: {\"initial\": 2.364372319083231, \"min\": 0.0, \"max\": 3.0, \"type\": \"float\"}\n    # Bounds on a single-period order\n    min_order = 0.0  # OPT_PARAM: {\"initial\": 0.0, \"min\": 0.0, \"max\": 200.0, \"type\": \"float\"}\n    max_order = 200.0  # OPT_PARAM: {\"initial\": 200.0, \"min\": 10.0, \"max\": 1000.0, \"type\": \"float\"}\n\n    L = len(pipeline_orders)\n    inventory_position = on_hand_inventory + sum(pipeline_orders)\n\n    # Target inventory position: cover scaled expected demand over lead time plus small extra buffer\n    target_ip = mean_demand * (service_factor * L + extra_periods)\n\n    raw_order = target_ip - inventory_position\n    raw_order = max(min_order, raw_order)\n    raw_order = min(max_order, raw_order)\n\n    order_amount = int(max(0, round(raw_order)))\n    return order_amount",
+  "generation": 2
+}

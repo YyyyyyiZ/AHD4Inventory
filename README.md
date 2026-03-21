@@ -50,6 +50,33 @@ This exposes the `eoh` module and installs required dependencies.
 
 3. **Outputs**: Results (populations, reflections, and CSV summaries) are written under the `exp_output_path`, which is auto-generated from the provided configuration unless explicitly set.【F:examples/inventory/runEoH.py†L56-L64】【F:eoh/src/eoh/methods/eoh/eoh.py†L88-L116】
 
+### OpenRouter Quick Tests (Fast / Non-Thinking)
+
+`examples/inventory/runEoH.py` now includes OpenRouter presets for quick model switching:
+
+- `openrouter-minimax-fast` -> `minimax/minimax-m2.5`
+- `openrouter-deepseek-fast` -> `deepseek/deepseek-chat`
+- `openrouter-gemini-2.5-fast` -> `google/gemini-2.5-flash`
+- `openrouter-gpt-5-nano` -> `openai/gpt-5-nano`
+- `openrouter-gpt-5-mini` -> `openai/gpt-5-mini`
+- `openrouter-gemini-3.0-preview` -> `google/gemini-3-flash-preview`
+- `openrouter-grok-4.1-fast` -> `x-ai/grok-4.1-fast`
+
+All presets use endpoint `https://openrouter.ai/api/v1` and force `--llm_reasoning_effort low`.
+
+Example:
+
+```bash
+export OPENROUTER_API_KEY=<YOUR_OPENROUTER_KEY>
+python examples/inventory/runEoH.py \
+  --llm_profile openrouter-grok-4.1-fast \
+  --operator e1 e2 m2 \
+  --exp_continue_path base_stock.json \
+  --exp_use_continue 1 \
+  --ec_pop_size 4 --ec_n_pop 10 \
+  --dist normal_std30_L6_c1_5 --n_train 50 --n_horizon 50
+```
+
 ## Dataset Preparation
 Use the helper script to create training and testing trajectories:
 

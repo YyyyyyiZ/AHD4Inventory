@@ -1,0 +1,9 @@
+{
+  "mean_cost": 781.98,
+  "source_run": "gpt-5-mini_poisson_L6_c1_2_50_plain_processed_scipy_15_default_m2_4_r8",
+  "source_txt_file": "m2_20260117_114833.txt",
+  "source_txt_path": "examples/inventory/gpt-5-mini_poisson_L6_c1_2_50_plain_processed_scipy_15_default_m2_4_r8/prompt_for_code/m2_20260117_114833.txt",
+  "timestamp": "2026-01-17T11:48:33",
+  "code": "def compute_order_amount(on_hand_inventory, pipeline_orders):\n    mean_demand = 150.0  # OPT_PARAM: {\"initial\": 150.0, \"min\": 50.0, \"max\": 150.0, \"type\": \"float\"}\n    service_factor = 1.2  # OPT_PARAM: {\"initial\": 1.2, \"min\": 0.4, \"max\": 1.2, \"type\": \"float\"}\n    extra_periods = 3.0  # OPT_PARAM: {\"initial\": 3.0, \"min\": 0.0, \"max\": 3.0, \"type\": \"float\"}\n    damping = 1.0  # OPT_PARAM: {\"initial\": 1.0, \"min\": 0.5, \"max\": 1.0, \"type\": \"float\"}\n    min_order = 0.0  # OPT_PARAM: {\"initial\": 0.0, \"min\": 0.0, \"max\": 200.0, \"type\": \"float\"}\n    max_order = 95.0  # OPT_PARAM: {\"initial\": 95.0, \"min\": 10.0, \"max\": 1000.0, \"type\": \"float\"}\n\n    L = len(pipeline_orders)\n    # inventory position = on-hand + on-order (including arriving now)\n    inventory_position = on_hand_inventory + sum(pipeline_orders)\n\n    # Target inventory position: expected lead-time demand scaled down to avoid excess holding + small buffer\n    target_ip = mean_demand * (service_factor * L + extra_periods)\n\n    raw_order = (target_ip - inventory_position) * damping\n\n    # Enforce bounds\n    raw_order = max(min_order, raw_order)\n    raw_order = min(max_order, raw_order)\n\n    order_amount = int(max(0, round(raw_order)))\n    return order_amount",
+  "generation": 5
+}

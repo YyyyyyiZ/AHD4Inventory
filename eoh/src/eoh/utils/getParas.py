@@ -21,6 +21,7 @@ class Paras():
         self.filename = 'res'
         self.algo_performance = 'plain'
         self.data_summary = 'no'
+        self.initial_base_stock = None
 
         #####################
         ### Self defined for Inventory ###
@@ -53,6 +54,7 @@ class Paras():
         self.llm_api_endpoint = None  # endpoint for remote LLM, e.g., api.deepseek.com
         self.llm_api_key = None  # API key for remote LLM, e.g., sk-xxxx
         self.llm_model = None  # model type for remote LLM, e.g., deepseek-chat
+        self.llm_reasoning_effort = None  # optional reasoning effort: low, medium, or high
 
         #####################
         ###  Exp settings  ###
@@ -69,7 +71,7 @@ class Paras():
         #####################
         ###  Evaluation settings  ###
         #####################
-        self.eva_timeout = 60
+        self.eva_timeout = 1200  # 20 minutes
         self.eva_numba_decorator = False
 
     def set_parallel(self):
@@ -98,7 +100,7 @@ class Paras():
 
     def set_evaluation(self):
         # Initialize evaluation settings
-        self.eva_timeout = 180
+        self.eva_timeout = 1200  # 20 minutes to accommodate LLM generation + evaluation + optimization
 
     def set_paras(self, *args, **kwargs):
 

@@ -1,0 +1,9 @@
+{
+  "generation": 1,
+  "mean_cost": 1421.79,
+  "source_run": "deepseek-chat_poisson_L6_c1_2_50_plain_processed_scipy_15_default_m2_2_r8",
+  "source_txt_file": "m2_20260128_234607.txt",
+  "source_txt_path": "examples/inventory/deepseek-chat_poisson_L6_c1_2_50_plain_processed_scipy_15_default_m2_2_r8/prompt_for_code/m2_20260128_234607.txt",
+  "timestamp": "2026-01-28T23:46:07",
+  "code": "def compute_order_amount(on_hand_inventory, pipeline_orders):\n    base_stock = 675.9310156085927  # OPT_PARAM: {\"initial\": 675.9310156085927, \"min\": 10, \"max\": 1000, \"type\": \"float\"}\n    safety_stock = 50.0  # OPT_PARAM: {\"initial\": 50.0, \"min\": 0, \"max\": 200, \"type\": \"float\"}\n    demand_estimate = 50.0  # OPT_PARAM: {\"initial\": 50.0, \"min\": 50, \"max\": 150, \"type\": \"float\"}\n    smoothing_factor = 0.1  # OPT_PARAM: {\"initial\": 0.1, \"min\": 0.1, \"max\": 0.9, \"type\": \"float\"}\n    \n    # Calculate inventory position\n    inventory_position = on_hand_inventory + sum(pipeline_orders)\n    \n    # Calculate expected demand during lead time\n    expected_lead_time_demand = demand_estimate * len(pipeline_orders)\n    \n    # Calculate target inventory level\n    target_inventory = expected_lead_time_demand + safety_stock\n    \n    # Calculate order-up-to level\n    order_up_to = max(base_stock, target_inventory)\n    \n    # Calculate order amount\n    order_amount = max(0, order_up_to - inventory_position)\n    \n    # Apply smoothing to reduce order volatility\n    if order_amount > demand_estimate * 2:\n        order_amount = demand_estimate * 2 + smoothing_factor * (order_amount - demand_estimate * 2)\n    \n    return order_amount"
+}

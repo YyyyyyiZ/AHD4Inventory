@@ -24,6 +24,7 @@ class EOH:
         self.api_endpoint = paras.llm_api_endpoint  # currently only API2D + GPT
         self.api_key = paras.llm_api_key
         self.llm_model = paras.llm_model
+        self.llm_reasoning_effort = paras.llm_reasoning_effort
 
         # Experimental settings       
         self.pop_size = paras.ec_pop_size  # population size, i.e., the number of algorithms in population
@@ -55,6 +56,7 @@ class EOH:
         self.repeat = paras.repeat
         self.algo_performance = paras.algo_performance
         self.data_summary = paras.data_summary
+        self.initial_base_stock = paras.initial_base_stock
 
         self.external_optimizer = paras.external_optimizer
         if self.external_optimizer == 'no':
@@ -134,6 +136,7 @@ class EOH:
                                    select=self.select, n_p=self.exp_n_proc, timeout=self.timeout,
                                    use_numba=self.use_numba,
                                    prompt_with_explanations=self.prompt_with_explanations,
+                                   llm_reasoning_effort=self.llm_reasoning_effort,
                                    )
 
         # initialization
@@ -253,6 +256,12 @@ class EOH:
 
     def save_results(self, population, pop_idx, mode='train'):
         parent_dir = Path(self.output_path).parent
+        # If model name includes provider/model, output_path includes a provider folder
+        # (e.g., openai/gpt-5-nano_...). Write CSV one level up so all models share one file.
+        provider = str(self.llm_model).split("/")[0] if "/" in str(self.llm_model) else None
+        if provider and parent_dir.name == provider:
+            parent_dir = parent_dir.parent
+        parent_dir.mkdir(parents=True, exist_ok=True)
 
         problem_fields = {
             'inventory_ex': {
@@ -272,11 +281,12 @@ class EOH:
                 # 'n_horizon': self.n_horizon,
                 'p': self.m,
                 'initial': self.load_pop,
+                'initial_base_stock': self.initial_base_stock,
+                'initial_path': self.load_pop_path if self.load_pop else None,
                 # 'order_option': self.order_option,
                 'external_opt': 'no' if self.external_optimizer is None else self.external_optimizer,
                 # 'iter_opt': '-' if self.external_optimizer is None else self.iter_opt,
                 # 'param_loc': '-' if self.external_optimizer is None else self.param_loc,
-                'repeat': self.repeat,
                 'n_pop': pop_idx,
                 'mode': mode,
                 # 'data_summary': self.data_summary,
@@ -287,39 +297,53 @@ class EOH:
                 oneline.update(problem_fields[self.problem])
 
             if mode == 'train':
-                for i in range(min(30, len(population))):
-                    oneline[str(i + 1)] = population[i]['objective']
-            elif mode == 'test':
-                for i in range(min(30, len(population))):
-                    oneline[str(i + 1)] = population[i]['test_objective']
+                score_values = [population[i]['objective'] for i in range(len(population))]
+            else:
+                score_values = [population[i]['test_objective'] for i in range(len(population))]
 
-            for i in range(len(population), 30):
-                oneline[str(i + 1)] = None
-
-            # base_fields = [
-            #     'LLM', 'problem', 'n_train', 'n_horizon', 'p', 'initial' 'order_option', 'external_opt', 'iter_opt',
-            #     'param_loc', 'repeat', 'n_pop', 'mode',
-            #     'data_summary', 'algo_performance'
-            # ]
             base_fields = [
-                'LLM', 'problem', 'n_train', 'p', 'initial' 'external_opt', 'repeat', 'n_pop', 'mode',
-                'algo_performance'
+                'LLM', 'problem', 'n_train', 'p', 'initial', 'initial_base_stock', 'initial_path', 'external_opt',
+                'n_pop', 'mode', 'algo_performance'
             ]
-
-            problem_specific_fields = set().union(*problem_fields.values())
-            score_fields = [str(i) for i in range(1, 31)]
-            fieldnames = base_fields + list(problem_specific_fields) + score_fields
+            problem_specific_fields = sorted({k for d in problem_fields.values() for k in d.keys()})
+            key_fields = base_fields + problem_specific_fields
 
             filename = f"{parent_dir}/{self.filename}.csv"
 
             try:
                 df = pd.read_csv(filename)
             except (FileNotFoundError, pd.errors.EmptyDataError):
-                df = pd.DataFrame(columns=fieldnames)
+                df = pd.DataFrame(columns=key_fields)
 
-            new_row = pd.DataFrame([oneline])
+            for k in key_fields:
+                if k not in df.columns:
+                    df[k] = None
 
-            df = pd.concat([df, new_row], ignore_index=True)
+            if df.empty:
+                mask = pd.Series(dtype=bool)
+            else:
+                cmp_series = pd.Series(oneline)
+                mask = (df[key_fields] == cmp_series[key_fields]).all(axis=1)
+
+            max_offspring = 10
+            repeat_cols = [f"repeat_{self.repeat}_{i}" for i in range(max_offspring)]
+            for col in repeat_cols:
+                if col not in df.columns:
+                    df[col] = None
+
+            if mask.any():
+                row_idx = mask[mask].index[0]
+            else:
+                new_row = {col: None for col in df.columns}
+                for k, v in oneline.items():
+                    new_row[k] = v
+                df = pd.concat([df, pd.DataFrame([new_row])], ignore_index=True)
+                row_idx = len(df) - 1
+
+            padded_scores = score_values[:max_offspring] + [None] * max(0, max_offspring - len(score_values))
+            for i, col in enumerate(repeat_cols):
+                df.at[row_idx, col] = padded_scores[i]
+
             df.to_csv(filename, index=False, float_format='%.2f')
 
         elif self.problem == 'inventory_ex':
@@ -332,6 +356,8 @@ class EOH:
                 # 'n_horizon': self.n_horizon,
                 'p': self.m,
                 'initial': self.load_pop,
+                'initial_base_stock': self.initial_base_stock,
+                'initial_path': self.load_pop_path if self.load_pop else None,
                 # 'order_option': self.order_option,
                 'external_opt': 'no' if self.external_optimizer is None else self.external_optimizer,
                 # 'iter_opt': '-' if self.external_optimizer is None else str(self.iter_opt),
@@ -366,8 +392,8 @@ class EOH:
                 #     'param_loc', 'n_pop', 'mode', 'data_summary', 'algo_performance'
                 # ]
                 base_fields = [
-                    'LLM', 'problem', 'n_train', 'p', 'initial' 'external_opt', 'n_pop', 'mode',
-                    'algo_performance'
+                    'LLM', 'problem', 'n_train', 'p', 'initial', 'initial_base_stock', 'initial_path',
+                    'external_opt', 'n_pop', 'mode', 'algo_performance'
                 ]
                 df = pd.DataFrame(columns=base_fields + problem_specific_fields)
 

@@ -36,11 +36,12 @@ class Evolution:
         self.debug_mode = debug_mode  # close prompt checking
         self.exp_output_path = exp_output_path
         self.prompt_with_explanations = kwargs.get("prompt_with_explanations", False)
+        self.llm_reasoning_effort = kwargs.get("llm_reasoning_effort")
         self.init_base_prompt()
         self.analyzer = analyzer
 
         self.interface_llm = InterfaceLLM(self.api_endpoint, self.api_key, self.model_LLM, llm_use_local, llm_local_url,
-                                          self.debug_mode)
+                                          self.debug_mode, self.llm_reasoning_effort)
         self.external_optimizer = external_optimizer
         self.param_loc = param_loc
 
