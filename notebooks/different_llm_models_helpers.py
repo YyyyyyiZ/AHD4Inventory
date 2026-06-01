@@ -100,6 +100,7 @@ WORKBOOK_FRONT_COLUMNS = [
     "optimizer_status",
     "with_optimizer",
     "base_stock_mode",
+    "initial_basestock",
 ]
 
 
@@ -116,6 +117,12 @@ def build_different_llm_workbook(
         if spec["sheet"] == "S 3" and "n_pop.1" in frame.columns:
             frame = frame.copy()
             frame["mode"] = frame["n_pop.1"]
+        if spec["base_stock_mode"] == "different_base_stock":
+            if "initial_basestock" not in frame.columns:
+                raise ValueError(f"{spec['sheet']} must include initial_basestock")
+        else:
+            frame = frame.copy()
+            frame["initial_basestock"] = 100
         frame.insert(0, "source_sheet", spec["sheet"])
         frame.insert(1, "table_label", spec["table_label"])
         frame.insert(2, "scenario", spec["scenario"])
