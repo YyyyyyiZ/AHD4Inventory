@@ -64,10 +64,10 @@ DIST_GROUP_ORDER = [
 ]
 
 DIST_GROUP_LABELS = [
-    "Category (i)",
-    "Category (ii)",
-    "Category (iii)",
-    "Category (iv)",
+    "Bounded continuous",
+    "Bounded discrete",
+    "Light- to moderate-tailed ",
+    "Heavy-tailed or skewed",
 ]
 
 
@@ -196,15 +196,15 @@ def make_legend_handles(median_lw=2.5, mean_size=7, outlier_size=8, median_label
             linestyle="None",
             label="Mean",
         ),
-        Line2D(
-            [0],
-            [0],
-            marker="+",
-            color="black",
-            markersize=outlier_size,
-            linestyle="None",
-            label="Outlier",
-        ),
+        # Line2D(
+        #     [0],
+        #     [0],
+        #     marker="+",
+        #     color="black",
+        #     markersize=outlier_size,
+        #     linestyle="None",
+        #     label="Outlier",
+        # ),
     ]
 
 
@@ -234,6 +234,7 @@ def boxplot_on_axis(
     showmeans=True,
     showfliers=True,
     vert=False,
+    box_width=0.65,
 ):
     values = [data[col].dropna() for col in cols]
 
@@ -242,7 +243,7 @@ def boxplot_on_axis(
         patch_artist=True,
         showfliers=showfliers,
         showmeans=showmeans,
-        widths=[0.65] * len(cols),
+        widths=[box_width] * len(cols),
         whis=whis,
         boxprops=dict(facecolor="white", lw=1.25, alpha=0.5),
         capprops=dict(lw=2.0, alpha=1, zorder=10),

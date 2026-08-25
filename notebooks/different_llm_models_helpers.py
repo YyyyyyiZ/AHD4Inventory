@@ -123,13 +123,19 @@ def build_different_llm_workbook(
         else:
             frame = frame.copy()
             frame["initial_basestock"] = 100
-        frame.insert(0, "source_sheet", spec["sheet"])
-        frame.insert(1, "table_label", spec["table_label"])
-        frame.insert(2, "scenario", spec["scenario"])
-        frame.insert(3, "llm_family", spec["llm_family"])
-        frame.insert(4, "optimizer_status", spec["optimizer_status"])
-        frame.insert(5, "with_optimizer", spec["with_optimizer"])
-        frame.insert(6, "base_stock_mode", spec["base_stock_mode"])
+        metadata = pd.DataFrame(
+            {
+                "source_sheet": spec["sheet"],
+                "table_label": spec["table_label"],
+                "scenario": spec["scenario"],
+                "llm_family": spec["llm_family"],
+                "optimizer_status": spec["optimizer_status"],
+                "with_optimizer": spec["with_optimizer"],
+                "base_stock_mode": spec["base_stock_mode"],
+            },
+            index=frame.index,
+        )
+        frame = pd.concat([metadata, frame], axis=1)
         frames.append(frame)
 
     combined = pd.concat(frames, ignore_index=True, sort=False)
@@ -152,12 +158,12 @@ def load_different_llm_data(path="data/different_llm_models.xlsx", rebuild=False
 
 
 def prepare_matched_optimizer_convergence_slice(frame, optimizer_status, max_n_pop=None):
-    test_mask = frame["mode"].astype(str).str.lower() == "test"
+    train_mask = frame["mode"].astype(str).str.lower() == "train"
     if optimizer_status == "with optimizer":
         subset = frame[
             ((frame["source_sheet"] == "S 3") | (frame["source_sheet"] == "S 4.4"))
             & (frame["optimizer_status"] == optimizer_status)
-            & test_mask
+            & train_mask
         ].copy()
     else:
         subset = frame[
@@ -166,7 +172,7 @@ def prepare_matched_optimizer_convergence_slice(frame, optimizer_status, max_n_p
                 | (frame["source_sheet"] == "S 4.4 no opt")
             )
             & (frame["optimizer_status"] == optimizer_status)
-            & test_mask
+            & train_mask
         ].copy()
 
     if max_n_pop is None:
@@ -291,7 +297,7 @@ def compute_normalized_convergence_auc(frame):
 def compute_run_variance(frame, n_pop=20):
     subset = frame[
         (frame["source_sheet"] == "S 4.4 no opt extension")
-        & (frame["mode"].astype(str).str.lower() == "test")
+        & (frame["mode"].astype(str).str.lower() == "train")
     ].copy()
     subset = subset[subset["n_pop"] == n_pop].copy()
 
@@ -309,7 +315,7 @@ def compute_optimizer_impact(frame):
     """
     subset = frame[
         (frame["base_stock_mode"] == "standard")
-        & (frame["mode"].astype(str).str.lower() == "test")
+        & (frame["mode"].astype(str).str.lower() == "train")
     ].copy()
 
     key_cols = ["LLM", "dist", "n_pop"]
