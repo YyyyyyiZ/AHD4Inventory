@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="5d332c5a-ab56-4f05-bba8-9b80753b7ab3" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/docs/bin_packing.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/inventory.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/inventory.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/inventory/run_all.py" beforeDir="false" afterPath="$PROJECT_DIR$/examples/inventory/run_all.py" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 7
+}</component>
+  <component name="ProjectId" id="37lzG6kvzbOjvoGfzH1mVuZXhKq" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python._compute_opt_A2_test.executor": "Run",
+    "Python._dp.executor": "Run",
+    "Python.evaluate.executor": "Run",
+    "Python.evaluate2.executor": "Run",
+    "Python.extract_code.executor": "Run",
+    "Python.gen_data.executor": "Run",
+    "Python.gen_more.executor": "Run",
+    "Python.newsvendor.executor": "Run",
+    "Python.plot_hist.executor": "Run",
+    "Python.temp.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "inventory__ex",
+    "last_opened_file_path": "F:/Github_public/AHD4Inventory/examples/inventory/evaluation/generalize_add",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.general",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="F:\Github_public\AHD4Inventory\examples\inventory\evaluation\generalize_add" />
+      <recent name="F:\Github_public\AHD4Inventory\eoh\src\eoh\methods\eoh\operator" />
+      <recent name="F:\Github_public\AHD4Inventory\examples\inventory\evaluation\generalize_test" />
+      <recent name="F:\Github_public\AHD4Inventory\examples\inventory\evaluation\best5" />
+      <recent name="F:\Github_public\AHD4Inventory\examples\inventory\evaluation\best5\pops_best" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="F:\Github_public\AHD4Inventory\examples\inventory\evaluation\generalize" />
+      <recent name="F:\Github_public\AHD4Inventory\examples\inventory\evaluation\best5\gen_old" />
+      <recent name="F:\Github_public\AHD4Inventory\examples\inventory\evaluation\best5\history" />
+      <recent name="F:\Github_public\AHD4Inventory\examples\inventory\evaluation\best5\pops_best\extracted" />
+      <recent name="F:\Github_public\AHD4Inventory\examples\inventory\evaluation\best5" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Python.gen_data">
+    <configuration name="_dp" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="AHD4Inventory" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/examples/inventory/evaluation/data" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/examples/inventory/evaluation/data/_dp.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="evaluate2" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="AHD4Inventory" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/examples/inventory/evaluation/best5" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/examples/inventory/evaluation/best5/evaluate2.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="gen_data" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="AHD4Inventory" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/examples/inventory/evaluation" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/examples/inventory/evaluation/gen_data.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="plot_hist" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="AHD4Inventory" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/examples/inventory/evaluation/best5" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/examples/inventory/evaluation/best5/plot_hist.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.gen_data" />
+        <item itemvalue="Python.plot_hist" />
+        <item itemvalue="Python._dp" />
+        <item itemvalue="Python.evaluate2" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-PY-241.19416.19" />
+        <option value="bundled-python-sdk-337b0a7a993a-2767605e8bc2-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-241.19416.19" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="5d332c5a-ab56-4f05-bba8-9b80753b7ab3" name="Changes" comment="" />
+      <created>1767492348906</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1767492348906</updated>
+      <workItem from="1767492350498" duration="15090000" />
+      <workItem from="1767536342044" duration="6435000" />
+      <workItem from="1767575469176" duration="1788000" />
+      <workItem from="1767621030696" duration="934000" />
+      <workItem from="1767667553082" duration="1761000" />
+      <workItem from="1767669571212" duration="4408000" />
+      <workItem from="1767713072564" duration="2184000" />
+      <workItem from="1768050228064" duration="2281000" />
+      <workItem from="1768056558255" duration="1710000" />
+      <workItem from="1768095946075" duration="1299000" />
+      <workItem from="1768097800761" duration="80000" />
+      <workItem from="1768959382388" duration="5902000" />
+      <workItem from="1769094448216" duration="682000" />
+      <workItem from="1769099257360" duration="2067000" />
+      <workItem from="1773511724089" duration="167000" />
+      <workItem from="1773520664804" duration="6539000" />
+      <workItem from="1773527302801" duration="6989000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/AHD4Inventory$evaluate2.coverage" NAME="evaluate2 Coverage Results" MODIFIED="1768963950656" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/examples/inventory/evaluation/best5" />
+    <SUITE FILE_PATH="coverage/AHD4Inventory$gen_data.coverage" NAME="gen_data Coverage Results" MODIFIED="1773526663254" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/examples/inventory/evaluation" />
+    <SUITE FILE_PATH="coverage/AHD4Inventory$_compute_opt_A2_test.coverage" NAME="_compute_opt_A2_test Coverage Results" MODIFIED="1768964570222" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/examples/inventory/evaluation/generalize_test" />
+    <SUITE FILE_PATH="coverage/AHD4Inventory$gen_more.coverage" NAME="gen_more Coverage Results" MODIFIED="1767493121958" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/examples/inventory/evaluation/generalize" />
+    <SUITE FILE_PATH="coverage/AHD4Inventory$evaluate.coverage" NAME="evaluate Coverage Results" MODIFIED="1767536446978" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/examples/inventory/evaluation/best5" />
+    <SUITE FILE_PATH="coverage/AHD4Inventory$temp.coverage" NAME="temp Coverage Results" MODIFIED="1767673058011" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/examples/inventory/evaluation" />
+    <SUITE FILE_PATH="coverage/AHD4Inventory$_dp.coverage" NAME="_dp Coverage Results" MODIFIED="1768964836463" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/examples/inventory/evaluation/data" />
+    <SUITE FILE_PATH="coverage/AHD4Inventory$plot_hist.coverage" NAME="plot_hist Coverage Results" MODIFIED="1769101077797" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/examples/inventory/evaluation/best5" />
+    <SUITE FILE_PATH="coverage/AHD4Inventory$newsvendor.coverage" NAME="newsvendor Coverage Results" MODIFIED="1768057166247" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/examples/inventory/evaluation/data" />
+    <SUITE FILE_PATH="coverage/AHD4Inventory$extract_code.coverage" NAME="extract_code Coverage Results" MODIFIED="1768960748441" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/examples/inventory/evaluation/best5" />
+  </component>
+</project>
