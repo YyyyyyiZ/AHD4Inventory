@@ -1,0 +1,34 @@
+{
+  "recorded_utc": "2026-09-16T13:38:55.992670+00:00",
+  "chain": "training/exp_regime095_fixed6/self_evolve_h200_r1",
+  "metadata": {
+    "scenario_id": "exp_regime095_fixed6",
+    "repeat": 1,
+    "chain_dir": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_unrestricted_params/training/exp_regime095_fixed6/self_evolve_h200_r1",
+    "generation": 4,
+    "operator": "m2",
+    "candidate_index": 6,
+    "parent_code_sha256": "d03fd30a363c65ea01976159c8288266334fb5b5bd1b05e89c057199bb819a2f",
+    "candidate_attempt": 1,
+    "prompt_sha256": "9e1c4058cff14c8c2e99ec6554150236e58c34ed4cf7759c2efc4cdd93acff18"
+  },
+  "request_id": null,
+  "resolution": "resume_original_unsubmitted_slot",
+  "no_repost": false,
+  "evidence": {
+    "training/exp_regime095_fixed6/self_evolve_h200_r1/blocked_transport.json": {
+      "sha256": "c67173e6e4ea5b65539986d848a4f2d2b9754fc9f318f9de9ab8a7218d380e13",
+      "archived_path": "training/exp_regime095_fixed6/self_evolve_h200_r1/recoveries/user_pause_56d460c364d72f71/blocked_transport.original.json"
+    },
+    "training/exp_regime095_fixed6/self_evolve_h200_r1/model_responses/56d460c364d72f713ca927efea9f423e6b8b2cf658bfabaeaf0c61b3c091dbfc.json": {
+      "sha256": "9470bcf11202396cf733a5c774c9b4dd0485652db1ffa8b7866289211896ca10",
+      "archived_path": "training/exp_regime095_fixed6/self_evolve_h200_r1/recoveries/user_pause_56d460c364d72f71/pending_model_response.original.json"
+    },
+    "training/exp_regime095_fixed6/self_evolve_h200_r1/status.json": {
+      "sha256": "bcc897443c001295fc5bb494a0b00982b12127ec06e6faa6e5b15f13944cce7a",
+      "archived_path": "training/exp_regime095_fixed6/self_evolve_h200_r1/recoveries/user_pause_56d460c364d72f71/status.original.json"
+    }
+  },
+  "unknown_cost_upper_usd": 0.0,
+  "user_resume_authorized": true
+}

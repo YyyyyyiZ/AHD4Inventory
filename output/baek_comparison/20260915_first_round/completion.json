@@ -1,0 +1,108 @@
+{
+  "status": "completed",
+  "completed_utc": "2026-09-16T03:30:51.909482+00:00",
+  "model": "openai/gpt-5.6-sol",
+  "reasoning_effort": "high",
+  "generation_groups": 18,
+  "scored_policy_instances": 99,
+  "invalid_policy_retries": 0,
+  "counts_and_budget": {
+    "completed_generation_groups": 18,
+    "selected_groups": 18,
+    "scored_instances": 99,
+    "main_paired_comparisons": 540,
+    "max_setup_seconds": 16.50718787498772,
+    "setups_over_30_seconds": 0,
+    "known_actual_usd": 5.439323899999999,
+    "held_upper_usd": 1.772716,
+    "accounted_upper_usd": 7.212039899999999,
+    "unresolved_requests": 2,
+    "blocking_unresolved_requests": 0
+  },
+  "core_fresh_test_three_draw_means": [
+    {
+      "scenario_id": "exponential_L6_c1_2",
+      "method": "Baek-L1",
+      "mean_cost": "6109.363424634926",
+      "sd_cost_across_draws": "0.168494478214976",
+      "mean_improvement_pct": "0.19358214401416493"
+    },
+    {
+      "scenario_id": "exponential_L6_c1_2",
+      "method": "Baek-L2",
+      "mean_cost": "6113.888173697004",
+      "sd_cost_across_draws": "7.582130667499225",
+      "mean_improvement_pct": "0.11966298678046734"
+    },
+    {
+      "scenario_id": "normal_std30_L6_c1_2",
+      "method": "Baek-L1",
+      "mean_cost": "2237.681993806463",
+      "sd_cost_across_draws": "1.6067593071590418",
+      "mean_improvement_pct": "0.2418053049263044"
+    },
+    {
+      "scenario_id": "normal_std30_L6_c1_2",
+      "method": "Baek-L2",
+      "mean_cost": "2235.9757477581793",
+      "sd_cost_across_draws": "0.2519877140462582",
+      "mean_improvement_pct": "0.31787153147392133"
+    },
+    {
+      "scenario_id": "poisson_L6_c1_2",
+      "method": "Baek-L1",
+      "mean_cost": "742.7402091205264",
+      "sd_cost_across_draws": "0.02832530486057613",
+      "mean_improvement_pct": "0.58302960790496"
+    },
+    {
+      "scenario_id": "poisson_L6_c1_2",
+      "method": "Baek-L2",
+      "mean_cost": "743.3591050387",
+      "sd_cost_across_draws": "0.5557989106654315",
+      "mean_improvement_pct": "0.500189394843488"
+    }
+  ],
+  "l2_fresh_test": {
+    "classical_train_selected": {
+      "n_paired_scenarios": 30,
+      "equal_scenario_mean_improvement_pct": 0.851927177427373,
+      "median_scenario_improvement_pct": 0.7575875711101004,
+      "positive_mean_scenarios": 30
+    },
+    "historical_AHD": {
+      "n_paired_scenarios": 20,
+      "equal_scenario_mean_improvement_pct": 3.0058295584590042,
+      "median_scenario_improvement_pct": 0.8766200270491449,
+      "positive_mean_scenarios": 20
+    }
+  },
+  "audits": {
+    "numerical": "pass",
+    "independent": "pass",
+    "artifact": "pass"
+  },
+  "known_fee_note": "Two historical TLS failures retain USD1.772716 in conservative upper bounds; this is not confirmed actual billing. No active experiment requests remain.",
+  "artifact_sha256": {
+    "report.md": "836e20e931dfb6850a44c4a13f2181cfdd9cbc2c1abcb3a5e5ec1b7572657bc3",
+    "policy_design_all_draws.md": "6d8d2e51f82a2540fecaa86add6df21a58d7d75da2b5468a2acc50f16316e92b",
+    "policy_design_comparison.md": "e07911729a964e90ca70a651ff793f4bb76d7dbdc98ffac598cf6bfbc03582c3",
+    "final_numerical_audit.json": "4239c5dba439788a5107470a718e20b358577cce1943544e6d1a4007c8eb56ae",
+    "final_results_audit.md": "461d8bd481dde29bdb1537abec7a13e7a043cb6f63bd7d03b02747b65930ef6d",
+    "final_results_audit_metrics.json": "23a5cee5be82cf73990d2a666eab1074d0e53451da4ebebcbe92fa87b266f21d",
+    "figures/core_fresh_test_comparison.png": "575cd346a9f1361d28c2ecf3a5e33303fe115fffaacca5d2197e6b29262e6938",
+    "figures/core_fresh_test_comparison.svg": "3e9d6b04e49ca98f872706ed5c10d927c8e7df7070ffdfc2bb5aa6a19280aeb6",
+    "manifest.json": "88945883d10220e0571a2448d1afde0a3df906ab638023719d884728fccd51ce",
+    "implementation_final_snapshot/snapshot.json": "ab9452b980ac42cd1417843910695eac0cbcedf399f1d7b970f99ea1657c50d4",
+    "tables/draw_selection.csv": "20bcc824703d8a327e28a594ca515649ee7e5d5268efbe774384a82a422a8844",
+    "tables/generation.csv": "619e4f6e9fc6bc2f1fc6f2c0ef3685b97d91842d99c0cb32898ca14530fdd4d9",
+    "tables/paired_comparisons.csv": "170d3acb6adad472448e731aa5683f6c2a6bba559bf00121af3ea79db2c56b49",
+    "tables/per_draw.csv": "403aa1e0eddfdbb0508a4f1b8c5e203ab848e71cdf8d0e87debfd81505d2936c",
+    "tables/references.csv": "821dfd59d925d97699f46ad4ca7d4acc96c74993aa6f1b300e1fd1132879cf0a",
+    "tables/repeat_summary.csv": "51c1706d81bccea0b61aaa3a0750c1540836dde018d4eafb06ae6ff0912b282b"
+  },
+  "finished_processes": {
+    "generation_pid": 50797,
+    "evaluation_queue_pid": 50835
+  }
+}

@@ -1,0 +1,147 @@
+{
+  "results": {
+    "perish_m4_L2_cv2_f0.5": {
+      "theta": [
+        21.42067643435619,
+        2.904175542715155,
+        0.9072758909824532,
+        0.4492483602321955,
+        0.9735593472231552,
+        5.175237589916609,
+        0.4857601189952192,
+        0.9612329858839583,
+        0.8338634579231217,
+        1.6503533535293617
+      ],
+      "cost": 211.809375,
+      "nfev": 161,
+      "seconds": 21.945627292152494,
+      "path_costs": [
+        234.8,
+        198.5,
+        226.6,
+        206.4,
+        236.9,
+        197.9,
+        221.0,
+        170.3,
+        196.9,
+        226.2,
+        180.3,
+        196.5,
+        221.7,
+        248.3,
+        231.0,
+        197.0,
+        233.4,
+        202.3,
+        217.9,
+        200.1,
+        228.8,
+        217.5,
+        181.6,
+        184.5,
+        207.1,
+        215.3,
+        193.5,
+        233.4,
+        222.2,
+        230.2,
+        202.3,
+        217.5
+      ],
+      "metrics": [
+        0.5516562500000001,
+        1.5664375000000001,
+        2.9742187499999995
+      ],
+      "cap": 17
+    }
+  },
+  "parameters": {
+    "S": {
+      "type": "float",
+      "initial": 10.0,
+      "min": 0.0,
+      "max": 60.0
+    },
+    "C": {
+      "type": "float",
+      "initial": 6.0,
+      "min": 0.0,
+      "max": 30.0
+    },
+    "D": {
+      "type": "float",
+      "initial": 0.75,
+      "min": 0.0,
+      "max": 2.5
+    },
+    "H": {
+      "type": "float",
+      "initial": 1.0,
+      "min": 0.0,
+      "max": 2.0
+    },
+    "ALPHA": {
+      "type": "float",
+      "initial": 0.85,
+      "min": 0.55,
+      "max": 0.98
+    },
+    "A": {
+      "type": "float",
+      "initial": 1.5,
+      "min": 0.0,
+      "max": 8.0
+    },
+    "W0": {
+      "type": "float",
+      "initial": 0.1,
+      "min": 0.0,
+      "max": 1.0
+    },
+    "K": {
+      "type": "float",
+      "initial": 1.0,
+      "min": 0.0,
+      "max": 3.0
+    },
+    "R": {
+      "type": "float",
+      "initial": 0.0,
+      "min": -3.0,
+      "max": 3.0
+    },
+    "G": {
+      "type": "float",
+      "initial": 0.1,
+      "min": 0.0,
+      "max": 2.0
+    }
+  },
+  "structure_sha256": "fe406bdd40cad429001b4c0965b8b0ec24f02c9451a9caffc7d10b4786fb1158",
+  "code_sha256": "fbac27098cbeaefc451c5a9eb9266cdeb0fe0b7c9cc9d69fdadf61bf5d9886d5",
+  "import_normalization": [],
+  "action_cache": {
+    "enabled": true,
+    "version": 1,
+    "scenarios": {
+      "perish_m4_L2_cv2_f0.5": {
+        "hits": 6800397,
+        "misses": 975603,
+        "peak_entries": 16108,
+        "configuration": {
+          "dense": false,
+          "slots": 65536,
+          "slot_bits": 16,
+          "max_entries": 26334,
+          "buffer_bytes": 1048576
+        }
+      }
+    }
+  },
+  "wall_seconds": 23.206819624872878,
+  "transitions": 7776000,
+  "request_sha256": "57c6daafec243af7e06ce9d36355417356bd0d5b80a75a752d9c40f23d9ef669"
+}

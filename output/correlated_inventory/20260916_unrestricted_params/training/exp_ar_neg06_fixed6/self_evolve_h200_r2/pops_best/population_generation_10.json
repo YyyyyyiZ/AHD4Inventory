@@ -1,0 +1,17 @@
+{
+     "algorithm": "Increased base target to better handle demand variability, added stronger demand sensitivity to react to recent demand, and introduced moderate pipeline sensitivity to account for incoming orders. The policy now more aggressively adjusts ordering based on both inventory position and recent demand patterns while maintaining a higher base stock level to prevent lost sales.",
+     "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 66.89007496154362  # OPT_PARAM: {\"initial\": 66.89007496154362, \"min\": 50.0, \"max\": 200.0, \"type\": \"float\"}\n    demand_sensitivity = 0.01305846762966893  # OPT_PARAM: {\"initial\": 0.01305846762966893, \"min\": 0.0, \"max\": 1.0, \"type\": \"float\"}\n    pipeline_sensitivity = 0.0  # OPT_PARAM: {\"initial\": 0.0, \"min\": 0.0, \"max\": 0.5, \"type\": \"float\"}\n    \n    # Adjust target based on last demand (mean-reverting behavior)\n    adjusted_target = base_target + demand_sensitivity * (100.0 - last_demand)\n    inventory_position = on_hand_inventory + sum(pipeline_orders)\n    order_amount = max(0.0, adjusted_target - pipeline_sensitivity * inventory_position)\n    return order_amount\n",
+     "description": "",
+     "intuition": "",
+     "reasoning": "Increased base target to better handle demand variability, added stronger demand sensitivity to react to recent demand, and introduced moderate pipeline sensitivity to account for incoming orders. The policy now more aggressively adjusts ordering based on both inventory position and recent demand patterns while maintaining a higher base stock level to prevent lost sales.",
+     "opt_params": {
+          "base_target": 66.89007496154362,
+          "demand_sensitivity": 0.01305846762966893,
+          "pipeline_sensitivity": 0.0
+     },
+     "cost": null,
+     "objective": 20075.32926,
+     "lower": 19539.50173,
+     "upper": 20618.73789,
+     "other_inf": null
+}

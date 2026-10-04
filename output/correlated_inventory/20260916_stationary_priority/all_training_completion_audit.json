@@ -1,0 +1,43 @@
+{
+  "recorded_utc": "2026-09-16T07:53:46.494727+00:00",
+  "auditor": "audit_inventory_environment",
+  "audit_type": "independent read-only training and baseline provenance audit",
+  "completed_primary_runs": 18,
+  "completed_refit_runs": 9,
+  "candidate_slots": 2700,
+  "valid_candidate_slots": 2682,
+  "invalid_candidate_slots": 18,
+  "model_or_constraint_invalid_slots": 13,
+  "transport_failure_slots": 5,
+  "valid_rate": 0.9933333333333333,
+  "candidate_model_requests": 2771,
+  "extension": {
+    "runs": 9,
+    "candidate_slots": 900,
+    "valid_candidate_slots": 892,
+    "invalid_candidate_slots": 8,
+    "model_or_constraint_invalid_slots": 4,
+    "transport_failure_slots": 4,
+    "candidate_model_requests": 913
+  },
+  "baseline_parameterizations": 63,
+  "final_policy_sha_checked": 27,
+  "all_policy_seal_bindings_checked": 63,
+  "frozen_adaptation_files": 6,
+  "all_policy_seal_sha256": "355c2351308e2c5fdddd44e0e4474a808df735110657ab87ba90e3341a0b5348",
+  "known_api_cost_usd": 1.78133475,
+  "uncertain_held_upper_usd": 0.044427,
+  "pending_upper_usd": 0,
+  "committed_upper_usd": 1.82576175,
+  "validation_or_test_costs_read": false,
+  "api_calls_during_audit": 0,
+  "files_modified_by_auditor": false,
+  "checks": [
+    "all 27 completed/result/policy/generation10 selected source hashes consistent",
+    "all frozen adaptation and framework hashes match recorded definitions/current sources/formal snapshot",
+    "all baseline training tape fingerprints and train50/B500/correspondingH identities verified",
+    "five communication failures retain original unknown cost entries and have no duplicate metadata requests",
+    "all 63 all_policies_freeze bindings match"
+  ],
+  "remaining_issue": "Validation runtime cache error being fixed separately; no training/provenance blocker."
+}

@@ -1,0 +1,108 @@
+{
+  "revision": "backbone_evolve_optimize_v1",
+  "objective": "Compare backbones under the same improved evolve-and-optimize workflow on all 20 existing perishable inventory scenarios, with fresh demand samples.",
+  "provider_confirmation_required": true,
+  "requested_model_unresolved": "Talk-2",
+  "prospective_model_roles": [
+    "user_requested_deepseek_reasoning",
+    "lower_price_open_weight",
+    "openai/gpt-5.6-sol_same_workflow_control"
+  ],
+  "model_selection_note": "Pro and Flash are possible official API models, not silent substitutions for Talk-2. Cheap need not mean weaker.",
+  "previous_known_usd": 12.7751011,
+  "cumulative_user_limit_usd": 50.0,
+  "new_experiment_limit_usd": 30.0,
+  "grid": {
+    "m": [
+      3,
+      4,
+      5,
+      7,
+      8
+    ],
+    "L": 2,
+    "cv": [
+      1.5,
+      2.0
+    ],
+    "f": [
+      0.0,
+      0.5
+    ],
+    "mean": 4,
+    "h": 0,
+    "p": 100,
+    "w": 100
+  },
+  "discovery_m": [
+    3,
+    5,
+    7
+  ],
+  "transfer_m": [
+    4,
+    8
+  ],
+  "repetitions": 3,
+  "generated_candidates_per_repetition": 16,
+  "independent_initial_candidates": 4,
+  "feedback": "Top three candidates: original code, fitted parameters, per-scenario costs, waste/lost/order, fitting effort, and recent failures. Propose a structural alternative or improve an existing candidate; distinguish structural and numerical changes.",
+  "parameter_count_limit": null,
+  "optimizer": {
+    "algorithm": "differential_evolution_on_unit_box",
+    "population": "min(128,max(16,4*d))",
+    "initials": "Evaluate literal defaults and supplied warm starts before remaining bounded search. Final refit inherits fitted parameters; transfer uses same-CV/same-f nearest discovery m, ties lower m.",
+    "polish": false
+  },
+  "stages": {
+    "train": {
+      "paths": 16,
+      "burnin": 200,
+      "horizon": 512,
+      "budget": 512
+    },
+    "promote": {
+      "paths": 32,
+      "burnin": 500,
+      "horizon": 1000,
+      "budget": 1536,
+      "top_k": 3
+    },
+    "validation": {
+      "paths": 32,
+      "burnin": 500,
+      "horizon": 1000
+    },
+    "refit": {
+      "paths": 32,
+      "burnin": 500,
+      "horizon": 1500,
+      "budget": 1536
+    },
+    "test": {
+      "paths": 128,
+      "burnin": 500,
+      "horizon": 3000
+    }
+  },
+  "numerical_workers": 3,
+  "memory_limit_bytes": 1073741824,
+  "candidate_timeout_seconds": 3600,
+  "action_memoization": "Exact pure-policy raw-action cache enabled consistently in all new stages, with stored demand hashes and bounded memory.",
+  "seeds": "Fresh stage/repeat seeds, common across backbones; confirmation demand generated only after every submitted policy and coefficient is frozen. Seeds are excluded from model prompts.",
+  "selection": "After search, promote top three by training score plus the best common baseline if absent; retain promotion/validation failures and select among successful predeclared candidates on independent validation. No replacements or fresh candidates. If all fail or final refit fails, keep the repetition incomplete. Refit, freeze every model, then test.",
+  "primary_comparison": "20-scenario equal-weight mean relative cost versus same-workflow Sol; also 8 transfer scenarios, worst case, API cost and numerical work.",
+  "closeness_margin_pct": 2.0,
+  "inference": "Three independent algorithm-generation repetitions; demand-path intervals are conditional simulation uncertainty. If evidence is insufficient, do not claim noninferiority.",
+  "old_results": "Frozen old Sol and Baek policies are optional historical references; workflow changes prevent attributing old-versus-new differences solely to the backbone.",
+  "common_seeds": {
+    "code_sha256": {
+      "constant": "ddd5464183353d82335357956e684fd3d9e2ff25da80da0d682627bbd6f773f2",
+      "base_stock": "242a097438838d6ab2cf382a7b09d476ffd7bb58dedb63415946876209defa15",
+      "capped_base_stock": "d0f1367acd17bc1a9f23b8828e2539147acc9755f5779e878a260de2e4fc4c77",
+      "age_discount": "d350bef928d94907db5bce14b7fcb510908123459a9b23f2da39f940454f94be",
+      "flexible_age_weights": "827d76a4b420e2f223092a262d16545594ebbdd72d311fd42c992ec013122ef6"
+    },
+    "provenance": "Four standard seeds plus flexible age weights based on prior source/training inspection; common to every backbone, not LLM discoveries in this run."
+  }
+}

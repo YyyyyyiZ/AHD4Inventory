@@ -1,0 +1,56 @@
+[
+  {
+    "kind": "baseline",
+    "scenario_id": "exp_iid_fixed6",
+    "horizon": 200,
+    "exit_code": 0,
+    "status": "complete",
+    "elapsed_seconds": 0.9386409579310566,
+    "log": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_stationary_priority/job_logs/baseline_exp_iid_fixed6_h200_r0.log"
+  },
+  {
+    "kind": "baseline",
+    "scenario_id": "exp_ar_neg06_fixed6",
+    "horizon": 200,
+    "exit_code": 0,
+    "status": "complete",
+    "elapsed_seconds": 39.966717374976724,
+    "log": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_stationary_priority/job_logs/baseline_exp_ar_neg06_fixed6_h200_r0.log"
+  },
+  {
+    "kind": "baseline",
+    "scenario_id": "exp_ar_pos08_fixed6",
+    "horizon": 200,
+    "exit_code": 0,
+    "status": "complete",
+    "elapsed_seconds": 111.72672629193403,
+    "log": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_stationary_priority/job_logs/baseline_exp_ar_pos08_fixed6_h200_r0.log"
+  },
+  {
+    "kind": "baseline",
+    "scenario_id": "exp_regime095_fixed6",
+    "horizon": 200,
+    "exit_code": 0,
+    "status": "complete",
+    "elapsed_seconds": 98.11082779197022,
+    "log": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_stationary_priority/job_logs/baseline_exp_regime095_fixed6_h200_r0.log"
+  },
+  {
+    "kind": "baseline",
+    "scenario_id": "exp_iid_random3_9",
+    "horizon": 200,
+    "exit_code": 0,
+    "status": "complete",
+    "elapsed_seconds": 44.65342804091051,
+    "log": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_stationary_priority/job_logs/baseline_exp_iid_random3_9_h200_r0.log"
+  },
+  {
+    "kind": "baseline",
+    "scenario_id": "exp_regime095_random3_9",
+    "horizon": 200,
+    "exit_code": 0,
+    "status": "complete",
+    "elapsed_seconds": 71.29172704205848,
+    "log": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_stationary_priority/job_logs/baseline_exp_regime095_random3_9_h200_r0.log"
+  }
+]

@@ -1,0 +1,17 @@
+{
+     "algorithm": "Key changes: 1) Increased base_target to better handle high-demand periods, 2) Reduced demand_response to be less reactive to spikes, 3) Removed lead_time_adjustment which wasn't helping (since lead time is fixed), 4) Added regime detection to adjust targets based on previous demand level, 5) Increased inventory_adjustment for faster replenishment. These changes better balance holding vs lost-sales costs given the demand patterns.",
+     "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 280.0  # OPT_PARAM: {\"initial\": 280.0, \"min\": 280.0, \"max\": 360.0, \"type\": \"float\"}\n    demand_response = 1.0  # OPT_PARAM: {\"initial\": 1.0, \"min\": 1.0, \"max\": 2.5, \"type\": \"float\"}\n    inventory_adjustment = 0.2  # OPT_PARAM: {\"initial\": 0.2, \"min\": 0.2, \"max\": 0.4, \"type\": \"float\"}\n    \n    # Detect demand regime shift (high/low demand periods)\n    high_demand = last_demand >= 100.0 * np.log(2)\n    regime_factor = 1.5 if high_demand else 1.0\n    \n    dynamic_target = base_target * regime_factor + demand_response * last_demand\n    inventory_position = on_hand_inventory + sum(pipeline_orders)\n    order_amount = max(0.0, inventory_adjustment * (dynamic_target - inventory_position))\n    return order_amount\n",
+     "description": "",
+     "intuition": "",
+     "reasoning": "Key changes: 1) Increased base_target to better handle high-demand periods, 2) Reduced demand_response to be less reactive to spikes, 3) Removed lead_time_adjustment which wasn't helping (since lead time is fixed), 4) Added regime detection to adjust targets based on previous demand level, 5) Increased inventory_adjustment for faster replenishment. These changes better balance holding vs lost-sales costs given the demand patterns.",
+     "opt_params": {
+          "base_target": 280.0,
+          "demand_response": 1.0,
+          "inventory_adjustment": 0.2
+     },
+     "cost": null,
+     "objective": 30153.34072,
+     "lower": 28510.61753,
+     "upper": 31792.34628,
+     "other_inf": null
+}

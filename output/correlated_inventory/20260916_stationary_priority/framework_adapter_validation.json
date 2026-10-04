@@ -1,0 +1,108 @@
+{
+  "schema_version": 1,
+  "recorded_at_utc": "2026-09-16T04:43:21.242889+00:00",
+  "status": "passed",
+  "scope": "Offline adapter and runtime verification only. No provider requests were made by these validation scripts; the separately completed paid pilot supplied one frozen code artifact and its training tapes for profiling.",
+  "zero_new_api_calls": true,
+  "actual_framework_chain": [
+    "EOH.run",
+    "InterfaceEC",
+    "Evolution.m2",
+    "ScipyOptimizer/L-BFGS-B",
+    "best_deterministic",
+    "pop_greedy"
+  ],
+  "mock_full_vs_compact": {
+    "population_size": 2,
+    "generations": 1,
+    "optimizer_maxiter": 1,
+    "training_paths": 3,
+    "burnin": 5,
+    "horizon": 20,
+    "mock_model_requests": 2,
+    "pre_change_full_feedback": {
+      "code_sha256": "09d98f686769b02549d13a760a3e5ff5addacf7c51553c5464c8b31e6ba49210",
+      "train_mean_cost": 3563.6491931552628,
+      "training_evaluations": 15,
+      "compiled_structures": 3
+    },
+    "post_change_compact_feedback": {
+      "code_sha256": "09d98f686769b02549d13a760a3e5ff5addacf7c51553c5464c8b31e6ba49210",
+      "train_mean_cost": 3563.6491931552628,
+      "training_evaluations": 18,
+      "compiled_structures": 3
+    },
+    "assertions": [
+      "Final policy hash exactly identical",
+      "Final training objective exactly identical",
+      "Two successful mock requests",
+      "Final candidate/seed feedback is re-evaluated from its actual code",
+      "Public population JSON omits test fields and large matrices",
+      "Complete candidate/checkpoint feedback remains in compressed audit files"
+    ],
+    "evaluation_count_note": "Compact mode requires separate final full-feedback calls; this changes evaluation accounting, not the optimizer objective or method."
+  },
+  "resume_checks": {
+    "completed_candidate_replay_new_mock_calls": 0,
+    "deleted_candidate_retained_response_replay_new_mock_calls": 0,
+    "final_hash_unchanged": true,
+    "provider_request_replay": "Synthetic exact-metadata matching request, response and complete ledger were replayed without calling the mock client.",
+    "unresolved_request": "Synthetic pending provider ledger blocked replay and re-POST.",
+    "exclusive_chain_lock": "A held chain lock prevented a second runner from entering."
+  },
+  "compiler_checks": [
+    "Changing OPT_PARAM numeric values retained structure SHA and reused one compilation.",
+    "Original and compiled actions agreed on the checked public states.",
+    "A multi-window result used one simulation and returned per-path metrics including order units.",
+    "Multiple assignments on an OPT_PARAM source line were rejected."
+  ],
+  "frozen_pilot_training_profile": {
+    "policy_path": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_stationary_priority/pilots/exp_ar_pos08_fixed6/self_evolve_h200_r1/policy.py",
+    "policy_sha256": "ca9fa4d94dc24011f581ef0dab23c504b22fa648ad948ea06774246543ff3751",
+    "training_paths": 50,
+    "burnin": 500,
+    "horizon": 200,
+    "repetitions_per_mode": 20,
+    "full": {
+      "mean_seconds": 0.02994276484241709,
+      "median_seconds": 0.028946375008672476
+    },
+    "compact": {
+      "mean_seconds": 0.001858639670535922,
+      "median_seconds": 0.0017932294867932796
+    },
+    "parity": "avg, lower, upper and all 50 per-path total costs compared with exact equality; compact intermediate cost_matrix/order_matrix are empty.",
+    "test_data_opened": false,
+    "timing_limit": "One frozen policy on one machine; this is an execution overhead measurement, not a new performance-selection trial or an across-policy runtime guarantee."
+  },
+  "memory_measurements": {
+    "short_full_chain_mock_parent_peak_rss_mib": 136.1875,
+    "short_full_chain_mock_child_peak_rss_mib": 158.96875,
+    "frozen_policy_profile_parent_current_rss_kib": 100720,
+    "frozen_policy_profile_child_current_rss_kib": 185248,
+    "frozen_policy_profile_child_peak_rss_mib": 180.90625,
+    "units_note": "macOS resource.ru_maxrss divided by 1024^2; ps rss is KiB. These are short-run measurements, not a measured 100-candidate peak."
+  },
+  "final_transport_model_guard": {
+    "expected_model_response_replayed": true,
+    "mismatched_model_response_blocked": true,
+    "client_without_model_attribute_mock_compatible": true,
+    "ledger_bytes_unchanged": true,
+    "new_api_calls": 0
+  },
+  "source_hashes_at_freeze": {
+    "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/examples/inventory/correlated_benchmark/evolution.py": "aa59cee41592e2f67d12d8a4648748a1b6df835277658b403f0983f9cfc94466",
+    "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/examples/inventory/correlated_benchmark/problem.py": "3dc1493294a1e95c37f5f2c3607de827f9f7b443f1b0964a2fdb8019a9aca17c",
+    "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/examples/inventory/correlated_benchmark/prompts.py": "07eb65faa7c23860deac37fe8ab53535de36e219c540e1676c2314b72060e217",
+    "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/examples/inventory/correlated_benchmark/fast_policy.py": "74d8eafe9132157b8f3140df05d42630c91f1d5f1238d6156871c93487f545fa",
+    "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/examples/inventory/correlated_benchmark/data.py": "51d9c8099f1de4ba07dc789067c7559673f7f6d0627222dea512c7ae16490a84",
+    "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/examples/inventory/correlated_benchmark/environment.py": "22188bcdb372c28599b410fa45411fdbb69754a8430f95b78a21b7847568db93",
+    "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/eoh/src/eoh/methods/eoh/eoh.py": "5ba704cef63d6813ffce0780408a1b5bbadeb533d79efe554222a9fb8df3fb37",
+    "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/eoh/src/eoh/methods/eoh/eoh_interface_EC.py": "b40bfb99c359c2ab1f5ba3f06d30718c2c8592c3a329952bdaf85442fa554439",
+    "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/eoh/src/eoh/methods/eoh/eoh_evolution.py": "15a2b4dd46209178600b06da41d50d59d3cc9dd7d0b4af56c22a525988403212",
+    "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/eoh/src/eoh/methods/eoh/external_scipy.py": "bd0197b3d5283d1065cf8272d10cee8b8e87af86ae40036ac74bf0f3eabea60b",
+    "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/eoh/src/eoh/methods/selection/best_deterministic.py": "85bb90bb1b915d9bd202c99d4549efcda8d18e8b7830d7aa3f664af7db5a3fad",
+    "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/eoh/src/eoh/methods/management/pop_greedy.py": "eebc9bf3a59237de0d71b003b151a5a2b0bdc7eead3b2a90313fad61e4ead04b"
+  },
+  "provenance_note": "Results transcribed from assertions and timing outputs of the local validation scripts executed in this task. Temporary mock fixture directories were removed. The final model-recovery guard was added and separately tested after the compact timing checks; the source hashes identify the final frozen files."
+}

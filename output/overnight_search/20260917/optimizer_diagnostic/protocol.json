@@ -1,0 +1,73 @@
+{
+  "label": "Independent exploratory optimizer diagnostic; not main AIPS evidence",
+  "candidate": "output/overnight_search/20260917/extended/search/evolution_r2/candidate_00_0",
+  "code_sha256": "53e436c1999a84b78c0fec033f9e44249ffb8fbc791994749b47e812f1c9a7e9",
+  "source_fit_sha256": "673b933845c3cd95acd567aa29e7ae6efae7ca9ec00a67ccfabdc7fa54f1d485",
+  "runner_sha256": "bdbfe2d3edc044d2599dabb4299dcf53d3716ba980a76615f0ee4d461d9af70a",
+  "trusted_prelude_sha256": "5d439a2f7e9f58dca0aa37594fc9b3dcb1f942ba5d5a79f02b0e50ea27713aeb",
+  "settings": {
+    "paths": 32,
+    "burnin": 500,
+    "horizon": 1000,
+    "fit_seed": 18111001,
+    "validation_seed": 18112001,
+    "budget": 1024,
+    "optimizer_seed": 1731
+  },
+  "scenarios": [
+    {
+      "name": "perish_m7_L2_cv1.5_f0",
+      "m": 7,
+      "L": 2,
+      "cv": 1.5,
+      "f": 0.0,
+      "mean": 4.0,
+      "h": 0.0,
+      "p": 100.0,
+      "w": 100.0,
+      "demand_mode": "paper_cv",
+      "cap_mode": "paper"
+    },
+    {
+      "name": "perish_m7_L2_cv2_f0",
+      "m": 7,
+      "L": 2,
+      "cv": 2.0,
+      "f": 0.0,
+      "mean": 4.0,
+      "h": 0.0,
+      "p": 100.0,
+      "w": 100.0,
+      "demand_mode": "paper_cv",
+      "cap_mode": "paper"
+    }
+  ],
+  "warm_start_thetas": {
+    "perish_m7_L2_cv1.5_f0": [
+      20.208879690409255,
+      26.52070186538439,
+      0.008107699181820749,
+      1.775787215139971,
+      0.8858547108718318,
+      2.238251344675242
+    ],
+    "perish_m7_L2_cv2_f0": [
+      19.04254733434398,
+      16.71329915661458,
+      0.04826648442301629,
+      1.5392628056063407,
+      0.6122134931658955,
+      1.850124172664692
+    ]
+  },
+  "initializations": [
+    "literal_default",
+    "saved_training_theta"
+  ],
+  "workers": 1,
+  "worker_rss_limit_bytes": 1073741824,
+  "per_fit_timeout_seconds": 900,
+  "paid_api_calls": 0,
+  "main_protocol_or_selection_changed": false,
+  "interpretation": "Warm start reuses parameters from prior training. Equal fresh diagnostic objective-call ceilings do not erase that prior computational investment."
+}

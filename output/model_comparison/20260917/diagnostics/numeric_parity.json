@@ -1,0 +1,59 @@
+{
+  "status": "pass",
+  "warm_start_test": {
+    "theta": [
+      2.0
+    ],
+    "cost": 0.0,
+    "nfev": 17,
+    "seconds": 0.006863916991278529,
+    "population_size": 16,
+    "starts": [
+      {
+        "kind": "literal",
+        "theta": [
+          8.0
+        ],
+        "cost": 36.0
+      },
+      {
+        "kind": "warm",
+        "theta": [
+          2.0
+        ],
+        "cost": 0.0
+      }
+    ],
+    "optimizer_revision": "unit_box_warm_de_v1"
+  },
+  "scenarios": [
+    {
+      "m": 3,
+      "identical_fields": [
+        "theta",
+        "cost",
+        "path_costs",
+        "metrics",
+        "nfev",
+        "demand_sha256"
+      ],
+      "cached_seconds": 2.082085666945204,
+      "uncached_seconds": 1.7998696251306683,
+      "warm_start_retained": true
+    },
+    {
+      "m": 8,
+      "identical_fields": [
+        "theta",
+        "cost",
+        "path_costs",
+        "metrics",
+        "nfev",
+        "demand_sha256"
+      ],
+      "cached_seconds": 1.9909039170015603,
+      "uncached_seconds": 1.7462572909425944,
+      "warm_start_retained": true
+    }
+  ]
+}

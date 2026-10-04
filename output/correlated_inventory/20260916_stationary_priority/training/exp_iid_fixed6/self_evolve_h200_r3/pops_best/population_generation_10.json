@@ -1,0 +1,18 @@
+{
+     "algorithm": "Increased base_target to cover more demand variability, adjusted demand_response to better react to recent demand, reduced pipeline_adjustment to account for pipeline uncertainty, and increased min_order to ensure more consistent replenishment.",
+     "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 231.46841555901946  # OPT_PARAM: {\"initial\": 231.46841555901946, \"min\": 200.0, \"max\": 400.0, \"type\": \"float\"}\n    demand_response = 0.5  # OPT_PARAM: {\"initial\": 0.5, \"min\": 0.5, \"max\": 1.2, \"type\": \"float\"}\n    pipeline_adjustment = 1.2  # OPT_PARAM: {\"initial\": 1.2, \"min\": 0.5, \"max\": 1.2, \"type\": \"float\"}\n    min_order = 57.622977681992694  # OPT_PARAM: {\"initial\": 57.622977681992694, \"min\": 0.0, \"max\": 100.0, \"type\": \"float\"}\n    \n    target = base_target + demand_response * last_demand\n    pipeline_sum = np.sum(pipeline_orders) * pipeline_adjustment\n    order_amount = max(min_order, target - on_hand_inventory - pipeline_sum)\n    return order_amount\n",
+     "description": "",
+     "intuition": "",
+     "reasoning": "Increased base_target to cover more demand variability, adjusted demand_response to better react to recent demand, reduced pipeline_adjustment to account for pipeline uncertainty, and increased min_order to ensure more consistent replenishment.",
+     "opt_params": {
+          "base_target": 231.46841555901946,
+          "demand_response": 0.5,
+          "pipeline_adjustment": 1.2,
+          "min_order": 57.622977681992694
+     },
+     "cost": null,
+     "objective": 24767.86483,
+     "lower": 24277.46244,
+     "upper": 25261.50706,
+     "other_inf": null
+}

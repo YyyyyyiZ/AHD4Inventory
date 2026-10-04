@@ -1,0 +1,18 @@
+{
+     "algorithm": "Reduced base_target to better match demand patterns, increased demand_adjustment to be more responsive to recent demand, added small lead_time_factor to account for lead time variability, and lowered min_order to reduce excess inventory while maintaining service levels.",
+     "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 312.812785136335  # OPT_PARAM: {\"initial\": 312.812785136335, \"min\": 200.0, \"max\": 400.0, \"type\": \"float\"}\n    demand_adjustment = 0.5  # OPT_PARAM: {\"initial\": 0.5, \"min\": 0.5, \"max\": 1.2, \"type\": \"float\"}\n    lead_time_factor = 0.0  # OPT_PARAM: {\"initial\": 0.0, \"min\": 0.0, \"max\": 0.5, \"type\": \"float\"}\n    min_order = 48.28926998671006  # OPT_PARAM: {\"initial\": 48.28926998671006, \"min\": 0.0, \"max\": 50.0, \"type\": \"float\"}\n    \n    dynamic_target = base_target * (1 + (quoted_lead_time - 6) / 6 * lead_time_factor)\n    adjusted_last_demand = last_demand * demand_adjustment\n    target = max(dynamic_target, adjusted_last_demand)\n    order_amount = max(min_order, target - on_hand_inventory - np.sum(pipeline_orders))\n    return order_amount\n",
+     "description": "",
+     "intuition": "",
+     "reasoning": "Reduced base_target to better match demand patterns, increased demand_adjustment to be more responsive to recent demand, added small lead_time_factor to account for lead time variability, and lowered min_order to reduce excess inventory while maintaining service levels.",
+     "opt_params": {
+          "base_target": 312.812785136335,
+          "demand_adjustment": 0.5,
+          "lead_time_factor": 0.0,
+          "min_order": 48.28926998671006
+     },
+     "cost": null,
+     "objective": 27443.22321,
+     "lower": 26926.17997,
+     "upper": 27960.07121,
+     "other_inf": null
+}

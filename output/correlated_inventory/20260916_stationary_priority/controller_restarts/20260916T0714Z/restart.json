@@ -1,0 +1,28 @@
+{
+  "started_utc": "2026-09-16T07:14:34.930264+00:00",
+  "old_pid": 80616,
+  "new_pid": 84211,
+  "caffeinate_pid": 84212,
+  "command": [
+    "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/.venv/bin/python",
+    "-m",
+    "examples.inventory.correlated_benchmark.night_runner",
+    "--run-dir",
+    "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_stationary_priority",
+    "--workers",
+    "4"
+  ],
+  "reason": "Resume after a transient connection outage. Four attempted requests are recorded as failed slots with full unknown reserves; four maintenance-blocked requests preserve their original slots. No failed request is re-posted.",
+  "primary_policies_sealed": true,
+  "prior_state_archive": "controller_restarts/20260916T0714Z",
+  "transport_reconciliation_manifest": "transport_maintenance_reconciliations.json",
+  "budget_at_restart": {
+    "limit_usd": 20.0,
+    "known_cost_usd": 1.44915242,
+    "held_upper_usd": 0.044427,
+    "committed_upper_usd": 1.49357942,
+    "requests": 2243,
+    "completed": 2238,
+    "uncertain": 5
+  }
+}

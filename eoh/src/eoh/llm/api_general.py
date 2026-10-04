@@ -1,4 +1,6 @@
 import json
+import os
+from datetime import datetime, timezone
 import urllib.error
 import urllib.request
 from typing import Any, Dict
@@ -21,7 +23,7 @@ class InterfaceAPI:
 
     def __init__(self, api_endpoint, api_key, model_LLM, debug_mode):
         # Keep constructor signature for caller compatibility.
-        self.api_endpoint = self.OPENROUTER_BASE_URL
+        self.api_endpoint = os.getenv("LLM_API_BASE_URL", self.OPENROUTER_BASE_URL)
         self.api_key = api_key
         self.model_LLM = self._resolve_openrouter_model_id(model_LLM)
         self.debug_mode = debug_mode
@@ -83,8 +85,27 @@ class InterfaceAPI:
     def health_check(self):
         return self._request_chat_completion(messages=[{"role": "user", "content": "say ok"}])
 
+    def _log_usage(self, prompt_content: str, response_json: Dict[str, Any]) -> None:
+        log_path = os.getenv("OPENROUTER_USAGE_LOG")
+        if not log_path:
+            return
+
+        record = {
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "model": self.model_LLM,
+            "generation_id": response_json.get("id"),
+            "usage": response_json.get("usage"),
+            "prompt_chars": len(prompt_content),
+            "completion_chars": len(response_json.get("choices", [{}])[0].get("message", {}).get("content", "")),
+        }
+
+        os.makedirs(os.path.dirname(log_path), exist_ok=True)
+        with open(log_path, "a") as file:
+            file.write(json.dumps(record, ensure_ascii=False) + "\n")
+
     def get_response(self, prompt_content):
         response_json = self._request_chat_completion(
             messages=[{"role": "user", "content": prompt_content}]
         )
+        self._log_usage(prompt_content, response_json)
         return response_json["choices"][0]["message"]["content"]

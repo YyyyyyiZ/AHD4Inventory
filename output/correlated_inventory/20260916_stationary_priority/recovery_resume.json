@@ -1,0 +1,28 @@
+{
+  "started_utc": "2026-09-16T05:35:17.281935+00:00",
+  "pid": 71792,
+  "chain": "exp_iid_random3_9/self_evolve_h200_r1",
+  "request_reconciled": "c9c728f9bc614f478258cd38b138a1e9",
+  "command": [
+    "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/.venv/bin/python",
+    "-m",
+    "examples.inventory.correlated_benchmark.orchestrator",
+    "train",
+    "--run-dir",
+    "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_stationary_priority",
+    "--scenario",
+    "exp_iid_random3_9",
+    "--repeat",
+    "1",
+    "--horizon",
+    "200"
+  ],
+  "original_controller_pid": 63218,
+  "restart_controller_after_original_exits": true,
+  "reason": "Original primary driver retains historical failed job exit code; this standalone continuation completes only its existing chain.",
+  "resume_verified_utc": "2026-09-16T05:37:09.787751+00:00",
+  "first_new_request_id": "7144900eda1f4a3eb4794c8dfb2fc95a",
+  "first_new_slot": "g005_m2_008",
+  "failed_attempt_not_reposted": true,
+  "failed_reservation_retained": true
+}

@@ -1,0 +1,887 @@
+{
+  "version": "adaptive-pil-training-snapshot-v1",
+  "started_utc": "2026-09-16T15:47:03.442826+00:00",
+  "finished_utc": "2026-09-16T15:47:07.724919+00:00",
+  "run_dir": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_adaptive_pil_seed",
+  "scope": "training only; no new holdout scoring and no model API calls",
+  "cost_unit": "mean cumulative scored cost divided by H=200; B=500 excluded",
+  "comparison_tolerance_cost_per_period": 1e-07,
+  "numerical_note": "Candidate/checkpoint objectives are rounded to five decimals before H normalization. Improvements below 1e-7 per period are not classified as evolutionary gains.",
+  "interpretation": "g0 is separate SciPy tuning of the supplied Adaptive PIL. Later checkpoints summarize completed generations; candidates from the current unfinished generation are reported separately. Equal cost does not prove identical policy code.",
+  "planned_chains": 18,
+  "started_chains": 8,
+  "completed_chains": 0,
+  "saved_candidate_slots": 257,
+  "valid_candidates": 252,
+  "invalid_candidates": 5,
+  "transport_failure_slots": 4,
+  "valid_parameter_count_distribution": {
+    "2": 1,
+    "3": 28,
+    "4": 24,
+    "5": 132,
+    "6": 67
+  },
+  "all_completed_generation_costs_monotone": true,
+  "issues": [],
+  "r1_scenarios": [
+    {
+      "scenario_id": "exp_iid_fixed6",
+      "policy_id": "self_evolve_h200_r1",
+      "repeat": 1,
+      "state_at_snapshot": "in_progress_or_queued",
+      "original_adaptive_pil_training_cost_per_period": 123.95571224940359,
+      "g0_cost_per_period": 123.95550825000001,
+      "g0_tuning_improvement_pct": 0.0001645744273331464,
+      "latest_completed_generation": 5,
+      "latest_completed_cost_per_period": 123.95550825000001,
+      "completed_generation_best_costs": [
+        {
+          "generation": 1,
+          "cost_per_period": 123.95550825000001,
+          "code_sha256": "a8a4452a04393643945f4f24ea0b1059f9028f7c53aee26ba9c266a1235b51ab"
+        },
+        {
+          "generation": 2,
+          "cost_per_period": 123.95550825000001,
+          "code_sha256": "a8a4452a04393643945f4f24ea0b1059f9028f7c53aee26ba9c266a1235b51ab"
+        },
+        {
+          "generation": 3,
+          "cost_per_period": 123.95550825000001,
+          "code_sha256": "a8a4452a04393643945f4f24ea0b1059f9028f7c53aee26ba9c266a1235b51ab"
+        },
+        {
+          "generation": 4,
+          "cost_per_period": 123.95550825000001,
+          "code_sha256": "a8a4452a04393643945f4f24ea0b1059f9028f7c53aee26ba9c266a1235b51ab"
+        },
+        {
+          "generation": 5,
+          "cost_per_period": 123.95550825000001,
+          "code_sha256": "a8a4452a04393643945f4f24ea0b1059f9028f7c53aee26ba9c266a1235b51ab"
+        }
+      ],
+      "g0_to_latest_improvement_pct": 0.0,
+      "latest_best_code_matches_g0": true,
+      "completed_best_cost_monotone": true,
+      "saved_candidate_slots": 59,
+      "valid_candidates": 58,
+      "invalid_candidates": 1,
+      "transport_failure_slots": 1,
+      "valid_parameter_count_distribution": {
+        "2": 1,
+        "3": 9,
+        "4": 9,
+        "5": 32,
+        "6": 7
+      },
+      "best_saved_candidate": {
+        "cost_per_period": 123.95904035,
+        "generation": 4,
+        "candidate_index": 0,
+        "parameter_count": 5,
+        "code_sha256": "7a7059156bcb69e1e89f9d454c0bca77df822fa3f9ab359dc7862647cd702721",
+        "file": "training/exp_iid_fixed6/self_evolve_h200_r1/candidates/g004_m2_000.json.gz"
+      },
+      "partial_generation_valid_candidates": 8,
+      "best_partial_generation_candidate": {
+        "cost_per_period": 123.96124040000001,
+        "generation": 6,
+        "candidate_index": 2,
+        "parameter_count": 5,
+        "code_sha256": "5616acaf91ef90f67ba9196f24e7cb5323a203e4ac59a800fc2312b24e4ac611",
+        "file": "training/exp_iid_fixed6/self_evolve_h200_r1/candidates/g006_m2_002.json.gz"
+      },
+      "saved_candidates_better_than_g0": 0,
+      "best_saved_candidate_improvement_vs_g0_pct": -0.002849490151630132,
+      "partial_candidate_better_than_last_complete_generation": false
+    },
+    {
+      "scenario_id": "exp_ar_pos08_fixed6",
+      "policy_id": "self_evolve_h200_r1",
+      "repeat": 1,
+      "state_at_snapshot": "in_progress_or_queued",
+      "original_adaptive_pil_training_cost_per_period": 166.59415298176413,
+      "g0_cost_per_period": 166.59415195000003,
+      "g0_tuning_improvement_pct": 6.193279184579798e-07,
+      "latest_completed_generation": 5,
+      "latest_completed_cost_per_period": 166.59415195000003,
+      "completed_generation_best_costs": [
+        {
+          "generation": 1,
+          "cost_per_period": 166.59415195000003,
+          "code_sha256": "d2043d5696cb1c03ba08030dbb3cdb8a58524b1b7de717346ba3fe6bc2b9d383"
+        },
+        {
+          "generation": 2,
+          "cost_per_period": 166.59415195000003,
+          "code_sha256": "d2043d5696cb1c03ba08030dbb3cdb8a58524b1b7de717346ba3fe6bc2b9d383"
+        },
+        {
+          "generation": 3,
+          "cost_per_period": 166.59415195000003,
+          "code_sha256": "d2043d5696cb1c03ba08030dbb3cdb8a58524b1b7de717346ba3fe6bc2b9d383"
+        },
+        {
+          "generation": 4,
+          "cost_per_period": 166.59415195000003,
+          "code_sha256": "d2043d5696cb1c03ba08030dbb3cdb8a58524b1b7de717346ba3fe6bc2b9d383"
+        },
+        {
+          "generation": 5,
+          "cost_per_period": 166.59415195000003,
+          "code_sha256": "d2043d5696cb1c03ba08030dbb3cdb8a58524b1b7de717346ba3fe6bc2b9d383"
+        }
+      ],
+      "g0_to_latest_improvement_pct": 0.0,
+      "latest_best_code_matches_g0": true,
+      "completed_best_cost_monotone": true,
+      "saved_candidate_slots": 52,
+      "valid_candidates": 51,
+      "invalid_candidates": 1,
+      "transport_failure_slots": 1,
+      "valid_parameter_count_distribution": {
+        "3": 2,
+        "4": 6,
+        "5": 23,
+        "6": 20
+      },
+      "best_saved_candidate": {
+        "cost_per_period": 166.60331835,
+        "generation": 2,
+        "candidate_index": 7,
+        "parameter_count": 4,
+        "code_sha256": "4dc1958c8149b87e6fdb420489d6c5d7cd04cc21f2e7cf3977f10d0de4fe911e",
+        "file": "training/exp_ar_pos08_fixed6/self_evolve_h200_r1/candidates/g002_m2_007.json.gz"
+      },
+      "partial_generation_valid_candidates": 1,
+      "best_partial_generation_candidate": {
+        "cost_per_period": 166.61904330000002,
+        "generation": 6,
+        "candidate_index": 0,
+        "parameter_count": 5,
+        "code_sha256": "3d3d41f60137dc4a8ce47f0dbe0884264298de1b88a88d0d2465e8ac1289e649",
+        "file": "training/exp_ar_pos08_fixed6/self_evolve_h200_r1/candidates/g006_m2_000.json.gz"
+      },
+      "saved_candidates_better_than_g0": 0,
+      "best_saved_candidate_improvement_vs_g0_pct": -0.005502233957600573,
+      "partial_candidate_better_than_last_complete_generation": false
+    },
+    {
+      "scenario_id": "exp_ar_neg06_fixed6",
+      "policy_id": "self_evolve_h200_r1",
+      "repeat": 1,
+      "state_at_snapshot": "in_progress_or_queued",
+      "original_adaptive_pil_training_cost_per_period": 100.19812171911249,
+      "g0_cost_per_period": 100.19801,
+      "g0_tuning_improvement_pct": 0.00011149821032511337,
+      "latest_completed_generation": 5,
+      "latest_completed_cost_per_period": 100.19801,
+      "completed_generation_best_costs": [
+        {
+          "generation": 1,
+          "cost_per_period": 100.19801,
+          "code_sha256": "e105fed790dbd49106f916522126d1e1a91a18415bd6614133b8fc81445a115e"
+        },
+        {
+          "generation": 2,
+          "cost_per_period": 100.19801,
+          "code_sha256": "e105fed790dbd49106f916522126d1e1a91a18415bd6614133b8fc81445a115e"
+        },
+        {
+          "generation": 3,
+          "cost_per_period": 100.19801,
+          "code_sha256": "e105fed790dbd49106f916522126d1e1a91a18415bd6614133b8fc81445a115e"
+        },
+        {
+          "generation": 4,
+          "cost_per_period": 100.19801,
+          "code_sha256": "e105fed790dbd49106f916522126d1e1a91a18415bd6614133b8fc81445a115e"
+        },
+        {
+          "generation": 5,
+          "cost_per_period": 100.19801,
+          "code_sha256": "e105fed790dbd49106f916522126d1e1a91a18415bd6614133b8fc81445a115e"
+        }
+      ],
+      "g0_to_latest_improvement_pct": 0.0,
+      "latest_best_code_matches_g0": true,
+      "completed_best_cost_monotone": true,
+      "saved_candidate_slots": 57,
+      "valid_candidates": 56,
+      "invalid_candidates": 1,
+      "transport_failure_slots": 1,
+      "valid_parameter_count_distribution": {
+        "3": 5,
+        "4": 4,
+        "5": 38,
+        "6": 9
+      },
+      "best_saved_candidate": {
+        "cost_per_period": 100.20248380000001,
+        "generation": 2,
+        "candidate_index": 3,
+        "parameter_count": 5,
+        "code_sha256": "e05427bae4a8e27855643e34157e8f231ff203cbd73dced7947a7ab795b98326",
+        "file": "training/exp_ar_neg06_fixed6/self_evolve_h200_r1/candidates/g002_m2_003.json.gz"
+      },
+      "partial_generation_valid_candidates": 6,
+      "best_partial_generation_candidate": {
+        "cost_per_period": 100.2082366,
+        "generation": 6,
+        "candidate_index": 2,
+        "parameter_count": 5,
+        "code_sha256": "bbca25b52ec0bf5a87f2ce90616015f88e4655bbd79513b3f03d5e6bdd839342",
+        "file": "training/exp_ar_neg06_fixed6/self_evolve_h200_r1/candidates/g006_m2_002.json.gz"
+      },
+      "saved_candidates_better_than_g0": 0,
+      "best_saved_candidate_improvement_vs_g0_pct": -0.004464958934826888,
+      "partial_candidate_better_than_last_complete_generation": false
+    },
+    {
+      "scenario_id": "exp_regime095_fixed6",
+      "policy_id": "self_evolve_h200_r1",
+      "repeat": 1,
+      "state_at_snapshot": "in_progress_or_queued",
+      "original_adaptive_pil_training_cost_per_period": 148.15124556677674,
+      "g0_cost_per_period": 148.1512439,
+      "g0_tuning_improvement_pct": 1.1250507772397295e-06,
+      "latest_completed_generation": 4,
+      "latest_completed_cost_per_period": 148.1512439,
+      "completed_generation_best_costs": [
+        {
+          "generation": 1,
+          "cost_per_period": 148.1512439,
+          "code_sha256": "2392660890b37e182e26facb9a6befded706cb47652726d0b0a0950bc8babe9c"
+        },
+        {
+          "generation": 2,
+          "cost_per_period": 148.1512439,
+          "code_sha256": "2392660890b37e182e26facb9a6befded706cb47652726d0b0a0950bc8babe9c"
+        },
+        {
+          "generation": 3,
+          "cost_per_period": 148.1512439,
+          "code_sha256": "2392660890b37e182e26facb9a6befded706cb47652726d0b0a0950bc8babe9c"
+        },
+        {
+          "generation": 4,
+          "cost_per_period": 148.1512439,
+          "code_sha256": "2392660890b37e182e26facb9a6befded706cb47652726d0b0a0950bc8babe9c"
+        }
+      ],
+      "g0_to_latest_improvement_pct": 0.0,
+      "latest_best_code_matches_g0": true,
+      "completed_best_cost_monotone": true,
+      "saved_candidate_slots": 47,
+      "valid_candidates": 45,
+      "invalid_candidates": 2,
+      "transport_failure_slots": 1,
+      "valid_parameter_count_distribution": {
+        "3": 9,
+        "4": 5,
+        "5": 14,
+        "6": 17
+      },
+      "best_saved_candidate": {
+        "cost_per_period": 148.16396650000002,
+        "generation": 3,
+        "candidate_index": 0,
+        "parameter_count": 3,
+        "code_sha256": "42d8f0802e6761d6321c0fc8cc30e1c925a8fce70011255498122fb8647316ba",
+        "file": "training/exp_regime095_fixed6/self_evolve_h200_r1/candidates/g003_m2_000.json.gz"
+      },
+      "partial_generation_valid_candidates": 6,
+      "best_partial_generation_candidate": {
+        "cost_per_period": 148.17150625,
+        "generation": 5,
+        "candidate_index": 3,
+        "parameter_count": 6,
+        "code_sha256": "849f2005bfaaf17a337879dcb07c7579882fbe1dda55b64f5749487dc1428f68",
+        "file": "training/exp_regime095_fixed6/self_evolve_h200_r1/candidates/g005_m2_003.json.gz"
+      },
+      "saved_candidates_better_than_g0": 0,
+      "best_saved_candidate_improvement_vs_g0_pct": -0.00858757555124233,
+      "partial_candidate_better_than_last_complete_generation": false
+    },
+    {
+      "scenario_id": "exp_iid_random3_9",
+      "policy_id": "self_evolve_h200_r1",
+      "repeat": 1,
+      "state_at_snapshot": "in_progress_or_queued",
+      "original_adaptive_pil_training_cost_per_period": 133.52727276856254,
+      "g0_cost_per_period": 133.5182,
+      "g0_tuning_improvement_pct": 0.00679469322964301,
+      "latest_completed_generation": 1,
+      "latest_completed_cost_per_period": 133.5182,
+      "completed_generation_best_costs": [
+        {
+          "generation": 1,
+          "cost_per_period": 133.5182,
+          "code_sha256": "89c0d6d13322611308dd28cdacd4277fa79e895129f2f475ff2adf449485399a"
+        }
+      ],
+      "g0_to_latest_improvement_pct": 0.0,
+      "latest_best_code_matches_g0": true,
+      "completed_best_cost_monotone": true,
+      "saved_candidate_slots": 13,
+      "valid_candidates": 13,
+      "invalid_candidates": 0,
+      "transport_failure_slots": 0,
+      "valid_parameter_count_distribution": {
+        "5": 6,
+        "6": 7
+      },
+      "best_saved_candidate": {
+        "cost_per_period": 133.5239561,
+        "generation": 1,
+        "candidate_index": 1,
+        "parameter_count": 6,
+        "code_sha256": "20ca27af6bf55613dbee97d54de8028885acf23c4396402a04a4917f64f5f412",
+        "file": "training/exp_iid_random3_9/self_evolve_h200_r1/candidates/g001_m2_001.json.gz"
+      },
+      "partial_generation_valid_candidates": 3,
+      "best_partial_generation_candidate": {
+        "cost_per_period": 133.61415775,
+        "generation": 2,
+        "candidate_index": 2,
+        "parameter_count": 6,
+        "code_sha256": "420bee795cddd9b9590f38625632b8e91df54ed164b2e8e0e1011dabe7cb0983",
+        "file": "training/exp_iid_random3_9/self_evolve_h200_r1/candidates/g002_m2_002.json.gz"
+      },
+      "saved_candidates_better_than_g0": 0,
+      "best_saved_candidate_improvement_vs_g0_pct": -0.004311097663078931,
+      "partial_candidate_better_than_last_complete_generation": false
+    },
+    {
+      "scenario_id": "exp_regime095_random3_9",
+      "policy_id": "self_evolve_h200_r1",
+      "repeat": 1,
+      "state_at_snapshot": "in_progress_or_queued",
+      "original_adaptive_pil_training_cost_per_period": 148.10674934717147,
+      "g0_cost_per_period": 148.10674935,
+      "g0_tuning_improvement_pct": -1.909790428175261e-09,
+      "latest_completed_generation": 1,
+      "latest_completed_cost_per_period": 147.97483275000002,
+      "completed_generation_best_costs": [
+        {
+          "generation": 1,
+          "cost_per_period": 147.97483275000002,
+          "code_sha256": "95fcde7df1df4ff136ca9928e3fee465748a501f9e4c64c9e7071d11b64fd799"
+        }
+      ],
+      "g0_to_latest_improvement_pct": 0.08906859449615116,
+      "latest_best_code_matches_g0": false,
+      "completed_best_cost_monotone": true,
+      "saved_candidate_slots": 8,
+      "valid_candidates": 8,
+      "invalid_candidates": 0,
+      "transport_failure_slots": 0,
+      "valid_parameter_count_distribution": {
+        "5": 3,
+        "6": 5
+      },
+      "best_saved_candidate": {
+        "cost_per_period": 147.97483275000002,
+        "generation": 1,
+        "candidate_index": 3,
+        "parameter_count": 6,
+        "code_sha256": "95fcde7df1df4ff136ca9928e3fee465748a501f9e4c64c9e7071d11b64fd799",
+        "file": "training/exp_regime095_random3_9/self_evolve_h200_r1/candidates/g001_m2_003.json.gz"
+      },
+      "partial_generation_valid_candidates": 0,
+      "best_partial_generation_candidate": null,
+      "saved_candidates_better_than_g0": 1,
+      "best_saved_candidate_improvement_vs_g0_pct": 0.08906859449615116,
+      "partial_candidate_better_than_last_complete_generation": false,
+      "completed_generation_checkpoint_updated_utc": "2026-09-16T15:50:56.435812+00:00",
+      "candidate_statistics_note": "Candidate counts retain the initial snapshot window; generation 1 completion was verified in a later targeted checkpoint read."
+    }
+  ],
+  "all_started_chains": [
+    {
+      "scenario_id": "exp_ar_neg06_fixed6",
+      "policy_id": "self_evolve_h200_r1",
+      "repeat": 1,
+      "state_at_snapshot": "in_progress_or_queued",
+      "original_adaptive_pil_training_cost_per_period": 100.19812171911249,
+      "g0_cost_per_period": 100.19801,
+      "g0_tuning_improvement_pct": 0.00011149821032511337,
+      "latest_completed_generation": 5,
+      "latest_completed_cost_per_period": 100.19801,
+      "completed_generation_best_costs": [
+        {
+          "generation": 1,
+          "cost_per_period": 100.19801,
+          "code_sha256": "e105fed790dbd49106f916522126d1e1a91a18415bd6614133b8fc81445a115e"
+        },
+        {
+          "generation": 2,
+          "cost_per_period": 100.19801,
+          "code_sha256": "e105fed790dbd49106f916522126d1e1a91a18415bd6614133b8fc81445a115e"
+        },
+        {
+          "generation": 3,
+          "cost_per_period": 100.19801,
+          "code_sha256": "e105fed790dbd49106f916522126d1e1a91a18415bd6614133b8fc81445a115e"
+        },
+        {
+          "generation": 4,
+          "cost_per_period": 100.19801,
+          "code_sha256": "e105fed790dbd49106f916522126d1e1a91a18415bd6614133b8fc81445a115e"
+        },
+        {
+          "generation": 5,
+          "cost_per_period": 100.19801,
+          "code_sha256": "e105fed790dbd49106f916522126d1e1a91a18415bd6614133b8fc81445a115e"
+        }
+      ],
+      "g0_to_latest_improvement_pct": 0.0,
+      "latest_best_code_matches_g0": true,
+      "completed_best_cost_monotone": true,
+      "saved_candidate_slots": 57,
+      "valid_candidates": 56,
+      "invalid_candidates": 1,
+      "transport_failure_slots": 1,
+      "valid_parameter_count_distribution": {
+        "3": 5,
+        "4": 4,
+        "5": 38,
+        "6": 9
+      },
+      "best_saved_candidate": {
+        "cost_per_period": 100.20248380000001,
+        "generation": 2,
+        "candidate_index": 3,
+        "parameter_count": 5,
+        "code_sha256": "e05427bae4a8e27855643e34157e8f231ff203cbd73dced7947a7ab795b98326",
+        "file": "training/exp_ar_neg06_fixed6/self_evolve_h200_r1/candidates/g002_m2_003.json.gz"
+      },
+      "partial_generation_valid_candidates": 6,
+      "best_partial_generation_candidate": {
+        "cost_per_period": 100.2082366,
+        "generation": 6,
+        "candidate_index": 2,
+        "parameter_count": 5,
+        "code_sha256": "bbca25b52ec0bf5a87f2ce90616015f88e4655bbd79513b3f03d5e6bdd839342",
+        "file": "training/exp_ar_neg06_fixed6/self_evolve_h200_r1/candidates/g006_m2_002.json.gz"
+      },
+      "saved_candidates_better_than_g0": 0,
+      "best_saved_candidate_improvement_vs_g0_pct": -0.004464958934826888,
+      "partial_candidate_better_than_last_complete_generation": false
+    },
+    {
+      "scenario_id": "exp_ar_pos08_fixed6",
+      "policy_id": "self_evolve_h200_r1",
+      "repeat": 1,
+      "state_at_snapshot": "in_progress_or_queued",
+      "original_adaptive_pil_training_cost_per_period": 166.59415298176413,
+      "g0_cost_per_period": 166.59415195000003,
+      "g0_tuning_improvement_pct": 6.193279184579798e-07,
+      "latest_completed_generation": 5,
+      "latest_completed_cost_per_period": 166.59415195000003,
+      "completed_generation_best_costs": [
+        {
+          "generation": 1,
+          "cost_per_period": 166.59415195000003,
+          "code_sha256": "d2043d5696cb1c03ba08030dbb3cdb8a58524b1b7de717346ba3fe6bc2b9d383"
+        },
+        {
+          "generation": 2,
+          "cost_per_period": 166.59415195000003,
+          "code_sha256": "d2043d5696cb1c03ba08030dbb3cdb8a58524b1b7de717346ba3fe6bc2b9d383"
+        },
+        {
+          "generation": 3,
+          "cost_per_period": 166.59415195000003,
+          "code_sha256": "d2043d5696cb1c03ba08030dbb3cdb8a58524b1b7de717346ba3fe6bc2b9d383"
+        },
+        {
+          "generation": 4,
+          "cost_per_period": 166.59415195000003,
+          "code_sha256": "d2043d5696cb1c03ba08030dbb3cdb8a58524b1b7de717346ba3fe6bc2b9d383"
+        },
+        {
+          "generation": 5,
+          "cost_per_period": 166.59415195000003,
+          "code_sha256": "d2043d5696cb1c03ba08030dbb3cdb8a58524b1b7de717346ba3fe6bc2b9d383"
+        }
+      ],
+      "g0_to_latest_improvement_pct": 0.0,
+      "latest_best_code_matches_g0": true,
+      "completed_best_cost_monotone": true,
+      "saved_candidate_slots": 52,
+      "valid_candidates": 51,
+      "invalid_candidates": 1,
+      "transport_failure_slots": 1,
+      "valid_parameter_count_distribution": {
+        "3": 2,
+        "4": 6,
+        "5": 23,
+        "6": 20
+      },
+      "best_saved_candidate": {
+        "cost_per_period": 166.60331835,
+        "generation": 2,
+        "candidate_index": 7,
+        "parameter_count": 4,
+        "code_sha256": "4dc1958c8149b87e6fdb420489d6c5d7cd04cc21f2e7cf3977f10d0de4fe911e",
+        "file": "training/exp_ar_pos08_fixed6/self_evolve_h200_r1/candidates/g002_m2_007.json.gz"
+      },
+      "partial_generation_valid_candidates": 1,
+      "best_partial_generation_candidate": {
+        "cost_per_period": 166.61904330000002,
+        "generation": 6,
+        "candidate_index": 0,
+        "parameter_count": 5,
+        "code_sha256": "3d3d41f60137dc4a8ce47f0dbe0884264298de1b88a88d0d2465e8ac1289e649",
+        "file": "training/exp_ar_pos08_fixed6/self_evolve_h200_r1/candidates/g006_m2_000.json.gz"
+      },
+      "saved_candidates_better_than_g0": 0,
+      "best_saved_candidate_improvement_vs_g0_pct": -0.005502233957600573,
+      "partial_candidate_better_than_last_complete_generation": false
+    },
+    {
+      "scenario_id": "exp_ar_pos08_fixed6",
+      "policy_id": "self_evolve_h200_r2",
+      "repeat": 2,
+      "state_at_snapshot": "in_progress_or_queued",
+      "original_adaptive_pil_training_cost_per_period": 166.59415298176413,
+      "g0_cost_per_period": 166.59415195000003,
+      "g0_tuning_improvement_pct": 6.193279184579798e-07,
+      "latest_completed_generation": 1,
+      "latest_completed_cost_per_period": 166.59415195000003,
+      "completed_generation_best_costs": [
+        {
+          "generation": 1,
+          "cost_per_period": 166.59415195000003,
+          "code_sha256": "d2043d5696cb1c03ba08030dbb3cdb8a58524b1b7de717346ba3fe6bc2b9d383"
+        }
+      ],
+      "g0_to_latest_improvement_pct": 0.0,
+      "latest_best_code_matches_g0": true,
+      "completed_best_cost_monotone": true,
+      "saved_candidate_slots": 10,
+      "valid_candidates": 10,
+      "invalid_candidates": 0,
+      "transport_failure_slots": 0,
+      "valid_parameter_count_distribution": {
+        "3": 1,
+        "5": 7,
+        "6": 2
+      },
+      "best_saved_candidate": {
+        "cost_per_period": 166.59826805,
+        "generation": 1,
+        "candidate_index": 9,
+        "parameter_count": 5,
+        "code_sha256": "18a0c9688d049b9ee2d4939278fed20cf97cd9c4b6d784b9e58a6ca241c02b96",
+        "file": "training/exp_ar_pos08_fixed6/self_evolve_h200_r2/candidates/g001_m2_009.json.gz"
+      },
+      "partial_generation_valid_candidates": 0,
+      "best_partial_generation_candidate": null,
+      "saved_candidates_better_than_g0": 0,
+      "best_saved_candidate_improvement_vs_g0_pct": -0.002470734987871275,
+      "partial_candidate_better_than_last_complete_generation": false
+    },
+    {
+      "scenario_id": "exp_iid_fixed6",
+      "policy_id": "self_evolve_h200_r1",
+      "repeat": 1,
+      "state_at_snapshot": "in_progress_or_queued",
+      "original_adaptive_pil_training_cost_per_period": 123.95571224940359,
+      "g0_cost_per_period": 123.95550825000001,
+      "g0_tuning_improvement_pct": 0.0001645744273331464,
+      "latest_completed_generation": 5,
+      "latest_completed_cost_per_period": 123.95550825000001,
+      "completed_generation_best_costs": [
+        {
+          "generation": 1,
+          "cost_per_period": 123.95550825000001,
+          "code_sha256": "a8a4452a04393643945f4f24ea0b1059f9028f7c53aee26ba9c266a1235b51ab"
+        },
+        {
+          "generation": 2,
+          "cost_per_period": 123.95550825000001,
+          "code_sha256": "a8a4452a04393643945f4f24ea0b1059f9028f7c53aee26ba9c266a1235b51ab"
+        },
+        {
+          "generation": 3,
+          "cost_per_period": 123.95550825000001,
+          "code_sha256": "a8a4452a04393643945f4f24ea0b1059f9028f7c53aee26ba9c266a1235b51ab"
+        },
+        {
+          "generation": 4,
+          "cost_per_period": 123.95550825000001,
+          "code_sha256": "a8a4452a04393643945f4f24ea0b1059f9028f7c53aee26ba9c266a1235b51ab"
+        },
+        {
+          "generation": 5,
+          "cost_per_period": 123.95550825000001,
+          "code_sha256": "a8a4452a04393643945f4f24ea0b1059f9028f7c53aee26ba9c266a1235b51ab"
+        }
+      ],
+      "g0_to_latest_improvement_pct": 0.0,
+      "latest_best_code_matches_g0": true,
+      "completed_best_cost_monotone": true,
+      "saved_candidate_slots": 59,
+      "valid_candidates": 58,
+      "invalid_candidates": 1,
+      "transport_failure_slots": 1,
+      "valid_parameter_count_distribution": {
+        "2": 1,
+        "3": 9,
+        "4": 9,
+        "5": 32,
+        "6": 7
+      },
+      "best_saved_candidate": {
+        "cost_per_period": 123.95904035,
+        "generation": 4,
+        "candidate_index": 0,
+        "parameter_count": 5,
+        "code_sha256": "7a7059156bcb69e1e89f9d454c0bca77df822fa3f9ab359dc7862647cd702721",
+        "file": "training/exp_iid_fixed6/self_evolve_h200_r1/candidates/g004_m2_000.json.gz"
+      },
+      "partial_generation_valid_candidates": 8,
+      "best_partial_generation_candidate": {
+        "cost_per_period": 123.96124040000001,
+        "generation": 6,
+        "candidate_index": 2,
+        "parameter_count": 5,
+        "code_sha256": "5616acaf91ef90f67ba9196f24e7cb5323a203e4ac59a800fc2312b24e4ac611",
+        "file": "training/exp_iid_fixed6/self_evolve_h200_r1/candidates/g006_m2_002.json.gz"
+      },
+      "saved_candidates_better_than_g0": 0,
+      "best_saved_candidate_improvement_vs_g0_pct": -0.002849490151630132,
+      "partial_candidate_better_than_last_complete_generation": false
+    },
+    {
+      "scenario_id": "exp_iid_fixed6",
+      "policy_id": "self_evolve_h200_r2",
+      "repeat": 2,
+      "state_at_snapshot": "in_progress_or_queued",
+      "original_adaptive_pil_training_cost_per_period": 123.95571224940359,
+      "g0_cost_per_period": 123.95550825000001,
+      "g0_tuning_improvement_pct": 0.0001645744273331464,
+      "latest_completed_generation": 1,
+      "latest_completed_cost_per_period": 123.95550825000001,
+      "completed_generation_best_costs": [
+        {
+          "generation": 1,
+          "cost_per_period": 123.95550825000001,
+          "code_sha256": "a8a4452a04393643945f4f24ea0b1059f9028f7c53aee26ba9c266a1235b51ab"
+        }
+      ],
+      "g0_to_latest_improvement_pct": 0.0,
+      "latest_best_code_matches_g0": true,
+      "completed_best_cost_monotone": true,
+      "saved_candidate_slots": 11,
+      "valid_candidates": 11,
+      "invalid_candidates": 0,
+      "transport_failure_slots": 0,
+      "valid_parameter_count_distribution": {
+        "3": 2,
+        "5": 9
+      },
+      "best_saved_candidate": {
+        "cost_per_period": 123.96124040000001,
+        "generation": 1,
+        "candidate_index": 1,
+        "parameter_count": 5,
+        "code_sha256": "4f3da494620264a0b0881f1d8941bb85c7513aefce78d03acc194a6de7fa1dc8",
+        "file": "training/exp_iid_fixed6/self_evolve_h200_r2/candidates/g001_m2_001.json.gz"
+      },
+      "partial_generation_valid_candidates": 1,
+      "best_partial_generation_candidate": {
+        "cost_per_period": 124.0015007,
+        "generation": 2,
+        "candidate_index": 0,
+        "parameter_count": 5,
+        "code_sha256": "7cd74258502375f13c462b55d43e5c1f382005f1ad8bb530dca8e6c6790f534e",
+        "file": "training/exp_iid_fixed6/self_evolve_h200_r2/candidates/g002_m2_000.json.gz"
+      },
+      "saved_candidates_better_than_g0": 0,
+      "best_saved_candidate_improvement_vs_g0_pct": -0.004624360854088989,
+      "partial_candidate_better_than_last_complete_generation": false
+    },
+    {
+      "scenario_id": "exp_iid_random3_9",
+      "policy_id": "self_evolve_h200_r1",
+      "repeat": 1,
+      "state_at_snapshot": "in_progress_or_queued",
+      "original_adaptive_pil_training_cost_per_period": 133.52727276856254,
+      "g0_cost_per_period": 133.5182,
+      "g0_tuning_improvement_pct": 0.00679469322964301,
+      "latest_completed_generation": 1,
+      "latest_completed_cost_per_period": 133.5182,
+      "completed_generation_best_costs": [
+        {
+          "generation": 1,
+          "cost_per_period": 133.5182,
+          "code_sha256": "89c0d6d13322611308dd28cdacd4277fa79e895129f2f475ff2adf449485399a"
+        }
+      ],
+      "g0_to_latest_improvement_pct": 0.0,
+      "latest_best_code_matches_g0": true,
+      "completed_best_cost_monotone": true,
+      "saved_candidate_slots": 13,
+      "valid_candidates": 13,
+      "invalid_candidates": 0,
+      "transport_failure_slots": 0,
+      "valid_parameter_count_distribution": {
+        "5": 6,
+        "6": 7
+      },
+      "best_saved_candidate": {
+        "cost_per_period": 133.5239561,
+        "generation": 1,
+        "candidate_index": 1,
+        "parameter_count": 6,
+        "code_sha256": "20ca27af6bf55613dbee97d54de8028885acf23c4396402a04a4917f64f5f412",
+        "file": "training/exp_iid_random3_9/self_evolve_h200_r1/candidates/g001_m2_001.json.gz"
+      },
+      "partial_generation_valid_candidates": 3,
+      "best_partial_generation_candidate": {
+        "cost_per_period": 133.61415775,
+        "generation": 2,
+        "candidate_index": 2,
+        "parameter_count": 6,
+        "code_sha256": "420bee795cddd9b9590f38625632b8e91df54ed164b2e8e0e1011dabe7cb0983",
+        "file": "training/exp_iid_random3_9/self_evolve_h200_r1/candidates/g002_m2_002.json.gz"
+      },
+      "saved_candidates_better_than_g0": 0,
+      "best_saved_candidate_improvement_vs_g0_pct": -0.004311097663078931,
+      "partial_candidate_better_than_last_complete_generation": false
+    },
+    {
+      "scenario_id": "exp_regime095_fixed6",
+      "policy_id": "self_evolve_h200_r1",
+      "repeat": 1,
+      "state_at_snapshot": "in_progress_or_queued",
+      "original_adaptive_pil_training_cost_per_period": 148.15124556677674,
+      "g0_cost_per_period": 148.1512439,
+      "g0_tuning_improvement_pct": 1.1250507772397295e-06,
+      "latest_completed_generation": 4,
+      "latest_completed_cost_per_period": 148.1512439,
+      "completed_generation_best_costs": [
+        {
+          "generation": 1,
+          "cost_per_period": 148.1512439,
+          "code_sha256": "2392660890b37e182e26facb9a6befded706cb47652726d0b0a0950bc8babe9c"
+        },
+        {
+          "generation": 2,
+          "cost_per_period": 148.1512439,
+          "code_sha256": "2392660890b37e182e26facb9a6befded706cb47652726d0b0a0950bc8babe9c"
+        },
+        {
+          "generation": 3,
+          "cost_per_period": 148.1512439,
+          "code_sha256": "2392660890b37e182e26facb9a6befded706cb47652726d0b0a0950bc8babe9c"
+        },
+        {
+          "generation": 4,
+          "cost_per_period": 148.1512439,
+          "code_sha256": "2392660890b37e182e26facb9a6befded706cb47652726d0b0a0950bc8babe9c"
+        }
+      ],
+      "g0_to_latest_improvement_pct": 0.0,
+      "latest_best_code_matches_g0": true,
+      "completed_best_cost_monotone": true,
+      "saved_candidate_slots": 47,
+      "valid_candidates": 45,
+      "invalid_candidates": 2,
+      "transport_failure_slots": 1,
+      "valid_parameter_count_distribution": {
+        "3": 9,
+        "4": 5,
+        "5": 14,
+        "6": 17
+      },
+      "best_saved_candidate": {
+        "cost_per_period": 148.16396650000002,
+        "generation": 3,
+        "candidate_index": 0,
+        "parameter_count": 3,
+        "code_sha256": "42d8f0802e6761d6321c0fc8cc30e1c925a8fce70011255498122fb8647316ba",
+        "file": "training/exp_regime095_fixed6/self_evolve_h200_r1/candidates/g003_m2_000.json.gz"
+      },
+      "partial_generation_valid_candidates": 6,
+      "best_partial_generation_candidate": {
+        "cost_per_period": 148.17150625,
+        "generation": 5,
+        "candidate_index": 3,
+        "parameter_count": 6,
+        "code_sha256": "849f2005bfaaf17a337879dcb07c7579882fbe1dda55b64f5749487dc1428f68",
+        "file": "training/exp_regime095_fixed6/self_evolve_h200_r1/candidates/g005_m2_003.json.gz"
+      },
+      "saved_candidates_better_than_g0": 0,
+      "best_saved_candidate_improvement_vs_g0_pct": -0.00858757555124233,
+      "partial_candidate_better_than_last_complete_generation": false
+    },
+    {
+      "scenario_id": "exp_regime095_random3_9",
+      "policy_id": "self_evolve_h200_r1",
+      "repeat": 1,
+      "state_at_snapshot": "in_progress_or_queued",
+      "original_adaptive_pil_training_cost_per_period": 148.10674934717147,
+      "g0_cost_per_period": 148.10674935,
+      "g0_tuning_improvement_pct": -1.909790428175261e-09,
+      "latest_completed_generation": 1,
+      "latest_completed_cost_per_period": 147.97483275000002,
+      "completed_generation_best_costs": [
+        {
+          "generation": 1,
+          "cost_per_period": 147.97483275000002,
+          "code_sha256": "95fcde7df1df4ff136ca9928e3fee465748a501f9e4c64c9e7071d11b64fd799"
+        }
+      ],
+      "g0_to_latest_improvement_pct": 0.08906859449615116,
+      "latest_best_code_matches_g0": false,
+      "completed_best_cost_monotone": true,
+      "saved_candidate_slots": 8,
+      "valid_candidates": 8,
+      "invalid_candidates": 0,
+      "transport_failure_slots": 0,
+      "valid_parameter_count_distribution": {
+        "5": 3,
+        "6": 5
+      },
+      "best_saved_candidate": {
+        "cost_per_period": 147.97483275000002,
+        "generation": 1,
+        "candidate_index": 3,
+        "parameter_count": 6,
+        "code_sha256": "95fcde7df1df4ff136ca9928e3fee465748a501f9e4c64c9e7071d11b64fd799",
+        "file": "training/exp_regime095_random3_9/self_evolve_h200_r1/candidates/g001_m2_003.json.gz"
+      },
+      "partial_generation_valid_candidates": 0,
+      "best_partial_generation_candidate": null,
+      "saved_candidates_better_than_g0": 1,
+      "best_saved_candidate_improvement_vs_g0_pct": 0.08906859449615116,
+      "partial_candidate_better_than_last_complete_generation": false,
+      "completed_generation_checkpoint_updated_utc": "2026-09-16T15:50:56.435812+00:00",
+      "candidate_statistics_note": "Candidate counts retain the initial snapshot window; generation 1 completion was verified in a later targeted checkpoint read."
+    }
+  ],
+  "targeted_checkpoint_update": {
+    "utc": "2026-09-16T15:50:56.435812+00:00",
+    "scenario_id": "exp_regime095_random3_9",
+    "repeat": 1,
+    "generation": 1,
+    "cost_per_period": 147.97483275000002,
+    "note": "Only the newly completed regime-random r1 generation 1 checkpoint was refreshed. Candidate counts and other chains remain at the original snapshot window."
+  },
+  "selection_mechanism_audit": {
+    "parent_selection": "Every m2 candidate takes the single current best parent via parent_selection(pop, 1).",
+    "survival": "Greedy survival retains up to 10 members with distinct objective values, sorted by training objective; it does not use those worse surviving members as m2 parents.",
+    "consequence": "The best need not remain the initialization: regime-random r1 generation 1 selected a new six-parameter policy with lower training cost.",
+    "sources": [
+      "examples/inventory/correlated_benchmark/evolution.py:322",
+      "eoh/src/eoh/methods/selection/best_deterministic.py:14",
+      "eoh/src/eoh/methods/management/pop_greedy.py:25"
+    ]
+  }
+}

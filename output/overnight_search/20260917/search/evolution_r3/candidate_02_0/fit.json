@@ -1,0 +1,308 @@
+{
+  "results": {
+    "perish_m3_L2_cv1.5_f0": {
+      "theta": [
+        5.022090379205505,
+        1.9110989391558135,
+        1.2824110236665365,
+        1.8795033213170282,
+        1.6349467771632886,
+        0.5036351080624906,
+        0.27729913719284205,
+        0.5150616329397346
+      ],
+      "cost": 233.4228515625,
+      "nfev": 225,
+      "seconds": 3.584022916154936,
+      "path_costs": [
+        231.4453125,
+        202.1484375,
+        234.765625,
+        227.34375,
+        239.453125,
+        259.1796875,
+        241.6015625,
+        231.4453125
+      ],
+      "metrics": [
+        0.6796875,
+        1.654541015625,
+        3.0
+      ],
+      "cap": 17
+    },
+    "perish_m3_L2_cv1.5_f0.5": {
+      "theta": [
+        5.954428447980003,
+        3.620167198470334,
+        1.1128575920401906,
+        0.4683422425338112,
+        5.282075153946472,
+        0.8732672570958586,
+        0.672335904805458,
+        0.40290947717944536
+      ],
+      "cost": 213.37890625,
+      "nfev": 256,
+      "seconds": 2.221567500149831,
+      "path_costs": [
+        221.6796875,
+        230.859375,
+        157.8125,
+        193.9453125,
+        204.296875,
+        265.4296875,
+        195.8984375,
+        237.109375
+      ],
+      "metrics": [
+        0.572998046875,
+        1.560791015625,
+        3.1474609375
+      ],
+      "cap": 16
+    },
+    "perish_m3_L2_cv2_f0": {
+      "theta": [
+        2.576219963618936,
+        11.383279828556828,
+        1.3840179091170584,
+        1.6647955240857946,
+        3.0203606237582914,
+        0.5946613417651615,
+        0.25913531889229224,
+        0.348253799175263
+      ],
+      "cost": 259.86328125,
+      "nfev": 256,
+      "seconds": 1.7710239998996258,
+      "path_costs": [
+        224.8046875,
+        238.8671875,
+        269.53125,
+        268.359375,
+        310.546875,
+        227.9296875,
+        239.453125,
+        299.4140625
+      ],
+      "metrics": [
+        0.653564453125,
+        1.945068359375,
+        2.666015625
+      ],
+      "cap": 14
+    },
+    "perish_m3_L2_cv2_f0.5": {
+      "theta": [
+        3.1621738533366646,
+        9.031207520521694,
+        1.938401507762396,
+        0.7698376153459314,
+        4.9030252942022905,
+        0.2131880621677259,
+        0.5016556280760044,
+        0.7836803982772758
+      ],
+      "cost": 236.6455078125,
+      "nfev": 256,
+      "seconds": 2.1426280410960317,
+      "path_costs": [
+        234.9609375,
+        266.2109375,
+        288.671875,
+        197.8515625,
+        234.765625,
+        204.8828125,
+        183.7890625,
+        282.03125
+      ],
+      "metrics": [
+        0.542236328125,
+        1.82421875,
+        2.7138671875
+      ],
+      "cap": 14
+    },
+    "perish_m5_L2_cv1.5_f0": {
+      "theta": [
+        6.746279155794376,
+        6.707528054996647,
+        0.9000685294159003,
+        0.761596969824941,
+        3.700815176172533,
+        0.969495661673043,
+        0.912014141246413,
+        0.7417255796265657
+      ],
+      "cost": 184.912109375,
+      "nfev": 256,
+      "seconds": 2.555083916988224,
+      "path_costs": [
+        195.8984375,
+        151.3671875,
+        178.125,
+        176.3671875,
+        193.1640625,
+        214.453125,
+        183.203125,
+        186.71875
+      ],
+      "metrics": [
+        0.674072265625,
+        1.175048828125,
+        3.4736328125
+      ],
+      "cap": 25
+    },
+    "perish_m5_L2_cv1.5_f0.5": {
+      "theta": [
+        8.128409084808247,
+        1.8328248094771045,
+        1.4633614160174082,
+        0.5606383882099492,
+        4.508808167648762,
+        0.5719817367095579,
+        0.7643997077104371,
+        0.6702280645345806
+      ],
+      "cost": 165.0390625,
+      "nfev": 256,
+      "seconds": 3.3028889999259263,
+      "path_costs": [
+        167.1875,
+        178.125,
+        128.7109375,
+        148.2421875,
+        150.390625,
+        201.5625,
+        165.234375,
+        180.859375
+      ],
+      "metrics": [
+        0.48876953125,
+        1.16162109375,
+        3.46337890625
+      ],
+      "cap": 24
+    },
+    "perish_m5_L2_cv2_f0": {
+      "theta": [
+        6.657843758016252,
+        7.711901054488251,
+        0.8607026283124749,
+        0.5252981597457915,
+        0.41662721059376384,
+        0.8858519215168277,
+        0.22861645723426538,
+        0.40621349661031636
+      ],
+      "cost": 216.6015625,
+      "nfev": 256,
+      "seconds": 2.3447674580384046,
+      "path_costs": [
+        187.3046875,
+        197.8515625,
+        229.6875,
+        227.734375,
+        261.328125,
+        185.546875,
+        200.0,
+        243.359375
+      ],
+      "metrics": [
+        0.525634765625,
+        1.640380859375,
+        2.841796875
+      ],
+      "cap": 22
+    },
+    "perish_m5_L2_cv2_f0.5": {
+      "theta": [
+        5.349824189394305,
+        6.0,
+        1.4880908067581837,
+        0.863015646551856,
+        1.3225285128388007,
+        0.6052136937578315,
+        0.712277723863274,
+        0.8564163430049337
+      ],
+      "cost": 195.41015625,
+      "nfev": 256,
+      "seconds": 3.1627525829244405,
+      "path_costs": [
+        197.8515625,
+        220.3125,
+        245.5078125,
+        155.46875,
+        194.53125,
+        165.234375,
+        142.578125,
+        241.796875
+      ],
+      "metrics": [
+        0.374267578125,
+        1.579833984375,
+        2.792236328125
+      ],
+      "cap": 21
+    }
+  },
+  "parameters": {
+    "S": {
+      "type": "float",
+      "initial": 10.0,
+      "min": 0.0,
+      "max": 60.0
+    },
+    "C": {
+      "type": "float",
+      "initial": 6.0,
+      "min": 0.0,
+      "max": 30.0
+    },
+    "K": {
+      "type": "float",
+      "initial": 1.0,
+      "min": 0.25,
+      "max": 2.5
+    },
+    "K_LATE": {
+      "type": "float",
+      "initial": 1.0,
+      "min": 0.25,
+      "max": 2.5
+    },
+    "A": {
+      "type": "float",
+      "initial": 1.0,
+      "min": 0.1,
+      "max": 6.0
+    },
+    "FRESH_FLOOR": {
+      "type": "float",
+      "initial": 0.1,
+      "min": 0.0,
+      "max": 1.0
+    },
+    "TAIL": {
+      "type": "float",
+      "initial": 0.1,
+      "min": 0.0,
+      "max": 1.0
+    },
+    "MARGINAL_BLEND": {
+      "type": "float",
+      "initial": 0.35,
+      "min": 0.0,
+      "max": 1.0
+    }
+  },
+  "structure_sha256": "c8e1b6d6c3fb8121d0fa2f33a50dee4fdd4a22082ba33c78c13a0f86a2d19f11",
+  "wall_seconds": 22.549027582863346,
+  "transitions": 11534400,
+  "valid": true,
+  "score": 1.0005041836597668,
+  "code": "def compute_order_amount(age, pipeline, mu, cv, f, L):\n    S = 10.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":10.0,\"min\":0.0,\"max\":60.0}\n    C = 6.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":6.0,\"min\":0.0,\"max\":30.0}\n    K = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.25,\"max\":2.5}\n    K_LATE = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.25,\"max\":2.5}\n    A = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.1,\"max\":6.0}\n    FRESH_FLOOR = 0.1 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.1,\"min\":0.0,\"max\":1.0}\n    TAIL = 0.1 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.1,\"min\":0.0,\"max\":1.0}\n    MARGINAL_BLEND = 0.35 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.35,\"min\":0.0,\"max\":1.0}\n\n    m = len(age)\n    x = [0.0] * m\n\n    for i in range(m):\n        value = float(age[i])\n        if not (value >= 0.0):\n            value = 0.0\n        if value > 1000000.0:\n            value = 1000000.0\n        x[i] = value\n\n    active = [False, False]\n    p1_values = [1.0, 1.0]\n    p2_values = [1.0, 1.0]\n    r1_values = [0.0, 0.0]\n    r2_values = [0.0, 0.0]\n    w1_values = [0.0, 0.0]\n\n    for group_index in range(2):\n        if group_index == 0:\n            g = f\n        else:\n            g = 1.0 - f\n\n        M = g * mu\n        if M > 0.0:\n            V = g * (mu * cv) * (mu * cv)\n            aa = V / (M * M) - 1.0 / M\n            if aa < 1.0:\n                aa = 1.0\n\n            root = (aa * aa - 1.0) ** 0.5\n            b = 1.0 + aa + root\n            c = 1.0 + aa - root\n            p1 = 2.0 / (2.0 + M * b)\n            p2 = 2.0 / (2.0 + M * c)\n\n            active[group_index] = True\n            p1_values[group_index] = p1\n            p2_values[group_index] = p2\n            r1_values[group_index] = 1.0 - p1\n            r2_values[group_index] = 1.0 - p2\n            w1_values[group_index] = 1.0 / b\n\n    for t in range(L):\n        if t > 0 and t - 1 < len(pipeline):\n            arrival = float(pipeline[t - 1])\n            if not (arrival >= 0.0):\n                arrival = 0.0\n            if arrival > 1000000.0:\n                arrival = 1000000.0\n            x[m - 1] = x[m - 1] + arrival\n\n        if t == 0:\n            period_scale = K\n        else:\n            period_scale = K * K_LATE\n\n        for group_index in range(2):\n            if active[group_index]:\n                p1 = p1_values[group_index]\n                p2 = p2_values[group_index]\n                r1 = r1_values[group_index]\n                r2 = r2_values[group_index]\n                w1 = w1_values[group_index]\n                cumulative = 0.0\n\n                for step in range(m):\n                    if group_index == 0:\n                        idx = step\n                    else:\n                        idx = m - 1 - step\n\n                    layer = x[idx]\n                    lower = cumulative\n                    upper = cumulative + layer\n\n                    n0 = int(lower)\n                    frac0 = lower - n0\n                    if n0 > 0:\n                        h10 = r1 * (1.0 - r1 ** n0) / p1\n                        h20 = r2 * (1.0 - r2 ** n0) / p2\n                    else:\n                        h10 = 0.0\n                        h20 = 0.0\n\n                    expected0 = (\n                        w1 * (h10 + frac0 * r1 ** (n0 + 1))\n                        + (1.0 - w1) * (h20 + frac0 * r2 ** (n0 + 1))\n                    )\n\n                    n1 = int(upper)\n                    frac1 = upper - n1\n                    if n1 > 0:\n                        h11 = r1 * (1.0 - r1 ** n1) / p1\n                        h21 = r2 * (1.0 - r2 ** n1) / p2\n                    else:\n                        h11 = 0.0\n                        h21 = 0.0\n\n                    expected1 = (\n                        w1 * (h11 + frac1 * r1 ** (n1 + 1))\n                        + (1.0 - w1) * (h21 + frac1 * r2 ** (n1 + 1))\n                    )\n\n                    depletion = period_scale * (expected1 - expected0)\n                    if depletion < 0.0:\n                        depletion = 0.0\n                    if depletion > layer:\n                        depletion = layer\n\n                    x[idx] = layer - depletion\n                    cumulative = upper\n\n        for i in range(m - 1):\n            x[i] = x[i + 1]\n        x[m - 1] = 0.0\n\n    weighted_inventory = 0.0\n    for i in range(m):\n        freshness = (i + 1.0) / m\n        weight = FRESH_FLOOR + (1.0 - FRESH_FLOOR) * freshness ** A\n        weighted_inventory = weighted_inventory + weight * x[i]\n\n    probe_gap = S - weighted_inventory\n    if probe_gap <= 0.0:\n        probe_order = 0.0\n    elif probe_gap <= C:\n        probe_order = probe_gap\n    else:\n        probe_order = C + TAIL * (probe_gap - C)\n\n    y = [0.0] * m\n    old = [0.0] * m\n    for i in range(m):\n        y[i] = x[i]\n        old[i] = x[i]\n\n    credited_sales = 0.0\n\n    for t in range(m):\n        if t == 0:\n            future_arrival = probe_order\n        else:\n            future_arrival = mu\n\n        if future_arrival < 0.0:\n            future_arrival = 0.0\n        y[m - 1] = y[m - 1] + future_arrival\n\n        for group_index in range(2):\n            if active[group_index]:\n                p1 = p1_values[group_index]\n                p2 = p2_values[group_index]\n                r1 = r1_values[group_index]\n                r2 = r2_values[group_index]\n                w1 = w1_values[group_index]\n                cumulative = 0.0\n\n                for step in range(m):\n                    if group_index == 0:\n                        idx = step\n                    else:\n                        idx = m - 1 - step\n\n                    layer = y[idx]\n                    lower = cumulative\n                    upper = cumulative + layer\n\n                    n0 = int(lower)\n                    frac0 = lower - n0\n                    if n0 > 0:\n                        h10 = r1 * (1.0 - r1 ** n0) / p1\n                        h20 = r2 * (1.0 - r2 ** n0) / p2\n                    else:\n                        h10 = 0.0\n                        h20 = 0.0\n\n                    expected0 = (\n                        w1 * (h10 + frac0 * r1 ** (n0 + 1))\n                        + (1.0 - w1) * (h20 + frac0 * r2 ** (n0 + 1))\n                    )\n\n                    n1 = int(upper)\n                    frac1 = upper - n1\n                    if n1 > 0:\n                        h11 = r1 * (1.0 - r1 ** n1) / p1\n                        h21 = r2 * (1.0 - r2 ** n1) / p2\n                    else:\n                        h11 = 0.0\n                        h21 = 0.0\n\n                    expected1 = (\n                        w1 * (h11 + frac1 * r1 ** (n1 + 1))\n                        + (1.0 - w1) * (h21 + frac1 * r2 ** (n1 + 1))\n                    )\n\n                    depletion = K * (expected1 - expected0)\n                    if depletion < 0.0:\n                        depletion = 0.0\n                    if depletion > layer:\n                        depletion = layer\n\n                    old_layer = old[idx]\n                    if layer > 0.0 and old_layer > 0.0:\n                        old_depletion = depletion * old_layer / layer\n                        if old_depletion > old_layer:\n                            old_depletion = old_layer\n                    else:\n                        old_depletion = 0.0\n\n                    credited_sales = credited_sales + old_depletion\n                    old[idx] = old_layer - old_depletion\n                    y[idx] = layer - depletion\n                    cumulative = upper\n\n        for i in range(m - 1):\n            y[i] = y[i + 1]\n            old[i] = old[i + 1]\n        y[m - 1] = 0.0\n        old[m - 1] = 0.0\n\n    effective = (\n        (1.0 - MARGINAL_BLEND) * weighted_inventory\n        + MARGINAL_BLEND * credited_sales\n    )\n\n    gap = S - effective\n    if gap <= 0.0:\n        q = 0.0\n    elif gap <= C:\n        q = gap\n    else:\n        q = C + TAIL * (gap - C)\n\n    if not (q >= 0.0):\n        q = 0.0\n    if q > 1000000.0:\n        q = 1000000.0\n    return float(q)\n"
+}

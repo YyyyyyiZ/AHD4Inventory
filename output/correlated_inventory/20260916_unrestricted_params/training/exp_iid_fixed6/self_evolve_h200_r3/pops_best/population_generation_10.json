@@ -1,0 +1,18 @@
+{
+     "algorithm": "Increased base_target to better match demand quantiles, adjusted demand_adjustment to be more responsive to recent demand while keeping stability, reduced pipeline_adj to account less for orders in transit, and increased safety_stock to better handle demand variability. These changes aim to reduce lost sales while controlling holding costs.",
+     "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 327.1986177269946  # OPT_PARAM: {\"initial\": 327.1986177269946, \"min\": 300.0, \"max\": 400.0, \"type\": \"float\"}\n    demand_adjustment = 0.5  # OPT_PARAM: {\"initial\": 0.5, \"min\": 0.5, \"max\": 1.2, \"type\": \"float\"}\n    pipeline_adj = 1.0  # OPT_PARAM: {\"initial\": 1.0, \"min\": 0.7, \"max\": 1.0, \"type\": \"float\"}\n    safety_stock = 75.78035150730283  # OPT_PARAM: {\"initial\": 75.78035150730283, \"min\": 70.0, \"max\": 120.0, \"type\": \"float\"}\n    \n    demand_component = demand_adjustment * last_demand\n    pipeline_component = pipeline_adj * sum(pipeline_orders)\n    target = max(base_target, demand_component) + safety_stock\n    order_amount = max(0.0, target - on_hand_inventory - pipeline_component)\n    return order_amount\n",
+     "description": "",
+     "intuition": "",
+     "reasoning": "Increased base_target to better match demand quantiles, adjusted demand_adjustment to be more responsive to recent demand while keeping stability, reduced pipeline_adj to account less for orders in transit, and increased safety_stock to better handle demand variability. These changes aim to reduce lost sales while controlling holding costs.",
+     "opt_params": {
+          "base_target": 327.1986177269946,
+          "demand_adjustment": 0.5,
+          "pipeline_adj": 1.0,
+          "safety_stock": 75.78035150730283
+     },
+     "cost": null,
+     "objective": 27535.7957,
+     "lower": 26939.579,
+     "upper": 28109.76628,
+     "other_inf": null
+}

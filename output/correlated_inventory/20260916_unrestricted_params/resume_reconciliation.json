@@ -1,0 +1,190 @@
+{
+  "created_utc": "2026-09-16T13:38:55.993337+00:00",
+  "ledger_sha256_unchanged": "2130de377096738198f0517f79857172932b736747fb69a7701d407b85125d65",
+  "unsubmitted_pause_slots_restored": 4,
+  "submitted_timeout_slots_recorded_failed": 1,
+  "unknown_cost_upper_retained_usd": 0.0084727,
+  "prior_candidates_preserved": 132,
+  "saved_candidate_records_now": 133,
+  "records": [
+    {
+      "recorded_utc": "2026-09-16T13:38:55.962887+00:00",
+      "chain": "training/exp_ar_neg06_fixed6/self_evolve_h200_r1",
+      "metadata": {
+        "scenario_id": "exp_ar_neg06_fixed6",
+        "repeat": 1,
+        "chain_dir": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_unrestricted_params/training/exp_ar_neg06_fixed6/self_evolve_h200_r1",
+        "generation": 1,
+        "operator": "m2",
+        "candidate_index": 9,
+        "parent_code_sha256": "84225bd736447bc8ada987d3367c8d0cea87be272773f77c9353eaaa18f99669",
+        "candidate_attempt": 1,
+        "prompt_sha256": "94c5631efe880b57a21b6e69e0e22cbfef06b4f3c87d00beac679dd7f39a2509"
+      },
+      "request_id": "62fbf4beb6f84f5d8b4742e3c9c56a72",
+      "resolution": "retain_upper_bound_skip_candidate",
+      "no_repost": true,
+      "evidence": {
+        "training/exp_ar_neg06_fixed6/self_evolve_h200_r1/blocked_transport.json": {
+          "sha256": "879adc6ad415514e5796bb0ba87a48c7a1c0173285d1a881fa8c8dbaee405f8b",
+          "archived_path": "training/exp_ar_neg06_fixed6/self_evolve_h200_r1/recoveries/62fbf4beb6f84f5d8b4742e3c9c56a72/blocked_transport.original.json"
+        },
+        "training/exp_ar_neg06_fixed6/self_evolve_h200_r1/model_responses/61c684721080de934c0d7d0c1d47f9f7036ec05b1ce8c82daa1eea93ef6233cd.json": {
+          "sha256": "16772bcb4ea4d9305f279be4b19b580c457df31fab899380ce0f8982fb30ae14",
+          "archived_path": "training/exp_ar_neg06_fixed6/self_evolve_h200_r1/recoveries/62fbf4beb6f84f5d8b4742e3c9c56a72/pending_model_response.original.json"
+        },
+        "training/exp_ar_neg06_fixed6/self_evolve_h200_r1/status.json": {
+          "sha256": "6a7549be86e576b50a43ade9c27d1d74f6a839e50a5ae6655f4e987441515001",
+          "archived_path": "training/exp_ar_neg06_fixed6/self_evolve_h200_r1/recoveries/62fbf4beb6f84f5d8b4742e3c9c56a72/status.original.json"
+        },
+        "api_requests/62fbf4beb6f84f5d8b4742e3c9c56a72/request.json": {
+          "sha256": "6b54cca63b34429a0ae4f7d1e6d7695ff25f3575f1a454db08b0ba6b10a1c590",
+          "archived_path": "training/exp_ar_neg06_fixed6/self_evolve_h200_r1/recoveries/62fbf4beb6f84f5d8b4742e3c9c56a72/provider_request.original.json"
+        }
+      },
+      "unknown_cost_upper_usd": 0.008472700000000001,
+      "user_resume_authorized": true,
+      "error_type": "TimeoutError",
+      "no_response_available": true,
+      "no_replacement_candidate": true,
+      "failed_candidate_path": "training/exp_ar_neg06_fixed6/self_evolve_h200_r1/candidates/g001_m2_009.json.gz",
+      "failed_candidate_sha256": "6746b8b3294dd45d05782852d89de6b89caebd0836ee1d6781e160b593b14ba6"
+    },
+    {
+      "recorded_utc": "2026-09-16T13:38:55.971036+00:00",
+      "chain": "training/exp_ar_pos08_fixed6/self_evolve_h200_r1",
+      "metadata": {
+        "scenario_id": "exp_ar_pos08_fixed6",
+        "repeat": 1,
+        "chain_dir": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_unrestricted_params/training/exp_ar_pos08_fixed6/self_evolve_h200_r1",
+        "generation": 5,
+        "operator": "m2",
+        "candidate_index": 0,
+        "parent_code_sha256": "c8713fd4e2af3300f093f6b77037df3486c9ca48b49fc043fb464b3977cafca5",
+        "candidate_attempt": 1,
+        "prompt_sha256": "a45521d7cc370fab1486759e5e221bbaa099a42c32f905abbb91c87fe6f760b6"
+      },
+      "request_id": null,
+      "resolution": "resume_original_unsubmitted_slot",
+      "no_repost": false,
+      "evidence": {
+        "training/exp_ar_pos08_fixed6/self_evolve_h200_r1/blocked_transport.json": {
+          "sha256": "e47918b0d65eea0637d264345bbc1ef0865b78c9a1c6fcc4915e949996d28537",
+          "archived_path": "training/exp_ar_pos08_fixed6/self_evolve_h200_r1/recoveries/user_pause_0361ae401a891090/blocked_transport.original.json"
+        },
+        "training/exp_ar_pos08_fixed6/self_evolve_h200_r1/model_responses/0361ae401a891090aa0297b1b728b288aba69857584aa20d59dc109c1aca6165.json": {
+          "sha256": "37f49ba7cdfc8629b7c700352578afeea6f7735b881cf8072584e20eb98a3786",
+          "archived_path": "training/exp_ar_pos08_fixed6/self_evolve_h200_r1/recoveries/user_pause_0361ae401a891090/pending_model_response.original.json"
+        },
+        "training/exp_ar_pos08_fixed6/self_evolve_h200_r1/status.json": {
+          "sha256": "f7db1296c3cbb871d37a8987ff980ac43cd0d8a054cc4b506ca2000e4716bd2f",
+          "archived_path": "training/exp_ar_pos08_fixed6/self_evolve_h200_r1/recoveries/user_pause_0361ae401a891090/status.original.json"
+        }
+      },
+      "unknown_cost_upper_usd": 0.0,
+      "user_resume_authorized": true
+    },
+    {
+      "recorded_utc": "2026-09-16T13:38:55.978114+00:00",
+      "chain": "training/exp_iid_fixed6/self_evolve_h200_r1",
+      "metadata": {
+        "scenario_id": "exp_iid_fixed6",
+        "repeat": 1,
+        "chain_dir": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_unrestricted_params/training/exp_iid_fixed6/self_evolve_h200_r1",
+        "generation": 5,
+        "operator": "m2",
+        "candidate_index": 0,
+        "parent_code_sha256": "7d99bd39a6211bd394fe6da334238c01d81fe24055c4ad08c58f4bacbc61c095",
+        "candidate_attempt": 1,
+        "prompt_sha256": "9d0a05bb9b5e939dee55823712d49619cb8df7bad92f577a6c96bd63267016ae"
+      },
+      "request_id": null,
+      "resolution": "resume_original_unsubmitted_slot",
+      "no_repost": false,
+      "evidence": {
+        "training/exp_iid_fixed6/self_evolve_h200_r1/blocked_transport.json": {
+          "sha256": "7dfb4e0bc2fbb28c083304e1b15c0a220a8e8b6ec6ac95a50e17a4142f79438f",
+          "archived_path": "training/exp_iid_fixed6/self_evolve_h200_r1/recoveries/user_pause_3e5affe3896c1c05/blocked_transport.original.json"
+        },
+        "training/exp_iid_fixed6/self_evolve_h200_r1/model_responses/3e5affe3896c1c05a80cf9d9bd93b0896c6201835c67d1b1b29f4f92980c24b8.json": {
+          "sha256": "aaac9a8d2103d0b89f1b0d6ee7e1a85177561356f2247b2a75fd8b1f06684cf0",
+          "archived_path": "training/exp_iid_fixed6/self_evolve_h200_r1/recoveries/user_pause_3e5affe3896c1c05/pending_model_response.original.json"
+        },
+        "training/exp_iid_fixed6/self_evolve_h200_r1/status.json": {
+          "sha256": "bf7732196fe8d63f97632ada8059c33e5730d67ae0d4c056da7a90d4d5a2c672",
+          "archived_path": "training/exp_iid_fixed6/self_evolve_h200_r1/recoveries/user_pause_3e5affe3896c1c05/status.original.json"
+        }
+      },
+      "unknown_cost_upper_usd": 0.0,
+      "user_resume_authorized": true
+    },
+    {
+      "recorded_utc": "2026-09-16T13:38:55.985613+00:00",
+      "chain": "training/exp_iid_random3_9/self_evolve_h200_r1",
+      "metadata": {
+        "scenario_id": "exp_iid_random3_9",
+        "repeat": 1,
+        "chain_dir": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_unrestricted_params/training/exp_iid_random3_9/self_evolve_h200_r1",
+        "generation": 1,
+        "operator": "m2",
+        "candidate_index": 7,
+        "parent_code_sha256": "fa084dbb3241005cc1c40f54f4710acdec60a4588142e608b8b81e5b8ad2702f",
+        "candidate_attempt": 1,
+        "prompt_sha256": "0633392bfe83ce2a1ee30bf6cdafba204770d5fe22aef446afc2c13d9bb3eb12"
+      },
+      "request_id": null,
+      "resolution": "resume_original_unsubmitted_slot",
+      "no_repost": false,
+      "evidence": {
+        "training/exp_iid_random3_9/self_evolve_h200_r1/blocked_transport.json": {
+          "sha256": "e7a9634aff5044c97ebbccf5e300b1e2e59e97dcc3bb9d4854e6cb4e0bbe9b92",
+          "archived_path": "training/exp_iid_random3_9/self_evolve_h200_r1/recoveries/user_pause_7e4b2cf9cde4d635/blocked_transport.original.json"
+        },
+        "training/exp_iid_random3_9/self_evolve_h200_r1/model_responses/7e4b2cf9cde4d635a27f444e898eb97e5d73d1e347621141bec08dc8a1e68b35.json": {
+          "sha256": "d0247a2ae56af82b2fe8e24d53934c03a914a3ac671b43d168e2e86f89602d9f",
+          "archived_path": "training/exp_iid_random3_9/self_evolve_h200_r1/recoveries/user_pause_7e4b2cf9cde4d635/pending_model_response.original.json"
+        },
+        "training/exp_iid_random3_9/self_evolve_h200_r1/status.json": {
+          "sha256": "898c2cf60ac19102fa936dde6e6b3adbb47f053a9172c428000c09e1d7a625f9",
+          "archived_path": "training/exp_iid_random3_9/self_evolve_h200_r1/recoveries/user_pause_7e4b2cf9cde4d635/status.original.json"
+        }
+      },
+      "unknown_cost_upper_usd": 0.0,
+      "user_resume_authorized": true
+    },
+    {
+      "recorded_utc": "2026-09-16T13:38:55.992670+00:00",
+      "chain": "training/exp_regime095_fixed6/self_evolve_h200_r1",
+      "metadata": {
+        "scenario_id": "exp_regime095_fixed6",
+        "repeat": 1,
+        "chain_dir": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_unrestricted_params/training/exp_regime095_fixed6/self_evolve_h200_r1",
+        "generation": 4,
+        "operator": "m2",
+        "candidate_index": 6,
+        "parent_code_sha256": "d03fd30a363c65ea01976159c8288266334fb5b5bd1b05e89c057199bb819a2f",
+        "candidate_attempt": 1,
+        "prompt_sha256": "9e1c4058cff14c8c2e99ec6554150236e58c34ed4cf7759c2efc4cdd93acff18"
+      },
+      "request_id": null,
+      "resolution": "resume_original_unsubmitted_slot",
+      "no_repost": false,
+      "evidence": {
+        "training/exp_regime095_fixed6/self_evolve_h200_r1/blocked_transport.json": {
+          "sha256": "c67173e6e4ea5b65539986d848a4f2d2b9754fc9f318f9de9ab8a7218d380e13",
+          "archived_path": "training/exp_regime095_fixed6/self_evolve_h200_r1/recoveries/user_pause_56d460c364d72f71/blocked_transport.original.json"
+        },
+        "training/exp_regime095_fixed6/self_evolve_h200_r1/model_responses/56d460c364d72f713ca927efea9f423e6b8b2cf658bfabaeaf0c61b3c091dbfc.json": {
+          "sha256": "9470bcf11202396cf733a5c774c9b4dd0485652db1ffa8b7866289211896ca10",
+          "archived_path": "training/exp_regime095_fixed6/self_evolve_h200_r1/recoveries/user_pause_56d460c364d72f71/pending_model_response.original.json"
+        },
+        "training/exp_regime095_fixed6/self_evolve_h200_r1/status.json": {
+          "sha256": "bcc897443c001295fc5bb494a0b00982b12127ec06e6faa6e5b15f13944cce7a",
+          "archived_path": "training/exp_regime095_fixed6/self_evolve_h200_r1/recoveries/user_pause_56d460c364d72f71/status.original.json"
+        }
+      },
+      "unknown_cost_upper_usd": 0.0,
+      "user_resume_authorized": true
+    }
+  ]
+}

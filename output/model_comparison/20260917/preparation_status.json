@@ -1,0 +1,123 @@
+{
+  "status": "prepared_pending_requested_model_and_provider",
+  "new_paid_requests": 0,
+  "new_api_cost_usd": 0,
+  "previous_actual_api_cost_usd": 12.7751011,
+  "cumulative_limit_usd": 50,
+  "new_allocation_usd": 30,
+  "common_baseline_jobs": 15,
+  "common_baseline_scenario_fits": 180,
+  "common_baseline_checks": [
+    {
+      "path": "common/r1/age_discount/train.json",
+      "valid": true,
+      "scenarios": 12,
+      "objective_calls": 5063,
+      "worker_seconds": 11.256633000215515
+    },
+    {
+      "path": "common/r1/base_stock/train.json",
+      "valid": true,
+      "scenarios": 12,
+      "objective_calls": 1628,
+      "worker_seconds": 5.382960417075083
+    },
+    {
+      "path": "common/r1/capped_base_stock/train.json",
+      "valid": true,
+      "scenarios": 12,
+      "objective_calls": 2140,
+      "worker_seconds": 5.15454591717571
+    },
+    {
+      "path": "common/r1/constant/train.json",
+      "valid": true,
+      "scenarios": 12,
+      "objective_calls": 1020,
+      "worker_seconds": 3.548261209158227
+    },
+    {
+      "path": "common/r1/flexible_age_weights/train.json",
+      "valid": true,
+      "scenarios": 12,
+      "objective_calls": 5379,
+      "worker_seconds": 10.344289541011676
+    },
+    {
+      "path": "common/r2/age_discount/train.json",
+      "valid": true,
+      "scenarios": 12,
+      "objective_calls": 5093,
+      "worker_seconds": 11.103513875044882
+    },
+    {
+      "path": "common/r2/base_stock/train.json",
+      "valid": true,
+      "scenarios": 12,
+      "objective_calls": 1420,
+      "worker_seconds": 5.0666629581246525
+    },
+    {
+      "path": "common/r2/capped_base_stock/train.json",
+      "valid": true,
+      "scenarios": 12,
+      "objective_calls": 2396,
+      "worker_seconds": 6.030242749955505
+    },
+    {
+      "path": "common/r2/constant/train.json",
+      "valid": true,
+      "scenarios": 12,
+      "objective_calls": 828,
+      "worker_seconds": 3.303942540893331
+    },
+    {
+      "path": "common/r2/flexible_age_weights/train.json",
+      "valid": true,
+      "scenarios": 12,
+      "objective_calls": 5842,
+      "worker_seconds": 10.360108749940991
+    },
+    {
+      "path": "common/r3/age_discount/train.json",
+      "valid": true,
+      "scenarios": 12,
+      "objective_calls": 5333,
+      "worker_seconds": 11.413529083132744
+    },
+    {
+      "path": "common/r3/base_stock/train.json",
+      "valid": true,
+      "scenarios": 12,
+      "objective_calls": 1676,
+      "worker_seconds": 5.350263665895909
+    },
+    {
+      "path": "common/r3/capped_base_stock/train.json",
+      "valid": true,
+      "scenarios": 12,
+      "objective_calls": 2780,
+      "worker_seconds": 6.491172708803788
+    },
+    {
+      "path": "common/r3/constant/train.json",
+      "valid": true,
+      "scenarios": 12,
+      "objective_calls": 1356,
+      "worker_seconds": 3.7850554999895394
+    },
+    {
+      "path": "common/r3/flexible_age_weights/train.json",
+      "valid": true,
+      "scenarios": 12,
+      "objective_calls": 5307,
+      "worker_seconds": 9.875003084074706
+    }
+  ],
+  "verification": {
+    "unit_tests_passed": 36,
+    "report_synthetic_self_test": "passed",
+    "numerical_cache_parity": "passed",
+    "baseline_request_hashes_and_budgets": "passed"
+  }
+}

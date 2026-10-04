@@ -1,0 +1,23 @@
+{
+  "status": "completed",
+  "best_code_path": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_unrestricted_params/training/exp_ar_neg06_fixed6/self_evolve_h200_r2/policy.py",
+  "code_sha256": "27cacd746b15b8951f9924ce08a5fffee1f4ca96c9ca864b7120a9478a9ff54c",
+  "best_train_cost": 20075.32926336558,
+  "algorithm": "Increased base target to better handle demand variability, added stronger demand sensitivity to react to recent demand, and introduced moderate pipeline sensitivity to account for incoming orders. The policy now more aggressively adjusts ordering based on both inventory position and recent demand patterns while maintaining a higher base stock level to prevent lost sales.",
+  "checkpoint_path": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_unrestricted_params/training/exp_ar_neg06_fixed6/self_evolve_h200_r2/checkpoints/g010.json.gz",
+  "model_calls": 103,
+  "training_evaluations": 20628,
+  "training_cache_hits": 1142,
+  "compiled_structures": 32,
+  "optimizer": "SciPy L-BFGS-B",
+  "optimizer_maxiter": 15,
+  "test_evaluated": false,
+  "scenario_id": "exp_ar_neg06_fixed6",
+  "policy_id": "self_evolve_h200_r2",
+  "family": "self_evolve",
+  "repeat": 2,
+  "source_training_horizon": 200,
+  "elapsed_seconds": 1256.406422415981,
+  "finished_utc": "2026-09-16T14:30:47.773518+00:00",
+  "full_protocol": true
+}

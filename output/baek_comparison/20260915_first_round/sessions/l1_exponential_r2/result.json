@@ -1,0 +1,48 @@
+{
+  "session_id": "l1_exponential_r2",
+  "level": "L1",
+  "family": "exponential",
+  "repeat": 2,
+  "scenario_id": "exponential_L6_c1_2",
+  "prompt_sha256": "8576549c027ba99e7bced5d7b2e67a9072097bfc4be88759d804ad082a288b02",
+  "status": "completed",
+  "final_text": "```python\nimport math\n\n_MEAN_DEMAND = 100.0\n_ORDER_CAP = 82.83732902\n_LINEAR_COEF = 0.82699492\n_QUADRATIC_COEF = 0.24923557\n_LARGE_STATE = 100000.0\n\ndef _expected_inventory_at_arrival(inventory, pipeline):\n    \"\"\"Expected stock just before a new order arrives, using exponential demand.\"\"\"\n    scale = _MEAN_DEMAND\n    exp_term = math.exp(-inventory / scale)\n\n    # moments[k] = E[X^k exp(-X/scale)]\n    moments = [exp_term]\n    power = 1.0\n    for _ in range(6):\n        power *= inventory\n        moments.append(power * exp_term)\n\n    expected = inventory\n\n    # Current-period demand, followed by five pipeline arrivals and demands.\n    for step in range(6):\n        if step:\n            arrival = pipeline[step - 1]\n            if arrival:\n                old = moments\n                decay = math.exp(-arrival / scale)\n                transformed = []\n                max_degree = len(old) - 1\n\n                for degree in range(max_degree + 1):\n                    value = 0.0\n                    for r in range(degree + 1):\n                        value += (\n                            math.comb(degree, r)\n                            * (arrival ** (degree - r))\n                            * old[r]\n                        )\n                    transformed.append(decay * value)\n\n                moments = transformed\n                expected += arrival\n\n        old = moments\n        expected = expected - scale + scale * old[0]\n        if expected < 0.0:\n            expected = 0.0\n\n        next_moments = [old[0] + old[1] / scale]\n        for degree in range(1, len(old) - 1):\n            next_moments.append(old[degree + 1] / (scale * (degree + 1)))\n        moments = next_moments\n\n    return expected\n\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders):\n    inventory = float(on_hand_inventory)\n    pipeline = [float(x) for x in pipeline_orders]\n\n    # Such states already contain overwhelmingly more inventory than useful.\n    if inventory >= _LARGE_STATE or any(x >= _LARGE_STATE for x in pipeline):\n        return 0.0\n\n    projected = _expected_inventory_at_arrival(inventory, pipeline)\n\n    if projected <= 150.0:\n        order = (\n            _ORDER_CAP\n            - _LINEAR_COEF * projected\n            + (_QUADRATIC_COEF / 100.0) * projected * projected\n        )\n    elif projected < 200.0:\n        order_at_150 = (\n            _ORDER_CAP\n            - 150.0 * _LINEAR_COEF\n            + (_QUADRATIC_COEF / 100.0) * 150.0 * 150.0\n        )\n        order = order_at_150 * (200.0 - projected) / 50.0\n    else:\n        order = 0.0\n\n    if order <= 0.0:\n        return 0.0\n    if order >= _ORDER_CAP:\n        return _ORDER_CAP\n    return float(order)\n```",
+  "final_code": "import math\n\n_MEAN_DEMAND = 100.0\n_ORDER_CAP = 82.83732902\n_LINEAR_COEF = 0.82699492\n_QUADRATIC_COEF = 0.24923557\n_LARGE_STATE = 100000.0\n\ndef _expected_inventory_at_arrival(inventory, pipeline):\n    \"\"\"Expected stock just before a new order arrives, using exponential demand.\"\"\"\n    scale = _MEAN_DEMAND\n    exp_term = math.exp(-inventory / scale)\n\n    # moments[k] = E[X^k exp(-X/scale)]\n    moments = [exp_term]\n    power = 1.0\n    for _ in range(6):\n        power *= inventory\n        moments.append(power * exp_term)\n\n    expected = inventory\n\n    # Current-period demand, followed by five pipeline arrivals and demands.\n    for step in range(6):\n        if step:\n            arrival = pipeline[step - 1]\n            if arrival:\n                old = moments\n                decay = math.exp(-arrival / scale)\n                transformed = []\n                max_degree = len(old) - 1\n\n                for degree in range(max_degree + 1):\n                    value = 0.0\n                    for r in range(degree + 1):\n                        value += (\n                            math.comb(degree, r)\n                            * (arrival ** (degree - r))\n                            * old[r]\n                        )\n                    transformed.append(decay * value)\n\n                moments = transformed\n                expected += arrival\n\n        old = moments\n        expected = expected - scale + scale * old[0]\n        if expected < 0.0:\n            expected = 0.0\n\n        next_moments = [old[0] + old[1] / scale]\n        for degree in range(1, len(old) - 1):\n            next_moments.append(old[degree + 1] / (scale * (degree + 1)))\n        moments = next_moments\n\n    return expected\n\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders):\n    inventory = float(on_hand_inventory)\n    pipeline = [float(x) for x in pipeline_orders]\n\n    # Such states already contain overwhelmingly more inventory than useful.\n    if inventory >= _LARGE_STATE or any(x >= _LARGE_STATE for x in pipeline):\n        return 0.0\n\n    projected = _expected_inventory_at_arrival(inventory, pipeline)\n\n    if projected <= 150.0:\n        order = (\n            _ORDER_CAP\n            - _LINEAR_COEF * projected\n            + (_QUADRATIC_COEF / 100.0) * projected * projected\n        )\n    elif projected < 200.0:\n        order_at_150 = (\n            _ORDER_CAP\n            - 150.0 * _LINEAR_COEF\n            + (_QUADRATIC_COEF / 100.0) * 150.0 * 150.0\n        )\n        order = order_at_150 * (200.0 - projected) / 50.0\n    else:\n        order = 0.0\n\n    if order <= 0.0:\n        return 0.0\n    if order >= _ORDER_CAP:\n        return _ORDER_CAP\n    return float(order)\n",
+  "usage": {
+    "input_tokens": 314149,
+    "output_tokens": 18448,
+    "total_tokens": 332597,
+    "last_response_usage": {
+      "input_tokens": 22014,
+      "input_tokens_details": {
+        "cached_tokens": 21605,
+        "cache_write_tokens": 406
+      },
+      "output_tokens": 1823,
+      "output_tokens_details": {
+        "reasoning_tokens": 1137
+      },
+      "total_tokens": 23837,
+      "cost": 0.023572,
+      "is_byok": false,
+      "cost_details": {
+        "upstream_inference_cost": 0.023572,
+        "upstream_inference_input_cost": 0.005342,
+        "upstream_inference_output_cost": 0.01823
+      }
+    }
+  },
+  "cost_usd": 0.2997531,
+  "tool_calls": 25,
+  "python_seconds": 2491.632532334421,
+  "requests": 26,
+  "actual_models": [
+    "openai/gpt-5.6-sol"
+  ],
+  "error": null,
+  "http_status": null,
+  "uncertain_cost_usd": 0.0,
+  "interruption_waste_seconds": 0.0,
+  "resumed_from_checkpoint": false,
+  "code_sha256": "f067c3a919bbad265bcab7f707116c1fd9c957e82c96a6d26e5170b51b6cd2b9"
+}

@@ -1,0 +1,45 @@
+{
+  "kind": "extended_completed_subset_training_only",
+  "workers": 1,
+  "paid_calls": 0,
+  "final_test_calls": 0,
+  "pid": 29331,
+  "nice": 10,
+  "order": [
+    "best_of_n_r1",
+    "evolution_r1",
+    "evolution_r2"
+  ],
+  "cached": {
+    "best_of_n_r1": {
+      "completed_sha256": "8523522eafefe9d7ec71cee50bd2f4738e151735b7eed4f02598087cd1e65943",
+      "source_sha256": "09d0a4535b631414fecc6dd7964f26b705ba92da13d9e0fa790821ce69431129",
+      "origin": "search/best_of_n_r1/candidate_04_0",
+      "scenarios": 8,
+      "cache_access_seconds": 1125.3424136671238
+    },
+    "evolution_r1": {
+      "completed_sha256": "efe1b0d1ab786c16949572b4e51908a64205bb55c821a3dec1404c3e1cdcd637",
+      "source_sha256": "cd5a7a523659c5a373fed1888c8eb6fe6120cceacf0b690c1acc4a4beb79871e",
+      "origin": "search/evolution_r1/candidate_02_0",
+      "scenarios": 8,
+      "cache_access_seconds": 273.56407895917073
+    },
+    "evolution_r2": {
+      "completed_sha256": "ec6f70c87f7a7414c1f280f4c508a62ae33d8d7f61a1629bcf0f49a64f55b014",
+      "source_sha256": "5f1f1e823993164d3482cc67ad3a19b9e51422dd534b5083ecdc14b3b3c3a399",
+      "origin": "search/evolution_r2/candidate_05_0",
+      "scenarios": 8,
+      "cache_access_seconds": 545.7578759589233
+    }
+  },
+  "status": "stopped",
+  "updated_utc": "2026-09-17T05:48:51.038383+00:00",
+  "elapsed_seconds": 1966.8966837080661,
+  "reason": "completed_requested_subset",
+  "progress": {
+    "stop": "all_nine_cached",
+    "blocked": {},
+    "waiting": []
+  }
+}

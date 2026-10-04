@@ -1,0 +1,594 @@
+{
+  "trajectory_id": "deepseek-chat_poisson_L4_c1_2_50_plain_processed_scipy_15_default_m2_10_r1",
+  "distribution": "poisson_L4_c1_2",
+  "run_directory": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/examples/inventory/deepseek-chat_poisson_L4_c1_2_50_plain_processed_scipy_15_default_m2_10_r1",
+  "excel_file": "/Users/fenghua/Downloads/final results.xlsx",
+  "excel_sheet": "S 3",
+  "selected_display_train_objectives": [
+    1727.92,
+    1497.53,
+    1071.14,
+    965.34,
+    768.14,
+    745.56
+  ],
+  "note": "The selected trajectory keeps only generations where the best policy changes or improves: generations 0, 1, 2, 3, 5, and 8. Intermediate generations 4, 6, 7, 9, and 10 retain the same best-policy code as earlier selected policies.",
+  "policies": [
+    {
+      "sequence_index": 0,
+      "generation": 0,
+      "display_train_objective": 1727.92,
+      "train_objective": 1727.92166,
+      "display_test_objective": 1745.38,
+      "test_objective": 1745.37876,
+      "algorithm_summary": "The algorithm implements Base Stock Policy where the inventory level is always brought back to a fixed target level 'base_stock' at the beginning of each period.",
+      "code_sha256": "9b50b54a5b1c983800c67577a9cc02f3a4a7c84beca3ce8d915f1865d7050f7b",
+      "code": "def compute_order_amount(on_hand_inventory, pipeline_orders):\n    base_stock = 481.9965338720178  # OPT_PARAM: {\"initial\": 481.9965338720178, \"min\": 10, \"max\": 1000, \"type\": \"float\"}\n    order_amount = max(0, base_stock - on_hand_inventory - sum(pipeline_orders))\n    return order_amount",
+      "opt_params": {
+        "base_stock": 481.9965338720178
+      },
+      "source_json": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/examples/inventory/deepseek-chat_poisson_L4_c1_2_50_plain_processed_scipy_15_default_m2_10_r1/pops/population_generation_0.json",
+      "excel_train_evidence": [
+        {
+          "sheet": "S 3",
+          "cell": "Q522",
+          "n_pop": 1.0,
+          "mode": "train",
+          "value": 1727.92
+        },
+        {
+          "sheet": "S 3",
+          "cell": "R522",
+          "n_pop": 1.0,
+          "mode": "train",
+          "value": 1727.92
+        },
+        {
+          "sheet": "S 3",
+          "cell": "AA522",
+          "n_pop": 1.0,
+          "mode": "train",
+          "value": 1727.92
+        },
+        {
+          "sheet": "S 3",
+          "cell": "AS522",
+          "n_pop": 1.0,
+          "mode": "train",
+          "value": 1727.92
+        },
+        {
+          "sheet": "S 3",
+          "cell": "BL522",
+          "n_pop": 1.0,
+          "mode": "train",
+          "value": 1727.92
+        },
+        {
+          "sheet": "S 3",
+          "cell": "BY522",
+          "n_pop": 1.0,
+          "mode": "train",
+          "value": 1727.92
+        },
+        {
+          "sheet": "S 3",
+          "cell": "T524",
+          "n_pop": 2.0,
+          "mode": "train",
+          "value": 1727.92
+        },
+        {
+          "sheet": "S 3",
+          "cell": "U524",
+          "n_pop": 2.0,
+          "mode": "train",
+          "value": 1727.92
+        }
+      ],
+      "excel_test_evidence": [
+        {
+          "sheet": "S 3",
+          "cell": "Q523",
+          "n_pop": 1.0,
+          "mode": "test",
+          "value": 1745.38
+        },
+        {
+          "sheet": "S 3",
+          "cell": "R523",
+          "n_pop": 1.0,
+          "mode": "test",
+          "value": 1745.38
+        },
+        {
+          "sheet": "S 3",
+          "cell": "AA523",
+          "n_pop": 1.0,
+          "mode": "test",
+          "value": 1745.38
+        },
+        {
+          "sheet": "S 3",
+          "cell": "AI523",
+          "n_pop": 1.0,
+          "mode": "test",
+          "value": 1745.38
+        },
+        {
+          "sheet": "S 3",
+          "cell": "AS523",
+          "n_pop": 1.0,
+          "mode": "test",
+          "value": 1745.38
+        },
+        {
+          "sheet": "S 3",
+          "cell": "AT523",
+          "n_pop": 1.0,
+          "mode": "test",
+          "value": 1745.38
+        },
+        {
+          "sheet": "S 3",
+          "cell": "BC523",
+          "n_pop": 1.0,
+          "mode": "test",
+          "value": 1745.38
+        },
+        {
+          "sheet": "S 3",
+          "cell": "BD523",
+          "n_pop": 1.0,
+          "mode": "test",
+          "value": 1745.38
+        }
+      ]
+    },
+    {
+      "sequence_index": 1,
+      "generation": 1,
+      "display_train_objective": 1497.53,
+      "train_objective": 1497.53354,
+      "display_test_objective": 1505.01,
+      "test_objective": 1505.01056,
+      "algorithm_summary": "The historical policy uses a simple base-stock policy with base_stock \u2248 482. The cost statistics show high holding costs (23.11) relative to lost sales (8.89), indicating overstocking. The modified policy introduces several improvements: 1) Reduced base stock to 450 to lower holding costs, 2) Added safety stock for demand variability, 3) Incorporated lead-time demand estimation, 4) Adjusted ordering based on imminent pipeline arrivals to smooth inventory, 5) Added ordering threshold to avoid small inefficient orders, and 6) Implemented maximum order cap to prevent overreaction to inventory gaps. These changes aim to better balance holding and stockout costs while maintaining responsiveness to demand.",
+      "code_sha256": "975114d020dcee6f33328f5dab95232fa74ec11c18975f22c4e9037f56eb078f",
+      "code": "def compute_order_amount(on_hand_inventory, pipeline_orders):\n    base_stock = 450.0  # OPT_PARAM: {\"initial\": 450.0, \"min\": 300, \"max\": 600, \"type\": \"float\"}\n    safety_stock = 80.0  # OPT_PARAM: {\"initial\": 80.0, \"min\": 20, \"max\": 150, \"type\": \"float\"}\n    \n    # Calculate inventory position\n    inventory_position = on_hand_inventory + sum(pipeline_orders)\n    \n    # Calculate expected demand during lead time (using historical average)\n    avg_demand = 100.0  # OPT_PARAM: {\"initial\": 100.0, \"min\": 80, \"max\": 120, \"type\": \"float\"}\n    lead_time_demand = avg_demand * len(pipeline_orders)\n    \n    # Adjust base stock based on pipeline status\n    if len(pipeline_orders) > 0:\n        # Give more weight to imminent arrivals\n        imminent_arrivals = sum(pipeline_orders[:2]) if len(pipeline_orders) >= 2 else pipeline_orders[0]\n        target_inventory = base_stock + safety_stock - 0.3 * imminent_arrivals  # OPT_PARAM: {\"initial\": 0.3, \"min\": 0.1, \"max\": 0.5, \"type\": \"float\"}\n    else:\n        target_inventory = base_stock + safety_stock\n    \n    # Smooth ordering to avoid large fluctuations\n    order_amount = max(0, target_inventory - inventory_position)\n    \n    # Apply ordering threshold to reduce small orders\n    if order_amount < 20.0:  # OPT_PARAM: {\"initial\": 20.0, \"min\": 5, \"max\": 50, \"type\": \"float\"}\n        order_amount = 0\n    \n    # Cap large orders to prevent overstocking\n    max_order = 150.0  # OPT_PARAM: {\"initial\": 150.0, \"min\": 80, \"max\": 250, \"type\": \"float\"}\n    order_amount = min(order_amount, max_order)\n    \n    return order_amount",
+      "opt_params": {
+        "base_stock": {
+          "initial": 450.0,
+          "min": 300,
+          "max": 600,
+          "type": "float"
+        },
+        "safety_stock": {
+          "initial": 80.0,
+          "min": 20,
+          "max": 150,
+          "type": "float"
+        },
+        "avg_demand": {
+          "initial": 100.0,
+          "min": 80,
+          "max": 120,
+          "type": "float"
+        },
+        "target_inventory": {
+          "initial": 0.3,
+          "min": 0.1,
+          "max": 0.5,
+          "type": "float"
+        },
+        "if order_amount < 20.0:  # OPT_PARAM: {\"initial\": 20.0, \"min\": 5, \"max\": 50, \"type\": \"float\"}": {
+          "initial": 20.0,
+          "min": 5,
+          "max": 50,
+          "type": "float"
+        },
+        "max_order": {
+          "initial": 150.0,
+          "min": 80,
+          "max": 250,
+          "type": "float"
+        }
+      },
+      "source_json": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/examples/inventory/deepseek-chat_poisson_L4_c1_2_50_plain_processed_scipy_15_default_m2_10_r1/pops_best/population_generation_1.json",
+      "excel_train_evidence": [
+        {
+          "sheet": "S 3",
+          "cell": "X522",
+          "n_pop": 1.0,
+          "mode": "train",
+          "value": 1497.53
+        },
+        {
+          "sheet": "S 3",
+          "cell": "AB524",
+          "n_pop": 2.0,
+          "mode": "train",
+          "value": 1497.53
+        },
+        {
+          "sheet": "S 3",
+          "cell": "AF526",
+          "n_pop": 3.0,
+          "mode": "train",
+          "value": 1497.53
+        }
+      ],
+      "excel_test_evidence": [
+        {
+          "sheet": "S 3",
+          "cell": "X523",
+          "n_pop": 1.0,
+          "mode": "test",
+          "value": 1505.01
+        },
+        {
+          "sheet": "S 3",
+          "cell": "AB525",
+          "n_pop": 2.0,
+          "mode": "test",
+          "value": 1505.01
+        },
+        {
+          "sheet": "S 3",
+          "cell": "AF527",
+          "n_pop": 3.0,
+          "mode": "test",
+          "value": 1505.01
+        }
+      ]
+    },
+    {
+      "sequence_index": 2,
+      "generation": 2,
+      "display_train_objective": 1071.14,
+      "train_objective": 1071.14,
+      "display_test_objective": 1091.78,
+      "test_objective": 1091.782,
+      "algorithm_summary": "The historical policy had a high average total cost (27.73) with significant holding costs. I reduced the base_stock from 450 to 380 to lower holding costs while maintaining sufficient inventory. I decreased safety_stock from 80 to 60 to further reduce excess inventory. I adjusted avg_demand to 98.5 based on the data's actual average. I increased the imminent_weight to 0.4 to better account for incoming orders. I raised the order_threshold to 25 to reduce frequent small orders. I lowered max_order to 120 to prevent large order spikes. These changes aim to balance holding and lost-sales costs more effectively.",
+      "code_sha256": "b57072a456389670144ad516519eca2fb655ac93b288a712ce545c5e9f33accc",
+      "code": "def compute_order_amount(on_hand_inventory, pipeline_orders):\n    base_stock = 424.03517574659884  # OPT_PARAM: {\"initial\": 424.03517574659884, \"min\": 300, \"max\": 450, \"type\": \"float\"}\n    safety_stock = 100.0  # OPT_PARAM: {\"initial\": 100.0, \"min\": 40, \"max\": 100, \"type\": \"float\"}\n    \n    # Calculate inventory position\n    inventory_position = on_hand_inventory + sum(pipeline_orders)\n    \n    # Calculate expected demand during lead time (using historical average)\n    avg_demand = 98.5  # OPT_PARAM: {\"initial\": 98.5, \"min\": 90, \"max\": 110, \"type\": \"float\"}\n    lead_time_demand = avg_demand * len(pipeline_orders)\n    \n    # Dynamic base stock adjustment based on pipeline status\n    if len(pipeline_orders) > 0:\n        # Weight imminent arrivals more heavily\n        imminent_weight = 0.2  # OPT_PARAM: {\"initial\": 0.2, \"min\": 0.2, \"max\": 0.6, \"type\": \"float\"}\n        imminent_arrivals = sum(pipeline_orders[:2]) if len(pipeline_orders) >= 2 else pipeline_orders[0]\n        target_inventory = base_stock + safety_stock - imminent_weight * imminent_arrivals\n    else:\n        target_inventory = base_stock + safety_stock\n    \n    # Calculate order amount with smoothing\n    order_amount = max(0, target_inventory - inventory_position)\n    \n    # Apply ordering threshold to reduce small orders\n    order_threshold = 39.9858335563467  # OPT_PARAM: {\"initial\": 39.9858335563467, \"min\": 10, \"max\": 40, \"type\": \"float\"}\n    if order_amount < order_threshold:\n        order_amount = 0\n    \n    # Cap large orders to prevent overstocking\n    max_order = 120.0  # OPT_PARAM: {\"initial\": 120.0, \"min\": 80, \"max\": 180, \"type\": \"float\"}\n    order_amount = min(order_amount, max_order)\n    \n    # Round to nearest integer for practical ordering\n    order_amount = int(round(order_amount))\n    \n    return order_amount",
+      "opt_params": {
+        "base_stock": 424.03517574659884,
+        "safety_stock": 100.0,
+        "avg_demand": 98.5,
+        "imminent_weight": 0.2,
+        "order_threshold": 39.9858335563467,
+        "max_order": 120.0
+      },
+      "source_json": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/examples/inventory/deepseek-chat_poisson_L4_c1_2_50_plain_processed_scipy_15_default_m2_10_r1/pops_best/population_generation_2.json",
+      "excel_train_evidence": [
+        {
+          "sheet": "S 3",
+          "cell": "X524",
+          "n_pop": 2.0,
+          "mode": "train",
+          "value": 1071.14
+        },
+        {
+          "sheet": "S 3",
+          "cell": "Z526",
+          "n_pop": 3.0,
+          "mode": "train",
+          "value": 1071.14
+        },
+        {
+          "sheet": "S 3",
+          "cell": "AA528",
+          "n_pop": 4.0,
+          "mode": "train",
+          "value": 1071.14
+        },
+        {
+          "sheet": "S 3",
+          "cell": "AD530",
+          "n_pop": 5.0,
+          "mode": "train",
+          "value": 1071.14
+        }
+      ],
+      "excel_test_evidence": [
+        {
+          "sheet": "S 3",
+          "cell": "X525",
+          "n_pop": 2.0,
+          "mode": "test",
+          "value": 1091.78
+        },
+        {
+          "sheet": "S 3",
+          "cell": "Z527",
+          "n_pop": 3.0,
+          "mode": "test",
+          "value": 1091.78
+        },
+        {
+          "sheet": "S 3",
+          "cell": "AA529",
+          "n_pop": 4.0,
+          "mode": "test",
+          "value": 1091.78
+        },
+        {
+          "sheet": "S 3",
+          "cell": "AD531",
+          "n_pop": 5.0,
+          "mode": "test",
+          "value": 1091.78
+        }
+      ]
+    },
+    {
+      "sequence_index": 3,
+      "generation": 3,
+      "display_train_objective": 965.34,
+      "train_objective": 965.34045,
+      "display_test_objective": 970.79,
+      "test_objective": 970.79412,
+      "algorithm_summary": "The historical policy had high holding costs (14.18) relative to lost sales (7.56), indicating over-ordering. I reduced the base stock slightly and significantly lowered safety stock. I introduced pipeline weighting (0.85) to better account for future arrivals, added imminent arrival weighting for more responsive ordering, and implemented order smoothing to reduce volatility. The new bounds (10-120) are tighter than before (0-150), preventing extreme orders while maintaining flexibility. These changes should better balance holding and lost sales costs.",
+      "code_sha256": "c4650d9e058e85c1ea449c7781a205a67bda2226ab82383b354dc223c621066a",
+      "code": "def compute_order_amount(on_hand_inventory, pipeline_orders):\n    base_stock = 478.73036181197  # OPT_PARAM: {\"initial\": 478.73036181197, \"min\": 400, \"max\": 600, \"type\": \"float\"}\n    safety_stock = 23.730361811969715  # OPT_PARAM: {\"initial\": 23.730361811969715, \"min\": 10, \"max\": 50, \"type\": \"float\"}\n    pipeline_weight = 0.7  # OPT_PARAM: {\"initial\": 0.7, \"min\": 0.7, \"max\": 1.0, \"type\": \"float\"}\n    \n    # Calculate effective inventory position with weighted pipeline\n    weighted_pipeline = pipeline_weight * sum(pipeline_orders)\n    effective_inventory = on_hand_inventory + weighted_pipeline\n    \n    # Dynamic adjustment based on pipeline composition\n    # Give more weight to imminent arrivals\n    if len(pipeline_orders) > 0:\n        imminent_weight = 1.1  # OPT_PARAM: {\"initial\": 1.1, \"min\": 1.0, \"max\": 1.5, \"type\": \"float\"}\n        imminent_arrivals = pipeline_orders[0]  # Next period arrival\n        effective_inventory += (imminent_weight - 1.0) * imminent_arrivals\n    \n    # Adjust base stock level with safety stock\n    adjusted_base_stock = base_stock + safety_stock\n    \n    # Calculate order amount\n    order_amount = max(0, adjusted_base_stock - effective_inventory)\n    \n    # Apply smoothing to reduce order volatility\n    smoothing_factor = 0.5  # OPT_PARAM: {\"initial\": 0.5, \"min\": 0.5, \"max\": 0.9, \"type\": \"float\"}\n    if order_amount > 0:\n        order_amount = smoothing_factor * order_amount\n    \n    # Apply reasonable bounds\n    min_order = 10  # OPT_PARAM: {\"initial\": 10, \"min\": 5, \"max\": 30, \"type\": \"int\"}\n    max_order = 120  # OPT_PARAM: {\"initial\": 120, \"min\": 80, \"max\": 180, \"type\": \"int\"}\n    \n    order_amount = max(min_order, min(max_order, order_amount))\n    \n    # Round to nearest integer\n    return order_amount",
+      "opt_params": {
+        "base_stock": 478.73036181197,
+        "safety_stock": 23.730361811969715,
+        "pipeline_weight": 0.7,
+        "imminent_weight": 1.1,
+        "smoothing_factor": 0.5,
+        "min_order": 10,
+        "max_order": 120
+      },
+      "source_json": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/examples/inventory/deepseek-chat_poisson_L4_c1_2_50_plain_processed_scipy_15_default_m2_10_r1/pops_best/population_generation_3.json",
+      "excel_train_evidence": [
+        {
+          "sheet": "S 3",
+          "cell": "X526",
+          "n_pop": 3.0,
+          "mode": "train",
+          "value": 965.34
+        },
+        {
+          "sheet": "S 3",
+          "cell": "X528",
+          "n_pop": 4.0,
+          "mode": "train",
+          "value": 965.34
+        },
+        {
+          "sheet": "S 3",
+          "cell": "Z530",
+          "n_pop": 5.0,
+          "mode": "train",
+          "value": 965.34
+        },
+        {
+          "sheet": "S 3",
+          "cell": "AB532",
+          "n_pop": 6.0,
+          "mode": "train",
+          "value": 965.34
+        },
+        {
+          "sheet": "S 3",
+          "cell": "AE534",
+          "n_pop": 7.0,
+          "mode": "train",
+          "value": 965.34
+        }
+      ],
+      "excel_test_evidence": [
+        {
+          "sheet": "S 3",
+          "cell": "X527",
+          "n_pop": 3.0,
+          "mode": "test",
+          "value": 970.79
+        },
+        {
+          "sheet": "S 3",
+          "cell": "X529",
+          "n_pop": 4.0,
+          "mode": "test",
+          "value": 970.79
+        },
+        {
+          "sheet": "S 3",
+          "cell": "Z531",
+          "n_pop": 5.0,
+          "mode": "test",
+          "value": 970.79
+        },
+        {
+          "sheet": "S 3",
+          "cell": "AB533",
+          "n_pop": 6.0,
+          "mode": "test",
+          "value": 970.79
+        },
+        {
+          "sheet": "S 3",
+          "cell": "AE535",
+          "n_pop": 7.0,
+          "mode": "test",
+          "value": 970.79
+        }
+      ]
+    },
+    {
+      "sequence_index": 4,
+      "generation": 5,
+      "display_train_objective": 768.14,
+      "train_objective": 768.14,
+      "display_test_objective": 768.53,
+      "test_objective": 768.526,
+      "algorithm_summary": "The historical policy shows a high lost-sales cost relative to holding cost (10.79 vs 7.30), indicating insufficient inventory. I reduced the base_stock slightly (405 vs 414.9) but increased the weight_imminent parameter (0.3 vs 0.2) to be more responsive to incoming shipments. I lowered safety_stock (85 vs 89.9) and max_order (100 vs 110) to reduce over-ordering while maintaining coverage. The order_threshold was reduced (20 vs 25) to place smaller orders more frequently, improving responsiveness. These adjustments aim to better balance holding and lost-sales costs.",
+      "code_sha256": "2c0a08827278aa6e33aee1582a83e136cb7633c12b87c86e3e25c0bd2e6b66e9",
+      "code": "def compute_order_amount(on_hand_inventory, pipeline_orders):\n    base_stock = 416.7575235436705  # OPT_PARAM: {\"initial\": 416.7575235436705, \"min\": 380, \"max\": 430, \"type\": \"float\"}\n    safety_stock = 96.7575235436742  # OPT_PARAM: {\"initial\": 96.7575235436742, \"min\": 70, \"max\": 100, \"type\": \"float\"}\n    \n    # Calculate inventory position\n    inventory_position = on_hand_inventory + sum(pipeline_orders)\n    \n    # Calculate expected demand during lead time\n    avg_demand = 99.2  # OPT_PARAM: {\"initial\": 99.2, \"min\": 95, \"max\": 105, \"type\": \"float\"}\n    lead_time_demand = avg_demand * len(pipeline_orders)\n    \n    # Dynamic adjustment based on pipeline composition\n    if len(pipeline_orders) > 0:\n        # Weight based on arrival timing\n        weight_imminent = 0.2  # OPT_PARAM: {\"initial\": 0.2, \"min\": 0.2, \"max\": 0.5, \"type\": \"float\"}\n        imminent_arrivals = pipeline_orders[0] + 0.5 * pipeline_orders[1] if len(pipeline_orders) >= 2 else pipeline_orders[0]\n        target_inventory = base_stock + safety_stock - weight_imminent * imminent_arrivals\n    else:\n        target_inventory = base_stock + safety_stock\n    \n    # Calculate order amount\n    order_amount = max(0, target_inventory - inventory_position)\n    \n    # Apply ordering threshold\n    order_threshold = 20.0  # OPT_PARAM: {\"initial\": 20.0, \"min\": 15, \"max\": 35, \"type\": \"float\"}\n    if order_amount < order_threshold:\n        order_amount = 0\n    \n    # Cap large orders\n    max_order = 100.0  # OPT_PARAM: {\"initial\": 100.0, \"min\": 90, \"max\": 130, \"type\": \"float\"}\n    order_amount = min(order_amount, max_order)\n    \n    # Round to nearest integer\n    order_amount = int(round(order_amount))\n    \n    return order_amount",
+      "opt_params": {
+        "base_stock": 416.7575235436705,
+        "safety_stock": 96.7575235436742,
+        "avg_demand": 99.2,
+        "weight_imminent": 0.2,
+        "order_threshold": 20.0,
+        "max_order": 100.0
+      },
+      "source_json": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/examples/inventory/deepseek-chat_poisson_L4_c1_2_50_plain_processed_scipy_15_default_m2_10_r1/pops_best/population_generation_5.json",
+      "excel_train_evidence": [
+        {
+          "sheet": "S 3",
+          "cell": "X530",
+          "n_pop": 5.0,
+          "mode": "train",
+          "value": 768.14
+        },
+        {
+          "sheet": "S 3",
+          "cell": "X532",
+          "n_pop": 6.0,
+          "mode": "train",
+          "value": 768.14
+        },
+        {
+          "sheet": "S 3",
+          "cell": "X534",
+          "n_pop": 7.0,
+          "mode": "train",
+          "value": 768.14
+        },
+        {
+          "sheet": "S 3",
+          "cell": "Z536",
+          "n_pop": 8.0,
+          "mode": "train",
+          "value": 768.14
+        },
+        {
+          "sheet": "S 3",
+          "cell": "AB538",
+          "n_pop": 9.0,
+          "mode": "train",
+          "value": 768.14
+        },
+        {
+          "sheet": "S 3",
+          "cell": "AD540",
+          "n_pop": 10.0,
+          "mode": "train",
+          "value": 768.14
+        }
+      ],
+      "excel_test_evidence": [
+        {
+          "sheet": "S 3",
+          "cell": "X531",
+          "n_pop": 5.0,
+          "mode": "test",
+          "value": 768.53
+        },
+        {
+          "sheet": "S 3",
+          "cell": "X533",
+          "n_pop": 6.0,
+          "mode": "test",
+          "value": 768.53
+        },
+        {
+          "sheet": "S 3",
+          "cell": "X535",
+          "n_pop": 7.0,
+          "mode": "test",
+          "value": 768.53
+        },
+        {
+          "sheet": "S 3",
+          "cell": "Z537",
+          "n_pop": 8.0,
+          "mode": "test",
+          "value": 768.53
+        },
+        {
+          "sheet": "S 3",
+          "cell": "AB539",
+          "n_pop": 9.0,
+          "mode": "test",
+          "value": 768.53
+        },
+        {
+          "sheet": "S 3",
+          "cell": "AD541",
+          "n_pop": 10.0,
+          "mode": "test",
+          "value": 768.53
+        }
+      ]
+    },
+    {
+      "sequence_index": 5,
+      "generation": 8,
+      "display_train_objective": 745.56,
+      "train_objective": 745.55872,
+      "display_test_objective": 747.94,
+      "test_objective": 747.94293,
+      "algorithm_summary": "The historical policy had a high lost-sales cost relative to holding cost (7.93 vs 7.31), indicating insufficient inventory. I increased the base_stock from 512.6 to 540.0 to better match demand, reduced safety_stock from 24.4 to 20.0 since the higher base_stock provides more buffer, and adjusted pipeline_weight from 0.94 to 0.92 to be slightly more conservative about future arrivals. The smoothing_factor was increased from 0.58 to 0.65 for more responsive ordering, and order bounds were tightened (min_order: 8\u219210, max_order: 110\u2192100) to reduce order volatility while maintaining coverage. These changes should better balance holding and lost-sales costs.",
+      "code_sha256": "8296c89c9b5e21bc03765ab8cd275a12f398180a3a83ca324e2b7456b306ef06",
+      "code": "def compute_order_amount(on_hand_inventory, pipeline_orders):\n    base_stock = 535.8021848129421  # OPT_PARAM: {\"initial\": 535.8021848129421, \"min\": 450, \"max\": 650, \"type\": \"float\"}\n    safety_stock = 16.072372529168284  # OPT_PARAM: {\"initial\": 16.072372529168284, \"min\": 10, \"max\": 40, \"type\": \"float\"}\n    pipeline_weight = 0.9520806326940625  # OPT_PARAM: {\"initial\": 0.9520806326940625, \"min\": 0.8, \"max\": 1.0, \"type\": \"float\"}\n    \n    # Calculate inventory position with weighted pipeline\n    weighted_pipeline = pipeline_weight * sum(pipeline_orders)\n    inventory_position = on_hand_inventory + weighted_pipeline\n    \n    # Calculate target inventory level\n    target_inventory = base_stock + safety_stock\n    \n    # Calculate raw order amount\n    raw_order = max(0, target_inventory - inventory_position)\n    \n    # Apply smoothing with adaptive factor\n    smoothing_factor = 0.5497480228310547  # OPT_PARAM: {\"initial\": 0.5497480228310547, \"min\": 0.4, \"max\": 0.8, \"type\": \"float\"}\n    if raw_order > 0:\n        smoothed_order = smoothing_factor * raw_order\n    else:\n        smoothed_order = 0\n    \n    # Apply order bounds\n    min_order = 10  # OPT_PARAM: {\"initial\": 10, \"min\": 5, \"max\": 20, \"type\": \"int\"}\n    max_order = 100  # OPT_PARAM: {\"initial\": 100, \"min\": 80, \"max\": 150, \"type\": \"int\"}\n    \n    # Final order amount with bounds\n    order_amount = max(min_order, min(max_order, smoothed_order))\n    \n    return order_amount",
+      "opt_params": {
+        "base_stock": 535.8021848129421,
+        "safety_stock": 16.072372529168284,
+        "pipeline_weight": 0.9520806326940625,
+        "smoothing_factor": 0.5497480228310547,
+        "min_order": 10,
+        "max_order": 100
+      },
+      "source_json": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/examples/inventory/deepseek-chat_poisson_L4_c1_2_50_plain_processed_scipy_15_default_m2_10_r1/pops_best/population_generation_8.json",
+      "excel_train_evidence": [
+        {
+          "sheet": "S 3",
+          "cell": "X536",
+          "n_pop": 8.0,
+          "mode": "train",
+          "value": 745.56
+        },
+        {
+          "sheet": "S 3",
+          "cell": "X538",
+          "n_pop": 9.0,
+          "mode": "train",
+          "value": 745.56
+        },
+        {
+          "sheet": "S 3",
+          "cell": "X540",
+          "n_pop": 10.0,
+          "mode": "train",
+          "value": 745.56
+        }
+      ],
+      "excel_test_evidence": [
+        {
+          "sheet": "S 3",
+          "cell": "X537",
+          "n_pop": 8.0,
+          "mode": "test",
+          "value": 747.94
+        },
+        {
+          "sheet": "S 3",
+          "cell": "X539",
+          "n_pop": 9.0,
+          "mode": "test",
+          "value": 747.94
+        },
+        {
+          "sheet": "S 3",
+          "cell": "X541",
+          "n_pop": 10.0,
+          "mode": "test",
+          "value": 747.94
+        }
+      ]
+    }
+  ]
+}

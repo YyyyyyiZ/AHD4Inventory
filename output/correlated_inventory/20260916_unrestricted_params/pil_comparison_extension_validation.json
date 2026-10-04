@@ -1,0 +1,15 @@
+{
+  "reference_families": [
+    "conditional_pil",
+    "forecast_adaptive_pil",
+    "pil_cop_continuation"
+  ],
+  "offline_tests_passed": 7,
+  "complete_fixture_windows": 72,
+  "complete_fixture_comparisons": 504,
+  "actual_status": "incomplete",
+  "actual_pairing_issues": [],
+  "new_policies_test_evaluated": false,
+  "training_snapshot": "pil_family_training_snapshot.md",
+  "training_source_changed": false
+}

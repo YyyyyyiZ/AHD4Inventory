@@ -1,0 +1,17 @@
+{
+     "algorithm": "Increased base_stock to better handle high demand periods, increased demand_response to be more reactive to demand changes, and reduced pipeline_adjustment to maintain higher inventory levels. The new parameters better balance holding costs against lost sales costs given the demand autocorrelation.",
+     "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_stock = 104.80540941891769  # OPT_PARAM: {\"initial\": 104.80540941891769, \"min\": 100.0, \"max\": 300.0, \"type\": \"float\"}\n    demand_response = 0.14070271259726402  # OPT_PARAM: {\"initial\": 0.14070271259726402, \"min\": 0.1, \"max\": 1.5, \"type\": \"float\"}\n    pipeline_adjustment = 0.3976243733442719  # OPT_PARAM: {\"initial\": 0.3976243733442719, \"min\": 0.1, \"max\": 0.5, \"type\": \"float\"}\n    \n    inventory_position = on_hand_inventory + np.sum(pipeline_orders)\n    demand_component = demand_response * last_demand\n    order_amount = max(0.0, base_stock + demand_component - pipeline_adjustment * inventory_position)\n    return order_amount\n",
+     "description": "",
+     "intuition": "",
+     "reasoning": "Increased base_stock to better handle high demand periods, increased demand_response to be more reactive to demand changes, and reduced pipeline_adjustment to maintain higher inventory levels. The new parameters better balance holding costs against lost sales costs given the demand autocorrelation.",
+     "opt_params": {
+          "base_stock": 104.80540941891769,
+          "demand_response": 0.14070271259726402,
+          "pipeline_adjustment": 0.3976243733442719
+     },
+     "cost": null,
+     "objective": 16377.69841,
+     "lower": 15362.19087,
+     "upper": 17478.68038,
+     "other_inf": null
+}

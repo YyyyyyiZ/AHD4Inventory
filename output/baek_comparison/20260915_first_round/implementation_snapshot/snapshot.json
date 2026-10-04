@@ -1,0 +1,26 @@
+{
+  "created_utc": "2026-09-15T22:32:55.148608+00:00",
+  "source_directory": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/examples/inventory/baek_comparison",
+  "files_sha256": {
+    "__init__.py": "2d760e154d1d8eb2ef522ab6a1c0785a6fe4f8f45eea042d05dd8f14dad947bb",
+    "analysis.py": "093dbb31663bc7244da34ad9cc9cffc4df6d522a249211a617de5e2265cefae8",
+    "baselines.py": "aeb537e1c4daf39c945b712d9cd42f5c64005dd9b6b52f04c6d84cf5aea40f92",
+    "environment.py": "bc1bbeb839d4fcb70086fda44fbc75dce79eedf7d858b93c0a794e9e30c6f815",
+    "evaluation.py": "a6b37a74b07cd963f9c8bd9ef92fcbb4d34f49522b9d7bde55aa1a3650147c48",
+    "harness.py": "644bfed2e73716fa7559e56d2b5349086a5034e647042c78e4571077297f3699",
+    "pipeline.py": "f6e345576c1cb3542b4b19e975292d5c6ec69bf195c827a544bf38db367e0a54",
+    "prompts.py": "febb2bc72eb4b2fbd4b15281c4d266a0b12d62689ea0d5b743ff60dceb8ac1be",
+    "report.py": "8bbacb561db2b172e6c437e723402773d8ddfe4bbf7419a4c20cba83eb1554c8",
+    "retry_invalid.py": "eb33c7ab41d5f0cddb70cbcf6f0ede4fb7d3a0b6d5719df69ba1df006f244b6b",
+    "runner.py": "02fc73556fc7382dfe72ec2b308198e588c9b10e42c5a491fcfb817f74cd44f4",
+    "sandbox.py": "3d286ec3270d7fa81dcfc05b21b7b13e1a4f9891302f4a880d768ea40d6bcf37",
+    "scoring.py": "1cc84719fe7b48d1b0485596795e9f51737b968636df1306f71802cb05ba97ed",
+    "test_environment.py": "ab05561bf7c32807841cc2b86a5d353cb312107dbdeb00841bc39cdc3f592503",
+    "test_evaluation.py": "598b6f31d2c6ecbb8e931127376d7c3ee000e54c8e21f3c7920aeb24ed966cda",
+    "test_harness.py": "ccfeca8d3e1309b44848165b961935283cb89137db12dffed46772e1b23bb5f4",
+    "test_retry_invalid.py": "4c88fdd10864c0ab4d6d8fce5994f70070274cd1bd32ccc4f31cfa8759a9c817"
+  },
+  "note": "Snapshot taken during initial generation before any generated artifact submitted. Running generation loaded the same harness and sandbox; runner recovery was subsequently extended only to account for nested retry logs. Reporting and scoring support original and retry provenance.",
+  "report_presentation_updated_utc": "2026-09-15T22:35:20.085385+00:00",
+  "callable_classification_fix_utc": "2026-09-15T22:39:54.772801+00:00"
+}

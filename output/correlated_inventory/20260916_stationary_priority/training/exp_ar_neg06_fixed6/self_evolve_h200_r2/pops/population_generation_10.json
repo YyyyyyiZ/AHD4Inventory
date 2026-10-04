@@ -1,0 +1,181 @@
+[
+     {
+          "algorithm": "Reduced base_target and demand_response_factor to lower holding costs while maintaining service level. Increased min_target slightly for better protection against spikes. Adjusted demand_smoothing to be less reactive to short-term fluctuations. The changes aim to better balance holding and lost-sales costs based on the observed performance metrics.",
+          "code": "import numpy as np\nimport math\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 482.4950326374659  # OPT_PARAM: {\"initial\": 482.4950326374659, \"min\": 400.0, \"max\": 500.0, \"type\": \"float\"}\n    demand_response_factor = 0.48394596691047015  # OPT_PARAM: {\"initial\": 0.48394596691047015, \"min\": 0.1, \"max\": 0.5, \"type\": \"float\"}\n    min_target = 150.1  # OPT_PARAM: {\"initial\": 150.1, \"min\": 120.0, \"max\": 180.0, \"type\": \"float\"}\n    demand_smoothing = 1.0  # OPT_PARAM: {\"initial\": 1.0, \"min\": 0.8, \"max\": 1.0, \"type\": \"float\"}\n    \n    expected_demand = max(40.0, min(200.0, 100.0 + demand_smoothing * (100.0 - last_demand)))\n    adjusted_target = base_target + demand_response_factor * (expected_demand - 100.0)\n    target = max(min_target, adjusted_target)\n    \n    order_amount = max(0.0, target - on_hand_inventory - np.sum(pipeline_orders))\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Reduced base_target and demand_response_factor to lower holding costs while maintaining service level. Increased min_target slightly for better protection against spikes. Adjusted demand_smoothing to be less reactive to short-term fluctuations. The changes aim to better balance holding and lost-sales costs based on the observed performance metrics.",
+          "opt_params": {
+               "base_target": 482.4950326374659,
+               "demand_response_factor": 0.48394596691047015,
+               "min_target": 150.1,
+               "demand_smoothing": 1.0
+          },
+          "cost": null,
+          "objective": 21274.9926,
+          "lower": 20737.24007,
+          "upper": 21831.17172,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Reduced base_target to lower holding costs while maintaining coverage for high demands. Adjusted demand_response_factor to be more conservative in responding to demand fluctuations. Increased min_target slightly for better protection against stockouts. Reduced demand_smoothing to make the demand expectation less reactive to recent fluctuations.",
+          "code": "import numpy as np\nimport math\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 480.3305480310052  # OPT_PARAM: {\"initial\": 480.3305480310052, \"min\": 400.0, \"max\": 500.0, \"type\": \"float\"}\n    demand_response_factor = 0.5  # OPT_PARAM: {\"initial\": 0.5, \"min\": 0.3, \"max\": 0.5, \"type\": \"float\"}\n    min_target = 160.0  # OPT_PARAM: {\"initial\": 160.0, \"min\": 150.0, \"max\": 180.0, \"type\": \"float\"}\n    demand_smoothing = 0.9511793067624329  # OPT_PARAM: {\"initial\": 0.9511793067624329, \"min\": 0.8, \"max\": 1.0, \"type\": \"float\"}\n    \n    expected_demand = max(40.0, min(200.0, 100.0 + demand_smoothing * (100.0 - last_demand)))\n    adjusted_target = base_target + demand_response_factor * (expected_demand - 100.0)\n    target = max(min_target, adjusted_target)\n    \n    order_amount = max(0.0, target - on_hand_inventory - np.sum(pipeline_orders))\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Reduced base_target to lower holding costs while maintaining coverage for high demands. Adjusted demand_response_factor to be more conservative in responding to demand fluctuations. Increased min_target slightly for better protection against stockouts. Reduced demand_smoothing to make the demand expectation less reactive to recent fluctuations.",
+          "opt_params": {
+               "base_target": 480.3305480310052,
+               "demand_response_factor": 0.5,
+               "min_target": 160.0,
+               "demand_smoothing": 0.9511793067624329
+          },
+          "cost": null,
+          "objective": 21279.22585,
+          "lower": 20739.74203,
+          "upper": 21840.33147,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base_target to reduce lost sales, reduced demand_response_factor to be less reactive to demand fluctuations, raised min_target for better protection against high demands, and adjusted demand_smoothing to better capture demand patterns while maintaining stability. These changes aim to balance holding and lost-sales costs more effectively.",
+          "code": "import numpy as np\nimport math\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 481.66771332131935  # OPT_PARAM: {\"initial\": 481.66771332131935, \"min\": 400.0, \"max\": 600.0, \"type\": \"float\"}\n    demand_response_factor = 0.5  # OPT_PARAM: {\"initial\": 0.5, \"min\": 0.1, \"max\": 0.5, \"type\": \"float\"}\n    min_target = 160.0  # OPT_PARAM: {\"initial\": 160.0, \"min\": 100.0, \"max\": 200.0, \"type\": \"float\"}\n    demand_smoothing = 0.9521742857806396  # OPT_PARAM: {\"initial\": 0.9521742857806396, \"min\": 0.7, \"max\": 1.0, \"type\": \"float\"}\n    \n    expected_demand = max(40.0, min(200.0, 100.0 + demand_smoothing * (100.0 - last_demand)))\n    adjusted_target = base_target + demand_response_factor * (expected_demand - 100.0)\n    target = max(min_target, adjusted_target)\n    \n    order_amount = max(0.0, target - on_hand_inventory - np.sum(pipeline_orders))\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base_target to reduce lost sales, reduced demand_response_factor to be less reactive to demand fluctuations, raised min_target for better protection against high demands, and adjusted demand_smoothing to better capture demand patterns while maintaining stability. These changes aim to balance holding and lost-sales costs more effectively.",
+          "opt_params": {
+               "base_target": 481.66771332131935,
+               "demand_response_factor": 0.5,
+               "min_target": 160.0,
+               "demand_smoothing": 0.9521742857806396
+          },
+          "cost": null,
+          "objective": 21279.40235,
+          "lower": 20739.40945,
+          "upper": 21838.06209,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base_target to reduce lost sales, reduced demand_response_factor to smooth ordering, raised min_target for better buffer, and added demand_smoothing parameter to better handle demand autocorrelation. The parameters were adjusted based on the high lost sales costs in the training performance.",
+          "code": "import numpy as np\nimport math\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 477.19797176054715  # OPT_PARAM: {\"initial\": 477.19797176054715, \"min\": 450.0, \"max\": 600.0, \"type\": \"float\"}\n    demand_response_factor = 0.5  # OPT_PARAM: {\"initial\": 0.5, \"min\": 0.1, \"max\": 0.5, \"type\": \"float\"}\n    min_target = 140.0  # OPT_PARAM: {\"initial\": 140.0, \"min\": 100.0, \"max\": 180.0, \"type\": \"float\"}\n    demand_smoothing = 0.9768272472153924  # OPT_PARAM: {\"initial\": 0.9768272472153924, \"min\": 0.5, \"max\": 1.0, \"type\": \"float\"}\n    \n    expected_demand = max(40.0, min(200.0, 100.0 + demand_smoothing * (100.0 - last_demand)))\n    adjusted_target = base_target + demand_response_factor * (expected_demand - 100.0)\n    target = max(min_target, adjusted_target)\n    \n    order_amount = max(0.0, target - on_hand_inventory - np.sum(pipeline_orders))\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base_target to reduce lost sales, reduced demand_response_factor to smooth ordering, raised min_target for better buffer, and added demand_smoothing parameter to better handle demand autocorrelation. The parameters were adjusted based on the high lost sales costs in the training performance.",
+          "opt_params": {
+               "base_target": 477.19797176054715,
+               "demand_response_factor": 0.5,
+               "min_target": 140.0,
+               "demand_smoothing": 0.9768272472153924
+          },
+          "cost": null,
+          "objective": 21280.8631,
+          "lower": 20741.65498,
+          "upper": 21842.41164,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Reduced base target and minimum target while increasing demand response factor to better adapt to demand fluctuations. Adjusted demand smoothing to be slightly less aggressive. The changes aim to reduce both holding and lost sales costs by being more responsive to actual demand patterns while maintaining adequate stock levels.",
+          "code": "import numpy as np\nimport math\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 477.4179474352177  # OPT_PARAM: {\"initial\": 477.4179474352177, \"min\": 400.0, \"max\": 500.0, \"type\": \"float\"}\n    demand_response_factor = 0.5  # OPT_PARAM: {\"initial\": 0.5, \"min\": 0.5, \"max\": 0.8, \"type\": \"float\"}\n    min_target = 120.0  # OPT_PARAM: {\"initial\": 120.0, \"min\": 100.0, \"max\": 150.0, \"type\": \"float\"}\n    demand_smoothing = 0.9109478452704024  # OPT_PARAM: {\"initial\": 0.9109478452704024, \"min\": 0.8, \"max\": 1.0, \"type\": \"float\"}\n    \n    expected_demand = max(40.0, min(200.0, 100.0 + demand_smoothing * (100.0 - last_demand)))\n    adjusted_target = base_target + demand_response_factor * (expected_demand - 100.0)\n    target = max(min_target, adjusted_target)\n    \n    order_amount = max(0.0, target - on_hand_inventory - np.sum(pipeline_orders))\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Reduced base target and minimum target while increasing demand response factor to better adapt to demand fluctuations. Adjusted demand smoothing to be slightly less aggressive. The changes aim to reduce both holding and lost sales costs by being more responsive to actual demand patterns while maintaining adequate stock levels.",
+          "opt_params": {
+               "base_target": 477.4179474352177,
+               "demand_response_factor": 0.5,
+               "min_target": 120.0,
+               "demand_smoothing": 0.9109478452704024
+          },
+          "cost": null,
+          "objective": 21281.20604,
+          "lower": 20747.85471,
+          "upper": 21845.91038,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Reduced base_target to decrease holding costs while maintaining sufficient inventory. Lowered demand_response_factor and adjusted min_target to better balance holding and lost-sales costs. Reduced demand_smoothing to make expected demand less volatile. These changes aim to better handle the negative autocorrelation in demand while reducing overall costs.",
+          "code": "import numpy as np\nimport math\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 479.6287523417656  # OPT_PARAM: {\"initial\": 479.6287523417656, \"min\": 400.0, \"max\": 500.0, \"type\": \"float\"}\n    demand_response_factor = 0.5  # OPT_PARAM: {\"initial\": 0.5, \"min\": 0.2, \"max\": 0.5, \"type\": \"float\"}\n    min_target = 160.0  # OPT_PARAM: {\"initial\": 160.0, \"min\": 140.0, \"max\": 180.0, \"type\": \"float\"}\n    demand_smoothing = 0.9  # OPT_PARAM: {\"initial\": 0.9, \"min\": 0.8, \"max\": 1.0, \"type\": \"float\"}\n    \n    expected_demand = max(40.0, min(200.0, 100.0 + demand_smoothing * (100.0 - last_demand)))\n    adjusted_target = base_target + demand_response_factor * (expected_demand - 100.0)\n    target = max(min_target, adjusted_target)\n    \n    order_amount = max(0.0, target - on_hand_inventory - np.sum(pipeline_orders))\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Reduced base_target to decrease holding costs while maintaining sufficient inventory. Lowered demand_response_factor and adjusted min_target to better balance holding and lost-sales costs. Reduced demand_smoothing to make expected demand less volatile. These changes aim to better handle the negative autocorrelation in demand while reducing overall costs.",
+          "opt_params": {
+               "base_target": 479.6287523417656,
+               "demand_response_factor": 0.5,
+               "min_target": 160.0,
+               "demand_smoothing": 0.9
+          },
+          "cost": null,
+          "objective": 21281.55778,
+          "lower": 20748.07384,
+          "upper": 21845.23164,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Reduced base_target slightly, decreased demand_response_factor to be less reactive, increased min_target for better stock protection, and adjusted demand_smoothing to better capture demand patterns. These changes aim to balance holding and lost-sales costs based on training performance.",
+          "code": "import numpy as np\nimport math\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 479.7605258428702  # OPT_PARAM: {\"initial\": 479.7605258428702, \"min\": 400.0, \"max\": 500.0, \"type\": \"float\"}\n    demand_response_factor = 0.5  # OPT_PARAM: {\"initial\": 0.5, \"min\": 0.3, \"max\": 0.5, \"type\": \"float\"}\n    min_target = 160.0  # OPT_PARAM: {\"initial\": 160.0, \"min\": 140.0, \"max\": 180.0, \"type\": \"float\"}\n    demand_smoothing = 0.999403412330815  # OPT_PARAM: {\"initial\": 0.999403412330815, \"min\": 0.8, \"max\": 1.0, \"type\": \"float\"}\n    \n    expected_demand = max(40.0, min(200.0, 100.0 + demand_smoothing * (100.0 - last_demand)))\n    adjusted_target = base_target + demand_response_factor * (expected_demand - 100.0)\n    target = max(min_target, adjusted_target)\n    \n    order_amount = max(0.0, target - on_hand_inventory - np.sum(pipeline_orders))\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Reduced base_target slightly, decreased demand_response_factor to be less reactive, increased min_target for better stock protection, and adjusted demand_smoothing to better capture demand patterns. These changes aim to balance holding and lost-sales costs based on training performance.",
+          "opt_params": {
+               "base_target": 479.7605258428702,
+               "demand_response_factor": 0.5,
+               "min_target": 160.0,
+               "demand_smoothing": 0.999403412330815
+          },
+          "cost": null,
+          "objective": 21281.68647,
+          "lower": 20747.42466,
+          "upper": 21838.33731,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Reduced base_target to better balance holding costs, increased demand_response_factor to be more reactive to demand changes after analyzing the autocorrelation, and removed the less effective demand_smoothing parameter. The min_target was adjusted based on the demand quantiles to better handle low-demand periods.",
+          "code": "import numpy as np\nimport math\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 478.73285618505423  # OPT_PARAM: {\"initial\": 478.73285618505423, \"min\": 400.0, \"max\": 500.0, \"type\": \"float\"}\n    demand_response_factor = 0.5  # OPT_PARAM: {\"initial\": 0.5, \"min\": 0.5, \"max\": 0.8, \"type\": \"float\"}\n    min_target = 160.0  # OPT_PARAM: {\"initial\": 160.0, \"min\": 140.0, \"max\": 180.0, \"type\": \"float\"}\n    \n    expected_demand = max(40.0, min(200.0, 100.0 + (100.0 - last_demand)))\n    adjusted_target = base_target + demand_response_factor * (expected_demand - 100.0)\n    target = max(min_target, adjusted_target)\n    \n    order_amount = max(0.0, target - on_hand_inventory - np.sum(pipeline_orders))\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Reduced base_target to better balance holding costs, increased demand_response_factor to be more reactive to demand changes after analyzing the autocorrelation, and removed the less effective demand_smoothing parameter. The min_target was adjusted based on the demand quantiles to better handle low-demand periods.",
+          "opt_params": {
+               "base_target": 478.73285618505423,
+               "demand_response_factor": 0.5,
+               "min_target": 160.0
+          },
+          "cost": null,
+          "objective": 21281.69092,
+          "lower": 20745.08871,
+          "upper": 21837.43044,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Key changes: 1) Reduced base_target to better match demand patterns, 2) Increased demand_response_factor to be more reactive to demand changes, 3) Adjusted min_target to balance stockouts and holding costs, 4) Reduced demand_smoothing to give more weight to recent demand. These changes aim to better handle the observed demand autocorrelation patterns while maintaining inventory stability.",
+          "code": "import numpy as np\nimport math\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 478.0013703183315  # OPT_PARAM: {\"initial\": 478.0013703183315, \"min\": 400.0, \"max\": 500.0, \"type\": \"float\"}\n    demand_response_factor = 0.4082694475048735  # OPT_PARAM: {\"initial\": 0.4082694475048735, \"min\": 0.4, \"max\": 0.8, \"type\": \"float\"}\n    min_target = 160.0  # OPT_PARAM: {\"initial\": 160.0, \"min\": 140.0, \"max\": 180.0, \"type\": \"float\"}\n    demand_smoothing = 1.0  # OPT_PARAM: {\"initial\": 1.0, \"min\": 0.5, \"max\": 1.0, \"type\": \"float\"}\n    \n    expected_demand = max(40.0, min(200.0, 100.0 + demand_smoothing * (100.0 - last_demand)))\n    adjusted_target = base_target + demand_response_factor * (expected_demand - 100.0)\n    target = max(min_target, adjusted_target)\n    \n    order_amount = max(0.0, target - on_hand_inventory - np.sum(pipeline_orders))\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Key changes: 1) Reduced base_target to better match demand patterns, 2) Increased demand_response_factor to be more reactive to demand changes, 3) Adjusted min_target to balance stockouts and holding costs, 4) Reduced demand_smoothing to give more weight to recent demand. These changes aim to better handle the observed demand autocorrelation patterns while maintaining inventory stability.",
+          "opt_params": {
+               "base_target": 478.0013703183315,
+               "demand_response_factor": 0.4082694475048735,
+               "min_target": 160.0,
+               "demand_smoothing": 1.0
+          },
+          "cost": null,
+          "objective": 21286.93616,
+          "lower": 20741.68094,
+          "upper": 21863.84688,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base_target to reduce lost sales, reduced demand_response_factor for more stable ordering, increased min_target for better protection, and added demand_smoothing parameter for more stable demand estimation. The changes aim to better balance holding and lost-sales costs given the demand patterns.",
+          "code": "import numpy as np\nimport math\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 479.60036126099953  # OPT_PARAM: {\"initial\": 479.60036126099953, \"min\": 450.0, \"max\": 600.0, \"type\": \"float\"}\n    demand_response_factor = 0.5  # OPT_PARAM: {\"initial\": 0.5, \"min\": 0.1, \"max\": 0.5, \"type\": \"float\"}\n    min_target = 130.0  # OPT_PARAM: {\"initial\": 130.0, \"min\": 100.0, \"max\": 150.0, \"type\": \"float\"}\n    demand_smoothing = 0.8413715799960403  # OPT_PARAM: {\"initial\": 0.8413715799960403, \"min\": 0.5, \"max\": 0.9, \"type\": \"float\"}\n    \n    # Improved demand estimation using smoother adjustment\n    expected_demand = max(40.0, min(176.0, 100.0 + demand_smoothing * (100.0 - last_demand)))\n    adjusted_target = base_target + demand_response_factor * (expected_demand - 100.0)\n    target = max(min_target, adjusted_target)\n    \n    order_amount = max(0.0, target - on_hand_inventory - np.sum(pipeline_orders))\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base_target to reduce lost sales, reduced demand_response_factor for more stable ordering, increased min_target for better protection, and added demand_smoothing parameter for more stable demand estimation. The changes aim to better balance holding and lost-sales costs given the demand patterns.",
+          "opt_params": {
+               "base_target": 479.60036126099953,
+               "demand_response_factor": 0.5,
+               "min_target": 130.0,
+               "demand_smoothing": 0.8413715799960403
+          },
+          "cost": null,
+          "objective": 21303.57878,
+          "lower": 20771.79946,
+          "upper": 21874.37426,
+          "other_inf": null
+     }
+]

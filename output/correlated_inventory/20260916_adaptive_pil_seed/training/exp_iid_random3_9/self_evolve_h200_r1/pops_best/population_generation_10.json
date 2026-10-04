@@ -1,0 +1,19 @@
+{
+     "algorithm": "Increased base stock levels (S_over_mean, cap_over_mean) to better handle high demand variability, adjusted forecast gains to be more responsive to demand changes while staying stable, and increased inventory correction (inventory_gain) to more aggressively reduce orders when projected inventory is high. These changes aim to better balance holding costs and lost sales given the exponential demand distribution.",
+     "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    S_over_mean = 0.911442502462386  # OPT_PARAM: {\"initial\": 0.911442502462386, \"min\": 0.5, \"max\": 2.0, \"type\": \"float\"}\n    cap_over_mean = 0.8464285272209195  # OPT_PARAM: {\"initial\": 0.8464285272209195, \"min\": 0.5, \"max\": 2.0, \"type\": \"float\"}\n    target_forecast_gain = 0.35  # OPT_PARAM: {\"initial\": 0.35, \"min\": 0.0, \"max\": 1.0, \"type\": \"float\"}\n    cap_forecast_gain = 0.25  # OPT_PARAM: {\"initial\": 0.25, \"min\": 0.0, \"max\": 1.0, \"type\": \"float\"}\n    inventory_gain = 0.7766929175352952  # OPT_PARAM: {\"initial\": 0.7766929175352952, \"min\": 0.5, \"max\": 1.5, \"type\": \"float\"}\n    mean_demand = 100.0\n    arrival_mean = conditional_arrival_mean(last_demand, quoted_lead_time)\n    projected_inventory = conditional_projected_inventory(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time)\n    target = max(0.0, mean_demand * S_over_mean + target_forecast_gain * (arrival_mean - mean_demand))\n    cap = max(0.0, mean_demand * cap_over_mean + cap_forecast_gain * (arrival_mean - mean_demand))\n    order_amount = min(cap, max(0.0, target - inventory_gain * projected_inventory))\n    return order_amount\n",
+     "description": "",
+     "intuition": "",
+     "reasoning": "Increased base stock levels (S_over_mean, cap_over_mean) to better handle high demand variability, adjusted forecast gains to be more responsive to demand changes while staying stable, and increased inventory correction (inventory_gain) to more aggressively reduce orders when projected inventory is high. These changes aim to better balance holding costs and lost sales given the exponential demand distribution.",
+     "opt_params": {
+          "S_over_mean": 0.911442502462386,
+          "cap_over_mean": 0.8464285272209195,
+          "target_forecast_gain": 0.35,
+          "cap_forecast_gain": 0.25,
+          "inventory_gain": 0.7766929175352952
+     },
+     "cost": null,
+     "objective": 26703.35547,
+     "lower": 26158.32515,
+     "upper": 27213.47239,
+     "other_inf": null
+}

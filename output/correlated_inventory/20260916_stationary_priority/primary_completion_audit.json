@@ -1,0 +1,29 @@
+{
+  "recorded_utc": "2026-09-16T06:52:28.714602+00:00",
+  "audit_source": "Independent read-only audit by audit_inventory_environment agent",
+  "primary_runs_completed": 18,
+  "candidate_slots": 1800,
+  "valid_candidate_slots": 1790,
+  "invalid_candidate_slots": 10,
+  "model_or_constraint_invalid_slots": 9,
+  "transport_failure_slots": 1,
+  "unclassified_candidate_slots": 0,
+  "model_requests_recorded_slots": 1858,
+  "valid_rate": 0.9944444444444445,
+  "checks": {
+    "each_chain_100_slots": true,
+    "completed_result_policy_generation10_code_sha_consistent": true,
+    "six_frozen_modules_current_formal_snapshot_and_all_definitions_consistent": true,
+    "all_42_baselines_complete_and_training_identity_verified": true,
+    "primary_freeze_48_file_bindings_consistent": true,
+    "transport_failure_reconciliation_evidence_sha_verified": true,
+    "unknown_reserve_retained_once": true,
+    "test_results_read": false,
+    "api_calls_during_audit": 0,
+    "audit_wrote_files": false
+  },
+  "unknown_request_id": "c9c728f9bc614f478258cd38b138a1e9",
+  "unknown_held_upper_usd": 0.0087542,
+  "primary_freeze_sha256": "1affe630e6944cc699ab5301e5522a114f72da05d800d7bd61f0f41c4c5ffdb8",
+  "conclusion": "No blocker for the nine preplanned horizon refits."
+}

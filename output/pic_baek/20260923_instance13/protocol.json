@@ -1,0 +1,198 @@
+{
+  "created_at": "2026-09-23T03:06:50.272478+00:00",
+  "params": {
+    "lead_time": 4,
+    "lifetime": 2,
+    "discount": 0.95,
+    "purchase_cost": 9.025,
+    "holding_cost": 1.0,
+    "backlog_cost": 2.0,
+    "disposal_cost": 8.0,
+    "lost_sales_cost": 1000.0,
+    "max_order": 10,
+    "max_backlog": 10,
+    "demand_mean": 5.0,
+    "demand_std": 5.0,
+    "demand_low": 0.0,
+    "demand_high": 10.0,
+    "initial_component": 5.0,
+    "horizon": 1000
+  },
+  "l2_ranges": {
+    "lead_time": [
+      2,
+      12
+    ],
+    "lifetime": [
+      2,
+      5
+    ],
+    "demand_mean": [
+      0.1,
+      50
+    ],
+    "demand_std": [
+      2,
+      5
+    ],
+    "holding_cost": [
+      1,
+      5
+    ],
+    "disposal_cost": [
+      2,
+      10
+    ],
+    "backlog_cost": [
+      2,
+      10
+    ],
+    "lost_sales_cost": [
+      0,
+      1000
+    ],
+    "purchase_cost": [
+      0,
+      20
+    ],
+    "max_order": [
+      10,
+      50
+    ],
+    "discount": [
+      0.95,
+      0.99
+    ]
+  },
+  "model": "openai/gpt-5.6-sol",
+  "reasoning_effort": "high",
+  "sessions": [
+    {
+      "id": "l1_main",
+      "level": "L1",
+      "role": "main",
+      "repeat": 0
+    },
+    {
+      "id": "l2_main",
+      "level": "L2",
+      "role": "main",
+      "repeat": 0
+    },
+    {
+      "id": "l2_repeat_01",
+      "level": "L2",
+      "role": "stability",
+      "repeat": 1
+    },
+    {
+      "id": "l2_repeat_02",
+      "level": "L2",
+      "role": "stability",
+      "repeat": 2
+    },
+    {
+      "id": "l2_repeat_03",
+      "level": "L2",
+      "role": "stability",
+      "repeat": 3
+    },
+    {
+      "id": "l2_repeat_04",
+      "level": "L2",
+      "role": "stability",
+      "repeat": 4
+    },
+    {
+      "id": "l2_repeat_05",
+      "level": "L2",
+      "role": "stability",
+      "repeat": 5
+    },
+    {
+      "id": "l2_repeat_06",
+      "level": "L2",
+      "role": "stability",
+      "repeat": 6
+    },
+    {
+      "id": "l2_repeat_07",
+      "level": "L2",
+      "role": "stability",
+      "repeat": 7
+    },
+    {
+      "id": "l2_repeat_08",
+      "level": "L2",
+      "role": "stability",
+      "repeat": 8
+    },
+    {
+      "id": "l2_repeat_09",
+      "level": "L2",
+      "role": "stability",
+      "repeat": 9
+    },
+    {
+      "id": "l2_repeat_10",
+      "level": "L2",
+      "role": "stability",
+      "repeat": 10
+    }
+  ],
+  "python_seconds_per_session": 3600,
+  "tool_calls_per_session": 50,
+  "l1_output_tokens_per_request": 16384,
+  "l2_output_tokens_per_request": 32768,
+  "initialization_target_seconds": 30,
+  "initialization_hang_guard_seconds": 600,
+  "generation_workers": 2,
+  "numerical_threads_per_worker": 1,
+  "first_valid_main": true,
+  "max_defect_requeries_per_main": 1,
+  "l2_repeats": "Ten additional L2 queries, following paper section 6.3; primary artifact kept separate.",
+  "repetition_source_note": "Repository RUNS.md describes ten total draws; paper v1 explicitly says ten additional inventory draws. This run follows the paper.",
+  "class_adaptation": "Truncated-normal perishable partial-backlog discounted PIC replaces Poisson nonperishable average-cost lost sales; lost-sales range extended to 1000 by explicit user instruction. New parameter bounds shown in l2_ranges.",
+  "added_parameter_notes": "lifetime/holding/disposal/backlog/std/discount ranges cover the supplied PIC paper family. purchase_cost [0,20] is an explicit adaptation. Original shared lead_time [2,12] and parent mean <=50 preserved.",
+  "evaluation": "Excel settings, rounded policy observation only, 200x1000, t CI df=199, no terminal cost; purchase coefficient 9.025.",
+  "policy_seed": 732019,
+  "validation_seed": 41001,
+  "independent_test_seed": 51001,
+  "input_file": "/Users/fenghua/Downloads/pic_instance_13_demand_seed_111.xlsx",
+  "workbook_sha256": "a810450978fdd316a6bae1ea8b8d58af1b13608fa010a3afce066aed31ed4379",
+  "matrix_sha256": "d3487d26a8340f1a7fbc410e6c563b3af6c67843167958b5a6bb63e11e61b278",
+  "source_hashes": {
+    "source/Bound__greedyPolicyUpperBound.py": "9c303584b6dcba3bc90924beab42e3dc289493204fbca0465f08e8a3d9f53596",
+    "source/utils.py": "416c3cc159bffdd0c42a8b3c9bf4c7cbc0f53f46aa3331184a55b4e8754fb457",
+    "source/MDP__PIC__perishableInventory.py": "99a58eabf1f81de9a170a7406ac35401f8945a1f008720fe9a86c9326f1e11be",
+    "source/MDP__PIC__Instances__instance_13.py": "2dc0e1047c3b57d337767f2d596c9133be44509db4cfcd6eb82867d9841bd3b3"
+  },
+  "prompt_hashes": {
+    "l1_main": "263adf8f76d9fdb0de1ffda1c3609dc03afaab31afdd024dbb46a1c5e167c252",
+    "l2_main": "e10c7edaf8bfc288b60bb9445b565bdf311221a3e50c0c0e2aada9a1c1b7e0c3",
+    "l2_repeat_01": "e10c7edaf8bfc288b60bb9445b565bdf311221a3e50c0c0e2aada9a1c1b7e0c3",
+    "l2_repeat_02": "e10c7edaf8bfc288b60bb9445b565bdf311221a3e50c0c0e2aada9a1c1b7e0c3",
+    "l2_repeat_03": "e10c7edaf8bfc288b60bb9445b565bdf311221a3e50c0c0e2aada9a1c1b7e0c3",
+    "l2_repeat_04": "e10c7edaf8bfc288b60bb9445b565bdf311221a3e50c0c0e2aada9a1c1b7e0c3",
+    "l2_repeat_05": "e10c7edaf8bfc288b60bb9445b565bdf311221a3e50c0c0e2aada9a1c1b7e0c3",
+    "l2_repeat_06": "e10c7edaf8bfc288b60bb9445b565bdf311221a3e50c0c0e2aada9a1c1b7e0c3",
+    "l2_repeat_07": "e10c7edaf8bfc288b60bb9445b565bdf311221a3e50c0c0e2aada9a1c1b7e0c3",
+    "l2_repeat_08": "e10c7edaf8bfc288b60bb9445b565bdf311221a3e50c0c0e2aada9a1c1b7e0c3",
+    "l2_repeat_09": "e10c7edaf8bfc288b60bb9445b565bdf311221a3e50c0c0e2aada9a1c1b7e0c3",
+    "l2_repeat_10": "e10c7edaf8bfc288b60bb9445b565bdf311221a3e50c0c0e2aada9a1c1b7e0c3"
+  },
+  "source_links": [
+    "https://arxiv.org/html/2608.27296v1",
+    "https://arxiv.org/pdf/2001.02798v2",
+    "https://raw.githubusercontent.com/Multi-Shot-Approximation-of-MDPs/Self-Guided-ALPs-Discounted-Cost/992d43d61f22317df2532cf67fb5547685bf394a/"
+  ],
+  "environment": {
+    "python": "3.14.3 (main, Feb 21 2026, 23:43:38) [Clang 13.1.6 (clang-1316.0.21.2.5)]",
+    "numpy": "2.4.3",
+    "scipy": "1.17.1",
+    "machine": "arm64",
+    "platform": "macOS-13.7.8-arm64-arm-64bit-Mach-O"
+  },
+  "monetary_budget_policy": "No separate USD cap specified. Enforce authorized session count, per-query calls/time and original output-token caps; log all actual charges.",
+  "conservative_aggregate_price_ceiling_usd": 2871.21024
+}

@@ -1,0 +1,308 @@
+{
+  "results": {
+    "perish_m3_L2_cv1.5_f0": {
+      "theta": [
+        7.158722581818854,
+        0.7377897919106775,
+        -0.36703249988381037,
+        1.226249263697417,
+        0.722516487967584,
+        0.8970003612788916,
+        0.5467089200008709,
+        0.09400256408045726
+      ],
+      "cost": 231.689453125,
+      "nfev": 256,
+      "seconds": 1.1114922501146793,
+      "path_costs": [
+        229.8828125,
+        198.4375,
+        233.59375,
+        222.65625,
+        239.2578125,
+        261.71875,
+        237.6953125,
+        230.2734375
+      ],
+      "metrics": [
+        0.70703125,
+        1.60986328125,
+        3.07470703125
+      ],
+      "cap": 17
+    },
+    "perish_m3_L2_cv1.5_f0.5": {
+      "theta": [
+        5.2798749727255725,
+        0.5270346801272254,
+        -0.32494238337531967,
+        0.7898201642238696,
+        1.0821664288001103,
+        0.45513346789252584,
+        1.2951739909905813,
+        0.06213964266390959
+      ],
+      "cost": 214.5751953125,
+      "nfev": 256,
+      "seconds": 0.13865520781837404,
+      "path_costs": [
+        227.1484375,
+        234.1796875,
+        157.8125,
+        193.1640625,
+        204.6875,
+        265.0390625,
+        196.09375,
+        238.4765625
+      ],
+      "metrics": [
+        0.505615234375,
+        1.64013671875,
+        3.0
+      ],
+      "cap": 16
+    },
+    "perish_m3_L2_cv2_f0": {
+      "theta": [
+        4.025798630698109,
+        0.3922096880297483,
+        -0.0033050483873112158,
+        0.8440035624693026,
+        0.8683194877853978,
+        1.5585831496189386,
+        1.1571353843439296,
+        1.2144823721579612
+      ],
+      "cost": 260.64453125,
+      "nfev": 256,
+      "seconds": 0.14567420887760818,
+      "path_costs": [
+        227.734375,
+        241.9921875,
+        270.1171875,
+        262.890625,
+        308.3984375,
+        228.3203125,
+        242.96875,
+        302.734375
+      ],
+      "metrics": [
+        0.60546875,
+        2.0009765625,
+        2.5634765625
+      ],
+      "cap": 14
+    },
+    "perish_m3_L2_cv2_f0.5": {
+      "theta": [
+        4.006784103453757,
+        0.2794856528836376,
+        0.05729675298940773,
+        1.5310786525046833,
+        0.6398684241794926,
+        0.44839155525439955,
+        0.4266666507596639,
+        0.2913164056470926
+      ],
+      "cost": 236.9873046875,
+      "nfev": 256,
+      "seconds": 0.14857820887118578,
+      "path_costs": [
+        236.5234375,
+        266.796875,
+        289.84375,
+        197.265625,
+        234.1796875,
+        202.34375,
+        185.3515625,
+        283.59375
+      ],
+      "metrics": [
+        0.499267578125,
+        1.87060546875,
+        2.6240234375
+      ],
+      "cap": 14
+    },
+    "perish_m5_L2_cv1.5_f0": {
+      "theta": [
+        12.67984616992032,
+        0.9944431373728781,
+        -0.47159577483959775,
+        1.4340858088479962,
+        1.106459861779391,
+        1.8906768005474655,
+        1.3877464740557601,
+        1.246603320649914
+      ],
+      "cost": 177.9296875,
+      "nfev": 256,
+      "seconds": 0.16900600004009902,
+      "path_costs": [
+        188.671875,
+        150.78125,
+        179.6875,
+        164.0625,
+        181.640625,
+        208.984375,
+        172.0703125,
+        177.5390625
+      ],
+      "metrics": [
+        0.53466796875,
+        1.24462890625,
+        3.27099609375
+      ],
+      "cap": 25
+    },
+    "perish_m5_L2_cv1.5_f0.5": {
+      "theta": [
+        2.1798842556230333,
+        1.7988486835868605,
+        -0.04395310922136603,
+        0.35462905963736246,
+        0.8360099145394977,
+        1.9991576920237568,
+        0.49579105224168263,
+        0.29756163131690927
+      ],
+      "cost": 164.84375,
+      "nfev": 256,
+      "seconds": 0.16013075015507638,
+      "path_costs": [
+        165.8203125,
+        179.4921875,
+        125.78125,
+        150.1953125,
+        149.8046875,
+        200.390625,
+        162.5,
+        184.765625
+      ],
+      "metrics": [
+        0.4765625,
+        1.171875,
+        3.439453125
+      ],
+      "cap": 24
+    },
+    "perish_m5_L2_cv2_f0": {
+      "theta": [
+        13.106270099524576,
+        0.4620999290532791,
+        -0.26907632998071174,
+        0.5094141037156943,
+        1.4519751521569102,
+        1.5567307024358419,
+        0.9375579689348896,
+        0.3248089905787589
+      ],
+      "cost": 211.9873046875,
+      "nfev": 256,
+      "seconds": 0.15271329204551876,
+      "path_costs": [
+        180.859375,
+        187.890625,
+        230.2734375,
+        232.421875,
+        256.640625,
+        174.21875,
+        193.359375,
+        240.234375
+      ],
+      "metrics": [
+        0.456298828125,
+        1.66357421875,
+        2.74658203125
+      ],
+      "cap": 22
+    },
+    "perish_m5_L2_cv2_f0.5": {
+      "theta": [
+        2.7734636272435758,
+        1.7112506216781962,
+        -0.09238333571368174,
+        1.2600411495432626,
+        1.122763347975185,
+        1.1671748726976174,
+        0.2615105793824587,
+        1.5827402995221613
+      ],
+      "cost": 195.8740234375,
+      "nfev": 256,
+      "seconds": 0.14866549987345934,
+      "path_costs": [
+        201.3671875,
+        218.9453125,
+        245.3125,
+        153.3203125,
+        197.265625,
+        166.6015625,
+        141.6015625,
+        242.578125
+      ],
+      "metrics": [
+        0.43359375,
+        1.525146484375,
+        2.90576171875
+      ],
+      "cap": 21
+    }
+  },
+  "parameters": {
+    "S": {
+      "type": "float",
+      "initial": 14.0,
+      "min": 0.0,
+      "max": 60.0
+    },
+    "DMEAN": {
+      "type": "float",
+      "initial": 0.85,
+      "min": 0.2,
+      "max": 1.8
+    },
+    "DCV": {
+      "type": "float",
+      "initial": 0.0,
+      "min": -0.5,
+      "max": 0.5
+    },
+    "KFIFO": {
+      "type": "float",
+      "initial": 1.0,
+      "min": 0.0,
+      "max": 2.0
+    },
+    "KLIFO": {
+      "type": "float",
+      "initial": 1.0,
+      "min": 0.0,
+      "max": 2.0
+    },
+    "CPROJECTED": {
+      "type": "float",
+      "initial": 1.0,
+      "min": 0.0,
+      "max": 2.0
+    },
+    "KSHORT": {
+      "type": "float",
+      "initial": 0.5,
+      "min": 0.0,
+      "max": 2.0
+    },
+    "KEXPIRY": {
+      "type": "float",
+      "initial": 0.2,
+      "min": 0.0,
+      "max": 2.0
+    }
+  },
+  "structure_sha256": "5944d59fa3f25e7e4ce367de743be43c335ee90274bc11351a5c139635329f67",
+  "wall_seconds": 3.2007780831772834,
+  "transitions": 11710976,
+  "valid": true,
+  "score": 0.9935404478946681,
+  "code": "def compute_order_amount(age, pipeline, mu, cv, f, L):\n    S = 14.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":14.0,\"min\":0.0,\"max\":60.0}\n    DMEAN = 0.85 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.85,\"min\":0.2,\"max\":1.8}\n    DCV = 0.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.0,\"min\":-0.5,\"max\":0.5}\n    KFIFO = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":2.0}\n    KLIFO = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":2.0}\n    CPROJECTED = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":2.0}\n    KSHORT = 0.5 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.5,\"min\":0.0,\"max\":2.0}\n    KEXPIRY = 0.2 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.2,\"min\":0.0,\"max\":2.0}\n    m = len(age)\n    total_age = 0.0\n    old_stock = 0.0\n    young_stock = 0.0\n    i = 0\n    for i in range(m):\n        x = float(age[i])\n        total_age = total_age + x\n        if i + 1 <= L:\n            old_stock = old_stock + x\n        else:\n            young_stock = young_stock + x\n    pipe_total = 0.0\n    j = 0\n    for j in range(len(pipeline)):\n        pipe_total = pipe_total + float(pipeline[j])\n    forecast_factor = DMEAN + DCV * cv\n    if forecast_factor < 0.0:\n        forecast_factor = 0.0\n    lead_demand = mu * float(L) * forecast_factor\n    fifo_pressure = KFIFO * f * lead_demand\n    lifo_demand = KLIFO * (1.0 - f) * lead_demand\n    lifo_reach = lifo_demand - young_stock - pipe_total\n    if lifo_reach < 0.0:\n        lifo_reach = 0.0\n    old_service = fifo_pressure + lifo_reach\n    if old_service > old_stock:\n        old_service = old_stock\n    expected_expiry = old_stock - old_service\n    available_at_lead = total_age + pipe_total - expected_expiry\n    projected_stock = available_at_lead - lead_demand\n    if projected_stock < 0.0:\n        projected_stock = 0.0\n    projected_shortage = lead_demand - available_at_lead\n    if projected_shortage < 0.0:\n        projected_shortage = 0.0\n    q = S - CPROJECTED * projected_stock + KSHORT * projected_shortage + KEXPIRY * expected_expiry\n    if q != q:\n        q = 0.0\n    if q < 0.0:\n        q = 0.0\n    if q > 1000000.0:\n        q = 1000000.0\n    return float(q)\n"
+}

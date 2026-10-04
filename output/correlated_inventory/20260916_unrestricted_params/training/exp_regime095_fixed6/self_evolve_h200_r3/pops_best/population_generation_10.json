@@ -1,0 +1,18 @@
+{
+     "algorithm": "Increased base_stock_high to better handle high-demand regimes, reduced base_stock_low to avoid excess inventory in low-demand periods, decreased smoothing_factor for faster response, and added demand_response_factor to adapt to recent demand levels while maintaining stability.",
+     "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_stock_high = 400.0  # OPT_PARAM: {\"initial\": 400.0, \"min\": 400.0, \"max\": 700.0, \"type\": \"float\"}\n    base_stock_low = 218.0617096976233  # OPT_PARAM: {\"initial\": 218.0617096976233, \"min\": 50.0, \"max\": 250.0, \"type\": \"float\"}\n    demand_threshold = 100.0 * np.log(2)\n    smoothing_factor = 0.5  # OPT_PARAM: {\"initial\": 0.5, \"min\": 0.1, \"max\": 0.5, \"type\": \"float\"}\n    demand_response_factor = 0.0  # OPT_PARAM: {\"initial\": 0.0, \"min\": 0.0, \"max\": 0.5, \"type\": \"float\"}\n    \n    if last_demand >= demand_threshold:\n        target = base_stock_high\n    else:\n        target = base_stock_low\n    \n    target = target + demand_response_factor * (last_demand - 100.0)\n    \n    projected_inventory = on_hand_inventory + np.sum(pipeline_orders)\n    adjusted_target = target * (1 - smoothing_factor) + projected_inventory * smoothing_factor\n    \n    order_amount = max(0.0, adjusted_target - projected_inventory)\n    return order_amount\n",
+     "description": "",
+     "intuition": "",
+     "reasoning": "Increased base_stock_high to better handle high-demand regimes, reduced base_stock_low to avoid excess inventory in low-demand periods, decreased smoothing_factor for faster response, and added demand_response_factor to adapt to recent demand levels while maintaining stability.",
+     "opt_params": {
+          "base_stock_high": 400.0,
+          "base_stock_low": 218.0617096976233,
+          "smoothing_factor": 0.5,
+          "demand_response_factor": 0.0
+     },
+     "cost": null,
+     "objective": 30014.35114,
+     "lower": 28408.63419,
+     "upper": 31715.29566,
+     "other_inf": null
+}

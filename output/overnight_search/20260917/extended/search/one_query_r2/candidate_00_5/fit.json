@@ -1,0 +1,260 @@
+{
+  "results": {
+    "perish_m7_L2_cv1.5_f0": {
+      "theta": [
+        13.329277783901166,
+        29.5833597079122,
+        1.0261336184487053,
+        2.3345607285174115,
+        1.1962251184077557,
+        0.20318946108107916
+      ],
+      "cost": 142.803125,
+      "nfev": 993,
+      "seconds": 44.43664066703059,
+      "path_costs": [
+        128.9,
+        143.3,
+        147.0,
+        136.4,
+        132.4,
+        147.2,
+        134.9,
+        159.8,
+        145.2,
+        130.5,
+        122.6,
+        133.5,
+        194.1,
+        160.9,
+        144.1,
+        132.3,
+        152.2,
+        134.2,
+        111.9,
+        168.9,
+        122.9,
+        154.3,
+        163.3,
+        149.7,
+        148.7,
+        139.9,
+        143.5,
+        131.5,
+        131.1,
+        131.8,
+        151.1,
+        141.6
+      ],
+      "metrics": [
+        0.49871875,
+        0.9293125000000001,
+        3.5408125000000004
+      ],
+      "cap": 32
+    },
+    "perish_m7_L2_cv1.5_f0.5": {
+      "theta": [
+        18.90523168240555,
+        30.684297700846578,
+        0.6921932826309806,
+        0.419554698965672,
+        1.7259258847497523,
+        1.1807762149016414
+      ],
+      "cost": 122.6875,
+      "nfev": 1024,
+      "seconds": 39.59452916588634,
+      "path_costs": [
+        127.5,
+        127.6,
+        114.0,
+        114.9,
+        143.6,
+        109.2,
+        124.0,
+        107.6,
+        122.0,
+        121.2,
+        124.0,
+        117.2,
+        117.6,
+        115.7,
+        138.8,
+        128.7,
+        156.2,
+        115.6,
+        124.1,
+        118.3,
+        117.9,
+        123.2,
+        118.1,
+        126.2,
+        114.4,
+        129.3,
+        124.3,
+        138.6,
+        116.3,
+        117.0,
+        113.3,
+        119.6
+      ],
+      "metrics": [
+        0.42259375,
+        0.80428125,
+        3.6290937499999996
+      ],
+      "cap": 32
+    },
+    "perish_m7_L2_cv2_f0": {
+      "theta": [
+        13.345154296972694,
+        24.70099226672079,
+        1.0684537072642852,
+        1.695508034617101,
+        1.15938315201947,
+        0.3251135230463713
+      ],
+      "cost": 186.16875,
+      "nfev": 977,
+      "seconds": 34.80393708287738,
+      "path_costs": [
+        206.5,
+        188.9,
+        195.7,
+        172.8,
+        216.7,
+        207.3,
+        212.1,
+        167.7,
+        180.4,
+        158.7,
+        193.8,
+        169.7,
+        194.2,
+        185.5,
+        200.5,
+        179.5,
+        180.7,
+        155.6,
+        173.9,
+        189.6,
+        180.6,
+        168.7,
+        231.7,
+        183.1,
+        179.5,
+        168.4,
+        178.7,
+        195.8,
+        188.1,
+        206.3,
+        171.8,
+        174.9
+      ],
+      "metrics": [
+        0.5703125,
+        1.2913750000000002,
+        3.314531250000001
+      ],
+      "cap": 29
+    },
+    "perish_m7_L2_cv2_f0.5": {
+      "theta": [
+        15.78427297478986,
+        32.57868605971181,
+        0.7020296032896115,
+        0.029348642481612952,
+        1.2420403841791483,
+        1.3628868560981353
+      ],
+      "cost": 170.70625,
+      "nfev": 1024,
+      "seconds": 37.20830708392896,
+      "path_costs": [
+        181.4,
+        167.9,
+        150.5,
+        161.3,
+        153.1,
+        172.2,
+        180.2,
+        146.1,
+        199.3,
+        190.4,
+        153.0,
+        146.3,
+        154.2,
+        153.7,
+        159.5,
+        171.9,
+        198.1,
+        170.2,
+        167.0,
+        182.8,
+        205.2,
+        154.5,
+        162.2,
+        192.3,
+        193.0,
+        198.9,
+        149.5,
+        185.9,
+        157.8,
+        158.6,
+        194.0,
+        151.6
+      ],
+      "metrics": [
+        0.3951249999999998,
+        1.3119374999999998,
+        3.15825
+      ],
+      "cap": 28
+    }
+  },
+  "parameters": {
+    "S": {
+      "type": "float",
+      "initial": 16.0,
+      "min": 0.0,
+      "max": 60.0
+    },
+    "C": {
+      "type": "float",
+      "initial": 24.0,
+      "min": 0.0,
+      "max": 60.0
+    },
+    "waste_credit": {
+      "type": "float",
+      "initial": 0.7,
+      "min": 0.0,
+      "max": 2.0
+    },
+    "fifo_rate": {
+      "type": "float",
+      "initial": 1.0,
+      "min": 0.0,
+      "max": 3.0
+    },
+    "lifo_rate": {
+      "type": "float",
+      "initial": 1.0,
+      "min": 0.0,
+      "max": 3.0
+    },
+    "pipeline_credit": {
+      "type": "float",
+      "initial": 1.0,
+      "min": 0.0,
+      "max": 2.0
+    }
+  },
+  "structure_sha256": "805faba270d0fd06e2c74706d9d71160266cf0a7a9726f064b7b5237839f7e46",
+  "wall_seconds": 157.90205250005238,
+  "transitions": 193056000,
+  "valid": true,
+  "score": 0.9841429746806889,
+  "code": "def compute_order_amount(age, pipeline, mu, cv, f, L):\n    S = 16.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":16.0,\"min\":0.0,\"max\":60.0}\n    C = 24.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":24.0,\"min\":0.0,\"max\":60.0}\n    waste_credit = 0.7 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.7,\"min\":0.0,\"max\":2.0}\n    fifo_rate = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":3.0}\n    lifo_rate = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":3.0}\n    pipeline_credit = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":2.0}\n    m = len(age)\n    x = [0.0] * m\n    position = 0.0\n    for i in range(m):\n        x[i] = float(age[i])\n        position = position + age[i]\n    pipe = 0.0\n    for j in range(len(pipeline)):\n        pipe = pipe + pipeline[j]\n    predicted_waste = 0.0\n    for t in range(m):\n        if t > 0 and t - 1 < len(pipeline):\n            x[m - 1] = x[m - 1] + pipeline[t - 1]\n        remaining_fifo = fifo_rate * f * mu\n        for i in range(m):\n            take = min(x[i], remaining_fifo)\n            x[i] = x[i] - take\n            remaining_fifo = remaining_fifo - take\n        remaining_lifo = lifo_rate * (1.0 - f) * mu\n        for k in range(m):\n            i = m - 1 - k\n            take = min(x[i], remaining_lifo)\n            x[i] = x[i] - take\n            remaining_lifo = remaining_lifo - take\n        predicted_waste = predicted_waste + x[0]\n        for i in range(m - 1):\n            x[i] = x[i + 1]\n        x[m - 1] = 0.0\n    raw = S - position - pipeline_credit * pipe + waste_credit * predicted_waste\n    return max(0.0, min(C, raw))\n"
+}

@@ -1,0 +1,23 @@
+{
+  "checked_utc": "2026-09-16T08:05:53.271823+00:00",
+  "action": "complete_audited_and_automation_paused",
+  "controller_alive": false,
+  "controller_pid": 90196,
+  "completed_primary_runs": 18,
+  "completed_refit_runs": 9,
+  "test_windows": 720,
+  "final_audit": "final_audit.json",
+  "results_summary": "RESULTS_SUMMARY.md",
+  "automation_id": "automation",
+  "automation_status": "PAUSED",
+  "budget": {
+    "limit_usd": 20.0,
+    "known_cost_usd": 1.78133475,
+    "held_upper_usd": 0.044427,
+    "committed_upper_usd": 1.82576175,
+    "requests": 2775,
+    "completed": 2770,
+    "uncertain": 5
+  },
+  "notified_user": true
+}

@@ -1,0 +1,172 @@
+[
+     {
+          "algorithm": "Improved policy by incorporating dynamic adjustment based on last demand, smoothing between target and current position, and partial pipeline consideration. The parameters allow optimization of base inventory level, demand responsiveness, smoothing intensity, and pipeline consideration.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 128.42862990607142  # OPT_PARAM: {\"initial\": 128.42862990607142, \"min\": 50.0, \"max\": 300.0, \"type\": \"float\"}\n    demand_multiplier = 0.6311160847183058  # OPT_PARAM: {\"initial\": 0.6311160847183058, \"min\": 0.5, \"max\": 2.5, \"type\": \"float\"}\n    smooth_factor = 0.2939568621453809  # OPT_PARAM: {\"initial\": 0.2939568621453809, \"min\": 0.1, \"max\": 0.9, \"type\": \"float\"}\n    pipeline_adjustment = 0.7548462798322613  # OPT_PARAM: {\"initial\": 0.7548462798322613, \"min\": 0.1, \"max\": 1.0, \"type\": \"float\"}\n    \n    adjusted_target = base_target + demand_multiplier * last_demand\n    smoothed_target = smooth_factor * adjusted_target + (1 - smooth_factor) * (on_hand_inventory + sum(pipeline_orders))\n    order_amount = max(0.0, smoothed_target - pipeline_adjustment * sum(pipeline_orders) - on_hand_inventory)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Improved policy by incorporating dynamic adjustment based on last demand, smoothing between target and current position, and partial pipeline consideration. The parameters allow optimization of base inventory level, demand responsiveness, smoothing intensity, and pipeline consideration.",
+          "opt_params": {
+               "base_target": 128.42862990607142,
+               "demand_multiplier": 0.6311160847183058,
+               "smooth_factor": 0.2939568621453809,
+               "pipeline_adjustment": 0.7548462798322613
+          },
+          "cost": null,
+          "objective": 16340.85604,
+          "lower": 15313.04163,
+          "upper": 17481.32915,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base_target to better handle high demand periods, raised demand_multiplier to be more responsive, adjusted smooth_factor for better balance between current and pipeline inventory, and increased pipeline_adjustment to account for pipeline stock more conservatively. These changes aim to reduce lost sales while keeping holding costs manageable.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 174.26360441644218  # OPT_PARAM: {\"initial\": 174.26360441644218, \"min\": 50.0, \"max\": 300.0, \"type\": \"float\"}\n    demand_multiplier = 0.5370071849189826  # OPT_PARAM: {\"initial\": 0.5370071849189826, \"min\": 0.5, \"max\": 2.0, \"type\": \"float\"}\n    smooth_factor = 0.22230334936512008  # OPT_PARAM: {\"initial\": 0.22230334936512008, \"min\": 0.1, \"max\": 0.9, \"type\": \"float\"}\n    pipeline_adjustment = 0.7982500860283255  # OPT_PARAM: {\"initial\": 0.7982500860283255, \"min\": 0.5, \"max\": 1.0, \"type\": \"float\"}\n    \n    adjusted_target = base_target + demand_multiplier * last_demand\n    smoothed_target = smooth_factor * adjusted_target + (1 - smooth_factor) * (on_hand_inventory + sum(pipeline_orders))\n    order_amount = max(0.0, smoothed_target - pipeline_adjustment * sum(pipeline_orders) - on_hand_inventory)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base_target to better handle high demand periods, raised demand_multiplier to be more responsive, adjusted smooth_factor for better balance between current and pipeline inventory, and increased pipeline_adjustment to account for pipeline stock more conservatively. These changes aim to reduce lost sales while keeping holding costs manageable.",
+          "opt_params": {
+               "base_target": 174.26360441644218,
+               "demand_multiplier": 0.5370071849189826,
+               "smooth_factor": 0.22230334936512008,
+               "pipeline_adjustment": 0.7982500860283255
+          },
+          "cost": null,
+          "objective": 16357.37161,
+          "lower": 15307.51657,
+          "upper": 17409.86318,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Adjusted the policy to dynamically respond to recent demand while maintaining a base stock level. The new parameters allow optimization of the base stock level, demand responsiveness, and smoothing factor to better balance holding and lost-sales costs.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_stock = 235.76670334679184  # OPT_PARAM: {\"initial\": 235.76670334679184, \"min\": 50.0, \"max\": 300.0, \"type\": \"float\"}\n    demand_response = 0.1  # OPT_PARAM: {\"initial\": 0.1, \"min\": 0.1, \"max\": 1.5, \"type\": \"float\"}\n    smoothing = 0.11632360209560419  # OPT_PARAM: {\"initial\": 0.11632360209560419, \"min\": 0.1, \"max\": 0.9, \"type\": \"float\"}\n    \n    demand_estimate = smoothing * last_demand + (1 - smoothing) * 100.0  # Blend last demand with mean\n    adjusted_target = base_stock + demand_response * (demand_estimate - 100.0)\n    order_amount = max(0.0, adjusted_target - on_hand_inventory - sum(pipeline_orders))\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Adjusted the policy to dynamically respond to recent demand while maintaining a base stock level. The new parameters allow optimization of the base stock level, demand responsiveness, and smoothing factor to better balance holding and lost-sales costs.",
+          "opt_params": {
+               "base_stock": 235.76670334679184,
+               "demand_response": 0.1,
+               "smoothing": 0.11632360209560419
+          },
+          "cost": null,
+          "objective": 16675.55132,
+          "lower": 15641.2821,
+          "upper": 17820.96613,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Base-stock seed using the training sample mean.",
+          "code": "def compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    target = 235.828271359204  # OPT_PARAM: {\"initial\": 235.828271359204, \"min\": 0.0, \"max\": 2851.7203742221022, \"type\": \"float\"}\n    order_amount = max(0.0, target - on_hand_inventory - sum(pipeline_orders))\n    return order_amount\n",
+          "objective": 16677.93391,
+          "other_inf": null,
+          "lower": 15646.84629,
+          "upper": 17827.8116,
+          "opt_params": {
+               "target": 235.828271359204
+          }
+     },
+     {
+          "algorithm": "Modified the policy to incorporate a base target level, dynamic response to last observed demand, and safety stock buffer. The parameters are optimized to balance holding and lost-sales costs based on the demand characteristics.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 182.50830350954087  # OPT_PARAM: {\"initial\": 182.50830350954087, \"min\": 50.0, \"max\": 300.0, \"type\": \"float\"}\n    demand_response = 0.1  # OPT_PARAM: {\"initial\": 0.1, \"min\": 0.1, \"max\": 1.5, \"type\": \"float\"}\n    safety_stock = 52.5083035095405  # OPT_PARAM: {\"initial\": 52.5083035095405, \"min\": 10.0, \"max\": 150.0, \"type\": \"float\"}\n    \n    demand_adjustment = demand_response * last_demand\n    target = base_target + safety_stock + demand_adjustment\n    order_amount = max(0.0, target - on_hand_inventory - sum(pipeline_orders))\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Modified the policy to incorporate a base target level, dynamic response to last observed demand, and safety stock buffer. The parameters are optimized to balance holding and lost-sales costs based on the demand characteristics.",
+          "opt_params": {
+               "base_target": 182.50830350954087,
+               "demand_response": 0.1,
+               "safety_stock": 52.5083035095405
+          },
+          "cost": null,
+          "objective": 16718.33366,
+          "lower": 15685.15356,
+          "upper": 17839.27015,
+          "other_inf": null
+     },
+     {
+          "algorithm": "The new policy incorporates last demand into the target calculation, adds safety stock, and partially accounts for pipeline inventory. The parameters allow optimization of base target level, demand sensitivity, pipeline adjustment, and safety stock. The structure better responds to demand patterns while maintaining inventory availability.",
+          "code": "import numpy as np\nimport math\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 168.27509248937102  # OPT_PARAM: {\"initial\": 168.27509248937102, \"min\": 50.0, \"max\": 300.0, \"type\": \"float\"}\n    demand_sensitivity = 0.1  # OPT_PARAM: {\"initial\": 0.1, \"min\": 0.1, \"max\": 2.0, \"type\": \"float\"}\n    pipeline_adjustment = 1.0  # OPT_PARAM: {\"initial\": 1.0, \"min\": 0.0, \"max\": 1.0, \"type\": \"float\"}\n    safety_stock = 66.7247771172835  # OPT_PARAM: {\"initial\": 66.7247771172835, \"min\": 10.0, \"max\": 100.0, \"type\": \"float\"}\n    \n    demand_estimate = base_target + demand_sensitivity * last_demand\n    total_pipeline = sum(pipeline_orders)\n    target = demand_estimate + safety_stock - pipeline_adjustment * total_pipeline\n    order_amount = max(0.0, target - on_hand_inventory)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "The new policy incorporates last demand into the target calculation, adds safety stock, and partially accounts for pipeline inventory. The parameters allow optimization of base target level, demand sensitivity, pipeline adjustment, and safety stock. The structure better responds to demand patterns while maintaining inventory availability.",
+          "opt_params": {
+               "base_target": 168.27509248937102,
+               "demand_sensitivity": 0.1,
+               "pipeline_adjustment": 1.0,
+               "safety_stock": 66.7247771172835
+          },
+          "cost": null,
+          "objective": 16718.33466,
+          "lower": 15685.09668,
+          "upper": 17839.24341,
+          "other_inf": null
+     },
+     {
+          "algorithm": "The new policy incorporates a more sophisticated target calculation that responds to previous demand while maintaining safety stock. It also introduces a pipeline adjustment factor to better account for incoming orders. The parameters were reduced from one to four to allow for more flexible optimization while staying within the limit.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 182.48903304327783  # OPT_PARAM: {\"initial\": 182.48903304327783, \"min\": 50.0, \"max\": 300.0, \"type\": \"float\"}\n    demand_response_factor = 0.1  # OPT_PARAM: {\"initial\": 0.1, \"min\": 0.1, \"max\": 1.5, \"type\": \"float\"}\n    safety_stock = 52.489033043587305  # OPT_PARAM: {\"initial\": 52.489033043587305, \"min\": 10.0, \"max\": 100.0, \"type\": \"float\"}\n    pipeline_adjustment = 1.0  # OPT_PARAM: {\"initial\": 1.0, \"min\": 0.5, \"max\": 1.0, \"type\": \"float\"}\n    \n    target = base_target + demand_response_factor * last_demand + safety_stock\n    pipeline_sum = np.sum(pipeline_orders) * pipeline_adjustment\n    order_amount = max(0.0, target - on_hand_inventory - pipeline_sum)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "The new policy incorporates a more sophisticated target calculation that responds to previous demand while maintaining safety stock. It also introduces a pipeline adjustment factor to better account for incoming orders. The parameters were reduced from one to four to allow for more flexible optimization while staying within the limit.",
+          "opt_params": {
+               "base_target": 182.48903304327783,
+               "demand_response_factor": 0.1,
+               "safety_stock": 52.489033043587305,
+               "pipeline_adjustment": 1.0
+          },
+          "cost": null,
+          "objective": 16718.33597,
+          "lower": 15685.02259,
+          "upper": 17839.20856,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Replaced the fixed target with a dynamic one based on last demand and pipeline orders. Added parameters to control the response to demand and pipeline inventory, and a safety stock buffer. This should better adapt to demand fluctuations while maintaining a cost-efficient balance between holding and lost sales costs.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 167.42863424222293  # OPT_PARAM: {\"initial\": 167.42863424222293, \"min\": 50.0, \"max\": 300.0, \"type\": \"float\"}\n    demand_response = 0.1  # OPT_PARAM: {\"initial\": 0.1, \"min\": 0.1, \"max\": 1.5, \"type\": \"float\"}\n    pipeline_adjustment = 1.0  # OPT_PARAM: {\"initial\": 1.0, \"min\": 0.0, \"max\": 1.0, \"type\": \"float\"}\n    safety_stock = 67.52863424222146  # OPT_PARAM: {\"initial\": 67.52863424222146, \"min\": 0.0, \"max\": 100.0, \"type\": \"float\"}\n    \n    adjusted_target = base_target + demand_response * last_demand + safety_stock\n    order_amount = max(0.0, adjusted_target - on_hand_inventory - pipeline_adjustment * sum(pipeline_orders))\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Replaced the fixed target with a dynamic one based on last demand and pipeline orders. Added parameters to control the response to demand and pipeline inventory, and a safety stock buffer. This should better adapt to demand fluctuations while maintaining a cost-efficient balance between holding and lost sales costs.",
+          "opt_params": {
+               "base_target": 167.42863424222293,
+               "demand_response": 0.1,
+               "pipeline_adjustment": 1.0,
+               "safety_stock": 67.52863424222146
+          },
+          "cost": null,
+          "objective": 16718.33722,
+          "lower": 15684.95192,
+          "upper": 17839.17533,
+          "other_inf": null
+     },
+     {
+          "algorithm": "1. Introduced demand sensitivity to scale the target inventory based on demand\n2. Added safety stock parameter to handle demand variability\n3. Implemented exponential smoothing of demand using last demand and the long-term mean\n4. Maintained base-stock policy structure but made it more responsive to demand patterns",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    demand_sensitivity = 1.2156911363105405  # OPT_PARAM: {\"initial\": 1.2156911363105405, \"min\": 0.5, \"max\": 3.0, \"type\": \"float\"}\n    safety_stock = 113.07770420569396  # OPT_PARAM: {\"initial\": 113.07770420569396, \"min\": 50.0, \"max\": 300.0, \"type\": \"float\"}\n    demand_smoothing = 0.1  # OPT_PARAM: {\"initial\": 0.1, \"min\": 0.1, \"max\": 0.95, \"type\": \"float\"}\n    \n    smoothed_demand = demand_smoothing * last_demand + (1 - demand_smoothing) * 100.0\n    target = demand_sensitivity * smoothed_demand + safety_stock\n    order_amount = max(0.0, target - on_hand_inventory - sum(pipeline_orders))\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "1. Introduced demand sensitivity to scale the target inventory based on demand\n2. Added safety stock parameter to handle demand variability\n3. Implemented exponential smoothing of demand using last demand and the long-term mean\n4. Maintained base-stock policy structure but made it more responsive to demand patterns",
+          "opt_params": {
+               "demand_sensitivity": 1.2156911363105405,
+               "safety_stock": 113.07770420569396,
+               "demand_smoothing": 0.1
+          },
+          "cost": null,
+          "objective": 16738.58426,
+          "lower": 15709.30829,
+          "upper": 17877.56776,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Modified the policy to include a dynamic target based on last demand and a safety stock, while also adjusting the pipeline contribution. This should better respond to demand autocorrelation while maintaining sufficient inventory to reduce lost sales.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 173.79955327993918  # OPT_PARAM: {\"initial\": 173.79955327993918, \"min\": 50.0, \"max\": 300.0, \"type\": \"float\"}\n    demand_response = 0.14281937199578795  # OPT_PARAM: {\"initial\": 0.14281937199578795, \"min\": 0.1, \"max\": 1.5, \"type\": \"float\"}\n    pipeline_adjustment = 0.994538661919063  # OPT_PARAM: {\"initial\": 0.994538661919063, \"min\": 0.1, \"max\": 1.5, \"type\": \"float\"}\n    safety_stock = 43.89955327995144  # OPT_PARAM: {\"initial\": 43.89955327995144, \"min\": 10.0, \"max\": 100.0, \"type\": \"float\"}\n    \n    adjusted_target = base_target + demand_response * last_demand + safety_stock\n    order_amount = max(0.0, adjusted_target - on_hand_inventory - pipeline_adjustment * sum(pipeline_orders))\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Modified the policy to include a dynamic target based on last demand and a safety stock, while also adjusting the pipeline contribution. This should better respond to demand autocorrelation while maintaining sufficient inventory to reduce lost sales.",
+          "opt_params": {
+               "base_target": 173.79955327993918,
+               "demand_response": 0.14281937199578795,
+               "pipeline_adjustment": 0.994538661919063,
+               "safety_stock": 43.89955327995144
+          },
+          "cost": null,
+          "objective": 16755.80445,
+          "lower": 15731.75127,
+          "upper": 17903.31861,
+          "other_inf": null
+     }
+]

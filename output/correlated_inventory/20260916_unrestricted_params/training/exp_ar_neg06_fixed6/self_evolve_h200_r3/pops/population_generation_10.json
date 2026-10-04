@@ -1,0 +1,194 @@
+[
+     {
+          "algorithm": "Key changes: 1) Increased base_target and adjusted demand_response to better handle high-demand periods. 2) Reduced smoothing for quicker response. 3) Added inventory_response term to adjust for current stock levels. 4) Lowered demand_floor and z_response to reduce over-reaction to extreme values. 5) Overall more aggressive inventory positioning to balance holding and stockout costs.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 463.10603258410646  # OPT_PARAM: {\"initial\": 463.10603258410646, \"min\": 400.0, \"max\": 600.0, \"type\": \"float\"}\n    demand_response = 4.849346725762212  # OPT_PARAM: {\"initial\": 4.849346725762212, \"min\": 2.0, \"max\": 5.0, \"type\": \"float\"}\n    smoothing = 0.11844717809705342  # OPT_PARAM: {\"initial\": 0.11844717809705342, \"min\": 0.05, \"max\": 0.3, \"type\": \"float\"}\n    z_response = 0.9506608155618251  # OPT_PARAM: {\"initial\": 0.9506608155618251, \"min\": 0.0, \"max\": 1.0, \"type\": \"float\"}\n    demand_floor = 76.89466952926657  # OPT_PARAM: {\"initial\": 76.89466952926657, \"min\": 20.0, \"max\": 80.0, \"type\": \"float\"}\n    inventory_response = 0.4  # OPT_PARAM: {\"initial\": 0.4, \"min\": 0.1, \"max\": 0.5, \"type\": \"float\"}\n    \n    # Infer previous latent Z from last_demand\n    z_prev = np.log(1 - np.exp(-last_demand/100.0)) * -1\n    z_prev = np.minimum(3.5, np.maximum(-3.5, z_prev))\n    \n    # Improved demand estimation with more aggressive response\n    estimated_next_demand = max(demand_floor, -100.0 * np.log(1 - 0.5 * (1 + np.tanh(-0.6 * z_prev))))\n    \n    # Enhanced dynamic target considering both demand and inventory position\n    dynamic_target = (base_target + \n                     demand_response * estimated_next_demand + \n                     z_response * z_prev * 20.0 +\n                     inventory_response * (base_target - on_hand_inventory))\n    \n    current_position = on_hand_inventory + sum(pipeline_orders)\n    order_amount = max(0.0, smoothing * (dynamic_target - current_position))\n    \n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Key changes: 1) Increased base_target and adjusted demand_response to better handle high-demand periods. 2) Reduced smoothing for quicker response. 3) Added inventory_response term to adjust for current stock levels. 4) Lowered demand_floor and z_response to reduce over-reaction to extreme values. 5) Overall more aggressive inventory positioning to balance holding and stockout costs.",
+          "opt_params": {
+               "base_target": 463.10603258410646,
+               "demand_response": 4.849346725762212,
+               "smoothing": 0.11844717809705342,
+               "z_response": 0.9506608155618251,
+               "demand_floor": 76.89466952926657,
+               "inventory_response": 0.4
+          },
+          "cost": null,
+          "objective": 20114.02664,
+          "lower": 19577.78217,
+          "upper": 20660.73439,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Reduced base stock level and adjusted response parameters based on training performance. Added demand floor to prevent underestimation during low demand periods. Reduced z_response impact and made smoothing more aggressive to better balance holding and lost sales costs.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 416.4982755230068  # OPT_PARAM: {\"initial\": 416.4982755230068, \"min\": 300.0, \"max\": 500.0, \"type\": \"float\"}\n    demand_response = 4.0  # OPT_PARAM: {\"initial\": 4.0, \"min\": 1.0, \"max\": 4.0, \"type\": \"float\"}\n    smoothing = 0.2  # OPT_PARAM: {\"initial\": 0.2, \"min\": 0.1, \"max\": 0.5, \"type\": \"float\"}\n    z_response = 1.0  # OPT_PARAM: {\"initial\": 1.0, \"min\": 0.1, \"max\": 1.0, \"type\": \"float\"}\n    demand_floor = 80.0  # OPT_PARAM: {\"initial\": 80.0, \"min\": 30.0, \"max\": 80.0, \"type\": \"float\"}\n    \n    # Infer previous latent Z from last_demand\n    z_prev = np.log(1 - np.exp(-last_demand/100.0)) * -1\n    z_prev = np.minimum(3.5, np.maximum(-3.5, z_prev))\n    \n    # More conservative demand estimation with floor\n    estimated_next_demand = max(demand_floor, -100.0 * np.log(1 - 0.5 * (1 + np.tanh(-0.6 * z_prev / np.sqrt(2)))))\n    \n    # Dynamic target with adjusted parameters\n    dynamic_target = base_target + demand_response * estimated_next_demand + z_response * z_prev * 30.0\n    current_position = on_hand_inventory + sum(pipeline_orders)\n    order_amount = max(0.0, smoothing * (dynamic_target - current_position))\n    \n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Reduced base stock level and adjusted response parameters based on training performance. Added demand floor to prevent underestimation during low demand periods. Reduced z_response impact and made smoothing more aggressive to better balance holding and lost sales costs.",
+          "opt_params": {
+               "base_target": 416.4982755230068,
+               "demand_response": 4.0,
+               "smoothing": 0.2,
+               "z_response": 1.0,
+               "demand_floor": 80.0
+          },
+          "cost": null,
+          "objective": 20114.34364,
+          "lower": 19570.42882,
+          "upper": 20674.49774,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Key changes: Increased base_target to handle higher demand spikes, reduced demand_floor as it was overestimating low demands, adjusted demand_response and z_response to better balance between demand anticipation and Z-state response, and increased smoothing for more stable orders. These changes aim to reduce lost sales while controlling holding costs.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 473.62983239920203  # OPT_PARAM: {\"initial\": 473.62983239920203, \"min\": 400.0, \"max\": 500.0, \"type\": \"float\"}\n    demand_response = 4.0  # OPT_PARAM: {\"initial\": 4.0, \"min\": 2.5, \"max\": 4.0, \"type\": \"float\"}\n    smoothing = 0.2  # OPT_PARAM: {\"initial\": 0.2, \"min\": 0.2, \"max\": 0.4, \"type\": \"float\"}\n    z_response = 0.7  # OPT_PARAM: {\"initial\": 0.7, \"min\": 0.3, \"max\": 0.7, \"type\": \"float\"}\n    demand_floor = 70.0  # OPT_PARAM: {\"initial\": 70.0, \"min\": 40.0, \"max\": 70.0, \"type\": \"float\"}\n    \n    # Infer previous latent Z from last_demand\n    z_prev = np.log(1 - np.exp(-last_demand/100.0)) * -1\n    z_prev = np.minimum(3.5, np.maximum(-3.5, z_prev))\n    \n    # More conservative demand estimation with floor\n    estimated_next_demand = max(demand_floor, -100.0 * np.log(1 - 0.5 * (1 + np.tanh(-0.6 * z_prev / np.sqrt(2)))))\n    \n    # Dynamic target with adjusted parameters\n    dynamic_target = base_target + demand_response * estimated_next_demand + z_response * z_prev * 30.0\n    current_position = on_hand_inventory + sum(pipeline_orders)\n    order_amount = max(0.0, smoothing * (dynamic_target - current_position))\n    \n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Key changes: Increased base_target to handle higher demand spikes, reduced demand_floor as it was overestimating low demands, adjusted demand_response and z_response to better balance between demand anticipation and Z-state response, and increased smoothing for more stable orders. These changes aim to reduce lost sales while controlling holding costs.",
+          "opt_params": {
+               "base_target": 473.62983239920203,
+               "demand_response": 4.0,
+               "smoothing": 0.2,
+               "z_response": 0.7,
+               "demand_floor": 70.0
+          },
+          "cost": null,
+          "objective": 20118.06448,
+          "lower": 19585.91077,
+          "upper": 20679.88577,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base_target to better handle high demand periods, adjusted demand_response and smoothing for more responsive ordering, reduced z_response to decrease volatility from latent factors, and lowered demand_floor for better adaptation to low demand periods.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 474.5049721283385  # OPT_PARAM: {\"initial\": 474.5049721283385, \"min\": 400.0, \"max\": 500.0, \"type\": \"float\"}\n    demand_response = 4.0  # OPT_PARAM: {\"initial\": 4.0, \"min\": 2.0, \"max\": 4.0, \"type\": \"float\"}\n    smoothing = 0.2  # OPT_PARAM: {\"initial\": 0.2, \"min\": 0.2, \"max\": 0.4, \"type\": \"float\"}\n    z_response = 1.0  # OPT_PARAM: {\"initial\": 1.0, \"min\": 0.1, \"max\": 1.0, \"type\": \"float\"}\n    demand_floor = 70.0  # OPT_PARAM: {\"initial\": 70.0, \"min\": 30.0, \"max\": 70.0, \"type\": \"float\"}\n    \n    # Infer previous latent Z from last_demand\n    z_prev = np.log(1 - np.exp(-last_demand/100.0)) * -1\n    z_prev = np.minimum(3.5, np.maximum(-3.5, z_prev))\n    \n    # More responsive demand estimation\n    estimated_next_demand = max(demand_floor, -100.0 * np.log(1 - 0.5 * (1 + np.tanh(-0.6 * z_prev / np.sqrt(2)))))\n    \n    # Dynamic target with stronger demand response\n    dynamic_target = base_target + demand_response * estimated_next_demand + z_response * z_prev * 20.0\n    current_position = on_hand_inventory + sum(pipeline_orders)\n    order_amount = max(0.0, smoothing * (dynamic_target - current_position))\n    \n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base_target to better handle high demand periods, adjusted demand_response and smoothing for more responsive ordering, reduced z_response to decrease volatility from latent factors, and lowered demand_floor for better adaptation to low demand periods.",
+          "opt_params": {
+               "base_target": 474.5049721283385,
+               "demand_response": 4.0,
+               "smoothing": 0.2,
+               "z_response": 1.0,
+               "demand_floor": 70.0
+          },
+          "cost": null,
+          "objective": 20119.71135,
+          "lower": 19588.6564,
+          "upper": 20682.13583,
+          "other_inf": null
+     },
+     {
+          "algorithm": "The optimization reduced lost sales by increasing base_target and adjusting parameters for better demand tracking. The changes include: higher base stock level (450), reduced demand response (2.5) for less volatility chasing, increased smoothing (0.35) for steadier orders, lower Z impact (0.5), and lower demand floor (50) for more responsive demand estimation. These adjustments better balance holding and lost-sales costs based on the training performance.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 474.49117843005456  # OPT_PARAM: {\"initial\": 474.49117843005456, \"min\": 400.0, \"max\": 500.0, \"type\": \"float\"}\n    demand_response = 3.5  # OPT_PARAM: {\"initial\": 3.5, \"min\": 1.5, \"max\": 3.5, \"type\": \"float\"}\n    smoothing = 0.2  # OPT_PARAM: {\"initial\": 0.2, \"min\": 0.2, \"max\": 0.5, \"type\": \"float\"}\n    z_response = 1.0  # OPT_PARAM: {\"initial\": 1.0, \"min\": 0.1, \"max\": 1.0, \"type\": \"float\"}\n    demand_floor = 80.0  # OPT_PARAM: {\"initial\": 80.0, \"min\": 30.0, \"max\": 80.0, \"type\": \"float\"}\n    \n    # Infer previous latent Z from last_demand\n    z_prev = np.log(1 - np.exp(-last_demand/100.0)) * -1\n    z_prev = np.minimum(3.5, np.maximum(-3.5, z_prev))\n    \n    # Estimate next demand using both Z and demand mean reversion\n    estimated_next_demand = max(demand_floor, -100.0 * np.log(1 - 0.5 * (1 + np.tanh(-0.6 * z_prev / np.sqrt(2)))))\n    \n    # More balanced dynamic target\n    dynamic_target = base_target + demand_response * estimated_next_demand + z_response * z_prev * 20.0\n    current_position = on_hand_inventory + sum(pipeline_orders)\n    order_amount = max(0.0, smoothing * (dynamic_target - current_position))\n    \n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "The optimization reduced lost sales by increasing base_target and adjusting parameters for better demand tracking. The changes include: higher base stock level (450), reduced demand response (2.5) for less volatility chasing, increased smoothing (0.35) for steadier orders, lower Z impact (0.5), and lower demand floor (50) for more responsive demand estimation. These adjustments better balance holding and lost-sales costs based on the training performance.",
+          "opt_params": {
+               "base_target": 474.49117843005456,
+               "demand_response": 3.5,
+               "smoothing": 0.2,
+               "z_response": 1.0,
+               "demand_floor": 80.0
+          },
+          "cost": null,
+          "objective": 20119.71143,
+          "lower": 19588.66027,
+          "upper": 20682.16134,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base_target to maintain higher inventory levels, reduced demand_floor to be more responsive to actual demand patterns, adjusted response parameters to better balance holding and lost-sales costs based on training performance. The changes aim to reduce the high lost-sales costs while keeping holding costs manageable.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 454.0006435471922  # OPT_PARAM: {\"initial\": 454.0006435471922, \"min\": 300.0, \"max\": 500.0, \"type\": \"float\"}\n    demand_response = 4.0  # OPT_PARAM: {\"initial\": 4.0, \"min\": 1.0, \"max\": 4.0, \"type\": \"float\"}\n    smoothing = 0.2  # OPT_PARAM: {\"initial\": 0.2, \"min\": 0.1, \"max\": 0.5, \"type\": \"float\"}\n    z_response = 1.0  # OPT_PARAM: {\"initial\": 1.0, \"min\": 0.1, \"max\": 1.0, \"type\": \"float\"}\n    demand_floor = 74.73758276089563  # OPT_PARAM: {\"initial\": 74.73758276089563, \"min\": 30.0, \"max\": 80.0, \"type\": \"float\"}\n    \n    # Infer previous latent Z from last_demand\n    z_prev = np.log(1 - np.exp(-last_demand/100.0)) * -1\n    z_prev = np.minimum(3.5, np.maximum(-3.5, z_prev))\n    \n    # More conservative demand estimation with floor\n    estimated_next_demand = max(demand_floor, -100.0 * np.log(1 - 0.5 * (1 + np.tanh(-0.6 * z_prev / np.sqrt(2)))))\n    \n    # Dynamic target with adjusted parameters\n    dynamic_target = base_target + demand_response * estimated_next_demand + z_response * z_prev * 20.0\n    current_position = on_hand_inventory + sum(pipeline_orders)\n    order_amount = max(0.0, smoothing * (dynamic_target - current_position))\n    \n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base_target to maintain higher inventory levels, reduced demand_floor to be more responsive to actual demand patterns, adjusted response parameters to better balance holding and lost-sales costs based on training performance. The changes aim to reduce the high lost-sales costs while keeping holding costs manageable.",
+          "opt_params": {
+               "base_target": 454.0006435471922,
+               "demand_response": 4.0,
+               "smoothing": 0.2,
+               "z_response": 1.0,
+               "demand_floor": 74.73758276089563
+          },
+          "cost": null,
+          "objective": 20119.84979,
+          "lower": 19589.1158,
+          "upper": 20685.1124,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base_target to better handle high demand spikes, reduced demand_response and z_response sensitivity while keeping the overall structure, adjusted smoothing and demand_floor for better balance between holding and lost-sales costs. The changes aim to reduce the high lost-sales costs while keeping holding costs manageable.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 479.13250800967484  # OPT_PARAM: {\"initial\": 479.13250800967484, \"min\": 400.0, \"max\": 550.0, \"type\": \"float\"}\n    demand_response = 4.0  # OPT_PARAM: {\"initial\": 4.0, \"min\": 2.0, \"max\": 4.0, \"type\": \"float\"}\n    smoothing = 0.19999999999999998  # OPT_PARAM: {\"initial\": 0.19999999999999998, \"min\": 0.15, \"max\": 0.3, \"type\": \"float\"}\n    z_response = 1.0  # OPT_PARAM: {\"initial\": 1.0, \"min\": 0.5, \"max\": 1.0, \"type\": \"float\"}\n    demand_floor = 70.18243520239659  # OPT_PARAM: {\"initial\": 70.18243520239659, \"min\": 40.0, \"max\": 80.0, \"type\": \"float\"}\n    \n    # Infer previous latent Z from last_demand\n    z_prev = np.log(1 - np.exp(-last_demand/100.0)) * -1\n    z_prev = np.minimum(3.5, np.maximum(-3.5, z_prev))\n    \n    # More conservative demand estimation with floor\n    estimated_next_demand = max(demand_floor, -100.0 * np.log(1 - 0.5 * (1 + np.tanh(-0.6 * z_prev / np.sqrt(2)))))\n    \n    # Dynamic target with adjusted parameters\n    dynamic_target = base_target + demand_response * estimated_next_demand + z_response * z_prev * 20.0\n    current_position = on_hand_inventory + sum(pipeline_orders)\n    order_amount = max(0.0, smoothing * (dynamic_target - current_position))\n    \n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base_target to better handle high demand spikes, reduced demand_response and z_response sensitivity while keeping the overall structure, adjusted smoothing and demand_floor for better balance between holding and lost-sales costs. The changes aim to reduce the high lost-sales costs while keeping holding costs manageable.",
+          "opt_params": {
+               "base_target": 479.13250800967484,
+               "demand_response": 4.0,
+               "smoothing": 0.19999999999999998,
+               "z_response": 1.0,
+               "demand_floor": 70.18243520239659
+          },
+          "cost": null,
+          "objective": 20121.53501,
+          "lower": 19590.78618,
+          "upper": 20682.94151,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Reduced base_target and adjusted parameters to better balance holding and lost-sales costs. Lowered demand_response and z_response to reduce overreaction to demand fluctuations, while increasing smoothing for more stable orders. Reduced demand_floor to better handle low-demand periods. These changes aim to lower total costs by reducing both excessive inventory and stockouts.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 395.1154073695013  # OPT_PARAM: {\"initial\": 395.1154073695013, \"min\": 300.0, \"max\": 500.0, \"type\": \"float\"}\n    demand_response = 3.9853354898121602  # OPT_PARAM: {\"initial\": 3.9853354898121602, \"min\": 1.0, \"max\": 4.0, \"type\": \"float\"}\n    smoothing = 0.2209152976606424  # OPT_PARAM: {\"initial\": 0.2209152976606424, \"min\": 0.1, \"max\": 0.5, \"type\": \"float\"}\n    z_response = 1.0  # OPT_PARAM: {\"initial\": 1.0, \"min\": 0.1, \"max\": 1.0, \"type\": \"float\"}\n    demand_floor = 79.18401351989372  # OPT_PARAM: {\"initial\": 79.18401351989372, \"min\": 30.0, \"max\": 80.0, \"type\": \"float\"}\n    \n    # Infer previous latent Z from last_demand\n    z_prev = np.log(1 - np.exp(-last_demand/100.0)) * -1\n    z_prev = np.minimum(3.5, np.maximum(-3.5, z_prev))\n    \n    # More conservative demand estimation with floor\n    estimated_next_demand = max(demand_floor, -100.0 * np.log(1 - 0.5 * (1 + np.tanh(-0.6 * z_prev / np.sqrt(2)))))\n    \n    # Dynamic target with adjusted parameters\n    dynamic_target = base_target + demand_response * estimated_next_demand + z_response * z_prev * 30.0\n    current_position = on_hand_inventory + sum(pipeline_orders)\n    order_amount = max(0.0, smoothing * (dynamic_target - current_position))\n    \n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Reduced base_target and adjusted parameters to better balance holding and lost-sales costs. Lowered demand_response and z_response to reduce overreaction to demand fluctuations, while increasing smoothing for more stable orders. Reduced demand_floor to better handle low-demand periods. These changes aim to lower total costs by reducing both excessive inventory and stockouts.",
+          "opt_params": {
+               "base_target": 395.1154073695013,
+               "demand_response": 3.9853354898121602,
+               "smoothing": 0.2209152976606424,
+               "z_response": 1.0,
+               "demand_floor": 79.18401351989372
+          },
+          "cost": null,
+          "objective": 20123.47119,
+          "lower": 19587.53728,
+          "upper": 20685.00166,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Key changes: 1) Increased base_target to better handle high demand spikes, 2) Reduced demand_response and z_response to be less reactive to short-term fluctuations, 3) Lowered smoothing factor for more stable ordering, 4) Adjusted demand_floor to better match actual demand patterns. These changes aim to balance holding and lost-sales costs more effectively, particularly given the demand autocorrelation structure.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 470.7999172353976  # OPT_PARAM: {\"initial\": 470.7999172353976, \"min\": 400.0, \"max\": 550.0, \"type\": \"float\"}\n    demand_response = 3.5  # OPT_PARAM: {\"initial\": 3.5, \"min\": 1.5, \"max\": 3.5, \"type\": \"float\"}\n    smoothing = 0.19999999999999998  # OPT_PARAM: {\"initial\": 0.19999999999999998, \"min\": 0.1, \"max\": 0.3, \"type\": \"float\"}\n    z_response = 0.8  # OPT_PARAM: {\"initial\": 0.8, \"min\": 0.3, \"max\": 0.8, \"type\": \"float\"}\n    demand_floor = 80.0  # OPT_PARAM: {\"initial\": 80.0, \"min\": 30.0, \"max\": 80.0, \"type\": \"float\"}\n    \n    # Infer previous latent Z from last_demand\n    z_prev = np.log(1 - np.exp(-last_demand/100.0)) * -1\n    z_prev = np.minimum(3.5, np.maximum(-3.5, z_prev))\n    \n    # Estimate next demand with floor\n    estimated_next_demand = max(demand_floor, -100.0 * np.log(1 - 0.5 * (1 + np.tanh(-0.6 * z_prev / np.sqrt(2)))))\n    \n    # Dynamic target with adjusted parameters\n    dynamic_target = base_target + demand_response * estimated_next_demand + z_response * z_prev * 20.0\n    current_position = on_hand_inventory + sum(pipeline_orders)\n    order_amount = max(0.0, smoothing * (dynamic_target - current_position))\n    \n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Key changes: 1) Increased base_target to better handle high demand spikes, 2) Reduced demand_response and z_response to be less reactive to short-term fluctuations, 3) Lowered smoothing factor for more stable ordering, 4) Adjusted demand_floor to better match actual demand patterns. These changes aim to balance holding and lost-sales costs more effectively, particularly given the demand autocorrelation structure.",
+          "opt_params": {
+               "base_target": 470.7999172353976,
+               "demand_response": 3.5,
+               "smoothing": 0.19999999999999998,
+               "z_response": 0.8,
+               "demand_floor": 80.0
+          },
+          "cost": null,
+          "objective": 20130.91621,
+          "lower": 19587.6485,
+          "upper": 20691.17218,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Key changes: 1) Increased base_target to better match demand variability, 2) Reduced z_response impact since Z's effect was overestimated, 3) Added demand ceiling to prevent overreacting to extreme demand spikes, 4) Adjusted smoothing for more responsive ordering, 5) Fine-tuned demand floor/response parameters based on training performance showing high lost sales costs.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 459.6569143013734  # OPT_PARAM: {\"initial\": 459.6569143013734, \"min\": 400.0, \"max\": 550.0, \"type\": \"float\"}\n    demand_response = 4.092899670776089  # OPT_PARAM: {\"initial\": 4.092899670776089, \"min\": 2.5, \"max\": 5.0, \"type\": \"float\"}\n    smoothing = 0.19999999999999998  # OPT_PARAM: {\"initial\": 0.19999999999999998, \"min\": 0.1, \"max\": 0.3, \"type\": \"float\"}\n    z_response = 0.6902475666896404  # OPT_PARAM: {\"initial\": 0.6902475666896404, \"min\": 0.1, \"max\": 1.0, \"type\": \"float\"}\n    demand_floor = 70.30721125963215  # OPT_PARAM: {\"initial\": 70.30721125963215, \"min\": 40.0, \"max\": 100.0, \"type\": \"float\"}\n    demand_ceiling = 200.0  # OPT_PARAM: {\"initial\": 200.0, \"min\": 150.0, \"max\": 300.0, \"type\": \"float\"}\n    \n    # Infer previous latent Z from last_demand\n    z_prev = np.log(1 - np.exp(-last_demand/100.0)) * -1\n    z_prev = np.minimum(3.5, np.maximum(-3.5, z_prev))\n    \n    # Bounded demand estimation\n    estimated_next_demand = -100.0 * np.log(1 - 0.5 * (1 + np.tanh(-0.6 * z_prev / np.sqrt(2))))\n    estimated_next_demand = max(demand_floor, min(demand_ceiling, estimated_next_demand))\n    \n    # Dynamic target with adjusted parameters\n    dynamic_target = base_target + demand_response * estimated_next_demand + z_response * z_prev * 25.0\n    current_position = on_hand_inventory + sum(pipeline_orders)\n    order_amount = max(0.0, smoothing * (dynamic_target - current_position))\n    \n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Key changes: 1) Increased base_target to better match demand variability, 2) Reduced z_response impact since Z's effect was overestimated, 3) Added demand ceiling to prevent overreacting to extreme demand spikes, 4) Adjusted smoothing for more responsive ordering, 5) Fine-tuned demand floor/response parameters based on training performance showing high lost sales costs.",
+          "opt_params": {
+               "base_target": 459.6569143013734,
+               "demand_response": 4.092899670776089,
+               "smoothing": 0.19999999999999998,
+               "z_response": 0.6902475666896404,
+               "demand_floor": 70.30721125963215,
+               "demand_ceiling": 200.0
+          },
+          "cost": null,
+          "objective": 20131.27161,
+          "lower": 19584.93802,
+          "upper": 20689.50204,
+          "other_inf": null
+     }
+]

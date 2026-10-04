@@ -1,0 +1,13 @@
+{
+  "utc": "2026-09-17T03:20:37Z",
+  "reason": "Initial high-reasoning calls hit output cap before complete source; parse also assumed fences despite requesting plain Python. These are execution defects, not poor costs.",
+  "changes": [
+    "Output cap uniformly 32768 for future requests (same as L2).",
+    "Parse both fenced and plain Python.",
+    "Allow local numeric array mutation inside OS sandbox; simulator passes state copies.",
+    "Numba bounds checking enabled to reject invalid state indexing.",
+    "All original attempts and paid costs retained. Interrupted incomplete generation slots may be resumed.",
+    "Existing complete valid low-score or high-score candidates are not selectively retried."
+  ],
+  "test_seen": false
+}

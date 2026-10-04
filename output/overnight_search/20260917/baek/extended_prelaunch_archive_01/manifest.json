@@ -1,0 +1,19 @@
+{
+  "identity": {
+    "protocol": "Baek-L2-perishable-known-generator-tools-v1",
+    "model": "openai/gpt-5.6-sol",
+    "reasoning_effort": "high",
+    "sessions": 3,
+    "python_budget_seconds_per_session": 3600,
+    "max_tool_calls_per_session": 50,
+    "hard_global_allocation_usd": 12.0,
+    "setup_target_seconds": 30,
+    "setup_guard_seconds": 600,
+    "prompt_sha256": "642cdfde50a35f6d957d3c0c7f7ff56e695eae3a701ef90ba3d688de362b61a2",
+    "trusted_prelude_sha256": "20b77fb34ab9079f61bc1cb8af37b8affe7b63b776f871c8a21f7f3f14e703de",
+    "independent_draw_selection": "All submitted valid draws; no score-based replacement",
+    "adaptation": "Perishable inventory; supplied trusted simulator and shared optimizer helpers; deterministic order rules"
+  },
+  "created_utc": "2026-09-17T03:29:44.334846+00:00",
+  "python": "3.14.3 (main, Feb 21 2026, 23:43:38) [Clang 13.1.6 (clang-1316.0.21.2.5)]"
+}

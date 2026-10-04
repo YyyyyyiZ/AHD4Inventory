@@ -1,0 +1,416 @@
+{
+  "arm": "best_of_n",
+  "repeat": 3,
+  "selected": {
+    "code": "def compute_order_amount(age, pipeline, mu, cv, f, L):\n    S = 10.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":10.0,\"min\":0.0,\"max\":40.0}\n    C = 10.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":10.0,\"min\":0.0,\"max\":40.0}\n    G = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.1,\"max\":3.0}\n    A = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.05,\"max\":4.0}\n    OLD = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":3.0}\n    SALE = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.3,\"max\":1.8}\n\n    m = len(age)\n    stock = [0.0] * m\n    for i in range(m):\n        stock[i] = max(0.0, float(age[i]))\n\n    for t in range(L):\n        for group in range(2):\n            if group == 0:\n                g = f\n            else:\n                g = 1.0 - f\n\n            total = 0.0\n            for i in range(m):\n                total = total + stock[i]\n\n            sale = 0.0\n            if g > 0.0 and total > 0.0:\n                M = g * mu\n                V = g * (mu * cv) * (mu * cv)\n                shape = V / (M * M) - 1.0 / M\n                root = max(0.0, shape * shape - 1.0) ** 0.5\n                b = 1.0 + shape + root\n                c = 1.0 + shape - root\n                p1 = 2.0 / (2.0 + M * b)\n                p2 = 2.0 / (2.0 + M * c)\n                r1 = 1.0 - p1\n                r2 = 1.0 - p2\n                n = int(total)\n                frac = total - n\n                e1 = r1 * (1.0 - r1 ** n) / p1 + frac * r1 ** (n + 1)\n                e2 = r2 * (1.0 - r2 ** n) / p2 + frac * r2 ** (n + 1)\n                expected = e1 / b + e2 / c\n                sale = min(total, SALE * expected)\n\n            remaining = sale\n            if group == 0:\n                for i in range(m):\n                    used = min(stock[i], remaining)\n                    stock[i] = stock[i] - used\n                    remaining = remaining - used\n            else:\n                for k in range(m):\n                    i = m - 1 - k\n                    used = min(stock[i], remaining)\n                    stock[i] = stock[i] - used\n                    remaining = remaining - used\n\n        shifted = [0.0] * m\n        for i in range(m - 1):\n            shifted[i] = stock[i + 1]\n        if t < len(pipeline):\n            shifted[m - 1] = max(0.0, float(pipeline[t]))\n        else:\n            shifted[m - 1] = 0.0\n        stock = shifted\n\n    effective = 0.0\n    routing_factor = (1.0 - f) ** 3\n    for i in range(m):\n        x = (i + 1.0) / m\n        weight = x ** A + OLD * routing_factor * (1.0 - x)\n        effective = effective + weight * stock[i]\n\n    q = S - G * effective\n    q = max(0.0, min(C, q))\n    if q != q:\n        q = 0.0\n    return float(q)\n",
+    "origin": "search/best_of_n_r3/candidate_03_0",
+    "validation": 0.9630444233450259,
+    "train_score": 0.9603999389435499,
+    "train_theta": {
+      "perish_m7_L2_cv1.5_f0": [
+        20.079797092811653,
+        26.98974057209275,
+        1.1863398176516307,
+        3.642058464912947,
+        2.7448491454638777,
+        0.3884754454967767
+      ],
+      "perish_m7_L2_cv1.5_f0.5": [
+        9.92802180031818,
+        13.984514291417003,
+        0.8570351298258542,
+        0.43548780152519906,
+        0.8451032353961625,
+        0.9198608814739078
+      ],
+      "perish_m7_L2_cv2_f0": [
+        18.6179468740116,
+        22.761576489029338,
+        1.161829874395603,
+        3.6894331567787386,
+        2.814592573712468,
+        0.3437599302707537
+      ],
+      "perish_m7_L2_cv2_f0.5": [
+        7.316639581164601,
+        6.484422965028518,
+        0.5204134974586758,
+        0.2028321587635138,
+        0.36598382825701403,
+        0.7456575609537297
+      ]
+    },
+    "structure_sha256": "3096cb9fc2804cc175dfda026d97e5272c72b82d46b01281d7b3785f9e15fde6"
+  },
+  "choices": [
+    {
+      "code": "def compute_order_amount(age, pipeline, mu, cv, f, L):\n    S = 10.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":10.0,\"min\":0.0,\"max\":60.0}\n    C = 6.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":6.0,\"min\":0.0,\"max\":30.0}\n    a = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":3.0}\n    effective = 0.0\n    for i in range(len(age)):\n        effective = effective + age[i]*min(1.0,((i+1.0)/len(age))**a)\n    return max(0.0,min(C,S-effective-sum(pipeline)))\n",
+      "origin": "common_baseline:age_discount",
+      "validation": 1.0,
+      "train_score": 1.0,
+      "train_theta": {
+        "perish_m7_L2_cv1.5_f0": [
+          16.82362227052272,
+          18.561404171591573,
+          0.05552496609617075
+        ],
+        "perish_m7_L2_cv1.5_f0.5": [
+          16.29721092854831,
+          20.30122219377725,
+          0.9076730989899537
+        ],
+        "perish_m7_L2_cv2_f0": [
+          15.117285293211898,
+          28.547151415579293,
+          0.03255685935867936
+        ],
+        "perish_m7_L2_cv2_f0.5": [
+          13.983163205026056,
+          5.890122783909247,
+          1.0672962231356822
+        ]
+      },
+      "structure_sha256": "a1b0ebc321b761ae22824b3e92851628015388b4655bbab8275e5e5560198f5a"
+    },
+    {
+      "code": "def compute_order_amount(age, pipeline, mu, cv, f, L):\n    S = 16.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":16.0,\"min\":0.0,\"max\":60.0}\n    C = 20.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":20.0,\"min\":0.0,\"max\":60.0}\n    age_power = 0.7 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.7,\"min\":0.0,\"max\":4.0}\n    projection_mix = 0.65 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.65,\"min\":0.0,\"max\":1.0}\n    pipeline_weight = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":2.0}\n    demand_scale = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.4,\"max\":1.8}\n\n    m = len(age)\n    work = [0.0] * m\n    updated = [0.0] * m\n    effective_now = 0.0\n\n    for i in range(m):\n        value = max(0.0, float(age[i]))\n        work[i] = value\n        relative_life = (i + 1.0) / m\n        effective_now = effective_now + value * (relative_life ** age_power)\n\n    pipeline_total = 0.0\n    for j in range(len(pipeline)):\n        pipeline_total = pipeline_total + max(0.0, float(pipeline[j]))\n    effective_now = effective_now + pipeline_weight * pipeline_total\n\n    fifo_group = max(0.0, min(1.0, float(f)))\n    lifo_group = 1.0 - fifo_group\n\n    fifo_active = fifo_group > 0.0\n    lifo_active = lifo_group > 0.0\n\n    if fifo_active:\n        fifo_mean = fifo_group * mu\n        fifo_variance = fifo_group * (mu * cv) * (mu * cv)\n        fifo_a = fifo_variance / (fifo_mean * fifo_mean) - 1.0 / fifo_mean\n        fifo_root = max(0.0, fifo_a * fifo_a - 1.0) ** 0.5\n        fifo_b = 1.0 + fifo_a + fifo_root\n        fifo_c = 1.0 + fifo_a - fifo_root\n        fifo_weight = 1.0 / fifo_b\n        fifo_r1 = 1.0 - 2.0 / (2.0 + fifo_mean * fifo_b)\n        fifo_r2 = 1.0 - 2.0 / (2.0 + fifo_mean * fifo_c)\n\n    if lifo_active:\n        lifo_mean = lifo_group * mu\n        lifo_variance = lifo_group * (mu * cv) * (mu * cv)\n        lifo_a = lifo_variance / (lifo_mean * lifo_mean) - 1.0 / lifo_mean\n        lifo_root = max(0.0, lifo_a * lifo_a - 1.0) ** 0.5\n        lifo_b = 1.0 + lifo_a + lifo_root\n        lifo_c = 1.0 + lifo_a - lifo_root\n        lifo_weight = 1.0 / lifo_b\n        lifo_r1 = 1.0 - 2.0 / (2.0 + lifo_mean * lifo_b)\n        lifo_r2 = 1.0 - 2.0 / (2.0 + lifo_mean * lifo_c)\n\n    for t in range(L):\n        if fifo_active:\n            cumulative = 0.0\n            for i in range(m):\n                quantity = work[i]\n                upper = cumulative + quantity\n                upper_scaled = upper / demand_scale\n                lower_scaled = cumulative / demand_scale\n                upper_min = demand_scale * (\n                    fifo_weight * fifo_r1 * (1.0 - fifo_r1 ** upper_scaled) / (1.0 - fifo_r1)\n                    + (1.0 - fifo_weight) * fifo_r2 * (1.0 - fifo_r2 ** upper_scaled) / (1.0 - fifo_r2)\n                )\n                lower_min = demand_scale * (\n                    fifo_weight * fifo_r1 * (1.0 - fifo_r1 ** lower_scaled) / (1.0 - fifo_r1)\n                    + (1.0 - fifo_weight) * fifo_r2 * (1.0 - fifo_r2 ** lower_scaled) / (1.0 - fifo_r2)\n                )\n                consumed = max(0.0, min(quantity, upper_min - lower_min))\n                updated[i] = quantity - consumed\n                cumulative = upper\n            for i in range(m):\n                work[i] = updated[i]\n\n        if lifo_active:\n            cumulative = 0.0\n            for k in range(m):\n                i = m - 1 - k\n                quantity = work[i]\n                upper = cumulative + quantity\n                upper_scaled = upper / demand_scale\n                lower_scaled = cumulative / demand_scale\n                upper_min = demand_scale * (\n                    lifo_weight * lifo_r1 * (1.0 - lifo_r1 ** upper_scaled) / (1.0 - lifo_r1)\n                    + (1.0 - lifo_weight) * lifo_r2 * (1.0 - lifo_r2 ** upper_scaled) / (1.0 - lifo_r2)\n                )\n                lower_min = demand_scale * (\n                    lifo_weight * lifo_r1 * (1.0 - lifo_r1 ** lower_scaled) / (1.0 - lifo_r1)\n                    + (1.0 - lifo_weight) * lifo_r2 * (1.0 - lifo_r2 ** lower_scaled) / (1.0 - lifo_r2)\n                )\n                consumed = max(0.0, min(quantity, upper_min - lower_min))\n                updated[i] = quantity - consumed\n                cumulative = upper\n            for i in range(m):\n                work[i] = updated[i]\n\n        for i in range(m - 1):\n            work[i] = work[i + 1]\n        work[m - 1] = 0.0\n        if t < len(pipeline):\n            work[m - 1] = max(0.0, float(pipeline[t]))\n\n    effective_future = 0.0\n    for i in range(m):\n        relative_life = (i + 1.0) / m\n        effective_future = effective_future + work[i] * (relative_life ** age_power)\n\n    effective = projection_mix * effective_future + (1.0 - projection_mix) * effective_now\n    order = S - effective\n    return max(0.0, min(C, order))\n",
+      "origin": "search/best_of_n_r3/candidate_00_0",
+      "validation": 0.9860943770865651,
+      "train_score": 0.9845342041796517,
+      "train_theta": {
+        "perish_m7_L2_cv1.5_f0": [
+          12.256031913648126,
+          45.51220334788195,
+          0.0016644316592155928,
+          0.4681259153417344,
+          0.05124968668968233,
+          0.9704571410042862
+        ],
+        "perish_m7_L2_cv1.5_f0.5": [
+          11.043061106019252,
+          42.75254937578127,
+          0.5647870419544563,
+          0.686364790863249,
+          1.013188586061245,
+          1.5509696966414457
+        ],
+        "perish_m7_L2_cv2_f0": [
+          12.273934662874282,
+          24.58198413491231,
+          0.0021731312196655583,
+          0.39701780960089533,
+          0.00019281042367080836,
+          0.41285182337908466
+        ],
+        "perish_m7_L2_cv2_f0.5": [
+          14.464906318442015,
+          6.147481519304719,
+          0.4285950312434248,
+          0.2711166009334597,
+          1.0965610021895003,
+          0.6460140525114004
+        ]
+      },
+      "structure_sha256": "b1efe0e7b635c1990388823ed3557c28cf63a0982dba5a153f9462879857d5bc"
+    },
+    {
+      "code": "def compute_order_amount(age, pipeline, mu, cv, f, L):\n    S = 16.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":16.0,\"min\":0.0,\"max\":60.0}\n    C = 18.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":18.0,\"min\":0.0,\"max\":60.0}\n    P = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":3.0}\n    W0 = 0.2 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.2,\"min\":0.0,\"max\":3.0}\n    W1 = 0.47 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.47,\"min\":0.0,\"max\":3.0}\n    W2 = 0.73 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.73,\"min\":0.0,\"max\":3.0}\n    W3 = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":3.0}\n    m = len(age)\n    effective = 0.0\n    for i in range(m):\n        if m > 1:\n            x = float(i) / float(m - 1)\n        else:\n            x = 1.0\n        u = 1.0 - x\n        weight = W0*u*u*u + 3.0*W1*x*u*u + 3.0*W2*x*x*u + W3*x*x*x\n        effective = effective + weight*age[i]\n    pipe_stock = 0.0\n    for j in range(len(pipeline)):\n        pipe_stock = pipe_stock + pipeline[j]\n    order = S - effective - P*pipe_stock\n    if not (order >= 0.0):\n        return 0.0\n    if order > C:\n        return C\n    return order\n",
+      "origin": "search/best_of_n_r3/candidate_01_0",
+      "validation": 0.9746420923046302,
+      "train_score": 0.9701113909836209,
+      "train_theta": {
+        "perish_m7_L2_cv1.5_f0": [
+          21.1995022369807,
+          19.572918545414915,
+          0.9945773218262342,
+          0.19400829640121664,
+          2.2198121709362666,
+          2.3401359285978742,
+          1.0894117937333263
+        ],
+        "perish_m7_L2_cv1.5_f0.5": [
+          14.129667168241928,
+          22.531377841367206,
+          0.9159271796723548,
+          0.28544716426879035,
+          0.6406918756592099,
+          0.6051251966535313,
+          0.6888819773321713
+        ],
+        "perish_m7_L2_cv2_f0": [
+          21.090431563632933,
+          16.69479139152542,
+          1.197478739840888,
+          0.039843561064741184,
+          2.471525895673947,
+          2.8467344603372773,
+          1.232904958797373
+        ],
+        "perish_m7_L2_cv2_f0.5": [
+          11.068156649363623,
+          7.555517947250436,
+          0.8605021143841892,
+          0.27836244624328743,
+          0.4099320022387922,
+          0.6173395646612735,
+          0.5158877394929232
+        ]
+      },
+      "structure_sha256": "0a23476986cc155bc374cc13cee8bba1529a8ae07e2a5d63588911b403bad896"
+    },
+    {
+      "code": "def compute_order_amount(age, pipeline, mu, cv, f, L):\n    S = 12.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":12.0,\"min\":0.0,\"max\":60.0}\n    C = 18.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":18.0,\"min\":0.0,\"max\":40.0}\n    KF = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":2.5}\n    KL = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":2.5}\n    W = 0.05 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.05,\"min\":0.0,\"max\":1.0}\n    A = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":5.0}\n    G = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.1,\"max\":2.0}\n\n    m = len(age)\n    x = [0.0] * m\n    for i in range(m):\n        x[i] = max(0.0, age[i])\n\n    for t in range(L):\n        if t > 0 and t - 1 < len(pipeline):\n            x[m - 1] = x[m - 1] + max(0.0, pipeline[t - 1])\n\n        total = 0.0\n        for i in range(m):\n            total = total + x[i]\n\n        sold_f = 0.0\n        if f > 0.0 and total > 0.0:\n            M = f * mu\n            V = f * (mu * cv) * (mu * cv)\n            aa = V / (M * M) - 1.0 / M\n            root = max(0.0, aa * aa - 1.0) ** 0.5\n            b = 1.0 + aa + root\n            c = 1.0 + aa - root\n            weight1 = 1.0 / b\n            p1 = 2.0 / (2.0 + M * b)\n            p2 = 2.0 / (2.0 + M * c)\n            q1 = 1.0 - p1\n            q2 = 1.0 - p2\n            n = int(total)\n            r = total - n\n            e1 = q1 * (1.0 - q1 ** n) / p1 + r * q1 ** (n + 1)\n            e2 = q2 * (1.0 - q2 ** n) / p2 + r * q2 ** (n + 1)\n            sold_f = min(total, KF * (weight1 * e1 + (1.0 - weight1) * e2))\n\n        remaining = sold_f\n        for i in range(m):\n            take = min(x[i], remaining)\n            x[i] = x[i] - take\n            remaining = remaining - take\n\n        total = 0.0\n        for i in range(m):\n            total = total + x[i]\n\n        sold_l = 0.0\n        g = 1.0 - f\n        if g > 0.0 and total > 0.0:\n            M = g * mu\n            V = g * (mu * cv) * (mu * cv)\n            aa = V / (M * M) - 1.0 / M\n            root = max(0.0, aa * aa - 1.0) ** 0.5\n            b = 1.0 + aa + root\n            c = 1.0 + aa - root\n            weight1 = 1.0 / b\n            p1 = 2.0 / (2.0 + M * b)\n            p2 = 2.0 / (2.0 + M * c)\n            q1 = 1.0 - p1\n            q2 = 1.0 - p2\n            n = int(total)\n            r = total - n\n            e1 = q1 * (1.0 - q1 ** n) / p1 + r * q1 ** (n + 1)\n            e2 = q2 * (1.0 - q2 ** n) / p2 + r * q2 ** (n + 1)\n            sold_l = min(total, KL * (weight1 * e1 + (1.0 - weight1) * e2))\n\n        remaining = sold_l\n        for j in range(m):\n            i = m - 1 - j\n            take = min(x[i], remaining)\n            x[i] = x[i] - take\n            remaining = remaining - take\n\n        for i in range(m - 1):\n            x[i] = x[i + 1]\n        x[m - 1] = 0.0\n\n    effective = 0.0\n    for i in range(m):\n        life_fraction = (i + 1.0) / m\n        weight = W + (1.0 - W) * life_fraction ** A\n        effective = effective + weight * x[i]\n\n    order = G * (S - effective)\n    order = max(0.0, min(C, order))\n    if order != order:\n        return 0.0\n    return order\n",
+      "origin": "search/best_of_n_r3/candidate_02_0",
+      "validation": 0.9776794541377376,
+      "train_score": 0.9752509739444062,
+      "train_theta": {
+        "perish_m7_L2_cv1.5_f0": [
+          12.366182853628978,
+          18.85511127822296,
+          2.3311601976454894,
+          0.15226643832625375,
+          0.9658185705580008,
+          4.8573964550242135,
+          1.9153731657205328
+        ],
+        "perish_m7_L2_cv1.5_f0.5": [
+          14.813556903561626,
+          21.99041588722927,
+          0.5165351699453425,
+          0.467619142940352,
+          0.8189619899106912,
+          4.2847777145534875,
+          0.7211034919655981
+        ],
+        "perish_m7_L2_cv2_f0": [
+          11.634373456619024,
+          18.557859944102653,
+          1.0564575438803343,
+          0.01323620623317101,
+          0.9970920140094945,
+          1.3652612987824493,
+          1.892314368684327
+        ],
+        "perish_m7_L2_cv2_f0.5": [
+          10.931324806044405,
+          23.723255939459833,
+          0.5700927827587682,
+          0.6176905790181293,
+          0.6165530619193784,
+          4.359020328466043,
+          0.728230426695958
+        ]
+      },
+      "structure_sha256": "762db5df89723b83c0d6753f6692fa8c1509a0e122ab4eee7d9207ebcce2321a"
+    },
+    {
+      "code": "def compute_order_amount(age, pipeline, mu, cv, f, L):\n    S = 10.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":10.0,\"min\":0.0,\"max\":40.0}\n    C = 10.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":10.0,\"min\":0.0,\"max\":40.0}\n    G = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.1,\"max\":3.0}\n    A = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.05,\"max\":4.0}\n    OLD = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":3.0}\n    SALE = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.3,\"max\":1.8}\n\n    m = len(age)\n    stock = [0.0] * m\n    for i in range(m):\n        stock[i] = max(0.0, float(age[i]))\n\n    for t in range(L):\n        for group in range(2):\n            if group == 0:\n                g = f\n            else:\n                g = 1.0 - f\n\n            total = 0.0\n            for i in range(m):\n                total = total + stock[i]\n\n            sale = 0.0\n            if g > 0.0 and total > 0.0:\n                M = g * mu\n                V = g * (mu * cv) * (mu * cv)\n                shape = V / (M * M) - 1.0 / M\n                root = max(0.0, shape * shape - 1.0) ** 0.5\n                b = 1.0 + shape + root\n                c = 1.0 + shape - root\n                p1 = 2.0 / (2.0 + M * b)\n                p2 = 2.0 / (2.0 + M * c)\n                r1 = 1.0 - p1\n                r2 = 1.0 - p2\n                n = int(total)\n                frac = total - n\n                e1 = r1 * (1.0 - r1 ** n) / p1 + frac * r1 ** (n + 1)\n                e2 = r2 * (1.0 - r2 ** n) / p2 + frac * r2 ** (n + 1)\n                expected = e1 / b + e2 / c\n                sale = min(total, SALE * expected)\n\n            remaining = sale\n            if group == 0:\n                for i in range(m):\n                    used = min(stock[i], remaining)\n                    stock[i] = stock[i] - used\n                    remaining = remaining - used\n            else:\n                for k in range(m):\n                    i = m - 1 - k\n                    used = min(stock[i], remaining)\n                    stock[i] = stock[i] - used\n                    remaining = remaining - used\n\n        shifted = [0.0] * m\n        for i in range(m - 1):\n            shifted[i] = stock[i + 1]\n        if t < len(pipeline):\n            shifted[m - 1] = max(0.0, float(pipeline[t]))\n        else:\n            shifted[m - 1] = 0.0\n        stock = shifted\n\n    effective = 0.0\n    routing_factor = (1.0 - f) ** 3\n    for i in range(m):\n        x = (i + 1.0) / m\n        weight = x ** A + OLD * routing_factor * (1.0 - x)\n        effective = effective + weight * stock[i]\n\n    q = S - G * effective\n    q = max(0.0, min(C, q))\n    if q != q:\n        q = 0.0\n    return float(q)\n",
+      "origin": "search/best_of_n_r3/candidate_03_0",
+      "validation": 0.9630444233450259,
+      "train_score": 0.9603999389435499,
+      "train_theta": {
+        "perish_m7_L2_cv1.5_f0": [
+          20.079797092811653,
+          26.98974057209275,
+          1.1863398176516307,
+          3.642058464912947,
+          2.7448491454638777,
+          0.3884754454967767
+        ],
+        "perish_m7_L2_cv1.5_f0.5": [
+          9.92802180031818,
+          13.984514291417003,
+          0.8570351298258542,
+          0.43548780152519906,
+          0.8451032353961625,
+          0.9198608814739078
+        ],
+        "perish_m7_L2_cv2_f0": [
+          18.6179468740116,
+          22.761576489029338,
+          1.161829874395603,
+          3.6894331567787386,
+          2.814592573712468,
+          0.3437599302707537
+        ],
+        "perish_m7_L2_cv2_f0.5": [
+          7.316639581164601,
+          6.484422965028518,
+          0.5204134974586758,
+          0.2028321587635138,
+          0.36598382825701403,
+          0.7456575609537297
+        ]
+      },
+      "structure_sha256": "3096cb9fc2804cc175dfda026d97e5272c72b82d46b01281d7b3785f9e15fde6"
+    },
+    {
+      "code": "def compute_order_amount(age, pipeline, mu, cv, f, L):\n    S = 16.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":16.0,\"min\":0.0,\"max\":60.0}\n    C = 18.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":18.0,\"min\":0.0,\"max\":60.0}\n    A = 0.5 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.5,\"min\":-2.0,\"max\":4.0}\n    B = 0.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.0,\"min\":-0.9,\"max\":8.0}\n    P = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":3.0}\n    G = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":3.0}\n    D = 0.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.0,\"min\":-3.0,\"max\":4.0}\n    m = len(age)\n    effective = 0.0\n    pipeline_total = 0.0\n    for j in range(len(pipeline)):\n        pipeline_total = pipeline_total + pipeline[j]\n    effective = P * pipeline_total\n    for i in range(m):\n        r = (i + 1.0) / m\n        weight = (r ** A) * (1.0 + B * (1.0 - r) * (1.0 - r))\n        effective = effective + weight * age[i]\n    doomed = 0.0\n    cumulative_old = 0.0\n    for k in range(1, m + 1):\n        cumulative_old = cumulative_old + age[k - 1]\n        younger = 0.0\n        for i in range(k, m):\n            younger = younger + age[i]\n        for j in range(len(pipeline)):\n            if j + 1 < k:\n                younger = younger + pipeline[j]\n        reliable_fifo = k * mu * f / cv\n        reliable_lifo = k * mu * (1.0 - f) / cv\n        lifo_reaching_old = reliable_lifo - younger\n        if lifo_reaching_old < 0.0:\n            lifo_reaching_old = 0.0\n        excess = cumulative_old - reliable_fifo - lifo_reaching_old\n        if excess > doomed:\n            doomed = excess\n    gap = S - effective + D * doomed\n    order = G * gap\n    if order < 0.0:\n        order = 0.0\n    if order > C:\n        order = C\n    return float(order)\n",
+      "origin": "search/best_of_n_r3/candidate_04_0",
+      "validation": 0.9800509211840328,
+      "train_score": 0.9765364472705766,
+      "train_theta": {
+        "perish_m7_L2_cv1.5_f0": [
+          14.258619533388629,
+          9.804509851495503,
+          1.1898141960235111,
+          7.865604392669313,
+          0.44757154369410723,
+          1.324077516545863,
+          0.5041825673772214
+        ],
+        "perish_m7_L2_cv1.5_f0.5": [
+          18.880419718451947,
+          43.44110432821212,
+          0.5518802883906476,
+          0.257228576555975,
+          1.1256889294678851,
+          0.7377338141597016,
+          0.1574471174430377
+        ],
+        "perish_m7_L2_cv2_f0": [
+          11.003301562505747,
+          8.715835946172316,
+          1.32577755015045,
+          7.046645565499332,
+          0.31247458381670423,
+          1.4670829199034907,
+          0.3291094513880393
+        ],
+        "perish_m7_L2_cv2_f0.5": [
+          19.59629457404916,
+          10.351124258919238,
+          0.7896935687210564,
+          -0.24196243558745234,
+          1.2646596322952646,
+          0.48647085143341373,
+          -0.3982931854966487
+        ]
+      },
+      "structure_sha256": "03926173ed62467fd1444710c27586f1fc121ca12c2484d05c65e9784d3c9c70"
+    },
+    {
+      "code": "def compute_order_amount(age, pipeline, mu, cv, f, L):\n    S = 10.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":10.0,\"min\":0.0,\"max\":40.0}\n    C = 10.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":10.0,\"min\":0.0,\"max\":40.0}\n    GAIN = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.1,\"max\":2.5}\n    AGE_POWER = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":4.0}\n    DRAIN = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":2.0}\n\n    m = len(age)\n    x = [0.0 for i in range(m)]\n    for i in range(m):\n        x[i] = max(0.0, float(age[i]))\n\n    mf = f * mu\n    ml = (1.0 - f) * mu\n    base_var = (mu * cv) * (mu * cv)\n\n    wf = 0.0\n    rf1 = 0.0\n    rf2 = 0.0\n    if mf > 0.0:\n        vf = f * base_var\n        af = vf / (mf * mf) - 1.0 / mf\n        zf = af * af - 1.0\n        if zf < 0.0:\n            zf = 0.0\n        sf = zf ** 0.5\n        bf = 1.0 + af + sf\n        cf = 1.0 + af - sf\n        wf = 1.0 / bf\n        pf1 = 2.0 / (2.0 + mf * bf)\n        pf2 = 2.0 / (2.0 + mf * cf)\n        rf1 = 1.0 - pf1\n        rf2 = 1.0 - pf2\n\n    wl = 0.0\n    rl1 = 0.0\n    rl2 = 0.0\n    if ml > 0.0:\n        vl = (1.0 - f) * base_var\n        al = vl / (ml * ml) - 1.0 / ml\n        zl = al * al - 1.0\n        if zl < 0.0:\n            zl = 0.0\n        sl = zl ** 0.5\n        bl = 1.0 + al + sl\n        cl = 1.0 + al - sl\n        wl = 1.0 / bl\n        pl1 = 2.0 / (2.0 + ml * bl)\n        pl2 = 2.0 / (2.0 + ml * cl)\n        rl1 = 1.0 - pl1\n        rl2 = 1.0 - pl2\n\n    lead = int(L)\n    for t in range(lead):\n        total = 0.0\n        for i in range(m):\n            total = total + x[i]\n\n        fifo_served = 0.0\n        if mf > 0.0 and total > 0.0:\n            n = int(total)\n            frac = total - float(n)\n            e1 = 0.0\n            e2 = 0.0\n            if n > 0:\n                e1 = rf1 * (1.0 - rf1 ** n) / (1.0 - rf1)\n                e2 = rf2 * (1.0 - rf2 ** n) / (1.0 - rf2)\n            e1 = e1 + frac * (rf1 ** (n + 1))\n            e2 = e2 + frac * (rf2 ** (n + 1))\n            fifo_served = DRAIN * (wf * e1 + (1.0 - wf) * e2)\n            if fifo_served > total:\n                fifo_served = total\n\n        rem = fifo_served\n        for i in range(m):\n            take = x[i]\n            if take > rem:\n                take = rem\n            x[i] = x[i] - take\n            rem = rem - take\n\n        total = 0.0\n        for i in range(m):\n            total = total + x[i]\n\n        lifo_served = 0.0\n        if ml > 0.0 and total > 0.0:\n            n = int(total)\n            frac = total - float(n)\n            e1 = 0.0\n            e2 = 0.0\n            if n > 0:\n                e1 = rl1 * (1.0 - rl1 ** n) / (1.0 - rl1)\n                e2 = rl2 * (1.0 - rl2 ** n) / (1.0 - rl2)\n            e1 = e1 + frac * (rl1 ** (n + 1))\n            e2 = e2 + frac * (rl2 ** (n + 1))\n            lifo_served = DRAIN * (wl * e1 + (1.0 - wl) * e2)\n            if lifo_served > total:\n                lifo_served = total\n\n        rem = lifo_served\n        for i in range(m - 1, -1, -1):\n            take = x[i]\n            if take > rem:\n                take = rem\n            x[i] = x[i] - take\n            rem = rem - take\n\n        for i in range(m - 1):\n            x[i] = x[i + 1]\n        if m > 0:\n            x[m - 1] = 0.0\n\n        if t < lead - 1 and t < len(pipeline) and m > 0:\n            x[m - 1] = x[m - 1] + max(0.0, float(pipeline[t]))\n\n    effective = 0.0\n    exponent = AGE_POWER * 2.0 * f\n    for i in range(m):\n        relative_life = (i + 1.0) / float(m)\n        weight = relative_life ** exponent\n        effective = effective + weight * x[i]\n\n    gap = S - effective\n    order = GAIN * gap\n    if order < 0.0 or order != order:\n        order = 0.0\n    if order > C:\n        order = C\n    return order\n",
+      "origin": "search/best_of_n_r3/candidate_05_0",
+      "validation": 0.9758815652663078,
+      "train_score": 0.9716250351520355,
+      "train_theta": {
+        "perish_m7_L2_cv1.5_f0": [
+          12.078945641981143,
+          20.666817756167557,
+          2.4676149656614363,
+          2.4140061608228125,
+          0.02228654160614829
+        ],
+        "perish_m7_L2_cv1.5_f0.5": [
+          14.572240074863142,
+          30.748745532999635,
+          0.6687437448872375,
+          0.07786713871632722,
+          0.7769363350947162
+        ],
+        "perish_m7_L2_cv2_f0": [
+          10.472387848007834,
+          17.576186761102,
+          2.4815598242331083,
+          0.9784775318524317,
+          0.014149728937486117
+        ],
+        "perish_m7_L2_cv2_f0.5": [
+          10.351695437855328,
+          19.231842128343818,
+          0.6769234997340422,
+          0.1828186470150237,
+          1.2635167371162157
+        ]
+      },
+      "structure_sha256": "39aac9067d89ad2005697d00c15990c1a590a22182a7f973c0c2842a35c785fc"
+    },
+    {
+      "code": "def compute_order_amount(age, pipeline, mu, cv, f, L):\n    S = 16.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":16.0,\"min\":0.0,\"max\":60.0}\n    C = 12.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":12.0,\"min\":0.0,\"max\":40.0}\n    alpha = 0.8 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.8,\"min\":0.0,\"max\":4.0}\n    old_boost = 0.5 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.5,\"min\":0.0,\"max\":4.0}\n    demand_scale = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.5,\"max\":1.8}\n    gain = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.2,\"max\":1.8}\n\n    m = len(age)\n    state = [max(0.0, float(age[i])) for i in range(m)]\n\n    mean_fifo = f * mu\n    var_fifo = f * (mu * cv) * (mu * cv)\n    mean_lifo = (1.0 - f) * mu\n    var_lifo = (1.0 - f) * (mu * cv) * (mu * cv)\n\n    if mean_fifo > 0.0:\n        af = var_fifo / (mean_fifo * mean_fifo) - 1.0 / mean_fifo\n        rootf = max(0.0, af * af - 1.0) ** 0.5\n        bf = 1.0 + af + rootf\n        cf = 1.0 + af - rootf\n        wf = 1.0 / bf\n        pf1 = 2.0 / (2.0 + mean_fifo * bf)\n        pf2 = 2.0 / (2.0 + mean_fifo * cf)\n        rf1 = 1.0 - pf1\n        rf2 = 1.0 - pf2\n    else:\n        wf = 0.0\n        pf1 = 1.0\n        pf2 = 1.0\n        rf1 = 0.0\n        rf2 = 0.0\n\n    if mean_lifo > 0.0:\n        al = var_lifo / (mean_lifo * mean_lifo) - 1.0 / mean_lifo\n        rootl = max(0.0, al * al - 1.0) ** 0.5\n        bl = 1.0 + al + rootl\n        cl = 1.0 + al - rootl\n        wl = 1.0 / bl\n        pl1 = 2.0 / (2.0 + mean_lifo * bl)\n        pl2 = 2.0 / (2.0 + mean_lifo * cl)\n        rl1 = 1.0 - pl1\n        rl2 = 1.0 - pl2\n    else:\n        wl = 0.0\n        pl1 = 1.0\n        pl2 = 1.0\n        rl1 = 0.0\n        rl2 = 0.0\n\n    for step in range(L):\n        if mean_fifo > 0.0:\n            cumulative = 0.0\n            excess_before = demand_scale * mean_fifo\n            for i in range(m):\n                units = state[i]\n                cumulative_after = cumulative + units\n                excess_after = demand_scale * (\n                    wf * (rf1 ** (cumulative_after / demand_scale + 1.0)) / pf1\n                    + (1.0 - wf) * (rf2 ** (cumulative_after / demand_scale + 1.0)) / pf2\n                )\n                consumed = min(units, max(0.0, excess_before - excess_after))\n                state[i] = units - consumed\n                cumulative = cumulative_after\n                excess_before = excess_after\n\n        if mean_lifo > 0.0:\n            cumulative = 0.0\n            excess_before = demand_scale * mean_lifo\n            for k in range(m):\n                i = m - 1 - k\n                units = state[i]\n                cumulative_after = cumulative + units\n                excess_after = demand_scale * (\n                    wl * (rl1 ** (cumulative_after / demand_scale + 1.0)) / pl1\n                    + (1.0 - wl) * (rl2 ** (cumulative_after / demand_scale + 1.0)) / pl2\n                )\n                consumed = min(units, max(0.0, excess_before - excess_after))\n                state[i] = units - consumed\n                cumulative = cumulative_after\n                excess_before = excess_after\n\n        for i in range(m - 1):\n            state[i] = state[i + 1]\n        state[m - 1] = 0.0\n\n        if step < len(pipeline):\n            state[m - 1] = state[m - 1] + max(0.0, float(pipeline[step]))\n\n    effective = 0.0\n    for i in range(m):\n        life_fraction = (i + 1.0) / m\n        weight = life_fraction ** alpha + old_boost * (1.0 - life_fraction)\n        effective = effective + weight * state[i]\n\n    raw_order = mu + gain * (S - mu - effective)\n    return max(0.0, min(C, raw_order))\n",
+      "origin": "search/best_of_n_r3/candidate_06_0",
+      "validation": 0.966183975407634,
+      "train_score": 0.9610973897174456,
+      "train_theta": {
+        "perish_m7_L2_cv1.5_f0": [
+          20.761387356522484,
+          30.880481343773138,
+          2.834499104750557,
+          3.798770917592816,
+          0.5165956015910559,
+          0.882516778600493
+        ],
+        "perish_m7_L2_cv1.5_f0.5": [
+          15.442069751334662,
+          13.13042223089344,
+          0.4764769070058308,
+          1.0076535274532663,
+          0.5299895870851229,
+          0.46433466042606175
+        ],
+        "perish_m7_L2_cv2_f0": [
+          15.664134434932834,
+          18.486829745884567,
+          3.6266880946003925,
+          3.7385710728077326,
+          0.7719050886292491,
+          1.4492309680881983
+        ],
+        "perish_m7_L2_cv2_f0.5": [
+          9.49911615343306,
+          9.71076607564757,
+          1.9126332698045274,
+          1.3396379221060783,
+          0.8332916542450741,
+          0.3772303795241011
+        ]
+      },
+      "structure_sha256": "ed42742c4f362fb617118bf8888922576ca0282f12d4d2516adeba395440b321"
+    },
+    {
+      "code": "def compute_order_amount(age, pipeline, mu, cv, f, L):\n    S = 11.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":11.0,\"min\":0.0,\"max\":40.0}\n    C = 8.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":8.0,\"min\":0.0,\"max\":40.0}\n    D = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":3.0}\n    W = 0.35 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.35,\"min\":0.0,\"max\":1.0}\n    K = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":2.5}\n    A = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":-4.0,\"max\":8.0}\n    P = 2.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":2.0,\"min\":0.2,\"max\":6.0}\n\n    m = len(age)\n    forecast = [0.0 for i in range(m)]\n    quiet = [0.0 for i in range(m)]\n    for i in range(m):\n        forecast[i] = float(age[i])\n        quiet[i] = float(age[i])\n\n    for t in range(L):\n        remaining = D*f*mu\n        for i in range(m):\n            used = forecast[i]\n            if used > remaining:\n                used = remaining\n            forecast[i] = forecast[i] - used\n            remaining = remaining - used\n\n        remaining = D*(1.0-f)*mu\n        for k in range(m):\n            i = m - 1 - k\n            used = forecast[i]\n            if used > remaining:\n                used = remaining\n            forecast[i] = forecast[i] - used\n            remaining = remaining - used\n\n        for i in range(m-1):\n            forecast[i] = forecast[i+1]\n            quiet[i] = quiet[i+1]\n        if m > 0:\n            forecast[m-1] = 0.0\n            quiet[m-1] = 0.0\n            if t < len(pipeline):\n                forecast[m-1] = float(pipeline[t])\n                quiet[m-1] = float(pipeline[t])\n\n    total = 0.0\n    expiry_pressure = 0.0\n    for i in range(m):\n        amount = (1.0-W)*forecast[i] + W*quiet[i]\n        remaining_fraction = (i+1.0)/m\n        age_risk = (1.0-remaining_fraction)**P\n        total = total + amount\n        expiry_pressure = expiry_pressure + amount*age_risk\n\n    raw = S - K*total - A*(1.0-f)*expiry_pressure\n    if raw != raw:\n        return 0.0\n    if raw <= 0.0:\n        return 0.0\n    if raw > C:\n        return float(C)\n    return float(raw)\n",
+      "origin": "search/best_of_n_r3/candidate_07_0",
+      "validation": 0.9642026848029991,
+      "train_score": 0.9605475646045404,
+      "train_theta": {
+        "perish_m7_L2_cv1.5_f0": [
+          16.59906614078019,
+          36.92865909416685,
+          0.612074249245111,
+          0.24778177779521215,
+          0.9432462477787852,
+          3.4880982629462998,
+          2.7467193229821785
+        ],
+        "perish_m7_L2_cv1.5_f0.5": [
+          9.946333569764331,
+          13.984704528121688,
+          2.108811255520396,
+          0.41288725744098853,
+          0.9573892026331493,
+          0.5785255879638405,
+          2.4558800328791404
+        ],
+        "perish_m7_L2_cv2_f0": [
+          20.17313665492067,
+          23.211254577137275,
+          0.3765347209965513,
+          0.2983681813760334,
+          1.002386864577127,
+          2.8921163060031194,
+          1.5126535072521357
+        ],
+        "perish_m7_L2_cv2_f0.5": [
+          7.3153129895782065,
+          9.53482848844271,
+          1.054705578095405,
+          0.18167187650495858,
+          0.7145588849211717,
+          -0.6445509635743614,
+          1.8484181258008165
+        ]
+      },
+      "structure_sha256": "f890285b4c61fe6049e09e6c28877c64e10b6103880b8d366e4da3a0629f0364"
+    }
+  ]
+}

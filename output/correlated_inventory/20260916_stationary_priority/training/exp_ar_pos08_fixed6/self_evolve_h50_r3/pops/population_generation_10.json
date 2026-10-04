@@ -1,0 +1,182 @@
+[
+     {
+          "algorithm": "Increased base_stock to better match demand mean, adjusted weights to balance holding and lost-sales costs based on training performance. The higher base_stock and demand_weight help prevent stockouts during high-demand periods, while reduced pipeline_weight focuses more on current inventory and recent demand.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_stock = 72.61288604122132  # OPT_PARAM: {\"initial\": 72.61288604122132, \"min\": 50.0, \"max\": 300.0, \"type\": \"float\"}\n    demand_weight = 0.18117132546428727  # OPT_PARAM: {\"initial\": 0.18117132546428727, \"min\": 0.1, \"max\": 1.0, \"type\": \"float\"}\n    inventory_weight = 0.3134601987885489  # OPT_PARAM: {\"initial\": 0.3134601987885489, \"min\": 0.1, \"max\": 0.5, \"type\": \"float\"}\n    pipeline_weight = 0.2866724805589663  # OPT_PARAM: {\"initial\": 0.2866724805589663, \"min\": 0.0, \"max\": 0.3, \"type\": \"float\"}\n    \n    demand_estimate = base_stock + demand_weight * last_demand\n    inventory_adjustment = inventory_weight * on_hand_inventory\n    pipeline_adjustment = pipeline_weight * sum(pipeline_orders)\n    order_amount = max(0.0, demand_estimate - inventory_adjustment - pipeline_adjustment)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base_stock to better match demand mean, adjusted weights to balance holding and lost-sales costs based on training performance. The higher base_stock and demand_weight help prevent stockouts during high-demand periods, while reduced pipeline_weight focuses more on current inventory and recent demand.",
+          "opt_params": {
+               "base_stock": 72.61288604122132,
+               "demand_weight": 0.18117132546428727,
+               "inventory_weight": 0.3134601987885489,
+               "pipeline_weight": 0.2866724805589663
+          },
+          "cost": null,
+          "objective": 7969.61752,
+          "lower": 7104.21809,
+          "upper": 8948.2867,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base_stock to account for high demand variability, adjusted weights to better balance inventory holding and lost sales costs based on training performance.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_stock = 76.68895975399715  # OPT_PARAM: {\"initial\": 76.68895975399715, \"min\": 50.0, \"max\": 300.0, \"type\": \"float\"}\n    demand_weight = 0.18425939848494696  # OPT_PARAM: {\"initial\": 0.18425939848494696, \"min\": 0.1, \"max\": 1.0, \"type\": \"float\"}\n    inventory_weight = 0.39025042684815736  # OPT_PARAM: {\"initial\": 0.39025042684815736, \"min\": 0.1, \"max\": 0.5, \"type\": \"float\"}\n    pipeline_weight = 0.2928266904974575  # OPT_PARAM: {\"initial\": 0.2928266904974575, \"min\": 0.0, \"max\": 0.3, \"type\": \"float\"}\n    \n    demand_estimate = base_stock + demand_weight * last_demand\n    inventory_adjustment = inventory_weight * on_hand_inventory\n    pipeline_adjustment = pipeline_weight * sum(pipeline_orders)\n    order_amount = max(0.0, demand_estimate - inventory_adjustment - pipeline_adjustment)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base_stock to account for high demand variability, adjusted weights to better balance inventory holding and lost sales costs based on training performance.",
+          "opt_params": {
+               "base_stock": 76.68895975399715,
+               "demand_weight": 0.18425939848494696,
+               "inventory_weight": 0.39025042684815736,
+               "pipeline_weight": 0.2928266904974575
+          },
+          "cost": null,
+          "objective": 7973.27502,
+          "lower": 7086.64979,
+          "upper": 8944.37472,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base_stock and demand_weight to better match the high demand variability and autocorrelation, while reducing inventory and pipeline weights to avoid over-reacting to current inventory levels. This should reduce lost sales while keeping holding costs manageable.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_stock = 77.02442050640396  # OPT_PARAM: {\"initial\": 77.02442050640396, \"min\": 50.0, \"max\": 300.0, \"type\": \"float\"}\n    demand_weight = 0.16881134341036078  # OPT_PARAM: {\"initial\": 0.16881134341036078, \"min\": 0.1, \"max\": 1.0, \"type\": \"float\"}\n    inventory_weight = 0.33527452781158906  # OPT_PARAM: {\"initial\": 0.33527452781158906, \"min\": 0.1, \"max\": 0.5, \"type\": \"float\"}\n    pipeline_weight = 0.29563678604318266  # OPT_PARAM: {\"initial\": 0.29563678604318266, \"min\": 0.0, \"max\": 0.3, \"type\": \"float\"}\n    \n    demand_estimate = base_stock + demand_weight * last_demand\n    inventory_adjustment = inventory_weight * on_hand_inventory\n    pipeline_adjustment = pipeline_weight * sum(pipeline_orders)\n    order_amount = max(0.0, demand_estimate - inventory_adjustment - pipeline_adjustment)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base_stock and demand_weight to better match the high demand variability and autocorrelation, while reducing inventory and pipeline weights to avoid over-reacting to current inventory levels. This should reduce lost sales while keeping holding costs manageable.",
+          "opt_params": {
+               "base_stock": 77.02442050640396,
+               "demand_weight": 0.16881134341036078,
+               "inventory_weight": 0.33527452781158906,
+               "pipeline_weight": 0.29563678604318266
+          },
+          "cost": null,
+          "objective": 7976.01158,
+          "lower": 7109.50272,
+          "upper": 8954.5226,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base_stock and demand_weight to better account for high demand variability, while reducing pipeline_weight since the demand correlation suggests focusing more on recent demand. Adjusted inventory_weight to balance holding and lost-sales costs.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_stock = 78.24895485365258  # OPT_PARAM: {\"initial\": 78.24895485365258, \"min\": 50.0, \"max\": 300.0, \"type\": \"float\"}\n    demand_weight = 0.16699395429148634  # OPT_PARAM: {\"initial\": 0.16699395429148634, \"min\": 0.1, \"max\": 1.0, \"type\": \"float\"}\n    inventory_weight = 0.33148982129032745  # OPT_PARAM: {\"initial\": 0.33148982129032745, \"min\": 0.1, \"max\": 0.5, \"type\": \"float\"}\n    pipeline_weight = 0.3  # OPT_PARAM: {\"initial\": 0.3, \"min\": 0.0, \"max\": 0.3, \"type\": \"float\"}\n    \n    demand_estimate = base_stock + demand_weight * last_demand\n    inventory_adjustment = inventory_weight * on_hand_inventory\n    pipeline_adjustment = pipeline_weight * sum(pipeline_orders)\n    order_amount = max(0.0, demand_estimate - inventory_adjustment - pipeline_adjustment)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base_stock and demand_weight to better account for high demand variability, while reducing pipeline_weight since the demand correlation suggests focusing more on recent demand. Adjusted inventory_weight to balance holding and lost-sales costs.",
+          "opt_params": {
+               "base_stock": 78.24895485365258,
+               "demand_weight": 0.16699395429148634,
+               "inventory_weight": 0.33148982129032745,
+               "pipeline_weight": 0.3
+          },
+          "cost": null,
+          "objective": 7979.64126,
+          "lower": 7113.82738,
+          "upper": 8957.55455,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base_stock and demand_weight to better match demand patterns, while reducing inventory_weight and pipeline_weight to avoid over-ordering. The changes aim to reduce lost sales while keeping holding costs in check.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_stock = 79.19976065071133  # OPT_PARAM: {\"initial\": 79.19976065071133, \"min\": 50.0, \"max\": 300.0, \"type\": \"float\"}\n    demand_weight = 0.1582218853022343  # OPT_PARAM: {\"initial\": 0.1582218853022343, \"min\": 0.1, \"max\": 1.0, \"type\": \"float\"}\n    inventory_weight = 0.4203981658119944  # OPT_PARAM: {\"initial\": 0.4203981658119944, \"min\": 0.1, \"max\": 0.5, \"type\": \"float\"}\n    pipeline_weight = 0.3  # OPT_PARAM: {\"initial\": 0.3, \"min\": 0.0, \"max\": 0.3, \"type\": \"float\"}\n    \n    demand_estimate = base_stock + demand_weight * last_demand\n    inventory_adjustment = inventory_weight * on_hand_inventory\n    pipeline_adjustment = pipeline_weight * sum(pipeline_orders)\n    order_amount = max(0.0, demand_estimate - inventory_adjustment - pipeline_adjustment)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base_stock and demand_weight to better match demand patterns, while reducing inventory_weight and pipeline_weight to avoid over-ordering. The changes aim to reduce lost sales while keeping holding costs in check.",
+          "opt_params": {
+               "base_stock": 79.19976065071133,
+               "demand_weight": 0.1582218853022343,
+               "inventory_weight": 0.4203981658119944,
+               "pipeline_weight": 0.3
+          },
+          "cost": null,
+          "objective": 7986.02152,
+          "lower": 7094.49449,
+          "upper": 8970.49803,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base stock and demand weight to better handle high demand spikes while reducing inventory and pipeline weights to avoid overreacting to current stock levels, given the high cost of lost sales compared to holding. The policy now more aggressively tracks recent demand patterns while maintaining buffer stock.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_stock = 50.0  # OPT_PARAM: {\"initial\": 50.0, \"min\": 50.0, \"max\": 300.0, \"type\": \"float\"}\n    demand_weight = 0.1  # OPT_PARAM: {\"initial\": 0.1, \"min\": 0.1, \"max\": 1.0, \"type\": \"float\"}\n    inventory_weight = 0.3  # OPT_PARAM: {\"initial\": 0.3, \"min\": 0.0, \"max\": 0.3, \"type\": \"float\"}\n    pipeline_weight = 0.1  # OPT_PARAM: {\"initial\": 0.1, \"min\": 0.0, \"max\": 0.1, \"type\": \"float\"}\n    \n    demand_estimate = base_stock + demand_weight * last_demand\n    inventory_adjustment = inventory_weight * on_hand_inventory\n    pipeline_adjustment = pipeline_weight * sum(pipeline_orders)\n    order_amount = max(0.0, demand_estimate - inventory_adjustment - pipeline_adjustment)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base stock and demand weight to better handle high demand spikes while reducing inventory and pipeline weights to avoid overreacting to current stock levels, given the high cost of lost sales compared to holding. The policy now more aggressively tracks recent demand patterns while maintaining buffer stock.",
+          "opt_params": {
+               "base_stock": 50.0,
+               "demand_weight": 0.1,
+               "inventory_weight": 0.3,
+               "pipeline_weight": 0.1
+          },
+          "cost": null,
+          "objective": 7993.61208,
+          "lower": 7101.70307,
+          "upper": 8988.50771,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base_stock to better handle high demand variability, adjusted weights to balance holding and lost-sales costs based on training performance.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_stock = 80.0  # OPT_PARAM: {\"initial\": 80.0, \"min\": 80.0, \"max\": 200.0, \"type\": \"float\"}\n    demand_weight = 0.1  # OPT_PARAM: {\"initial\": 0.1, \"min\": 0.1, \"max\": 0.5, \"type\": \"float\"}\n    inventory_weight = 0.4249827240708237  # OPT_PARAM: {\"initial\": 0.4249827240708237, \"min\": 0.2, \"max\": 0.6, \"type\": \"float\"}\n    pipeline_weight = 0.2  # OPT_PARAM: {\"initial\": 0.2, \"min\": 0.0, \"max\": 0.2, \"type\": \"float\"}\n    \n    demand_estimate = base_stock + demand_weight * last_demand\n    inventory_adjustment = inventory_weight * on_hand_inventory\n    pipeline_adjustment = pipeline_weight * sum(pipeline_orders)\n    order_amount = max(0.0, demand_estimate - inventory_adjustment - pipeline_adjustment)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base_stock to better handle high demand variability, adjusted weights to balance holding and lost-sales costs based on training performance.",
+          "opt_params": {
+               "base_stock": 80.0,
+               "demand_weight": 0.1,
+               "inventory_weight": 0.4249827240708237,
+               "pipeline_weight": 0.2
+          },
+          "cost": null,
+          "objective": 8041.22319,
+          "lower": 7177.14482,
+          "upper": 9001.02664,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base_stock to better handle high-demand periods, adjusted weights to balance holding and lost-sales costs, and simplified the policy structure for more stable performance.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_stock = 128.8538965710486  # OPT_PARAM: {\"initial\": 128.8538965710486, \"min\": 50.0, \"max\": 300.0, \"type\": \"float\"}\n    demand_weight = 0.1  # OPT_PARAM: {\"initial\": 0.1, \"min\": 0.1, \"max\": 1.0, \"type\": \"float\"}\n    inventory_weight = 0.5084218312865094  # OPT_PARAM: {\"initial\": 0.5084218312865094, \"min\": 0.1, \"max\": 1.0, \"type\": \"float\"}\n    pipeline_weight = 0.5  # OPT_PARAM: {\"initial\": 0.5, \"min\": 0.0, \"max\": 0.5, \"type\": \"float\"}\n    \n    demand_estimate = base_stock + demand_weight * last_demand\n    inventory_adjustment = inventory_weight * on_hand_inventory\n    pipeline_adjustment = pipeline_weight * sum(pipeline_orders)\n    order_amount = max(0.0, demand_estimate - inventory_adjustment - pipeline_adjustment)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base_stock to better handle high-demand periods, adjusted weights to balance holding and lost-sales costs, and simplified the policy structure for more stable performance.",
+          "opt_params": {
+               "base_stock": 128.8538965710486,
+               "demand_weight": 0.1,
+               "inventory_weight": 0.5084218312865094,
+               "pipeline_weight": 0.5
+          },
+          "cost": null,
+          "objective": 8053.26446,
+          "lower": 7189.34182,
+          "upper": 9052.3287,
+          "other_inf": null
+     },
+     {
+          "algorithm": "The new policy adapts the order amount based on last demand, current inventory, and pipeline orders with tunable sensitivity parameters. This allows more dynamic response to demand fluctuations while maintaining stability. The base stock level has been reduced since the original target was too high, causing excess holding costs.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_stock = 137.66345993954602  # OPT_PARAM: {\"initial\": 137.66345993954602, \"min\": 50.0, \"max\": 500.0, \"type\": \"float\"}\n    demand_sensitivity = 0.1  # OPT_PARAM: {\"initial\": 0.1, \"min\": 0.1, \"max\": 1.5, \"type\": \"float\"}\n    inventory_sensitivity = 0.569866058744173  # OPT_PARAM: {\"initial\": 0.569866058744173, \"min\": 0.1, \"max\": 1.0, \"type\": \"float\"}\n    pipeline_sensitivity = 0.5  # OPT_PARAM: {\"initial\": 0.5, \"min\": 0.0, \"max\": 0.5, \"type\": \"float\"}\n    \n    adjusted_target = base_stock + demand_sensitivity * last_demand\n    net_inventory = on_hand_inventory + sum(pipeline_orders)\n    order_amount = max(0.0, adjusted_target - inventory_sensitivity * on_hand_inventory - pipeline_sensitivity * sum(pipeline_orders))\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "The new policy adapts the order amount based on last demand, current inventory, and pipeline orders with tunable sensitivity parameters. This allows more dynamic response to demand fluctuations while maintaining stability. The base stock level has been reduced since the original target was too high, causing excess holding costs.",
+          "opt_params": {
+               "base_stock": 137.66345993954602,
+               "demand_sensitivity": 0.1,
+               "inventory_sensitivity": 0.569866058744173,
+               "pipeline_sensitivity": 0.5
+          },
+          "cost": null,
+          "objective": 8060.90665,
+          "lower": 7212.1657,
+          "upper": 9037.31503,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base_stock and demand_weight to better handle high demand periods while reducing pipeline_weight. Adjusted inventory_weight to balance holding and lost-sales costs. The changes aim to reduce lost sales which were dominating the previous cost structure.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_stock = 80.0  # OPT_PARAM: {\"initial\": 80.0, \"min\": 80.0, \"max\": 200.0, \"type\": \"float\"}\n    demand_weight = 0.2  # OPT_PARAM: {\"initial\": 0.2, \"min\": 0.2, \"max\": 0.8, \"type\": \"float\"}\n    inventory_weight = 0.4  # OPT_PARAM: {\"initial\": 0.4, \"min\": 0.1, \"max\": 0.4, \"type\": \"float\"}\n    pipeline_weight = 0.2  # OPT_PARAM: {\"initial\": 0.2, \"min\": 0.0, \"max\": 0.2, \"type\": \"float\"}\n    \n    demand_estimate = base_stock + demand_weight * last_demand\n    inventory_adjustment = inventory_weight * on_hand_inventory\n    pipeline_adjustment = pipeline_weight * sum(pipeline_orders)\n    order_amount = max(0.0, demand_estimate - inventory_adjustment - pipeline_adjustment)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base_stock and demand_weight to better handle high demand periods while reducing pipeline_weight. Adjusted inventory_weight to balance holding and lost-sales costs. The changes aim to reduce lost sales which were dominating the previous cost structure.",
+          "opt_params": {
+               "base_stock": 80.0,
+               "demand_weight": 0.2,
+               "inventory_weight": 0.4,
+               "pipeline_weight": 0.2
+          },
+          "cost": null,
+          "objective": 8084.71056,
+          "lower": 7255.66464,
+          "upper": 8981.26275,
+          "other_inf": null
+     }
+]

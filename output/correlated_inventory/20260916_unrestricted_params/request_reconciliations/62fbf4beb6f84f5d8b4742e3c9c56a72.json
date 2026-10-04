@@ -1,0 +1,43 @@
+{
+  "recorded_utc": "2026-09-16T13:38:55.962887+00:00",
+  "chain": "training/exp_ar_neg06_fixed6/self_evolve_h200_r1",
+  "metadata": {
+    "scenario_id": "exp_ar_neg06_fixed6",
+    "repeat": 1,
+    "chain_dir": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_unrestricted_params/training/exp_ar_neg06_fixed6/self_evolve_h200_r1",
+    "generation": 1,
+    "operator": "m2",
+    "candidate_index": 9,
+    "parent_code_sha256": "84225bd736447bc8ada987d3367c8d0cea87be272773f77c9353eaaa18f99669",
+    "candidate_attempt": 1,
+    "prompt_sha256": "94c5631efe880b57a21b6e69e0e22cbfef06b4f3c87d00beac679dd7f39a2509"
+  },
+  "request_id": "62fbf4beb6f84f5d8b4742e3c9c56a72",
+  "resolution": "retain_upper_bound_skip_candidate",
+  "no_repost": true,
+  "evidence": {
+    "training/exp_ar_neg06_fixed6/self_evolve_h200_r1/blocked_transport.json": {
+      "sha256": "879adc6ad415514e5796bb0ba87a48c7a1c0173285d1a881fa8c8dbaee405f8b",
+      "archived_path": "training/exp_ar_neg06_fixed6/self_evolve_h200_r1/recoveries/62fbf4beb6f84f5d8b4742e3c9c56a72/blocked_transport.original.json"
+    },
+    "training/exp_ar_neg06_fixed6/self_evolve_h200_r1/model_responses/61c684721080de934c0d7d0c1d47f9f7036ec05b1ce8c82daa1eea93ef6233cd.json": {
+      "sha256": "16772bcb4ea4d9305f279be4b19b580c457df31fab899380ce0f8982fb30ae14",
+      "archived_path": "training/exp_ar_neg06_fixed6/self_evolve_h200_r1/recoveries/62fbf4beb6f84f5d8b4742e3c9c56a72/pending_model_response.original.json"
+    },
+    "training/exp_ar_neg06_fixed6/self_evolve_h200_r1/status.json": {
+      "sha256": "6a7549be86e576b50a43ade9c27d1d74f6a839e50a5ae6655f4e987441515001",
+      "archived_path": "training/exp_ar_neg06_fixed6/self_evolve_h200_r1/recoveries/62fbf4beb6f84f5d8b4742e3c9c56a72/status.original.json"
+    },
+    "api_requests/62fbf4beb6f84f5d8b4742e3c9c56a72/request.json": {
+      "sha256": "6b54cca63b34429a0ae4f7d1e6d7695ff25f3575f1a454db08b0ba6b10a1c590",
+      "archived_path": "training/exp_ar_neg06_fixed6/self_evolve_h200_r1/recoveries/62fbf4beb6f84f5d8b4742e3c9c56a72/provider_request.original.json"
+    }
+  },
+  "unknown_cost_upper_usd": 0.008472700000000001,
+  "user_resume_authorized": true,
+  "error_type": "TimeoutError",
+  "no_response_available": true,
+  "no_replacement_candidate": true,
+  "failed_candidate_path": "training/exp_ar_neg06_fixed6/self_evolve_h200_r1/candidates/g001_m2_009.json.gz",
+  "failed_candidate_sha256": "6746b8b3294dd45d05782852d89de6b89caebd0836ee1d6781e160b593b14ba6"
+}

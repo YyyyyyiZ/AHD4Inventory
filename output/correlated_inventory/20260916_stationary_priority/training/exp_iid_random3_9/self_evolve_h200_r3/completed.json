@@ -1,0 +1,23 @@
+{
+  "status": "completed",
+  "best_code_path": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_stationary_priority/training/exp_iid_random3_9/self_evolve_h200_r3/policy.py",
+  "code_sha256": "5201ae627f86e5dbe6503af5b5b559837299324760b5eea0cfbcb8dc4c6f658e",
+  "best_train_cost": 29588.131767701794,
+  "algorithm": "Increased base_stock and safety_stock to better handle demand spikes, while increasing demand_response to be more reactive to recent demand. These changes aim to balance holding and lost-sales costs based on the training performance showing high lost-sales costs.",
+  "checkpoint_path": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_stationary_priority/training/exp_iid_random3_9/self_evolve_h200_r3/checkpoints/g010.json.gz",
+  "model_calls": 100,
+  "training_evaluations": 11123,
+  "training_cache_hits": 564,
+  "compiled_structures": 36,
+  "optimizer": "SciPy L-BFGS-B",
+  "optimizer_maxiter": 15,
+  "test_evaluated": false,
+  "scenario_id": "exp_iid_random3_9",
+  "policy_id": "self_evolve_h200_r3",
+  "family": "self_evolve",
+  "repeat": 3,
+  "source_training_horizon": 200,
+  "elapsed_seconds": 1246.1660071669612,
+  "finished_utc": "2026-09-16T06:19:09.406422+00:00",
+  "full_protocol": true
+}

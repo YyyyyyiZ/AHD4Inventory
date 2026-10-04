@@ -1,0 +1,182 @@
+[
+     {
+          "algorithm": "Increased base stock level and adjusted regime sensitivity for better high-demand handling. Strengthened demand response and lead time weighting while maintaining smooth adjustments. The policy now reacts more aggressively to observed high demand periods while maintaining stability during low demand.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_stock = 312.21467830087937  # OPT_PARAM: {\"initial\": 312.21467830087937, \"min\": 300.0, \"max\": 500.0, \"type\": \"float\"}\n    demand_response = 0.8  # OPT_PARAM: {\"initial\": 0.8, \"min\": 0.8, \"max\": 1.2, \"type\": \"float\"}\n    lead_time_weight = 14.388947217947239  # OPT_PARAM: {\"initial\": 14.388947217947239, \"min\": 5.0, \"max\": 15.0, \"type\": \"float\"}\n    adjustment_factor = 0.1  # OPT_PARAM: {\"initial\": 0.1, \"min\": 0.1, \"max\": 0.3, \"type\": \"float\"}\n    \n    # More sensitive demand regime detection\n    is_high_demand = last_demand >= 100.0 * np.log(2)\n    \n    # Dynamic base stock adjustment\n    adjusted_base = base_stock * (2.5 if is_high_demand else 1.0)\n    \n    # Target inventory calculation with stronger lead time response\n    target = adjusted_base + demand_response * last_demand + lead_time_weight * (quoted_lead_time - 6)\n    \n    # Current pipeline inventory\n    current_pipeline = on_hand_inventory + sum(pipeline_orders)\n    \n    # Order amount calculation\n    order_amount = max(0.0, (target - current_pipeline) * adjustment_factor)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base stock level and adjusted regime sensitivity for better high-demand handling. Strengthened demand response and lead time weighting while maintaining smooth adjustments. The policy now reacts more aggressively to observed high demand periods while maintaining stability during low demand.",
+          "opt_params": {
+               "base_stock": 312.21467830087937,
+               "demand_response": 0.8,
+               "lead_time_weight": 14.388947217947239,
+               "adjustment_factor": 0.1
+          },
+          "cost": null,
+          "objective": 30312.59953,
+          "lower": 28732.39633,
+          "upper": 32038.76368,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Key changes: 1) Increased base_stock to handle higher demand spikes better, 2) Adjusted demand_response closer to 1.0 to more closely track demand, 3) Reduced lead_time_adjustment since it was previously overcompensating, 4) Increased smoothing_factor for faster response to inventory gaps. The regime detection now uses a more aggressive 2x multiplier for high demand periods.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_stock = 350.0  # OPT_PARAM: {\"initial\": 350.0, \"min\": 350.0, \"max\": 500.0, \"type\": \"float\"}\n    demand_response = 0.8  # OPT_PARAM: {\"initial\": 0.8, \"min\": 0.8, \"max\": 1.1, \"type\": \"float\"}\n    lead_time_adjustment = 8.931522362227094  # OPT_PARAM: {\"initial\": 8.931522362227094, \"min\": 5.0, \"max\": 15.0, \"type\": \"float\"}\n    smoothing_factor = 0.1  # OPT_PARAM: {\"initial\": 0.1, \"min\": 0.1, \"max\": 0.3, \"type\": \"float\"}\n    \n    # Demand regime detection\n    is_high_demand = last_demand >= 100.0 * np.log(2)\n    \n    # Adjust base stock based on demand regime (more aggressive adjustment)\n    adjusted_base = base_stock * (2.0 if is_high_demand else 1.0)\n    \n    # Calculate target inventory with stronger demand response\n    target = adjusted_base + demand_response * last_demand + lead_time_adjustment * (quoted_lead_time - 6)\n    \n    # Current pipeline inventory\n    current_pipeline = on_hand_inventory + sum(pipeline_orders)\n    \n    # More responsive smoothing\n    order_amount = max(0.0, (target - current_pipeline) * smoothing_factor)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Key changes: 1) Increased base_stock to handle higher demand spikes better, 2) Adjusted demand_response closer to 1.0 to more closely track demand, 3) Reduced lead_time_adjustment since it was previously overcompensating, 4) Increased smoothing_factor for faster response to inventory gaps. The regime detection now uses a more aggressive 2x multiplier for high demand periods.",
+          "opt_params": {
+               "base_stock": 350.0,
+               "demand_response": 0.8,
+               "lead_time_adjustment": 8.931522362227094,
+               "smoothing_factor": 0.1
+          },
+          "cost": null,
+          "objective": 30367.66625,
+          "lower": 28736.45433,
+          "upper": 32077.68718,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base_stock and demand_response to better handle high demand periods, adjusted lead_time_adjustment to better account for lead time variability, and increased smoothing_factor for more responsive ordering. Reduced the high-demand multiplier from 2.0 to 1.8 to prevent over-ordering during high demand periods.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_stock = 300.0  # OPT_PARAM: {\"initial\": 300.0, \"min\": 300.0, \"max\": 500.0, \"type\": \"float\"}\n    demand_response = 0.8  # OPT_PARAM: {\"initial\": 0.8, \"min\": 0.8, \"max\": 1.2, \"type\": \"float\"}\n    lead_time_adjustment = 8.0  # OPT_PARAM: {\"initial\": 8.0, \"min\": 8.0, \"max\": 12.0, \"type\": \"float\"}\n    smoothing_factor = 0.15  # OPT_PARAM: {\"initial\": 0.15, \"min\": 0.15, \"max\": 0.25, \"type\": \"float\"}\n    \n    is_high_demand = last_demand >= 100.0 * np.log(2)\n    adjusted_base = base_stock * (1.8 if is_high_demand else 1.0)\n    target = adjusted_base + demand_response * last_demand + lead_time_adjustment * (quoted_lead_time - 6)\n    current_pipeline = on_hand_inventory + sum(pipeline_orders)\n    order_amount = max(0.0, (target - current_pipeline) * smoothing_factor)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base_stock and demand_response to better handle high demand periods, adjusted lead_time_adjustment to better account for lead time variability, and increased smoothing_factor for more responsive ordering. Reduced the high-demand multiplier from 2.0 to 1.8 to prevent over-ordering during high demand periods.",
+          "opt_params": {
+               "base_stock": 300.0,
+               "demand_response": 0.8,
+               "lead_time_adjustment": 8.0,
+               "smoothing_factor": 0.15
+          },
+          "cost": null,
+          "objective": 30373.61874,
+          "lower": 28785.70313,
+          "upper": 32048.76935,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base_stock and demand_response to better handle high demand periods, adjusted lead_time_adjustment to better account for lead time variability, and increased smoothing_factor for more responsive ordering. Reduced the high-demand multiplier from 2.0 to 1.8 to prevent over-ordering.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_stock = 300.0  # OPT_PARAM: {\"initial\": 300.0, \"min\": 300.0, \"max\": 500.0, \"type\": \"float\"}\n    demand_response = 0.9  # OPT_PARAM: {\"initial\": 0.9, \"min\": 0.9, \"max\": 1.2, \"type\": \"float\"}\n    lead_time_adjustment = 8.0  # OPT_PARAM: {\"initial\": 8.0, \"min\": 8.0, \"max\": 12.0, \"type\": \"float\"}\n    smoothing_factor = 0.15  # OPT_PARAM: {\"initial\": 0.15, \"min\": 0.15, \"max\": 0.25, \"type\": \"float\"}\n    \n    is_high_demand = last_demand >= 100.0 * np.log(2)\n    adjusted_base = base_stock * (1.8 if is_high_demand else 1.0)\n    target = adjusted_base + demand_response * last_demand + lead_time_adjustment * (quoted_lead_time - 6)\n    current_pipeline = on_hand_inventory + sum(pipeline_orders)\n    order_amount = max(0.0, (target - current_pipeline) * smoothing_factor)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base_stock and demand_response to better handle high demand periods, adjusted lead_time_adjustment to better account for lead time variability, and increased smoothing_factor for more responsive ordering. Reduced the high-demand multiplier from 2.0 to 1.8 to prevent over-ordering.",
+          "opt_params": {
+               "base_stock": 300.0,
+               "demand_response": 0.9,
+               "lead_time_adjustment": 8.0,
+               "smoothing_factor": 0.15
+          },
+          "cost": null,
+          "objective": 30410.26568,
+          "lower": 28859.9966,
+          "upper": 32068.14826,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base stock and demand response to better handle high demand periods, adjusted regime multiplier to 1.8, and fine-tuned lead time adjustment and smoothing for better balance between responsiveness and stability.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_stock = 334.67662200503514  # OPT_PARAM: {\"initial\": 334.67662200503514, \"min\": 300.0, \"max\": 500.0, \"type\": \"float\"}\n    demand_response = 1.2  # OPT_PARAM: {\"initial\": 1.2, \"min\": 0.9, \"max\": 1.2, \"type\": \"float\"}\n    lead_time_adjustment = 9.233393901756468  # OPT_PARAM: {\"initial\": 9.233393901756468, \"min\": 8.0, \"max\": 13.0, \"type\": \"float\"}\n    smoothing_factor = 0.1  # OPT_PARAM: {\"initial\": 0.1, \"min\": 0.1, \"max\": 0.2, \"type\": \"float\"}\n    \n    is_high_demand = last_demand >= 100.0 * np.log(2)\n    adjusted_base = base_stock * (1.8 if is_high_demand else 1.0)\n    target = adjusted_base + demand_response * last_demand + lead_time_adjustment * (quoted_lead_time - 6)\n    current_pipeline = on_hand_inventory + sum(pipeline_orders)\n    order_amount = max(0.0, (target - current_pipeline) * smoothing_factor)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base stock and demand response to better handle high demand periods, adjusted regime multiplier to 1.8, and fine-tuned lead time adjustment and smoothing for better balance between responsiveness and stability.",
+          "opt_params": {
+               "base_stock": 334.67662200503514,
+               "demand_response": 1.2,
+               "lead_time_adjustment": 9.233393901756468,
+               "smoothing_factor": 0.1
+          },
+          "cost": null,
+          "objective": 30477.95053,
+          "lower": 28829.53068,
+          "upper": 32218.37708,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base_stock and demand_response to better handle high demand spikes. Reduced regime multiplier to 1.8 for more balanced response. Fine-tuned lead_time_adjustment and smoothing_factor for better cost balance. Kept same policy structure but optimized parameters based on training performance showing high lost-sales costs.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_stock = 350.0  # OPT_PARAM: {\"initial\": 350.0, \"min\": 350.0, \"max\": 500.0, \"type\": \"float\"}\n    demand_response = 0.9823595167718162  # OPT_PARAM: {\"initial\": 0.9823595167718162, \"min\": 0.8, \"max\": 1.2, \"type\": \"float\"}\n    lead_time_adjustment = 10.975746128915619  # OPT_PARAM: {\"initial\": 10.975746128915619, \"min\": 8.0, \"max\": 12.0, \"type\": \"float\"}\n    smoothing_factor = 0.1  # OPT_PARAM: {\"initial\": 0.1, \"min\": 0.1, \"max\": 0.2, \"type\": \"float\"}\n    \n    # Demand regime detection\n    is_high_demand = last_demand >= 100.0 * np.log(2)\n    \n    # Adjust base stock based on demand regime\n    adjusted_base = base_stock * (1.8 if is_high_demand else 1.0)\n    \n    # Calculate target inventory\n    target = adjusted_base + demand_response * last_demand + lead_time_adjustment * (quoted_lead_time - 6)\n    \n    # Current pipeline inventory\n    current_pipeline = on_hand_inventory + sum(pipeline_orders)\n    \n    # Smoothing adjustment\n    order_amount = max(0.0, (target - current_pipeline) * smoothing_factor)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base_stock and demand_response to better handle high demand spikes. Reduced regime multiplier to 1.8 for more balanced response. Fine-tuned lead_time_adjustment and smoothing_factor for better cost balance. Kept same policy structure but optimized parameters based on training performance showing high lost-sales costs.",
+          "opt_params": {
+               "base_stock": 350.0,
+               "demand_response": 0.9823595167718162,
+               "lead_time_adjustment": 10.975746128915619,
+               "smoothing_factor": 0.1
+          },
+          "cost": null,
+          "objective": 30485.07214,
+          "lower": 28817.44768,
+          "upper": 32222.5827,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base_stock to handle higher demand variability, boosted demand_response to react more strongly to recent demand, increased lead_time_adjustment for better lead-time compensation, and adjusted smoothing_factor for more responsive ordering. Reduced the high-demand multiplier to 1.8 to balance inventory costs.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_stock = 355.7006329859602  # OPT_PARAM: {\"initial\": 355.7006329859602, \"min\": 300.0, \"max\": 500.0, \"type\": \"float\"}\n    demand_response = 0.9010778233499545  # OPT_PARAM: {\"initial\": 0.9010778233499545, \"min\": 0.8, \"max\": 1.5, \"type\": \"float\"}\n    lead_time_adjustment = 14.255234296685716  # OPT_PARAM: {\"initial\": 14.255234296685716, \"min\": 10.0, \"max\": 15.0, \"type\": \"float\"}\n    smoothing_factor = 0.1  # OPT_PARAM: {\"initial\": 0.1, \"min\": 0.1, \"max\": 0.3, \"type\": \"float\"}\n    \n    is_high_demand = last_demand >= 100.0 * np.log(2)\n    adjusted_base = base_stock * (1.8 if is_high_demand else 1.0)\n    target = adjusted_base + demand_response * last_demand + lead_time_adjustment * (quoted_lead_time - 6)\n    current_pipeline = on_hand_inventory + sum(pipeline_orders)\n    order_amount = max(0.0, (target - current_pipeline) * smoothing_factor)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base_stock to handle higher demand variability, boosted demand_response to react more strongly to recent demand, increased lead_time_adjustment for better lead-time compensation, and adjusted smoothing_factor for more responsive ordering. Reduced the high-demand multiplier to 1.8 to balance inventory costs.",
+          "opt_params": {
+               "base_stock": 355.7006329859602,
+               "demand_response": 0.9010778233499545,
+               "lead_time_adjustment": 14.255234296685716,
+               "smoothing_factor": 0.1
+          },
+          "cost": null,
+          "objective": 30493.57282,
+          "lower": 28816.63923,
+          "upper": 32233.38165,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base_stock and demand_response to better handle high demand spikes, adjusted lead_time_adjustment for more balanced response to lead time changes, and increased smoothing_factor for more stable inventory adjustments.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_stock = 358.5524297953516  # OPT_PARAM: {\"initial\": 358.5524297953516, \"min\": 250.0, \"max\": 450.0, \"type\": \"float\"}\n    demand_response = 0.8714297947158217  # OPT_PARAM: {\"initial\": 0.8714297947158217, \"min\": 0.5, \"max\": 1.2, \"type\": \"float\"}\n    lead_time_adjustment = 13.150668263100256  # OPT_PARAM: {\"initial\": 13.150668263100256, \"min\": 5.0, \"max\": 25.0, \"type\": \"float\"}\n    smoothing_factor = 0.1  # OPT_PARAM: {\"initial\": 0.1, \"min\": 0.1, \"max\": 0.4, \"type\": \"float\"}\n    \n    # Demand regime detection\n    is_high_demand = last_demand >= 100.0 * np.log(2)\n    \n    # Adjust base stock based on demand regime\n    adjusted_base = base_stock * (1.8 if is_high_demand else 1.0)\n    \n    # Calculate target inventory\n    target = adjusted_base + demand_response * last_demand + lead_time_adjustment * (quoted_lead_time - 6)\n    \n    # Smooth adjustment to target\n    current_pipeline = on_hand_inventory + sum(pipeline_orders)\n    smoothed_target = smoothing_factor * target + (1 - smoothing_factor) * current_pipeline\n    \n    # Calculate order amount\n    order_amount = max(0.0, smoothed_target - current_pipeline)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base_stock and demand_response to better handle high demand spikes, adjusted lead_time_adjustment for more balanced response to lead time changes, and increased smoothing_factor for more stable inventory adjustments.",
+          "opt_params": {
+               "base_stock": 358.5524297953516,
+               "demand_response": 0.8714297947158217,
+               "lead_time_adjustment": 13.150668263100256,
+               "smoothing_factor": 0.1
+          },
+          "cost": null,
+          "objective": 30495.46059,
+          "lower": 28818.44944,
+          "upper": 32231.17168,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Reduced base_stock and lead_time_adjustment to lower holding costs, increased demand_response to better match demand spikes, adjusted smoothing_factor for more responsive inventory control, and reduced the high-demand multiplier to balance stock levels. These changes aim to better handle the demand regime shifts while reducing overall costs.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_stock = 302.33358508406036  # OPT_PARAM: {\"initial\": 302.33358508406036, \"min\": 200.0, \"max\": 400.0, \"type\": \"float\"}\n    demand_response = 0.8717852115752692  # OPT_PARAM: {\"initial\": 0.8717852115752692, \"min\": 0.8, \"max\": 1.3, \"type\": \"float\"}\n    lead_time_adjustment = 12.906668154868312  # OPT_PARAM: {\"initial\": 12.906668154868312, \"min\": 5.0, \"max\": 15.0, \"type\": \"float\"}\n    smoothing_factor = 0.14981593219277783  # OPT_PARAM: {\"initial\": 0.14981593219277783, \"min\": 0.1, \"max\": 0.3, \"type\": \"float\"}\n    \n    # Demand regime detection\n    is_high_demand = last_demand >= 100.0 * np.log(2)\n    \n    # Adjust base stock based on demand regime\n    adjusted_base = base_stock * (1.6 if is_high_demand else 1.0)\n    \n    # Calculate target inventory\n    target = adjusted_base + demand_response * last_demand + lead_time_adjustment * (quoted_lead_time - 6)\n    \n    # Smooth adjustment to target\n    current_pipeline = on_hand_inventory + sum(pipeline_orders)\n    smoothed_target = smoothing_factor * target + (1 - smoothing_factor) * current_pipeline\n    \n    # Calculate order amount\n    order_amount = max(0.0, smoothed_target - current_pipeline)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Reduced base_stock and lead_time_adjustment to lower holding costs, increased demand_response to better match demand spikes, adjusted smoothing_factor for more responsive inventory control, and reduced the high-demand multiplier to balance stock levels. These changes aim to better handle the demand regime shifts while reducing overall costs.",
+          "opt_params": {
+               "base_stock": 302.33358508406036,
+               "demand_response": 0.8717852115752692,
+               "lead_time_adjustment": 12.906668154868312,
+               "smoothing_factor": 0.14981593219277783
+          },
+          "cost": null,
+          "objective": 30526.93079,
+          "lower": 28880.39743,
+          "upper": 32242.26699,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Reduced base_stock and lead_time_adjustment to lower holding costs, adjusted demand multiplier to balance lost sales, and increased smoothing_factor for more stable responses.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_stock = 308.5441540320833  # OPT_PARAM: {\"initial\": 308.5441540320833, \"min\": 200.0, \"max\": 400.0, \"type\": \"float\"}\n    demand_response = 0.8020301111738979  # OPT_PARAM: {\"initial\": 0.8020301111738979, \"min\": 0.7, \"max\": 1.1, \"type\": \"float\"}\n    lead_time_adjustment = 13.487204257342274  # OPT_PARAM: {\"initial\": 13.487204257342274, \"min\": 5.0, \"max\": 20.0, \"type\": \"float\"}\n    smoothing_factor = 0.14494378672821528  # OPT_PARAM: {\"initial\": 0.14494378672821528, \"min\": 0.1, \"max\": 0.3, \"type\": \"float\"}\n    \n    # Demand regime detection\n    is_high_demand = last_demand >= 100.0 * np.log(2)\n    \n    # Adjust base stock based on demand regime\n    adjusted_base = base_stock * (1.6 if is_high_demand else 1.0)\n    \n    # Calculate target inventory\n    target = adjusted_base + demand_response * last_demand + lead_time_adjustment * (quoted_lead_time - 6)\n    \n    # Smooth adjustment to target\n    current_pipeline = on_hand_inventory + sum(pipeline_orders)\n    smoothed_target = smoothing_factor * target + (1 - smoothing_factor) * current_pipeline\n    \n    # Calculate order amount\n    order_amount = max(0.0, smoothed_target - current_pipeline)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Reduced base_stock and lead_time_adjustment to lower holding costs, adjusted demand multiplier to balance lost sales, and increased smoothing_factor for more stable responses.",
+          "opt_params": {
+               "base_stock": 308.5441540320833,
+               "demand_response": 0.8020301111738979,
+               "lead_time_adjustment": 13.487204257342274,
+               "smoothing_factor": 0.14494378672821528
+          },
+          "cost": null,
+          "objective": 30537.42395,
+          "lower": 28872.82521,
+          "upper": 32260.81687,
+          "other_inf": null
+     }
+]

@@ -1,0 +1,145 @@
+================================================================================
+NONSTATIONARY POLICIES ANALYSIS BY EXPERIMENT FOLDER
+================================================================================
+Generated: 2025-11-16
+Total experiments analyzed: 430
+Experiments with nonstationary policies: 18 (4.2%)
+Total nonstationary policies: 134
+
+================================================================================
+KEY FINDINGS
+================================================================================
+1. Only 18 out of 430 experiments (4.2%) produced nonstationary policies
+2. Average 7.4 nonstationary policies per experiment (among those with any)
+3. 3 experiments achieved 100% nonstationary policies (all 10 generations)
+4. Nonstationary policies typically emerge in later generations (6-10)
+
+================================================================================
+EXPERIMENTS WITH NONSTATIONARY POLICIES (Ranked by Count)
+================================================================================
+
+1. deepseek-chat_normal_std30_L2_c1_2_80_50_50_plain_no_scipy_15_default_m2_r3
+   Total policies: 10 | Nonstationary: 10 (100.0%)
+   Generations: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
+   ALL policies use hidden state smoothing
+
+2. deepseek-chat_normal_std30_L4_c1_2_80_50_50_plain_no_scipy_15_default_m2_r4
+   Total policies: 10 | Nonstationary: 10 (100.0%)
+   Generations: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
+   ALL policies use hidden state smoothing
+
+3. deepseek-chat_normal_std30_L4_c1_2_80_50_50_plain_processed_scipy_15_default_m2_r2
+   Total policies: 10 | Nonstationary: 10 (100.0%)
+   Generations: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
+   ALL policies use hidden state smoothing
+
+4. deepseek-chat_normal_std30_L2_c1_2_80_50_50_plain_processed_scipy_15_default_m2_r25
+   Total policies: 10 | Nonstationary: 9 (90.0%)
+   Generations: 2, 3, 4, 5, 6, 7, 8, 9, 10
+   Missing: generation 1
+
+5. deepseek-chat_normal_std30_L2_c1_2_80_50_50_plain_processed_scipy_15_default_m2_r6
+   Total policies: 10 | Nonstationary: 9 (90.0%)
+   Generations: 2, 3, 4, 5, 6, 7, 8, 9, 10
+   Missing: generation 1
+
+6. deepseek-chat_normal_std30_L4_c1_5_80_50_50_plain_no_scipy_15_default_m2_r2
+   Total policies: 10 | Nonstationary: 9 (90.0%)
+   Generations: 2, 3, 4, 5, 6, 7, 8, 9, 10
+   Missing: generation 1
+
+7. deepseek-chat_leadtime2_0_80_50_50_plain_no_no_15_default_m3_r9
+   Total policies: 10 | Nonstationary: 8 (80.0%)
+   Generations: 3, 4, 5, 6, 7, 8, 9, 10
+   Missing: generations 1, 2
+
+8. deepseek-chat_normal0_80_50_50_plain_no_no_15_default_m3_r12
+   Total policies: 10 | Nonstationary: 8 (80.0%)
+   Generations: 3, 4, 5, 6, 7, 8, 9, 10
+   Missing: generations 1, 2
+
+9. deepseek-chat_normal_std30_L2_c1_2_80_50_50_plain_no_scipy_15_default_m2_r1
+   Total policies: 10 | Nonstationary: 8 (80.0%)
+   Generations: 3, 4, 5, 6, 7, 8, 9, 10
+   Missing: generations 1, 2
+
+10. deepseek-chat_normal_std30_L2_c1_2_80_50_50_plain_no_scipy_15_default_m2_r8
+    Total policies: 10 | Nonstationary: 8 (80.0%)
+    Generations: 3, 4, 5, 6, 7, 8, 9, 10
+    Missing: generations 1, 2
+
+11. deepseek-chat_normal_std30_L6_c1_2_80_50_50_plain_no_scipy_15_default_m2_r5
+    Total policies: 10 | Nonstationary: 8 (80.0%)
+    Generations: 3, 4, 5, 6, 7, 8, 9, 10
+    Missing: generations 1, 2
+
+12. deepseek-chat_normal0_80_50_50_plain_no_scipy_30_default_m3_r1
+    Total policies: 10 | Nonstationary: 7 (70.0%)
+    Generations: 4, 5, 6, 7, 8, 9, 10
+    Missing: generations 1, 2, 3
+
+13. deepseek-chat_normal0_80_50_50_plain_processed_no_15_default_m3_r4
+    Total policies: 10 | Nonstationary: 7 (70.0%)
+    Generations: 4, 5, 6, 7, 8, 9, 10
+    Missing: generations 1, 2, 3
+
+14. deepseek-chat_normal_std30_L4_c1_2_80_50_50_plain_processed_scipy_15_default_m2_r6
+    Total policies: 10 | Nonstationary: 7 (70.0%)
+    Generations: 4, 5, 6, 7, 8, 9, 10
+    Missing: generations 1, 2, 3
+
+15. deepseek-chat_normal_std30_L2_c1_2_80_50_50_plain_no_scipy_15_default_m2_r20
+    Total policies: 10 | Nonstationary: 6 (60.0%)
+    Generations: 5, 6, 7, 8, 9, 10
+    Missing: generations 1, 2, 3, 4
+
+16. deepseek-chat_normal_std30_L2_c1_5_80_50_50_plain_no_scipy_15_default_m2_r7
+    Total policies: 10 | Nonstationary: 5 (50.0%)
+    Generations: 6, 7, 8, 9, 10
+    Missing: generations 1, 2, 3, 4, 5
+
+17. deepseek-chat_normal0_80_50_50_plain_no_no_15_default_m3_r6
+    Total policies: 10 | Nonstationary: 4 (40.0%)
+    Generations: 7, 8, 9, 10
+    Missing: generations 1, 2, 3, 4, 5, 6
+
+18. deepseek-chat_normal_std30_L2_c1_5_80_50_50_plain_no_scipy_15_default_m2_r3
+    Total policies: 10 | Nonstationary: 1 (10.0%)
+    Generations: 10
+    Only final generation is nonstationary
+
+================================================================================
+DISTRIBUTION SUMMARY
+================================================================================
+10 nonstationary policies (100%): 3 experiments
+9 nonstationary policies (90%):  3 experiments
+8 nonstationary policies (80%):  5 experiments
+7 nonstationary policies (70%):  3 experiments
+6 nonstationary policies (60%):  1 experiment
+5 nonstationary policies (50%):  1 experiment
+4 nonstationary policies (40%):  1 experiment
+1 nonstationary policy (10%):    1 experiment
+
+================================================================================
+PATTERN OBSERVATIONS
+================================================================================
+1. Nonstationary policies typically emerge in LATER generations
+   - Most common starting point: Generation 3-4
+   - 3 experiments had it from generation 1
+
+2. Once emerged, nonstationarity tends to PERSIST
+   - If generation N is nonstationary, generation N+1 usually is too
+
+3. Common configuration patterns for nonstationary emergence:
+   - Lead time L=2 or L=4
+   - Cost ratios c1_2 or c1_5
+   - With scipy optimization (external_opt=scipy)
+   - Operator m2 or m3
+
+4. Mechanism used: Function attribute smoothing
+   - compute_order_amount.prev_order = order_amount
+   - Exponential smoothing: α * current + (1-α) * prev_order
+
+================================================================================
+END OF REPORT
+================================================================================

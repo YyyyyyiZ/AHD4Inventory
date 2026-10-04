@@ -1,0 +1,23 @@
+{
+  "status": "completed",
+  "best_code_path": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_stationary_priority/training/exp_ar_pos08_fixed6/self_evolve_h200_r2/policy.py",
+  "code_sha256": "f532720639dd828a4175b9b83fc9c60438484e3356b63ceaea9227dc80b2367c",
+  "best_train_cost": 33700.8170573161,
+  "algorithm": "The modified policy increases the base multiplier to better handle demand spikes, reduces smoothing to be more responsive to recent demand, raises the minimum buffer to prevent stockouts, and increases the response rate to adjust inventory faster. These changes should reduce lost sales while maintaining reasonable holding costs.",
+  "checkpoint_path": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_stationary_priority/training/exp_ar_pos08_fixed6/self_evolve_h200_r2/checkpoints/g010.json.gz",
+  "model_calls": 103,
+  "training_evaluations": 14673,
+  "training_cache_hits": 851,
+  "compiled_structures": 22,
+  "optimizer": "SciPy L-BFGS-B",
+  "optimizer_maxiter": 15,
+  "test_evaluated": false,
+  "scenario_id": "exp_ar_pos08_fixed6",
+  "policy_id": "self_evolve_h200_r2",
+  "family": "self_evolve",
+  "repeat": 2,
+  "source_training_horizon": 200,
+  "elapsed_seconds": 1243.4061446660198,
+  "finished_utc": "2026-09-16T05:27:56.339794+00:00",
+  "full_protocol": true
+}

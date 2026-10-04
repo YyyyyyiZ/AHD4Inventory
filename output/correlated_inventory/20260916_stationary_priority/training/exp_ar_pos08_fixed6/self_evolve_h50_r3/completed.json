@@ -1,0 +1,23 @@
+{
+  "status": "completed",
+  "best_code_path": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_stationary_priority/training/exp_ar_pos08_fixed6/self_evolve_h50_r3/policy.py",
+  "code_sha256": "c0a5d8d30cf71c94d890bec46330b18ef6f3e8d1c68847af8b6aae4e2c834362",
+  "best_train_cost": 7969.617523910748,
+  "algorithm": "Increased base_stock to better match demand mean, adjusted weights to balance holding and lost-sales costs based on training performance. The higher base_stock and demand_weight help prevent stockouts during high-demand periods, while reduced pipeline_weight focuses more on current inventory and recent demand.",
+  "checkpoint_path": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_stationary_priority/training/exp_ar_pos08_fixed6/self_evolve_h50_r3/checkpoints/g010.json.gz",
+  "model_calls": 100,
+  "training_evaluations": 284,
+  "training_cache_hits": 10,
+  "compiled_structures": 7,
+  "optimizer": "SciPy L-BFGS-B",
+  "optimizer_maxiter": 15,
+  "test_evaluated": false,
+  "scenario_id": "exp_ar_pos08_fixed6",
+  "policy_id": "self_evolve_h50_r3",
+  "family": "self_evolve",
+  "repeat": 3,
+  "source_training_horizon": 50,
+  "elapsed_seconds": 232.1491669160314,
+  "finished_utc": "2026-09-16T07:18:33.054834+00:00",
+  "full_protocol": true
+}

@@ -1,0 +1,16 @@
+{
+  "wall_seconds": 1.7998696251306683,
+  "worker_seconds": 1.6194658749736845,
+  "peak_rss_bytes": 192266240,
+  "timeout_seconds": 120,
+  "trusted_source_sha256": "804d5b0b6780f8bd0266af9a6f07b3c81a810e3630ac6a2e28160c0e4f052cde",
+  "request_sha256": "51b6b4e05df40aef2006e04c9607a19830d232a9ca79e80b957c11dc5bd7bcad",
+  "stdout": "SCENARIO_START={\"name\": \"cache_smoke_m3\"}\nOPT_PROGRESS={\"nfev\": 1, \"best\": 295.0, \"elapsed_seconds\": 0.8040734159294516}\nSCENARIO_FINISHED={\"name\": \"cache_smoke_m3\", \"nfev\": 17, \"cost\": 292.5}\nCOMPARISON_RESULT={\"results\": {\"cache_smoke_m3\": {\"theta\": [11.0, 5.0, 1.2], \"cost\": 292.5, \"nfev\": 17, \"seconds\": 0.8084932907950133, \"population_size\": 16, \"starts\": [{\"kind\": \"literal\", \"theta\": [10.0, 6.0, 1.0], \"cost\": 295.0}, {\"kind\": \"warm\", \"theta\": [11.0, 5.0, 1.2], \"cost\": 292.5}], \"optimizer_revision\": \"unit_box_warm_de_v1\", \"path_costs\": [277.5, 307.5], \"metrics\": [0.75, 2.175, 3.3125], \"cap\": 17, \"demand_sha256\": \"e6f2e45dc7e732880f6ea6bb2d1e47e5b82d588aefd9d770689a86a32b9112fc\", \"demand_seed\": 19097003, \"cache_actions\": false, \"action_cache\": {\"hits\": 0, \"misses\": 0, \"peak_entries\": 0, \"evaluations\": 18}, \"transitions\": 1800}}, \"parameters\": {\"S\": {\"type\": \"float\", \"initial\": 10.0, \"min\": 0.0, \"max\": 60.0}, \"C\": {\"type\": \"float\", \"initial\": 6.0, \"min\": 0.0, \"max\": 30.0}, \"a\": {\"type\": \"float\", \"initial\": 1.0, \"min\": 0.0, \"max\": 3.0}}, \"code_sha256\": \"d350bef928d94907db5bce14b7fcb510908123459a9b23f2da39f940454f94be\", \"structure_sha256\": \"a1b0ebc321b761ae22824b3e92851628015388b4655bbab8275e5e5560198f5a\", \"import_normalization\": [], \"transitions\": 1800, \"execution_revision\": \"model_comparison_numeric_v1\"}\n",
+  "stderr": "",
+  "returncode": 0,
+  "elapsed_seconds": 1.6194658749736845,
+  "timed_out": false,
+  "memory_guard_exceeded": false,
+  "memory_limit_bytes": 1073741824,
+  "observed_peak_rss_bytes": 192266240
+}

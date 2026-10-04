@@ -1,0 +1,751 @@
+{
+  "limit_usd": 12.0,
+  "created_utc": "2026-09-17T03:16:23.615820+00:00",
+  "requests": {
+    "66237925342d49c19eb4412d6bac66ec": {
+      "state": "known",
+      "upper_usd": 0.53534,
+      "reserved_utc": "2026-09-17T03:16:25.543131+00:00",
+      "actual_cost_usd": 0.006636,
+      "settled_utc": "2026-09-17T03:16:32.138291+00:00",
+      "reconciled_from": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/overnight_search/20260917/baek/sessions/l2_r3/events.jsonl"
+    },
+    "e2a9e829c35b4e25aaf8aa99ec45afd9": {
+      "state": "known",
+      "upper_usd": 0.53534,
+      "reserved_utc": "2026-09-17T03:16:25.543717+00:00",
+      "actual_cost_usd": 0.002854,
+      "settled_utc": "2026-09-17T03:16:32.915585+00:00",
+      "reconciled_from": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/overnight_search/20260917/baek/sessions/l2_r1/events.jsonl"
+    },
+    "659ea2281a83442ea207fb3cca8e6332": {
+      "state": "known",
+      "upper_usd": 0.53534,
+      "reserved_utc": "2026-09-17T03:16:25.549019+00:00",
+      "actual_cost_usd": 0.003184,
+      "settled_utc": "2026-09-17T03:16:32.920501+00:00",
+      "reconciled_from": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/overnight_search/20260917/baek/sessions/l2_r2/events.jsonl"
+    },
+    "21debe46a3654330ac80a8e5db493d5b": {
+      "state": "known",
+      "upper_usd": 0.553404,
+      "reserved_utc": "2026-09-17T03:16:33.544873+00:00",
+      "actual_cost_usd": 0.0174265,
+      "settled_utc": "2026-09-17T03:17:09.761578+00:00",
+      "reconciled_from": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/overnight_search/20260917/baek/sessions/l2_r3/events.jsonl"
+    },
+    "73c595d865dd476a9a7a0b65d9987473": {
+      "state": "known",
+      "upper_usd": 0.5495,
+      "reserved_utc": "2026-09-17T03:16:33.918390+00:00",
+      "actual_cost_usd": 0.0183865,
+      "settled_utc": "2026-09-17T03:17:10.242878+00:00",
+      "reconciled_from": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/overnight_search/20260917/baek/sessions/l2_r2/events.jsonl"
+    },
+    "605d2bc2013b4c8fb15bc144e1e0eabf": {
+      "state": "known",
+      "upper_usd": 0.551052,
+      "reserved_utc": "2026-09-17T03:16:33.936816+00:00",
+      "actual_cost_usd": 0.0116165,
+      "settled_utc": "2026-09-17T03:16:58.369800+00:00",
+      "reconciled_from": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/overnight_search/20260917/baek/sessions/l2_r1/events.jsonl"
+    },
+    "faac2ac123da4d238267bc47b4d73cc0": {
+      "state": "known",
+      "upper_usd": 0.595908,
+      "reserved_utc": "2026-09-17T03:17:01.440294+00:00",
+      "actual_cost_usd": 0.0219001,
+      "settled_utc": "2026-09-17T03:17:43.011678+00:00",
+      "reconciled_from": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/overnight_search/20260917/baek/sessions/l2_r1/events.jsonl"
+    },
+    "5b2575beb51f48469efc318bf58e2fae": {
+      "state": "known",
+      "upper_usd": 0.631888,
+      "reserved_utc": "2026-09-17T03:17:10.435157+00:00",
+      "actual_cost_usd": 0.0172671,
+      "settled_utc": "2026-09-17T03:17:28.762793+00:00",
+      "reconciled_from": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/overnight_search/20260917/baek/sessions/l2_r3/events.jsonl"
+    },
+    "19d0bc9ed0ca4565a0054c0aa7f4dfe8": {
+      "state": "known",
+      "upper_usd": 0.628196,
+      "reserved_utc": "2026-09-17T03:17:14.412341+00:00",
+      "actual_cost_usd": 0.0291138,
+      "settled_utc": "2026-09-17T03:18:02.070345+00:00",
+      "reconciled_from": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/overnight_search/20260917/baek/sessions/l2_r2/events.jsonl"
+    },
+    "26736c022883465faa3cb28ef74dd726": {
+      "state": "known",
+      "upper_usd": 0.67364,
+      "reserved_utc": "2026-09-17T03:17:41.373532+00:00",
+      "actual_cost_usd": 0.0421541,
+      "settled_utc": "2026-09-17T03:18:48.568060+00:00",
+      "reconciled_from": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/overnight_search/20260917/baek/sessions/l2_r3/events.jsonl"
+    },
+    "d8988b0238d0432cb4ebe4b945287779": {
+      "state": "known",
+      "upper_usd": 0.69888,
+      "reserved_utc": "2026-09-17T03:18:02.906790+00:00",
+      "actual_cost_usd": 0.0080681,
+      "settled_utc": "2026-09-17T03:18:07.584878+00:00",
+      "reconciled_from": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/overnight_search/20260917/baek/sessions/l2_r2/events.jsonl"
+    },
+    "d38a670c8e6f4a8aae727d5baedc38ab": {
+      "state": "known",
+      "upper_usd": 0.660756,
+      "reserved_utc": "2026-09-17T03:18:05.615955+00:00",
+      "actual_cost_usd": 0.02483,
+      "settled_utc": "2026-09-17T03:18:42.828221+00:00",
+      "reconciled_from": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/overnight_search/20260917/baek/sessions/l2_r1/events.jsonl"
+    },
+    "58b8d3a1380d4a98ae766f632dd8150d": {
+      "state": "known",
+      "upper_usd": 0.716744,
+      "reserved_utc": "2026-09-17T03:18:08.265829+00:00",
+      "actual_cost_usd": 0.0044283,
+      "settled_utc": "2026-09-17T03:18:11.830933+00:00",
+      "reconciled_from": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/overnight_search/20260917/baek/sessions/l2_r2/events.jsonl"
+    },
+    "8e29431d5b694754996867a9210ae944": {
+      "state": "known",
+      "upper_usd": 0.7394,
+      "reserved_utc": "2026-09-17T03:18:12.517233+00:00",
+      "actual_cost_usd": 0.0113856,
+      "settled_utc": "2026-09-17T03:18:26.158905+00:00",
+      "reconciled_from": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/overnight_search/20260917/baek/sessions/l2_r2/events.jsonl"
+    },
+    "b627d38ef0584b85a9e304a7ab9272a4": {
+      "state": "known",
+      "upper_usd": 0.762488,
+      "reserved_utc": "2026-09-17T03:18:26.967207+00:00",
+      "actual_cost_usd": 0.0337725,
+      "settled_utc": "2026-09-17T03:19:17.914411+00:00",
+      "reconciled_from": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/overnight_search/20260917/baek/sessions/l2_r2/events.jsonl"
+    },
+    "1b12994716e64cab92d96cf5255cada5": {
+      "state": "known",
+      "upper_usd": 0.831864,
+      "reserved_utc": "2026-09-17T03:19:27.922125+00:00",
+      "actual_cost_usd": 0.0270352,
+      "settled_utc": "2026-09-17T03:19:49.370973+00:00",
+      "reconciled_from": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/overnight_search/20260917/baek/sessions/l2_r2/events.jsonl"
+    },
+    "ad81f79dbc894e998aaece519f8beeb5": {
+      "state": "known",
+      "upper_usd": 0.789488,
+      "reserved_utc": "2026-09-17T03:19:41.055749+00:00",
+      "actual_cost_usd": 0.0252128,
+      "settled_utc": "2026-09-17T03:20:09.458691+00:00",
+      "reconciled_from": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/overnight_search/20260917/baek/sessions/l2_r3/events.jsonl"
+    },
+    "a83e6c03a04840aab44306559d989f04": {
+      "state": "known",
+      "upper_usd": 0.83804,
+      "reserved_utc": "2026-09-17T03:20:16.791291+00:00",
+      "actual_cost_usd": 0.0342959,
+      "settled_utc": "2026-09-17T03:21:03.767641+00:00",
+      "reconciled_from": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/overnight_search/20260917/baek/sessions/l2_r3/events.jsonl"
+    },
+    "d43c731f30894feeb6811025682a9d78": {
+      "state": "known",
+      "upper_usd": 0.907236,
+      "reserved_utc": "2026-09-17T03:21:57.314153+00:00",
+      "actual_cost_usd": 0.0331,
+      "settled_utc": "2026-09-17T03:22:29.801256+00:00",
+      "reconciled_from": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/overnight_search/20260917/baek/sessions/l2_r3/events.jsonl"
+    },
+    "0db943deacf74c4fae18f7f8321d8f31": {
+      "state": "known",
+      "upper_usd": 0.867284,
+      "reserved_utc": "2026-09-17T03:23:00.429829+00:00",
+      "actual_cost_usd": 0.015496,
+      "settled_utc": "2026-09-17T03:23:12.221707+00:00",
+      "reconciled_from": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/overnight_search/20260917/baek/sessions/l2_r2/events.jsonl"
+    },
+    "1e74f589b16e471ab51907e0121b756e": {
+      "state": "known",
+      "upper_usd": 0.723304,
+      "reserved_utc": "2026-09-17T03:23:06.951147+00:00",
+      "actual_cost_usd": 0.0171927,
+      "settled_utc": "2026-09-17T03:23:29.610163+00:00",
+      "reconciled_from": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/overnight_search/20260917/baek/sessions/l2_r1/events.jsonl"
+    },
+    "f98b7dc250f6482893d58f16532000a2": {
+      "state": "known",
+      "upper_usd": 0.890408,
+      "reserved_utc": "2026-09-17T03:23:14.110152+00:00",
+      "actual_cost_usd": 0.0418757,
+      "settled_utc": "2026-09-17T03:24:20.208096+00:00",
+      "reconciled_from": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/overnight_search/20260917/baek/sessions/l2_r2/events.jsonl"
+    },
+    "bc252b3db7b74218b9088c3393685abb": {
+      "state": "known",
+      "upper_usd": 0.963048,
+      "reserved_utc": "2026-09-17T03:24:27.047167+00:00",
+      "actual_cost_usd": 0.0284031,
+      "settled_utc": "2026-09-17T03:24:57.537027+00:00",
+      "reconciled_from": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/overnight_search/20260917/baek/sessions/l2_r3/events.jsonl"
+    },
+    "c85b908a8c184dc285590cbca20c1a37": {
+      "state": "known",
+      "upper_usd": 0.76092,
+      "reserved_utc": "2026-09-17T03:24:38.502366+00:00",
+      "actual_cost_usd": 0.0157282,
+      "settled_utc": "2026-09-17T03:24:56.704790+00:00",
+      "reconciled_from": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/overnight_search/20260917/baek/sessions/l2_r1/events.jsonl"
+    },
+    "0bec8ebe2ec64914ac486cf47fab3520": {
+      "state": "known",
+      "upper_usd": 0.991172,
+      "reserved_utc": "2026-09-17T03:24:43.350726+00:00",
+      "actual_cost_usd": 0.0455199,
+      "settled_utc": "2026-09-17T03:25:27.661623+00:00",
+      "reconciled_from": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/overnight_search/20260917/baek/sessions/l2_r2/events.jsonl"
+    },
+    "f1b561d1321a417d89956c578078429c": {
+      "state": "known",
+      "upper_usd": 1.016284,
+      "reserved_utc": "2026-09-17T03:25:38.917249+00:00",
+      "actual_cost_usd": 0.0287039,
+      "settled_utc": "2026-09-17T03:26:11.039155+00:00",
+      "reconciled_from": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/overnight_search/20260917/baek/sessions/l2_r3/events.jsonl"
+    },
+    "e880123654bc4b36901e10a67d8897e7": {
+      "state": "known",
+      "upper_usd": 0.787084,
+      "reserved_utc": "2026-09-17T03:26:37.474474+00:00",
+      "actual_cost_usd": 0.0158423,
+      "settled_utc": "2026-09-17T03:27:02.627306+00:00",
+      "reconciled_from": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/overnight_search/20260917/baek/sessions/l2_r1/events.jsonl"
+    },
+    "2ff417847d364586b16dc39c30285796": {
+      "state": "known",
+      "upper_usd": 0.829856,
+      "reserved_utc": "2026-09-17T03:27:06.480600+00:00",
+      "actual_cost_usd": 0.0189867,
+      "settled_utc": "2026-09-17T03:27:25.176987+00:00",
+      "reconciled_from": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/overnight_search/20260917/baek/sessions/l2_r1/events.jsonl"
+    },
+    "a424b777e7b04307b3233a2a556d1113": {
+      "state": "known",
+      "upper_usd": 0.8567,
+      "reserved_utc": "2026-09-17T03:27:36.918246+00:00",
+      "actual_cost_usd": 0.0163433,
+      "settled_utc": "2026-09-17T03:27:51.286115+00:00",
+      "reconciled_from": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/overnight_search/20260917/baek/sessions/l2_r1/events.jsonl"
+    },
+    "78ea01a46fed471a93036aff5b06112e": {
+      "state": "known",
+      "upper_usd": 0.879612,
+      "reserved_utc": "2026-09-17T03:29:29.761675+00:00",
+      "actual_cost_usd": 0.0113729,
+      "settled_utc": "2026-09-17T03:29:38.016396+00:00",
+      "reconciled_from": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/overnight_search/20260917/baek/sessions/l2_r1/events.jsonl"
+    },
+    "fdf22d01e4e2447faf4765c6fcdc58bc": {
+      "state": "known",
+      "upper_usd": 0.899524,
+      "reserved_utc": "2026-09-17T03:30:51.930139+00:00",
+      "actual_cost_usd": 0.0156036,
+      "settled_utc": "2026-09-17T03:31:06.834865+00:00",
+      "reconciled_from": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/overnight_search/20260917/baek/sessions/l2_r1/events.jsonl"
+    },
+    "9d2aabcdf140472a91f4235830fe5f24": {
+      "state": "known",
+      "upper_usd": 1.0787,
+      "reserved_utc": "2026-09-17T03:34:37.008038+00:00",
+      "actual_cost_usd": 0.0468528,
+      "settled_utc": "2026-09-17T03:35:23.931274+00:00",
+      "reconciled_from": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/overnight_search/20260917/baek/sessions/l2_r3/events.jsonl"
+    },
+    "8cd9870c3db147e797d5ef1a74bbd11e": {
+      "state": "known",
+      "upper_usd": 1.16898,
+      "reserved_utc": "2026-09-17T03:35:42.131699+00:00",
+      "actual_cost_usd": 0.0434157,
+      "settled_utc": "2026-09-17T03:36:22.664211+00:00",
+      "reconciled_from": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/overnight_search/20260917/baek/sessions/l2_r3/events.jsonl"
+    },
+    "b4f9e75d34e24cb28552979d4e968e71": {
+      "state": "known",
+      "upper_usd": 0.924564,
+      "reserved_utc": "2026-09-17T03:38:12.689412+00:00",
+      "actual_cost_usd": 0.0147935,
+      "settled_utc": "2026-09-17T03:38:24.416503+00:00",
+      "reconciled_from": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/overnight_search/20260917/baek/sessions/l2_r1/events.jsonl"
+    },
+    "0f3db8d5d83b4d5992fd3fa112d106d9": {
+      "state": "known",
+      "upper_usd": 0.9566,
+      "reserved_utc": "2026-09-17T04:02:36.261897+00:00",
+      "actual_cost_usd": 0.0259677,
+      "settled_utc": "2026-09-17T04:03:02.645505+00:00",
+      "reconciled_from": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/overnight_search/20260917/baek/sessions/l2_r1/events.jsonl"
+    },
+    "2a052b62eb6e418f8d52dcbf5290a4d6": {
+      "state": "known",
+      "upper_usd": 1.002816,
+      "reserved_utc": "2026-09-17T04:03:26.304734+00:00",
+      "actual_cost_usd": 0.0223728,
+      "settled_utc": "2026-09-17T04:03:42.845581+00:00",
+      "reconciled_from": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/overnight_search/20260917/baek/sessions/l2_r1/events.jsonl"
+    },
+    "a3c8bbf59c004763a2dcce0fce031212": {
+      "state": "known",
+      "upper_usd": 1.037936,
+      "reserved_utc": "2026-09-17T04:06:36.498480+00:00",
+      "actual_cost_usd": 0.0188109,
+      "settled_utc": "2026-09-17T04:06:52.832109+00:00",
+      "reconciled_from": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/overnight_search/20260917/baek/sessions/l2_r1/events.jsonl"
+    },
+    "32435178f63648f88fed30fd14917931": {
+      "state": "known",
+      "upper_usd": 1.077792,
+      "reserved_utc": "2026-09-17T04:07:14.045013+00:00",
+      "actual_cost_usd": 0.0139652,
+      "settled_utc": "2026-09-17T04:07:23.833481+00:00",
+      "reconciled_from": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/overnight_search/20260917/baek/sessions/l2_r1/events.jsonl"
+    },
+    "ed67eeacfd7142c08ef571c7b7414472": {
+      "state": "known",
+      "upper_usd": 1.096028,
+      "reserved_utc": "2026-09-17T04:14:31.736317+00:00",
+      "actual_cost_usd": 0.0162476,
+      "settled_utc": "2026-09-17T04:14:43.703515+00:00",
+      "reconciled_from": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/overnight_search/20260917/baek/sessions/l2_r1/events.jsonl"
+    },
+    "70d134aa44b246f0b5143bf958c07f48": {
+      "state": "known",
+      "upper_usd": 1.118208,
+      "reserved_utc": "2026-09-17T04:15:03.069258+00:00",
+      "actual_cost_usd": 0.0133945,
+      "settled_utc": "2026-09-17T04:15:09.721184+00:00",
+      "reconciled_from": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/overnight_search/20260917/baek/sessions/l2_r1/events.jsonl"
+    },
+    "2a93007c7f78473e921b119902fcdab5": {
+      "state": "known",
+      "upper_usd": 1.133588,
+      "reserved_utc": "2026-09-17T04:15:33.688309+00:00",
+      "actual_cost_usd": 0.0244705,
+      "settled_utc": "2026-09-17T04:15:59.062673+00:00",
+      "reconciled_from": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/overnight_search/20260917/baek/sessions/l2_r1/events.jsonl"
+    },
+    "ee46fc2aaa3a446098740d99ea9fc345": {
+      "state": "known",
+      "upper_usd": 0.54436,
+      "reserved_utc": "2026-09-17T04:16:09.579810+00:00",
+      "actual_cost_usd": 0.007811,
+      "settled_utc": "2026-09-17T04:16:13.572903+00:00"
+    },
+    "ceff113efd664611946ce80bc2459d93": {
+      "state": "known",
+      "upper_usd": 0.54436,
+      "reserved_utc": "2026-09-17T04:16:09.667754+00:00",
+      "actual_cost_usd": 0.006191,
+      "settled_utc": "2026-09-17T04:16:12.250688+00:00"
+    },
+    "a2a13fc9f03c4203b112d0c0704ea928": {
+      "state": "known",
+      "upper_usd": 0.54436,
+      "reserved_utc": "2026-09-17T04:16:09.672051+00:00",
+      "actual_cost_usd": 0.0028296,
+      "settled_utc": "2026-09-17T04:16:14.623844+00:00"
+    },
+    "24ea67acf8834ee6beb06dd09820e701": {
+      "state": "known",
+      "upper_usd": 0.610752,
+      "reserved_utc": "2026-09-17T04:16:13.378059+00:00",
+      "actual_cost_usd": 0.0124396,
+      "settled_utc": "2026-09-17T04:16:17.395387+00:00"
+    },
+    "73c916238f7d4af4bb1c0b4bee7501b6": {
+      "state": "known",
+      "upper_usd": 0.613908,
+      "reserved_utc": "2026-09-17T04:16:14.719077+00:00",
+      "actual_cost_usd": 0.0201521,
+      "settled_utc": "2026-09-17T04:16:33.122091+00:00"
+    },
+    "657bd3a4acef42428bed048dd87e90f8": {
+      "state": "known",
+      "upper_usd": 0.557476,
+      "reserved_utc": "2026-09-17T04:16:15.687727+00:00",
+      "actual_cost_usd": 0.0108571,
+      "settled_utc": "2026-09-17T04:16:36.754070+00:00"
+    },
+    "066a119525434b4db7f52a6d278b960f": {
+      "state": "known",
+      "upper_usd": 0.623336,
+      "reserved_utc": "2026-09-17T04:16:18.801291+00:00",
+      "actual_cost_usd": 0.0122615,
+      "settled_utc": "2026-09-17T04:16:38.126781+00:00"
+    },
+    "89298756035e4ef1b2887073e4d94b05": {
+      "state": "known",
+      "upper_usd": 0.593092,
+      "reserved_utc": "2026-09-17T04:16:40.751414+00:00",
+      "actual_cost_usd": 0.009129,
+      "settled_utc": "2026-09-17T04:16:49.403298+00:00"
+    },
+    "5003750fdb334b1ca12a87839202739a": {
+      "state": "known",
+      "upper_usd": 0.614032,
+      "reserved_utc": "2026-09-17T04:17:52.647390+00:00",
+      "actual_cost_usd": 0.0185336,
+      "settled_utc": "2026-09-17T04:18:20.773071+00:00"
+    },
+    "f68e16427c6f487b8ad9db223723473e": {
+      "state": "known",
+      "upper_usd": 0.660528,
+      "reserved_utc": "2026-09-17T04:17:52.916077+00:00",
+      "actual_cost_usd": 0.0211378,
+      "settled_utc": "2026-09-17T04:18:23.870539+00:00"
+    },
+    "41ea304dd7904d5280f86f5b616349e8": {
+      "state": "known",
+      "upper_usd": 0.67804,
+      "reserved_utc": "2026-09-17T04:17:58.378889+00:00",
+      "actual_cost_usd": 0.0251085,
+      "settled_utc": "2026-09-17T04:18:30.134556+00:00"
+    },
+    "2a14b59b9fd64034b1c5c2bf529544ff": {
+      "state": "known",
+      "upper_usd": 0.7211,
+      "reserved_utc": "2026-09-17T04:18:31.292801+00:00",
+      "actual_cost_usd": 0.0177521,
+      "settled_utc": "2026-09-17T04:18:54.244582+00:00"
+    },
+    "fe17732a54eb4aa8a55348b3039e615e": {
+      "state": "known",
+      "upper_usd": 0.76846,
+      "reserved_utc": "2026-09-17T04:18:56.993548+00:00",
+      "actual_cost_usd": 0.0172772,
+      "settled_utc": "2026-09-17T04:19:15.471908+00:00"
+    },
+    "48493ecb4a4b435aa86a0ea3423dc8c2": {
+      "state": "known",
+      "upper_usd": 0.67092,
+      "reserved_utc": "2026-09-17T04:19:52.921768+00:00",
+      "actual_cost_usd": 0.0278771,
+      "settled_utc": "2026-09-17T04:20:34.859339+00:00"
+    },
+    "ae5085ff0e4a481496caadccb4fb5f84": {
+      "state": "known",
+      "upper_usd": 0.742404,
+      "reserved_utc": "2026-09-17T04:20:52.517067+00:00",
+      "actual_cost_usd": 0.0169283,
+      "settled_utc": "2026-09-17T04:21:11.063675+00:00"
+    },
+    "42af0ea28e954457b4b85f5c6a47a3cb": {
+      "state": "known",
+      "upper_usd": 0.752648,
+      "reserved_utc": "2026-09-17T04:20:57.692652+00:00",
+      "actual_cost_usd": 0.0280763,
+      "settled_utc": "2026-09-17T04:21:25.668278+00:00"
+    },
+    "7feacf5f98b94048ad7b35d8ff88ed53": {
+      "state": "known",
+      "upper_usd": 0.827372,
+      "reserved_utc": "2026-09-17T04:21:26.686444+00:00",
+      "actual_cost_usd": 0.0214514,
+      "settled_utc": "2026-09-17T04:21:36.440866+00:00"
+    },
+    "4443bfa58528425f92778a7cc2eaf5ea": {
+      "state": "known",
+      "upper_usd": 0.812168,
+      "reserved_utc": "2026-09-17T04:21:27.466727+00:00",
+      "actual_cost_usd": 0.013441,
+      "settled_utc": "2026-09-17T04:21:40.401410+00:00"
+    },
+    "f21ce100aada4f43ad1a21abdafbc821": {
+      "state": "known",
+      "upper_usd": 0.849668,
+      "reserved_utc": "2026-09-17T04:21:44.819613+00:00",
+      "actual_cost_usd": 0.0269863,
+      "settled_utc": "2026-09-17T04:22:23.015336+00:00"
+    },
+    "0e15574e2cd5440aae0ff0d689dac1c1": {
+      "state": "known",
+      "upper_usd": 0.770436,
+      "reserved_utc": "2026-09-17T04:22:52.325218+00:00",
+      "actual_cost_usd": 0.023836,
+      "settled_utc": "2026-09-17T04:23:29.273470+00:00"
+    },
+    "175c4d601650459c9b27b51e33a5fd86": {
+      "state": "known",
+      "upper_usd": 0.915452,
+      "reserved_utc": "2026-09-17T04:23:22.625923+00:00",
+      "actual_cost_usd": 0.0175615,
+      "settled_utc": "2026-09-17T04:23:35.323802+00:00"
+    },
+    "2d1ea202f97c4cbb9d5afc8e261165a4": {
+      "state": "known",
+      "upper_usd": 0.837508,
+      "reserved_utc": "2026-09-17T04:27:32.152270+00:00",
+      "actual_cost_usd": 0.0138444,
+      "settled_utc": "2026-09-17T04:27:44.162789+00:00"
+    },
+    "0e77a9fc678c469bb3d3854bbf0d8427": {
+      "state": "known",
+      "upper_usd": 0.9467,
+      "reserved_utc": "2026-09-17T04:28:16.279371+00:00",
+      "actual_cost_usd": 0.0204161,
+      "settled_utc": "2026-09-17T04:28:35.168001+00:00"
+    },
+    "79dadb81f0a643ebba9da58c2ff6e048": {
+      "state": "known",
+      "upper_usd": 0.86156,
+      "reserved_utc": "2026-09-17T04:30:08.882143+00:00",
+      "actual_cost_usd": 0.0118939,
+      "settled_utc": "2026-09-17T04:30:15.776514+00:00"
+    },
+    "c86141afdec14557b63226f89b7be19e": {
+      "state": "known",
+      "upper_usd": 0.88048,
+      "reserved_utc": "2026-09-17T04:33:38.272466+00:00",
+      "actual_cost_usd": 0.0133938,
+      "settled_utc": "2026-09-17T04:33:54.328969+00:00"
+    },
+    "67e623ffe4374635a5f6af12216aa97a": {
+      "state": "known",
+      "upper_usd": 0.987748,
+      "reserved_utc": "2026-09-17T04:33:49.459654+00:00",
+      "actual_cost_usd": 0.0201413,
+      "settled_utc": "2026-09-17T04:34:01.158839+00:00"
+    },
+    "5b6f0b96fb5049a4a85439c3510bf613": {
+      "state": "known",
+      "upper_usd": 0.916436,
+      "reserved_utc": "2026-09-17T04:33:55.577423+00:00",
+      "actual_cost_usd": 0.0234906,
+      "settled_utc": "2026-09-17T04:34:20.285890+00:00"
+    },
+    "ff16336038f4422f8a6ee27b1500b459": {
+      "state": "known",
+      "upper_usd": 1.009348,
+      "reserved_utc": "2026-09-17T04:34:06.547792+00:00",
+      "actual_cost_usd": 0.0247811,
+      "settled_utc": "2026-09-17T04:34:32.876491+00:00"
+    },
+    "517c7e5b58e74d8285f17c42601fdaa2": {
+      "state": "known",
+      "upper_usd": 0.987812,
+      "reserved_utc": "2026-09-17T04:34:34.705118+00:00",
+      "actual_cost_usd": 0.0220304,
+      "settled_utc": "2026-09-17T04:34:45.467101+00:00"
+    },
+    "bb7d5a6c79de494f9bd5c0fe22cea216": {
+      "state": "known",
+      "upper_usd": 1.057044,
+      "reserved_utc": "2026-09-17T04:36:48.113251+00:00",
+      "actual_cost_usd": 0.0188113,
+      "settled_utc": "2026-09-17T04:37:00.575019+00:00"
+    },
+    "723043561218457197be0725dbc14766": {
+      "state": "known",
+      "upper_usd": 1.081884,
+      "reserved_utc": "2026-09-17T04:37:05.184155+00:00",
+      "actual_cost_usd": 0.0225657,
+      "settled_utc": "2026-09-17T04:37:27.571454+00:00"
+    },
+    "28e0d48bde2a403aac2b15639dc8344a": {
+      "state": "known",
+      "upper_usd": 1.130624,
+      "reserved_utc": "2026-09-17T04:37:32.425019+00:00",
+      "actual_cost_usd": 0.0152781,
+      "settled_utc": "2026-09-17T04:37:37.832442+00:00"
+    },
+    "7ceb57d9d832442cbbc0ce046052d2fc": {
+      "state": "known",
+      "upper_usd": 1.014508,
+      "reserved_utc": "2026-09-17T04:38:23.679253+00:00",
+      "actual_cost_usd": 0.0144872,
+      "settled_utc": "2026-09-17T04:38:30.786605+00:00"
+    },
+    "084c603a2ef94cc6b4758f9dee6a0ea3": {
+      "state": "known",
+      "upper_usd": 1.153836,
+      "reserved_utc": "2026-09-17T04:40:40.704437+00:00",
+      "actual_cost_usd": 0.0180458,
+      "settled_utc": "2026-09-17T04:40:52.436416+00:00"
+    },
+    "f8eb55246e75470da578de8b26579936": {
+      "state": "known",
+      "upper_usd": 1.172304,
+      "reserved_utc": "2026-09-17T04:41:01.538511+00:00",
+      "actual_cost_usd": 0.0149378,
+      "settled_utc": "2026-09-17T04:41:08.012697+00:00"
+    },
+    "f60a2d0b137145768a8707b079d644a6": {
+      "state": "known",
+      "upper_usd": 1.189856,
+      "reserved_utc": "2026-09-17T04:41:14.398767+00:00",
+      "actual_cost_usd": 0.0260822,
+      "settled_utc": "2026-09-17T04:41:37.232428+00:00"
+    },
+    "0655ac7b7bea442fb404fb48dde91ee7": {
+      "state": "known",
+      "upper_usd": 1.037228,
+      "reserved_utc": "2026-09-17T04:42:29.713587+00:00",
+      "actual_cost_usd": 0.0236098,
+      "settled_utc": "2026-09-17T04:42:47.149285+00:00"
+    },
+    "696c367ae9174e98b557b5bdac9247be": {
+      "state": "known",
+      "upper_usd": 1.086576,
+      "reserved_utc": "2026-09-17T04:42:50.334358+00:00",
+      "actual_cost_usd": 0.0246443,
+      "settled_utc": "2026-09-17T04:43:01.739409+00:00"
+    },
+    "4ddef4f482074d12949e08b7eac096c1": {
+      "state": "known",
+      "upper_usd": 1.237516,
+      "reserved_utc": "2026-09-17T04:43:14.443807+00:00",
+      "actual_cost_usd": 0.0258272,
+      "settled_utc": "2026-09-17T04:43:25.719802+00:00"
+    },
+    "e0ed62f3884a41be979d0bb743a3105e": {
+      "state": "known",
+      "upper_usd": 1.259048,
+      "reserved_utc": "2026-09-17T04:43:32.052553+00:00",
+      "actual_cost_usd": 0.0252731,
+      "settled_utc": "2026-09-17T04:43:51.661436+00:00"
+    },
+    "99a4c2aa667d4f9e8fdb835ac1730af1": {
+      "state": "known",
+      "upper_usd": 1.303264,
+      "reserved_utc": "2026-09-17T04:44:46.641110+00:00",
+      "actual_cost_usd": 0.0329508,
+      "settled_utc": "2026-09-17T04:45:07.401490+00:00"
+    },
+    "7bb5f878971d43e3916b91d6475ec915": {
+      "state": "known",
+      "upper_usd": 1.343756,
+      "reserved_utc": "2026-09-17T04:45:13.664177+00:00",
+      "actual_cost_usd": 0.0305878,
+      "settled_utc": "2026-09-17T04:45:35.874124+00:00"
+    },
+    "409c3abaa8ac4ea596d76672ab02b41e": {
+      "state": "known",
+      "upper_usd": 1.119068,
+      "reserved_utc": "2026-09-17T04:47:08.099057+00:00",
+      "actual_cost_usd": 0.0208277,
+      "settled_utc": "2026-09-17T04:47:20.266175+00:00"
+    },
+    "d1d0970d2ce744c9a90c6330d379dea6": {
+      "state": "known",
+      "upper_usd": 1.388364,
+      "reserved_utc": "2026-09-17T04:48:26.453491+00:00",
+      "actual_cost_usd": 0.0219375,
+      "settled_utc": "2026-09-17T04:48:34.640554+00:00"
+    },
+    "d7ebfd1a8bc84b85918d64fd64327f7a": {
+      "state": "known",
+      "upper_usd": 1.15246,
+      "reserved_utc": "2026-09-17T04:48:53.650575+00:00",
+      "actual_cost_usd": 0.0226189,
+      "settled_utc": "2026-09-17T04:49:08.018160+00:00"
+    },
+    "1afb2a1c319d481db212349accf08a9e": {
+      "state": "known",
+      "upper_usd": 1.405932,
+      "reserved_utc": "2026-09-17T04:50:35.891641+00:00",
+      "actual_cost_usd": 0.0189213,
+      "settled_utc": "2026-09-17T04:50:45.547268+00:00"
+    },
+    "12a5acda735d45568d4bf00a00484a2f": {
+      "state": "known",
+      "upper_usd": 1.42352,
+      "reserved_utc": "2026-09-17T04:50:53.939249+00:00",
+      "actual_cost_usd": 0.0190064,
+      "settled_utc": "2026-09-17T04:51:01.787043+00:00"
+    },
+    "151326c772ec4e67a52f26f84b8890a1": {
+      "state": "known",
+      "upper_usd": 1.18968,
+      "reserved_utc": "2026-09-17T04:51:34.892157+00:00",
+      "actual_cost_usd": 0.0185961,
+      "settled_utc": "2026-09-17T04:51:41.870621+00:00"
+    },
+    "5a9eca090a2b4151a54d4eb6e416248d": {
+      "state": "known",
+      "upper_usd": 1.4416,
+      "reserved_utc": "2026-09-17T04:52:54.781080+00:00",
+      "actual_cost_usd": 0.0187395,
+      "settled_utc": "2026-09-17T04:53:05.726818+00:00"
+    },
+    "fbd4bcce33e04fb9bcda5bcb7d11a913": {
+      "state": "known",
+      "upper_usd": 1.208248,
+      "reserved_utc": "2026-09-17T04:53:04.869087+00:00",
+      "actual_cost_usd": 0.0139664,
+      "settled_utc": "2026-09-17T04:53:12.335294+00:00"
+    },
+    "29b56dba741d499f879b2db8f1966e12": {
+      "state": "known",
+      "upper_usd": 1.457712,
+      "reserved_utc": "2026-09-17T04:53:11.827187+00:00",
+      "actual_cost_usd": 0.0412015,
+      "settled_utc": "2026-09-17T04:53:47.237025+00:00"
+    },
+    "be0f7f75d88f4f0f83d42bdcd4127365": {
+      "state": "known",
+      "upper_usd": 1.2236,
+      "reserved_utc": "2026-09-17T04:53:30.129672+00:00",
+      "actual_cost_usd": 0.0189881,
+      "settled_utc": "2026-09-17T04:53:43.449278+00:00"
+    },
+    "a39700cb51904c9fa1136e9147a3a688": {
+      "state": "known",
+      "upper_usd": 1.24898,
+      "reserved_utc": "2026-09-17T04:53:56.070827+00:00",
+      "actual_cost_usd": 0.0215518,
+      "settled_utc": "2026-09-17T04:54:08.956463+00:00"
+    },
+    "076a8860ec6f41ecbe370ec3e71877a7": {
+      "state": "known",
+      "upper_usd": 1.276204,
+      "reserved_utc": "2026-09-17T04:54:12.351005+00:00",
+      "actual_cost_usd": 0.0211121,
+      "settled_utc": "2026-09-17T04:54:33.143143+00:00"
+    },
+    "dd68a675dbe04e68bdf75445d4e757c0": {
+      "state": "known",
+      "upper_usd": 1.304504,
+      "reserved_utc": "2026-09-17T04:57:24.721355+00:00",
+      "actual_cost_usd": 0.022708,
+      "settled_utc": "2026-09-17T04:57:36.052041+00:00"
+    },
+    "f6d253084c3640279213f1da59ed0aa7": {
+      "state": "known",
+      "upper_usd": 1.333744,
+      "reserved_utc": "2026-09-17T04:58:10.423278+00:00",
+      "actual_cost_usd": 0.0192223,
+      "settled_utc": "2026-09-17T04:58:16.459582+00:00"
+    },
+    "ca4205d8dfd44e6997e85bee70dab952": {
+      "state": "known",
+      "upper_usd": 1.349672,
+      "reserved_utc": "2026-09-17T04:58:26.693377+00:00",
+      "actual_cost_usd": 0.0174433,
+      "settled_utc": "2026-09-17T04:58:38.796646+00:00"
+    },
+    "eaf10c22f174425fa3d06d9e3fb87507": {
+      "state": "known",
+      "upper_usd": 1.370704,
+      "reserved_utc": "2026-09-17T04:58:41.607543+00:00",
+      "actual_cost_usd": 0.0264099,
+      "settled_utc": "2026-09-17T04:58:59.477263+00:00"
+    },
+    "b32b0a9f900d4a999e57e085150e1a01": {
+      "state": "known",
+      "upper_usd": 0.8362,
+      "reserved_utc": "2026-09-17T05:18:50.226018+00:00",
+      "actual_cost_usd": 0.0935935,
+      "settled_utc": "2026-09-17T05:20:54.228551+00:00"
+    }
+  },
+  "known_cost_usd": 2.1216015,
+  "held_upper_usd": 0,
+  "committed_upper_usd": 2.1216015,
+  "updated_utc": "2026-09-17T05:20:54.228675+00:00"
+}

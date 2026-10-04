@@ -1,0 +1,57 @@
+{
+  "night": {
+    "status": "running",
+    "started_utc": "2026-09-16T04:42:45.725376+00:00",
+    "pid": 63218,
+    "workers": 4,
+    "planned_primary_runs": 18,
+    "planned_refit_runs": 9,
+    "budget_usd": 20.0,
+    "phases": [],
+    "current_phase": "primary",
+    "updated_utc": "2026-09-16T04:42:45.725744+00:00"
+  },
+  "chains": [
+    {
+      "scenario_id": "exp_ar_neg06_fixed6",
+      "policy_id": "self_evolve_h200_r1",
+      "status": "running",
+      "completed_generations": 1,
+      "candidate_checkpoints": 13
+    },
+    {
+      "scenario_id": "exp_ar_pos08_fixed6",
+      "policy_id": "self_evolve_h200_r1",
+      "status": "running",
+      "completed_generations": 1,
+      "candidate_checkpoints": 16
+    },
+    {
+      "scenario_id": "exp_iid_fixed6",
+      "policy_id": "self_evolve_h200_r1",
+      "status": "running",
+      "completed_generations": 1,
+      "candidate_checkpoints": 16
+    },
+    {
+      "scenario_id": "exp_regime095_fixed6",
+      "policy_id": "self_evolve_h200_r1",
+      "status": "running",
+      "completed_generations": 1,
+      "candidate_checkpoints": 13
+    }
+  ],
+  "budget": {
+    "limit_usd": 20.0,
+    "known_cost_usd": 0.04980772,
+    "held_upper_usd": 0.0353933,
+    "committed_upper_usd": 0.08520102,
+    "requests": 75,
+    "completed": 71,
+    "uncertain": 0
+  },
+  "dataset_files": 18,
+  "completed_baseline_fits": 9,
+  "automation_id": "automation",
+  "exec_session_id": 32475
+}

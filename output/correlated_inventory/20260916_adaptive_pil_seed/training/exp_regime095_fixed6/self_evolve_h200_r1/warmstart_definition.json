@@ -1,0 +1,21 @@
+{
+  "baseline_record_sha256": "17272eeae6c23272bd28add0a3555a9ea25053634b22dbb8a395a7d2bb3dcd11",
+  "seed_code_sha256": "f087c9c3081c653518a42c79161490d965ea4907fdaafaa193c4b71805d1f978",
+  "training_tape_sha256": "1cd4e81bb10b5e3ee86a35631580bef0e3839cdead1d46679eb03b40b36ba485",
+  "source_sha256": {
+    "adaptive_pil_runner.py": "58c4d8bc8e0bac19923e5594d48e350a58057b7aef6d8e12419567677a3efa14",
+    "adaptive_pil_seed.py": "b24fdbc19c9806a9ea50e4b6bcf93e842a8b8cfce98f59ac1d4de2afa7d6dce5",
+    "adaptive_pil_worker.py": "0c6551a5cce39cb9ce7127cae16bdfd9310cccb01b86ec61d142ee72b21783fb",
+    "evolution.py": "39c31d09d97b512ce1a0ce966e6198eac354a08649382b366aceee2a577fbe94",
+    "problem.py": "d7ce57f0aa8c8a8af19ac616193411e74c06a19f599062e3b752c3122145f94c",
+    "prompts.py": "952c2d243e88435a836906336e84878544f8233b1c0b931db693ae9c352fb253",
+    "fast_policy.py": "d223f8cbc31fdd93c8cba0bc73bb3fcf35f31f7b272b5ca0fe1839637632e325",
+    "data.py": "51d9c8099f1de4ba07dc789067c7559673f7f6d0627222dea512c7ae16490a84",
+    "environment.py": "22188bcdb372c28599b410fa45411fdbb69754a8430f95b78a21b7847568db93",
+    "baselines.py": "5bfb40d9dea148cf9e3b3c392cc7f17acac047395e22940e29349f8a0aa3cd84"
+  },
+  "population": 10,
+  "generations": 10,
+  "max_opt_params": null,
+  "initial_baseline_train_cost_per_period": 148.15124556677674
+}

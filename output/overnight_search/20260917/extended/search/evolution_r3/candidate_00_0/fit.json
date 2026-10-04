@@ -1,0 +1,272 @@
+{
+  "results": {
+    "perish_m7_L2_cv1.5_f0": {
+      "theta": [
+        12.46962298351634,
+        19.476215628775616,
+        2.8570908288444823,
+        1.2395570727577403,
+        0.017260746810228822,
+        0.020752700645342737,
+        0.6471360918577332
+      ],
+      "cost": 141.4875,
+      "nfev": 1024,
+      "seconds": 36.63457254203968,
+      "path_costs": [
+        130.0,
+        135.6,
+        151.0,
+        145.1,
+        132.8,
+        143.2,
+        139.4,
+        150.4,
+        147.5,
+        128.7,
+        123.8,
+        139.7,
+        190.6,
+        167.2,
+        138.6,
+        131.4,
+        155.1,
+        134.7,
+        106.2,
+        161.4,
+        126.3,
+        156.3,
+        161.8,
+        141.7,
+        147.3,
+        135.7,
+        134.6,
+        128.6,
+        128.6,
+        128.8,
+        153.5,
+        132.0
+      ],
+      "metrics": [
+        0.4555937499999999,
+        0.9592812500000001,
+        3.4686874999999997
+      ],
+      "cap": 32
+    },
+    "perish_m7_L2_cv1.5_f0.5": {
+      "theta": [
+        3.571592799653498,
+        14.235211232287885,
+        2.4247033141534615,
+        0.656090604501887,
+        0.7914681783703684,
+        2.207948344660008,
+        0.834551230524679
+      ],
+      "cost": 121.53125,
+      "nfev": 1024,
+      "seconds": 36.63362762494944,
+      "path_costs": [
+        125.5,
+        126.1,
+        112.1,
+        115.4,
+        144.1,
+        109.2,
+        122.7,
+        108.0,
+        120.2,
+        116.4,
+        121.3,
+        115.8,
+        113.9,
+        114.7,
+        137.8,
+        126.7,
+        154.8,
+        113.3,
+        121.2,
+        119.0,
+        113.6,
+        123.9,
+        115.4,
+        129.1,
+        109.6,
+        129.4,
+        125.1,
+        138.4,
+        120.1,
+        116.0,
+        110.4,
+        119.8
+      ],
+      "metrics": [
+        0.40784375000000006,
+        0.8074687499999998,
+        3.61171875
+      ],
+      "cap": 32
+    },
+    "perish_m7_L2_cv2_f0": {
+      "theta": [
+        8.99807744781488,
+        17.933196696431864,
+        2.9552487110211603,
+        0.012706016695981148,
+        0.02592998487570397,
+        0.23049754101086362,
+        0.746687465163
+      ],
+      "cost": 183.00937499999998,
+      "nfev": 1024,
+      "seconds": 43.73404570808634,
+      "path_costs": [
+        196.6,
+        188.2,
+        188.6,
+        172.7,
+        208.2,
+        192.1,
+        211.9,
+        162.4,
+        175.7,
+        158.5,
+        187.5,
+        167.0,
+        190.7,
+        186.6,
+        197.9,
+        173.9,
+        176.4,
+        161.0,
+        171.8,
+        192.2,
+        177.4,
+        164.1,
+        228.8,
+        181.0,
+        175.2,
+        169.3,
+        175.2,
+        193.2,
+        186.3,
+        203.2,
+        169.0,
+        173.7
+      ],
+      "metrics": [
+        0.44493750000000015,
+        1.3851562499999999,
+        3.0935937499999993
+      ],
+      "cap": 29
+    },
+    "perish_m7_L2_cv2_f0.5": {
+      "theta": [
+        19.544726016353046,
+        15.086363150317212,
+        0.4740999285295313,
+        1.9325280174666366,
+        0.0766123786886157,
+        0.3143197101909978,
+        0.5955392123237505
+      ],
+      "cost": 169.334375,
+      "nfev": 1024,
+      "seconds": 40.65602745790966,
+      "path_costs": [
+        178.4,
+        167.9,
+        150.7,
+        159.3,
+        153.9,
+        168.0,
+        178.5,
+        146.0,
+        196.3,
+        190.1,
+        152.1,
+        144.4,
+        152.0,
+        151.5,
+        154.5,
+        169.6,
+        195.8,
+        170.4,
+        166.5,
+        182.6,
+        202.0,
+        153.6,
+        163.9,
+        190.7,
+        192.5,
+        197.2,
+        147.3,
+        184.9,
+        157.1,
+        157.2,
+        192.8,
+        151.0
+      ],
+      "metrics": [
+        0.4115,
+        1.2818437499999997,
+        3.2049374999999998
+      ],
+      "cap": 28
+    }
+  },
+  "parameters": {
+    "S": {
+      "type": "float",
+      "initial": 12.0,
+      "min": 0.0,
+      "max": 40.0
+    },
+    "C": {
+      "type": "float",
+      "initial": 10.0,
+      "min": 0.0,
+      "max": 40.0
+    },
+    "K": {
+      "type": "float",
+      "initial": 1.0,
+      "min": 0.0,
+      "max": 3.0
+    },
+    "P": {
+      "type": "float",
+      "initial": 1.0,
+      "min": 0.0,
+      "max": 2.5
+    },
+    "A": {
+      "type": "float",
+      "initial": 0.7,
+      "min": 0.0,
+      "max": 3.0
+    },
+    "D": {
+      "type": "float",
+      "initial": 0.75,
+      "min": 0.0,
+      "max": 2.5
+    },
+    "H": {
+      "type": "float",
+      "initial": 0.5,
+      "min": 0.0,
+      "max": 1.0
+    }
+  },
+  "structure_sha256": "7529aa9d024c7af1116994c1b9f97e71e0c6313bb22b5c303123b34c979c9569",
+  "code_sha256": "4686ec39f3170cae3ff8e83f1fea20356c2fb645f258dd670c0253be3b72f518",
+  "import_normalization": [],
+  "wall_seconds": 159.27902108291164,
+  "transitions": 196800000,
+  "valid": true,
+  "score": 0.9734321868048356,
+  "code": "def compute_order_amount(age, pipeline, mu, cv, f, L):\n    S = 12.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":12.0,\"min\":0.0,\"max\":40.0}\n    C = 10.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":10.0,\"min\":0.0,\"max\":40.0}\n    K = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":3.0}\n    P = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":2.5}\n    A = 0.7 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.7,\"min\":0.0,\"max\":3.0}\n    D = 0.75 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.75,\"min\":0.0,\"max\":2.5}\n    H = 0.5 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.5,\"min\":0.0,\"max\":1.0}\n\n    m = len(age)\n    work = [float(age[i]) for i in range(m)]\n\n    pipeline_total = 0.0\n    for j in range(len(pipeline)):\n        pipeline_total = pipeline_total + pipeline[j]\n\n    current_effective = P * pipeline_total\n    for i in range(m):\n        x = (i + 1.0) / m\n        current_effective = current_effective + age[i] * (x ** A)\n\n    fifo_flow = D * f * mu\n    lifo_flow = D * (1.0 - f) * mu\n\n    for step in range(L):\n        remaining = fifo_flow\n        for i in range(m):\n            take = min(work[i], remaining)\n            work[i] = work[i] - take\n            remaining = remaining - take\n\n        remaining = lifo_flow\n        for k in range(m):\n            i = m - 1 - k\n            take = min(work[i], remaining)\n            work[i] = work[i] - take\n            remaining = remaining - take\n\n        for i in range(m - 1):\n            work[i] = work[i + 1]\n        work[m - 1] = 0.0\n\n        if step < len(pipeline):\n            work[m - 1] = pipeline[step]\n\n    projected_effective = 0.0\n    for i in range(m):\n        x = (i + 1.0) / m\n        projected_effective = projected_effective + work[i] * (x ** A)\n\n    effective = (1.0 - H) * current_effective + H * projected_effective\n    q = K * (S - effective)\n\n    if q != q:\n        q = 0.0\n    if q < 0.0:\n        q = 0.0\n    if q > C:\n        q = C\n    return q\n"
+}

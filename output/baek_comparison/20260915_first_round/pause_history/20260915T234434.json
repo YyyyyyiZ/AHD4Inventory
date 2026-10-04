@@ -1,0 +1,61 @@
+{
+  "status": "paused_by_user",
+  "paused_utc": "2026-09-15T23:44:34.572646+00:00",
+  "processes": [
+    {
+      "pid": 15413,
+      "ppid": 50338,
+      "state": "Ts",
+      "command": "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/Resources/Python.app/Contents/MacOS/Python -m examples.inventory.baek_comparison.runner generate --workers 3"
+    },
+    {
+      "pid": 23698,
+      "ppid": 50338,
+      "state": "Ts",
+      "command": "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/Resources/Python.app/Contents/MacOS/Python -u -"
+    },
+    {
+      "pid": 21628,
+      "ppid": 50338,
+      "state": "Ts",
+      "command": "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/Resources/Python.app/Contents/MacOS/Python -u -"
+    },
+    {
+      "pid": 27241,
+      "ppid": 15413,
+      "state": "Ts",
+      "command": "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/Resources/Python.app/Contents/MacOS/Python -I -B -S /private/var/folders/b7/dlsj_scs5pxbrd6_69xztsmr0000gn/T/baek-python-ss8o5364/bootstrap.py"
+    },
+    {
+      "pid": 27337,
+      "ppid": 15413,
+      "state": "Ts",
+      "command": "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/Resources/Python.app/Contents/MacOS/Python -I -B -S /private/var/folders/b7/dlsj_scs5pxbrd6_69xztsmr0000gn/T/baek-python-i_v1zfsw/bootstrap.py"
+    }
+  ],
+  "confirmed_cost_usd": 0.8056262,
+  "sessions": [
+    {
+      "session_id": "l1_normal_r1",
+      "final_result_saved": false,
+      "last_event": "response"
+    },
+    {
+      "session_id": "l1_poisson_r1",
+      "final_result_saved": false,
+      "last_event": "response"
+    },
+    {
+      "session_id": "l2_normal_r1",
+      "final_result_saved": false,
+      "last_event": "request"
+    },
+    {
+      "session_id": "l2_poisson_r1",
+      "final_result_saved": true,
+      "last_event": "session_end"
+    }
+  ],
+  "automatic_resume": false,
+  "resume_note": "Processes are suspended, including all active simulation workers. Before any authorized resume, account for paused wall time in subprocess timeouts and execution budgets; do not blindly continue or start duplicate sessions. Preserve frozen prompts and completed policy artifacts."
+}

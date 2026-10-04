@@ -1,0 +1,23 @@
+{
+  "status": "completed",
+  "best_code_path": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_stationary_priority/training/exp_ar_pos08_fixed6/self_evolve_h100_r2/policy.py",
+  "code_sha256": "64187ba72f0634e64454504c0012dbd29fb282042a8426fb12f786b74dbf4fe3",
+  "best_train_cost": 16675.77247556343,
+  "algorithm": "Reduced base_target and safety_stock to lower holding costs, increased demand_response and smoothing_factor to better react to demand fluctuations while maintaining stability. The adjustments aim to balance holding and lost-sales costs based on the observed training performance.",
+  "checkpoint_path": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_stationary_priority/training/exp_ar_pos08_fixed6/self_evolve_h100_r2/checkpoints/g010.json.gz",
+  "model_calls": 101,
+  "training_evaluations": 6615,
+  "training_cache_hits": 266,
+  "compiled_structures": 18,
+  "optimizer": "SciPy L-BFGS-B",
+  "optimizer_maxiter": 15,
+  "test_evaluated": false,
+  "scenario_id": "exp_ar_pos08_fixed6",
+  "policy_id": "self_evolve_h100_r2",
+  "family": "self_evolve",
+  "repeat": 2,
+  "source_training_horizon": 100,
+  "elapsed_seconds": 958.1453217498492,
+  "finished_utc": "2026-09-16T07:33:24.210536+00:00",
+  "full_protocol": true
+}

@@ -1,0 +1,143 @@
+[
+  {
+    "kind": "train",
+    "scenario_id": "exp_ar_neg06_fixed6",
+    "repeat": 1,
+    "horizon": 200,
+    "exit_code": 1,
+    "status": "failed",
+    "elapsed_seconds": 334.45829837489873,
+    "log": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_unrestricted_params/job_logs/train_exp_ar_neg06_fixed6_h200_r1.log"
+  },
+  {
+    "kind": "train",
+    "scenario_id": "exp_iid_random3_9",
+    "repeat": 1,
+    "horizon": 200,
+    "exit_code": 1,
+    "status": "failed",
+    "elapsed_seconds": 137.2159830420278,
+    "log": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_unrestricted_params/job_logs/train_exp_iid_random3_9_h200_r1.log"
+  },
+  {
+    "kind": "train",
+    "scenario_id": "exp_regime095_random3_9",
+    "repeat": 1,
+    "horizon": 200,
+    "status": "paused"
+  },
+  {
+    "kind": "train",
+    "scenario_id": "exp_iid_fixed6",
+    "repeat": 2,
+    "horizon": 200,
+    "status": "paused"
+  },
+  {
+    "kind": "train",
+    "scenario_id": "exp_ar_pos08_fixed6",
+    "repeat": 2,
+    "horizon": 200,
+    "status": "paused"
+  },
+  {
+    "kind": "train",
+    "scenario_id": "exp_ar_neg06_fixed6",
+    "repeat": 2,
+    "horizon": 200,
+    "status": "paused"
+  },
+  {
+    "kind": "train",
+    "scenario_id": "exp_regime095_fixed6",
+    "repeat": 2,
+    "horizon": 200,
+    "status": "paused"
+  },
+  {
+    "kind": "train",
+    "scenario_id": "exp_iid_random3_9",
+    "repeat": 2,
+    "horizon": 200,
+    "status": "paused"
+  },
+  {
+    "kind": "train",
+    "scenario_id": "exp_regime095_random3_9",
+    "repeat": 2,
+    "horizon": 200,
+    "status": "paused"
+  },
+  {
+    "kind": "train",
+    "scenario_id": "exp_iid_fixed6",
+    "repeat": 3,
+    "horizon": 200,
+    "status": "paused"
+  },
+  {
+    "kind": "train",
+    "scenario_id": "exp_ar_pos08_fixed6",
+    "repeat": 3,
+    "horizon": 200,
+    "status": "paused"
+  },
+  {
+    "kind": "train",
+    "scenario_id": "exp_ar_neg06_fixed6",
+    "repeat": 3,
+    "horizon": 200,
+    "status": "paused"
+  },
+  {
+    "kind": "train",
+    "scenario_id": "exp_regime095_fixed6",
+    "repeat": 3,
+    "horizon": 200,
+    "status": "paused"
+  },
+  {
+    "kind": "train",
+    "scenario_id": "exp_iid_random3_9",
+    "repeat": 3,
+    "horizon": 200,
+    "status": "paused"
+  },
+  {
+    "kind": "train",
+    "scenario_id": "exp_regime095_random3_9",
+    "repeat": 3,
+    "horizon": 200,
+    "status": "paused"
+  },
+  {
+    "kind": "train",
+    "scenario_id": "exp_regime095_fixed6",
+    "repeat": 1,
+    "horizon": 200,
+    "exit_code": 1,
+    "status": "failed",
+    "elapsed_seconds": 473.06874708412215,
+    "log": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_unrestricted_params/job_logs/train_exp_regime095_fixed6_h200_r1.log"
+  },
+  {
+    "kind": "train",
+    "scenario_id": "exp_ar_pos08_fixed6",
+    "repeat": 1,
+    "horizon": 200,
+    "exit_code": 1,
+    "status": "failed",
+    "elapsed_seconds": 480.8411452078726,
+    "log": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_unrestricted_params/job_logs/train_exp_ar_pos08_fixed6_h200_r1.log"
+  },
+  {
+    "kind": "train",
+    "scenario_id": "exp_iid_fixed6",
+    "repeat": 1,
+    "horizon": 200,
+    "exit_code": 1,
+    "status": "failed",
+    "elapsed_seconds": 491.5821903340984,
+    "log": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_unrestricted_params/job_logs/train_exp_iid_fixed6_h200_r1.log"
+  }
+]

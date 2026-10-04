@@ -1,0 +1,31 @@
+{
+  "timestamp_utc": "2026-09-15T22:13:24.416265+00:00",
+  "rejected_planned_requests": 18,
+  "diagnostic_rejected_requests": 1,
+  "reason": "Unsupported optional parallel_tool_calls parameter rejected in provider routing before inference",
+  "verification": "Authenticated key usage_daily remained exactly the sum of the two successful API smoke requests",
+  "actual_paid_usage_usd": 0.000664,
+  "preinference_rejections_charged_usd": 0.0,
+  "policy_generations_in_rejected_requests": 0,
+  "archived_sessions": [
+    "l1_exponential_r1",
+    "l1_exponential_r2",
+    "l1_exponential_r3",
+    "l1_normal_r1",
+    "l1_normal_r2",
+    "l1_normal_r3",
+    "l1_poisson_r1",
+    "l1_poisson_r2",
+    "l1_poisson_r3",
+    "l2_exponential_r1",
+    "l2_exponential_r2",
+    "l2_exponential_r3",
+    "l2_normal_r1",
+    "l2_normal_r2",
+    "l2_normal_r3",
+    "l2_poisson_r1",
+    "l2_poisson_r2",
+    "l2_poisson_r3"
+  ],
+  "experiment_prompts_unchanged": true
+}

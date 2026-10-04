@@ -1,0 +1,402 @@
+[
+  {
+    "scenario": {
+      "name": "scaling_m5_mu20_cv1.5_f0",
+      "m": 5,
+      "L": 2,
+      "cv": 1.5,
+      "f": 0.0,
+      "mean": 20.0,
+      "h": 0.0,
+      "p": 100.0,
+      "w": 100.0,
+      "demand_mode": "paper_cv",
+      "cap_mode": "paper"
+    },
+    "cap": 121,
+    "quantile": {
+      "cdf_below": 0.49851179279915214,
+      "cdf_at": 0.504551120233461,
+      "fractile": 0.5
+    },
+    "dimension": 6,
+    "exact_states": 5169379425,
+    "feasible_state_action_pairs": 94525795200,
+    "one_float64_value_vector_gib": 38.514878042042255
+  },
+  {
+    "scenario": {
+      "name": "scaling_m5_mu20_cv1.5_f0.5",
+      "m": 5,
+      "L": 2,
+      "cv": 1.5,
+      "f": 0.5,
+      "mean": 20.0,
+      "h": 0.0,
+      "p": 100.0,
+      "w": 100.0,
+      "demand_mode": "paper_cv",
+      "cap_mode": "paper"
+    },
+    "cap": 118,
+    "quantile": {
+      "cdf_below": 0.4991375191488513,
+      "cdf_at": 0.5051279475314435,
+      "fractile": 0.5
+    },
+    "dimension": 6,
+    "exact_states": 4465475476,
+    "feasible_state_action_pairs": 79740633500,
+    "one_float64_value_vector_gib": 33.270384937524796
+  },
+  {
+    "scenario": {
+      "name": "scaling_m5_mu20_cv2_f0",
+      "m": 5,
+      "L": 2,
+      "cv": 2.0,
+      "f": 0.0,
+      "mean": 20.0,
+      "h": 0.0,
+      "p": 100.0,
+      "w": 100.0,
+      "demand_mode": "paper_cv",
+      "cap_mode": "paper"
+    },
+    "cap": 105,
+    "quantile": {
+      "cdf_below": 0.49528802059337773,
+      "cdf_at": 0.5013517172862554,
+      "fractile": 0.5
+    },
+    "dimension": 6,
+    "exact_states": 2264243157,
+    "feasible_state_action_pairs": 36227890512,
+    "one_float64_value_vector_gib": 16.869926132261753
+  },
+  {
+    "scenario": {
+      "name": "scaling_m5_mu20_cv2_f0.5",
+      "m": 5,
+      "L": 2,
+      "cv": 2.0,
+      "f": 0.5,
+      "mean": 20.0,
+      "h": 0.0,
+      "p": 100.0,
+      "w": 100.0,
+      "demand_mode": "paper_cv",
+      "cap_mode": "paper"
+    },
+    "cap": 100,
+    "quantile": {
+      "cdf_below": 0.4942150490011819,
+      "cdf_at": 0.5008014630382683,
+      "fractile": 0.5
+    },
+    "dimension": 6,
+    "exact_states": 1705904746,
+    "feasible_state_action_pairs": 26075972546,
+    "one_float64_value_vector_gib": 12.709980800747871
+  },
+  {
+    "scenario": {
+      "name": "scaling_m5_mu40_cv1.5_f0",
+      "m": 5,
+      "L": 2,
+      "cv": 1.5,
+      "f": 0.0,
+      "mean": 40.0,
+      "h": 0.0,
+      "p": 100.0,
+      "w": 100.0,
+      "demand_mode": "paper_cv",
+      "cap_mode": "paper"
+    },
+    "cap": 241,
+    "quantile": {
+      "cdf_below": 0.49872977425905407,
+      "cdf_at": 0.5017702002974589,
+      "fractile": 0.5
+    },
+    "dimension": 6,
+    "exact_states": 296672379003,
+    "feasible_state_action_pairs": 10510678570392,
+    "one_float64_value_vector_gib": 2210.381470642984
+  },
+  {
+    "scenario": {
+      "name": "scaling_m5_mu40_cv1.5_f0.5",
+      "m": 5,
+      "L": 2,
+      "cv": 1.5,
+      "f": 0.5,
+      "mean": 40.0,
+      "h": 0.0,
+      "p": 100.0,
+      "w": 100.0,
+      "demand_mode": "paper_cv",
+      "cap_mode": "paper"
+    },
+    "cap": 234,
+    "quantile": {
+      "cdf_below": 0.4971210325619239,
+      "cdf_at": 0.5001391532769823,
+      "fractile": 0.5
+    },
+    "dimension": 6,
+    "exact_states": 249219381880,
+    "feasible_state_action_pairs": 8580267290440,
+    "one_float64_value_vector_gib": 1856.8290910124779
+  },
+  {
+    "scenario": {
+      "name": "scaling_m5_mu40_cv2_f0",
+      "m": 5,
+      "L": 2,
+      "cv": 2.0,
+      "f": 0.0,
+      "mean": 40.0,
+      "h": 0.0,
+      "p": 100.0,
+      "w": 100.0,
+      "demand_mode": "paper_cv",
+      "cap_mode": "paper"
+    },
+    "cap": 210,
+    "quantile": {
+      "cdf_below": 0.49890563578906744,
+      "cdf_at": 0.5019520291638073,
+      "fractile": 0.5
+    },
+    "dimension": 6,
+    "exact_states": 131513824548,
+    "feasible_state_action_pairs": 4076928560988,
+    "one_float64_value_vector_gib": 979.8543494045734
+  },
+  {
+    "scenario": {
+      "name": "scaling_m5_mu40_cv2_f0.5",
+      "m": 5,
+      "L": 2,
+      "cv": 2.0,
+      "f": 0.5,
+      "mean": 40.0,
+      "h": 0.0,
+      "p": 100.0,
+      "w": 100.0,
+      "demand_mode": "paper_cv",
+      "cap_mode": "paper"
+    },
+    "cap": 200,
+    "quantile": {
+      "cdf_below": 0.499824544769823,
+      "cdf_at": 0.5031098503758396,
+      "fractile": 0.5
+    },
+    "dimension": 6,
+    "exact_states": 98619368491,
+    "feasible_state_action_pairs": 2916315611091,
+    "one_float64_value_vector_gib": 734.7715533599257
+  },
+  {
+    "scenario": {
+      "name": "scaling_m7_mu4_cv1.5_f0",
+      "m": 7,
+      "L": 2,
+      "cv": 1.5,
+      "f": 0.0,
+      "mean": 4.0,
+      "h": 0.0,
+      "p": 100.0,
+      "w": 100.0,
+      "demand_mode": "paper_cv",
+      "cap_mode": "paper"
+    },
+    "cap": 32,
+    "quantile": {
+      "cdf_below": 0.4759273393605121,
+      "cdf_at": 0.5010388273139704,
+      "fractile": 0.5
+    },
+    "dimension": 8,
+    "exact_states": 76904685,
+    "feasible_state_action_pairs": 350343565,
+    "one_float64_value_vector_gib": 0.572984553873539
+  },
+  {
+    "scenario": {
+      "name": "scaling_m7_mu4_cv1.5_f0.5",
+      "m": 7,
+      "L": 2,
+      "cv": 1.5,
+      "f": 0.5,
+      "mean": 4.0,
+      "h": 0.0,
+      "p": 100.0,
+      "w": 100.0,
+      "demand_mode": "paper_cv",
+      "cap_mode": "paper"
+    },
+    "cap": 32,
+    "quantile": {
+      "cdf_below": 0.48659676884011915,
+      "cdf_at": 0.5114071262933614,
+      "fractile": 0.5
+    },
+    "dimension": 8,
+    "exact_states": 76904685,
+    "feasible_state_action_pairs": 350343565,
+    "one_float64_value_vector_gib": 0.572984553873539
+  },
+  {
+    "scenario": {
+      "name": "scaling_m7_mu4_cv2_f0",
+      "m": 7,
+      "L": 2,
+      "cv": 2.0,
+      "f": 0.0,
+      "mean": 4.0,
+      "h": 0.0,
+      "p": 100.0,
+      "w": 100.0,
+      "demand_mode": "paper_cv",
+      "cap_mode": "paper"
+    },
+    "cap": 29,
+    "quantile": {
+      "cdf_below": 0.4876010710462485,
+      "cdf_at": 0.5099398904191107,
+      "fractile": 0.5
+    },
+    "dimension": 8,
+    "exact_states": 38608020,
+    "feasible_state_action_pairs": 163011640,
+    "one_float64_value_vector_gib": 0.2876521646976471
+  },
+  {
+    "scenario": {
+      "name": "scaling_m7_mu4_cv2_f0.5",
+      "m": 7,
+      "L": 2,
+      "cv": 2.0,
+      "f": 0.5,
+      "mean": 4.0,
+      "h": 0.0,
+      "p": 100.0,
+      "w": 100.0,
+      "demand_mode": "paper_cv",
+      "cap_mode": "paper"
+    },
+    "cap": 28,
+    "quantile": {
+      "cdf_below": 0.48075601446862465,
+      "cdf_at": 0.5035877605663553,
+      "fractile": 0.5
+    },
+    "dimension": 8,
+    "exact_states": 30260340,
+    "feasible_state_action_pairs": 124403620,
+    "one_float64_value_vector_gib": 0.225457102060318
+  },
+  {
+    "scenario": {
+      "name": "scaling_m8_mu4_cv1.5_f0",
+      "m": 8,
+      "L": 2,
+      "cv": 1.5,
+      "f": 0.0,
+      "mean": 4.0,
+      "h": 0.0,
+      "p": 100.0,
+      "w": 100.0,
+      "demand_mode": "paper_cv",
+      "cap_mode": "paper"
+    },
+    "cap": 36,
+    "quantile": {
+      "cdf_below": 0.4782159682554959,
+      "cdf_at": 0.5016802954739863,
+      "fractile": 0.5
+    },
+    "dimension": 9,
+    "exact_states": 886163135,
+    "feasible_state_action_pairs": 4076350421,
+    "one_float64_value_vector_gib": 6.602429859340191
+  },
+  {
+    "scenario": {
+      "name": "scaling_m8_mu4_cv1.5_f0.5",
+      "m": 8,
+      "L": 2,
+      "cv": 1.5,
+      "f": 0.5,
+      "mean": 4.0,
+      "h": 0.0,
+      "p": 100.0,
+      "w": 100.0,
+      "demand_mode": "paper_cv",
+      "cap_mode": "paper"
+    },
+    "cap": 36,
+    "quantile": {
+      "cdf_below": 0.48774728653363747,
+      "cdf_at": 0.5108988771382531,
+      "fractile": 0.5
+    },
+    "dimension": 9,
+    "exact_states": 886163135,
+    "feasible_state_action_pairs": 4076350421,
+    "one_float64_value_vector_gib": 6.602429859340191
+  },
+  {
+    "scenario": {
+      "name": "scaling_m8_mu4_cv2_f0",
+      "m": 8,
+      "L": 2,
+      "cv": 2.0,
+      "f": 0.0,
+      "mean": 4.0,
+      "h": 0.0,
+      "p": 100.0,
+      "w": 100.0,
+      "demand_mode": "paper_cv",
+      "cap_mode": "paper"
+    },
+    "cap": 33,
+    "quantile": {
+      "cdf_below": 0.49197856075552215,
+      "cdf_at": 0.5121770038113336,
+      "fractile": 0.5
+    },
+    "dimension": 9,
+    "exact_states": 445891810,
+    "feasible_state_action_pairs": 1917334783,
+    "one_float64_value_vector_gib": 3.322152867913246
+  },
+  {
+    "scenario": {
+      "name": "scaling_m8_mu4_cv2_f0.5",
+      "m": 8,
+      "L": 2,
+      "cv": 2.0,
+      "f": 0.5,
+      "mean": 4.0,
+      "h": 0.0,
+      "p": 100.0,
+      "w": 100.0,
+      "demand_mode": "paper_cv",
+      "cap_mode": "paper"
+    },
+    "cap": 32,
+    "quantile": {
+      "cdf_below": 0.4853317460723745,
+      "cdf_at": 0.5055587171874815,
+      "fractile": 0.5
+    },
+    "dimension": 9,
+    "exact_states": 350343565,
+    "feasible_state_action_pairs": 1471442973,
+    "one_float64_value_vector_gib": 2.610262967646122
+  }
+]

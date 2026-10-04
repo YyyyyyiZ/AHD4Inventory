@@ -1,0 +1,9 @@
+run,scope,stage,observed,counted,pending,unparseable,histogram,minimum,maximum,mean,median,above_four
+old,primary,generated_response,1858,1853,1,4,"{""2"": 59, ""3"": 461, ""4"": 1333}",2,4,3.6875337290879653,4.0,0
+old,primary,final_training_selected,18,18,0,0,"{""3"": 2, ""4"": 16}",3,4,3.888888888888889,4.0,0
+old,horizon_extension,generated_response,913,909,4,0,"{""2"": 1, ""3"": 412, ""4"": 496}",2,4,3.5445544554455446,4.0,0
+old,horizon_extension,final_training_selected,9,9,0,0,"{""4"": 9}",4,4,4.0,4.0,0
+new,primary,generated_response,1110,1104,4,2,"{""1"": 1, ""2"": 57, ""3"": 663, ""4"": 223, ""5"": 108, ""6"": 49, ""7"": 3}",1,7,3.488224637681159,3.0,160
+new,primary,final_training_selected,9,9,0,0,"{""3"": 5, ""4"": 2, ""5"": 1, ""6"": 1}",3,6,3.7777777777777777,3.0,2
+new,horizon_extension,generated_response,0,0,0,0,{},,,,,0
+new,horizon_extension,final_training_selected,0,0,0,0,{},,,,,0

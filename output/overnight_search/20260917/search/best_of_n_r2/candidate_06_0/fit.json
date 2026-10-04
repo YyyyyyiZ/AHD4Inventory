@@ -1,0 +1,335 @@
+{
+  "results": {
+    "perish_m3_L2_cv1.5_f0": {
+      "theta": [
+        10.445788087378327,
+        6.925102980867742,
+        0.3036724607844079,
+        0.9703185591920542,
+        0.9753576195832734,
+        0.41621160391921413,
+        2.566446179098162,
+        1.3388593851948003
+      ],
+      "cost": 233.4228515625,
+      "nfev": 256,
+      "seconds": 6.500998334027827,
+      "path_costs": [
+        231.4453125,
+        202.1484375,
+        234.765625,
+        227.34375,
+        239.453125,
+        259.1796875,
+        241.6015625,
+        231.4453125
+      ],
+      "metrics": [
+        0.6796875,
+        1.654541015625,
+        3.0
+      ],
+      "cap": 17
+    },
+    "perish_m3_L2_cv1.5_f0.5": {
+      "theta": [
+        16.129756233527225,
+        4.639205380036589,
+        0.2254385558017744,
+        1.2764890967907458,
+        0.18647653330088154,
+        1.197648574778671,
+        0.8128373829504203,
+        0.35816604302009125
+      ],
+      "cost": 214.306640625,
+      "nfev": 256,
+      "seconds": 3.688959915889427,
+      "path_costs": [
+        225.1953125,
+        231.25,
+        159.9609375,
+        193.75,
+        205.078125,
+        264.2578125,
+        196.484375,
+        238.4765625
+      ],
+      "metrics": [
+        0.579345703125,
+        1.563720703125,
+        3.150390625
+      ],
+      "cap": 16
+    },
+    "perish_m3_L2_cv2_f0": {
+      "theta": [
+        4.8625414140754515,
+        5.861853683787121,
+        1.038668319496696,
+        0.07401496410603303,
+        1.4040202286893748,
+        0.32239674278694636,
+        2.4463185047924854,
+        0.7855317327720345
+      ],
+      "cost": 259.86328125,
+      "nfev": 256,
+      "seconds": 3.4561084168963134,
+      "path_costs": [
+        224.8046875,
+        238.8671875,
+        269.53125,
+        268.359375,
+        310.546875,
+        227.9296875,
+        239.453125,
+        299.4140625
+      ],
+      "metrics": [
+        0.653564453125,
+        1.945068359375,
+        2.666015625
+      ],
+      "cap": 14
+    },
+    "perish_m3_L2_cv2_f0.5": {
+      "theta": [
+        4.19620219958518,
+        4.431860680148635,
+        1.1515326226054703,
+        0.1591863515079126,
+        0.7336649259597021,
+        1.08780046342121,
+        3.153101187412241,
+        0.584108150596568
+      ],
+      "cost": 236.8408203125,
+      "nfev": 256,
+      "seconds": 3.4248563330620527,
+      "path_costs": [
+        238.0859375,
+        264.0625,
+        289.6484375,
+        196.6796875,
+        235.3515625,
+        204.296875,
+        183.7890625,
+        282.8125
+      ],
+      "metrics": [
+        0.55029296875,
+        1.818115234375,
+        2.72802734375
+      ],
+      "cap": 14
+    },
+    "perish_m5_L2_cv1.5_f0": {
+      "theta": [
+        8.575483501579694,
+        8.713546060772973,
+        1.0263573521426306,
+        1.0312815166605322,
+        1.3409830958015192,
+        1.407714859149894,
+        1.7131437021145188,
+        0.5435343280682245
+      ],
+      "cost": 179.150390625,
+      "nfev": 256,
+      "seconds": 3.4103281248826534,
+      "path_costs": [
+        189.6484375,
+        145.5078125,
+        178.125,
+        167.3828125,
+        187.3046875,
+        206.4453125,
+        182.6171875,
+        176.171875
+      ],
+      "metrics": [
+        0.6298828125,
+        1.16162109375,
+        3.4462890625
+      ],
+      "cap": 25
+    },
+    "perish_m5_L2_cv1.5_f0.5": {
+      "theta": [
+        12.206831812979429,
+        3.8418424357399843,
+        0.5156544026590766,
+        0.8945309196015718,
+        1.0750502349335957,
+        0.7512791512947192,
+        1.97397178270109,
+        0.05832566335907552
+      ],
+      "cost": 164.892578125,
+      "nfev": 256,
+      "seconds": 3.7982667081523687,
+      "path_costs": [
+        166.9921875,
+        178.515625,
+        127.34375,
+        149.609375,
+        149.609375,
+        201.3671875,
+        163.4765625,
+        182.2265625
+      ],
+      "metrics": [
+        0.470947265625,
+        1.177978515625,
+        3.43017578125
+      ],
+      "cap": 24
+    },
+    "perish_m5_L2_cv2_f0": {
+      "theta": [
+        5.429737726123822,
+        10.67507993208796,
+        1.0681078723319608,
+        0.6473989014945405,
+        0.9014894322856091,
+        0.8803372624049416,
+        1.1895221786513548,
+        0.46700313419807044
+      ],
+      "cost": 212.890625,
+      "nfev": 256,
+      "seconds": 3.325580250006169,
+      "path_costs": [
+        189.6484375,
+        189.2578125,
+        225.390625,
+        225.1953125,
+        260.7421875,
+        179.296875,
+        197.65625,
+        235.9375
+      ],
+      "metrics": [
+        0.593505859375,
+        1.535400390625,
+        3.015625
+      ],
+      "cap": 22
+    },
+    "perish_m5_L2_cv2_f0.5": {
+      "theta": [
+        8.876855921015398,
+        17.017719895824793,
+        0.5178498240047127,
+        0.10655061872092875,
+        1.1378312533832176,
+        0.7072183156931693,
+        3.243093088232207,
+        1.2054449367106987
+      ],
+      "cost": 195.166015625,
+      "nfev": 256,
+      "seconds": 3.6307235839776695,
+      "path_costs": [
+        198.4375,
+        220.5078125,
+        244.921875,
+        154.4921875,
+        193.9453125,
+        166.015625,
+        143.1640625,
+        239.84375
+      ],
+      "metrics": [
+        0.3974609375,
+        1.55419921875,
+        2.84033203125
+      ],
+      "cap": 21
+    }
+  },
+  "parameters": {
+    "S": {
+      "type": "float",
+      "initial": 12.0,
+      "min": 0.0,
+      "max": 50.0
+    },
+    "B": {
+      "type": "float",
+      "initial": 20.0,
+      "min": 0.0,
+      "max": 60.0
+    },
+    "K_proj": {
+      "type": "float",
+      "initial": 0.75,
+      "min": 0.0,
+      "max": 1.5
+    },
+    "K_ip": {
+      "type": "float",
+      "initial": 0.25,
+      "min": 0.0,
+      "max": 1.5
+    },
+    "old_proj": {
+      "type": "float",
+      "initial": 0.4,
+      "min": 0.0,
+      "max": 1.5
+    },
+    "old_ip": {
+      "type": "float",
+      "initial": 0.7,
+      "min": 0.0,
+      "max": 1.5
+    },
+    "age_power": {
+      "type": "float",
+      "initial": 1.0,
+      "min": 0.15,
+      "max": 4.0
+    },
+    "pipe_weight": {
+      "type": "float",
+      "initial": 1.0,
+      "min": 0.0,
+      "max": 1.5
+    }
+  },
+  "structure_sha256": "ca7b60ee9257cff3c894191ddbba145b5e3812171fd8fd56a08b632e5203290f",
+  "code_sha256": "a6ea30d7c70df757d55fc56b3a18faf4d42935c76de462ae0fb1cc1fe64c45fa",
+  "import_normalization": [
+    {
+      "revision": "leading_numerical_imports_v1",
+      "action": "hoist_leading_import",
+      "original_line": 2,
+      "original_end_line": 2,
+      "import_statement": "import math"
+    }
+  ],
+  "wall_seconds": 32.98005949985236,
+  "transitions": 11710976,
+  "valid": true,
+  "score": 0.994800365366904,
+  "code": "def compute_order_amount(age, pipeline, mu, cv, f, L):\n    import math\n\n    S = 12.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":12.0,\"min\":0.0,\"max\":50.0}\n    B = 20.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":20.0,\"min\":0.0,\"max\":60.0}\n    K_proj = 0.75 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.75,\"min\":0.0,\"max\":1.5}\n    K_ip = 0.25 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.25,\"min\":0.0,\"max\":1.5}\n    old_proj = 0.40 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.40,\"min\":0.0,\"max\":1.5}\n    old_ip = 0.70 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.70,\"min\":0.0,\"max\":1.5}\n    age_power = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.15,\"max\":4.0}\n    pipe_weight = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":1.5}\n\n    m = len(age)\n    orig = [0.0] * m\n    x = [0.0] * m\n    for i in range(m):\n        v = float(age[i])\n        if not math.isfinite(v) or v < 0.0:\n            v = 0.0\n        if v > 1000000.0:\n            v = 1000000.0\n        orig[i] = v\n        x[i] = v\n\n    npip = len(pipeline)\n    pvec = [0.0] * npip\n    for j in range(npip):\n        v = float(pipeline[j])\n        if not math.isfinite(v) or v < 0.0:\n            v = 0.0\n        if v > 1000000.0:\n            v = 1000000.0\n        pvec[j] = v\n\n    mf = float(f) * float(mu)\n    vf = float(f) * (float(mu) * float(cv)) ** 2\n    if mf > 0.0:\n        af = vf / (mf * mf) - 1.0 / mf\n        sf = math.sqrt(max(0.0, af * af - 1.0))\n        bf = 1.0 + af + sf\n        cf = 1.0 + af - sf\n        fw = 1.0 / bf\n        fp1 = 2.0 / (2.0 + mf * bf)\n        fp2 = 2.0 / (2.0 + mf * cf)\n        fr1 = 1.0 - fp1\n        fr2 = 1.0 - fp2\n    else:\n        fw = 0.0\n        fr1 = 0.0\n        fr2 = 0.0\n\n    gl = 1.0 - float(f)\n    ml = gl * float(mu)\n    vl = gl * (float(mu) * float(cv)) ** 2\n    if ml > 0.0:\n        al = vl / (ml * ml) - 1.0 / ml\n        sl = math.sqrt(max(0.0, al * al - 1.0))\n        bl = 1.0 + al + sl\n        cl = 1.0 + al - sl\n        lw = 1.0 / bl\n        lp1 = 2.0 / (2.0 + ml * bl)\n        lp2 = 2.0 / (2.0 + ml * cl)\n        lr1 = 1.0 - lp1\n        lr2 = 1.0 - lp2\n    else:\n        lw = 0.0\n        lr1 = 0.0\n        lr2 = 0.0\n\n    lead = int(L)\n    if lead < 0:\n        lead = 0\n\n    for step in range(lead):\n        total = 0.0\n        for i in range(m):\n            total = total + x[i]\n\n        survivor = [0.0] * m\n        if total > 0.0:\n            left = 0.0\n            for i in range(m):\n                amount = x[i]\n                if amount > 0.0:\n                    pieces = int(math.ceil(amount))\n                    if pieces < 1:\n                        pieces = 1\n                    if pieces > 96:\n                        pieces = 96\n                    width = amount / float(pieces)\n                    remaining = 0.0\n\n                    for z in range(pieces):\n                        position = left + (float(z) + 0.5) * width\n                        above = total - position\n\n                        if mf <= 0.0:\n                            fifo_survival = 1.0\n                        else:\n                            ef = int(math.ceil(position))\n                            fifo_survival = 1.0 - fw * (fr1 ** ef) - (1.0 - fw) * (fr2 ** ef)\n                            if fifo_survival < 0.0:\n                                fifo_survival = 0.0\n                            if fifo_survival > 1.0:\n                                fifo_survival = 1.0\n\n                        if ml <= 0.0:\n                            lifo_survival = 1.0\n                        else:\n                            el = int(math.ceil(above))\n                            lifo_survival = 1.0 - lw * (lr1 ** el) - (1.0 - lw) * (lr2 ** el)\n                            if lifo_survival < 0.0:\n                                lifo_survival = 0.0\n                            if lifo_survival > 1.0:\n                                lifo_survival = 1.0\n\n                        remaining = remaining + width * fifo_survival * lifo_survival\n\n                    survivor[i] = remaining\n                left = left + amount\n\n        nxt = [0.0] * m\n        for i in range(m - 1):\n            nxt[i] = survivor[i + 1]\n\n        if step < lead - 1 and step < npip:\n            nxt[m - 1] = pvec[step]\n        else:\n            nxt[m - 1] = 0.0\n        x = nxt\n\n    projected_effective = 0.0\n    current_effective = 0.0\n    if m > 0:\n        for i in range(m):\n            relative_age = float(i + 1) / float(m)\n            shape = relative_age ** age_power\n            wp = old_proj + (1.0 - old_proj) * shape\n            wi = old_ip + (1.0 - old_ip) * shape\n            projected_effective = projected_effective + wp * x[i]\n            current_effective = current_effective + wi * orig[i]\n\n    pipeline_total = 0.0\n    for j in range(npip):\n        pipeline_total = pipeline_total + pvec[j]\n    current_effective = current_effective + pipe_weight * pipeline_total\n\n    projected_gap = S - projected_effective\n    if projected_gap < 0.0:\n        projected_gap = 0.0\n\n    ip_gap = B - current_effective\n    if ip_gap < 0.0:\n        ip_gap = 0.0\n\n    order = K_proj * projected_gap + K_ip * ip_gap\n    if not math.isfinite(order) or order < 0.0:\n        return 0.0\n    return float(order)\n",
+  "evaluation_correction": {
+    "revision": "leading_numerical_imports_v1",
+    "request_sha256": "617346d7228729841136150a0f6206f3d68592c986032752a1c8d6486dc97e61",
+    "reason": "leading_import_scope",
+    "original_fit_sha256": "1706f280faca729ba41a8ef5980f4e55a7ffc6eea7ce8c6495e26ab9a2426a35",
+    "code_sha256": "a6ea30d7c70df757d55fc56b3a18faf4d42935c76de462ae0fb1cc1fe64c45fa",
+    "elapsed_seconds": 33.224792749853805,
+    "timeout_seconds": 240,
+    "training_settings": {
+      "paths": 8,
+      "burnin": 200,
+      "horizon": 512,
+      "seed": 17091001,
+      "budget": 256
+    },
+    "feedback_replayed": false
+  }
+}

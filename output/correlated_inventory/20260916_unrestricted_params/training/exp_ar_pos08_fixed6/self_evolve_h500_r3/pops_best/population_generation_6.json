@@ -1,0 +1,17 @@
+{
+     "algorithm": "Increased base_target to better handle high demand periods, increased demand_response_factor to be more responsive to demand fluctuations, and reduced pipeline_adjustment_factor to be less aggressive in reducing orders based on pipeline inventory. The historical policy was too conservative, leading to high lost sales costs.",
+     "code": "import numpy as np\nimport math\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 216.06792507951812  # OPT_PARAM: {\"initial\": 216.06792507951812, \"min\": 200.0, \"max\": 500.0, \"type\": \"float\"}\n    demand_response_factor = 0.1  # OPT_PARAM: {\"initial\": 0.1, \"min\": 0.1, \"max\": 1.5, \"type\": \"float\"}\n    pipeline_adjustment_factor = 1.0  # OPT_PARAM: {\"initial\": 1.0, \"min\": 0.5, \"max\": 1.0, \"type\": \"float\"}\n    \n    demand_based_adjustment = demand_response_factor * last_demand\n    pipeline_adjustment = pipeline_adjustment_factor * sum(pipeline_orders)\n    target = base_target + demand_based_adjustment - pipeline_adjustment\n    \n    order_amount = max(0.0, target - on_hand_inventory)\n    return order_amount\n",
+     "description": "",
+     "intuition": "",
+     "reasoning": "Increased base_target to better handle high demand periods, increased demand_response_factor to be more responsive to demand fluctuations, and reduced pipeline_adjustment_factor to be less aggressive in reducing orders based on pipeline inventory. The historical policy was too conservative, leading to high lost sales costs.",
+     "opt_params": {
+          "base_target": 216.06792507951812,
+          "demand_response_factor": 0.1,
+          "pipeline_adjustment_factor": 1.0
+     },
+     "cost": null,
+     "objective": 83858.18995,
+     "lower": 81195.37581,
+     "upper": 86530.11434,
+     "other_inf": null
+}

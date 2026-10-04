@@ -1,0 +1,18 @@
+{
+  "started_utc": "2026-09-16T14:55:15.339603+00:00",
+  "pid": 11858,
+  "caffeinate_pid": 11859,
+  "workers": 4,
+  "command": [
+    "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/.venv/bin/python",
+    "-m",
+    "examples.inventory.correlated_benchmark.adaptive_pil_runner",
+    "run",
+    "--run-dir",
+    "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_adaptive_pil_seed",
+    "--workers",
+    "4"
+  ],
+  "run_dir": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_adaptive_pil_seed",
+  "shared_budget_run_dir": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_unrestricted_params"
+}

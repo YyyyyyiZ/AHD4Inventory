@@ -2,7 +2,7 @@ import os
 import shutil
 def create_folders(results_path):
     # Specify the path where you want to create the folder
-    folder_path = os.path.join(results_path, "results_create_None_None")
+    folder_path = results_path
 
     # Check if the folder already exists
     if not os.path.exists(folder_path):
@@ -13,7 +13,7 @@ def create_folders(results_path):
         os.makedirs(folder_path)
 
     # Create subfolders inside "results_create_None_None"
-    subfolders = ["history", "pops", "pops_best"]
+    subfolders = ["pops", "pops_best","prompt_for_code"]
     for subfolder in subfolders:
         subfolder_path = os.path.join(folder_path, subfolder)
         if not os.path.exists(subfolder_path):

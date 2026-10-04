@@ -1,0 +1,197 @@
+{
+  "revision": "extended_m7_m8_equal_candidate_budget_v1",
+  "rationale": "Primary small inventory-position caps allow an unrestricted tool agent to enumerate exact states. This follow-up increases shelf-life/state dimension while keeping mean, costs, demand fitting and lead time unchanged. It tests scalable policy design; greater state dimension does not guarantee worse Baek performance or more economic headroom.",
+  "status": "Protocol amendment after primary/scaling diagnostics, not an originally preregistered confirmatory test.",
+  "grid": [
+    {
+      "name": "perish_m7_L2_cv1.5_f0",
+      "m": 7,
+      "L": 2,
+      "cv": 1.5,
+      "f": 0.0,
+      "mean": 4.0,
+      "h": 0.0,
+      "p": 100.0,
+      "w": 100.0,
+      "demand_mode": "paper_cv",
+      "cap_mode": "paper",
+      "actual_cv": 1.5,
+      "inventory_cap": 32
+    },
+    {
+      "name": "perish_m7_L2_cv1.5_f0.5",
+      "m": 7,
+      "L": 2,
+      "cv": 1.5,
+      "f": 0.5,
+      "mean": 4.0,
+      "h": 0.0,
+      "p": 100.0,
+      "w": 100.0,
+      "demand_mode": "paper_cv",
+      "cap_mode": "paper",
+      "actual_cv": 1.5,
+      "inventory_cap": 32
+    },
+    {
+      "name": "perish_m7_L2_cv2_f0",
+      "m": 7,
+      "L": 2,
+      "cv": 2.0,
+      "f": 0.0,
+      "mean": 4.0,
+      "h": 0.0,
+      "p": 100.0,
+      "w": 100.0,
+      "demand_mode": "paper_cv",
+      "cap_mode": "paper",
+      "actual_cv": 2.0,
+      "inventory_cap": 29
+    },
+    {
+      "name": "perish_m7_L2_cv2_f0.5",
+      "m": 7,
+      "L": 2,
+      "cv": 2.0,
+      "f": 0.5,
+      "mean": 4.0,
+      "h": 0.0,
+      "p": 100.0,
+      "w": 100.0,
+      "demand_mode": "paper_cv",
+      "cap_mode": "paper",
+      "actual_cv": 2.0,
+      "inventory_cap": 28
+    },
+    {
+      "name": "perish_m8_L2_cv1.5_f0",
+      "m": 8,
+      "L": 2,
+      "cv": 1.5,
+      "f": 0.0,
+      "mean": 4.0,
+      "h": 0.0,
+      "p": 100.0,
+      "w": 100.0,
+      "demand_mode": "paper_cv",
+      "cap_mode": "paper",
+      "actual_cv": 1.5,
+      "inventory_cap": 36
+    },
+    {
+      "name": "perish_m8_L2_cv1.5_f0.5",
+      "m": 8,
+      "L": 2,
+      "cv": 1.5,
+      "f": 0.5,
+      "mean": 4.0,
+      "h": 0.0,
+      "p": 100.0,
+      "w": 100.0,
+      "demand_mode": "paper_cv",
+      "cap_mode": "paper",
+      "actual_cv": 1.5,
+      "inventory_cap": 36
+    },
+    {
+      "name": "perish_m8_L2_cv2_f0",
+      "m": 8,
+      "L": 2,
+      "cv": 2.0,
+      "f": 0.0,
+      "mean": 4.0,
+      "h": 0.0,
+      "p": 100.0,
+      "w": 100.0,
+      "demand_mode": "paper_cv",
+      "cap_mode": "paper",
+      "actual_cv": 2.0,
+      "inventory_cap": 33
+    },
+    {
+      "name": "perish_m8_L2_cv2_f0.5",
+      "m": 8,
+      "L": 2,
+      "cv": 2.0,
+      "f": 0.5,
+      "mean": 4.0,
+      "h": 0.0,
+      "p": 100.0,
+      "w": 100.0,
+      "demand_mode": "paper_cv",
+      "cap_mode": "paper",
+      "actual_cv": 2.0,
+      "inventory_cap": 32
+    }
+  ],
+  "discovery_shelf_life": 7,
+  "transfer_shelf_life": 8,
+  "disclosure": "All 8 outcomes will be retained. m8 parameters are public but excluded from structure-search feedback.",
+  "parity": "One-query now returns 8 candidates in one response; independent sampling and evolution each return 8. Each candidate gets the same optimizer ceiling. All arms see the same initial seed source/costs. Initial fitted parameters/metrics are also common; subsequent feedback is available only to evolution. Train fitting uses32 paths and1024 evaluations; final refit uses64 paths and2048 evaluations. All phase-2 numerical workers, including Baek, share a1GiB RSS watchdog limit on the8GiB host. Token and wall-clock costs can still differ.",
+  "monetary_budget": "Shares the original USD35 framework ledger and original USD12 Baek ledger; no additional allocation. The overall user authorization remains USD50, including the USD3 unallocated reserve.",
+  "test_gate": "No phase-2 final-test tape is generated until numeric structures/parameters and all three Baek sources are sealed.",
+  "settings": {
+    "model": "openai/gpt-5.6-sol",
+    "reasoning": "high",
+    "llm_budget_allocation_usd": 35,
+    "baek_allocation_usd": 12,
+    "unallocated_usd": 3,
+    "n_repeats": 3,
+    "candidates_per_arm": 8,
+    "one_query_candidates": 8,
+    "discovery_m": [
+      7
+    ],
+    "transfer_m": [
+      8
+    ],
+    "cv": [
+      1.5,
+      2.0
+    ],
+    "fifo": [
+      0.0,
+      0.5
+    ],
+    "L": 2,
+    "train": {
+      "paths": 32,
+      "burnin": 500,
+      "horizon": 1000,
+      "seed": 18091001,
+      "budget": 1024
+    },
+    "validation": {
+      "paths": 32,
+      "burnin": 500,
+      "horizon": 1000,
+      "seed": 18092001
+    },
+    "refit": {
+      "paths": 64,
+      "burnin": 500,
+      "horizon": 1500,
+      "seed": 18093001,
+      "budget": 2048
+    },
+    "test": {
+      "paths": 128,
+      "burnin": 500,
+      "horizon": 3000,
+      "seed": 18094001
+    },
+    "parameter_count_limit": null,
+    "selection": "training only during search; validation chooses final structure within each arm before test",
+    "interpretation": "exploratory family screen; algorithm-generation repetitions are 3, not number of paths",
+    "optimizer": "common derivative-free differential evolution; exact objective-call ceiling",
+    "baek": "tool-enabled L2 protocol adaptation; 50 tools/3600s maximum, separately measured resources",
+    "profile": "extended",
+    "amendment_revision": "extended_m7_m8_equal_candidate_budget_v1",
+    "feedback_details": true,
+    "worker_rss_limit_bytes": 1073741824,
+    "shared_framework_budget_dir": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/overnight_search/20260917/framework_budget",
+    "shared_baek_budget_file": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/overnight_search/20260917/baek/budget.json",
+    "initial_information": "All three arms receive the same selected common seed code and training costs.",
+    "phase2_selection": "Full fixed grid of 8 scenarios; amended after primary diagnostic, new test seed sealed."
+  }
+}

@@ -1,0 +1,163 @@
+[
+     {
+          "algorithm": "Increased base stock target from ~228 to 300 to better match demand patterns, particularly the higher demand quantiles (90th percentile at 221, 99th at 485). The higher target should reduce lost sales while keeping holding costs manageable given the demand autocorrelation and conditional demand means. The new range (100-500) covers the important demand quantiles while being constrained by the exponential mean of 100.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    target = 226.9270299382197  # OPT_PARAM: {\"initial\": 226.9270299382197, \"min\": 100.0, \"max\": 500.0, \"type\": \"float\"}\n    order_amount = max(0.0, target - on_hand_inventory - np.sum(pipeline_orders))\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base stock target from ~228 to 300 to better match demand patterns, particularly the higher demand quantiles (90th percentile at 221, 99th at 485). The higher target should reduce lost sales while keeping holding costs manageable given the demand autocorrelation and conditional demand means. The new range (100-500) covers the important demand quantiles while being constrained by the exponential mean of 100.",
+          "opt_params": {
+               "target": 226.9270299382197
+          },
+          "cost": null,
+          "objective": 8188.27761,
+          "lower": 7288.67037,
+          "upper": 9206.77516,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Base-stock seed using the training sample mean.",
+          "code": "def compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    target = 227.72136579630384  # OPT_PARAM: {\"initial\": 227.72136579630384, \"min\": 0.0, \"max\": 2848.32653963115, \"type\": \"float\"}\n    order_amount = max(0.0, target - on_hand_inventory - sum(pipeline_orders))\n    return order_amount\n",
+          "objective": 8188.30836,
+          "other_inf": null,
+          "lower": 7289.361,
+          "upper": 9205.7597,
+          "opt_params": {
+               "target": 227.72136579630384
+          }
+     },
+     {
+          "algorithm": "The new policy uses a base stock level adjusted by demand fluctuations. It forecasts demand using last_demand (with smoothing) and adjusts the target inventory level accordingly. This better handles demand autocorrelation while maintaining reasonable inventory levels.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_stock = 233.73316860273837  # OPT_PARAM: {\"initial\": 233.73316860273837, \"min\": 100.0, \"max\": 300.0, \"type\": \"float\"}\n    demand_sensitivity = 0.1  # OPT_PARAM: {\"initial\": 0.1, \"min\": 0.1, \"max\": 1.0, \"type\": \"float\"}\n    adjustment_factor = 0.5  # OPT_PARAM: {\"initial\": 0.5, \"min\": 0.5, \"max\": 1.2, \"type\": \"float\"}\n    \n    demand_forecast = demand_sensitivity * last_demand + (1 - demand_sensitivity) * 100.0\n    dynamic_target = base_stock + adjustment_factor * (demand_forecast - 100.0)\n    order_amount = max(0.0, dynamic_target - on_hand_inventory - np.sum(pipeline_orders))\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "The new policy uses a base stock level adjusted by demand fluctuations. It forecasts demand using last_demand (with smoothing) and adjusts the target inventory level accordingly. This better handles demand autocorrelation while maintaining reasonable inventory levels.",
+          "opt_params": {
+               "base_stock": 233.73316860273837,
+               "demand_sensitivity": 0.1,
+               "adjustment_factor": 0.5
+          },
+          "cost": null,
+          "objective": 8193.37968,
+          "lower": 7304.61878,
+          "upper": 9194.51711,
+          "other_inf": null
+     },
+     {
+          "algorithm": "The new policy incorporates three optimizable parameters: base_multiplier scales the mean demand, safety_factor adds responsiveness to recent demand, and demand_response balances between inventory position correction and demand matching. This adaptive approach better handles the demand autocorrelation while maintaining adequate stock levels. The parameters allow optimization across different demand regimes seen in the training data.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_multiplier = 1.9310871343877476  # OPT_PARAM: {\"initial\": 1.9310871343877476, \"min\": 1.0, \"max\": 5.0, \"type\": \"float\"}\n    safety_factor = 0.1  # OPT_PARAM: {\"initial\": 0.1, \"min\": 0.1, \"max\": 2.0, \"type\": \"float\"}\n    demand_response = 0.6754787210238944  # OPT_PARAM: {\"initial\": 0.6754787210238944, \"min\": 0.0, \"max\": 1.0, \"type\": \"float\"}\n    \n    target = base_multiplier * 100.0 + safety_factor * last_demand\n    current_position = on_hand_inventory + np.sum(pipeline_orders)\n    order_amount = max(0.0, demand_response * (target - current_position) + (1 - demand_response) * last_demand)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "The new policy incorporates three optimizable parameters: base_multiplier scales the mean demand, safety_factor adds responsiveness to recent demand, and demand_response balances between inventory position correction and demand matching. This adaptive approach better handles the demand autocorrelation while maintaining adequate stock levels. The parameters allow optimization across different demand regimes seen in the training data.",
+          "opt_params": {
+               "base_multiplier": 1.9310871343877476,
+               "safety_factor": 0.1,
+               "demand_response": 0.6754787210238944
+          },
+          "cost": null,
+          "objective": 8201.35118,
+          "lower": 7312.90021,
+          "upper": 9149.61024,
+          "other_inf": null
+     },
+     {
+          "algorithm": "The new policy introduces three key improvements: 1) A lower base target (150 vs 227) to reduce holding costs, 2) Demand responsiveness (60% of last demand) to better track demand patterns, and 3) Smoothing (40% base + 60% adjusted demand) to stabilize orders. The target is bounded between 50%-150% of base to prevent extreme orders.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 250.0  # OPT_PARAM: {\"initial\": 250.0, \"min\": 80.0, \"max\": 250.0, \"type\": \"float\"}\n    demand_response = 0.3  # OPT_PARAM: {\"initial\": 0.3, \"min\": 0.3, \"max\": 1.0, \"type\": \"float\"}\n    smoothing_factor = 0.8  # OPT_PARAM: {\"initial\": 0.8, \"min\": 0.1, \"max\": 0.8, \"type\": \"float\"}\n    \n    demand_adjustment = demand_response * last_demand\n    smoothed_target = smoothing_factor * base_target + (1 - smoothing_factor) * demand_adjustment\n    target = max(base_target * 0.5, min(base_target * 1.5, smoothed_target))\n    order_amount = max(0.0, target - on_hand_inventory - np.sum(pipeline_orders))\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "The new policy introduces three key improvements: 1) A lower base target (150 vs 227) to reduce holding costs, 2) Demand responsiveness (60% of last demand) to better track demand patterns, and 3) Smoothing (40% base + 60% adjusted demand) to stabilize orders. The target is bounded between 50%-150% of base to prevent extreme orders.",
+          "opt_params": {
+               "base_target": 250.0,
+               "demand_response": 0.3,
+               "smoothing_factor": 0.8
+          },
+          "cost": null,
+          "objective": 8205.42553,
+          "lower": 7288.85738,
+          "upper": 9244.07045,
+          "other_inf": null
+     },
+     {
+          "algorithm": "The new policy incorporates both a base target level and a demand-responsive component. It adjusts based on previous demand while maintaining safety stock. The parameters were optimized to balance holding costs and lost sales, reducing the average total cost compared to the fixed target approach.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 174.7324032917134  # OPT_PARAM: {\"initial\": 174.7324032917134, \"min\": 100.0, \"max\": 300.0, \"type\": \"float\"}\n    demand_adjustment = 0.1  # OPT_PARAM: {\"initial\": 0.1, \"min\": 0.1, \"max\": 0.9, \"type\": \"float\"}\n    safety_stock = 44.73240329171433  # OPT_PARAM: {\"initial\": 44.73240329171433, \"min\": 10.0, \"max\": 100.0, \"type\": \"float\"}\n    \n    target = base_target + demand_adjustment * last_demand + safety_stock\n    order_amount = max(0.0, target - on_hand_inventory - np.sum(pipeline_orders))\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "The new policy incorporates both a base target level and a demand-responsive component. It adjusts based on previous demand while maintaining safety stock. The parameters were optimized to balance holding costs and lost sales, reducing the average total cost compared to the fixed target approach.",
+          "opt_params": {
+               "base_target": 174.7324032917134,
+               "demand_adjustment": 0.1,
+               "safety_stock": 44.73240329171433
+          },
+          "cost": null,
+          "objective": 8210.8862,
+          "lower": 7311.53647,
+          "upper": 9220.61046,
+          "other_inf": null
+     },
+     {
+          "algorithm": "The modified policy adds two key improvements: 1) A demand response factor that adjusts the target inventory level based on the most recent demand observation, better capturing the demand autocorrelation shown in the training diagnostics. 2) A safety stock parameter to buffer against demand variability. The base target remains but now works in combination with these dynamic adjustments.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 198.1945498494507  # OPT_PARAM: {\"initial\": 198.1945498494507, \"min\": 100.0, \"max\": 500.0, \"type\": \"float\"}\n    demand_response_factor = 0.1  # OPT_PARAM: {\"initial\": 0.1, \"min\": 0.1, \"max\": 1.5, \"type\": \"float\"}\n    safety_stock = 21.267519911233787  # OPT_PARAM: {\"initial\": 21.267519911233787, \"min\": 0.0, \"max\": 200.0, \"type\": \"float\"}\n    \n    # Adjust target based on last demand and safety stock\n    adjusted_target = base_target + demand_response_factor * last_demand + safety_stock\n    inventory_position = on_hand_inventory + np.sum(pipeline_orders)\n    order_amount = max(0.0, adjusted_target - inventory_position)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "The modified policy adds two key improvements: 1) A demand response factor that adjusts the target inventory level based on the most recent demand observation, better capturing the demand autocorrelation shown in the training diagnostics. 2) A safety stock parameter to buffer against demand variability. The base target remains but now works in combination with these dynamic adjustments.",
+          "opt_params": {
+               "base_target": 198.1945498494507,
+               "demand_response_factor": 0.1,
+               "safety_stock": 21.267519911233787
+          },
+          "cost": null,
+          "objective": 8210.88655,
+          "lower": 7311.53811,
+          "upper": 9220.61432,
+          "other_inf": null
+     },
+     {
+          "algorithm": "The new policy incorporates three key improvements: 1) A higher base stock level (300) to better handle demand spikes, 2) A demand-responsive component (0.8*last_demand) to adapt to recent demand patterns, and 3) A pipeline adjustment factor (0.6) to account for in-transit inventory more conservatively. These changes aim to reduce lost sales while controlling holding costs, given the demand's high variability and autocorrelation.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_stock = 219.49846092242694  # OPT_PARAM: {\"initial\": 219.49846092242694, \"min\": 100.0, \"max\": 500.0, \"type\": \"float\"}\n    demand_response_factor = 0.1  # OPT_PARAM: {\"initial\": 0.1, \"min\": 0.1, \"max\": 1.5, \"type\": \"float\"}\n    pipeline_adjustment = 1.0  # OPT_PARAM: {\"initial\": 1.0, \"min\": 0.1, \"max\": 1.0, \"type\": \"float\"}\n    \n    target = base_stock + demand_response_factor * last_demand\n    inventory_position = on_hand_inventory + pipeline_adjustment * np.sum(pipeline_orders)\n    order_amount = max(0.0, target - inventory_position)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "The new policy incorporates three key improvements: 1) A higher base stock level (300) to better handle demand spikes, 2) A demand-responsive component (0.8*last_demand) to adapt to recent demand patterns, and 3) A pipeline adjustment factor (0.6) to account for in-transit inventory more conservatively. These changes aim to reduce lost sales while controlling holding costs, given the demand's high variability and autocorrelation.",
+          "opt_params": {
+               "base_stock": 219.49846092242694,
+               "demand_response_factor": 0.1,
+               "pipeline_adjustment": 1.0
+          },
+          "cost": null,
+          "objective": 8210.88755,
+          "lower": 7311.52178,
+          "upper": 9220.57411,
+          "other_inf": null
+     },
+     {
+          "algorithm": "The original policy had high lost sales costs, suggesting insufficient inventory. The new policy: 1) Reduces the base target to 190 (from 227.7) while adding demand responsiveness, 2) Incorporates last demand to better anticipate trends, 3) Adds pipeline adjustment (0.8) to prevent over-ordering during high pipeline inventory periods, while maintaining stationarity. The parameters are optimized within reasonable bounds based on training data characteristics.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    target = 219.50657405377842  # OPT_PARAM: {\"initial\": 219.50657405377842, \"min\": 100.0, \"max\": 300.0, \"type\": \"float\"}\n    demand_response = 0.1  # OPT_PARAM: {\"initial\": 0.1, \"min\": 0.1, \"max\": 1.0, \"type\": \"float\"}\n    pipeline_adjustment = 1.0  # OPT_PARAM: {\"initial\": 1.0, \"min\": 0.5, \"max\": 1.0, \"type\": \"float\"}\n    \n    adjusted_target = target + demand_response * last_demand\n    order_amount = max(0.0, adjusted_target - on_hand_inventory - pipeline_adjustment * sum(pipeline_orders))\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "The original policy had high lost sales costs, suggesting insufficient inventory. The new policy: 1) Reduces the base target to 190 (from 227.7) while adding demand responsiveness, 2) Incorporates last demand to better anticipate trends, 3) Adds pipeline adjustment (0.8) to prevent over-ordering during high pipeline inventory periods, while maintaining stationarity. The parameters are optimized within reasonable bounds based on training data characteristics.",
+          "opt_params": {
+               "target": 219.50657405377842,
+               "demand_response": 0.1,
+               "pipeline_adjustment": 1.0
+          },
+          "cost": null,
+          "objective": 8210.88787,
+          "lower": 7311.51823,
+          "upper": 9220.56535,
+          "other_inf": null
+     },
+     {
+          "algorithm": "The modified policy incorporates the strong demand autocorrelation (0.7683 at lag 1) by adjusting the target inventory level based on the previous demand. The baseline stock level is optimized, and the response to previous demand is also made tunable. This should better handle demand persistence while maintaining protection against stockouts.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    baseline = 219.51359707115714  # OPT_PARAM: {\"initial\": 219.51359707115714, \"min\": 50.0, \"max\": 400.0, \"type\": \"float\"}\n    demand_response = 0.1  # OPT_PARAM: {\"initial\": 0.1, \"min\": 0.1, \"max\": 1.5, \"type\": \"float\"}\n    \n    # Adjust target based on last demand to account for autocorrelation\n    adjusted_target = baseline + demand_response * last_demand\n    order_amount = max(0.0, adjusted_target - on_hand_inventory - np.sum(pipeline_orders))\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "The modified policy incorporates the strong demand autocorrelation (0.7683 at lag 1) by adjusting the target inventory level based on the previous demand. The baseline stock level is optimized, and the response to previous demand is also made tunable. This should better handle demand persistence while maintaining protection against stockouts.",
+          "opt_params": {
+               "baseline": 219.51359707115714,
+               "demand_response": 0.1
+          },
+          "cost": null,
+          "objective": 8210.88816,
+          "lower": 7311.51517,
+          "upper": 9220.55777,
+          "other_inf": null
+     }
+]

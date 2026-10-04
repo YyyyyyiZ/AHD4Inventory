@@ -1,0 +1,28 @@
+{
+  "started_utc": "2026-09-16T06:49:17.837077+00:00",
+  "old_pid": 63218,
+  "new_pid": 80616,
+  "caffeinate_pid": 80617,
+  "command": [
+    "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/.venv/bin/python",
+    "-m",
+    "examples.inventory.correlated_benchmark.night_runner",
+    "--run-dir",
+    "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_stationary_priority",
+    "--workers",
+    "4"
+  ],
+  "reason": "All 18 primary chains are complete; prior driver recorded the historical failed child. Resume existing checkpoints and continue 9 preplanned horizon refits.",
+  "primary_policies_sealed": true,
+  "frozen_source_hashes_verified": true,
+  "prior_state_archive": "controller_restarts/20260916T0648Z",
+  "budget_at_restart": {
+    "limit_usd": 20.0,
+    "known_cost_usd": 1.20200036,
+    "held_upper_usd": 0.0087542,
+    "committed_upper_usd": 1.21075456,
+    "requests": 1862,
+    "completed": 1861,
+    "uncertain": 1
+  }
+}

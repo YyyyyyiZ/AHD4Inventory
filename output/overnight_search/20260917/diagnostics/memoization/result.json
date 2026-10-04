@@ -1,0 +1,222 @@
+{
+  "scope": "fresh diagnostic paths only; no final tests",
+  "seed": 98713011,
+  "records": [
+    {
+      "method": "evolution_r2",
+      "origin": "search/evolution_r2/candidate_06_0",
+      "scenario": "perish_m3_L2_cv1.5_f0",
+      "audited_raw_actions": 16000,
+      "path_cost_exact": true,
+      "metrics_exact": true,
+      "saturation_fallback_verified": false,
+      "hits": 31982,
+      "misses": 18,
+      "entries": 18,
+      "hit_rate": 0.9994375,
+      "cache": {
+        "dense": true,
+        "slots": 104976,
+        "slot_bits": 0,
+        "max_entries": 5985,
+        "buffer_bytes": 839808
+      },
+      "original_cpu_seconds": 0.8539589999999997,
+      "cached_cpu_seconds": 0.0021369999999993894,
+      "cpu_speedup": 399.6064576510265,
+      "wall_speedup": 424.22691776043985
+    },
+    {
+      "method": "evolution_r2",
+      "origin": "search/evolution_r2/candidate_06_0",
+      "scenario": "perish_m3_L2_cv1.5_f0.5",
+      "audited_raw_actions": 16000,
+      "path_cost_exact": true,
+      "metrics_exact": true,
+      "saturation_fallback_verified": false,
+      "hits": 31982,
+      "misses": 18,
+      "entries": 18,
+      "hit_rate": 0.9994375,
+      "cache": {
+        "dense": true,
+        "slots": 83521,
+        "slot_bits": 0,
+        "max_entries": 4845,
+        "buffer_bytes": 668168
+      },
+      "original_cpu_seconds": 0.9420779999999986,
+      "cached_cpu_seconds": 0.0016859999999994102,
+      "cpu_speedup": 558.7651245553548,
+      "wall_speedup": 616.3680741553923
+    },
+    {
+      "method": "evolution_r2",
+      "origin": "search/evolution_r2/candidate_06_0",
+      "scenario": "perish_m5_L2_cv2_f0",
+      "audited_raw_actions": 16000,
+      "path_cost_exact": true,
+      "metrics_exact": true,
+      "saturation_fallback_verified": true,
+      "hits": 27554,
+      "misses": 4446,
+      "entries": 4446,
+      "hit_rate": 0.8610625,
+      "cache": {
+        "dense": false,
+        "slots": 65536,
+        "slot_bits": 16,
+        "max_entries": 32000,
+        "buffer_bytes": 1048576
+      },
+      "original_cpu_seconds": 0.8650689999999983,
+      "cached_cpu_seconds": 0.12054200000000037,
+      "cpu_speedup": 7.176494499842343,
+      "wall_speedup": 7.38012965830322
+    },
+    {
+      "method": "evolution_r2",
+      "origin": "search/evolution_r2/candidate_06_0",
+      "scenario": "perish_m5_L2_cv2_f0.5",
+      "audited_raw_actions": 16000,
+      "path_cost_exact": true,
+      "metrics_exact": true,
+      "saturation_fallback_verified": true,
+      "hits": 28666,
+      "misses": 3334,
+      "entries": 3334,
+      "hit_rate": 0.8958125,
+      "cache": {
+        "dense": false,
+        "slots": 65536,
+        "slot_bits": 16,
+        "max_entries": 32000,
+        "buffer_bytes": 1048576
+      },
+      "original_cpu_seconds": 1.099845000000002,
+      "cached_cpu_seconds": 0.1073580000000014,
+      "cpu_speedup": 10.244648745319283,
+      "wall_speedup": 10.934492627379656
+    },
+    {
+      "method": "evolution_r3",
+      "origin": "search/evolution_r3/candidate_05_0",
+      "scenario": "perish_m3_L2_cv1.5_f0",
+      "audited_raw_actions": 16000,
+      "path_cost_exact": true,
+      "metrics_exact": true,
+      "saturation_fallback_verified": false,
+      "hits": 31827,
+      "misses": 173,
+      "entries": 173,
+      "hit_rate": 0.99459375,
+      "cache": {
+        "dense": true,
+        "slots": 104976,
+        "slot_bits": 0,
+        "max_entries": 5985,
+        "buffer_bytes": 839808
+      },
+      "original_cpu_seconds": 0.1843849999999989,
+      "cached_cpu_seconds": 0.00219900000000095,
+      "cpu_speedup": 83.84947703497919,
+      "wall_speedup": 71.17428305549171
+    },
+    {
+      "method": "evolution_r3",
+      "origin": "search/evolution_r3/candidate_05_0",
+      "scenario": "perish_m3_L2_cv1.5_f0.5",
+      "audited_raw_actions": 16000,
+      "path_cost_exact": true,
+      "metrics_exact": true,
+      "saturation_fallback_verified": false,
+      "hits": 31895,
+      "misses": 105,
+      "entries": 105,
+      "hit_rate": 0.99671875,
+      "cache": {
+        "dense": true,
+        "slots": 83521,
+        "slot_bits": 0,
+        "max_entries": 4845,
+        "buffer_bytes": 668168
+      },
+      "original_cpu_seconds": 0.45336900000000213,
+      "cached_cpu_seconds": 0.003999999999997783,
+      "cpu_speedup": 113.34225000006334,
+      "wall_speedup": 123.90666939710981
+    },
+    {
+      "method": "evolution_r3",
+      "origin": "search/evolution_r3/candidate_05_0",
+      "scenario": "perish_m5_L2_cv2_f0",
+      "audited_raw_actions": 16000,
+      "path_cost_exact": true,
+      "metrics_exact": true,
+      "saturation_fallback_verified": true,
+      "hits": 29525,
+      "misses": 2475,
+      "entries": 2475,
+      "hit_rate": 0.92265625,
+      "cache": {
+        "dense": false,
+        "slots": 65536,
+        "slot_bits": 16,
+        "max_entries": 32000,
+        "buffer_bytes": 1048576
+      },
+      "original_cpu_seconds": 0.21736299999999886,
+      "cached_cpu_seconds": 0.02045599999999581,
+      "cpu_speedup": 10.625879937428792,
+      "wall_speedup": 10.788695193629618
+    },
+    {
+      "method": "evolution_r3",
+      "origin": "search/evolution_r3/candidate_05_0",
+      "scenario": "perish_m5_L2_cv2_f0.5",
+      "audited_raw_actions": 16000,
+      "path_cost_exact": true,
+      "metrics_exact": true,
+      "saturation_fallback_verified": true,
+      "hits": 29451,
+      "misses": 2549,
+      "entries": 2549,
+      "hit_rate": 0.92034375,
+      "cache": {
+        "dense": false,
+        "slots": 65536,
+        "slot_bits": 16,
+        "max_entries": 32000,
+        "buffer_bytes": 1048576
+      },
+      "original_cpu_seconds": 0.6511050000000012,
+      "cached_cpu_seconds": 0.05656499999999909,
+      "cpu_speedup": 11.510739856802115,
+      "wall_speedup": 11.729763365886107
+    }
+  ],
+  "optimization_parity": [
+    {
+      "method": "evolution_r2",
+      "scenario": "perish_m5_L2_cv2_f0.5",
+      "budget": 33,
+      "nfev": 33,
+      "exact_trajectory": true,
+      "exact_theta": true,
+      "exact_cost": true
+    },
+    {
+      "method": "evolution_r3",
+      "scenario": "perish_m5_L2_cv2_f0.5",
+      "budget": 33,
+      "nfev": 33,
+      "exact_trajectory": true,
+      "exact_theta": true,
+      "exact_cost": true
+    }
+  ],
+  "max_cache_array_bytes": 4194304,
+  "active_evaluator_modified": false,
+  "wall_seconds": 44.02621725015342,
+  "process_peak_rss_bytes_macos": 246611968
+}

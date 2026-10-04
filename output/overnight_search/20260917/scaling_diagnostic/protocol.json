@@ -1,0 +1,63 @@
+{
+  "label": "Classical policy and scaling diagnostic; no AIPS or Baek outcome claims",
+  "revision": "Full feasible order-cap parameter range; initial range screen retained separately",
+  "grid": [
+    {
+      "m": 5,
+      "mean": 20.0
+    },
+    {
+      "m": 5,
+      "mean": 40.0
+    },
+    {
+      "m": 7,
+      "mean": 4.0
+    },
+    {
+      "m": 8,
+      "mean": 4.0
+    }
+  ],
+  "cv": [
+    1.5,
+    2.0
+  ],
+  "f": [
+    0.0,
+    0.5
+  ],
+  "L": 2,
+  "train": {
+    "paths": 8,
+    "burnin": 200,
+    "horizon": 512,
+    "seed": 1801001
+  },
+  "validation": {
+    "paths": 32,
+    "burnin": 500,
+    "horizon": 1000,
+    "seed": 1802001
+  },
+  "diagnostic_holdout": {
+    "paths": 64,
+    "burnin": 500,
+    "horizon": 3000,
+    "seed": 1804001
+  },
+  "policies": [
+    "BSP",
+    "CBS",
+    "age_discount",
+    "BSP_low_EW"
+  ],
+  "optimizer_evaluations_per_start": 512,
+  "optimizer_seeds": [
+    71,
+    171
+  ],
+  "strong_selection": "Select age_discount or BSP_low_EW by validation mean, before diagnostic holdout",
+  "main_test_seed_opened": false,
+  "source_sha256": "820d82e9e4cfde76ebbc8a4d4e5f2170a812f526cfb161cf96d7e535b4362e01"
+}

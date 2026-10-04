@@ -1,0 +1,67 @@
+{
+  "exported_utc": "2026-09-17T12:32:23.349153+00:00",
+  "paid_calls": 0,
+  "executed_policies": 0,
+  "sessions": [
+    {
+      "session": "primary_r1",
+      "requests": 19,
+      "tool_calls": 18,
+      "python_seconds": 3215.3007619569544,
+      "user_message_count_per_request": 1,
+      "source_sha256": "543cb9d70125ee629100d11755723b9478262b3469b2093bbdfa9f54db471c37",
+      "export_sha256": "ff2dca3b27b938b265264288da1d11158fe56533fa79c0a527a7b970896a0518",
+      "export": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/overnight_search/20260917/baek/interaction_review/primary_r1.md"
+    },
+    {
+      "session": "primary_r2",
+      "requests": 11,
+      "tool_calls": 10,
+      "python_seconds": 233.87026412435807,
+      "user_message_count_per_request": 1,
+      "source_sha256": "c9523a6fbe24ea7e5b51a5018e7f50e7c006576f84c59226d7bd60da537f102c",
+      "export_sha256": "902cc2ffe1592e8072c464a803e578ee7d05c7c7991dd0a1eb79f641433ba350",
+      "export": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/overnight_search/20260917/baek/interaction_review/primary_r2.md"
+    },
+    {
+      "session": "primary_r3",
+      "requests": 11,
+      "tool_calls": 10,
+      "python_seconds": 810.6364575431217,
+      "user_message_count_per_request": 1,
+      "source_sha256": "0f89661cb4536bc8c75598046ea1d5a0c3aee28228a2bde7cd080735e37bf47c",
+      "export_sha256": "3b57c0ea18abf429af2588e49589b44d3cfe15efc7e9c05aacf1a3bdeebf909c",
+      "export": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/overnight_search/20260917/baek/interaction_review/primary_r3.md"
+    },
+    {
+      "session": "extended_r1",
+      "requests": 25,
+      "tool_calls": 24,
+      "python_seconds": 2219.858459709212,
+      "user_message_count_per_request": 1,
+      "source_sha256": "4806399682b8dc4b9c1456d6c3c74855aa79cc55d45f09062b34510e4d505ad7",
+      "export_sha256": "14e78ebc0f4a54e8143c2441a4b9262e2a4649845f6aee3ba6484dd80d2aa9ba",
+      "export": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/overnight_search/20260917/baek/interaction_review/extended_r1.md"
+    },
+    {
+      "session": "extended_r2",
+      "requests": 8,
+      "tool_calls": 7,
+      "python_seconds": 3600.0034706240986,
+      "user_message_count_per_request": 1,
+      "source_sha256": "4d10c5b39fd50c3ec4be999b9552352097417b699dc6b4a4aa3acbdb6d070cf6",
+      "export_sha256": "1dfc29514faed07720bbac1861b9af64f0592a39c858ad7c7bea8f48cd4e2380",
+      "export": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/overnight_search/20260917/baek/interaction_review/extended_r2.md"
+    },
+    {
+      "session": "extended_r3",
+      "requests": 26,
+      "tool_calls": 25,
+      "python_seconds": 1826.4501192073803,
+      "user_message_count_per_request": 1,
+      "source_sha256": "bfe719ba7b10c396aece4a70171768b4545a5b250d773fcd8ee05c7d6ef0502a",
+      "export_sha256": "dbe016ce843e7c261d4e2197981aa4c08c48d404a9f554638e76c4402016bc37",
+      "export": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/overnight_search/20260917/baek/interaction_review/extended_r3.md"
+    }
+  ]
+}

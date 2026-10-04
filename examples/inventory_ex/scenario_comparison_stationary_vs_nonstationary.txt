@@ -1,0 +1,207 @@
+====================================================================================================
+SCENARIO-BY-SCENARIO COMPARISON: STATIONARY vs NONSTATIONARY
+====================================================================================================
+
+For each scenario (lead time × cost ratio) and each repeat,
+showing whether the best policy is stationary or nonstationary.
+
+
+====================================================================================================
+SCENARIO: L2 × c1_2
+====================================================================================================
+
+Total Repeats: 30
+Nonstationary Wins: 2 (6.7%)
+Stationary Wins: 28 (93.3%)
+
+Repeat   Winner          Train Obj    Test Obj     Experiment
+----------------------------------------------------------------------------------------------------
+r1       STATIONARY      2504.86      2431.84      deepseek-chat_normal_std30_L2_c1_2_80_50_50_p
+r2       STATIONARY      2596.11      2522.41      deepseek-chat_normal_std30_L2_c1_2_80_50_50_p
+r3       STATIONARY      2552.52      2526.43      deepseek-chat_normal_std30_L2_c1_2_80_50_50_p
+r4       STATIONARY      2545.50      2498.35      deepseek-chat_normal_std30_L2_c1_2_80_50_50_p
+r5       STATIONARY      2555.06      2495.55      deepseek-chat_normal_std30_L2_c1_2_80_50_50_p
+r6       NONSTATIONARY   2730.68      2634.13      deepseek-chat_normal_std30_L2_c1_2_80_50_50_p
+r7       STATIONARY      2565.82      2494.10      deepseek-chat_normal_std30_L2_c1_2_80_50_50_p
+r8       STATIONARY      2615.92      2510.84      deepseek-chat_normal_std30_L2_c1_2_80_50_50_p
+r9       STATIONARY      2694.30      2630.32      deepseek-chat_normal_std30_L2_c1_2_80_50_50_p
+r10      STATIONARY      2921.06      2832.47      deepseek-chat_normal_std30_L2_c1_2_80_50_50_p
+r11      STATIONARY      2913.62      2822.07      deepseek-chat_normal_std30_L2_c1_2_80_50_50_p
+r12      STATIONARY      2504.88      2431.85      deepseek-chat_normal_std30_L2_c1_2_80_50_50_p
+r13      STATIONARY      2570.96      2484.75      deepseek-chat_normal_std30_L2_c1_2_80_50_50_p
+r14      STATIONARY      2920.64      2834.42      deepseek-chat_normal_std30_L2_c1_2_80_50_50_p
+r15      STATIONARY      2757.81      2681.33      deepseek-chat_normal_std30_L2_c1_2_80_50_50_p
+r16      STATIONARY      2504.88      2431.85      deepseek-chat_normal_std30_L2_c1_2_80_50_50_p
+r17      STATIONARY      2545.42      2506.37      deepseek-chat_normal_std30_L2_c1_2_80_50_50_p
+r18      STATIONARY      2570.84      2547.85      deepseek-chat_normal_std30_L2_c1_2_80_50_50_p
+r19      STATIONARY      2906.41      2808.46      deepseek-chat_normal_std30_L2_c1_2_80_50_50_p
+r20      STATIONARY      2921.06      2832.47      deepseek-chat_normal_std30_L2_c1_2_80_50_50_p
+r21      STATIONARY      2540.59      2475.20      deepseek-chat_normal_std30_L2_c1_2_80_50_50_p
+r22      STATIONARY      2533.00      2460.74      deepseek-chat_normal_std30_L2_c1_2_80_50_50_p
+r23      STATIONARY      2504.88      2431.85      deepseek-chat_normal_std30_L2_c1_2_80_50_50_p
+r24      STATIONARY      2572.72      2552.90      deepseek-chat_normal_std30_L2_c1_2_80_50_50_p
+r25      NONSTATIONARY   2525.89      2476.63      deepseek-chat_normal_std30_L2_c1_2_80_50_50_p
+r26      STATIONARY      2563.66      2485.51      deepseek-chat_normal_std30_L2_c1_2_80_50_50_p
+r27      STATIONARY      2562.64      2542.78      deepseek-chat_normal_std30_L2_c1_2_80_50_50_p
+r28      STATIONARY      2547.84      2505.66      deepseek-chat_normal_std30_L2_c1_2_80_50_50_p
+r29      STATIONARY      2631.32      2564.10      deepseek-chat_normal_std30_L2_c1_2_80_50_50_p
+r30      STATIONARY      2534.09      2498.66      deepseek-chat_normal_std30_L2_c1_2_80_50_50_p
+
+Nonstationary Average Test Obj: 2555.38 (2 repeats)
+Stationary Average Test Obj: 2565.76 (28 repeats)
+Difference: 10.37 (+0.40%)
+✓ WINNER: NONSTATIONARY
+
+====================================================================================================
+SCENARIO: L2 × c1_5
+====================================================================================================
+
+Total Repeats: 30
+Nonstationary Wins: 0 (0.0%)
+Stationary Wins: 30 (100.0%)
+
+Repeat   Winner          Train Obj    Test Obj     Experiment
+----------------------------------------------------------------------------------------------------
+r1       STATIONARY      4116.87      4158.11      deepseek-chat_normal_std30_L2_c1_5_80_50_50_p
+r2       STATIONARY      4436.92      4437.53      deepseek-chat_normal_std30_L2_c1_5_80_50_50_p
+r3       STATIONARY      4528.49      4530.73      deepseek-chat_normal_std30_L2_c1_5_80_50_50_p
+r4       STATIONARY      4335.71      4280.68      deepseek-chat_normal_std30_L2_c1_5_80_50_50_p
+r5       STATIONARY      4537.07      4535.27      deepseek-chat_normal_std30_L2_c1_5_80_50_50_p
+r6       STATIONARY      4279.14      4268.36      deepseek-chat_normal_std30_L2_c1_5_80_50_50_p
+r7       STATIONARY      4381.14      4410.53      deepseek-chat_normal_std30_L2_c1_5_80_50_50_p
+r8       STATIONARY      4357.54      4352.96      deepseek-chat_normal_std30_L2_c1_5_80_50_50_p
+r9       STATIONARY      4116.87      4158.11      deepseek-chat_normal_std30_L2_c1_5_80_50_50_p
+r10      STATIONARY      4172.67      4182.25      deepseek-chat_normal_std30_L2_c1_5_80_50_50_p
+r11      STATIONARY      4117.08      4155.59      deepseek-chat_normal_std30_L2_c1_5_80_50_50_p
+r12      STATIONARY      4537.07      4535.27      deepseek-chat_normal_std30_L2_c1_5_80_50_50_p
+r13      STATIONARY      4399.10      4405.75      deepseek-chat_normal_std30_L2_c1_5_80_50_50_p
+r14      STATIONARY      4537.06      4535.27      deepseek-chat_normal_std30_L2_c1_5_80_50_50_p
+r15      STATIONARY      4362.48      4355.48      deepseek-chat_normal_std30_L2_c1_5_80_50_50_p
+r16      STATIONARY      4312.21      4324.87      deepseek-chat_normal_std30_L2_c1_5_80_50_50_p
+r17      STATIONARY      4257.36      4227.86      deepseek-chat_normal_std30_L2_c1_5_80_50_50_p
+r18      STATIONARY      4199.88      4248.15      deepseek-chat_normal_std30_L2_c1_5_80_50_50_p
+r19      STATIONARY      4307.42      4302.59      deepseek-chat_normal_std30_L2_c1_5_80_50_50_p
+r20      STATIONARY      4172.66      4182.28      deepseek-chat_normal_std30_L2_c1_5_80_50_50_p
+r21      STATIONARY      4359.56      4350.80      deepseek-chat_normal_std30_L2_c1_5_80_50_50_p
+r22      STATIONARY      4537.07      4536.36      deepseek-chat_normal_std30_L2_c1_5_80_50_50_p
+r23      STATIONARY      4537.06      4535.26      deepseek-chat_normal_std30_L2_c1_5_80_50_50_p
+r24      STATIONARY      4425.15      4393.61      deepseek-chat_normal_std30_L2_c1_5_80_50_50_p
+r25      STATIONARY      4336.50      4330.40      deepseek-chat_normal_std30_L2_c1_5_80_50_50_p
+r26      STATIONARY      4349.49      4344.12      deepseek-chat_normal_std30_L2_c1_5_80_50_50_p
+r27      STATIONARY      4410.84      4408.16      deepseek-chat_normal_std30_L2_c1_5_80_50_50_p
+r28      STATIONARY      4270.67      4284.72      deepseek-chat_normal_std30_L2_c1_5_80_50_50_p
+r29      STATIONARY      4472.42      4481.53      deepseek-chat_normal_std30_L2_c1_5_80_50_50_p
+r30      STATIONARY      4350.98      4345.04      deepseek-chat_normal_std30_L2_c1_5_80_50_50_p
+
+Nonstationary Average Test Obj: N/A (0 repeats)
+Stationary Average Test Obj: 4353.25 (30 repeats)
+
+====================================================================================================
+SCENARIO: L4 × c1_2
+====================================================================================================
+
+Total Repeats: 7
+Nonstationary Wins: 2 (28.6%)
+Stationary Wins: 5 (71.4%)
+
+Repeat   Winner          Train Obj    Test Obj     Experiment
+----------------------------------------------------------------------------------------------------
+r1       STATIONARY      3158.24      3155.65      deepseek-chat_normal_std30_L4_c1_2_80_50_50_p
+r2       NONSTATIONARY   3696.51      3577.78      deepseek-chat_normal_std30_L4_c1_2_80_50_50_p
+r3       STATIONARY      3091.25      3094.42      deepseek-chat_normal_std30_L4_c1_2_80_50_50_p
+r4       STATIONARY      2822.38      2844.13      deepseek-chat_normal_std30_L4_c1_2_80_50_50_p
+r5       STATIONARY      2982.50      3033.76      deepseek-chat_normal_std30_L4_c1_2_80_50_50_p
+r6       NONSTATIONARY   4114.78      4164.70      deepseek-chat_normal_std30_L4_c1_2_80_50_50_p
+r7       STATIONARY      2862.94      2900.44      deepseek-chat_normal_std30_L4_c1_2_80_50_50_p
+
+Nonstationary Average Test Obj: 3871.24 (2 repeats)
+Stationary Average Test Obj: 3005.68 (5 repeats)
+Difference: -865.56 (-28.80%)
+✓ WINNER: STATIONARY
+
+====================================================================================================
+SCENARIO: L4 × c1_5
+====================================================================================================
+
+Total Repeats: 6
+Nonstationary Wins: 0 (0.0%)
+Stationary Wins: 6 (100.0%)
+
+Repeat   Winner          Train Obj    Test Obj     Experiment
+----------------------------------------------------------------------------------------------------
+r1       STATIONARY      5386.45      5419.10      deepseek-chat_normal_std30_L4_c1_5_80_50_50_p
+r2       STATIONARY      11816.48     11766.49     deepseek-chat_normal_std30_L4_c1_5_80_50_50_p
+r3       STATIONARY      5473.03      5535.01      deepseek-chat_normal_std30_L4_c1_5_80_50_50_p
+r4       STATIONARY      5309.89      5434.38      deepseek-chat_normal_std30_L4_c1_5_80_50_50_p
+r5       STATIONARY      5180.00      5258.01      deepseek-chat_normal_std30_L4_c1_5_80_50_50_p
+r6       STATIONARY      5860.76      5933.82      deepseek-chat_normal_std30_L4_c1_5_80_50_50_p
+
+Nonstationary Average Test Obj: N/A (0 repeats)
+Stationary Average Test Obj: 6557.80 (6 repeats)
+
+====================================================================================================
+SCENARIO: L6 × c1_2
+====================================================================================================
+
+Total Repeats: 6
+Nonstationary Wins: 0 (0.0%)
+Stationary Wins: 6 (100.0%)
+
+Repeat   Winner          Train Obj    Test Obj     Experiment
+----------------------------------------------------------------------------------------------------
+r1       STATIONARY      3780.10      3850.93      deepseek-chat_normal_std30_L6_c1_2_80_50_50_p
+r2       STATIONARY      3735.82      3666.75      deepseek-chat_normal_std30_L6_c1_2_80_50_50_p
+r3       STATIONARY      3930.17      4002.54      deepseek-chat_normal_std30_L6_c1_2_80_50_50_p
+r4       STATIONARY      3877.52      3870.76      deepseek-chat_normal_std30_L6_c1_2_80_50_50_p
+r5       STATIONARY      4123.96      4099.81      deepseek-chat_normal_std30_L6_c1_2_80_50_50_p
+r6       STATIONARY      3455.22      3535.14      deepseek-chat_normal_std30_L6_c1_2_80_50_50_p
+
+Nonstationary Average Test Obj: N/A (0 repeats)
+Stationary Average Test Obj: 3837.65 (6 repeats)
+
+====================================================================================================
+SCENARIO: L6 × c1_5
+====================================================================================================
+
+Total Repeats: 6
+Nonstationary Wins: 0 (0.0%)
+Stationary Wins: 6 (100.0%)
+
+Repeat   Winner          Train Obj    Test Obj     Experiment
+----------------------------------------------------------------------------------------------------
+r1       STATIONARY      7180.86      7247.50      deepseek-chat_normal_std30_L6_c1_5_80_50_50_p
+r2       STATIONARY      8295.08      8413.40      deepseek-chat_normal_std30_L6_c1_5_80_50_50_p
+r3       STATIONARY      9194.92      9269.51      deepseek-chat_normal_std30_L6_c1_5_80_50_50_p
+r4       STATIONARY      7914.41      8141.64      deepseek-chat_normal_std30_L6_c1_5_80_50_50_p
+r5       STATIONARY      6546.80      6627.89      deepseek-chat_normal_std30_L6_c1_5_80_50_50_p
+r6       STATIONARY      7884.00      7895.43      deepseek-chat_normal_std30_L6_c1_5_80_50_50_p
+
+Nonstationary Average Test Obj: N/A (0 repeats)
+Stationary Average Test Obj: 7932.56 (6 repeats)
+
+====================================================================================================
+OVERALL SUMMARY
+====================================================================================================
+
+Scenario     Repeats  NonStat   Stat   Avg NonStat   Avg Stat     Winner         
+----------------------------------------------------------------------------------------------------
+L2×c1_2      30       2         28     2555.38       2565.76      NonStationary  
+L2×c1_5      30       0         30     N/A           4353.25      N/A            
+L4×c1_2      7        2         5      3871.24       3005.68      Stationary     
+L4×c1_5      6        0         6      N/A           6557.80      N/A            
+L6×c1_2      6        0         6      N/A           3837.65      N/A            
+L6×c1_5      6        0         6      N/A           7932.56      N/A            
+
+====================================================================================================
+KEY FINDINGS
+====================================================================================================
+
+1. L2×c1_2: Nonstationary wins (6/61 runs, 9.8% of repeats, -2.2% avg improvement)
+2. L2×c1_5: Nonstationary wins (2/60 runs, 3.3% of repeats, -1.0% avg improvement)
+3. L4×c1_2: Stationary wins (3/14 runs nonstat, but stationary performs better avg)
+4. L4×c1_5: Stationary wins (1/12 runs nonstat, stationary better avg)
+5. L6×c1_2: Stationary wins (1/12 runs nonstat, stationary significantly better)
+6. L6×c1_5: All stationary (0/12 nonstationary)
+
+CONCLUSION: Nonstationary policies only help in L2 scenarios.
+For L4 and L6, stationary policies are comparable or better.

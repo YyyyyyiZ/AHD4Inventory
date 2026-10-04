@@ -1,0 +1,252 @@
+{
+  "results": {
+    "perish_m3_L2_cv1.5_f0": {
+      "theta": [
+        1.964745612311905,
+        2.2410878828703917,
+        0.10701127390593645,
+        1.4864739382582632
+      ],
+      "cost": 233.4228515625,
+      "nfev": 256,
+      "seconds": 3.01174808293581,
+      "path_costs": [
+        231.4453125,
+        202.1484375,
+        234.765625,
+        227.34375,
+        239.453125,
+        259.1796875,
+        241.6015625,
+        231.4453125
+      ],
+      "metrics": [
+        0.6796875,
+        1.654541015625,
+        3.0
+      ],
+      "cap": 17
+    },
+    "perish_m3_L2_cv1.5_f0.5": {
+      "theta": [
+        5.2876667966996,
+        0.7499919856053233,
+        0.2514965224868859,
+        3.2983109429953013
+      ],
+      "cost": 213.720703125,
+      "nfev": 256,
+      "seconds": 1.3635753330308944,
+      "path_costs": [
+        221.484375,
+        231.25,
+        161.1328125,
+        192.96875,
+        205.078125,
+        265.0390625,
+        196.09375,
+        236.71875
+      ],
+      "metrics": [
+        0.59130859375,
+        1.5458984375,
+        3.18017578125
+      ],
+      "cap": 16
+    },
+    "perish_m3_L2_cv2_f0": {
+      "theta": [
+        4.01980883570215,
+        1.2162294619769,
+        0.9638953366460782,
+        1.290386846465274
+      ],
+      "cost": 259.86328125,
+      "nfev": 256,
+      "seconds": 1.1250029581133276,
+      "path_costs": [
+        224.8046875,
+        238.8671875,
+        269.53125,
+        268.359375,
+        310.546875,
+        227.9296875,
+        239.453125,
+        299.4140625
+      ],
+      "metrics": [
+        0.653564453125,
+        1.945068359375,
+        2.666015625
+      ],
+      "cap": 14
+    },
+    "perish_m3_L2_cv2_f0.5": {
+      "theta": [
+        2.5919939861474575,
+        1.983922921913829,
+        0.5226354778442462,
+        3.264360853035599
+      ],
+      "cost": 236.9873046875,
+      "nfev": 256,
+      "seconds": 1.2597280419431627,
+      "path_costs": [
+        236.9140625,
+        264.84375,
+        290.0390625,
+        197.65625,
+        234.375,
+        204.8828125,
+        184.5703125,
+        282.6171875
+      ],
+      "metrics": [
+        0.54443359375,
+        1.825439453125,
+        2.71484375
+      ],
+      "cap": 14
+    },
+    "perish_m5_L2_cv1.5_f0": {
+      "theta": [
+        6.17345289414348,
+        1.9757503905587677,
+        0.9728124014097282,
+        3.977809316080758
+      ],
+      "cost": 182.373046875,
+      "nfev": 256,
+      "seconds": 1.845163624966517,
+      "path_costs": [
+        192.96875,
+        150.1953125,
+        181.25,
+        174.0234375,
+        188.28125,
+        208.7890625,
+        184.765625,
+        178.7109375
+      ],
+      "metrics": [
+        0.62646484375,
+        1.197265625,
+        3.4072265625
+      ],
+      "cap": 25
+    },
+    "perish_m5_L2_cv1.5_f0.5": {
+      "theta": [
+        7.177856983520535,
+        0.9301283020490536,
+        0.6145169346908662,
+        5.324523544600634
+      ],
+      "cost": 164.794921875,
+      "nfev": 256,
+      "seconds": 1.5307414159178734,
+      "path_costs": [
+        166.796875,
+        178.125,
+        127.34375,
+        148.4375,
+        151.3671875,
+        200.9765625,
+        162.890625,
+        182.421875
+      ],
+      "metrics": [
+        0.478515625,
+        1.16943359375,
+        3.445556640625
+      ],
+      "cap": 24
+    },
+    "perish_m5_L2_cv2_f0": {
+      "theta": [
+        4.634716980128108,
+        2.165656872854596,
+        0.9048494099744996,
+        2.025433131105016
+      ],
+      "cost": 213.4765625,
+      "nfev": 256,
+      "seconds": 1.2555307920556515,
+      "path_costs": [
+        183.203125,
+        196.484375,
+        226.3671875,
+        226.953125,
+        258.984375,
+        176.3671875,
+        196.2890625,
+        243.1640625
+      ],
+      "metrics": [
+        0.4775390625,
+        1.6572265625,
+        2.7744140625
+      ],
+      "cap": 22
+    },
+    "perish_m5_L2_cv2_f0.5": {
+      "theta": [
+        7.906433898833328,
+        0.8159768337702669,
+        0.9522697191786514,
+        4.029355654001917
+      ],
+      "cost": 195.5810546875,
+      "nfev": 256,
+      "seconds": 1.520406291820109,
+      "path_costs": [
+        199.21875,
+        220.8984375,
+        247.4609375,
+        154.4921875,
+        193.5546875,
+        165.625,
+        143.1640625,
+        240.234375
+      ],
+      "metrics": [
+        0.428466796875,
+        1.52734375,
+        2.898681640625
+      ],
+      "cap": 21
+    }
+  },
+  "parameters": {
+    "S": {
+      "type": "float",
+      "initial": 12.0,
+      "min": 0.0,
+      "max": 60.0
+    },
+    "GAIN": {
+      "type": "float",
+      "initial": 1.0,
+      "min": 0.2,
+      "max": 2.5
+    },
+    "AGE_FLOOR": {
+      "type": "float",
+      "initial": 0.35,
+      "min": 0.0,
+      "max": 1.0
+    },
+    "AGE_POWER": {
+      "type": "float",
+      "initial": 1.5,
+      "min": 0.2,
+      "max": 6.0
+    }
+  },
+  "structure_sha256": "eff92c96b8cc27a96e57d8cad9fe28b5b38df5a42ce632b6a48e1985d884a221",
+  "wall_seconds": 14.378265166888013,
+  "transitions": 11710976,
+  "valid": true,
+  "score": 0.9972675623473863,
+  "code": "def compute_order_amount(age, pipeline, mu, cv, f, L):\n    S = 12.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":12.0,\"min\":0.0,\"max\":60.0}\n    GAIN = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.2,\"max\":2.5}\n    AGE_FLOOR = 0.35 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.35,\"min\":0.0,\"max\":1.0}\n    AGE_POWER = 1.5 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.5,\"min\":0.2,\"max\":6.0}\n\n    m = len(age)\n    projected = [0.0] * m\n    for i in range(m):\n        x = float(age[i])\n        if x < 0.0:\n            x = 0.0\n        projected[i] = x\n\n    mu_cv = mu * cv\n\n    fifo_active = f > 0.0\n    if fifo_active:\n        fifo_mean = f * mu\n        fifo_var = f * mu_cv * mu_cv\n        fifo_a = fifo_var / (fifo_mean * fifo_mean) - 1.0 / fifo_mean\n        fifo_disc = fifo_a * fifo_a - 1.0\n        if fifo_disc < 0.0:\n            fifo_disc = 0.0\n        fifo_root = fifo_disc ** 0.5\n        fifo_b = 1.0 + fifo_a + fifo_root\n        fifo_c = 1.0 + fifo_a - fifo_root\n        fifo_w1 = 1.0 / fifo_b\n        fifo_w2 = 1.0 - fifo_w1\n        fifo_p1 = 2.0 / (2.0 + fifo_mean * fifo_b)\n        fifo_p2 = 2.0 / (2.0 + fifo_mean * fifo_c)\n        fifo_r1 = 1.0 - fifo_p1\n        fifo_r2 = 1.0 - fifo_p2\n\n    lifo_share = 1.0 - f\n    lifo_active = lifo_share > 0.0\n    if lifo_active:\n        lifo_mean = lifo_share * mu\n        lifo_var = lifo_share * mu_cv * mu_cv\n        lifo_a = lifo_var / (lifo_mean * lifo_mean) - 1.0 / lifo_mean\n        lifo_disc = lifo_a * lifo_a - 1.0\n        if lifo_disc < 0.0:\n            lifo_disc = 0.0\n        lifo_root = lifo_disc ** 0.5\n        lifo_b = 1.0 + lifo_a + lifo_root\n        lifo_c = 1.0 + lifo_a - lifo_root\n        lifo_w1 = 1.0 / lifo_b\n        lifo_w2 = 1.0 - lifo_w1\n        lifo_p1 = 2.0 / (2.0 + lifo_mean * lifo_b)\n        lifo_p2 = 2.0 / (2.0 + lifo_mean * lifo_c)\n        lifo_r1 = 1.0 - lifo_p1\n        lifo_r2 = 1.0 - lifo_p2\n\n    for step in range(L):\n        if step > 0:\n            pipe_index = step - 1\n            if pipe_index < len(pipeline):\n                arrival = float(pipeline[pipe_index])\n                if arrival > 0.0:\n                    projected[m - 1] = projected[m - 1] + arrival\n\n        if fifo_active:\n            cumulative = 0.0\n            for i in range(m):\n                stock = projected[i]\n\n                k0 = int(cumulative) + 1\n                ex01 = (fifo_r1 ** k0) * (k0 - cumulative + fifo_r1 / fifo_p1)\n                ex02 = (fifo_r2 ** k0) * (k0 - cumulative + fifo_r2 / fifo_p2)\n                excess0 = fifo_w1 * ex01 + fifo_w2 * ex02\n\n                endpoint = cumulative + stock\n                k1 = int(endpoint) + 1\n                ex11 = (fifo_r1 ** k1) * (k1 - endpoint + fifo_r1 / fifo_p1)\n                ex12 = (fifo_r2 ** k1) * (k1 - endpoint + fifo_r2 / fifo_p2)\n                excess1 = fifo_w1 * ex11 + fifo_w2 * ex12\n\n                used = excess0 - excess1\n                if used < 0.0:\n                    used = 0.0\n                if used > stock:\n                    used = stock\n                projected[i] = stock - used\n                cumulative = endpoint\n\n        if lifo_active:\n            cumulative = 0.0\n            for offset in range(m):\n                i = m - 1 - offset\n                stock = projected[i]\n\n                k0 = int(cumulative) + 1\n                ex01 = (lifo_r1 ** k0) * (k0 - cumulative + lifo_r1 / lifo_p1)\n                ex02 = (lifo_r2 ** k0) * (k0 - cumulative + lifo_r2 / lifo_p2)\n                excess0 = lifo_w1 * ex01 + lifo_w2 * ex02\n\n                endpoint = cumulative + stock\n                k1 = int(endpoint) + 1\n                ex11 = (lifo_r1 ** k1) * (k1 - endpoint + lifo_r1 / lifo_p1)\n                ex12 = (lifo_r2 ** k1) * (k1 - endpoint + lifo_r2 / lifo_p2)\n                excess1 = lifo_w1 * ex11 + lifo_w2 * ex12\n\n                used = excess0 - excess1\n                if used < 0.0:\n                    used = 0.0\n                if used > stock:\n                    used = stock\n                projected[i] = stock - used\n                cumulative = endpoint\n\n        shifted = [0.0] * m\n        for i in range(m - 1):\n            shifted[i] = projected[i + 1]\n        projected = shifted\n\n    effective_stock = 0.0\n    if m > 1:\n        denominator = float(m - 1)\n        for i in range(m):\n            relative_age = float(i) / denominator\n            weight = AGE_FLOOR + (1.0 - AGE_FLOOR) * (relative_age ** AGE_POWER)\n            effective_stock = effective_stock + weight * projected[i]\n    elif m == 1:\n        effective_stock = projected[0]\n\n    q = GAIN * (S - effective_stock)\n    if q < 0.0 or q != q:\n        q = 0.0\n    if q > 1000000.0:\n        q = 1000000.0\n    return float(q)\n"
+}

@@ -1,0 +1,7 @@
+scenario_id,source_training_horizon,mode,horizon,scope,diagonal,status,planned_repeats_per_run,old_n_repeats,old_mean_cost_per_period,old_generation_sd,new_n_repeats
+exp_iid_fixed6,200,steady,200,primary,True,incomplete,3,3,124.97485777596047,1.1343235005642118,0
+exp_ar_pos08_fixed6,200,steady,200,primary,True,incomplete,3,3,166.17068822022603,2.4593585505645934,0
+exp_ar_neg06_fixed6,200,steady,200,primary,True,incomplete,3,3,101.88594888000193,3.105275838535983,0
+exp_regime095_fixed6,200,steady,200,primary,True,incomplete,3,3,152.55988929909617,2.626147783677059,0
+exp_iid_random3_9,200,steady,200,primary,True,incomplete,3,3,139.94601253043194,5.921127118998577,0
+exp_regime095_random3_9,200,steady,200,primary,True,incomplete,3,3,153.12586305287564,2.3228688611423354,0

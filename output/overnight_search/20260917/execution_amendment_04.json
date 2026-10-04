@@ -1,0 +1,13 @@
+{
+  "created_utc": "2026-09-17T04:57:12.517726+00:00",
+  "final_test_opened": false,
+  "change": "Exact per-theta deterministic action memoization for all numeric refit and test requests, uniformly by frozen stage settings. Structure search and validation retain original evaluator.",
+  "evidence": "diagnostics/memoization/result.json: 128000 raw actions and path costs/metrics exactly equal; two complete 33-call optimizer trajectories bit-identical; forced hash saturation fallback verified. Diagnostic CPU speedups 7.18\u2013559x.",
+  "unchanged": "Policy source, selected structures, parameter ranges, optimizer calls, tapes, seeds, costs, transition counts and API budgets.",
+  "new_paid_calls": 0,
+  "cache_bounds": "At most 100000 hash entries, at most 4MiB NumPy buffers; reset each theta/scenario. Signed-int64 collision-free state keys.",
+  "execution_routing": "Exact op/seed/path/burnin/horizon tuples for primary and extended refit/test only. Dispatching parents read the updated trusted numeric_job source on their next call. Already running jobs finish unchanged.",
+  "source_sha256": "2850ead363f34f72b29a603540b1e0945318097dfcf403f6884066e3bf119dac",
+  "cached_previous_parts": "Reused, because math is identical; execution metadata is kept per new part.",
+  "metadata_note": "Existing parent processes may omit aggregate cache metadata; canonical per-scenario checkpoint JSON files retain enabled flag, hit/miss counts and configuration."
+}

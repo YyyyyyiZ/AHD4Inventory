@@ -1,0 +1,17 @@
+{
+  "status": "blocked",
+  "metadata": {
+    "scenario_id": "exp_regime095_random3_9",
+    "repeat": 2,
+    "chain_dir": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_adaptive_pil_seed/training/exp_regime095_random3_9/self_evolve_h200_r2",
+    "generation": 3,
+    "operator": "m2",
+    "candidate_index": 8,
+    "parent_code_sha256": "bd943f8959a7a82885a2a360a44b0d254be6fd04730132186b2a5c32d7748304",
+    "candidate_attempt": 1,
+    "prompt_sha256": "bbd9677faae02da8f4348e2f94c787dfad6e655d99beae18feba04a960989c75"
+  },
+  "error_type": "ModelRequestError",
+  "error": "Warm-start experiment paused before request submission",
+  "instruction": "No automatic retry or re-POST. Review request accounting before resume."
+}

@@ -1,0 +1,240 @@
+{
+  "schema_version": 1,
+  "method": "Baek-L1",
+  "source": "baek_generated",
+  "scenario_id": "normal_std30_L6_c1_2",
+  "scenario": {
+    "scenario_id": "normal_std30_L6_c1_2",
+    "distribution": "normal",
+    "lead_time": 6,
+    "holding_cost": 1.0,
+    "lost_sales_cost": 2.0,
+    "mean_demand": 100.0,
+    "std_normal": 30.0,
+    "horizon": 50
+  },
+  "code_sha256": "9feeb105f700d46a2dcbf8aa3de49687fb197ce851ff0a07fa72cb84bf9bad7b",
+  "metadata": {
+    "session_id": "l1_normal_r2",
+    "level": "L1",
+    "family": "normal",
+    "repeat": 2,
+    "scenario_id": "normal_std30_L6_c1_2",
+    "prompt_sha256": "b093c1aee0482af8510760d06496a6168ff689d5ea490c5c419fa318fb7420f1",
+    "artifact_id": "l1_normal_r2",
+    "parent_session_id": "l1_normal_r2",
+    "attempt": 1,
+    "generation_status": "completed",
+    "model": "openai/gpt-5.6-sol",
+    "reasoning_effort": "high",
+    "actual_models": [
+      "openai/gpt-5.6-sol"
+    ],
+    "cost_usd": 0.3789635999999999,
+    "tool_calls": 29,
+    "python_seconds": 1542.4447968320455,
+    "requests": 31,
+    "usage": {
+      "input_tokens": 530033,
+      "output_tokens": 19872,
+      "total_tokens": 549905,
+      "last_response_usage": {
+        "input_tokens": 31459,
+        "input_tokens_details": {
+          "cached_tokens": 29541,
+          "cache_write_tokens": 1915
+        },
+        "output_tokens": 878,
+        "output_tokens_details": {
+          "reasoning_tokens": 444
+        },
+        "total_tokens": 32337,
+        "cost": 0.0194817,
+        "is_byok": false,
+        "cost_details": {
+          "upstream_inference_cost": 0.0194817,
+          "upstream_inference_input_cost": 0.0107017,
+          "upstream_inference_output_cost": 0.00878
+        }
+      }
+    },
+    "result_path": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/baek_comparison/20260915_first_round/sessions/l1_normal_r2/result.json",
+    "result_sha256": "9883af58a9948c8224e6be55588fc81a391817019f058a190c30579570a593cb",
+    "policy_path": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/baek_comparison/20260915_first_round/sessions/l1_normal_r2/policy.py",
+    "retry_of_result_sha256": null,
+    "invalidity_evidence": null
+  },
+  "manifest_sha256": "88945883d10220e0571a2448d1afde0a3df906ab638023719d884728fccd51ce",
+  "data_sha256": {},
+  "evaluation_kind": "synthetic_contract_validation",
+  "created_utc": "2026-09-16T01:33:34.085990+00:00",
+  "evaluation_limits": {
+    "setup_timeout_seconds": 600,
+    "requested_setup_timeout_seconds": 600,
+    "action_timeout_seconds": 1,
+    "worker_timeout_seconds": 1200
+  },
+  "construction_scope": "One initialization for this artifact/scenario and all batches in this record. Synthetic validation and later scoring construct independently; initialization randomness is controlled by the submitted source.",
+  "callable_contract": "L1 defines a Python function; L2 design(params) returns a Python function. Callable objects require separate review.",
+  "main_report_selection": "One attempt for the entire planned designer draw, qualified only by synthetic validation over every required scenario. Original partial results remain diagnostic; never stitch original and retry across scenarios or select by test cost.",
+  "status": "ok",
+  "raw_result": {
+    "status": "ok",
+    "batches": {
+      "synthetic_contract": {
+        "summary": {
+          "n_paths": 3,
+          "periods_scored": 50,
+          "periods_simulated": 56,
+          "mode": "finite",
+          "integer_orders": false,
+          "mean_total_cost": 16190.442112571494,
+          "mean_cost_per_period": 323.8088422514299,
+          "mean_holding_cost": 13603.79640783971,
+          "mean_lost_sales_cost": 2586.6457047317845,
+          "mean_service_level": 0.8145125085734367,
+          "demand_weighted_service_level": 0.6896025154321859,
+          "total_policy_seconds": 0.0002934166695922613
+        },
+        "per_path": {
+          "total_cost": [
+            38536.326551238075,
+            1177.0,
+            8857.99978647641
+          ],
+          "holding_cost": [
+            38536.326551238075,
+            3.0,
+            2272.062672281057
+          ],
+          "lost_sales_cost": [
+            0.0,
+            1174.0,
+            6585.937114195353
+          ],
+          "demand_units": [
+            0.0,
+            5000.0,
+            7500.0
+          ],
+          "sales_units": [
+            0.0,
+            4413.0,
+            4207.031442902324
+          ],
+          "lost_units": [
+            0.0,
+            587.0,
+            3292.9685570976767
+          ],
+          "service_level": [
+            1.0,
+            0.8826,
+            0.5609375257203099
+          ],
+          "policy_seconds": [
+            0.00010633515194058418,
+            9.370548650622368e-05,
+            9.337603114545345e-05
+          ]
+        },
+        "evaluation_seconds": 0.0007696668617427349,
+        "mean_action_seconds": 1.7465277951920315e-06
+      }
+    },
+    "setup_seconds": 0.00023850006982684135,
+    "setup_exceeded_30_seconds": false,
+    "stationarity_check": {
+      "proof": false,
+      "limitation": "Repeated-state tests and mutation fingerprints can detect violations but cannot prove stationarity; opaque imported objects are not exhaustively inspected.",
+      "action_dependency_issues": [],
+      "repeated_states_passed": true,
+      "mutable_state_changed": false,
+      "n_probe_calls": 9
+    },
+    "source_review": {
+      "status": "passed",
+      "issues": [],
+      "limitation": "Static screening and dynamic probes do not prove stationarity or prevent every Python introspection technique."
+    },
+    "worker": {
+      "elapsed_seconds": 0.15167091693729162,
+      "returncode": 0,
+      "timed_out": false
+    }
+  },
+  "batches": {
+    "synthetic_contract": {
+      "status": "ok",
+      "demand_sha256": "32666b86cfeb8882efedd5e9f4bdb883ba4847c0e75c69b277ccded4fa48710d",
+      "demand_shape": [
+        3,
+        50
+      ],
+      "mode": "finite",
+      "burn_in": 0,
+      "integer_orders": false,
+      "summary": {
+        "n_paths": 3,
+        "periods_scored": 50,
+        "periods_simulated": 56,
+        "mode": "finite",
+        "integer_orders": false,
+        "mean_total_cost": 16190.442112571494,
+        "mean_cost_per_period": 323.8088422514299,
+        "mean_holding_cost": 13603.79640783971,
+        "mean_lost_sales_cost": 2586.6457047317845,
+        "mean_service_level": 0.8145125085734367,
+        "demand_weighted_service_level": 0.6896025154321859,
+        "total_policy_seconds": 0.0002934166695922613
+      },
+      "per_path": {
+        "total_cost": [
+          38536.326551238075,
+          1177.0,
+          8857.99978647641
+        ],
+        "holding_cost": [
+          38536.326551238075,
+          3.0,
+          2272.062672281057
+        ],
+        "lost_sales_cost": [
+          0.0,
+          1174.0,
+          6585.937114195353
+        ],
+        "demand_units": [
+          0.0,
+          5000.0,
+          7500.0
+        ],
+        "sales_units": [
+          0.0,
+          4413.0,
+          4207.031442902324
+        ],
+        "lost_units": [
+          0.0,
+          587.0,
+          3292.9685570976767
+        ],
+        "service_level": [
+          1.0,
+          0.8826,
+          0.5609375257203099
+        ],
+        "policy_seconds": [
+          0.00010633515194058418,
+          9.370548650622368e-05,
+          9.337603114545345e-05
+        ]
+      },
+      "evaluation_seconds": 0.0007696668617427349,
+      "mean_action_seconds": 1.7465277951920315e-06
+    }
+  },
+  "setup_seconds": 0.00023850006982684135,
+  "setup_exceeded_30_seconds": false,
+  "setup_exceeded_60_seconds": false
+}

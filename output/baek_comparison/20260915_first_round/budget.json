@@ -1,0 +1,31 @@
+{
+  "limit_usd": 30.0,
+  "spent_usd": 7.212039899999998,
+  "reserved_usd": 4.440892098500626e-16,
+  "uncertain_requests": [
+    {
+      "log": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/baek_comparison/20260915_first_round/sessions/l1_normal_r2/events.jsonl",
+      "request_index": 28,
+      "reserved_usd": 0.952908,
+      "reason": "conservative_bound",
+      "blocks_resume": false,
+      "reconciled_for_resume": true,
+      "charge_resolution": "conservative_bound",
+      "actual_cost_usd": null,
+      "retained_cost_upper_usd": 0.952908,
+      "reconciliation_id": "ssl-20260916-l1_normal_r2"
+    },
+    {
+      "log": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/baek_comparison/20260915_first_round/sessions/l1_poisson_r2/events.jsonl",
+      "request_index": 20,
+      "reserved_usd": 0.819808,
+      "reason": "conservative_bound",
+      "blocks_resume": false,
+      "reconciled_for_resume": true,
+      "charge_resolution": "conservative_bound",
+      "actual_cost_usd": null,
+      "retained_cost_upper_usd": 0.819808,
+      "reconciliation_id": "ssl-20260916-l1_poisson_r2"
+    }
+  ]
+}

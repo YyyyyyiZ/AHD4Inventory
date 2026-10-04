@@ -1,0 +1,35 @@
+{
+  "policy_sha256": "3e6a25b7fd7ce59984a8c614c532faaf5b61eeebdd07903b9c6d3ca6e2056b59",
+  "scenario": {
+    "name": "synthetic_audit",
+    "m": 5,
+    "L": 2,
+    "cv": 1.5,
+    "f": 0.5,
+    "mean": 4.0,
+    "h": 0.0,
+    "p": 100.0,
+    "w": 100.0,
+    "demand_mode": "paper_cv",
+    "cap_mode": "paper"
+  },
+  "data_purpose": "synthetic validity and repeatability, no parent holdout",
+  "demand_seed": 419927,
+  "npaths": 2,
+  "periods": 80,
+  "burnin": 20,
+  "independent_initializations": 2,
+  "setup_seconds": [
+    0.0006057918071746826,
+    0.0006379589904099703
+  ],
+  "backend": [
+    "numba",
+    "numba"
+  ],
+  "same_probe_actions": true,
+  "same_path_costs": true,
+  "same_components": true,
+  "all_stationary_probes_passed": true,
+  "boundscheck_enforced": true
+}

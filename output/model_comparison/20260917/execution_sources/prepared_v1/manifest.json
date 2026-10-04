@@ -1,0 +1,26 @@
+{
+  "source_sha256": {
+    "examples/inventory/overnight_search/model_comparison.py": "a57c3d5035a61f5213dba9ba9745a79087153f06db8ab16613ccbb8e5b67fde4",
+    "examples/inventory/overnight_search/model_comparison_client.py": "90b8a3089a97cfdf333f02ad4f06530bc669a2cf17199c75e03b30b05ceb014d",
+    "examples/inventory/overnight_search/model_comparison_numeric.py": "da154d4a08f957de49b7361633888ad38ba61dc568e6677711997cee1c0c0337",
+    "examples/inventory/overnight_search/model_comparison_reporting.py": "bd2843bc179c227e3b97f8953190c114faceee99162e8d41c43f39001f845140",
+    "examples/inventory/overnight_search/search.py": "ecd32e4b45de50b9068a7069aca7cddf3ecc73110ea4a0ad974a55e8def45e43",
+    "examples/inventory/overnight_search/evaluator.py": "a34ec4324900bcf299838090ba9811811cad34eff825dd9ff1055cceffe0a8eb",
+    "examples/inventory/overnight_search/memory_guard.py": "d18ca0915a073df8567af9f43cbf9f200012f09c4fa2f5dfb9e6c4f14928c52a",
+    "examples/inventory/overnight_search/perishable.py": "14c3fea14f290d44e9f0847532d6af575dd86c79254bc248f656ae387a774b6e",
+    "examples/inventory/overnight_search/normalization.py": "ebee97170346aa6aa90efbafb736a06e5e19fbde91db73012146078ab63baec6",
+    "examples/inventory/overnight_search/optimization.py": "2f2279bf38653e8b61cf6fb915834221865c15997965d2c7a8e467eea94585d8",
+    "examples/inventory/overnight_search/numeric_job.py": "2850ead363f34f72b29a603540b1e0945318097dfcf403f6884066e3bf119dac",
+    "examples/inventory/overnight_search/test_model_comparison_client.py": "5bb3d727a4f2e6c362a5a2c6537970cf17a2872edebdb9292dffb04a26698969",
+    "examples/inventory/overnight_search/test_model_comparison_resume.py": "a83194f86e919470462c28ef209b1364be5595c96c0557fbab4614c127ead99e",
+    "examples/inventory/overnight_search/test_model_comparison_protocol.py": "2224ea082cf6e02b91b26acce3d4f8c47aea76c87225010bd90af73c026df480",
+    "examples/inventory/correlated_benchmark/fast_policy.py": "d223f8cbc31fdd93c8cba0bc73bb3fcf35f31f7b272b5ca0fe1839637632e325",
+    "examples/inventory/baek_comparison/sandbox.py": "3d286ec3270d7fa81dcfc05b21b7b13e1a4f9891302f4a880d768ea40d6bcf37"
+  },
+  "runtime": {
+    "python": "3.14.3 (main, Feb 21 2026, 23:43:38) [Clang 13.1.6 (clang-1316.0.21.2.5)]",
+    "numpy": "2.4.3",
+    "scipy": "1.17.1",
+    "numba": "0.64.0"
+  }
+}

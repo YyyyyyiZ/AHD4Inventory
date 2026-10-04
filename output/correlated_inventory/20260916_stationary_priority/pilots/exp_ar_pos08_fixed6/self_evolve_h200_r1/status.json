@@ -1,0 +1,23 @@
+{
+  "status": "completed",
+  "best_code_path": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_stationary_priority/pilots/exp_ar_pos08_fixed6/self_evolve_h200_r1/policy.py",
+  "code_sha256": "ca9fa4d94dc24011f581ef0dab23c504b22fa648ad948ea06774246543ff3751",
+  "best_train_cost": 34403.75102354033,
+  "algorithm": "The new policy incorporates smoothed demand forecasting, a target inventory level based on demand, safety stock, and adjusted pipeline contribution. This should better handle demand autocorrelation while balancing holding and lost-sales costs. The four parameters control key aspects of the inventory response: demand smoothing factor, target inventory multiplier, safety stock level, and pipeline contribution adjustment.",
+  "checkpoint_path": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_stationary_priority/pilots/exp_ar_pos08_fixed6/self_evolve_h200_r1/checkpoints/g001.json.gz",
+  "model_calls": 3,
+  "training_evaluations": 419,
+  "training_cache_hits": 19,
+  "compiled_structures": 3,
+  "optimizer": "SciPy L-BFGS-B",
+  "optimizer_maxiter": 15,
+  "test_evaluated": false,
+  "scenario_id": "exp_ar_pos08_fixed6",
+  "policy_id": "self_evolve_h200_r1",
+  "family": "self_evolve",
+  "repeat": 1,
+  "source_training_horizon": 200,
+  "elapsed_seconds": 67.81963616609573,
+  "finished_utc": "2026-09-16T04:35:42.241439+00:00",
+  "full_protocol": false
+}

@@ -1,0 +1,15 @@
+{
+  "status": "completed",
+  "best_code_path": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_stationary_priority/training/exp_ar_neg06_fixed6/self_evolve_h200_r1/policy.py",
+  "code_sha256": "7c95e942f2496c7b9eb663c7e8414cad177b2809e370d82689a1f7e4ee269d8c",
+  "best_train_cost": 20094.863157340307,
+  "algorithm": "Reduced base_target to better match the demand mean, increased demand_response to be more reactive to recent demand, adjusted smoothing_factor for faster adaptation, and increased safety_stock to reduce lost sales.",
+  "checkpoint_path": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_stationary_priority/training/exp_ar_neg06_fixed6/self_evolve_h200_r1/checkpoints/g010.json.gz",
+  "model_calls": 104,
+  "training_evaluations": 11996,
+  "training_cache_hits": 789,
+  "compiled_structures": 22,
+  "optimizer": "SciPy L-BFGS-B",
+  "optimizer_maxiter": 15,
+  "test_evaluated": false
+}

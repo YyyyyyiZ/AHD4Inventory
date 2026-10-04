@@ -1,0 +1,16 @@
+{
+  "status": "complete",
+  "scenario_id": "exp_ar_pos08_fixed6",
+  "source_training_horizon": 200,
+  "families": [
+    "constant_order",
+    "base_stock",
+    "capped_base_stock",
+    "forecast_capped_base_stock",
+    "conditional_pil",
+    "forecast_adaptive_pil",
+    "pil_cop_continuation"
+  ],
+  "elapsed_seconds": 110.62648987513967,
+  "finished_utc": "2026-09-16T04:33:40.941244+00:00"
+}

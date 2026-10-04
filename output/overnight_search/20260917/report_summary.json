@@ -1,0 +1,50 @@
+{
+  "generated_utc": "2026-09-17T05:43:53.100635+00:00",
+  "complete_primary_comparison": true,
+  "missing_main_methods": [],
+  "problems": [],
+  "n_scenarios": 12,
+  "robust_candidates": [],
+  "provisional_robust_candidates": [],
+  "baseline_coverage": {
+    "baseline_constant": 12,
+    "baseline_base_stock": 12,
+    "baseline_capped_base_stock": 12,
+    "baseline_age_discount": 12,
+    "baseline_bsp_low_ew_mixed_l2": 12
+  },
+  "optimizer_ablation_rows": 168,
+  "dp_paired_comparison_rows": 16,
+  "budget": {
+    "components": [
+      {
+        "component": "结构搜索",
+        "limit_usd": 35.0,
+        "available": true,
+        "known_cost_usd": 10.6534996,
+        "held_upper_usd": 0.0,
+        "committed_upper_usd": 10.6534996,
+        "requests": 106,
+        "uncertain_requests": 0
+      },
+      {
+        "component": "Baek L2",
+        "limit_usd": 12.0,
+        "available": true,
+        "known_cost_usd": 2.1216014999999993,
+        "held_upper_usd": 0.0,
+        "committed_upper_usd": 2.1216014999999993,
+        "requests": 100,
+        "uncertain_requests": 0
+      }
+    ],
+    "both_ledgers_available": true,
+    "recorded_known_usd": 12.775101099999999,
+    "recorded_held_usd": 0,
+    "recorded_committed_usd": 12.775101099999999,
+    "total_budget_usd": 50,
+    "unallocated_usd": 3,
+    "within_50_if_ledgers_complete": true
+  },
+  "inference": "Path CIs condition on all three generated policies; generation SD is separate. No test-selected best method."
+}

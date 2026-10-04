@@ -1,0 +1,20 @@
+{
+     "algorithm": "Increased safety stock (S_over_mean) and demand response to better handle demand spikes while maintaining higher target_forecast_gain to react to changing demand patterns. Adjusted inventory_gain to be more aggressive in reducing orders when projected inventory is high. The parameters were tuned to better balance holding and lost-sales costs given the exponential demand distribution.",
+     "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    S_over_mean = 1.2118250030649862  # OPT_PARAM: {\"initial\": 1.2118250030649862, \"min\": 1.1, \"max\": 1.4, \"type\": \"float\"}\n    cap_over_mean = 0.5900111039426388  # OPT_PARAM: {\"initial\": 0.5900111039426388, \"min\": 0.5, \"max\": 0.8, \"type\": \"float\"}\n    target_forecast_gain = 1.2  # OPT_PARAM: {\"initial\": 1.2, \"min\": 1.0, \"max\": 1.4, \"type\": \"float\"}\n    cap_forecast_gain = 0.85  # OPT_PARAM: {\"initial\": 0.85, \"min\": 0.8, \"max\": 1.0, \"type\": \"float\"}\n    inventory_gain = 0.6863932058655485  # OPT_PARAM: {\"initial\": 0.6863932058655485, \"min\": 0.5, \"max\": 0.8, \"type\": \"float\"}\n    demand_response = 0.38205185552456017  # OPT_PARAM: {\"initial\": 0.38205185552456017, \"min\": 0.2, \"max\": 0.5, \"type\": \"float\"}\n    mean_demand = 100.0\n    \n    arrival_mean = conditional_arrival_mean(last_demand, quoted_lead_time)\n    projected_inventory = conditional_projected_inventory(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time)\n    \n    base_target = mean_demand * S_over_mean + target_forecast_gain * (arrival_mean - mean_demand)\n    demand_adjusted = base_target + demand_response * (last_demand - mean_demand)\n    target = max(0.0, demand_adjusted)\n    \n    cap = max(0.0, mean_demand * cap_over_mean + cap_forecast_gain * (arrival_mean - mean_demand))\n    order_amount = min(cap, max(0.0, target - inventory_gain * projected_inventory))\n    \n    return order_amount\n",
+     "description": "",
+     "intuition": "",
+     "reasoning": "Increased safety stock (S_over_mean) and demand response to better handle demand spikes while maintaining higher target_forecast_gain to react to changing demand patterns. Adjusted inventory_gain to be more aggressive in reducing orders when projected inventory is high. The parameters were tuned to better balance holding and lost-sales costs given the exponential demand distribution.",
+     "opt_params": {
+          "S_over_mean": 1.2118250030649862,
+          "cap_over_mean": 0.5900111039426388,
+          "target_forecast_gain": 1.2,
+          "cap_forecast_gain": 0.85,
+          "inventory_gain": 0.6863932058655485,
+          "demand_response": 0.38205185552456017
+     },
+     "cost": null,
+     "objective": 24782.63542,
+     "lower": 24282.65801,
+     "upper": 25289.24268,
+     "other_inf": null
+}

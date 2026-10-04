@@ -1,0 +1,27 @@
+{
+  "status": "paused",
+  "started_utc": "2026-09-16T15:47:46.247724+00:00",
+  "pid": 21662,
+  "workers": 2,
+  "planned_primary_runs": 18,
+  "planned_refit_runs": 9,
+  "budget_usd": 18.17,
+  "phases": [
+    {
+      "phase": "primary",
+      "exit_code": 0,
+      "elapsed_seconds": 757.8064954169095,
+      "finished_utc": "2026-09-16T16:00:24.068861+00:00"
+    },
+    {
+      "phase": "refit",
+      "exit_code": 1,
+      "elapsed_seconds": 4601.770078208996,
+      "finished_utc": "2026-09-16T18:08:43.428286+00:00"
+    }
+  ],
+  "current_phase": "refit",
+  "updated_utc": "2026-09-16T18:08:43.444495+00:00",
+  "error_type": "RuntimeError",
+  "error": "Phase refit failed; inspect night_refit.log"
+}

@@ -1,0 +1,18 @@
+{
+     "algorithm": "The original policy showed high lost sales costs (108.29) compared to holding costs (39.65), indicating insufficient stock. Increased base_stock (350 vs 329), lead_time_adjustment (3.0 vs 2.14), safety_stock (80 vs 50), and demand_response (0.8 vs 0.5) to better match demand patterns while maintaining reasonable holding costs. Narrowed parameter ranges based on training performance insights.",
+     "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_stock = 324.69989838525777  # OPT_PARAM: {\"initial\": 324.69989838525777, \"min\": 250.0, \"max\": 450.0, \"type\": \"float\"}\n    lead_time_adjustment = 2.167221915994697  # OPT_PARAM: {\"initial\": 2.167221915994697, \"min\": 1.0, \"max\": 5.0, \"type\": \"float\"}\n    demand_response = 0.5  # OPT_PARAM: {\"initial\": 0.5, \"min\": 0.5, \"max\": 1.1, \"type\": \"float\"}\n    safety_stock = 54.799898385250515  # OPT_PARAM: {\"initial\": 54.799898385250515, \"min\": 50.0, \"max\": 150.0, \"type\": \"float\"}\n    \n    adjusted_target = base_stock + lead_time_adjustment * quoted_lead_time + safety_stock\n    demand_component = demand_response * last_demand\n    target = max(adjusted_target, demand_component)\n    order_amount = max(0.0, target - on_hand_inventory - np.sum(pipeline_orders))\n    return order_amount\n",
+     "description": "",
+     "intuition": "",
+     "reasoning": "The original policy showed high lost sales costs (108.29) compared to holding costs (39.65), indicating insufficient stock. Increased base_stock (350 vs 329), lead_time_adjustment (3.0 vs 2.14), safety_stock (80 vs 50), and demand_response (0.8 vs 0.5) to better match demand patterns while maintaining reasonable holding costs. Narrowed parameter ranges based on training performance insights.",
+     "opt_params": {
+          "base_stock": 324.69989838525777,
+          "lead_time_adjustment": 2.167221915994697,
+          "demand_response": 0.5,
+          "safety_stock": 54.799898385250515
+     },
+     "cost": null,
+     "objective": 29588.12844,
+     "lower": 29022.50429,
+     "upper": 30166.41582,
+     "other_inf": null
+}

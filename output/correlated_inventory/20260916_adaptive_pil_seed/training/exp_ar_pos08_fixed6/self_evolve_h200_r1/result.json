@@ -1,0 +1,15 @@
+{
+  "status": "completed",
+  "best_code_path": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_adaptive_pil_seed/training/exp_ar_pos08_fixed6/self_evolve_h200_r1/policy.py",
+  "code_sha256": "d2043d5696cb1c03ba08030dbb3cdb8a58524b1b7de717346ba3fe6bc2b9d383",
+  "best_train_cost": 33318.83038827952,
+  "algorithm": "Frozen optimized Adaptive PIL with its original conditional projection.",
+  "checkpoint_path": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_adaptive_pil_seed/training/exp_ar_pos08_fixed6/self_evolve_h200_r1/checkpoints/g010.json.gz",
+  "model_calls": 100,
+  "training_evaluations": 16562,
+  "training_cache_hits": 355,
+  "compiled_structures": 23,
+  "optimizer": "SciPy L-BFGS-B",
+  "optimizer_maxiter": 15,
+  "test_evaluated": false
+}

@@ -1,0 +1,39 @@
+{
+  "profile": "extended",
+  "complete_primary_comparison": true,
+  "n_scenarios": 8,
+  "problems": [],
+  "robust_candidates": [],
+  "budget_scope": "Cumulative primary + extended, not additional phase-2 expenditure",
+  "budget": {
+    "components": [
+      {
+        "component": "结构搜索",
+        "limit_usd": 35.0,
+        "available": true,
+        "known_cost_usd": 10.6534996,
+        "held_upper_usd": 0.0,
+        "committed_upper_usd": 10.6534996,
+        "requests": 106,
+        "uncertain_requests": 0
+      },
+      {
+        "component": "Baek L2",
+        "limit_usd": 12.0,
+        "available": true,
+        "known_cost_usd": 2.1216014999999993,
+        "held_upper_usd": 0.0,
+        "committed_upper_usd": 2.1216014999999993,
+        "requests": 100,
+        "uncertain_requests": 0
+      }
+    ],
+    "both_ledgers_available": true,
+    "recorded_known_usd": 12.775101099999999,
+    "recorded_held_usd": 0,
+    "recorded_committed_usd": 12.775101099999999,
+    "total_budget_usd": 50,
+    "unallocated_usd": 3,
+    "within_50_if_ledgers_complete": true
+  }
+}

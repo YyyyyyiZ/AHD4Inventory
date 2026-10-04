@@ -1,0 +1,66 @@
+*.pyc
+*.csv
+deepseek-chat*
+
+# Local caches, credentials, and temporary build files.
+.DS_Store
+__pycache__/
+*.nbc
+*.nbi
+.matplotlib_cache/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.env
+.env.*
+!.env.example
+*.aux
+*.out
+*.log
+*.lock
+*.done
+*.user_original
+/tmp/
+
+# Keep raw training/API traces locally. Final policies and results are tracked.
+*.jsonl
+!/downloads_policies/**/policies.jsonl
+!/examples/inventory/evaluation/**/optimized_policies.jsonl
+!/examples/inventory/overnight_search/nested_diagnostic/synthetic_results.jsonl
+!/examples/inventory/overnight_search/nested_diagnostic/source/assortment__results__l2_nl_gpt-5.6-sol.jsonl
+api_requests/
+prompt_for_code/
+model_responses/
+checkpoints/
+job_logs/
+analysis_cache/
+transport_rejections/
+transport_recovery_ssl_20260916/
+recovery_evidence/
+/output/**/*.json.gz
+/output/**/candidates/*.json
+/output/**/candidates/**/*.json
+/output/model_comparison/**/generations/
+/output/**/call_[0-9]*.json
+/output/**/invalid_[0-9]*.json
+/output/**/request.json
+/output/**/response.json
+/output/**/api_smoke_*
+/output/**/key_usage_*
+/output/**/account_budget_check*
+
+# Intermediate populations stay local; selected final populations are tracked.
+**/pops/population_generation_*.json
+**/pops_best/population_generation_*.json
+/examples/inventory_ex/old result.zip
+/output/correlated_inventory/**/stationary_correlated_demand_dataset.zip
+
+# Publish result tables and policy manifests despite the legacy CSV ignore rule.
+!/output/**/*.csv
+!/downloads_policies/**/*.csv
+!/examples/inventory/evaluation/**/*.csv
+!/examples/inventory/google/**/*.csv
+!/examples/inventory/x-ai/**/*.csv
+!/examples/inventory/openai/**/*.csv
+!/examples/inventory/cost_measurements*/**/*.csv
+!/examples/inventory/grok-4-1-fast-*/**/*.csv

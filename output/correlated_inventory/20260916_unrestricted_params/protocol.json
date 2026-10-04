@@ -1,0 +1,111 @@
+{
+  "created_utc": "2026-09-16T12:58:24.213779+00:00",
+  "configuration": {
+    "protocol_id": "stationary-correlated-exp100-unrestricted-params-v2",
+    "model": "deepseek/deepseek-chat-v3-0324",
+    "api_budget_usd": 18.17,
+    "parameter_limit_ablation": {
+      "previous_run": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_stationary_priority",
+      "change": "remove the optimizable-parameter count ceiling from prompts and policy validation",
+      "reuse": "identical demand tapes and previously optimized baseline policies",
+      "previous_holdout_seen": true,
+      "interpretation": "user-requested exploratory ablation after reviewing the previous results; no fresh confirmatory test set",
+      "session_budget_usd": 20.0,
+      "previous_committed_upper_usd": 1.82576175
+    },
+    "demand_mean": 100.0,
+    "holding_cost": 1.0,
+    "lost_sales_cost": 2.0,
+    "demand_observation": "full past realized demand, including unmet demand, available equally to all policies",
+    "policy_interface": "compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time)",
+    "timing": "old arrivals -> observe current lead-time quote -> order -> current demand -> holding/lost-sales cost",
+    "random_lead": "iid uniform on {3,9}, quote known before ordering, overtaking allowed, sampled by calendar period even for zero orders",
+    "pipeline": "old arrivals in future periods 1 through max_lead-1; aggregate by arrival date",
+    "policy_information": "generator parameters known, current/future demand and future lead quotes unavailable, no horizon/time index",
+    "train_paths": 50,
+    "validation_paths": 128,
+    "test_paths": 1000,
+    "tape_periods": 1000,
+    "training_horizon": 200,
+    "burn_in": 500,
+    "horizons": [
+      50,
+      100,
+      200,
+      500
+    ],
+    "evaluation_modes": {
+      "steady": 500,
+      "cold_start": 0
+    },
+    "initial_inventory": 0.0,
+    "initial_pipeline": "empty",
+    "steady_caveat": "finite stochastic burn-in approximates stationary inventory; demand itself starts exactly stationary",
+    "cold_start": "actual stationary demand from period zero, no free zero-demand planning periods",
+    "seed_root": 2026091601,
+    "splits": [
+      "train",
+      "validation",
+      "test"
+    ],
+    "same_paths_across_horizons": "nested prefixes of a single maximum-length tape; no resampling when horizon changes",
+    "selection": "optimizer and EOH parent selection use train only; one final candidate per independent run frozen before holdout",
+    "holdout_reporting": "all scenarios and all runs, no test-driven selection of favorable environments or policies",
+    "evolution": {
+      "operator": "m2",
+      "population": 10,
+      "generations": 10,
+      "repetitions": 3,
+      "optimizer": "original ScipyOptimizer L-BFGS-B",
+      "maxiter": 15,
+      "max_opt_params": null,
+      "feedback": "compact train-only demand summary and processed scored-window feedback",
+      "initial_seed": "base-stock policy",
+      "selection_parent": "best training policy"
+    },
+    "primary_runs": 18,
+    "horizon_refit_extension": {
+      "scenario": "positive AR latent rho=0.8, fixed lead6",
+      "horizons": [
+        50,
+        100,
+        500
+      ],
+      "repetitions": 3,
+      "priority": "after all 18 primary runs, within global API budget"
+    },
+    "baseline_families": [
+      "constant_order",
+      "base_stock",
+      "capped_base_stock",
+      "forecast_capped_base_stock",
+      "conditional_PIL",
+      "adaptive_conditional_PIL",
+      "PIL_COP_continuation_for_random_lead"
+    ],
+    "PIL_label": "projected inventory level, an adaptation used for the requested projected base-stock comparator; random-lead continuation assumptions disclosed",
+    "baseline_tuning": "train only, deterministic conditional QMC draws, train-only integration-accuracy checks",
+    "metrics": [
+      "cost_per_period",
+      "holding_per_period",
+      "lost_units_per_period",
+      "fill_rate",
+      "orders_per_period"
+    ],
+    "uncertainty": "paired whole-path bootstrap; paths independent, within-path periods and horizon prefixes dependent",
+    "no_guaranteed_winner": true,
+    "sources": {
+      "gaussian_copula": "https://eml.berkeley.edu/~powell/e242_sp04/chen.pdf",
+      "projected_inventory_level": "https://arxiv.org/html/2101.07519v4#S3",
+      "random_lead_overtaking": "https://arxiv.org/abs/1801.02646",
+      "provider_price_cap": "https://openrouter.ai/docs/guides/routing/provider-selection"
+    }
+  },
+  "runtime": {
+    "python": "3.14.3 (main, Feb 21 2026, 23:43:38) [Clang 13.1.6 (clang-1316.0.21.2.5)]",
+    "numpy": "2.4.3",
+    "scipy": "1.17.1",
+    "numba": "0.64.0",
+    "platform": "macOS-13.7.8-arm64-arm-64bit-Mach-O"
+  }
+}

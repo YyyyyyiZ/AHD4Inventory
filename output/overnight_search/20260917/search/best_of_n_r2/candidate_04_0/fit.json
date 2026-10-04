@@ -1,0 +1,280 @@
+{
+  "results": {
+    "perish_m3_L2_cv1.5_f0": {
+      "theta": [
+        4.031609677741521,
+        1.4153797954174845,
+        0.7373060103663566,
+        0.6048801697914126,
+        0.5958637306826913,
+        0.7194009099113492
+      ],
+      "cost": 233.4228515625,
+      "nfev": 241,
+      "seconds": 2.0156690410804003,
+      "path_costs": [
+        231.4453125,
+        202.1484375,
+        234.765625,
+        227.34375,
+        239.453125,
+        259.1796875,
+        241.6015625,
+        231.4453125
+      ],
+      "metrics": [
+        0.6796875,
+        1.654541015625,
+        3.0
+      ],
+      "cap": 17
+    },
+    "perish_m3_L2_cv1.5_f0.5": {
+      "theta": [
+        4.9765239544701565,
+        1.1607787896319826,
+        0.6331623298504437,
+        2.881327573827936,
+        1.0621570747853755,
+        0.9045790132395061
+      ],
+      "cost": 213.720703125,
+      "nfev": 256,
+      "seconds": 0.8579972919542342,
+      "path_costs": [
+        223.046875,
+        231.0546875,
+        158.0078125,
+        192.96875,
+        205.859375,
+        265.234375,
+        195.8984375,
+        237.6953125
+      ],
+      "metrics": [
+        0.565673828125,
+        1.571533203125,
+        3.12890625
+      ],
+      "cap": 16
+    },
+    "perish_m3_L2_cv2_f0": {
+      "theta": [
+        3.3807096103364707,
+        1.1772813834207807,
+        0.63573521291754,
+        2.119695229981236,
+        0.6871633810811602,
+        0.9906201457731953
+      ],
+      "cost": 259.86328125,
+      "nfev": 256,
+      "seconds": 0.6823184578679502,
+      "path_costs": [
+        224.8046875,
+        238.8671875,
+        269.53125,
+        268.359375,
+        310.546875,
+        227.9296875,
+        239.453125,
+        299.4140625
+      ],
+      "metrics": [
+        0.653564453125,
+        1.945068359375,
+        2.666015625
+      ],
+      "cap": 14
+    },
+    "perish_m3_L2_cv2_f0.5": {
+      "theta": [
+        3.158467322462183,
+        1.219662386518605,
+        0.22812105026202134,
+        1.0621383836212022,
+        1.205386994101923,
+        1.2215404555887526
+      ],
+      "cost": 236.9384765625,
+      "nfev": 256,
+      "seconds": 0.7966946249362081,
+      "path_costs": [
+        235.9375,
+        266.2109375,
+        288.8671875,
+        197.4609375,
+        233.984375,
+        203.515625,
+        184.765625,
+        284.765625
+      ],
+      "metrics": [
+        0.464599609375,
+        1.90478515625,
+        2.5546875
+      ],
+      "cap": 14
+    },
+    "perish_m5_L2_cv1.5_f0": {
+      "theta": [
+        13.724533218265695,
+        0.48851217162577065,
+        0.74131660919784,
+        0.16680966339328895,
+        1.5374301515575974,
+        1.0420096453604397
+      ],
+      "cost": 182.2509765625,
+      "nfev": 256,
+      "seconds": 0.8906057088170201,
+      "path_costs": [
+        189.84375,
+        151.953125,
+        186.5234375,
+        171.484375,
+        191.796875,
+        208.203125,
+        182.03125,
+        176.171875
+      ],
+      "metrics": [
+        0.597900390625,
+        1.224609375,
+        3.350830078125
+      ],
+      "cap": 25
+    },
+    "perish_m5_L2_cv1.5_f0.5": {
+      "theta": [
+        11.63186561708018,
+        1.028570341095354,
+        0.2006288128359237,
+        0.6668908929560893,
+        1.4121334173340494,
+        0.5902803950509643
+      ],
+      "cost": 164.990234375,
+      "nfev": 256,
+      "seconds": 1.2372677498497069,
+      "path_costs": [
+        167.578125,
+        175.9765625,
+        130.6640625,
+        150.0,
+        150.5859375,
+        200.0,
+        165.0390625,
+        180.078125
+      ],
+      "metrics": [
+        0.509033203125,
+        1.140869140625,
+        3.50439453125
+      ],
+      "cap": 24
+    },
+    "perish_m5_L2_cv2_f0": {
+      "theta": [
+        8.620756685463345,
+        0.7290760056675434,
+        0.9977766901457522,
+        1.699222452534505,
+        1.3268376218285476,
+        1.4407615023702118
+      ],
+      "cost": 212.5244140625,
+      "nfev": 256,
+      "seconds": 0.928501624846831,
+      "path_costs": [
+        182.8125,
+        195.3125,
+        231.0546875,
+        225.78125,
+        255.2734375,
+        174.8046875,
+        195.8984375,
+        239.2578125
+      ],
+      "metrics": [
+        0.52880859375,
+        1.596435546875,
+        2.890380859375
+      ],
+      "cap": 22
+    },
+    "perish_m5_L2_cv2_f0.5": {
+      "theta": [
+        7.363219654673465,
+        1.4352369030044834,
+        0.2586576579910292,
+        0.26113276804192065,
+        1.449151343740168,
+        0.7709516536123695
+      ],
+      "cost": 195.361328125,
+      "nfev": 256,
+      "seconds": 1.2392956670373678,
+      "path_costs": [
+        198.828125,
+        220.3125,
+        245.1171875,
+        154.6875,
+        194.921875,
+        164.84375,
+        142.96875,
+        241.2109375
+      ],
+      "metrics": [
+        0.4169921875,
+        1.53662109375,
+        2.878173828125
+      ],
+      "cap": 21
+    }
+  },
+  "parameters": {
+    "S": {
+      "type": "float",
+      "initial": 12.0,
+      "min": 0.0,
+      "max": 60.0
+    },
+    "depletion_scale": {
+      "type": "float",
+      "initial": 1.0,
+      "min": 0.35,
+      "max": 1.8
+    },
+    "old_credit": {
+      "type": "float",
+      "initial": 0.2,
+      "min": 0.0,
+      "max": 1.0
+    },
+    "life_power": {
+      "type": "float",
+      "initial": 1.3,
+      "min": 0.1,
+      "max": 4.0
+    },
+    "survivor_credit": {
+      "type": "float",
+      "initial": 1.0,
+      "min": 0.4,
+      "max": 1.6
+    },
+    "order_gain": {
+      "type": "float",
+      "initial": 1.0,
+      "min": 0.3,
+      "max": 1.8
+    }
+  },
+  "structure_sha256": "e5816418e10b24e64dcb0204940de8f99e16de32bbf72297e8abf4d292fa3969",
+  "wall_seconds": 9.854943583952263,
+  "transitions": 11625536,
+  "valid": true,
+  "score": 0.9966151735981937,
+  "code": "def compute_order_amount(age, pipeline, mu, cv, f, L):\n    S = 12.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":12.0,\"min\":0.0,\"max\":60.0}\n    depletion_scale = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.35,\"max\":1.8}\n    old_credit = 0.2 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.2,\"min\":0.0,\"max\":1.0}\n    life_power = 1.3 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.3,\"min\":0.1,\"max\":4.0}\n    survivor_credit = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.4,\"max\":1.6}\n    order_gain = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.3,\"max\":1.8}\n\n    m = len(age)\n    state = [0.0] * m\n    for i in range(m):\n        value = float(age[i])\n        if value < 0.0:\n            value = 0.0\n        state[i] = value\n\n    base_variance = (mu * cv) * (mu * cv)\n\n    mean_fifo = f * mu\n    if mean_fifo > 0.0:\n        variance_fifo = f * base_variance\n        a_fifo = variance_fifo / (mean_fifo * mean_fifo) - 1.0 / mean_fifo\n        disc_fifo = a_fifo * a_fifo - 1.0\n        if disc_fifo < 0.0:\n            disc_fifo = 0.0\n        root_fifo = disc_fifo ** 0.5\n        b_fifo = 1.0 + a_fifo + root_fifo\n        c_fifo = 1.0 + a_fifo - root_fifo\n        weight_fifo = 1.0 / b_fifo\n        p1_fifo = 2.0 / (2.0 + mean_fifo * b_fifo)\n        p2_fifo = 2.0 / (2.0 + mean_fifo * c_fifo)\n        r1_fifo = 1.0 - p1_fifo\n        r2_fifo = 1.0 - p2_fifo\n    else:\n        weight_fifo = 0.0\n        r1_fifo = 0.0\n        r2_fifo = 0.0\n\n    lifo_share = 1.0 - f\n    mean_lifo = lifo_share * mu\n    if mean_lifo > 0.0:\n        variance_lifo = lifo_share * base_variance\n        a_lifo = variance_lifo / (mean_lifo * mean_lifo) - 1.0 / mean_lifo\n        disc_lifo = a_lifo * a_lifo - 1.0\n        if disc_lifo < 0.0:\n            disc_lifo = 0.0\n        root_lifo = disc_lifo ** 0.5\n        b_lifo = 1.0 + a_lifo + root_lifo\n        c_lifo = 1.0 + a_lifo - root_lifo\n        weight_lifo = 1.0 / b_lifo\n        p1_lifo = 2.0 / (2.0 + mean_lifo * b_lifo)\n        p2_lifo = 2.0 / (2.0 + mean_lifo * c_lifo)\n        r1_lifo = 1.0 - p1_lifo\n        r2_lifo = 1.0 - p2_lifo\n    else:\n        weight_lifo = 0.0\n        r1_lifo = 0.0\n        r2_lifo = 0.0\n\n    for step in range(L):\n        if step > 0:\n            pipe_index = step - 1\n            if pipe_index < len(pipeline):\n                arrival = float(pipeline[pipe_index])\n                if arrival > 0.0:\n                    state[m - 1] = state[m - 1] + arrival\n\n        if mean_fifo > 0.0:\n            cumulative = 0.0\n            for i in range(m):\n                stock = state[i]\n                upper = cumulative + stock\n\n                lower_integer = int(cumulative)\n                lower_fraction = cumulative - float(lower_integer)\n                lower_geom1 = (\n                    r1_fifo * (1.0 - r1_fifo ** lower_integer) / (1.0 - r1_fifo)\n                    + lower_fraction * r1_fifo ** (lower_integer + 1)\n                )\n                lower_geom2 = (\n                    r2_fifo * (1.0 - r2_fifo ** lower_integer) / (1.0 - r2_fifo)\n                    + lower_fraction * r2_fifo ** (lower_integer + 1)\n                )\n                lower_fill = (\n                    weight_fifo * lower_geom1\n                    + (1.0 - weight_fifo) * lower_geom2\n                )\n\n                upper_integer = int(upper)\n                upper_fraction = upper - float(upper_integer)\n                upper_geom1 = (\n                    r1_fifo * (1.0 - r1_fifo ** upper_integer) / (1.0 - r1_fifo)\n                    + upper_fraction * r1_fifo ** (upper_integer + 1)\n                )\n                upper_geom2 = (\n                    r2_fifo * (1.0 - r2_fifo ** upper_integer) / (1.0 - r2_fifo)\n                    + upper_fraction * r2_fifo ** (upper_integer + 1)\n                )\n                upper_fill = (\n                    weight_fifo * upper_geom1\n                    + (1.0 - weight_fifo) * upper_geom2\n                )\n\n                consumed = depletion_scale * (upper_fill - lower_fill)\n                if consumed < 0.0:\n                    consumed = 0.0\n                if consumed > stock:\n                    consumed = stock\n                state[i] = stock - consumed\n                cumulative = upper\n\n        if mean_lifo > 0.0:\n            cumulative = 0.0\n            for i in range(m - 1, -1, -1):\n                stock = state[i]\n                upper = cumulative + stock\n\n                lower_integer = int(cumulative)\n                lower_fraction = cumulative - float(lower_integer)\n                lower_geom1 = (\n                    r1_lifo * (1.0 - r1_lifo ** lower_integer) / (1.0 - r1_lifo)\n                    + lower_fraction * r1_lifo ** (lower_integer + 1)\n                )\n                lower_geom2 = (\n                    r2_lifo * (1.0 - r2_lifo ** lower_integer) / (1.0 - r2_lifo)\n                    + lower_fraction * r2_lifo ** (lower_integer + 1)\n                )\n                lower_fill = (\n                    weight_lifo * lower_geom1\n                    + (1.0 - weight_lifo) * lower_geom2\n                )\n\n                upper_integer = int(upper)\n                upper_fraction = upper - float(upper_integer)\n                upper_geom1 = (\n                    r1_lifo * (1.0 - r1_lifo ** upper_integer) / (1.0 - r1_lifo)\n                    + upper_fraction * r1_lifo ** (upper_integer + 1)\n                )\n                upper_geom2 = (\n                    r2_lifo * (1.0 - r2_lifo ** upper_integer) / (1.0 - r2_lifo)\n                    + upper_fraction * r2_lifo ** (upper_integer + 1)\n                )\n                upper_fill = (\n                    weight_lifo * upper_geom1\n                    + (1.0 - weight_lifo) * upper_geom2\n                )\n\n                consumed = depletion_scale * (upper_fill - lower_fill)\n                if consumed < 0.0:\n                    consumed = 0.0\n                if consumed > stock:\n                    consumed = stock\n                state[i] = stock - consumed\n                cumulative = upper\n\n        for i in range(m - 1):\n            state[i] = state[i + 1]\n        state[m - 1] = 0.0\n\n    effective_inventory = 0.0\n    for i in range(m):\n        relative_life = float(i + 1) / float(m)\n        age_weight = old_credit + (1.0 - old_credit) * relative_life ** life_power\n        effective_inventory = (\n            effective_inventory\n            + survivor_credit * age_weight * state[i]\n        )\n\n    gap = S - effective_inventory\n    if gap <= 0.0:\n        return 0.0\n\n    order = order_gain * gap\n    if order != order:\n        return 0.0\n    if order > 1000000.0:\n        order = 1000000.0\n    return float(order)\n"
+}

@@ -1,0 +1,17 @@
+{
+  "status": "blocked",
+  "metadata": {
+    "scenario_id": "exp_iid_random3_9",
+    "repeat": 1,
+    "chain_dir": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_stationary_priority/training/exp_iid_random3_9/self_evolve_h200_r1",
+    "generation": 5,
+    "operator": "m2",
+    "candidate_index": 7,
+    "parent_code_sha256": "3746f6170a9e5e6dd9b35a0645801d8845e976389c2acc1b4bca02ebd03d7a96",
+    "candidate_attempt": 1,
+    "prompt_sha256": "0d2f8d887442d3bbfa6afc921b448857d3f6c2bdfb32e103b3e52a77d281ac5e"
+  },
+  "error_type": "ModelRequestError",
+  "error": "OpenRouter transport failure (IncompleteRead); request=c9c728f9bc614f478258cd38b138a1e9; reservation retained",
+  "instruction": "No automatic retry or re-POST. Review request accounting before resume."
+}

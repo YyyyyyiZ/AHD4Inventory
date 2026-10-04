@@ -1,0 +1,183 @@
+[
+     {
+          "algorithm": "Increased base targets and demand multiplier to better handle high-demand regimes while reducing inventory adjustment to be less aggressive in reducing orders. The changes aim to reduce lost sales while maintaining reasonable holding costs.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target_low = 52.54251114369861  # OPT_PARAM: {\"initial\": 52.54251114369861, \"min\": 50.0, \"max\": 150.0, \"type\": \"float\"}\n    base_target_high = 113.52841221688544  # OPT_PARAM: {\"initial\": 113.52841221688544, \"min\": 100.0, \"max\": 300.0, \"type\": \"float\"}\n    demand_multiplier = 1.0  # OPT_PARAM: {\"initial\": 1.0, \"min\": 1.0, \"max\": 2.0, \"type\": \"float\"}\n    inventory_adjustment = 0.2  # OPT_PARAM: {\"initial\": 0.2, \"min\": 0.1, \"max\": 0.5, \"type\": \"float\"}\n    \n    if last_demand >= 100.0 * np.log(2):  # High demand regime\n        adjusted_target = base_target_high * demand_multiplier\n    else:  # Low demand regime\n        adjusted_target = base_target_low\n    \n    inventory_position = on_hand_inventory + sum(pipeline_orders)\n    order_amount = max(0.0, adjusted_target - inventory_adjustment * inventory_position)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base targets and demand multiplier to better handle high-demand regimes while reducing inventory adjustment to be less aggressive in reducing orders. The changes aim to reduce lost sales while maintaining reasonable holding costs.",
+          "opt_params": {
+               "base_target_low": 52.54251114369861,
+               "base_target_high": 113.52841221688544,
+               "demand_multiplier": 1.0,
+               "inventory_adjustment": 0.2
+          },
+          "cost": null,
+          "objective": 29710.88272,
+          "lower": 28065.42792,
+          "upper": 31434.84333,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base targets and demand multiplier to better match demand patterns shown in training diagnostics. The higher inventory adjustment (0.3 vs 0.2) makes the policy more responsive to current inventory levels. The training showed high lost sales costs, indicating need for more aggressive inventory targets, especially in high demand regimes. The new parameters should better handle the autocorrelated demand spikes while maintaining reasonable holding costs.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target_low = 52.07372171597066  # OPT_PARAM: {\"initial\": 52.07372171597066, \"min\": 50.0, \"max\": 150.0, \"type\": \"float\"}\n    base_target_high = 121.72153143897782  # OPT_PARAM: {\"initial\": 121.72153143897782, \"min\": 100.0, \"max\": 300.0, \"type\": \"float\"}\n    demand_multiplier = 1.0  # OPT_PARAM: {\"initial\": 1.0, \"min\": 1.0, \"max\": 2.0, \"type\": \"float\"}\n    inventory_adjustment = 0.2  # OPT_PARAM: {\"initial\": 0.2, \"min\": 0.1, \"max\": 0.5, \"type\": \"float\"}\n    \n    if last_demand >= 100.0 * np.log(2):  # High demand regime\n        adjusted_target = base_target_high * demand_multiplier\n    else:  # Low demand regime\n        adjusted_target = base_target_low\n    \n    inventory_position = on_hand_inventory + sum(pipeline_orders)\n    order_amount = max(0.0, adjusted_target - inventory_adjustment * inventory_position)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base targets and demand multiplier to better match demand patterns shown in training diagnostics. The higher inventory adjustment (0.3 vs 0.2) makes the policy more responsive to current inventory levels. The training showed high lost sales costs, indicating need for more aggressive inventory targets, especially in high demand regimes. The new parameters should better handle the autocorrelated demand spikes while maintaining reasonable holding costs.",
+          "opt_params": {
+               "base_target_low": 52.07372171597066,
+               "base_target_high": 121.72153143897782,
+               "demand_multiplier": 1.0,
+               "inventory_adjustment": 0.2
+          },
+          "cost": null,
+          "objective": 29726.25458,
+          "lower": 28117.20737,
+          "upper": 31360.18422,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base targets and demand multiplier to better handle high demand spikes while reducing inventory adjustment to be less aggressive in reducing orders when inventory is high. The parameters were optimized to balance holding costs and lost sales based on the training performance showing high lost sales costs.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target_low = 55.11976087744099  # OPT_PARAM: {\"initial\": 55.11976087744099, \"min\": 50.0, \"max\": 150.0, \"type\": \"float\"}\n    base_target_high = 124.46041625865347  # OPT_PARAM: {\"initial\": 124.46041625865347, \"min\": 100.0, \"max\": 300.0, \"type\": \"float\"}\n    demand_multiplier = 1.0  # OPT_PARAM: {\"initial\": 1.0, \"min\": 1.0, \"max\": 2.0, \"type\": \"float\"}\n    inventory_adjustment = 0.2  # OPT_PARAM: {\"initial\": 0.2, \"min\": 0.1, \"max\": 0.5, \"type\": \"float\"}\n    \n    if last_demand >= 100.0 * np.log(2):  # High demand regime\n        adjusted_target = base_target_high * demand_multiplier\n    else:  # Low demand regime\n        adjusted_target = base_target_low\n    \n    inventory_position = on_hand_inventory + sum(pipeline_orders)\n    order_amount = max(0.0, adjusted_target - inventory_adjustment * inventory_position)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base targets and demand multiplier to better handle high demand spikes while reducing inventory adjustment to be less aggressive in reducing orders when inventory is high. The parameters were optimized to balance holding costs and lost sales based on the training performance showing high lost sales costs.",
+          "opt_params": {
+               "base_target_low": 55.11976087744099,
+               "base_target_high": 124.46041625865347,
+               "demand_multiplier": 1.0,
+               "inventory_adjustment": 0.2
+          },
+          "cost": null,
+          "objective": 29727.3193,
+          "lower": 28131.27795,
+          "upper": 31335.90891,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base targets and adjustment parameters to better match demand patterns, reducing lost sales while controlling inventory costs. The demand multiplier helps respond more aggressively to high-demand regimes.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target_low = 64.72487069756504  # OPT_PARAM: {\"initial\": 64.72487069756504, \"min\": 50.0, \"max\": 150.0, \"type\": \"float\"}\n    base_target_high = 138.18360493178434  # OPT_PARAM: {\"initial\": 138.18360493178434, \"min\": 100.0, \"max\": 300.0, \"type\": \"float\"}\n    demand_multiplier = 1.0  # OPT_PARAM: {\"initial\": 1.0, \"min\": 1.0, \"max\": 2.0, \"type\": \"float\"}\n    inventory_adjustment = 0.24871304402389782  # OPT_PARAM: {\"initial\": 0.24871304402389782, \"min\": 0.1, \"max\": 0.5, \"type\": \"float\"}\n    \n    if last_demand >= 100.0 * np.log(2):  # High demand regime\n        adjusted_target = base_target_high * demand_multiplier\n    else:  # Low demand regime\n        adjusted_target = base_target_low\n    \n    inventory_position = on_hand_inventory + sum(pipeline_orders)\n    order_amount = max(0.0, adjusted_target - inventory_adjustment * inventory_position)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base targets and adjustment parameters to better match demand patterns, reducing lost sales while controlling inventory costs. The demand multiplier helps respond more aggressively to high-demand regimes.",
+          "opt_params": {
+               "base_target_low": 64.72487069756504,
+               "base_target_high": 138.18360493178434,
+               "demand_multiplier": 1.0,
+               "inventory_adjustment": 0.24871304402389782
+          },
+          "cost": null,
+          "objective": 29730.97409,
+          "lower": 28126.61087,
+          "upper": 31339.14692,
+          "other_inf": null
+     },
+     {
+          "algorithm": "The key changes are: increased base_target_high to better handle high-demand periods, increased demand_multiplier to be more responsive to demand spikes, reduced inventory_adjustment to maintain higher inventory levels, and adjusted base_target_low for better balance. These changes aim to reduce lost sales while keeping holding costs reasonable.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target_low = 59.02877505344423  # OPT_PARAM: {\"initial\": 59.02877505344423, \"min\": 50.0, \"max\": 150.0, \"type\": \"float\"}\n    base_target_high = 119.37606917447252  # OPT_PARAM: {\"initial\": 119.37606917447252, \"min\": 100.0, \"max\": 300.0, \"type\": \"float\"}\n    demand_multiplier = 1.0  # OPT_PARAM: {\"initial\": 1.0, \"min\": 1.0, \"max\": 2.0, \"type\": \"float\"}\n    inventory_adjustment = 0.2  # OPT_PARAM: {\"initial\": 0.2, \"min\": 0.1, \"max\": 0.5, \"type\": \"float\"}\n    \n    if last_demand >= 100.0 * np.log(2):  # High demand regime\n        adjusted_target = base_target_high * demand_multiplier\n    else:  # Low demand regime\n        adjusted_target = base_target_low\n    \n    inventory_position = on_hand_inventory + sum(pipeline_orders)\n    order_amount = max(0.0, adjusted_target - inventory_adjustment * inventory_position)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "The key changes are: increased base_target_high to better handle high-demand periods, increased demand_multiplier to be more responsive to demand spikes, reduced inventory_adjustment to maintain higher inventory levels, and adjusted base_target_low for better balance. These changes aim to reduce lost sales while keeping holding costs reasonable.",
+          "opt_params": {
+               "base_target_low": 59.02877505344423,
+               "base_target_high": 119.37606917447252,
+               "demand_multiplier": 1.0,
+               "inventory_adjustment": 0.2
+          },
+          "cost": null,
+          "objective": 29740.84113,
+          "lower": 28123.91906,
+          "upper": 31380.18498,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base stock levels for both regimes to better match demand patterns, adjusted the demand multiplier to be more responsive to high-demand periods, and reduced inventory adjustment to maintain higher inventory positions. These changes aim to reduce lost sales while keeping holding costs manageable, based on the observed demand autocorrelation and regime switching behavior.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target_low = 68.74601670394225  # OPT_PARAM: {\"initial\": 68.74601670394225, \"min\": 50.0, \"max\": 120.0, \"type\": \"float\"}\n    base_target_high = 136.50262471489404  # OPT_PARAM: {\"initial\": 136.50262471489404, \"min\": 120.0, \"max\": 250.0, \"type\": \"float\"}\n    demand_multiplier = 1.0454585638331504  # OPT_PARAM: {\"initial\": 1.0454585638331504, \"min\": 1.0, \"max\": 2.0, \"type\": \"float\"}\n    inventory_adjustment = 0.2903464480416603  # OPT_PARAM: {\"initial\": 0.2903464480416603, \"min\": 0.05, \"max\": 0.3, \"type\": \"float\"}\n    \n    if last_demand >= 100.0 * np.log(2):  # High demand regime\n        adjusted_target = base_target_high * demand_multiplier\n    else:  # Low demand regime\n        adjusted_target = base_target_low\n    \n    inventory_position = on_hand_inventory + sum(pipeline_orders)\n    order_amount = max(0.0, adjusted_target - inventory_adjustment * inventory_position)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base stock levels for both regimes to better match demand patterns, adjusted the demand multiplier to be more responsive to high-demand periods, and reduced inventory adjustment to maintain higher inventory positions. These changes aim to reduce lost sales while keeping holding costs manageable, based on the observed demand autocorrelation and regime switching behavior.",
+          "opt_params": {
+               "base_target_low": 68.74601670394225,
+               "base_target_high": 136.50262471489404,
+               "demand_multiplier": 1.0454585638331504,
+               "inventory_adjustment": 0.2903464480416603
+          },
+          "cost": null,
+          "objective": 29741.42362,
+          "lower": 28116.70287,
+          "upper": 31433.64006,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base_target_high, demand_multiplier, and inventory_adjustment to be more responsive to demand spikes. This should reduce lost sales while keeping holding costs reasonable. The parameters are still within the original structure but tuned to better handle the observed demand patterns.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target_low = 50.0  # OPT_PARAM: {\"initial\": 50.0, \"min\": 50.0, \"max\": 150.0, \"type\": \"float\"}\n    base_target_high = 114.5692683799425  # OPT_PARAM: {\"initial\": 114.5692683799425, \"min\": 100.0, \"max\": 300.0, \"type\": \"float\"}\n    demand_multiplier = 1.0  # OPT_PARAM: {\"initial\": 1.0, \"min\": 1.0, \"max\": 2.0, \"type\": \"float\"}\n    inventory_adjustment = 0.2  # OPT_PARAM: {\"initial\": 0.2, \"min\": 0.1, \"max\": 0.5, \"type\": \"float\"}\n    \n    if last_demand >= 100.0 * np.log(2):  # High demand regime\n        adjusted_target = base_target_high * demand_multiplier\n    else:  # Low demand regime\n        adjusted_target = base_target_low\n    \n    inventory_position = on_hand_inventory + sum(pipeline_orders)\n    order_amount = max(0.0, adjusted_target - inventory_adjustment * inventory_position)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base_target_high, demand_multiplier, and inventory_adjustment to be more responsive to demand spikes. This should reduce lost sales while keeping holding costs reasonable. The parameters are still within the original structure but tuned to better handle the observed demand patterns.",
+          "opt_params": {
+               "base_target_low": 50.0,
+               "base_target_high": 114.5692683799425,
+               "demand_multiplier": 1.0,
+               "inventory_adjustment": 0.2
+          },
+          "cost": null,
+          "objective": 29744.16717,
+          "lower": 28091.32089,
+          "upper": 31455.9077,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Key changes: 1) Increased base_target_high and demand_multiplier to better handle high-demand periods, 2) Reduced base_target_low to avoid excess inventory in low-demand periods, 3) Added pipeline_adjustment to better account for incoming orders, 4) Reduced inventory_adjustment for smoother ordering. These changes aim to reduce lost sales while keeping holding costs in check.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target_low = 72.38028912859639  # OPT_PARAM: {\"initial\": 72.38028912859639, \"min\": 30.0, \"max\": 80.0, \"type\": \"float\"}\n    base_target_high = 120.1000202913917  # OPT_PARAM: {\"initial\": 120.1000202913917, \"min\": 120.0, \"max\": 250.0, \"type\": \"float\"}\n    demand_multiplier = 1.2  # OPT_PARAM: {\"initial\": 1.2, \"min\": 1.2, \"max\": 2.0, \"type\": \"float\"}\n    inventory_adjustment = 0.3  # OPT_PARAM: {\"initial\": 0.3, \"min\": 0.05, \"max\": 0.3, \"type\": \"float\"}\n    pipeline_adjustment = 1.0  # OPT_PARAM: {\"initial\": 1.0, \"min\": 0.5, \"max\": 1.0, \"type\": \"float\"}\n    \n    if last_demand >= 100.0 * np.log(2):  # High demand regime\n        adjusted_target = base_target_high * demand_multiplier\n    else:  # Low demand regime\n        adjusted_target = base_target_low\n    \n    inventory_position = on_hand_inventory + pipeline_adjustment * sum(pipeline_orders)\n    order_amount = max(0.0, adjusted_target - inventory_adjustment * inventory_position)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Key changes: 1) Increased base_target_high and demand_multiplier to better handle high-demand periods, 2) Reduced base_target_low to avoid excess inventory in low-demand periods, 3) Added pipeline_adjustment to better account for incoming orders, 4) Reduced inventory_adjustment for smoother ordering. These changes aim to reduce lost sales while keeping holding costs in check.",
+          "opt_params": {
+               "base_target_low": 72.38028912859639,
+               "base_target_high": 120.1000202913917,
+               "demand_multiplier": 1.2,
+               "inventory_adjustment": 0.3,
+               "pipeline_adjustment": 1.0
+          },
+          "cost": null,
+          "objective": 29744.9578,
+          "lower": 28117.10406,
+          "upper": 31445.86184,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base targets and demand multiplier to better handle the high demand regime while keeping the low regime target moderate. Increased inventory adjustment to respond more aggressively to inventory position. These changes aim to reduce lost sales which were the dominant cost (125 vs 23 holding cost) while keeping inventory manageable.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target_low = 50.0  # OPT_PARAM: {\"initial\": 50.0, \"min\": 50.0, \"max\": 150.0, \"type\": \"float\"}\n    base_target_high = 118.7276342148552  # OPT_PARAM: {\"initial\": 118.7276342148552, \"min\": 100.0, \"max\": 300.0, \"type\": \"float\"}\n    demand_multiplier = 1.0  # OPT_PARAM: {\"initial\": 1.0, \"min\": 1.0, \"max\": 2.0, \"type\": \"float\"}\n    inventory_adjustment = 0.2  # OPT_PARAM: {\"initial\": 0.2, \"min\": 0.1, \"max\": 0.5, \"type\": \"float\"}\n    \n    if last_demand >= 100.0 * np.log(2):  # High demand regime\n        adjusted_target = base_target_high * demand_multiplier\n    else:  # Low demand regime\n        adjusted_target = base_target_low\n    \n    inventory_position = on_hand_inventory + sum(pipeline_orders)\n    order_amount = max(0.0, adjusted_target - inventory_adjustment * inventory_position)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base targets and demand multiplier to better handle the high demand regime while keeping the low regime target moderate. Increased inventory adjustment to respond more aggressively to inventory position. These changes aim to reduce lost sales which were the dominant cost (125 vs 23 holding cost) while keeping inventory manageable.",
+          "opt_params": {
+               "base_target_low": 50.0,
+               "base_target_high": 118.7276342148552,
+               "demand_multiplier": 1.0,
+               "inventory_adjustment": 0.2
+          },
+          "cost": null,
+          "objective": 29745.72365,
+          "lower": 28112.38713,
+          "upper": 31402.39606,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base_target_high and demand_multiplier to better handle high-demand periods, reduced inventory_adjustment to be less reactive to current inventory, and adjusted base_target_low to balance low-demand periods. The changes aim to reduce lost sales while keeping holding costs in check.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target_low = 72.46166011186958  # OPT_PARAM: {\"initial\": 72.46166011186958, \"min\": 50.0, \"max\": 100.0, \"type\": \"float\"}\n    base_target_high = 122.62425257099643  # OPT_PARAM: {\"initial\": 122.62425257099643, \"min\": 120.0, \"max\": 200.0, \"type\": \"float\"}\n    demand_multiplier = 1.2  # OPT_PARAM: {\"initial\": 1.2, \"min\": 1.2, \"max\": 1.8, \"type\": \"float\"}\n    inventory_adjustment = 0.3  # OPT_PARAM: {\"initial\": 0.3, \"min\": 0.1, \"max\": 0.3, \"type\": \"float\"}\n    \n    if last_demand >= 100.0 * np.log(2):  # High demand regime\n        adjusted_target = base_target_high * demand_multiplier\n    else:  # Low demand regime\n        adjusted_target = base_target_low\n    \n    inventory_position = on_hand_inventory + sum(pipeline_orders)\n    order_amount = max(0.0, adjusted_target - inventory_adjustment * inventory_position)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base_target_high and demand_multiplier to better handle high-demand periods, reduced inventory_adjustment to be less reactive to current inventory, and adjusted base_target_low to balance low-demand periods. The changes aim to reduce lost sales while keeping holding costs in check.",
+          "opt_params": {
+               "base_target_low": 72.46166011186958,
+               "base_target_high": 122.62425257099643,
+               "demand_multiplier": 1.2,
+               "inventory_adjustment": 0.3
+          },
+          "cost": null,
+          "objective": 29746.35173,
+          "lower": 28116.02846,
+          "upper": 31413.18019,
+          "other_inf": null
+     }
+]

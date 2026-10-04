@@ -1,0 +1,57 @@
+{
+  "status": "complete",
+  "started_utc": "2026-09-16T07:57:57.609520+00:00",
+  "pid": 90196,
+  "workers": 4,
+  "planned_primary_runs": 18,
+  "planned_refit_runs": 9,
+  "budget_usd": 20.0,
+  "phases": [
+    {
+      "phase": "primary",
+      "exit_code": 0,
+      "elapsed_seconds": 4.326419458026066,
+      "finished_utc": "2026-09-16T07:58:01.937051+00:00"
+    },
+    {
+      "phase": "refit",
+      "exit_code": 0,
+      "elapsed_seconds": 2.985807665856555,
+      "finished_utc": "2026-09-16T07:58:04.924068+00:00"
+    },
+    {
+      "phase": "validation",
+      "exit_code": 0,
+      "elapsed_seconds": 12.874989208066836,
+      "finished_utc": "2026-09-16T07:58:17.806853+00:00"
+    },
+    {
+      "phase": "test",
+      "exit_code": 0,
+      "elapsed_seconds": 88.50833370909095,
+      "finished_utc": "2026-09-16T07:59:46.319490+00:00"
+    },
+    {
+      "phase": "report",
+      "exit_code": 0,
+      "elapsed_seconds": 60.313976207980886,
+      "finished_utc": "2026-09-16T08:00:46.637023+00:00"
+    }
+  ],
+  "current_phase": "complete",
+  "updated_utc": "2026-09-16T07:59:46.320993+00:00",
+  "finished_utc": "2026-09-16T08:00:46.888274+00:00",
+  "generated_final_policies": 27,
+  "candidate_slots": 2700,
+  "model_calls": 2771,
+  "report": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_stationary_priority/report.md",
+  "budget": {
+    "limit_usd": 20.0,
+    "known_cost_usd": 1.78133475,
+    "held_upper_usd": 0.044427,
+    "committed_upper_usd": 1.82576175,
+    "requests": 2775,
+    "completed": 2770,
+    "uncertain": 5
+  }
+}

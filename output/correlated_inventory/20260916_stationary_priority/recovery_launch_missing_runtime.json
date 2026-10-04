@@ -1,0 +1,24 @@
+{
+  "started_utc": "2026-09-16T05:34:52.603308+00:00",
+  "pid": 71730,
+  "chain": "exp_iid_random3_9/self_evolve_h200_r1",
+  "request_reconciled": "c9c728f9bc614f478258cd38b138a1e9",
+  "command": [
+    "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/bin/python3.14",
+    "-m",
+    "examples.inventory.correlated_benchmark.orchestrator",
+    "train",
+    "--run-dir",
+    "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_stationary_priority",
+    "--scenario",
+    "exp_iid_random3_9",
+    "--repeat",
+    "1",
+    "--horizon",
+    "200"
+  ],
+  "original_controller_pid": 63218,
+  "restart_controller_after_original_exits": true,
+  "reason": "Original primary driver retains historical failed job exit code; this standalone continuation completes only its existing chain.",
+  "outcome": "Exited before training import: base interpreter cannot import NumPy; no model calls."
+}

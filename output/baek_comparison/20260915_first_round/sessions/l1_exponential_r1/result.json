@@ -1,0 +1,48 @@
+{
+  "session_id": "l1_exponential_r1",
+  "level": "L1",
+  "family": "exponential",
+  "repeat": 1,
+  "scenario_id": "exponential_L6_c1_2",
+  "prompt_sha256": "8576549c027ba99e7bced5d7b2e67a9072097bfc4be88759d804ad082a288b02",
+  "status": "completed",
+  "final_text": "```python\ndef compute_order_amount(on_hand_inventory, pipeline_orders):\n    inv = float(on_hand_inventory)\n    pipe = [float(pipeline_orders[i]) for i in range(5)]\n\n    # Extremely large inventory positions never require an additional order.\n    if inv > 1.0e12 or any(x > 1.0e12 for x in pipe):\n        return 0.0\n\n    x0 = inv / 100.0\n    x1, x2, x3, x4, x5 = (x / 100.0 for x in pipe)\n    total = x0 + x1 + x2 + x3 + x4 + x5\n\n    y = (\n        0.85993599\n        + 0.07725468 * x0\n        - 0.00544936 * x1\n        - 0.02921910 * x2\n        - 0.05609017 * x3\n        - 0.13157163 * x4\n        - 0.30589234 * x5\n        + 0.04011627 * max(x0 - 0.25, 0.0)\n        - 0.09958131 * max(x0 - 0.50, 0.0)\n        + 0.00332507 * max(x0 - 1.00, 0.0)\n        - 0.03404072 * max(x0 - 2.00, 0.0)\n        + 0.01264522 * max(total - 1.0, 0.0)\n        - 0.00650812 * max(total - 2.0, 0.0)\n        - 0.09222451 * max(total - 3.0, 0.0)\n        - 0.07757455 * max(total - 4.0, 0.0)\n        - 0.12105406 * max(total - 5.0, 0.0)\n        - 0.05973706 * max(total - 6.0, 0.0)\n    )\n\n    return max(0.0, 100.0 * y)\n```",
+  "final_code": "def compute_order_amount(on_hand_inventory, pipeline_orders):\n    inv = float(on_hand_inventory)\n    pipe = [float(pipeline_orders[i]) for i in range(5)]\n\n    # Extremely large inventory positions never require an additional order.\n    if inv > 1.0e12 or any(x > 1.0e12 for x in pipe):\n        return 0.0\n\n    x0 = inv / 100.0\n    x1, x2, x3, x4, x5 = (x / 100.0 for x in pipe)\n    total = x0 + x1 + x2 + x3 + x4 + x5\n\n    y = (\n        0.85993599\n        + 0.07725468 * x0\n        - 0.00544936 * x1\n        - 0.02921910 * x2\n        - 0.05609017 * x3\n        - 0.13157163 * x4\n        - 0.30589234 * x5\n        + 0.04011627 * max(x0 - 0.25, 0.0)\n        - 0.09958131 * max(x0 - 0.50, 0.0)\n        + 0.00332507 * max(x0 - 1.00, 0.0)\n        - 0.03404072 * max(x0 - 2.00, 0.0)\n        + 0.01264522 * max(total - 1.0, 0.0)\n        - 0.00650812 * max(total - 2.0, 0.0)\n        - 0.09222451 * max(total - 3.0, 0.0)\n        - 0.07757455 * max(total - 4.0, 0.0)\n        - 0.12105406 * max(total - 5.0, 0.0)\n        - 0.05973706 * max(total - 6.0, 0.0)\n    )\n\n    return max(0.0, 100.0 * y)\n",
+  "usage": {
+    "input_tokens": 380383,
+    "output_tokens": 20333,
+    "total_tokens": 400716,
+    "last_response_usage": {
+      "input_tokens": 34342,
+      "input_tokens_details": {
+        "cached_tokens": 33195,
+        "cache_write_tokens": 1144
+      },
+      "output_tokens": 1125,
+      "output_tokens_details": {
+        "reasoning_tokens": 650
+      },
+      "total_tokens": 35467,
+      "cost": 0.020755,
+      "is_byok": false,
+      "cost_details": {
+        "upstream_inference_cost": 0.020755,
+        "upstream_inference_input_cost": 0.009505,
+        "upstream_inference_output_cost": 0.01125
+      }
+    }
+  },
+  "cost_usd": 0.3601773,
+  "tool_calls": 20,
+  "python_seconds": 1549.0944951246493,
+  "requests": 21,
+  "actual_models": [
+    "openai/gpt-5.6-sol"
+  ],
+  "error": null,
+  "http_status": null,
+  "uncertain_cost_usd": 0.0,
+  "interruption_waste_seconds": 0.0,
+  "resumed_from_checkpoint": false,
+  "code_sha256": "b6a758a1d299c9e09623fc9789134853ccc8317b9a2db91a9ed0b1469894620c"
+}

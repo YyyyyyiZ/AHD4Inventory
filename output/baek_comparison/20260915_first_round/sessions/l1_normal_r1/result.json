@@ -1,0 +1,48 @@
+{
+  "session_id": "l1_normal_r1",
+  "level": "L1",
+  "family": "normal",
+  "repeat": 1,
+  "scenario_id": "normal_std30_L6_c1_2",
+  "prompt_sha256": "b093c1aee0482af8510760d06496a6168ff689d5ea490c5c419fa318fb7420f1",
+  "status": "completed",
+  "final_text": "```python\n_STARTUP_ORDERS = (\n    103.36740662,\n    89.84154688,\n    88.11440108,\n    87.20817980,\n    87.33351561,\n    86.01063776,\n)\n\n_PROJECTED_DEMANDS = (\n    75.4734,\n    93.3260,\n    98.7350,\n    98.7496,\n    98.7497,\n    98.7469,\n)\n\n_KNOTS = (0.0, 5.0, 10.0, 20.0, 40.0, 80.0, 160.0)\n_POSITIVE_ACTIONS = (\n    86.0756,\n    85.0058,\n    84.2788,\n    82.3808,\n    77.5007,\n    53.6510,\n    0.0,\n)\n_ZERO_PROJECTED_ACTION = 87.991\n\n\ndef _close(a, b):\n    return abs(a - b) <= 1e-7\n\n\ndef _startup_action(inventory, pipeline):\n    if not _close(inventory, 0.0):\n        return None\n\n    for stage in range(6):\n        expected = [0.0] * (5 - stage) + list(_STARTUP_ORDERS[:stage])\n        if all(_close(pipeline[j], expected[j]) for j in range(5)):\n            return _STARTUP_ORDERS[stage]\n\n    return None\n\n\ndef _interpolated_action(x):\n    if x >= _KNOTS[-1]:\n        return 0.0\n\n    for j in range(len(_KNOTS) - 1):\n        left = _KNOTS[j]\n        right = _KNOTS[j + 1]\n        if x <= right:\n            weight = (x - left) / (right - left)\n            return (\n                _POSITIVE_ACTIONS[j]\n                + weight * (_POSITIVE_ACTIONS[j + 1] - _POSITIVE_ACTIONS[j])\n            )\n\n    return 0.0\n\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders):\n    inventory = float(on_hand_inventory)\n    pipeline = tuple(float(x) for x in pipeline_orders)\n\n    startup = _startup_action(inventory, pipeline)\n    if startup is not None:\n        return startup\n\n    projected = max(inventory - _PROJECTED_DEMANDS[0], 0.0)\n    for j in range(5):\n        projected = max(\n            projected + pipeline[j] - _PROJECTED_DEMANDS[j + 1],\n            0.0,\n        )\n\n    if projected <= 1e-10:\n        return _ZERO_PROJECTED_ACTION\n\n    return max(0.0, _interpolated_action(projected))\n```",
+  "final_code": "_STARTUP_ORDERS = (\n    103.36740662,\n    89.84154688,\n    88.11440108,\n    87.20817980,\n    87.33351561,\n    86.01063776,\n)\n\n_PROJECTED_DEMANDS = (\n    75.4734,\n    93.3260,\n    98.7350,\n    98.7496,\n    98.7497,\n    98.7469,\n)\n\n_KNOTS = (0.0, 5.0, 10.0, 20.0, 40.0, 80.0, 160.0)\n_POSITIVE_ACTIONS = (\n    86.0756,\n    85.0058,\n    84.2788,\n    82.3808,\n    77.5007,\n    53.6510,\n    0.0,\n)\n_ZERO_PROJECTED_ACTION = 87.991\n\n\ndef _close(a, b):\n    return abs(a - b) <= 1e-7\n\n\ndef _startup_action(inventory, pipeline):\n    if not _close(inventory, 0.0):\n        return None\n\n    for stage in range(6):\n        expected = [0.0] * (5 - stage) + list(_STARTUP_ORDERS[:stage])\n        if all(_close(pipeline[j], expected[j]) for j in range(5)):\n            return _STARTUP_ORDERS[stage]\n\n    return None\n\n\ndef _interpolated_action(x):\n    if x >= _KNOTS[-1]:\n        return 0.0\n\n    for j in range(len(_KNOTS) - 1):\n        left = _KNOTS[j]\n        right = _KNOTS[j + 1]\n        if x <= right:\n            weight = (x - left) / (right - left)\n            return (\n                _POSITIVE_ACTIONS[j]\n                + weight * (_POSITIVE_ACTIONS[j + 1] - _POSITIVE_ACTIONS[j])\n            )\n\n    return 0.0\n\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders):\n    inventory = float(on_hand_inventory)\n    pipeline = tuple(float(x) for x in pipeline_orders)\n\n    startup = _startup_action(inventory, pipeline)\n    if startup is not None:\n        return startup\n\n    projected = max(inventory - _PROJECTED_DEMANDS[0], 0.0)\n    for j in range(5):\n        projected = max(\n            projected + pipeline[j] - _PROJECTED_DEMANDS[j + 1],\n            0.0,\n        )\n\n    if projected <= 1e-10:\n        return _ZERO_PROJECTED_ACTION\n\n    return max(0.0, _interpolated_action(projected))\n",
+  "usage": {
+    "input_tokens": 227117,
+    "output_tokens": 15255,
+    "total_tokens": 242372,
+    "last_response_usage": {
+      "input_tokens": 20599,
+      "input_tokens_details": {
+        "cached_tokens": 19778,
+        "cache_write_tokens": 818
+      },
+      "output_tokens": 1722,
+      "output_tokens_details": {
+        "reasoning_tokens": 1116
+      },
+      "total_tokens": 22321,
+      "cost": 0.0232266,
+      "is_byok": false,
+      "cost_details": {
+        "upstream_inference_cost": 0.0232266,
+        "upstream_inference_input_cost": 0.0060066,
+        "upstream_inference_output_cost": 0.01722
+      }
+    }
+  },
+  "cost_usd": 0.31122259999999996,
+  "tool_calls": 17,
+  "python_seconds": 3473.3815843996126,
+  "requests": 18,
+  "actual_models": [
+    "openai/gpt-5.6-sol"
+  ],
+  "error": null,
+  "http_status": null,
+  "uncertain_cost_usd": 0.0,
+  "interruption_waste_seconds": 0.0,
+  "resumed_from_checkpoint": true,
+  "code_sha256": "483a2a4913e3e2c705e062fd5af57a151de3ed057db799d53f594bde03c86136"
+}

@@ -1,0 +1,33 @@
+{
+  "status": "needs_attention",
+  "started_utc": "2026-09-16T07:14:35.442717+00:00",
+  "pid": 84211,
+  "workers": 4,
+  "planned_primary_runs": 18,
+  "planned_refit_runs": 9,
+  "budget_usd": 20.0,
+  "phases": [
+    {
+      "phase": "primary",
+      "exit_code": 0,
+      "elapsed_seconds": 4.235516416141763,
+      "finished_utc": "2026-09-16T07:14:39.679442+00:00"
+    },
+    {
+      "phase": "refit",
+      "exit_code": 0,
+      "elapsed_seconds": 2161.7987357089296,
+      "finished_utc": "2026-09-16T07:50:41.568763+00:00"
+    },
+    {
+      "phase": "validation",
+      "exit_code": 1,
+      "elapsed_seconds": 35.07057045795955,
+      "finished_utc": "2026-09-16T07:51:16.673555+00:00"
+    }
+  ],
+  "current_phase": "validation",
+  "updated_utc": "2026-09-16T07:51:16.675155+00:00",
+  "error_type": "RuntimeError",
+  "error": "Phase validation failed; inspect night_validation.log"
+}

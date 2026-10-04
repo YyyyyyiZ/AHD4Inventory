@@ -1,0 +1,61 @@
+{
+  "state": "completed",
+  "started_utc": "2026-09-17T04:58:02.943567+00:00",
+  "pid": 97821,
+  "nice": 10,
+  "max_seconds": 14400.0,
+  "poll_seconds": 30.0,
+  "paid_calls": 0,
+  "policy_evaluation_calls": 0,
+  "test_calls": 0,
+  "stages": [
+    {
+      "stage": "resource_summary",
+      "started_utc": "2026-09-17T05:51:34.505405+00:00",
+      "state": "completed",
+      "returncode": 0,
+      "log": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/overnight_search/20260917/postprocessing/resource_summary.log",
+      "finished_utc": "2026-09-17T05:51:34.778172+00:00"
+    },
+    {
+      "stage": "combined_report",
+      "started_utc": "2026-09-17T05:51:34.778804+00:00",
+      "state": "completed",
+      "returncode": 0,
+      "log": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/overnight_search/20260917/postprocessing/combined_report.log",
+      "finished_utc": "2026-09-17T05:51:34.867556+00:00"
+    }
+  ],
+  "updated_utc": "2026-09-17T05:51:04.489450+00:00",
+  "elapsed_seconds": 3211.820629582973,
+  "input_sha256": {
+    "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/overnight_search/20260917/tables/group_summary.csv": "7984c0c7b89a27c308475c85ae9bb12151059866d0f6cafccdf11298da7a024a",
+    "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/overnight_search/20260917/tables/paired_comparisons.csv": "df7728582f8ac128e73878a23c128c260ef7e7fdbf35bfe5cddb480e7c7a94b1",
+    "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/overnight_search/20260917/tables/optimizer_ablation.csv": "fe8880dbd330e3f6480370d62a73434ad8cc98ba9a8f4785678e7e632a87658c",
+    "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/overnight_search/20260917/report_summary.json": "43348f308cfcf27134338e76fbe6f99e4c4afe97ba016eac0e49b2d9ba4de1eb",
+    "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/overnight_search/20260917/figures/plot_manifest.json": "93a68866bf9f47c24e9dd2b81221f2d9ddbfca9d3ab42577a4af6eb1dd9c17f5",
+    "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/overnight_search/20260917/report.md": "f12567ee1aba5722256750d43f62feac66dda98cc105ae03e978ff19bc51163c",
+    "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/overnight_search/20260917/tables/per_run.csv": "669c2ae9f6a5f1b61bdfe8261f97e7eb65b73ed5075de3bc3555f27310893254",
+    "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/overnight_search/20260917/extended/tables/group_summary.csv": "19e62049412d657662cc045460a24cc629aafb02bb63a91c6eb83dd354f0c814",
+    "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/overnight_search/20260917/extended/tables/paired_comparisons.csv": "bec8799f6a0b80d2f494998d899530eca0093911403e9430d2e5da645b2a8007",
+    "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/overnight_search/20260917/extended/tables/optimizer_ablation.csv": "708f427ca5689d5974b88ee10002bbdf358d2eca28ee0633bef5c82957daf471",
+    "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/overnight_search/20260917/extended/report_summary.json": "81300ef20e0125be82a37bb8fdedcc8c99c8ddf2785c25973709cc30f5239f08",
+    "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/overnight_search/20260917/extended/figures/plot_manifest.json": "1a38972ca67200cfbf0d4a37808721c3e0806331b8e115f38c9b4a647a4738b2",
+    "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/overnight_search/20260917/extended/report.md": "2c3589a76d697497087025708d05604f4ec028dd208591f136249912babab945",
+    "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/overnight_search/20260917/extended/tables/per_run.csv": "d3e12dce46381094c43f30c8ea82e56df01bb406a773e5888e86de600e4e897d"
+  },
+  "validation": {
+    "principal_runs": 240,
+    "three_draw_groups": 80,
+    "scenarios": 20,
+    "known_usd": 12.7751011,
+    "held_usd": 0.0,
+    "committed_usd": 12.7751011,
+    "output_sha256": {
+      "resource_summary.json": "4f163eea964bf86f329efeda754627a82193f3730aa9296f064eb308f464e535",
+      "night_summary.json": "99b04c7140c005f72880530b35212d8c308cf4072042370a32c6c5ab6d8cb33c",
+      "night_summary.md": "8e5e56b900cdc26912d1825c243e1094dc28a76a65c1c94a5c3867bc437f2a86"
+    }
+  },
+  "finished_utc": "2026-09-17T05:51:34.875102+00:00"
+}

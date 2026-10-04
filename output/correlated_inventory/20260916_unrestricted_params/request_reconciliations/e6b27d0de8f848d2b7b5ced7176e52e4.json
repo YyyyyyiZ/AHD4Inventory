@@ -1,0 +1,43 @@
+{
+  "recorded_utc": "2026-09-16T14:52:32.943580+00:00",
+  "chain": "training/exp_iid_random3_9/self_evolve_h200_r2",
+  "metadata": {
+    "scenario_id": "exp_iid_random3_9",
+    "repeat": 2,
+    "chain_dir": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_unrestricted_params/training/exp_iid_random3_9/self_evolve_h200_r2",
+    "generation": 5,
+    "operator": "m2",
+    "candidate_index": 1,
+    "parent_code_sha256": "bcdced991f406f4d4a70d359b07585ecaa3f5a836dcc322e36d7dccf99013e0e",
+    "candidate_attempt": 1,
+    "prompt_sha256": "8ca41c2b3eebdf9d7faee496399cc9659016b5adb57731fe68350916648b7ed4"
+  },
+  "request_id": "e6b27d0de8f848d2b7b5ced7176e52e4",
+  "resolution": "retain_upper_bound_skip_candidate",
+  "no_repost": true,
+  "evidence": {
+    "training/exp_iid_random3_9/self_evolve_h200_r2/blocked_transport.json": {
+      "sha256": "ccd73e76ed9dc35a4bcf2e137b7d49319c938ab6ee41a0c83a5b138fe74cce53",
+      "archived_path": "training/exp_iid_random3_9/self_evolve_h200_r2/recoveries/e6b27d0de8f848d2b7b5ced7176e52e4/blocked_transport.original.json"
+    },
+    "training/exp_iid_random3_9/self_evolve_h200_r2/model_responses/dd94dac6cbe8fbb9dd91d485233373cb776e4ff2fe77aa82d3b6f446cf49404b.json": {
+      "sha256": "bcba2bca4a91761a1ee3ef2d12e745591748f03f8b60caf7f0aabc2424818185",
+      "archived_path": "training/exp_iid_random3_9/self_evolve_h200_r2/recoveries/e6b27d0de8f848d2b7b5ced7176e52e4/pending_model_response.original.json"
+    },
+    "training/exp_iid_random3_9/self_evolve_h200_r2/status.json": {
+      "sha256": "9a713ba2349e1f1b2a9d71b55f5ae446858eecaa3efaa45746682f1280c418b0",
+      "archived_path": "training/exp_iid_random3_9/self_evolve_h200_r2/recoveries/e6b27d0de8f848d2b7b5ced7176e52e4/status.original.json"
+    },
+    "api_requests/e6b27d0de8f848d2b7b5ced7176e52e4/request.json": {
+      "sha256": "4a7eb5a603e2e3cbdabef952ad17a6c600f4ee4928af673148f94a7917d55f3a",
+      "archived_path": "training/exp_iid_random3_9/self_evolve_h200_r2/recoveries/e6b27d0de8f848d2b7b5ced7176e52e4/provider_request.original.json"
+    }
+  },
+  "unknown_cost_upper_usd": 0.008555700000000001,
+  "user_resume_authorized": true,
+  "error_type": "TimeoutError",
+  "no_response_available": true,
+  "no_replacement_candidate": true,
+  "failed_candidate_path": "training/exp_iid_random3_9/self_evolve_h200_r2/candidates/g005_m2_001.json.gz",
+  "failed_candidate_sha256": "1bbff37c028e54e3b77dbf3b74b0aa063ad291cc37f54e7000e795e276f18b0f"
+}

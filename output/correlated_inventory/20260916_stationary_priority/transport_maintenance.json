@@ -1,0 +1,46 @@
+{
+  "created_utc": "2026-09-16T07:09:31.467605+00:00",
+  "reason": "Four simultaneous URLError transport failures; halt additional requests during connectivity review.",
+  "pause_created_by": "assistant_maintenance",
+  "pause_contents": "Internal maintenance pause: simultaneous transport failures; preserve requests and inspect connectivity before resuming.\n",
+  "status": "resumed_verified",
+  "reconciled_utc": "2026-09-16T07:13:44.597149+00:00",
+  "attempted_failures_recorded": 4,
+  "unsubmitted_candidates_preserved": 4,
+  "new_unknown_upper_usd": 0.035672800000000005,
+  "reconciliation_manifest": "transport_maintenance_reconciliations.json",
+  "pause_removed_utc": "2026-09-16T07:14:34.924261+00:00",
+  "pause_removed_because": "Only the assistant-created maintenance marker was present and exact contents matched; readonly API connectivity recovered and all 8 blocks reconciled.",
+  "resume_verified_utc": "2026-09-16T07:17:36.153182+00:00",
+  "first_new_requests": [
+    {
+      "chain": "self_evolve_h50_r1",
+      "request_id": "6a0022f4f00140bcb7a90fcbdf83c41e",
+      "generation": 10,
+      "slot": 1,
+      "state": "complete"
+    },
+    {
+      "chain": "self_evolve_h50_r2",
+      "request_id": "0a94b9d4cbdf4195b81e9d76e728cfb1",
+      "generation": 10,
+      "slot": 6,
+      "state": "complete"
+    },
+    {
+      "chain": "self_evolve_h50_r3",
+      "request_id": "4d733f0ee2294c4198c1e8a2f5f65f9f",
+      "generation": 10,
+      "slot": 0,
+      "state": "complete"
+    },
+    {
+      "chain": "self_evolve_h100_r1",
+      "request_id": "9c6c9b30508b49f99e03eca26a525d2a",
+      "generation": 9,
+      "slot": 8,
+      "state": "complete"
+    }
+  ],
+  "all_original_unknown_requests_unique": true
+}

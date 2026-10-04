@@ -1,0 +1,308 @@
+{
+  "results": {
+    "perish_m3_L2_cv1.5_f0": {
+      "theta": [
+        45.220093118968066,
+        2.547474948613843,
+        4.69119662006313,
+        1.5861009037868228,
+        0.032745760205198426,
+        0.26242951429147465,
+        1.964022547811873,
+        1.8740631657036366
+      ],
+      "cost": 233.4228515625,
+      "nfev": 225,
+      "seconds": 4.481666167033836,
+      "path_costs": [
+        231.4453125,
+        202.1484375,
+        234.765625,
+        227.34375,
+        239.453125,
+        259.1796875,
+        241.6015625,
+        231.4453125
+      ],
+      "metrics": [
+        0.6796875,
+        1.654541015625,
+        3.0
+      ],
+      "cap": 17
+    },
+    "perish_m3_L2_cv1.5_f0.5": {
+      "theta": [
+        45.220093118968066,
+        2.547474948613843,
+        4.69119662006313,
+        1.5861009037868228,
+        0.032745760205198426,
+        0.26242951429147465,
+        1.964022547811873,
+        1.8740631657036366
+      ],
+      "cost": 214.5751953125,
+      "nfev": 177,
+      "seconds": 3.308303999947384,
+      "path_costs": [
+        227.1484375,
+        234.1796875,
+        157.8125,
+        193.1640625,
+        204.6875,
+        265.0390625,
+        196.09375,
+        238.4765625
+      ],
+      "metrics": [
+        0.505615234375,
+        1.64013671875,
+        3.0
+      ],
+      "cap": 16
+    },
+    "perish_m3_L2_cv2_f0": {
+      "theta": [
+        9.759534545022682,
+        2.626969012616911,
+        4.685020002264703,
+        1.927315305299669,
+        0.08222878142844947,
+        0.10414643729345618,
+        1.295155262748123,
+        1.2529884634892128
+      ],
+      "cost": 259.86328125,
+      "nfev": 256,
+      "seconds": 3.6368767090607435,
+      "path_costs": [
+        224.8046875,
+        238.8671875,
+        269.53125,
+        268.359375,
+        310.546875,
+        227.9296875,
+        239.453125,
+        299.4140625
+      ],
+      "metrics": [
+        0.653564453125,
+        1.945068359375,
+        2.666015625
+      ],
+      "cap": 14
+    },
+    "perish_m3_L2_cv2_f0.5": {
+      "theta": [
+        45.220093118968066,
+        2.547474948613843,
+        4.69119662006313,
+        1.5861009037868228,
+        0.032745760205198426,
+        0.26242951429147465,
+        1.964022547811873,
+        1.8740631657036366
+      ],
+      "cost": 239.6484375,
+      "nfev": 145,
+      "seconds": 3.3015497920569032,
+      "path_costs": [
+        239.6484375,
+        268.1640625,
+        293.359375,
+        200.1953125,
+        237.3046875,
+        206.0546875,
+        187.109375,
+        285.3515625
+      ],
+      "metrics": [
+        0.66748046875,
+        1.72900390625,
+        2.934814453125
+      ],
+      "cap": 14
+    },
+    "perish_m5_L2_cv1.5_f0": {
+      "theta": [
+        12.787048506228736,
+        7.102417836707108,
+        0.2834132706823338,
+        0.8278185632440435,
+        0.20319474832600493,
+        0.6430318249755567,
+        0.05113592984661208,
+        0.9872250730913839
+      ],
+      "cost": 183.1787109375,
+      "nfev": 256,
+      "seconds": 5.6930927080102265,
+      "path_costs": [
+        196.6796875,
+        149.609375,
+        180.6640625,
+        178.125,
+        187.3046875,
+        208.203125,
+        182.8125,
+        182.03125
+      ],
+      "metrics": [
+        0.679931640625,
+        1.15185546875,
+        3.501708984375
+      ],
+      "cap": 25
+    },
+    "perish_m5_L2_cv1.5_f0.5": {
+      "theta": [
+        4.844332979407991,
+        3.793962637771367,
+        5.571864391547813,
+        0.3865770665825746,
+        0.9835531797613277,
+        0.9855141882102444,
+        1.5915738108304336,
+        2.1343073657849008
+      ],
+      "cost": 169.7021484375,
+      "nfev": 145,
+      "seconds": 5.157198042143136,
+      "path_costs": [
+        168.75,
+        173.4375,
+        149.609375,
+        155.46875,
+        156.25,
+        196.09375,
+        177.1484375,
+        180.859375
+      ],
+      "metrics": [
+        0.718017578125,
+        0.97900390625,
+        3.876708984375
+      ],
+      "cap": 24
+    },
+    "perish_m5_L2_cv2_f0": {
+      "theta": [
+        8.35607782155489,
+        3.347860216214052,
+        0.3241743019329508,
+        0.7673111617695734,
+        0.4067075008949339,
+        0.34195744081380314,
+        0.7137220079558635,
+        1.1045304262670046
+      ],
+      "cost": 219.7509765625,
+      "nfev": 256,
+      "seconds": 4.969486125046387,
+      "path_costs": [
+        188.8671875,
+        204.296875,
+        233.0078125,
+        230.6640625,
+        261.5234375,
+        191.796875,
+        197.65625,
+        250.1953125
+      ],
+      "metrics": [
+        0.46240234375,
+        1.735107421875,
+        2.68359375
+      ],
+      "cap": 22
+    },
+    "perish_m5_L2_cv2_f0.5": {
+      "theta": [
+        8.560449182574004,
+        2.7350991385198125,
+        0.7146669608351539,
+        1.9136405054045247,
+        0.5372008296336167,
+        0.2612009500451772,
+        0.7450198757767159,
+        1.438783321583904
+      ],
+      "cost": 198.8525390625,
+      "nfev": 256,
+      "seconds": 7.268506583059207,
+      "path_costs": [
+        199.609375,
+        223.6328125,
+        250.390625,
+        157.8125,
+        194.7265625,
+        171.2890625,
+        145.3125,
+        248.046875
+      ],
+      "metrics": [
+        0.334716796875,
+        1.65380859375,
+        2.678466796875
+      ],
+      "cap": 21
+    }
+  },
+  "parameters": {
+    "S": {
+      "type": "float",
+      "initial": 10.0,
+      "min": 0.0,
+      "max": 60.0
+    },
+    "C": {
+      "type": "float",
+      "initial": 6.0,
+      "min": 0.0,
+      "max": 30.0
+    },
+    "A": {
+      "type": "float",
+      "initial": 1.0,
+      "min": 0.0,
+      "max": 8.0
+    },
+    "P": {
+      "type": "float",
+      "initial": 1.0,
+      "min": 0.0,
+      "max": 2.0
+    },
+    "B": {
+      "type": "float",
+      "initial": 0.75,
+      "min": 0.0,
+      "max": 1.0
+    },
+    "H": {
+      "type": "float",
+      "initial": 0.1,
+      "min": 0.0,
+      "max": 1.0
+    },
+    "E": {
+      "type": "float",
+      "initial": 0.2,
+      "min": 0.0,
+      "max": 2.0
+    },
+    "K": {
+      "type": "float",
+      "initial": 1.0,
+      "min": 0.25,
+      "max": 2.5
+    }
+  },
+  "structure_sha256": "d6ee8c4c9a8e8011f72b8a77ddcc21a0576b2bb9f45bac6249954c728fc23c26",
+  "wall_seconds": 39.021933417068794,
+  "transitions": 9819904,
+  "valid": true,
+  "score": 1.009152866745712,
+  "code": "def compute_order_amount(age, pipeline, mu, cv, f, L):\n    S = 10.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":10.0,\"min\":0.0,\"max\":60.0}\n    C = 6.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":6.0,\"min\":0.0,\"max\":30.0}\n    A = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":8.0}\n    P = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":2.0}\n    B = 0.75 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.75,\"min\":0.0,\"max\":1.0}\n    H = 0.1 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.1,\"min\":0.0,\"max\":1.0}\n    E = 0.2 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.2,\"min\":0.0,\"max\":2.0}\n    K = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.25,\"max\":2.5}\n\n    m = len(age)\n    raw_effective = 0.0\n    pipeline_stock = 0.0\n\n    for i in range(m):\n        stock = max(0.0, age[i])\n        relative_life = (i + 1.0) / max(1.0, float(m))\n        raw_effective = raw_effective + stock * (relative_life ** A)\n\n    for j in range(len(pipeline)):\n        pipeline_stock = pipeline_stock + max(0.0, pipeline[j])\n\n    raw_effective = raw_effective + P * pipeline_stock\n\n    projected = [0.0] * m\n    for i in range(m):\n        projected[i] = max(0.0, age[i])\n\n    active = [0.0] * 2\n    mix_weight = [0.0] * 2\n    ratio1 = [0.0] * 2\n    ratio2 = [0.0] * 2\n\n    for stream in range(2):\n        if stream == 0:\n            group = f\n        else:\n            group = 1.0 - f\n\n        mean_stream = group * mu\n        if mean_stream > 0.0:\n            variance_stream = group * (mu * cv) * (mu * cv)\n            shape = variance_stream / (mean_stream * mean_stream) - 1.0 / mean_stream\n            shape = max(1.0, shape)\n            root = max(0.0, shape * shape - 1.0) ** 0.5\n            b = 1.0 + shape + root\n            c = 1.0 + shape - root\n            weight = 1.0 / b\n            success1 = 2.0 / (2.0 + mean_stream * b)\n            success2 = 2.0 / (2.0 + mean_stream * c)\n            active[stream] = 1.0\n            mix_weight[stream] = weight\n            ratio1[stream] = max(0.0, min(1.0, 1.0 - success1))\n            ratio2[stream] = max(0.0, min(1.0, 1.0 - success2))\n\n    projected_effective = 0.0\n    forecast_expiry = 0.0\n    total_steps = L + m\n\n    for step in range(total_steps):\n        for stream in range(2):\n            if active[stream] > 0.0:\n                weight = mix_weight[stream]\n                r1 = ratio1[stream]\n                r2 = ratio2[stream]\n\n                available = 0.0\n                for i in range(m):\n                    available = available + projected[i]\n\n                if available > 0.0:\n                    total_n = int(available)\n                    total_fraction = available - total_n\n                    total_use = 0.0\n\n                    if total_n > 0:\n                        total_use = weight * r1 * (1.0 - r1 ** total_n) / max(1.0e-12, 1.0 - r1)\n                        total_use = total_use + (1.0 - weight) * r2 * (1.0 - r2 ** total_n) / max(1.0e-12, 1.0 - r2)\n\n                    total_tail = weight * (r1 ** (total_n + 1))\n                    total_tail = total_tail + (1.0 - weight) * (r2 ** (total_n + 1))\n                    total_use = total_use + total_fraction * total_tail\n                    total_use = max(0.0, min(available, total_use))\n\n                    greedy = [0.0] * m\n                    exact = [0.0] * m\n                    remaining = total_use\n                    cumulative = 0.0\n\n                    for pos in range(m):\n                        if stream == 0:\n                            idx = pos\n                        else:\n                            idx = m - 1 - pos\n\n                        cohort = projected[idx]\n                        take = min(cohort, remaining)\n                        greedy[idx] = cohort - take\n                        remaining = max(0.0, remaining - take)\n\n                        lower = cumulative\n                        upper = cumulative + cohort\n                        lower_n = int(lower)\n                        upper_n = int(upper)\n                        lower_fraction = lower - lower_n\n                        upper_fraction = upper - upper_n\n                        lower_use = 0.0\n                        upper_use = 0.0\n\n                        if lower_n > 0:\n                            lower_use = weight * r1 * (1.0 - r1 ** lower_n) / max(1.0e-12, 1.0 - r1)\n                            lower_use = lower_use + (1.0 - weight) * r2 * (1.0 - r2 ** lower_n) / max(1.0e-12, 1.0 - r2)\n\n                        lower_tail = weight * (r1 ** (lower_n + 1))\n                        lower_tail = lower_tail + (1.0 - weight) * (r2 ** (lower_n + 1))\n                        lower_use = lower_use + lower_fraction * lower_tail\n\n                        if upper_n > 0:\n                            upper_use = weight * r1 * (1.0 - r1 ** upper_n) / max(1.0e-12, 1.0 - r1)\n                            upper_use = upper_use + (1.0 - weight) * r2 * (1.0 - r2 ** upper_n) / max(1.0e-12, 1.0 - r2)\n\n                        upper_tail = weight * (r1 ** (upper_n + 1))\n                        upper_tail = upper_tail + (1.0 - weight) * (r2 ** (upper_n + 1))\n                        upper_use = upper_use + upper_fraction * upper_tail\n\n                        cohort_use = max(0.0, min(cohort, upper_use - lower_use))\n                        exact[idx] = cohort - cohort_use\n                        cumulative = upper\n\n                    for i in range(m):\n                        projected[i] = max(0.0, (1.0 - H) * greedy[i] + H * exact[i])\n\n        if step >= L and m > 0:\n            forecast_expiry = forecast_expiry + max(0.0, projected[0])\n\n        shifted = [0.0] * m\n        for i in range(m - 1):\n            shifted[i] = projected[i + 1]\n\n        if step < len(pipeline):\n            shifted[m - 1] = max(0.0, pipeline[step])\n\n        projected = shifted\n\n        if step + 1 == L:\n            projected_effective = 0.0\n            for i in range(m):\n                relative_life = (i + 1.0) / max(1.0, float(m))\n                projected_effective = projected_effective + projected[i] * (relative_life ** A)\n\n    adjusted_projected = max(0.0, projected_effective - E * forecast_expiry)\n    effective = (1.0 - B) * raw_effective + B * adjusted_projected\n    deficit = max(0.0, S - effective)\n    order = min(C, K * deficit)\n\n    if order != order:\n        return 0.0\n    if order < 0.0:\n        return 0.0\n    if order > 1.0e12:\n        return 1.0e12\n    return order\n"
+}

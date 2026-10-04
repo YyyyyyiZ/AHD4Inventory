@@ -1,0 +1,2422 @@
+motif,label_from_rule,distribution,generation,folder,rank,objective,code_snippet
+inventory_position,positive,exponential_L2_c1_2,9,deepseek-chat_exponential_L2_c1_2_50_plain_processed_scipy_15_default_m2_10_r1,6,5884.8,"def compute_order_amount(on_hand_inventory, pipeline_orders):
+    base_stock = 160.41846094220386  # OPT_PARAM: {""initial"": 160.41846094220386, ""min"": 100, ""max"": 300, ""type"": ""float""}
+    safety_stock = 48.34932238477587  # OPT_PARAM: {""initial"": 48.34932238477587, ""min"": 20, ""max"": 150, ""type"": ""float""}
+    demand_estimate = 108.9501595869336  # OPT_PARAM: {""initial"": 108.9501595869336, ""min"": 70, ""max"": 200, ""type"": ""float""}
+    smoothing_factor = 0.2992448162409029  # OPT_PARAM: {""initial"": 0.2992448162409029, ""min"": 0.1, ""max"": 1.0, ""type"": ""float""}
+    lead_time_multiplier = 1.3080461650300093  # OPT_PARAM: {""initial"": 1.3080461650300093, ""min"": 0.5, ""max"": 2.0, ""type"": ""float""}
+    
+    # Calculate inventory position
+    inventory_position = on_hand_inventory + sum(pipeline_orders)
+    
+    # Calculate expected demand during lead time with multiplier
+    lead_time = len(pipeline_orders)
+    expected_demand_during_lead_time = demand_estimate * lead_time * lead_time_multiplier
+    
+    # Calculate target inventory position
+    target_inventory = base_stock + safety_stock + expected_demand_during_lead_time
+    
+    # Calculate order amount
+    order_amount = max(0, target_inventory - inventory_position)
+    
+    # Apply smoothing with rounding to nearest integer
+    if order_amount > 0:
+        order_amount = int(round(order_amount * smoothing_factor))
+    
+    return order_amount"
+inventory_position,positive,exponential_L2_c1_5,5,deepseek-chat_exponential_L2_c1_5_50_plain_processed_scipy_15_default_m2_10_r1,3,10182.03632,"def compute_order_amount(on_hand_inventory, pipeline_orders):
+    base_stock = 299.9741463331034  # OPT_PARAM: {""initial"": 299.9741463331034, ""min"": 200, ""max"": 500, ""type"": ""float""}
+    safety_stock = 14.77414633309914  # OPT_PARAM: {""initial"": 14.77414633309914, ""min"": 10, ""max"": 100, ""type"": ""float""}
+    demand_estimate = 123.32917707555926  # OPT_PARAM: {""initial"": 123.32917707555926, ""min"": 60, ""max"": 150, ""type"": ""float""}
+    pipeline_weight = 0.65  # OPT_PARAM: {""initial"": 0.65, ""min"": 0.3, ""max"": 1.0, ""type"": ""float""}
+    deficit_factor = 0.5  # OPT_PARAM: {""initial"": 0.5, ""min"": 0.5, ""max"": 1.0, ""type"": ""float""}
+    smoothing_factor = 0.5  # OPT_PARAM: {""initial"": 0.5, ""min"": 0.1, ""max"": 0.5, ""type"": ""float""}
+    
+    # Calculate inventory position
+    inventory_position = on_hand_inventory + sum(pipeline_orders)
+    
+    # Adjust target based on pipeline variability
+    if len(pipeline_orders) > 1:
+        pipeline_range = max(pipeline_orders) - min(pipeline_orders)
+        pipeline_adjustment = pipeline_range * pipeline_weight
+    else:
+        pipeline_adjustment = 0
+    
+    # Target inventory level
+    target_inventory = base_stock + safety_stock + pipeline_adjustment
+    
+    # Calculate order needed to reach target
+    order_needed = max(0, target_inventory - inventory_position)
+    
+    # Apply deficit factor
+    order_amount = order_needed * deficit_factor
+    
+    # Smooth with demand estimate and previous order smoothing
+    if order_amount > 0:
+        smoothed_order = (order_amount * (1 - smoothing_factor) + 
+                         demand_estimate * smoothing_factor)
+        order_amount = max(smoothed_order, demand_estimate * 0.5)
+    
+    # Round to integer
+    return order_amount"
+inventory_position,positive,exponential_L4_c1_2,1,deepseek-chat_exponential_L4_c1_2_50_plain_processed_scipy_15_default_m2_10_r2,2,6512.56313,"def compute_order_amount(on_hand_inventory, pipeline_orders):
+    base_stock = 317.9477919695839  # OPT_PARAM: {""initial"": 317.9477919695839, ""min"": 10, ""max"": 1000, ""type"": ""float""}
+    safety_stock = 50.0  # OPT_PARAM: {""initial"": 50.0, ""min"": 0, ""max"": 200, ""type"": ""float""}
+    demand_forecast_factor = 0.0  # OPT_PARAM: {""initial"": 0.0, ""min"": 0.0, ""max"": 1.0, ""type"": ""float""}
+    
+    # Calculate net inventory position
+    net_inventory = on_hand_inventory + sum(pipeline_orders)
+    
+    # Estimate upcoming demand based on recent pipeline arrivals
+    # (pipeline_orders[0] arrived today, pipeline_orders[1] arrives tomorrow, etc.)
+    if len(pipeline_orders) >= 2:
+        # Use average of recent arrivals as demand proxy
+        recent_arrivals = pipeline_orders[:min(3, len(pipeline_orders))]
+        avg_recent = sum(recent_arrivals) / len(recent_arrivals)
+        demand_estimate = avg_recent * demand_forecast_factor
+    else:
+        demand_estimate = 0
+    
+    # Adjust base stock level based on demand estimate
+    adjusted_base_stock = base_stock + demand_estimate
+    
+    # Calculate order-up-to level with safety stock
+    order_up_to = max(adjusted_base_stock, safety_stock)
+    
+    # Order amount considering both net inventory and safety stock
+    order_amount = max(0, order_up_to - net_inventory)
+    
+    # Smooth ordering by limiting large changes
+    max_order_increase = 50.0  # OPT_PARAM: {""initial"": 50.0, ""min"": 50, ""max"": 500, ""type"": ""float""}
+    if len(pipeline_orders) > 0:
+        last_order = pipeline_orders[-1]
+        if order_amount > last_order + max_order_increase:
+            order_amount = last_order + max_order_increase
+    
+    return order_amount"
+inventory_position,positive,exponential_L4_c1_5,3,deepseek-chat_exponential_L4_c1_5_50_plain_processed_scipy_15_default_m2_10_r1,6,11196.76,"def compute_order_amount(on_hand_inventory, pipeline_orders):
+    base_stock = 395.9999999999971  # OPT_PARAM: {""initial"": 395.9999999999971, ""min"": 200, ""max"": 600, ""type"": ""float""}
+    safety_stock = 80.0  # OPT_PARAM: {""initial"": 80.0, ""min"": 30, ""max"": 150, ""type"": ""float""}
+    demand_smoothing = 0.2  # OPT_PARAM: {""initial"": 0.2, ""min"": 0.1, ""max"": 0.8, ""type"": ""float""}
+    lead_time_factor = 1.2  # OPT_PARAM: {""initial"": 1.2, ""min"": 0.8, ""max"": 2.0, ""type"": ""float""}
+    adjustment_factor = 0.7  # OPT_PARAM: {""initial"": 0.7, ""min"": 0.3, ""max"": 1.2, ""type"": ""float""}
+    
+    # Calculate inventory position
+    inventory_position = on_hand_inventory + sum(pipeline_orders)
+    
+    # Estimate demand using weighted average of pipeline orders
+    # More recent orders get higher weight
+    weights = [0.6, 0.3, 0.1, 0.0][:len(pipeline_orders)]
+    weights = [w/sum(weights) for w in weights] if sum(weights) > 0 else [1.0/len(pipeline_orders)]*len(pipeline_orders)
+    
+    weighted_demand = sum(w * q for w, q in zip(weights, pipeline_orders)) if pipeline_orders else 0
+    
+    # Calculate expected demand during lead time
+    expected_lead_time_demand = weighted_demand * lead_time_factor * len(pipeline_orders)
+    
+    # Calculate target inventory position
+    target_inventory = max(
+        base_stock,
+        safety_stock + expected_lead_time_demand * adjustment_factor
+    )
+    
+    # Smooth ordering to avoid large fluctuations
+    order_needed = max(0, target_inventory - inventory_position)
+    smoothed_order = demand_smoothing * order_needed + (1 - demand_smoothing) * weighted_demand
+    
+    # Ensure order is integer and non-negative
+    order_amount = max(0, int(round(smoothed_order)))
+    
+    return order_amount"
+inventory_position,positive,exponential_L6_c1_2,3,deepseek-chat_exponential_L6_c1_2_50_plain_processed_scipy_15_default_m2_10_r1,9,6535.6,"def compute_order_amount(on_hand_inventory, pipeline_orders):
+    base_stock = 404.3709691771165  # OPT_PARAM: {""initial"": 404.3709691771165, ""min"": 300, ""max"": 550, ""type"": ""float""}
+    safety_stock = 44.370969177113125  # OPT_PARAM: {""initial"": 44.370969177113125, ""min"": 40, ""max"": 100, ""type"": ""float""}
+    demand_forecast_factor = 0.42479636251648406  # OPT_PARAM: {""initial"": 0.42479636251648406, ""min"": 0.1, ""max"": 0.5, ""type"": ""float""}
+    
+    # Calculate current inventory position
+    inventory_position = on_hand_inventory + sum(pipeline_orders)
+    
+    # Use simple average of recent pipeline orders for demand forecast
+    # Focus on most recent 3 periods
+    recent_orders = pipeline_orders[:3] if len(pipeline_orders) >= 3 else pipeline_orders
+    if recent_orders:
+        forecast_demand = sum(recent_orders) / len(recent_orders)
+    else:
+        forecast_demand = 0
+    
+    # Adjust base stock based on demand forecast
+    adjusted_base_stock = base_stock + demand_forecast_factor * forecast_demand
+    
+    # Calculate target inventory position
+    target_position = adjusted_base_stock + safety_stock
+    
+    # Order amount calculation
+    raw_order = max(0, target_position - inventory_position)
+    
+    # Apply moderate smoothing
+    smoothing_factor = 0.5  # OPT_PARAM: {""initial"": 0.5, ""min"": 0.5, ""max"": 1.0, ""type"": ""float""}
+    smoothed_order = smoothing_factor * raw_order
+    
+    # Round to nearest integer
+    order_amount = int(round(smoothed_order))
+    
+    return order_amount"
+inventory_position,positive,exponential_L6_c1_5,3,deepseek-chat_exponential_L6_c1_5_50_plain_processed_scipy_15_default_m2_2_r6,10,11363.4589,"def compute_order_amount(on_hand_inventory, pipeline_orders):
+    base_stock = 388.6892600954751  # OPT_PARAM: {""initial"": 388.6892600954751, ""min"": 200, ""max"": 600, ""type"": ""float""}
+    safety_stock = 183.68926009547596  # OPT_PARAM: {""initial"": 183.68926009547596, ""min"": 100, ""max"": 300, ""type"": ""float""}
+    pipeline_weight = 0.9083418763766485  # OPT_PARAM: {""initial"": 0.9083418763766485, ""min"": 0.5, ""max"": 1.2, ""type"": ""float""}
+    order_smoothing = 0.1  # OPT_PARAM: {""initial"": 0.1, ""min"": 0.1, ""max"": 0.5, ""type"": ""float""}
+    demand_estimate_factor = 0.6316351901781097  # OPT_PARAM: {""initial"": 0.6316351901781097, ""min"": 0.3, ""max"": 1.2, ""type"": ""float""}
+    
+    # Calculate inventory position
+    inventory_position = on_hand_inventory + sum(pipeline_orders)
+    
+    # Simple demand estimate from recent pipeline arrivals
+    # Use last 3 pipeline orders if available
+    recent_orders = pipeline_orders[-3:] if len(pipeline_orders) >= 3 else pipeline_orders
+    if recent_orders:
+        estimated_demand = sum(recent_orders) / len(recent_orders)
+    else:
+        estimated_demand = 0
+    
+    # Adjust demand estimate with factor
+    adjusted_demand = demand_estimate_factor * estimated_demand
+    
+    # Calculate pipeline effect - simpler linear relationship
+    pipeline_effect = pipeline_weight * adjusted_demand * len(pipeline_orders)
+    
+    # Target inventory position
+    target_position = base_stock + safety_stock + pipeline_effect
+    
+    # Calculate raw order
+    raw_order = max(0, target_position - inventory_position)
+    
+    # Apply smoothing with adjusted demand as baseline
+    order_amount = order_smoothing * raw_order + (1 - order_smoothing) * adjusted_demand
+    
+    # Round to nearest integer (as order amounts should be integers)
+    return order_amount"
+inventory_position,positive,normal_std30_L6_c1_2,1,deepseek-chat_normal_std30_L6_c1_2_50_plain_processed_scipy_15_default_m2_10_r1,5,4193.86045,"def compute_order_amount(on_hand_inventory, pipeline_orders):
+    base_stock = 594.9886444977856  # OPT_PARAM: {""initial"": 594.9886444977856, ""min"": 10, ""max"": 1000, ""type"": ""float""}
+    order_amount = max(0, base_stock - on_hand_inventory - sum(pipeline_orders))
+    return order_amount"
+inventory_position,positive,normal_std30_L6_c1_5,10,deepseek-chat_normal_std30_L6_c1_5_50_plain_processed_scipy_15_default_m2_4_r7,3,3896.44,"def compute_order_amount(on_hand_inventory, pipeline_orders):
+    base_stock = 547.7684242450119  # OPT_PARAM: {""initial"": 547.7684242450119, ""min"": 500, ""max"": 700, ""type"": ""float""}
+    safety_stock = 88.28825713828027  # OPT_PARAM: {""initial"": 88.28825713828027, ""min"": 80, ""max"": 150, ""type"": ""float""}
+    smoothing_factor = 0.1  # OPT_PARAM: {""initial"": 0.1, ""min"": 0.1, ""max"": 0.4, ""type"": ""float""}
+    demand_buffer = 1.3  # OPT_PARAM: {""initial"": 1.3, ""min"": 1.0, ""max"": 1.3, ""type"": ""float""}
+    coverage_days = 6  # OPT_PARAM: {""initial"": 6, ""min"": 4, ""max"": 8, ""type"": ""int""}
+    pipeline_weight = 0.3  # OPT_PARAM: {""initial"": 0.3, ""min"": 0.0, ""max"": 0.3, ""type"": ""float""}
+    immediate_adjustment = 25  # OPT_PARAM: {""initial"": 25, ""min"": 15, ""max"": 40, ""type"": ""int""}
+    lost_sales_penalty = 1.5751605423841843  # OPT_PARAM: {""initial"": 1.5751605423841843, ""min"": 1.3, ""max"": 2.0, ""type"": ""float""}
+    min_order = 50  # OPT_PARAM: {""initial"": 50, ""min"": 30, ""max"": 70, ""type"": ""int""}
+    
+    # Calculate inventory position
+    inventory_position = on_hand_inventory + sum(pipeline_orders)
+    
+    # Adjust base stock based on immediate pipeline coverage
+    if len(pipeline_orders) > 0 and pipeline_orders[0] > 0:
+        pipeline_ratio = pipeline_orders[0] / (sum(pipeline_orders) + 1e-6)
+        adjusted_base = base_stock * (1.0 + pipeline_weight * (1.0 - pipeline_ratio))
+    else:
+        adjusted_base = base_stock
+    
+    # Calculate target inventory with demand buffer and lost sales penalty
+    target_inventory = adjusted_base * demand_buffer * lost_sales_penalty + safety_stock
+    
+    # Calculate order amount with smoothing
+    raw_order = max(0, target_inventory - inventory_position)
+    smoothed_order = smoothing_factor * raw_order
+    
+    # Ensure minimum order quantity
+    if smoothed_order < min_order and raw_order > 0:
+        smoothed_order = min_order
+    
+    # Add adjustment for immediate coverage needs
+    if len(pipeline_orders) > 0:
+        immediate_needs = max(0, pipeline_orders[0] - on_hand_inventory)"
+inventory_position,negative,poisson_L4_c1_5,10,deepseek-chat_poisson_L4_c1_5_50_plain_processed_scipy_15_default_m2_4_r8,9,2091.22415,"def compute_order_amount(on_hand_inventory, pipeline_orders):
+    base_stock = 549.7763572462062  # OPT_PARAM: {""initial"": 549.7763572462062, ""min"": 400, ""max"": 700, ""type"": ""float""}
+    safety_stock = 40.0  # OPT_PARAM: {""initial"": 40.0, ""min"": 20, ""max"": 80, ""type"": ""float""}
+    demand_estimate = 100.0  # OPT_PARAM: {""initial"": 100.0, ""min"": 85, ""max"": 115, ""type"": ""float""}
+    adjustment_factor = 0.6373162869544607  # OPT_PARAM: {""initial"": 0.6373162869544607, ""min"": 0.4, ""max"": 1.0, ""type"": ""float""}
+    pipeline_weight = 1.0  # OPT_PARAM: {""initial"": 1.0, ""min"": 0.5, ""max"": 1.0, ""type"": ""float""}
+    
+    # Calculate total pipeline inventory (no weighting)
+    total_pipeline = sum(pipeline_orders)
+    
+    # Calculate inventory position
+    inventory_position = on_hand_inventory + total_pipeline
+    
+    # Calculate target inventory position
+    target_position = demand_estimate * len(pipeline_orders) + safety_stock
+    
+    # Use base_stock policy directly (no smoothing)
+    order_up_to = base_stock
+    
+    # Calculate order amount
+    order_amount = max(0, order_up_to - inventory_position)
+    
+    # Apply adjustment factor
+    order_amount = order_amount * adjustment_factor
+    
+    # Round to nearest integer
+    return order_amount"
+inventory_position,negative,poisson_L6_c1_2,7,deepseek-chat-v3-0324_poisson_L6_c1_2_50_plain_processed_scipy_15_default_m2_1_r4,9,1341.5212,
+inventory_position,negative,poisson_L4_c1_2,8,deepseek-chat_poisson_L4_c1_2_50_plain_processed_scipy_15_default_m2_10_r1,8,877.39304,"def compute_order_amount(on_hand_inventory, pipeline_orders):
+    base_stock = 512.4386722803745  # OPT_PARAM: {""initial"": 512.4386722803745, ""min"": 450, ""max"": 650, ""type"": ""float""}
+    safety_stock = 24.31569577298205  # OPT_PARAM: {""initial"": 24.31569577298205, ""min"": 15, ""max"": 40, ""type"": ""float""}
+    pipeline_weight = 0.9432880260124186  # OPT_PARAM: {""initial"": 0.9432880260124186, ""min"": 0.8, ""max"": 1.0, ""type"": ""float""}
+    
+    # Calculate effective inventory position
+    weighted_pipeline = pipeline_weight * sum(pipeline_orders)
+    effective_inventory = on_hand_inventory + weighted_pipeline
+    
+    # Adjust base stock with safety stock
+    adjusted_base_stock = base_stock + safety_stock
+    
+    # Calculate order amount
+    order_amount = max(0, adjusted_base_stock - effective_inventory)
+    
+    # Apply smoothing with dynamic factor
+    smoothing_factor = 0.5772249187111922  # OPT_PARAM: {""initial"": 0.5772249187111922, ""min"": 0.4, ""max"": 0.8, ""type"": ""float""}
+    if order_amount > 0:
+        order_amount = smoothing_factor * order_amount
+    
+    # Apply bounds with tighter range
+    min_order = 12  # OPT_PARAM: {""initial"": 12, ""min"": 5, ""max"": 20, ""type"": ""int""}
+    max_order = 115  # OPT_PARAM: {""initial"": 115, ""min"": 80, ""max"": 150, ""type"": ""int""}
+    
+    order_amount = max(min_order, min(max_order, order_amount))
+    
+    # Round to nearest integer
+    return order_amount"
+inventory_position,negative,exponential_L6_c1_2,7,deepseek-chat_exponential_L6_c1_2_50_plain_processed_scipy_15_default_m2_2_r6,2,6000.86,"def compute_order_amount(on_hand_inventory, pipeline_orders):
+    base_stock = 245.0  # OPT_PARAM: {""initial"": 245.0, ""min"": 150, ""max"": 350, ""type"": ""float""}
+    pipeline_coverage = 0.605246700059374  # OPT_PARAM: {""initial"": 0.605246700059374, ""min"": 0.6, ""max"": 1.1, ""type"": ""float""}
+    safety_multiplier = 2.2432556972058637  # OPT_PARAM: {""initial"": 2.2432556972058637, ""min"": 1.2, ""max"": 2.5, ""type"": ""float""}
+    demand_buffer = 0.8043482563350369  # OPT_PARAM: {""initial"": 0.8043482563350369, ""min"": 0.8, ""max"": 1.5, ""type"": ""float""}
+    pipeline_weight = 0.7  # OPT_PARAM: {""initial"": 0.7, ""min"": 0.3, ""max"": 1.0, ""type"": ""float""}
+    smoothing_factor = 0.3  # OPT_PARAM: {""initial"": 0.3, ""min"": 0.3, ""max"": 0.9, ""type"": ""float""}
+    
+    # Calculate weighted pipeline with exponential decay
+    weighted_pipeline = 0
+    total_weight = 0
+    for i, q in enumerate(pipeline_orders):
+        weight = pipeline_weight ** (len(pipeline_orders) - i - 1)
+        weighted_pipeline += q * weight
+        total_weight += weight
+    
+    # Normalize weighted pipeline
+    if total_weight > 0:
+        weighted_pipeline = weighted_pipeline / total_weight * sum(pipeline_orders)
+    
+    # Calculate effective inventory position
+    effective_inventory = on_hand_inventory + weighted_pipeline
+    
+    # Calculate target inventory position
+    target_inventory = base_stock * demand_buffer
+    
+    # Calculate expected shortfall with smoothing
+    expected_shortfall = max(0, target_inventory * pipeline_coverage - effective_inventory)
+    
+    # Dynamic safety stock
+    safety_component = base_stock * 0.1 * safety_multiplier
+    
+    # Calculate order amount with aggressive smoothing
+    order_amount = max(0, expected_shortfall * smoothing_factor + safety_component)
+    "
+order_up_to,positive,exponential_L2_c1_2,1,deepseek-chat_exponential_L2_c1_2_50_plain_processed_scipy_15_default_m2_10_r1,5,6301.86751,"def compute_order_amount(on_hand_inventory, pipeline_orders):
+    base_stock = 207.94635405797283  # OPT_PARAM: {""initial"": 207.94635405797283, ""min"": 10, ""max"": 1000, ""type"": ""float""}
+    order_amount = max(0, base_stock - on_hand_inventory - sum(pipeline_orders))
+    return order_amount"
+order_up_to,positive,exponential_L2_c1_5,3,deepseek-chat_exponential_L2_c1_5_50_plain_processed_scipy_15_default_m2_10_r1,7,10613.9158,"def compute_order_amount(on_hand_inventory, pipeline_orders):
+    base_stock = 275.49531178190375  # OPT_PARAM: {""initial"": 275.49531178190375, ""min"": 10, ""max"": 1000, ""type"": ""float""}
+    safety_stock = 0.7900643306418248  # OPT_PARAM: {""initial"": 0.7900643306418248, ""min"": 0, ""max"": 200, ""type"": ""float""}
+    demand_estimate = 84.18002114566823  # OPT_PARAM: {""initial"": 84.18002114566823, ""min"": 10, ""max"": 500, ""type"": ""float""}
+    
+    # Calculate inventory position
+    inventory_position = on_hand_inventory + sum(pipeline_orders)
+    
+    # Calculate expected demand coverage
+    expected_demand = demand_estimate * (len(pipeline_orders) + 1)
+    
+    # Modified base stock calculation with safety stock
+    target_inventory = base_stock + safety_stock
+    
+    # Order amount calculation
+    order_amount = max(0, target_inventory - inventory_position)
+    
+    # Add demand anticipation
+    if order_amount > 0:
+        order_amount = max(order_amount, demand_estimate)
+    
+    return order_amount"
+order_up_to,positive,exponential_L4_c1_2,2,deepseek-chat_exponential_L4_c1_2_50_plain_processed_scipy_15_default_m2_10_r2,3,6252.26,"def compute_order_amount(on_hand_inventory, pipeline_orders):
+    base_stock = 316.6758311137169  # OPT_PARAM: {""initial"": 316.6758311137169, ""min"": 100, ""max"": 600, ""type"": ""float""}
+    pipeline_weight = 0.5  # OPT_PARAM: {""initial"": 0.5, ""min"": 0.5, ""max"": 1.0, ""type"": ""float""}
+    smoothing = 0.3  # OPT_PARAM: {""initial"": 0.3, ""min"": 0.3, ""max"": 1.0, ""type"": ""float""}
+    
+    # Calculate inventory position with weighted pipeline
+    weighted_pipeline = sum(pipeline_orders) * pipeline_weight
+    inventory_position = on_hand_inventory + weighted_pipeline
+    
+    # Simple base-stock policy with smoothing
+    raw_order = base_stock - inventory_position
+    smoothed_order = smoothing * max(0, raw_order)
+    
+    # Round to nearest integer
+    order_amount = int(round(smoothed_order))
+    
+    return order_amount"
+order_up_to,positive,exponential_L4_c1_5,2,deepseek-chat_exponential_L4_c1_5_50_plain_processed_scipy_15_default_m2_2_r6,7,11451.44,"def compute_order_amount(on_hand_inventory, pipeline_orders):
+    base_stock = 380.0011779355101  # OPT_PARAM: {""initial"": 380.0011779355101, ""min"": 200, ""max"": 600, ""type"": ""float""}
+    safety_stock = 80.10117793551007  # OPT_PARAM: {""initial"": 80.10117793551007, ""min"": 20, ""max"": 200, ""type"": ""float""}
+    
+    # Calculate inventory position
+    inventory_position = on_hand_inventory + sum(pipeline_orders)
+    
+    # Target inventory position
+    target_position = base_stock + safety_stock
+    
+    # Calculate order amount
+    order_amount = max(0, target_position - inventory_position)
+    
+    # Apply order smoothing
+    smoothing_factor = 0.5221451861627375  # OPT_PARAM: {""initial"": 0.5221451861627375, ""min"": 0.3, ""max"": 1.0, ""type"": ""float""}
+    order_amount = order_amount * smoothing_factor
+    
+    # Round to nearest integer
+    order_amount = int(round(order_amount))
+    
+    return order_amount"
+order_up_to,positive,exponential_L6_c1_2,4,deepseek-chat_exponential_L6_c1_2_50_plain_processed_scipy_15_default_m2_10_r1,6,6076.10013,"def compute_order_amount(on_hand_inventory, pipeline_orders):
+    base_stock = 460.79315662983976  # OPT_PARAM: {""initial"": 460.79315662983976, ""min"": 300, ""max"": 600, ""type"": ""float""}
+    safety_stock = 95.1  # OPT_PARAM: {""initial"": 95.1, ""min"": 50, ""max"": 150, ""type"": ""float""}
+    demand_forecast_factor = 1.5  # OPT_PARAM: {""initial"": 1.5, ""min"": 0.3, ""max"": 1.5, ""type"": ""float""}
+    pipeline_weight = 0.1  # OPT_PARAM: {""initial"": 0.1, ""min"": 0.1, ""max"": 1.0, ""type"": ""float""}
+    
+    # Calculate inventory position
+    inventory_position = on_hand_inventory + sum(pipeline_orders)
+    
+    # Estimate upcoming demand using weighted pipeline information
+    if pipeline_orders:
+        weights = [pipeline_weight ** i for i in range(len(pipeline_orders))]
+        weighted_pipeline = sum(w * q for w, q in zip(weights, pipeline_orders))
+        total_weight = sum(weights)
+        forecast_demand = weighted_pipeline / total_weight if total_weight > 0 else 0
+    else:
+        forecast_demand = 0
+    
+    # Adjust base stock based on demand forecast
+    adjusted_base_stock = base_stock + demand_forecast_factor * forecast_demand
+    
+    # Calculate order-up-to level with safety stock
+    order_up_to = max(adjusted_base_stock, safety_stock)
+    
+    # Calculate order amount
+    order_amount = max(0, order_up_to - inventory_position)
+    
+    # Apply order smoothing and limits
+    max_order_jump = 263.60946718379637  # OPT_PARAM: {""initial"": 263.60946718379637, ""min"": 100, ""max"": 400, ""type"": ""float""}
+    smoothing_factor = 0.3  # OPT_PARAM: {""initial"": 0.3, ""min"": 0.3, ""max"": 1.0, ""type"": ""float""}
+    
+    if order_amount > 0:
+        # Cap large orders
+        order_amount = min(order_amount, max_order_jump)
+        # Apply smoothing to reduce volatility"
+order_up_to,positive,exponential_L6_c1_5,7,deepseek-chat_exponential_L6_c1_5_50_plain_processed_scipy_15_default_m2_10_r1,3,11091.44975,"def compute_order_amount(on_hand_inventory, pipeline_orders):
+    base_stock = 376.9532527591698  # OPT_PARAM: {""initial"": 376.9532527591698, ""min"": 300, ""max"": 450, ""type"": ""float""}
+    safety_stock = 92.84179923380147  # OPT_PARAM: {""initial"": 92.84179923380147, ""min"": 50, ""max"": 150, ""type"": ""float""}
+    demand_smoothing = 0.3  # OPT_PARAM: {""initial"": 0.3, ""min"": 0.05, ""max"": 0.3, ""type"": ""float""}
+    pipeline_weight = 1.0  # OPT_PARAM: {""initial"": 1.0, ""min"": 0.6, ""max"": 1.0, ""type"": ""float""}
+    order_smoothing = 0.1  # OPT_PARAM: {""initial"": 0.1, ""min"": 0.1, ""max"": 0.5, ""type"": ""float""}
+    
+    # Calculate inventory position
+    inventory_position = on_hand_inventory + sum(pipeline_orders)
+    
+    # Estimate demand from recent pipeline arrivals (last 4 periods)
+    recent_arrivals = pipeline_orders[:4] if len(pipeline_orders) >= 4 else pipeline_orders
+    if recent_arrivals:
+        avg_recent_demand = sum(recent_arrivals) / len(recent_arrivals)
+    else:
+        avg_recent_demand = base_stock / 8
+    
+    # Smooth demand estimate with stronger smoothing
+    smoothed_demand = demand_smoothing * avg_recent_demand + (1 - demand_smoothing) * (base_stock / 8)
+    
+    # Calculate expected demand during lead time with adjusted weight
+    expected_lead_time_demand = smoothed_demand * pipeline_weight * len(pipeline_orders)
+    
+    # Determine order-up-to level with reduced safety stock
+    order_up_to = base_stock + safety_stock + expected_lead_time_demand
+    
+    # Calculate order amount
+    order_amount = max(0, order_up_to - inventory_position)
+    
+    # Apply stronger smoothing to order amount to reduce volatility
+    if order_amount > 0:
+        order_amount = order_smoothing * order_amount + (1 - order_smoothing) * smoothed_demand
+    
+    # Round to nearest integer (as required by output type)
+    return order_amount"
+order_up_to,positive,normal_std30_L6_c1_2,1,deepseek-chat_normal_std30_L6_c1_2_50_plain_processed_scipy_15_default_m2_10_r1,5,4193.86045,"def compute_order_amount(on_hand_inventory, pipeline_orders):
+    base_stock = 594.9886444977856  # OPT_PARAM: {""initial"": 594.9886444977856, ""min"": 10, ""max"": 1000, ""type"": ""float""}
+    order_amount = max(0, base_stock - on_hand_inventory - sum(pipeline_orders))
+    return order_amount"
+order_up_to,positive,normal_std30_L6_c1_5,9,deepseek-chat_normal_std30_L6_c1_5_50_plain_processed_scipy_15_default_m2_4_r8,7,3867.7232,"def compute_order_amount(on_hand_inventory, pipeline_orders):
+    base_stock = 919.6805163669371  # OPT_PARAM: {""initial"": 919.6805163669371, ""min"": 800, ""max"": 1100, ""type"": ""float""}
+    safety_stock = 174.62664819062533  # OPT_PARAM: {""initial"": 174.62664819062533, ""min"": 100, ""max"": 250, ""type"": ""float""}
+    demand_estimate = 92.11806445620594  # OPT_PARAM: {""initial"": 92.11806445620594, ""min"": 90, ""max"": 110, ""type"": ""float""}
+    smoothing_factor = 0.05  # OPT_PARAM: {""initial"": 0.05, ""min"": 0.05, ""max"": 0.25, ""type"": ""float""}
+    order_multiplier = 1.0514349400883798  # OPT_PARAM: {""initial"": 1.0514349400883798, ""min"": 0.95, ""max"": 1.15, ""type"": ""float""}
+    
+    # Calculate inventory position
+    inventory_position = on_hand_inventory + sum(pipeline_orders)
+    
+    # Calculate expected demand during lead time
+    lead_time = len(pipeline_orders)
+    expected_lead_time_demand = demand_estimate * lead_time * order_multiplier
+    
+    # Calculate target inventory position
+    target_position = expected_lead_time_demand + safety_stock
+    
+    # Calculate order amount
+    raw_order = max(0, target_position - inventory_position)
+    
+    # Apply smoothing
+    smoothed_order = smoothing_factor * raw_order + (1 - smoothing_factor) * demand_estimate
+    
+    # Apply base stock constraint
+    order_amount = min(smoothed_order, max(0, base_stock - inventory_position))
+    
+    # Round to nearest integer
+    return order_amount"
+order_up_to,negative,poisson_L4_c1_5,8,deepseek-chat_poisson_L4_c1_5_50_plain_processed_scipy_15_default_m2_4_r7,8,1391.83868,"def compute_order_amount(on_hand_inventory, pipeline_orders):
+    base_stock = 421.45648176907713  # OPT_PARAM: {""initial"": 421.45648176907713, ""min"": 350, ""max"": 500, ""type"": ""float""}
+    safety_stock = 85.13071460916967  # OPT_PARAM: {""initial"": 85.13071460916967, ""min"": 60, ""max"": 120, ""type"": ""float""}
+    demand_forecast = 97.7722536922517  # OPT_PARAM: {""initial"": 97.7722536922517, ""min"": 95, ""max"": 105, ""type"": ""float""}
+    alpha = 0.95  # OPT_PARAM: {""initial"": 0.95, ""min"": 0.7, ""max"": 0.95, ""type"": ""float""}
+    beta = 0.19053260850178294  # OPT_PARAM: {""initial"": 0.19053260850178294, ""min"": 0.15, ""max"": 0.35, ""type"": ""float""}
+    gamma = 0.7366059265772047  # OPT_PARAM: {""initial"": 0.7366059265772047, ""min"": 0.5, ""max"": 0.9, ""type"": ""float""}
+    demand_smoothing = 0.1  # OPT_PARAM: {""initial"": 0.1, ""min"": 0.1, ""max"": 0.3, ""type"": ""float""}
+    
+    # Calculate inventory position
+    inventory_position = on_hand_inventory + sum(pipeline_orders)
+    
+    # Calculate expected demand during lead time
+    lead_time = len(pipeline_orders)
+    lead_time_demand = demand_forecast * lead_time
+    
+    # Adjust base stock based on expected demand and safety stock
+    adjusted_base_stock = lead_time_demand + safety_stock
+    
+    # Use weighted combination of base stock and adjusted base stock
+    target_inventory = alpha * base_stock + (1 - alpha) * adjusted_base_stock
+    
+    # Calculate order needed
+    order_needed = target_inventory - inventory_position
+    
+    if order_needed > 0:
+        # Apply smoothing: order amount is weighted combination of order_needed and demand_forecast
+        order_amount = max(0, beta * order_needed + (1 - beta) * demand_forecast)
+        
+        # Apply additional smoothing to reduce order volatility
+        order_amount = gamma * order_amount + (1 - gamma) * demand_forecast
+        
+        # Apply demand-based smoothing to prevent overordering
+        order_amount = demand_smoothing * order_amount + (1 - demand_smoothing) * demand_forecast
+    else:"
+order_up_to,negative,poisson_L6_c1_2,8,deepseek-chat-v3-0324_poisson_L6_c1_2_50_plain_processed_scipy_15_default_m2_1_r4,9,1341.5212,
+order_up_to,negative,poisson_L6_c1_2,4,deepseek-chat_poisson_L6_c1_2_50_plain_processed_scipy_15_default_m2_4_r6,4,2358.46,"def compute_order_amount(on_hand_inventory, pipeline_orders):
+    base_stock = 618.252931626806  # OPT_PARAM: {""initial"": 618.252931626806, ""min"": 500, ""max"": 700, ""type"": ""float""}
+    safety_stock = 59.99769521996128  # OPT_PARAM: {""initial"": 59.99769521996128, ""min"": 40, ""max"": 100, ""type"": ""float""}
+    demand_estimate = 97.92717081843037  # OPT_PARAM: {""initial"": 97.92717081843037, ""min"": 90, ""max"": 110, ""type"": ""float""}
+    adjustment_factor = 0.5  # OPT_PARAM: {""initial"": 0.5, ""min"": 0.5, ""max"": 1.0, ""type"": ""float""}
+    pipeline_weight = 0.5  # OPT_PARAM: {""initial"": 0.5, ""min"": 0.1, ""max"": 0.5, ""type"": ""float""}
+    
+    # Calculate inventory position
+    inventory_position = on_hand_inventory + sum(pipeline_orders)
+    
+    # Calculate weighted pipeline coverage
+    weighted_pipeline = sum(p * (1 - pipeline_weight)**i for i, p in enumerate(pipeline_orders))
+    
+    # Dynamic target based on pipeline coverage
+    dynamic_target = base_stock + safety_stock * (1 - weighted_pipeline / (base_stock * 0.8))
+    
+    # Order calculation with smoother adjustment
+    order_needed = dynamic_target - inventory_position
+    if order_needed > 0:
+        order_amount = adjustment_factor * order_needed + (1 - adjustment_factor) * demand_estimate
+    else:
+        order_amount = max(0, adjustment_factor * order_needed)
+    
+    # Ensure non-negative integer order
+    order_amount = max(0, int(round(order_amount)))
+    
+    return order_amount"
+order_up_to,negative,poisson_L6_c1_2,8,deepseek-chat-v3-0324_poisson_L6_c1_2_50_plain_processed_scipy_15_default_m2_2_r1,8,2781.10842,
+partial_adjustment,positive,exponential_L2_c1_2,6,deepseek-chat_exponential_L2_c1_2_50_plain_processed_scipy_15_default_m2_10_r1,2,5884.32,"def compute_order_amount(on_hand_inventory, pipeline_orders):
+    base_stock = 218.600000000131  # OPT_PARAM: {""initial"": 218.600000000131, ""min"": 100, ""max"": 500, ""type"": ""float""}
+    safety_stock = 48.60000000013097  # OPT_PARAM: {""initial"": 48.60000000013097, ""min"": 20, ""max"": 200, ""type"": ""float""}
+    demand_estimate = 88.60000000013096  # OPT_PARAM: {""initial"": 88.60000000013096, ""min"": 50, ""max"": 300, ""type"": ""float""}
+    
+    # Calculate inventory position
+    inventory_position = on_hand_inventory + sum(pipeline_orders)
+    
+    # Calculate expected demand coverage
+    lead_time = len(pipeline_orders)
+    expected_demand_during_lead_time = demand_estimate * lead_time
+    
+    # Calculate target inventory position
+    target_inventory = base_stock + safety_stock + expected_demand_during_lead_time
+    
+    # Calculate order amount
+    order_amount = max(0, target_inventory - inventory_position)
+    
+    # Apply smoothing to avoid extreme order fluctuations
+    smoothing_factor = 0.3  # OPT_PARAM: {""initial"": 0.3, ""min"": 0.3, ""max"": 1.0, ""type"": ""float""}
+    if order_amount > 0:
+        order_amount = max(1, int(order_amount * smoothing_factor))
+    
+    return order_amount"
+partial_adjustment,positive,exponential_L2_c1_5,4,deepseek-chat_exponential_L2_c1_5_50_plain_processed_scipy_15_default_m2_10_r1,8,10298.22,"def compute_order_amount(on_hand_inventory, pipeline_orders):
+    base_stock = 324.93124999998804  # OPT_PARAM: {""initial"": 324.93124999998804, ""min"": 10, ""max"": 1000, ""type"": ""float""}
+    safety_stock = 143.44694847489097  # OPT_PARAM: {""initial"": 143.44694847489097, ""min"": 0, ""max"": 200, ""type"": ""float""}
+    demand_estimate = 192.27100333765242  # OPT_PARAM: {""initial"": 192.27100333765242, ""min"": 10, ""max"": 500, ""type"": ""float""}
+    smoothing_factor = 0.45428189551653  # OPT_PARAM: {""initial"": 0.45428189551653, ""min"": 0.1, ""max"": 0.9, ""type"": ""float""}
+    adjustment_factor = 0.5  # OPT_PARAM: {""initial"": 0.5, ""min"": 0.5, ""max"": 1.5, ""type"": ""float""}
+    
+    # Calculate inventory position
+    inventory_position = on_hand_inventory + sum(pipeline_orders)
+    
+    # Calculate expected demand during lead time with smoothing
+    lead_time_demand = demand_estimate * len(pipeline_orders)
+    
+    # Adjust target based on pipeline composition
+    incoming_soon = sum(pipeline_orders[:1]) if len(pipeline_orders) >= 1 else 0
+    pipeline_ratio = incoming_soon / (inventory_position + 1e-6)
+    
+    # Dynamic safety stock adjustment
+    adjusted_safety = safety_stock * (1 + smoothing_factor * (1 - pipeline_ratio))
+    
+    # Calculate target inventory level
+    target_inventory = lead_time_demand + adjusted_safety
+    
+    # Order up to target with adjustment factor
+    order_amount = max(0, target_inventory - inventory_position) * adjustment_factor
+    
+    # Apply base stock as upper bound with smoothing
+    base_stock_bound = max(0, base_stock - inventory_position)
+    order_amount = min(order_amount, base_stock_bound)
+    
+    # Round to integer for practical ordering
+    order_amount = int(round(order_amount))
+    
+    return order_amount"
+partial_adjustment,positive,exponential_L4_c1_2,8,deepseek-chat_exponential_L4_c1_2_50_plain_processed_scipy_15_default_m2_10_r2,5,6168.07993,"def compute_order_amount(on_hand_inventory, pipeline_orders):
+    base_stock = 269.26566485508545  # OPT_PARAM: {""initial"": 269.26566485508545, ""min"": 200, ""max"": 400, ""type"": ""float""}
+    safety_stock = 29.265664855082175  # OPT_PARAM: {""initial"": 29.265664855082175, ""min"": 20, ""max"": 100, ""type"": ""float""}
+    smoothing_factor = 0.05  # OPT_PARAM: {""initial"": 0.05, ""min"": 0.05, ""max"": 0.3, ""type"": ""float""}
+    demand_anticipation_factor = 0.15155787691950956  # OPT_PARAM: {""initial"": 0.15155787691950956, ""min"": 0.0, ""max"": 0.5, ""type"": ""float""}
+    pipeline_weight = 1.0  # OPT_PARAM: {""initial"": 1.0, ""min"": 0.3, ""max"": 1.0, ""type"": ""float""}
+    
+    # Calculate inventory position with weighted pipeline
+    weighted_pipeline = sum(p * (pipeline_weight ** i) for i, p in enumerate(pipeline_orders))
+    inventory_position = on_hand_inventory + weighted_pipeline
+    
+    # Estimate upcoming demand from recent pipeline pattern
+    if len(pipeline_orders) >= 3:
+        recent_orders = pipeline_orders[-3:]
+        avg_recent = sum(recent_orders) / len(recent_orders)
+        demand_adjustment = demand_anticipation_factor * avg_recent
+    else:
+        demand_adjustment = 0
+    
+    # Dynamic target with safety stock adjustment
+    dynamic_target = base_stock + safety_stock + demand_adjustment
+    
+    # Calculate raw order amount
+    raw_order = max(0, dynamic_target - inventory_position)
+    
+    # Apply smoothing with previous order if available
+    if pipeline_orders:
+        previous_order = pipeline_orders[-1]
+        smoothed_order = smoothing_factor * raw_order + (1 - smoothing_factor) * previous_order
+        order_amount = max(0, smoothed_order)
+    else:
+        order_amount = raw_order
+    
+    # Round to nearest integer
+    return order_amount"
+partial_adjustment,positive,exponential_L4_c1_5,1,deepseek-chat_exponential_L4_c1_5_50_plain_processed_scipy_15_default_m2_2_r6,2,11305.96492,"def compute_order_amount(on_hand_inventory, pipeline_orders):
+    base_stock = 355.57413700673254  # OPT_PARAM: {""initial"": 355.57413700673254, ""min"": 10, ""max"": 1000, ""type"": ""float""}
+    safety_stock = 56.57420322693207  # OPT_PARAM: {""initial"": 56.57420322693207, ""min"": 0, ""max"": 500, ""type"": ""float""}
+    demand_forecast_factor = 0.1297317074530608  # OPT_PARAM: {""initial"": 0.1297317074530608, ""min"": 0.1, ""max"": 2.0, ""type"": ""float""}
+    
+    # Calculate inventory position
+    inventory_position = on_hand_inventory + sum(pipeline_orders)
+    
+    # Calculate expected demand based on recent pipeline arrivals
+    # Use average of recent arrivals as demand proxy
+    recent_arrivals = pipeline_orders[:2] if len(pipeline_orders) >= 2 else pipeline_orders
+    avg_recent_demand = sum(recent_arrivals) / max(len(recent_arrivals), 1)
+    
+    # Adjust base stock based on demand forecast
+    adjusted_base_stock = base_stock + demand_forecast_factor * avg_recent_demand
+    
+    # Calculate target inventory position
+    target_position = adjusted_base_stock + safety_stock
+    
+    # Calculate order amount
+    order_amount = max(0, target_position - inventory_position)
+    
+    # Apply smoothing to avoid extreme order fluctuations
+    smoothing_factor = 0.1  # OPT_PARAM: {""initial"": 0.1, ""min"": 0.1, ""max"": 1.0, ""type"": ""float""}
+    if len(pipeline_orders) > 0:
+        last_order = pipeline_orders[-1]
+        order_amount = smoothing_factor * order_amount + (1 - smoothing_factor) * last_order
+    
+    return order_amount"
+partial_adjustment,positive,exponential_L6_c1_2,6,deepseek-chat_exponential_L6_c1_2_50_plain_processed_scipy_15_default_m2_10_r2,8,6586.88012,"def compute_order_amount(on_hand_inventory, pipeline_orders):
+    base_stock = 280.0  # OPT_PARAM: {""initial"": 280.0, ""min"": 100, ""max"": 500, ""type"": ""float""}
+    safety_stock = 45.0  # OPT_PARAM: {""initial"": 45.0, ""min"": 10, ""max"": 150, ""type"": ""float""}
+    demand_forecast_factor = 1.2  # OPT_PARAM: {""initial"": 1.2, ""min"": 0.5, ""max"": 2.0, ""type"": ""float""}
+    smoothing_factor = 0.3  # OPT_PARAM: {""initial"": 0.3, ""min"": 0.1, ""max"": 0.8, ""type"": ""float""}
+    
+    # Calculate inventory position
+    inventory_position = on_hand_inventory + sum(pipeline_orders)
+    
+    # Estimate upcoming demand using weighted average of recent pipeline arrivals
+    # Give more weight to nearer arrivals
+    if len(pipeline_orders) >= 3:
+        weights = [0.5, 0.3, 0.2]  # OPT_PARAM: {""initial"": [0.5, 0.3, 0.2], ""min"": [0.1, 0.1, 0.1], ""max"": [0.8, 0.6, 0.4], ""type"": ""list""}
+        recent_arrivals = pipeline_orders[:3]
+        weighted_avg = sum(w * d for w, d in zip(weights, recent_arrivals)) / sum(weights)
+    else:
+        weighted_avg = sum(pipeline_orders) / max(1, len(pipeline_orders))
+    
+    # Adjust base stock based on demand forecast
+    adjusted_base_stock = base_stock + demand_forecast_factor * weighted_avg
+    
+    # Calculate target inventory position with safety stock
+    target_position = adjusted_base_stock + safety_stock
+    
+    # Calculate raw order amount
+    raw_order = max(0, target_position - inventory_position)
+    
+    # Apply smoothing with recent order pattern
+    if pipeline_orders:
+        recent_order = pipeline_orders[-1]
+        order_amount = smoothing_factor * raw_order + (1 - smoothing_factor) * recent_order
+    else:
+        order_amount = raw_order
+    
+    # Round to nearest integer"
+partial_adjustment,positive,exponential_L6_c1_5,4,deepseek-chat_exponential_L6_c1_5_50_plain_processed_scipy_15_default_m2_10_r1,1,11346.3,"def compute_order_amount(on_hand_inventory, pipeline_orders):
+    base_stock = 558.2092466051826  # OPT_PARAM: {""initial"": 558.2092466051826, ""min"": 300, ""max"": 900, ""type"": ""float""}
+    safety_stock = 126.49334176078192  # OPT_PARAM: {""initial"": 126.49334176078192, ""min"": 20, ""max"": 200, ""type"": ""float""}
+    pipeline_weight = 0.9706743801487261  # OPT_PARAM: {""initial"": 0.9706743801487261, ""min"": 0.7, ""max"": 1.0, ""type"": ""float""}
+    smoothing_factor = 0.2  # OPT_PARAM: {""initial"": 0.2, ""min"": 0.2, ""max"": 0.8, ""type"": ""float""}
+    demand_buffer = 1.3051421006629127  # OPT_PARAM: {""initial"": 1.3051421006629127, ""min"": 1.0, ""max"": 2.0, ""type"": ""float""}
+    
+    # Calculate effective inventory position with discounted pipeline
+    weighted_pipeline = sum(p * (pipeline_weight ** i) for i, p in enumerate(pipeline_orders))
+    inventory_position = on_hand_inventory + weighted_pipeline
+    
+    # Dynamic base stock adjustment based on pipeline status
+    pipeline_total = sum(pipeline_orders)
+    if pipeline_total > 0:
+        pipeline_ratio = pipeline_orders[0] / pipeline_total if pipeline_total > 0 else 1.0
+        dynamic_adjustment = safety_stock * (1.0 + pipeline_ratio * 0.3)
+    else:
+        dynamic_adjustment = safety_stock
+    
+    # Adjusted base stock with demand buffer
+    adjusted_base_stock = base_stock * demand_buffer + dynamic_adjustment
+    
+    # Calculate raw order amount
+    raw_order = max(0.0, adjusted_base_stock - inventory_position)
+    
+    # Apply smoothing with minimum order threshold
+    if raw_order > safety_stock * 0.5:
+        order_amount = int(raw_order * smoothing_factor)
+    else:
+        order_amount = 0
+    
+    return order_amount"
+partial_adjustment,positive,normal_std30_L6_c1_5,7,deepseek-chat_normal_std30_L6_c1_5_50_plain_processed_scipy_15_default_m2_4_r7,5,3993.58,"def compute_order_amount(on_hand_inventory, pipeline_orders):
+    base_stock = 514.9169644428705  # OPT_PARAM: {""initial"": 514.9169644428705, ""min"": 500, ""max"": 700, ""type"": ""float""}
+    safety_stock = 82.13148210817661  # OPT_PARAM: {""initial"": 82.13148210817661, ""min"": 80, ""max"": 140, ""type"": ""float""}
+    smoothing_factor = 0.1  # OPT_PARAM: {""initial"": 0.1, ""min"": 0.1, ""max"": 0.4, ""type"": ""float""}
+    demand_buffer = 1.175681182612287  # OPT_PARAM: {""initial"": 1.175681182612287, ""min"": 1.0, ""max"": 1.3, ""type"": ""float""}
+    coverage_days = 6  # OPT_PARAM: {""initial"": 6, ""min"": 4, ""max"": 8, ""type"": ""int""}
+    pipeline_weight = 0.22029537581781397  # OPT_PARAM: {""initial"": 0.22029537581781397, ""min"": 0.0, ""max"": 0.3, ""type"": ""float""}
+    immediate_adjustment = 30  # OPT_PARAM: {""initial"": 30, ""min"": 15, ""max"": 40, ""type"": ""int""}
+    lost_sales_penalty = 1.9168451727762188  # OPT_PARAM: {""initial"": 1.9168451727762188, ""min"": 1.5, ""max"": 2.2, ""type"": ""float""}
+    min_order = 40  # OPT_PARAM: {""initial"": 40, ""min"": 30, ""max"": 70, ""type"": ""int""}
+    
+    # Calculate inventory position
+    inventory_position = on_hand_inventory + sum(pipeline_orders)
+    
+    # Adjust base stock based on immediate pipeline coverage
+    if len(pipeline_orders) > 0 and pipeline_orders[0] > 0:
+        pipeline_ratio = pipeline_orders[0] / (sum(pipeline_orders) + 1e-6)
+        adjusted_base = base_stock * (1.0 + pipeline_weight * (1.0 - pipeline_ratio))
+    else:
+        adjusted_base = base_stock
+    
+    # Calculate target inventory with demand buffer and lost sales penalty
+    target_inventory = adjusted_base * demand_buffer * lost_sales_penalty + safety_stock
+    
+    # Calculate order amount with smoothing
+    raw_order = max(0, target_inventory - inventory_position)
+    smoothed_order = smoothing_factor * raw_order
+    
+    # Ensure minimum order quantity
+    if smoothed_order < min_order and raw_order > 0:
+        smoothed_order = min_order
+    
+    # Add adjustment for immediate coverage needs
+    if len(pipeline_orders) > 0:
+        immediate_needs = max(0, pipeline_orders[0] - on_hand_inventory)"
+partial_adjustment,positive,poisson_L2_c1_2,3,deepseek-chat_poisson_L2_c1_2_50_plain_processed_scipy_15_default_m2_10_r1,8,984.02,"def compute_order_amount(on_hand_inventory, pipeline_orders):
+    base_stock = 255.5515178666342  # OPT_PARAM: {""initial"": 255.5515178666342, ""min"": 100, ""max"": 400, ""type"": ""float""}
+    safety_stock = 30.55151786663386  # OPT_PARAM: {""initial"": 30.55151786663386, ""min"": 0, ""max"": 100, ""type"": ""float""}
+    demand_buffer = 20.551517866633958  # OPT_PARAM: {""initial"": 20.551517866633958, ""min"": 0, ""max"": 50, ""type"": ""float""}
+    smoothing_factor = 0.8565950151433241  # OPT_PARAM: {""initial"": 0.8565950151433241, ""min"": 0.1, ""max"": 1.0, ""type"": ""float""}
+    
+    # Calculate current inventory position
+    inventory_position = on_hand_inventory + sum(pipeline_orders)
+    
+    # Simple target calculation without pipeline adjustment
+    target = base_stock + safety_stock + demand_buffer
+    
+    # Calculate raw order with smoothing
+    raw_order = max(0, target - inventory_position)
+    
+    # Apply smoothing to reduce order volatility
+    smoothed_order = smoothing_factor * raw_order
+    
+    # Apply rounding to integer with threshold
+    order_threshold = 0.3  # OPT_PARAM: {""initial"": 0.3, ""min"": 0, ""max"": 2, ""type"": ""float""}
+    if smoothed_order < order_threshold:
+        order_amount = 0
+    else:
+        order_amount = int(round(smoothed_order))
+    
+    return order_amount"
+partial_adjustment,negative,poisson_L6_c1_2,2,deepseek-chat_poisson_L6_c1_2_50_plain_processed_scipy_15_default_m2_10_r1,9,1119.4,"def compute_order_amount(on_hand_inventory, pipeline_orders):
+    # Fixed dataset constants
+    d_hat = 100.0  # mean demand
+    L = 6  # lead time
+    
+    # Optimizable parameters
+    base_order = 110.21839323693118  # OPT_PARAM: {""initial"": 110.21839323693118, ""min"": 70.0, ""max"": 120.0, ""type"": ""float""}
+    inventory_gain = 0.0432411453262814  # OPT_PARAM: {""initial"": 0.0432411453262814, ""min"": 0.0, ""max"": 0.5, ""type"": ""float""}
+    pipeline_gain = 0.01797950209112907  # OPT_PARAM: {""initial"": 0.01797950209112907, ""min"": 0.0, ""max"": 0.3, ""type"": ""float""}
+    shortfall_target = 610.0  # OPT_PARAM: {""initial"": 610.0, ""min"": 550.0, ""max"": 700.0, ""type"": ""float""}
+    shortfall_gain = 0.004494875522782268  # OPT_PARAM: {""initial"": 0.004494875522782268, ""min"": 0.0, ""max"": 0.1, ""type"": ""float""}
+    pipeline_shape_gain = 0.021675358163295803  # OPT_PARAM: {""initial"": 0.021675358163295803, ""min"": 0.0, ""max"": 0.2, ""type"": ""float""}
+    
+    # Current available inventory
+    A = on_hand_inventory + pipeline_orders[0]
+    
+    # Inventory deficit signal (negative feedback on high inventory)
+    inventory_adjustment = -inventory_gain * on_hand_inventory
+    
+    # Pipeline deficit signal (negative feedback on total pipeline)
+    total_pipeline = sum(pipeline_orders)
+    pipeline_adjustment = -pipeline_gain * total_pipeline
+    
+    # Projected shortfall over lead time
+    projected_shortfall = 0
+    for m in range(1, L + 1):
+        cumulative_arrivals = on_hand_inventory + sum(pipeline_orders[:m])
+        projected_inv = cumulative_arrivals - m * d_hat
+        projected_shortfall += max(0, -projected_inv)
+    
+    # Shortfall adjustment (positive when projected shortfall is high)
+    shortfall_adjustment = shortfall_gain * max(0, projected_shortfall - shortfall_target)
+    
+    # Pipeline shape adjustment (penalize uneven pipeline)
+    if len(pipeline_orders) > 1:"
+partial_adjustment,negative,poisson_L6_c1_5,3,deepseek-chat_poisson_L6_c1_5_50_plain_processed_scipy_15_default_m2_10_r3,4,1316.4,"def compute_order_amount(on_hand_inventory, pipeline_orders):
+    base_stock = 546.6399999999137  # OPT_PARAM: {""initial"": 546.6399999999137, ""min"": 450, ""max"": 600, ""type"": ""float""}
+    safety_stock = 60.0  # OPT_PARAM: {""initial"": 60.0, ""min"": 20, ""max"": 60, ""type"": ""float""}
+    demand_forecast = 90.0  # OPT_PARAM: {""initial"": 90.0, ""min"": 90, ""max"": 110, ""type"": ""float""}
+    pipeline_weight = 0.95  # OPT_PARAM: {""initial"": 0.95, ""min"": 0.95, ""max"": 1.05, ""type"": ""float""}
+    order_smoothing_min = 0.9  # OPT_PARAM: {""initial"": 0.9, ""min"": 0.5, ""max"": 0.9, ""type"": ""float""}
+    order_smoothing_max = 1.1  # OPT_PARAM: {""initial"": 1.1, ""min"": 1.1, ""max"": 1.5, ""type"": ""float""}
+    lost_sales_weight = 1.5  # OPT_PARAM: {""initial"": 1.5, ""min"": 1.0, ""max"": 1.5, ""type"": ""float""}
+    
+    # Calculate effective inventory position with weighted pipeline
+    effective_pipeline = sum(pipeline_orders) * pipeline_weight
+    inventory_position = on_hand_inventory + effective_pipeline
+    
+    # Adjust base stock based on lost sales cost ratio
+    adjusted_base_stock = base_stock * lost_sales_weight
+    
+    # Calculate order-up-to level with safety stock
+    order_up_to = adjusted_base_stock + safety_stock
+    
+    # Calculate raw order amount
+    raw_order = max(0, order_up_to - inventory_position)
+    
+    # Apply smoother ordering bounds based on forecast
+    if raw_order > 0:
+        min_order = demand_forecast * order_smoothing_min
+        max_order = demand_forecast * order_smoothing_max
+        order_amount = max(min_order, min(raw_order, max_order))
+    else:
+        order_amount = 0
+    
+    return order_amount"
+partial_adjustment,negative,exponential_L2_c1_2,8,deepseek-chat_exponential_L2_c1_2_50_plain_processed_scipy_15_default_m2_10_r2,7,5880.56444,"def compute_order_amount(on_hand_inventory, pipeline_orders):
+    base_stock = 309.8190827721422  # OPT_PARAM: {""initial"": 309.8190827721422, ""min"": 250, ""max"": 400, ""type"": ""float""}
+    safety_stock = 38.04612656826268  # OPT_PARAM: {""initial"": 38.04612656826268, ""min"": 30, ""max"": 70, ""type"": ""float""}
+    demand_estimate_factor = 0.41423093357352514  # OPT_PARAM: {""initial"": 0.41423093357352514, ""min"": 0.2, ""max"": 0.6, ""type"": ""float""}
+    pipeline_weight = 0.9  # OPT_PARAM: {""initial"": 0.9, ""min"": 0.8, ""max"": 0.99, ""type"": ""float""}
+    order_smoothing = 0.3  # OPT_PARAM: {""initial"": 0.3, ""min"": 0.3, ""max"": 0.8, ""type"": ""float""}
+    lost_sales_penalty_factor = 1.1  # OPT_PARAM: {""initial"": 1.1, ""min"": 1.1, ""max"": 1.4, ""type"": ""float""}
+    holding_cost_factor = 0.7  # OPT_PARAM: {""initial"": 0.7, ""min"": 0.7, ""max"": 1.0, ""type"": ""float""}
+    pipeline_threshold = 0.4  # OPT_PARAM: {""initial"": 0.4, ""min"": 0.4, ""max"": 0.8, ""type"": ""float""}
+    
+    # Calculate inventory position
+    inventory_position = on_hand_inventory + sum(pipeline_orders)
+    
+    # Estimate demand using weighted average of pipeline arrivals
+    if len(pipeline_orders) > 0:
+        weights = [pipeline_weight ** (len(pipeline_orders) - i - 1) for i in range(len(pipeline_orders))]
+        total_weight = sum(weights)
+        weighted_pipeline = sum(w * q for w, q in zip(weights, pipeline_orders))
+        avg_pipeline = weighted_pipeline / total_weight if total_weight > 0 else 0
+    else:
+        avg_pipeline = 0
+    
+    # Calculate base target
+    base_target = base_stock + safety_stock - (avg_pipeline * demand_estimate_factor)
+    
+    # Adjust target based on pipeline coverage
+    pipeline_ratio = sum(pipeline_orders) / (base_stock + 1e-6)
+    if pipeline_ratio < pipeline_threshold:
+        target_inventory = base_target * lost_sales_penalty_factor
+    else:
+        target_inventory = base_target * holding_cost_factor
+    
+    # Calculate order gap
+    order_gap = target_inventory - inventory_position
+    "
+partial_adjustment,negative,normal_std30_L6_c1_2,3,deepseek-chat_normal_std30_L6_c1_2_50_plain_processed_scipy_15_default_m2_10_r1,4,3618.82,"def compute_order_amount(on_hand_inventory, pipeline_orders):
+    # Precomputed from dataset
+    mean_demand = 100.0  # OPT_PARAM: {""initial"": 100.0, ""min"": 50, ""max"": 150, ""type"": ""float""}
+    
+    # Base stock level for inventory position
+    base_stock = 566.4669950361663  # OPT_PARAM: {""initial"": 566.4669950361663, ""min"": 400, ""max"": 900, ""type"": ""float""}
+    
+    # Pipeline discount factors (early vs late)
+    early_discount = 0.8114815118516725  # OPT_PARAM: {""initial"": 0.8114815118516725, ""min"": 0.7, ""max"": 1.0, ""type"": ""float""}
+    late_discount = 0.9  # OPT_PARAM: {""initial"": 0.9, ""min"": 0.5, ""max"": 1.0, ""type"": ""float""}
+    
+    # Critical threshold for immediate availability
+    critical_threshold = 80.00047885796252  # OPT_PARAM: {""initial"": 80.00047885796252, ""min"": 30, ""max"": 150, ""type"": ""float""}
+    
+    # Aggressive multiplier when critically low
+    critical_multiplier = 1.0  # OPT_PARAM: {""initial"": 1.0, ""min"": 1.0, ""max"": 2.0, ""type"": ""float""}
+    
+    # Calculate available inventory now
+    available_now = on_hand_inventory + pipeline_orders[0]
+    
+    # Calculate effective pipeline with different discounts for early vs late arrivals
+    L = len(pipeline_orders)
+    early_cutoff = 2  # First 2 periods considered ""early""
+    
+    effective_pipeline = 0
+    for i in range(L):
+        if i < early_cutoff:
+            effective_pipeline += pipeline_orders[i] * early_discount
+        else:
+            effective_pipeline += pipeline_orders[i] * late_discount
+    
+    # Calculate inventory position
+    inventory_position = on_hand_inventory + sum(pipeline_orders)
+    
+    # Base order: order-up-to policy on inventory position"
+pipeline_weighting,positive,exponential_L2_c1_2,6,deepseek-chat_exponential_L2_c1_2_50_plain_processed_scipy_15_default_m2_10_r2,4,5881.1646,"def compute_order_amount(on_hand_inventory, pipeline_orders):
+    base_stock = 215.3699735602678  # OPT_PARAM: {""initial"": 215.3699735602678, ""min"": 100, ""max"": 400, ""type"": ""float""}
+    safety_stock = 12.622653612770279  # OPT_PARAM: {""initial"": 12.622653612770279, ""min"": 0, ""max"": 50, ""type"": ""float""}
+    demand_estimate_factor = 0.297427921926723  # OPT_PARAM: {""initial"": 0.297427921926723, ""min"": 0.1, ""max"": 0.8, ""type"": ""float""}
+    pipeline_weight = 0.85  # OPT_PARAM: {""initial"": 0.85, ""min"": 0.5, ""max"": 1.0, ""type"": ""float""}
+    order_smoothing = 0.3  # OPT_PARAM: {""initial"": 0.3, ""min"": 0.3, ""max"": 1.0, ""type"": ""float""}
+    lost_sales_penalty_factor = 1.6726729210808196  # OPT_PARAM: {""initial"": 1.6726729210808196, ""min"": 1.0, ""max"": 3.0, ""type"": ""float""}
+    
+    # Calculate inventory position
+    inventory_position = on_hand_inventory + sum(pipeline_orders)
+    
+    # Estimate demand using weighted average of pipeline arrivals
+    if len(pipeline_orders) > 0:
+        weights = [pipeline_weight ** (len(pipeline_orders) - i - 1) for i in range(len(pipeline_orders))]
+        total_weight = sum(weights)
+        weighted_pipeline = sum(w * q for w, q in zip(weights, pipeline_orders))
+        avg_pipeline = weighted_pipeline / total_weight if total_weight > 0 else 0
+    else:
+        avg_pipeline = 0
+    
+    # Adjust base stock based on pipeline status and lost sales penalty
+    adjusted_base_stock = base_stock + safety_stock - (avg_pipeline * demand_estimate_factor)
+    
+    # Apply lost sales penalty to target inventory
+    target_inventory = adjusted_base_stock * lost_sales_penalty_factor
+    
+    # Calculate order amount with stronger smoothing
+    order_gap = target_inventory - inventory_position
+    if order_gap > 0:
+        # Apply smoothing to reduce order volatility
+        order_amount = max(0, order_gap * order_smoothing)
+    else:
+        order_amount = 0
+    
+    return order_amount"
+pipeline_weighting,positive,exponential_L2_c1_5,5,deepseek-chat_exponential_L2_c1_5_50_plain_processed_scipy_15_default_m2_10_r1,10,10213.1886,"def compute_order_amount(on_hand_inventory, pipeline_orders):
+    base_stock = 314.39753400680365  # OPT_PARAM: {""initial"": 314.39753400680365, ""min"": 200, ""max"": 450, ""type"": ""float""}
+    safety_stock = 18.89753400680287  # OPT_PARAM: {""initial"": 18.89753400680287, ""min"": 10, ""max"": 80, ""type"": ""float""}
+    demand_estimate = 90.78964128228563  # OPT_PARAM: {""initial"": 90.78964128228563, ""min"": 70, ""max"": 150, ""type"": ""float""}
+    pipeline_weight = 0.6  # OPT_PARAM: {""initial"": 0.6, ""min"": 0.1, ""max"": 0.6, ""type"": ""float""}
+    smoothing = 0.4628117027890899  # OPT_PARAM: {""initial"": 0.4628117027890899, ""min"": 0.3, ""max"": 0.9, ""type"": ""float""}
+    
+    # Calculate inventory position
+    inventory_position = on_hand_inventory + sum(pipeline_orders)
+    
+    # Simple pipeline adjustment (less aggressive than original)
+    pipeline_adjustment = sum(pipeline_orders) * pipeline_weight
+    
+    # Target inventory level
+    target = base_stock + safety_stock - pipeline_adjustment
+    
+    # Order to reach target, smoothed
+    raw_order = max(0, target - inventory_position)
+    order_amount = raw_order * smoothing + demand_estimate * (1 - smoothing)
+    
+    return order_amount"
+pipeline_weighting,positive,exponential_L4_c1_2,4,deepseek-chat_exponential_L4_c1_2_50_plain_processed_scipy_15_default_m2_10_r2,5,6199.78479,"def compute_order_amount(on_hand_inventory, pipeline_orders):
+    base_stock = 297.5854610448487  # OPT_PARAM: {""initial"": 297.5854610448487, ""min"": 100, ""max"": 600, ""type"": ""float""}
+    safety_multiplier = 0.5  # OPT_PARAM: {""initial"": 0.5, ""min"": 0.5, ""max"": 3.0, ""type"": ""float""}
+    smoothing_factor = 0.1  # OPT_PARAM: {""initial"": 0.1, ""min"": 0.1, ""max"": 0.5, ""type"": ""float""}
+    demand_anticipation = 0.0  # OPT_PARAM: {""initial"": 0.0, ""min"": 0.0, ""max"": 1.0, ""type"": ""float""}
+    
+    # Calculate inventory position
+    inventory_position = on_hand_inventory + sum(pipeline_orders)
+    
+    # Calculate expected incoming orders (weighted average of pipeline)
+    if pipeline_orders:
+        weighted_pipeline = sum(p * (0.8 ** i) for i, p in enumerate(pipeline_orders))
+        pipeline_weight = sum(0.8 ** i for i in range(len(pipeline_orders)))
+        expected_incoming = weighted_pipeline / pipeline_weight if pipeline_weight > 0 else 0
+    else:
+        expected_incoming = 0
+    
+    # Dynamic safety stock based on pipeline variability
+    if len(pipeline_orders) > 1:
+        pipeline_std = (sum((p - expected_incoming) ** 2 for p in pipeline_orders) / len(pipeline_orders)) ** 0.5
+        dynamic_safety = safety_multiplier * pipeline_std
+    else:
+        dynamic_safety = safety_multiplier * 50.0  # Default safety
+    
+    # Target inventory with dynamic adjustment
+    target_inventory = base_stock + dynamic_safety
+    
+    # Adjust for anticipated demand based on recent orders
+    adjustment = demand_anticipation * expected_incoming if expected_incoming > 0 else 0
+    adjusted_target = target_inventory + adjustment
+    
+    # Calculate order amount with aggressive smoothing
+    raw_order = max(0, adjusted_target - inventory_position)
+    
+    if pipeline_orders:"
+pipeline_weighting,positive,exponential_L4_c1_5,5,deepseek-chat_exponential_L4_c1_5_50_plain_processed_scipy_15_default_m2_10_r1,1,11001.06238,"def compute_order_amount(on_hand_inventory, pipeline_orders):
+    base_stock = 490.8224328330011  # OPT_PARAM: {""initial"": 490.8224328330011, ""min"": 300, ""max"": 700, ""type"": ""float""}
+    safety_stock = 39.64242255439121  # OPT_PARAM: {""initial"": 39.64242255439121, ""min"": 10, ""max"": 60, ""type"": ""float""}
+    demand_estimate = 131.1556036746591  # OPT_PARAM: {""initial"": 131.1556036746591, ""min"": 100, ""max"": 180, ""type"": ""float""}
+    pipeline_weight = 0.24720549173254328  # OPT_PARAM: {""initial"": 0.24720549173254328, ""min"": 0.0, ""max"": 0.3, ""type"": ""float""}
+    smoothing_factor = 0.16500132419153818  # OPT_PARAM: {""initial"": 0.16500132419153818, ""min"": 0.1, ""max"": 0.9, ""type"": ""float""}
+    lead_time = 4
+    
+    # Calculate inventory position
+    inventory_position = on_hand_inventory + sum(pipeline_orders)
+    
+    # Calculate expected demand during lead time
+    expected_lead_time_demand = demand_estimate * lead_time
+    
+    # Calculate pipeline coverage ratio
+    pipeline_coverage = sum(pipeline_orders)
+    pipeline_ratio = pipeline_coverage / (expected_lead_time_demand + 1e-6)
+    
+    # Adjust base stock based on pipeline coverage
+    adjusted_base_stock = base_stock * (1.0 + pipeline_weight * (1.0 - pipeline_ratio))
+    
+    # Calculate shortfall with adjusted base stock
+    shortfall = max(0, adjusted_base_stock - inventory_position)
+    
+    # Add safety stock and smooth the order
+    order_amount = max(0, shortfall * smoothing_factor + safety_stock)
+    
+    return order_amount"
+pipeline_weighting,positive,exponential_L6_c1_2,7,deepseek-chat_exponential_L6_c1_2_50_plain_processed_scipy_15_default_m2_2_r6,10,6015.7,"def compute_order_amount(on_hand_inventory, pipeline_orders):
+    base_stock = 285.0  # OPT_PARAM: {""initial"": 285.0, ""min"": 200, ""max"": 400, ""type"": ""float""}
+    pipeline_coverage = 0.7573562931759594  # OPT_PARAM: {""initial"": 0.7573562931759594, ""min"": 0.7, ""max"": 1.0, ""type"": ""float""}
+    safety_multiplier = 2.5  # OPT_PARAM: {""initial"": 2.5, ""min"": 1.2, ""max"": 2.5, ""type"": ""float""}
+    demand_buffer = 1.0080399180270758  # OPT_PARAM: {""initial"": 1.0080399180270758, ""min"": 0.9, ""max"": 1.5, ""type"": ""float""}
+    pipeline_weight = 0.65  # OPT_PARAM: {""initial"": 0.65, ""min"": 0.3, ""max"": 1.0, ""type"": ""float""}
+    smoothing_factor = 0.1912859701700439  # OPT_PARAM: {""initial"": 0.1912859701700439, ""min"": 0.1, ""max"": 0.5, ""type"": ""float""}
+    
+    # Calculate weighted pipeline with exponential decay
+    weighted_pipeline = 0
+    total_weight = 0
+    for i, q in enumerate(pipeline_orders):
+        weight = pipeline_weight ** (len(pipeline_orders) - i - 1)
+        weighted_pipeline += q * weight
+        total_weight += weight
+    
+    # Normalize weighted pipeline if weights don't sum to 1
+    if total_weight > 0:
+        weighted_pipeline = weighted_pipeline / total_weight * sum(pipeline_orders)
+    
+    # Calculate effective inventory position
+    effective_inventory = on_hand_inventory + weighted_pipeline
+    
+    # Calculate target inventory position
+    target_inventory = base_stock * demand_buffer
+    
+    # Calculate expected shortfall with pipeline coverage
+    expected_shortfall = max(0, target_inventory * pipeline_coverage - effective_inventory)
+    
+    # Safety stock component
+    safety_component = base_stock * 0.08 * safety_multiplier
+    
+    # Smooth order amount to avoid large fluctuations
+    raw_order = max(0, expected_shortfall + safety_component)
+    "
+pipeline_weighting,positive,exponential_L6_c1_5,10,deepseek-chat_exponential_L6_c1_5_50_plain_processed_scipy_15_default_m2_10_r1,9,11078.72866,"def compute_order_amount(on_hand_inventory, pipeline_orders):
+    base_stock = 374.682598834105  # OPT_PARAM: {""initial"": 374.682598834105, ""min"": 350, ""max"": 550, ""type"": ""float""}
+    safety_stock = 139.16120566851873  # OPT_PARAM: {""initial"": 139.16120566851873, ""min"": 120, ""max"": 250, ""type"": ""float""}
+    demand_smoothing = 0.3  # OPT_PARAM: {""initial"": 0.3, ""min"": 0.05, ""max"": 0.3, ""type"": ""float""}
+    pipeline_weight = 0.5  # OPT_PARAM: {""initial"": 0.5, ""min"": 0.5, ""max"": 1.2, ""type"": ""float""}
+    order_smoothing = 0.1  # OPT_PARAM: {""initial"": 0.1, ""min"": 0.1, ""max"": 0.5, ""type"": ""float""}
+    lead_time = len(pipeline_orders)
+    
+    # Calculate inventory position
+    inventory_position = on_hand_inventory + sum(pipeline_orders)
+    
+    # Estimate demand using recent pipeline arrivals (more responsive)
+    if lead_time >= 2:
+        recent_arrivals = pipeline_orders[:2]
+        avg_recent_demand = sum(recent_arrivals) / 2
+    else:
+        avg_recent_demand = base_stock / 6
+    
+    # Smooth demand estimate (faster adaptation)
+    smoothed_demand = demand_smoothing * avg_recent_demand + (1 - demand_smoothing) * (base_stock / 6)
+    
+    # Calculate expected demand during lead time with adjusted weight
+    expected_lead_time_demand = smoothed_demand * lead_time * pipeline_weight
+    
+    # Dynamic order-up-to level based on demand variability
+    order_up_to = base_stock + safety_stock + expected_lead_time_demand
+    
+    # Calculate raw order amount
+    raw_order = max(0, order_up_to - inventory_position)
+    
+    # Apply order smoothing only when order is significant
+    if raw_order > smoothed_demand:
+        order_amount = order_smoothing * raw_order + (1 - order_smoothing) * smoothed_demand
+    else:
+        order_amount = raw_order"
+pipeline_weighting,positive,normal_std30_L6_c1_2,8,deepseek-chat_normal_std30_L6_c1_2_50_plain_processed_scipy_15_default_m2_10_r1,4,2282.50527,"def compute_order_amount(on_hand_inventory, pipeline_orders):
+    # Fixed constants from dataset analysis
+    mean_demand = 100.0
+    L = len(pipeline_orders)
+    
+    # Base stock level - tuned for lead time demand coverage
+    base_stock = 617.3907684172415  # OPT_PARAM: {""initial"": 617.3907684172415, ""min"": 400, ""max"": 800, ""type"": ""float""}
+    
+    # Pipeline discount factors - more aggressive discounting for later arrivals
+    early_discount = 0.9666193778360123  # OPT_PARAM: {""initial"": 0.9666193778360123, ""min"": 0.8, ""max"": 1.0, ""type"": ""float""}
+    mid_discount = 0.8155818812092247  # OPT_PARAM: {""initial"": 0.8155818812092247, ""min"": 0.5, ""max"": 0.9, ""type"": ""float""}
+    late_discount = 0.6348543090478493  # OPT_PARAM: {""initial"": 0.6348543090478493, ""min"": 0.2, ""max"": 0.7, ""type"": ""float""}
+    
+    # Order smoothing parameters
+    min_order = 14.139104103097564  # OPT_PARAM: {""initial"": 14.139104103097564, ""min"": 5, ""max"": 30, ""type"": ""float""}
+    max_order = 91.26396018367548  # OPT_PARAM: {""initial"": 91.26396018367548, ""min"": 80, ""max"": 200, ""type"": ""float""}
+    
+    # Aggressiveness adjustment thresholds
+    low_stock_threshold = 60.0  # OPT_PARAM: {""initial"": 60.0, ""min"": 30, ""max"": 100, ""type"": ""float""}
+    high_stock_threshold = 179.9978600782374  # OPT_PARAM: {""initial"": 179.9978600782374, ""min"": 100, ""max"": 250, ""type"": ""float""}
+    
+    # Aggressiveness multipliers
+    low_stock_multiplier = 1.3  # OPT_PARAM: {""initial"": 1.3, ""min"": 1.1, ""max"": 1.5, ""type"": ""float""}
+    high_stock_multiplier = 0.5501111559263027  # OPT_PARAM: {""initial"": 0.5501111559263027, ""min"": 0.5, ""max"": 0.9, ""type"": ""float""}
+    
+    # Calculate discounted pipeline value with slot-specific discounts
+    discounted_pipeline = 0.0
+    
+    for i in range(L):
+        if i < 2:  # Arriving in next 2 periods
+            discounted_pipeline += pipeline_orders[i] * early_discount
+        elif i < 4:  # Arriving in periods 3-4
+            discounted_pipeline += pipeline_orders[i] * mid_discount
+        else:  # Arriving in periods 5-6
+            discounted_pipeline += pipeline_orders[i] * late_discount"
+pipeline_weighting,positive,normal_std30_L6_c1_5,8,deepseek-chat_normal_std30_L6_c1_5_50_plain_processed_scipy_15_default_m2_4_r7,2,3875.94,"def compute_order_amount(on_hand_inventory, pipeline_orders):
+    base_stock = 539.0782243455683  # OPT_PARAM: {""initial"": 539.0782243455683, ""min"": 500, ""max"": 700, ""type"": ""float""}
+    safety_stock = 94.64362274144149  # OPT_PARAM: {""initial"": 94.64362274144149, ""min"": 80, ""max"": 140, ""type"": ""float""}
+    smoothing_factor = 0.1  # OPT_PARAM: {""initial"": 0.1, ""min"": 0.1, ""max"": 0.4, ""type"": ""float""}
+    demand_buffer = 1.2361151119728362  # OPT_PARAM: {""initial"": 1.2361151119728362, ""min"": 1.0, ""max"": 1.3, ""type"": ""float""}
+    coverage_days = 6  # OPT_PARAM: {""initial"": 6, ""min"": 4, ""max"": 8, ""type"": ""int""}
+    pipeline_weight = 0.3  # OPT_PARAM: {""initial"": 0.3, ""min"": 0.0, ""max"": 0.3, ""type"": ""float""}
+    immediate_adjustment = 25  # OPT_PARAM: {""initial"": 25, ""min"": 15, ""max"": 40, ""type"": ""int""}
+    lost_sales_penalty = 1.6875679261337497  # OPT_PARAM: {""initial"": 1.6875679261337497, ""min"": 1.5, ""max"": 2.2, ""type"": ""float""}
+    min_order = 50  # OPT_PARAM: {""initial"": 50, ""min"": 30, ""max"": 70, ""type"": ""int""}
+    
+    # Calculate inventory position
+    inventory_position = on_hand_inventory + sum(pipeline_orders)
+    
+    # Adjust base stock based on immediate pipeline coverage
+    if len(pipeline_orders) > 0 and pipeline_orders[0] > 0:
+        pipeline_ratio = pipeline_orders[0] / (sum(pipeline_orders) + 1e-6)
+        adjusted_base = base_stock * (1.0 + pipeline_weight * (1.0 - pipeline_ratio))
+    else:
+        adjusted_base = base_stock
+    
+    # Calculate target inventory with demand buffer and lost sales penalty
+    target_inventory = adjusted_base * demand_buffer * lost_sales_penalty + safety_stock
+    
+    # Calculate order amount with smoothing
+    raw_order = max(0, target_inventory - inventory_position)
+    smoothed_order = smoothing_factor * raw_order
+    
+    # Ensure minimum order quantity
+    if smoothed_order < min_order and raw_order > 0:
+        smoothed_order = min_order
+    
+    # Add adjustment for immediate coverage needs
+    if len(pipeline_orders) > 0:
+        immediate_needs = max(0, pipeline_orders[0] - on_hand_inventory)"
+pipeline_weighting,negative,exponential_L4_c1_5,4,deepseek-chat_exponential_L4_c1_5_50_plain_processed_scipy_15_default_m2_10_r1,8,11182.29596,"def compute_order_amount(on_hand_inventory, pipeline_orders):
+    base_stock = 427.05501776950115  # OPT_PARAM: {""initial"": 427.05501776950115, ""min"": 10, ""max"": 1000, ""type"": ""float""}
+    safety_stock = 34.79592594200072  # OPT_PARAM: {""initial"": 34.79592594200072, ""min"": 0, ""max"": 300, ""type"": ""float""}
+    demand_estimate = 84.78492538308028  # OPT_PARAM: {""initial"": 84.78492538308028, ""min"": 50, ""max"": 400, ""type"": ""float""}
+    adjustment_factor = 0.25047133377839226  # OPT_PARAM: {""initial"": 0.25047133377839226, ""min"": 0.1, ""max"": 1.5, ""type"": ""float""}
+    
+    # Calculate inventory position
+    inventory_position = on_hand_inventory + sum(pipeline_orders)
+    
+    # Calculate expected shortfall considering pipeline
+    expected_shortfall = max(0, base_stock - inventory_position)
+    
+    # Adjust for demand variability with safety stock
+    adjusted_shortfall = expected_shortfall * adjustment_factor + safety_stock
+    
+    # Consider upcoming demand in pipeline
+    upcoming_demand_estimate = demand_estimate * len(pipeline_orders)
+    pipeline_adjustment = max(0, upcoming_demand_estimate - sum(pipeline_orders)) * 0.3
+    
+    # Final order amount
+    order_amount = max(0, adjusted_shortfall + pipeline_adjustment)
+    
+    return order_amount"
+pipeline_weighting,negative,poisson_L6_c1_5,4,deepseek-chat_poisson_L6_c1_5_50_plain_processed_scipy_15_default_m2_10_r2,2,1927.22,"def compute_order_amount(on_hand_inventory, pipeline_orders):
+    base_stock = 750.0  # OPT_PARAM: {""initial"": 750.0, ""min"": 500, ""max"": 1200, ""type"": ""float""}
+    safety_stock = 150.0  # OPT_PARAM: {""initial"": 150.0, ""min"": 20, ""max"": 150, ""type"": ""float""}
+    demand_forecast = 115.36194163015826  # OPT_PARAM: {""initial"": 115.36194163015826, ""min"": 80, ""max"": 120, ""type"": ""float""}
+    max_order = 120.0  # OPT_PARAM: {""initial"": 120.0, ""min"": 80, ""max"": 200, ""type"": ""float""}
+    min_order = 40.0  # OPT_PARAM: {""initial"": 40.0, ""min"": 0, ""max"": 100, ""type"": ""float""}
+    
+    # Calculate inventory position
+    inventory_position = on_hand_inventory + sum(pipeline_orders)
+    
+    # Calculate expected demand during lead time
+    expected_lead_time_demand = demand_forecast * len(pipeline_orders)
+    
+    # Calculate target inventory position
+    target_position = expected_lead_time_demand + safety_stock
+    
+    # Calculate order amount
+    order_amount = max(0, target_position - inventory_position)
+    
+    # Apply order smoothing and limits
+    if order_amount > 0:
+        order_amount = max(min_order, min(order_amount, max_order))
+    
+    # Round to nearest integer
+    order_amount = int(round(order_amount))
+    
+    return order_amount"
+pipeline_weighting,negative,poisson_L6_c1_5,9,deepseek-chat_poisson_L6_c1_5_50_plain_processed_scipy_15_default_m2_10_r1,2,1193.98,"def compute_order_amount(on_hand_inventory, pipeline_orders):
+    base_stock = 700.0  # OPT_PARAM: {""initial"": 700.0, ""min"": 500, ""max"": 700, ""type"": ""float""}
+    safety_stock = 85.1  # OPT_PARAM: {""initial"": 85.1, ""min"": 50, ""max"": 150, ""type"": ""float""}
+    demand_estimate = 97.96194724568502  # OPT_PARAM: {""initial"": 97.96194724568502, ""min"": 95, ""max"": 105, ""type"": ""float""}
+    lead_time_multiplier = 1.1531518321949237  # OPT_PARAM: {""initial"": 1.1531518321949237, ""min"": 1.0, ""max"": 1.3, ""type"": ""float""}
+    smoothing_factor = 0.01  # OPT_PARAM: {""initial"": 0.01, ""min"": 0.01, ""max"": 0.1, ""type"": ""float""}
+    
+    # Calculate inventory position
+    inventory_position = on_hand_inventory + sum(pipeline_orders)
+    
+    # Calculate expected demand during lead time
+    lead_time = len(pipeline_orders)
+    lead_time_demand = demand_estimate * lead_time * lead_time_multiplier
+    
+    # Calculate target inventory level
+    target_inventory = lead_time_demand + safety_stock
+    
+    # Use the minimum of base_stock and target_inventory
+    order_up_to = min(base_stock, target_inventory)
+    
+    # Calculate order amount
+    order_amount = max(0, order_up_to - inventory_position)
+    
+    # Apply smoothing only when order amount is positive
+    if order_amount > 0:
+        order_amount = smoothing_factor * order_amount + (1 - smoothing_factor) * demand_estimate
+    
+    # Round to nearest integer
+    order_amount = int(round(order_amount))
+    
+    return order_amount"
+pipeline_weighting,negative,poisson_L6_c1_5,7,deepseek-chat_poisson_L6_c1_5_50_plain_processed_scipy_15_default_m2_2_r7,8,3183.58,"def compute_order_amount(on_hand_inventory, pipeline_orders):
+    base_stock = 739.1871163011166  # OPT_PARAM: {""initial"": 739.1871163011166, ""min"": 10, ""max"": 1000, ""type"": ""float""}
+    safety_stock = 150.0  # OPT_PARAM: {""initial"": 150.0, ""min"": 0, ""max"": 300, ""type"": ""float""}
+    demand_forecast = 100.0  # OPT_PARAM: {""initial"": 100.0, ""min"": 50, ""max"": 150, ""type"": ""float""}
+    smoothing_factor = 0.6673786268578858  # OPT_PARAM: {""initial"": 0.6673786268578858, ""min"": 0.1, ""max"": 0.9, ""type"": ""float""}
+    
+    # Calculate inventory position
+    inventory_position = on_hand_inventory + sum(pipeline_orders)
+    
+    # Calculate expected demand during lead time
+    expected_lead_time_demand = demand_forecast * len(pipeline_orders)
+    
+    # Calculate target inventory level
+    target_inventory = expected_lead_time_demand + safety_stock
+    
+    # Calculate order-up-to level
+    order_up_to = max(base_stock, target_inventory)
+    
+    # Calculate order amount
+    order_amount = max(0, order_up_to - inventory_position)
+    
+    # Apply smoothing to reduce order volatility
+    if order_amount > 0:
+        order_amount = int(order_amount * smoothing_factor + 0.5)
+    
+    return order_amount"
+constant_order,positive,exponential_L2_c1_2,1,deepseek-chat_exponential_L2_c1_2_50_plain_processed_scipy_15_default_m2_10_r1,10,6522.77612,"def compute_order_amount(on_hand_inventory, pipeline_orders):
+    base_stock = 207.95061485156467  # OPT_PARAM: {""initial"": 207.95061485156467, ""min"": 10, ""max"": 1000, ""type"": ""float""}
+    safety_stock = 50.00426079359185  # OPT_PARAM: {""initial"": 50.00426079359185, ""min"": 0, ""max"": 200, ""type"": ""float""}
+    demand_forecast_factor = 0.8  # OPT_PARAM: {""initial"": 0.8, ""min"": 0.1, ""max"": 2.0, ""type"": ""float""}
+    
+    # Calculate inventory position
+    inventory_position = on_hand_inventory + sum(pipeline_orders)
+    
+    # Estimate upcoming demand based on recent pipeline arrivals
+    # Use average of recent arrivals as demand proxy
+    if len(pipeline_orders) >= 2 and pipeline_orders[0] > 0:
+        recent_arrivals = [p for p in pipeline_orders[:2] if p > 0]
+        if recent_arrivals:
+            avg_recent_demand = sum(recent_arrivals) / len(recent_arrivals)
+        else:
+            avg_recent_demand = base_stock * 0.3
+    else:
+        avg_recent_demand = base_stock * 0.3
+    
+    # Adjust base stock based on demand forecast
+    adjusted_base_stock = base_stock + demand_forecast_factor * (avg_recent_demand - base_stock * 0.3)
+    
+    # Calculate order amount with safety stock adjustment
+    order_amount = max(0, adjusted_base_stock + safety_stock - inventory_position)
+    
+    # Smooth ordering to avoid extreme fluctuations
+    max_order_increase = 0.4969694556046296  # OPT_PARAM: {""initial"": 0.4969694556046296, ""min"": 0.1, ""max"": 1.0, ""type"": ""float""}
+    if len(pipeline_orders) > 0 and pipeline_orders[-1] > 0:
+        previous_order = pipeline_orders[-1]
+        order_amount = min(order_amount, previous_order * (1 + max_order_increase))
+    
+    # Round to nearest integer (as required by output type)
+    return order_amount"
+constant_order,positive,exponential_L2_c1_5,8,deepseek-chat_exponential_L2_c1_5_50_plain_processed_scipy_15_default_m2_10_r1,5,10170.7103,"def compute_order_amount(on_hand_inventory, pipeline_orders):
+    base_stock = 250.87285254056783  # OPT_PARAM: {""initial"": 250.87285254056783, ""min"": 200, ""max"": 350, ""type"": ""float""}
+    safety_stock = 25.398706899916167  # OPT_PARAM: {""initial"": 25.398706899916167, ""min"": 20, ""max"": 60, ""type"": ""float""}
+    demand_estimate = 128.9986786809622  # OPT_PARAM: {""initial"": 128.9986786809622, ""min"": 100, ""max"": 160, ""type"": ""float""}
+    pipeline_weight = 0.55  # OPT_PARAM: {""initial"": 0.55, ""min"": 0.3, ""max"": 0.8, ""type"": ""float""}
+    smoothing_factor = 0.4  # OPT_PARAM: {""initial"": 0.4, ""min"": 0.4, ""max"": 0.9, ""type"": ""float""}
+    min_order_ratio = 0.15208189320473936  # OPT_PARAM: {""initial"": 0.15208189320473936, ""min"": 0.1, ""max"": 0.4, ""type"": ""float""}
+    lost_sales_weight = 1.3946588557023476  # OPT_PARAM: {""initial"": 1.3946588557023476, ""min"": 1.2, ""max"": 2.5, ""type"": ""float""}
+    holding_weight = 0.6733625828434074  # OPT_PARAM: {""initial"": 0.6733625828434074, ""min"": 0.1, ""max"": 0.8, ""type"": ""float""}
+    
+    # Calculate inventory position
+    inventory_position = on_hand_inventory + sum(pipeline_orders)
+    
+    # Calculate pipeline variability adjustment
+    if len(pipeline_orders) > 0:
+        pipeline_mean = sum(pipeline_orders) / len(pipeline_orders)
+        pipeline_variability = sum(abs(p - pipeline_mean) for p in pipeline_orders) / len(pipeline_orders)
+        pipeline_adjustment = pipeline_variability * pipeline_weight
+    else:
+        pipeline_adjustment = 0
+    
+    # Dynamic target with cost-ratio adjustment
+    cost_ratio_adjustment = (lost_sales_weight - holding_weight) * 10
+    dynamic_target = base_stock + safety_stock * cost_ratio_adjustment + pipeline_adjustment
+    
+    # Calculate base order amount
+    order_amount = max(0, dynamic_target - inventory_position)
+    
+    # Apply smoothing and minimum order threshold
+    if order_amount > 0:
+        smoothed_amount = order_amount * smoothing_factor
+        min_order = demand_estimate * min_order_ratio
+        order_amount = max(smoothed_amount, min_order)
+    
+    # Round to nearest integer"
+constant_order,positive,exponential_L4_c1_2,5,deepseek-chat_exponential_L4_c1_2_50_plain_processed_scipy_15_default_m2_10_r1,3,6119.84,"def compute_order_amount(on_hand_inventory, pipeline_orders):
+    base_stock = 196.42443493915945  # OPT_PARAM: {""initial"": 196.42443493915945, ""min"": 100, ""max"": 300, ""type"": ""float""}
+    safety_stock = 46.424434939158665  # OPT_PARAM: {""initial"": 46.424434939158665, ""min"": 10, ""max"": 80, ""type"": ""float""}
+    demand_forecast_factor = 1.5  # OPT_PARAM: {""initial"": 1.5, ""min"": 0.7, ""max"": 1.5, ""type"": ""float""}
+    smoothing_factor = 0.2  # OPT_PARAM: {""initial"": 0.2, ""min"": 0.2, ""max"": 0.8, ""type"": ""float""}
+    pipeline_weight = 0.3  # OPT_PARAM: {""initial"": 0.3, ""min"": 0.3, ""max"": 0.9, ""type"": ""float""}
+    
+    # Calculate inventory position
+    inventory_position = on_hand_inventory + sum(pipeline_orders)
+    
+    # Use more recent pipeline orders for demand estimation (last 3 periods)
+    recent_arrivals = pipeline_orders[:3]
+    if any(recent_arrivals):
+        # Weight recent arrivals more heavily
+        weights = [0.5, 0.3, 0.2]  # Decreasing weights for older orders
+        weighted_sum = sum(w * val for w, val in zip(weights, recent_arrivals[:3]))
+        avg_recent = weighted_sum / sum(weights[:len(recent_arrivals)])
+        recent_demand_estimate = avg_recent * demand_forecast_factor
+    else:
+        recent_demand_estimate = 0
+    
+    # Dynamic base stock adjustment with pipeline consideration
+    pipeline_effect = pipeline_weight * sum(pipeline_orders) / max(len(pipeline_orders), 1)
+    adjusted_base_stock = base_stock + safety_stock + recent_demand_estimate - pipeline_effect
+    
+    # Calculate order amount
+    order_amount = max(0, adjusted_base_stock - inventory_position)
+    
+    # Apply smoothing with tighter bounds
+    if len(pipeline_orders) > 0:
+        avg_pipeline = sum(pipeline_orders) / len(pipeline_orders)
+        smoothed_order = smoothing_factor * order_amount + (1 - smoothing_factor) * avg_pipeline
+        # Ensure order doesn't drop too low or spike too high
+        min_order = 0.2 * avg_pipeline if avg_pipeline > 0 else 0
+        max_order = 2.5 * avg_pipeline if avg_pipeline > 0 else 3 * base_stock"
+constant_order,positive,exponential_L4_c1_5,9,deepseek-chat_exponential_L4_c1_5_50_plain_processed_scipy_15_default_m2_10_r1,5,10997.18854,"def compute_order_amount(on_hand_inventory, pipeline_orders):
+    base_stock = 643.464453768082  # OPT_PARAM: {""initial"": 643.464453768082, ""min"": 500, ""max"": 900, ""type"": ""float""}
+    safety_stock = 10.565710265582744  # OPT_PARAM: {""initial"": 10.565710265582744, ""min"": 5, ""max"": 30, ""type"": ""float""}
+    demand_estimate = 143.2957843043706  # OPT_PARAM: {""initial"": 143.2957843043706, ""min"": 120, ""max"": 170, ""type"": ""float""}
+    pipeline_weight = 0.11379818109011686  # OPT_PARAM: {""initial"": 0.11379818109011686, ""min"": 0.0, ""max"": 0.25, ""type"": ""float""}
+    smoothing_factor = 0.19193849032207017  # OPT_PARAM: {""initial"": 0.19193849032207017, ""min"": 0.15, ""max"": 0.5, ""type"": ""float""}
+    lead_time = 4
+    
+    # Calculate inventory position
+    inventory_position = on_hand_inventory + sum(pipeline_orders)
+    
+    # Calculate expected demand during lead time
+    expected_lead_time_demand = demand_estimate * lead_time
+    
+    # Calculate pipeline coverage ratio
+    pipeline_coverage = sum(pipeline_orders)
+    pipeline_ratio = pipeline_coverage / (expected_lead_time_demand + 1e-6)
+    
+    # Adjust base stock based on pipeline coverage
+    adjusted_base_stock = base_stock * (1.0 + pipeline_weight * (1.0 - pipeline_ratio))
+    
+    # Calculate shortfall with adjusted base stock
+    shortfall = max(0, adjusted_base_stock - inventory_position)
+    
+    # Add safety stock and smooth the order
+    order_amount = max(0, shortfall * smoothing_factor + safety_stock)
+    
+    return order_amount"
+constant_order,positive,exponential_L6_c1_2,4,deepseek-chat_exponential_L6_c1_2_50_plain_processed_scipy_15_default_m2_2_r6,6,6272.0,"def compute_order_amount(on_hand_inventory, pipeline_orders):
+    base_stock = 176.77840071616376  # OPT_PARAM: {""initial"": 176.77840071616376, ""min"": 100, ""max"": 400, ""type"": ""float""}
+    pipeline_coverage = 0.6506620252464537  # OPT_PARAM: {""initial"": 0.6506620252464537, ""min"": 0.6, ""max"": 1.1, ""type"": ""float""}
+    safety_multiplier = 2.0  # OPT_PARAM: {""initial"": 2.0, ""min"": 0.8, ""max"": 2.0, ""type"": ""float""}
+    recent_weight = 0.3  # OPT_PARAM: {""initial"": 0.3, ""min"": 0.3, ""max"": 1.0, ""type"": ""float""}
+    holding_penalty = 0.1  # OPT_PARAM: {""initial"": 0.1, ""min"": 0.1, ""max"": 0.5, ""type"": ""float""}
+    
+    # Calculate weighted pipeline (recent orders weighted more heavily)
+    L = len(pipeline_orders)
+    weights = [recent_weight ** (L - i - 1) for i in range(L)]
+    weighted_pipeline = sum(w * q for w, q in zip(weights, pipeline_orders))
+    
+    # Calculate inventory position with weighted pipeline
+    inventory_position = on_hand_inventory + weighted_pipeline
+    
+    # Target inventory position considering pipeline coverage
+    target_position = base_stock * pipeline_coverage
+    
+    # Calculate order amount based on shortfall
+    order_amount = max(0, target_position - inventory_position)
+    
+    # Add safety stock component
+    safety_stock = base_stock * 0.12 * safety_multiplier
+    
+    # Adjust for holding cost penalty (reduce over-ordering)
+    if on_hand_inventory > base_stock * 0.3:
+        order_amount *= (1 - holding_penalty)
+    
+    # Round to nearest integer
+    order_amount = int(round(order_amount + safety_stock))
+    
+    return order_amount"
+constant_order,positive,exponential_L6_c1_5,8,deepseek-chat_exponential_L6_c1_5_50_plain_processed_scipy_15_default_m2_2_r6,4,11176.84433,"def compute_order_amount(on_hand_inventory, pipeline_orders):
+    base_stock = 371.77209240311623  # OPT_PARAM: {""initial"": 371.77209240311623, ""min"": 300, ""max"": 450, ""type"": ""float""}
+    safety_stock = 86.40476638139063  # OPT_PARAM: {""initial"": 86.40476638139063, ""min"": 60, ""max"": 140, ""type"": ""float""}
+    demand_smoothing = 0.25  # OPT_PARAM: {""initial"": 0.25, ""min"": 0.05, ""max"": 0.25, ""type"": ""float""}
+    pipeline_weight = 0.9430158612228782  # OPT_PARAM: {""initial"": 0.9430158612228782, ""min"": 0.7, ""max"": 1.0, ""type"": ""float""}
+    order_smoothing = 0.1  # OPT_PARAM: {""initial"": 0.1, ""min"": 0.1, ""max"": 0.3, ""type"": ""float""}
+    demand_estimate_window = 5  # OPT_PARAM: {""initial"": 5, ""min"": 3, ""max"": 8, ""type"": ""int""}
+    min_order = 15.0  # OPT_PARAM: {""initial"": 15.0, ""min"": 5, ""max"": 30, ""type"": ""float""}
+    lost_sales_weight = 1.0  # OPT_PARAM: {""initial"": 1.0, ""min"": 1.0, ""max"": 1.5, ""type"": ""float""}
+    pipeline_lead_time = 6  # OPT_PARAM: {""initial"": 6, ""min"": 4, ""max"": 8, ""type"": ""int""}
+    max_order = 450.0  # OPT_PARAM: {""initial"": 450.0, ""min"": 300, ""max"": 700, ""type"": ""float""}
+    
+    # Calculate inventory position
+    inventory_position = on_hand_inventory + sum(pipeline_orders)
+    
+    # Estimate demand from recent pipeline arrivals
+    if pipeline_orders and len(pipeline_orders) >= demand_estimate_window:
+        recent_arrivals = pipeline_orders[-demand_estimate_window:]
+        estimated_demand = sum(recent_arrivals) / len(recent_arrivals)
+    else:
+        estimated_demand = base_stock / 8
+    
+    # Smooth demand estimate
+    smoothed_demand = demand_smoothing * estimated_demand + (1 - demand_smoothing) * (base_stock / 8)
+    
+    # Adjust base stock based on lost sales risk
+    adjusted_base_stock = base_stock * lost_sales_weight
+    
+    # Calculate pipeline effect with lead time consideration
+    pipeline_effect = pipeline_weight * smoothed_demand * pipeline_lead_time
+    
+    # Calculate target inventory position
+    target_position = adjusted_base_stock + safety_stock + pipeline_effect
+    
+    # Calculate order amount with smoothing"
+constant_order,positive,normal_std30_L6_c1_2,2,deepseek-chat_normal_std30_L6_c1_2_50_plain_processed_scipy_15_default_m2_10_r1,9,4230.87636,"def compute_order_amount(on_hand_inventory, pipeline_orders):
+    # Fixed constants from dataset analysis
+    mean_demand = 100.0  # Approximate mean from historical data
+    safety_factor = 1.28  # ~90th percentile for normal distribution
+    
+    # Optimizable parameters
+    base_target = 561.317141862155  # OPT_PARAM: {""initial"": 561.317141862155, ""min"": 300, ""max"": 1000, ""type"": ""float""}
+    early_weight = 0.9460148132175309  # OPT_PARAM: {""initial"": 0.9460148132175309, ""min"": 0.1, ""max"": 1.5, ""type"": ""float""}
+    late_weight = 1.0  # OPT_PARAM: {""initial"": 1.0, ""min"": 0.1, ""max"": 1.0, ""type"": ""float""}
+    safety_multiplier = 0.5  # OPT_PARAM: {""initial"": 0.5, ""min"": 0.5, ""max"": 3.0, ""type"": ""float""}
+    min_order = 0.0  # OPT_PARAM: {""initial"": 0.0, ""min"": 0, ""max"": 50, ""type"": ""float""}
+    
+    # Calculate pipeline contributions with different weights
+    L = len(pipeline_orders)
+    early_slots = min(3, L)  # First 3 periods get higher weight
+    late_slots = max(0, L - early_slots)
+    
+    weighted_pipeline = 0.0
+    for i in range(L):
+        if i < early_slots:
+            weighted_pipeline += early_weight * pipeline_orders[i]
+        else:
+            weighted_pipeline += late_weight * pipeline_orders[i]
+    
+    # Calculate effective inventory position with weighted pipeline
+    effective_ip = on_hand_inventory + weighted_pipeline
+    
+    # Calculate safety stock based on lead time demand variability
+    lead_time_demand_std = mean_demand * 0.4 * (L ** 0.5)  # Rough estimate
+    safety_stock = safety_multiplier * safety_factor * lead_time_demand_std
+    
+    # Target inventory position with safety stock
+    target_ip = base_target + safety_stock
+    
+    # Calculate order amount"
+constant_order,positive,normal_std30_L6_c1_5,7,deepseek-chat_normal_std30_L6_c1_5_50_plain_processed_scipy_15_default_m2_4_r9,10,4046.33568,"def compute_order_amount(on_hand_inventory, pipeline_orders):
+    base_stock = 686.1625154441463  # OPT_PARAM: {""initial"": 686.1625154441463, ""min"": 600, ""max"": 850, ""type"": ""float""}
+    safety_stock = 89.53861241983715  # OPT_PARAM: {""initial"": 89.53861241983715, ""min"": 80, ""max"": 140, ""type"": ""float""}
+    pipeline_coverage = 0.8624040949122186  # OPT_PARAM: {""initial"": 0.8624040949122186, ""min"": 0.7, ""max"": 1.0, ""type"": ""float""}
+    demand_multiplier = 1.0421425781918612  # OPT_PARAM: {""initial"": 1.0421425781918612, ""min"": 1.0, ""max"": 1.3, ""type"": ""float""}
+    smoothing_factor = 0.15052132636240667  # OPT_PARAM: {""initial"": 0.15052132636240667, ""min"": 0.1, ""max"": 0.5, ""type"": ""float""}
+    min_order = 18.25671369565301  # OPT_PARAM: {""initial"": 18.25671369565301, ""min"": 10, ""max"": 50, ""type"": ""float""}
+    
+    # Calculate inventory position
+    inventory_position = on_hand_inventory + sum(pipeline_orders)
+    
+    # Calculate effective pipeline coverage
+    pipeline_sum = sum(pipeline_orders)
+    effective_pipeline = pipeline_sum * pipeline_coverage
+    
+    # Calculate target inventory level
+    target_inventory = base_stock + safety_stock
+    
+    # Calculate order amount with smoothing
+    raw_order = max(0, target_inventory - inventory_position + effective_pipeline)
+    
+    # Apply demand multiplier and smoothing
+    order_amount = raw_order * demand_multiplier * smoothing_factor
+    
+    # Apply minimum order quantity
+    if order_amount > 0 and order_amount < min_order:
+        order_amount = min_order
+    
+    # Round to nearest integer
+    return order_amount"
+constant_order,negative,normal_std30_L6_c1_5,4,deepseek-chat_normal_std30_L6_c1_5_50_plain_processed_scipy_15_default_m2_4_r8,9,4027.94081,"def compute_order_amount(on_hand_inventory, pipeline_orders):
+    base_stock = 914.9332005280802  # OPT_PARAM: {""initial"": 914.9332005280802, ""min"": 800, ""max"": 1100, ""type"": ""float""}
+    safety_stock = 158.22828388654528  # OPT_PARAM: {""initial"": 158.22828388654528, ""min"": 120, ""max"": 250, ""type"": ""float""}
+    demand_estimate = 95.0  # OPT_PARAM: {""initial"": 95.0, ""min"": 95, ""max"": 115, ""type"": ""float""}
+    smoothing_factor = 0.08  # OPT_PARAM: {""initial"": 0.08, ""min"": 0.08, ""max"": 0.2, ""type"": ""float""}
+    order_multiplier = 0.95  # OPT_PARAM: {""initial"": 0.95, ""min"": 0.95, ""max"": 1.15, ""type"": ""float""}
+    
+    # Calculate inventory position
+    inventory_position = on_hand_inventory + sum(pipeline_orders)
+    
+    # Calculate expected demand during lead time
+    lead_time = len(pipeline_orders)
+    expected_lead_time_demand = demand_estimate * lead_time * order_multiplier
+    
+    # Calculate target inventory position
+    target_position = expected_lead_time_demand + safety_stock
+    
+    # Calculate order amount
+    raw_order = max(0, target_position - inventory_position)
+    
+    # Apply smoothing
+    smoothed_order = smoothing_factor * raw_order + (1 - smoothing_factor) * demand_estimate
+    
+    # Apply base stock constraint
+    order_amount = min(smoothed_order, max(0, base_stock - inventory_position))
+    
+    # Round to nearest integer
+    return order_amount"
+constant_order,negative,poisson_L6_c1_5,2,deepseek-chat_poisson_L6_c1_5_50_plain_processed_scipy_15_default_m2_4_r7,2,3336.88008,"def compute_order_amount(on_hand_inventory, pipeline_orders):
+    base_stock = 697.9997255235969  # OPT_PARAM: {""initial"": 697.9997255235969, ""min"": 10, ""max"": 1000, ""type"": ""float""}
+    order_amount = max(0, base_stock - on_hand_inventory - sum(pipeline_orders))
+    return order_amount"
+constant_order,negative,poisson_L6_c1_2,4,deepseek-chat_poisson_L6_c1_2_50_plain_processed_scipy_15_default_m2_4_r9,9,761.08932,"def compute_order_amount(on_hand_inventory, pipeline_orders):
+    base_stock = 612.2039418882819  # OPT_PARAM: {""initial"": 612.2039418882819, ""min"": 300, ""max"": 700, ""type"": ""float""}
+    safety_stock = 79.77545028766404  # OPT_PARAM: {""initial"": 79.77545028766404, ""min"": 0, ""max"": 80, ""type"": ""float""}
+    demand_estimate = 100.0  # OPT_PARAM: {""initial"": 100.0, ""min"": 80, ""max"": 110, ""type"": ""float""}
+    max_order = 95.74692943047916  # OPT_PARAM: {""initial"": 95.74692943047916, ""min"": 80, ""max"": 200, ""type"": ""float""}
+    min_order_threshold = 5.0  # OPT_PARAM: {""initial"": 5.0, ""min"": 5, ""max"": 40, ""type"": ""float""}
+    
+    # Calculate inventory position
+    inventory_position = on_hand_inventory + sum(pipeline_orders)
+    
+    # Calculate expected demand during lead time
+    expected_demand_during_leadtime = demand_estimate * len(pipeline_orders)
+    
+    # Calculate target inventory position
+    target_position = base_stock + safety_stock
+    
+    # Calculate order amount
+    order_amount = max(0, target_position - inventory_position)
+    
+    # Apply smoothing: order only if gap is significant
+    if order_amount < min_order_threshold:
+        order_amount = 0
+    
+    # Cap order amount
+    order_amount = min(order_amount, max_order)
+    
+    return order_amount"
+constant_order,negative,poisson_L4_c1_5,1,deepseek-chat_poisson_L4_c1_5_50_plain_processed_scipy_15_default_m2_4_r6,3,2248.91324,"def compute_order_amount(on_hand_inventory, pipeline_orders):
+    base_stock = 478.8085286035252  # OPT_PARAM: {""initial"": 478.8085286035252, ""min"": 10, ""max"": 1000, ""type"": ""float""}
+    safety_stock = 25.809718291187927  # OPT_PARAM: {""initial"": 25.809718291187927, ""min"": 0, ""max"": 200, ""type"": ""float""}
+    demand_forecast = 107.27370692892545  # OPT_PARAM: {""initial"": 107.27370692892545, ""min"": 50, ""max"": 150, ""type"": ""float""}
+    smoothing_factor = 0.1  # OPT_PARAM: {""initial"": 0.1, ""min"": 0.1, ""max"": 0.9, ""type"": ""float""}
+    
+    # Calculate inventory position
+    inventory_position = on_hand_inventory + sum(pipeline_orders)
+    
+    # Adjust base stock based on recent demand pattern
+    recent_arrivals = pipeline_orders[0] if pipeline_orders else 0
+    adjusted_base = base_stock + (recent_arrivals - demand_forecast) * smoothing_factor
+    
+    # Calculate target inventory position
+    target_inventory = adjusted_base + safety_stock
+    
+    # Calculate order amount
+    order_amount = max(0, target_inventory - inventory_position)
+    
+    # Round to nearest integer (since demand is integer)
+    return order_amount"
+order_clipping,positive,exponential_L2_c1_2,9,deepseek-chat_exponential_L2_c1_2_50_plain_processed_scipy_15_default_m2_10_r1,8,5887.44,"def compute_order_amount(on_hand_inventory, pipeline_orders):
+    base_stock = 180.0000447500906  # OPT_PARAM: {""initial"": 180.0000447500906, ""min"": 100, ""max"": 300, ""type"": ""float""}
+    safety_stock = 45.00004475009062  # OPT_PARAM: {""initial"": 45.00004475009062, ""min"": 20, ""max"": 80, ""type"": ""float""}
+    demand_estimate = 110.00004475009062  # OPT_PARAM: {""initial"": 110.00004475009062, ""min"": 80, ""max"": 140, ""type"": ""float""}
+    smoothing_factor = 0.3247142838887458  # OPT_PARAM: {""initial"": 0.3247142838887458, ""min"": 0.2, ""max"": 0.8, ""type"": ""float""}
+    
+    # Calculate inventory position
+    inventory_position = on_hand_inventory + sum(pipeline_orders)
+    
+    # Calculate expected demand during lead time
+    lead_time = len(pipeline_orders)
+    expected_demand_during_lead_time = demand_estimate * lead_time
+    
+    # Calculate target inventory position
+    target_inventory = base_stock + safety_stock + expected_demand_during_lead_time
+    
+    # Calculate order amount
+    order_amount = max(0, target_inventory - inventory_position)
+    
+    # Apply smoothing to all orders
+    if order_amount > 0:
+        smoothed_amount = order_amount * smoothing_factor
+        # Round to nearest integer for stability
+        order_amount = max(1, int(round(smoothed_amount)))
+    
+    return order_amount"
+order_clipping,positive,exponential_L2_c1_5,10,deepseek-chat_exponential_L2_c1_5_50_plain_processed_scipy_15_default_m2_10_r1,3,10154.01154,"def compute_order_amount(on_hand_inventory, pipeline_orders):
+    base_stock = 289.98925347584475  # OPT_PARAM: {""initial"": 289.98925347584475, ""min"": 250, ""max"": 400, ""type"": ""float""}
+    safety_stock = 50.0  # OPT_PARAM: {""initial"": 50.0, ""min"": 50, ""max"": 120, ""type"": ""float""}
+    demand_estimate = 80.00562197349178  # OPT_PARAM: {""initial"": 80.00562197349178, ""min"": 80, ""max"": 140, ""type"": ""float""}
+    pipeline_weight = 1.0  # OPT_PARAM: {""initial"": 1.0, ""min"": 0.5, ""max"": 1.0, ""type"": ""float""}
+    smoothing_factor = 0.2  # OPT_PARAM: {""initial"": 0.2, ""min"": 0.2, ""max"": 0.6, ""type"": ""float""}
+    
+    # Calculate inventory position
+    inventory_position = on_hand_inventory + sum(pipeline_orders)
+    
+    # Calculate pipeline-adjusted target
+    # Weight recent pipeline orders more heavily
+    weighted_pipeline = sum(p * (pipeline_weight ** i) 
+                           for i, p in enumerate(reversed(pipeline_orders)))
+    pipeline_adjustment = weighted_pipeline * (1 - pipeline_weight)
+    
+    # Dynamic target based on base stock, safety stock, and pipeline
+    target_inventory = base_stock + safety_stock + pipeline_adjustment
+    
+    # Calculate raw order needed
+    raw_order = max(0, target_inventory - inventory_position)
+    
+    # Apply smoothing with demand anticipation
+    if raw_order > 0:
+        smoothed_order = (raw_order * smoothing_factor + 
+                         demand_estimate * (1 - smoothing_factor))
+        order_amount = max(smoothed_order, demand_estimate * 0.3)
+    else:
+        order_amount = 0
+    
+    return order_amount"
+order_clipping,positive,exponential_L4_c1_2,9,deepseek-chat_exponential_L4_c1_2_50_plain_processed_scipy_15_default_m2_10_r1,8,6105.84,"def compute_order_amount(on_hand_inventory, pipeline_orders):
+    base_stock = 184.6401831442157  # OPT_PARAM: {""initial"": 184.6401831442157, ""min"": 100, ""max"": 300, ""type"": ""float""}
+    safety_stock = 64.6401831442154  # OPT_PARAM: {""initial"": 64.6401831442154, ""min"": 10, ""max"": 100, ""type"": ""float""}
+    demand_forecast_factor = 1.451749405253229  # OPT_PARAM: {""initial"": 1.451749405253229, ""min"": 0.7, ""max"": 1.5, ""type"": ""float""}
+    smoothing_factor = 0.14880368313956854  # OPT_PARAM: {""initial"": 0.14880368313956854, ""min"": 0.1, ""max"": 0.8, ""type"": ""float""}
+    pipeline_weight = 0.15985479658795823  # OPT_PARAM: {""initial"": 0.15985479658795823, ""min"": 0.1, ""max"": 0.9, ""type"": ""float""}
+    
+    # Calculate inventory position
+    inventory_position = on_hand_inventory + sum(pipeline_orders)
+    
+    # Use only the most recent pipeline order for demand estimation
+    if pipeline_orders and pipeline_orders[0] > 0:
+        recent_demand_estimate = pipeline_orders[0] * demand_forecast_factor
+    else:
+        recent_demand_estimate = 0
+    
+    # Dynamic base stock adjustment
+    pipeline_effect = pipeline_weight * sum(pipeline_orders) / max(len(pipeline_orders), 1)
+    adjusted_base_stock = base_stock + safety_stock + recent_demand_estimate - pipeline_effect
+    
+    # Calculate order amount
+    order_amount = max(0, adjusted_base_stock - inventory_position)
+    
+    # Apply smoothing
+    if len(pipeline_orders) > 0:
+        avg_pipeline = sum(pipeline_orders) / len(pipeline_orders)
+        smoothed_order = smoothing_factor * order_amount + (1 - smoothing_factor) * avg_pipeline
+        # Simple bounds
+        min_order = 0
+        max_order = 3.0 * base_stock
+        order_amount = max(min_order, min(smoothed_order, max_order))
+    
+    # Round to nearest integer
+    order_amount = int(round(order_amount))
+    "
+order_clipping,positive,exponential_L4_c1_5,3,deepseek-chat_exponential_L4_c1_5_50_plain_processed_scipy_15_default_m2_2_r6,10,11359.84,"def compute_order_amount(on_hand_inventory, pipeline_orders):
+    base_stock = 350.0  # OPT_PARAM: {""initial"": 350.0, ""min"": 200, ""max"": 600, ""type"": ""float""}
+    safety_stock = 80.0  # OPT_PARAM: {""initial"": 80.0, ""min"": 0, ""max"": 200, ""type"": ""float""}
+    demand_forecast_factor = 0.8  # OPT_PARAM: {""initial"": 0.8, ""min"": 0.5, ""max"": 1.5, ""type"": ""float""}
+    
+    # Calculate inventory position
+    inventory_position = on_hand_inventory + sum(pipeline_orders)
+    
+    # Estimate upcoming demand using weighted average of pipeline orders
+    # More weight to recent orders
+    if len(pipeline_orders) >= 3:
+        weights = [0.2, 0.3, 0.5]  # OPT_PARAM: {""initial"": [0.2, 0.3, 0.5], ""min"": [0.1, 0.1, 0.1], ""max"": [0.4, 0.4, 0.8], ""type"": ""list""}
+        recent_orders = pipeline_orders[:3]
+        weighted_avg = sum(w * o for w, o in zip(weights, recent_orders))
+        forecast_demand = weighted_avg * demand_forecast_factor
+    else:
+        forecast_demand = 0
+    
+    # Adjust base stock dynamically
+    adjusted_base_stock = base_stock + safety_stock + forecast_demand
+    
+    # Calculate order amount with smoothing
+    order_amount = max(0, adjusted_base_stock - inventory_position)
+    
+    # Apply more aggressive smoothing for stability
+    smoothing_factor = 0.6  # OPT_PARAM: {""initial"": 0.6, ""min"": 0.3, ""max"": 1.0, ""type"": ""float""}
+    max_order_jump = 200.0  # OPT_PARAM: {""initial"": 200.0, ""min"": 100, ""max"": 400, ""type"": ""float""}
+    
+    if order_amount > 0:
+        order_amount = min(order_amount, max_order_jump)
+        order_amount = order_amount * smoothing_factor
+    
+    # Round to integer for practical ordering
+    order_amount = int(round(order_amount))
+    "
+order_clipping,positive,exponential_L6_c1_2,7,deepseek-chat_exponential_L6_c1_2_50_plain_processed_scipy_15_default_m2_10_r1,5,6016.55981,"def compute_order_amount(on_hand_inventory, pipeline_orders):
+    base_stock = 500.0  # OPT_PARAM: {""initial"": 500.0, ""min"": 200, ""max"": 500, ""type"": ""float""}
+    safety_stock = 80.0  # OPT_PARAM: {""initial"": 80.0, ""min"": 50, ""max"": 200, ""type"": ""float""}
+    demand_forecast_factor = 0.8833180190183038  # OPT_PARAM: {""initial"": 0.8833180190183038, ""min"": 0.5, ""max"": 1.2, ""type"": ""float""}
+    smoothing_factor = 0.4  # OPT_PARAM: {""initial"": 0.4, ""min"": 0.4, ""max"": 0.9, ""type"": ""float""}
+    max_order_jump = 150.0  # OPT_PARAM: {""initial"": 150.0, ""min"": 150, ""max"": 300, ""type"": ""float""}
+    pipeline_weight = 0.5  # OPT_PARAM: {""initial"": 0.5, ""min"": 0.1, ""max"": 0.5, ""type"": ""float""}
+    lost_sales_weight = 1.0  # OPT_PARAM: {""initial"": 1.0, ""min"": 1.0, ""max"": 2.5, ""type"": ""float""}
+    
+    # Calculate inventory position
+    inventory_position = on_hand_inventory + sum(pipeline_orders)
+    
+    # Calculate demand forecast using weighted pipeline orders
+    if pipeline_orders:
+        # Simple exponential weighting: recent orders get more weight
+        weights = [pipeline_weight ** (len(pipeline_orders) - i - 1) 
+                  for i in range(len(pipeline_orders))]
+        weighted_sum = sum(w * q for w, q in zip(weights, pipeline_orders))
+        avg_pipeline_demand = weighted_sum / sum(weights)
+    else:
+        avg_pipeline_demand = 0
+    
+    # Adjust base stock: increase more when lost sales cost is higher
+    adjusted_base_stock = base_stock + demand_forecast_factor * avg_pipeline_demand * lost_sales_weight
+    
+    # Ensure minimum safety stock
+    order_up_to = max(adjusted_base_stock, safety_stock)
+    
+    # Calculate raw order amount
+    raw_order = max(0, order_up_to - inventory_position)
+    
+    # Apply smoothing and limit large orders
+    if raw_order > 0:
+        # Cap individual orders to prevent overreaction
+        capped_order = min(raw_order, max_order_jump)"
+order_clipping,positive,exponential_L6_c1_5,1,deepseek-chat_exponential_L6_c1_5_50_plain_processed_scipy_15_default_m2_10_r2,2,12499.6,"def compute_order_amount(on_hand_inventory, pipeline_orders):
+    base_stock = 573.7676564670076  # OPT_PARAM: {""initial"": 573.7676564670076, ""min"": 10, ""max"": 1000, ""type"": ""float""}
+    safety_stock = 150.0  # OPT_PARAM: {""initial"": 150.0, ""min"": 50, ""max"": 300, ""type"": ""float""}
+    adjustment_factor = 0.341478400841657  # OPT_PARAM: {""initial"": 0.341478400841657, ""min"": 0.3, ""max"": 1.0, ""type"": ""float""}
+    
+    # Calculate inventory position
+    inventory_position = on_hand_inventory + sum(pipeline_orders)
+    
+    # Calculate expected shortfall based on recent pipeline orders
+    recent_orders = pipeline_orders[-3:] if len(pipeline_orders) >= 3 else pipeline_orders
+    avg_recent = sum(recent_orders) / max(len(recent_orders), 1)
+    
+    # Adjust base stock based on recent demand pattern
+    dynamic_base = base_stock * (1 + (avg_recent - base_stock/10) / (base_stock/10) * 0.1)
+    
+    # Calculate target inventory position
+    target_position = max(dynamic_base, safety_stock)
+    
+    # Calculate order amount with adjustment factor
+    raw_order = max(0, target_position - inventory_position)
+    order_amount = int(round(raw_order * adjustment_factor))
+    
+    return order_amount"
+order_clipping,positive,normal_std30_L6_c1_2,4,deepseek-chat_normal_std30_L6_c1_2_50_plain_processed_scipy_15_default_m2_10_r1,3,2432.08721,"def compute_order_amount(on_hand_inventory, pipeline_orders):
+    # Fixed constants computed from dataset statistics
+    mean_demand = 100.0  # Approximate mean from historical data
+    safety_factor = 1.5  # OPT_PARAM: {""initial"": 1.5, ""min"": 0.5, ""max"": 3.0, ""type"": ""float""}
+    
+    # Pipeline weighting parameters
+    early_weight = 0.6  # OPT_PARAM: {""initial"": 0.6, ""min"": 0.5, ""max"": 1.5, ""type"": ""float""}
+    late_weight = 0.7642927401511924  # OPT_PARAM: {""initial"": 0.7642927401511924, ""min"": 0.3, ""max"": 1.0, ""type"": ""float""}
+    
+    # Base stock level (lead time demand + safety stock)
+    base_stock = 501.4679284099233  # OPT_PARAM: {""initial"": 501.4679284099233, ""min"": 300, ""max"": 900, ""type"": ""float""}
+    
+    # Calculate weighted pipeline inventory
+    # Give more weight to near-term arrivals
+    L = len(pipeline_orders)
+    weighted_pipeline = 0.0
+    
+    # Early slots (first half) get higher weight
+    early_slots = L // 2
+    for i in range(early_slots):
+        weighted_pipeline += pipeline_orders[i] * early_weight
+    
+    # Late slots (second half) get lower weight
+    for i in range(early_slots, L):
+        weighted_pipeline += pipeline_orders[i] * late_weight
+    
+    # Calculate effective inventory position
+    effective_ip = on_hand_inventory + weighted_pipeline
+    
+    # Order amount: base stock minus effective inventory position
+    order_amount = max(0.0, base_stock - effective_ip)
+    
+    # Add demand smoothing: order at least some fraction of mean demand
+    # to maintain flow, but don't overreact to small deficits
+    min_order = 18.710662662898645  # OPT_PARAM: {""initial"": 18.710662662898645, ""min"": 5, ""max"": 50, ""type"": ""float""}"
+order_clipping,positive,normal_std30_L6_c1_5,9,deepseek-chat_normal_std30_L6_c1_5_50_plain_processed_scipy_15_default_m2_4_r8,3,3837.66926,"def compute_order_amount(on_hand_inventory, pipeline_orders):
+    base_stock = 836.1760622305678  # OPT_PARAM: {""initial"": 836.1760622305678, ""min"": 700, ""max"": 1000, ""type"": ""float""}
+    safety_stock = 169.35811743278407  # OPT_PARAM: {""initial"": 169.35811743278407, ""min"": 150, ""max"": 300, ""type"": ""float""}
+    demand_estimate = 88.26716717125119  # OPT_PARAM: {""initial"": 88.26716717125119, ""min"": 85, ""max"": 105, ""type"": ""float""}
+    smoothing_factor = 0.05  # OPT_PARAM: {""initial"": 0.05, ""min"": 0.05, ""max"": 0.3, ""type"": ""float""}
+    order_multiplier = 1.0008351832434763  # OPT_PARAM: {""initial"": 1.0008351832434763, ""min"": 1.0, ""max"": 1.2, ""type"": ""float""}
+    pipeline_weight = 0.7890136743937054  # OPT_PARAM: {""initial"": 0.7890136743937054, ""min"": 0.5, ""max"": 0.9, ""type"": ""float""}
+    min_order_threshold = 15.0  # OPT_PARAM: {""initial"": 15.0, ""min"": 5, ""max"": 30, ""type"": ""float""}
+    lost_sales_weight = 1.0552006884535936  # OPT_PARAM: {""initial"": 1.0552006884535936, ""min"": 1.0, ""max"": 1.5, ""type"": ""float""}
+    
+    # Calculate inventory position
+    inventory_position = on_hand_inventory + sum(pipeline_orders)
+    
+    # Calculate weighted pipeline contribution
+    weighted_pipeline = pipeline_weight * sum(pipeline_orders)
+    
+    # Calculate expected demand during lead time with multiplier
+    lead_time = len(pipeline_orders)
+    expected_lead_time_demand = demand_estimate * lead_time * order_multiplier
+    
+    # Calculate target inventory position with lost sales adjustment
+    target_position = expected_lead_time_demand * lost_sales_weight + safety_stock
+    
+    # Calculate order amount with pipeline consideration
+    raw_order = max(0, target_position - (on_hand_inventory + weighted_pipeline))
+    
+    # Apply smoothing
+    smoothed_order = smoothing_factor * raw_order + (1 - smoothing_factor) * demand_estimate
+    
+    # Apply base stock constraint
+    order_amount = min(smoothed_order, max(0, base_stock - inventory_position))
+    
+    # Apply minimum order threshold
+    if order_amount < min_order_threshold:
+        order_amount = 0"
+order_clipping,negative,normal_std30_L6_c1_5,10,deepseek-chat_normal_std30_L6_c1_5_50_plain_processed_scipy_15_default_m2_4_r6,1,3864.52,"def compute_order_amount(on_hand_inventory, pipeline_orders):
+    base_stock = 719.2621759756868  # OPT_PARAM: {""initial"": 719.2621759756868, ""min"": 600, ""max"": 1100, ""type"": ""float""}
+    safety_stock = 97.48084541879052  # OPT_PARAM: {""initial"": 97.48084541879052, ""min"": 50, ""max"": 200, ""type"": ""float""}
+    demand_alpha = 0.16065329447166257  # OPT_PARAM: {""initial"": 0.16065329447166257, ""min"": 0.1, ""max"": 0.5, ""type"": ""float""}
+    
+    # Calculate inventory position
+    inventory_position = on_hand_inventory + sum(pipeline_orders)
+    
+    # Estimate demand using exponential smoothing of recent arrivals
+    # Use pipeline orders that have recently arrived (last 3 periods) as demand proxy
+    if len(pipeline_orders) >= 3:
+        recent_arrivals = pipeline_orders[:3]
+        # Simple average as initial estimate
+        estimated_demand = sum(recent_arrivals) / len(recent_arrivals)
+    else:
+        estimated_demand = 100.0
+    
+    # Adjust base stock dynamically based on demand estimate
+    # Higher multiplier for high demand periods
+    demand_multiplier = 0.8  # OPT_PARAM: {""initial"": 0.8, ""min"": 0.8, ""max"": 1.3, ""type"": ""float""}
+    if estimated_demand > 130:
+        demand_multiplier = 1.2  # OPT_PARAM: {""initial"": 1.2, ""min"": 1.05, ""max"": 1.3, ""type"": ""float""}
+    elif estimated_demand < 70:
+        demand_multiplier = 0.85  # OPT_PARAM: {""initial"": 0.85, ""min"": 0.8, ""max"": 1.0, ""type"": ""float""}
+    
+    # Calculate target inventory position
+    target_inventory = base_stock * demand_multiplier + safety_stock
+    
+    # Calculate order-up-to quantity
+    order_up_to = max(0, target_inventory - inventory_position)
+    
+    # Apply smoothing to reduce order volatility
+    smoothed_order = demand_alpha * order_up_to + (1 - demand_alpha) * estimated_demand
+    
+    # Ensure order is non-negative integer"
+order_clipping,negative,exponential_L2_c1_5,3,deepseek-chat_exponential_L2_c1_5_50_plain_processed_scipy_15_default_m2_10_r2,6,10494.14,"def compute_order_amount(on_hand_inventory, pipeline_orders):
+    base_stock = 279.99993856696807  # OPT_PARAM: {""initial"": 279.99993856696807, ""min"": 100, ""max"": 500, ""type"": ""float""}
+    safety_stock = 59.999938566968076  # OPT_PARAM: {""initial"": 59.999938566968076, ""min"": 20, ""max"": 150, ""type"": ""float""}
+    demand_forecast = 110.0  # OPT_PARAM: {""initial"": 110.0, ""min"": 50, ""max"": 300, ""type"": ""float""}
+    smoothing_factor = 0.5287827686572434  # OPT_PARAM: {""initial"": 0.5287827686572434, ""min"": 0.1, ""max"": 1.0, ""type"": ""float""}
+    
+    # Calculate inventory position
+    inventory_position = on_hand_inventory + sum(pipeline_orders)
+    
+    # Simple base-stock policy with smoothing
+    target_inventory = base_stock + safety_stock
+    
+    # Calculate raw order amount
+    raw_order = max(0, target_inventory - inventory_position)
+    
+    # Apply exponential smoothing to avoid extreme fluctuations
+    if pipeline_orders:
+        last_order = pipeline_orders[-1]
+        smoothed_order = smoothing_factor * last_order + (1 - smoothing_factor) * raw_order
+    else:
+        smoothed_order = raw_order
+    
+    # Round to nearest integer (as order amount should be integer)
+    order_amount = int(round(smoothed_order))
+    
+    return order_amount"
+order_clipping,negative,poisson_L2_c1_2,6,deepseek-chat_poisson_L2_c1_2_50_plain_processed_scipy_15_default_m2_10_r2,4,802.66265,"def compute_order_amount(on_hand_inventory, pipeline_orders):
+    base_stock = 268.1127405262398  # OPT_PARAM: {""initial"": 268.1127405262398, ""min"": 10, ""max"": 1000, ""type"": ""float""}
+    safety_stock = 14.758319085856288  # OPT_PARAM: {""initial"": 14.758319085856288, ""min"": 0, ""max"": 100, ""type"": ""float""}
+    demand_forecast_factor = 0.1  # OPT_PARAM: {""initial"": 0.1, ""min"": 0.1, ""max"": 1.5, ""type"": ""float""}
+    
+    # Calculate inventory position
+    inventory_position = on_hand_inventory + sum(pipeline_orders)
+    
+    # Adjust base stock based on pipeline variability
+    pipeline_variability = max(0, pipeline_orders[0] - pipeline_orders[-1]) if len(pipeline_orders) > 1 else 0
+    adjusted_base_stock = base_stock + safety_stock * (1 + pipeline_variability / 100)
+    
+    # Consider upcoming arrivals in ordering decision
+    upcoming_arrivals = sum(pipeline_orders[:2]) if len(pipeline_orders) >= 2 else sum(pipeline_orders)
+    forecast_adjustment = demand_forecast_factor * upcoming_arrivals / len(pipeline_orders) if pipeline_orders else 0
+    
+    # Calculate order amount with adjustments
+    target_inventory = adjusted_base_stock + forecast_adjustment
+    order_amount = max(0, target_inventory - inventory_position)
+    
+    # Smooth ordering to reduce volatility
+    smoothing_factor = 0.3  # OPT_PARAM: {""initial"": 0.3, ""min"": 0.3, ""max"": 1.0, ""type"": ""float""}
+    if pipeline_orders:
+        previous_order = pipeline_orders[-1]
+        smoothed_order = smoothing_factor * order_amount + (1 - smoothing_factor) * previous_order
+        order_amount = max(0, smoothed_order)
+    
+    return order_amount"
+order_clipping,negative,poisson_L6_c1_5,1,deepseek-chat_poisson_L6_c1_5_50_plain_processed_scipy_15_default_m2_4_r8,7,4630.72,"def compute_order_amount(on_hand_inventory, pipeline_orders):
+    base_stock = 650.0  # OPT_PARAM: {""initial"": 650.0, ""min"": 500, ""max"": 800, ""type"": ""float""}
+    safety_stock = 80.0  # OPT_PARAM: {""initial"": 80.0, ""min"": 20, ""max"": 150, ""type"": ""float""}
+    
+    # Calculate inventory position
+    inventory_position = on_hand_inventory + sum(pipeline_orders)
+    
+    # Calculate demand forecast (average of next L periods' expected demand)
+    # Using historical average demand of ~100 as base forecast
+    forecast_demand = 100.0  # OPT_PARAM: {""initial"": 100.0, ""min"": 80, ""max"": 120, ""type"": ""float""}
+    
+    # Adjust base stock based on pipeline status
+    # Give more weight to imminent arrivals
+    weighted_pipeline = sum(p * (0.8 ** i) for i, p in enumerate(pipeline_orders))  # OPT_PARAM: {""initial"": 0.8, ""min"": 0.5, ""max"": 0.95, ""type"": ""float""}
+    
+    # Dynamic target inventory
+    target_inventory = base_stock + safety_stock - weighted_pipeline * 0.3  # OPT_PARAM: {""initial"": 0.3, ""min"": 0.1, ""max"": 0.5, ""type"": ""float""}
+    
+    # Calculate order amount with smoothing
+    raw_order = max(0, target_inventory - inventory_position)
+    
+    # Apply ordering discipline: round to nearest 5 units to avoid tiny orders
+    order_amount = max(0, round(raw_order / 5) * 5)  # OPT_PARAM: {""initial"": 5, ""min"": 1, ""max"": 20, ""type"": ""int""}
+    
+    return order_amount"
+thresholding,positive,exponential_L2_c1_2,6,deepseek-chat_exponential_L2_c1_2_50_plain_processed_scipy_15_default_m2_10_r2,2,5880.96923,"def compute_order_amount(on_hand_inventory, pipeline_orders):
+    base_stock = 278.4634348096408  # OPT_PARAM: {""initial"": 278.4634348096408, ""min"": 200, ""max"": 350, ""type"": ""float""}
+    safety_stock = 38.56343480964091  # OPT_PARAM: {""initial"": 38.56343480964091, ""min"": 20, ""max"": 80, ""type"": ""float""}
+    demand_estimate_factor = 0.31122620599130474  # OPT_PARAM: {""initial"": 0.31122620599130474, ""min"": 0.1, ""max"": 0.6, ""type"": ""float""}
+    pipeline_weight = 0.85  # OPT_PARAM: {""initial"": 0.85, ""min"": 0.7, ""max"": 0.95, ""type"": ""float""}
+    order_smoothing = 0.3  # OPT_PARAM: {""initial"": 0.3, ""min"": 0.3, ""max"": 0.8, ""type"": ""float""}
+    lost_sales_penalty_factor = 1.187943757719875  # OPT_PARAM: {""initial"": 1.187943757719875, ""min"": 1.0, ""max"": 1.5, ""type"": ""float""}
+    holding_cost_factor = 1.0  # OPT_PARAM: {""initial"": 1.0, ""min"": 0.5, ""max"": 1.0, ""type"": ""float""}
+    
+    # Calculate inventory position
+    inventory_position = on_hand_inventory + sum(pipeline_orders)
+    
+    # Estimate demand using weighted average of pipeline arrivals
+    if len(pipeline_orders) > 0:
+        weights = [pipeline_weight ** (len(pipeline_orders) - i - 1) for i in range(len(pipeline_orders))]
+        total_weight = sum(weights)
+        weighted_pipeline = sum(w * q for w, q in zip(weights, pipeline_orders))
+        avg_pipeline = weighted_pipeline / total_weight if total_weight > 0 else 0
+    else:
+        avg_pipeline = 0
+    
+    # Calculate target inventory position with cost-aware adjustment
+    base_target = base_stock + safety_stock - (avg_pipeline * demand_estimate_factor)
+    
+    # Adjust target based on cost ratio (p/h = 2)
+    # When inventory is low relative to pipeline, increase target to avoid lost sales
+    pipeline_ratio = sum(pipeline_orders) / (base_stock + 1e-6)
+    if pipeline_ratio < 0.5:
+        target_inventory = base_target * lost_sales_penalty_factor
+    else:
+        target_inventory = base_target * holding_cost_factor
+    
+    # Calculate order gap
+    order_gap = target_inventory - inventory_position
+    "
+thresholding,positive,exponential_L2_c1_5,8,deepseek-chat_exponential_L2_c1_5_50_plain_processed_scipy_15_default_m2_10_r2,3,10165.64,"def compute_order_amount(on_hand_inventory, pipeline_orders):
+    base_stock = 272.9526435902575  # OPT_PARAM: {""initial"": 272.9526435902575, ""min"": 200, ""max"": 350, ""type"": ""float""}
+    safety_factor = 1.491826898193645  # OPT_PARAM: {""initial"": 1.491826898193645, ""min"": 1.0, ""max"": 1.5, ""type"": ""float""}
+    smoothing_factor = 0.3  # OPT_PARAM: {""initial"": 0.3, ""min"": 0.3, ""max"": 0.9, ""type"": ""float""}
+    pipeline_weight = 0.7965236612888343  # OPT_PARAM: {""initial"": 0.7965236612888343, ""min"": 0.5, ""max"": 1.0, ""type"": ""float""}
+    demand_adj_factor = 1.05  # OPT_PARAM: {""initial"": 1.05, ""min"": 0.8, ""max"": 1.3, ""type"": ""float""}
+    min_order_threshold = 15  # OPT_PARAM: {""initial"": 15, ""min"": 5, ""max"": 30, ""type"": ""int""}
+    
+    # Calculate inventory position
+    inventory_position = on_hand_inventory + sum(pipeline_orders)
+    
+    # Improved demand estimation using recent pipeline arrivals
+    if len(pipeline_orders) >= 2:
+        # Use average of last two arrivals as demand proxy
+        recent_arrivals = [p for p in pipeline_orders[:2] if p > 0]
+        if recent_arrivals:
+            demand_estimate = (sum(recent_arrivals) / len(recent_arrivals)) * demand_adj_factor
+        else:
+            demand_estimate = base_stock * 0.4
+    else:
+        demand_estimate = base_stock * 0.4
+    
+    # Calculate safety stock based on demand variability
+    safety_stock = base_stock * safety_factor
+    
+    # Target inventory adjusts for expected demand and pipeline
+    target_inventory = safety_stock + demand_estimate * pipeline_weight
+    
+    # Calculate order gap
+    gap = target_inventory - inventory_position
+    
+    # Apply smoothing with minimum order threshold
+    if gap > min_order_threshold:
+        order_amount = gap * smoothing_factor
+    else:"
+thresholding,positive,exponential_L4_c1_2,3,deepseek-chat_exponential_L4_c1_2_50_plain_processed_scipy_15_default_m2_10_r2,10,6861.68,"def compute_order_amount(on_hand_inventory, pipeline_orders):
+    base_stock = 278.15394464302574  # OPT_PARAM: {""initial"": 278.15394464302574, ""min"": 10, ""max"": 1000, ""type"": ""float""}
+    safety_stock = 45.19048956094082  # OPT_PARAM: {""initial"": 45.19048956094082, ""min"": 0, ""max"": 200, ""type"": ""float""}
+    demand_forecast_factor = 0.1  # OPT_PARAM: {""initial"": 0.1, ""min"": 0.1, ""max"": 2.0, ""type"": ""float""}
+    
+    # Calculate current inventory position
+    inventory_position = on_hand_inventory + sum(pipeline_orders)
+    
+    # Calculate expected demand based on recent pipeline arrivals
+    # Use average of recent arrivals as demand proxy
+    recent_arrivals = [p for p in pipeline_orders if p > 0]
+    if len(recent_arrivals) > 0:
+        avg_recent_demand = sum(recent_arrivals) / len(recent_arrivals)
+    else:
+        avg_recent_demand = 0
+    
+    # Adjust base stock based on demand pattern
+    adjusted_base_stock = base_stock + safety_stock + demand_forecast_factor * avg_recent_demand
+    
+    # Calculate order amount
+    order_amount = max(0, adjusted_base_stock - inventory_position)
+    
+    # Apply smoothing to avoid extreme order sizes
+    smoothing_factor = 0.4978552503949774  # OPT_PARAM: {""initial"": 0.4978552503949774, ""min"": 0.1, ""max"": 1.0, ""type"": ""float""}
+    if on_hand_inventory > 0:
+        # Reduce order size when we have inventory
+        order_amount = order_amount * smoothing_factor
+    
+    # Round to nearest integer
+    order_amount = int(round(order_amount))
+    
+    return order_amount"
+thresholding,positive,exponential_L4_c1_5,2,deepseek-chat_exponential_L4_c1_5_50_plain_processed_scipy_15_default_m2_2_r6,8,11616.5,"def compute_order_amount(on_hand_inventory, pipeline_orders):
+    base_stock = 380.0  # OPT_PARAM: {""initial"": 380.0, ""min"": 200, ""max"": 600, ""type"": ""float""}
+    safety_stock = 120.0  # OPT_PARAM: {""initial"": 120.0, ""min"": 50, ""max"": 250, ""type"": ""float""}
+    demand_forecast_factor = 0.8  # OPT_PARAM: {""initial"": 0.8, ""min"": 0.5, ""max"": 1.2, ""type"": ""float""}
+    
+    # Calculate inventory position
+    inventory_position = on_hand_inventory + sum(pipeline_orders)
+    
+    # Estimate upcoming demand using weighted average of pipeline orders
+    if len(pipeline_orders) >= 3:
+        # Give more weight to recent orders
+        weights = [0.2, 0.3, 0.5]  # OPT_PARAM: {""initial"": [0.2, 0.3, 0.5], ""min"": [0.1, 0.1, 0.1], ""max"": [0.4, 0.4, 0.8], ""type"": ""list""}
+        recent_orders = pipeline_orders[:3]
+        weighted_avg = sum(w * o for w, o in zip(weights, recent_orders))
+        forecast_demand = weighted_avg * demand_forecast_factor
+    else:
+        forecast_demand = 0
+    
+    # Adjust base stock level
+    adjusted_base_stock = base_stock + safety_stock + forecast_demand
+    
+    # Calculate order amount with smoothing
+    order_amount = max(0, adjusted_base_stock - inventory_position)
+    
+    # Apply order smoothing and limits
+    smoothing_factor = 0.6  # OPT_PARAM: {""initial"": 0.6, ""min"": 0.3, ""max"": 1.0, ""type"": ""float""}
+    max_order_jump = 250.0  # OPT_PARAM: {""initial"": 250.0, ""min"": 100, ""max"": 400, ""type"": ""float""}
+    min_order_threshold = 20.0  # OPT_PARAM: {""initial"": 20.0, ""min"": 5, ""max"": 50, ""type"": ""float""}
+    
+    if order_amount > min_order_threshold:
+        order_amount = min(order_amount, max_order_jump)
+        order_amount = order_amount * smoothing_factor
+    
+    # Round to integer for practical ordering
+    order_amount = int(round(order_amount))"
+thresholding,positive,exponential_L6_c1_2,2,deepseek-chat_exponential_L6_c1_2_50_plain_processed_scipy_15_default_m2_10_r2,2,6655.33449,"def compute_order_amount(on_hand_inventory, pipeline_orders):
+    base_stock = 371.0281596183974  # OPT_PARAM: {""initial"": 371.0281596183974, ""min"": 200, ""max"": 600, ""type"": ""float""}
+    pipeline_coverage = 1.0  # OPT_PARAM: {""initial"": 1.0, ""min"": 0.5, ""max"": 1.0, ""type"": ""float""}
+    demand_buffer = 1.0  # OPT_PARAM: {""initial"": 1.0, ""min"": 1.0, ""max"": 2.0, ""type"": ""float""}
+    
+    # Calculate effective inventory position
+    effective_pipeline = sum(pipeline_orders) * pipeline_coverage
+    inventory_position = on_hand_inventory + effective_pipeline
+    
+    # Calculate expected demand based on pipeline arrivals
+    # Use next arrival as indicator of recent demand pattern
+    next_arrival = pipeline_orders[0] if pipeline_orders else 0
+    
+    # Adjust base stock dynamically based on next arrival
+    # Higher next arrival suggests higher recent demand
+    if next_arrival > 150:
+        dynamic_adjustment = 1.1  # OPT_PARAM: {""initial"": 1.1, ""min"": 1.0, ""max"": 1.5, ""type"": ""float""}
+    elif next_arrival > 50:
+        dynamic_adjustment = 1.05  # OPT_PARAM: {""initial"": 1.05, ""min"": 1.0, ""max"": 1.3, ""type"": ""float""}
+    else:
+        dynamic_adjustment = 0.95  # OPT_PARAM: {""initial"": 0.95, ""min"": 0.8, ""max"": 1.1, ""type"": ""float""}
+    
+    adjusted_base = base_stock * dynamic_adjustment * demand_buffer
+    
+    # Calculate order amount
+    raw_order = adjusted_base - inventory_position
+    
+    if raw_order > 0:
+        # Apply more aggressive ordering when inventory is low
+        if inventory_position < adjusted_base * 0.3:  # OPT_PARAM: {""initial"": 0.3, ""min"": 0.1, ""max"": 0.5, ""type"": ""float""}
+            order_multiplier = 0.5  # OPT_PARAM: {""initial"": 0.5, ""min"": 1.0, ""max"": 1.5, ""type"": ""float""}
+        else:
+            order_multiplier = 0.8  # OPT_PARAM: {""initial"": 0.8, ""min"": 0.5, ""max"": 1.0, ""type"": ""float""}
+        
+        order_amount = max(0, raw_order * order_multiplier)"
+thresholding,positive,exponential_L6_c1_5,2,deepseek-chat_exponential_L6_c1_5_50_plain_processed_scipy_15_default_m2_10_r1,7,13106.54,"def compute_order_amount(on_hand_inventory, pipeline_orders):
+    base_stock = 475.2480181302652  # OPT_PARAM: {""initial"": 475.2480181302652, ""min"": 10, ""max"": 1000, ""type"": ""float""}
+    safety_stock = 21.26047839612173  # OPT_PARAM: {""initial"": 21.26047839612173, ""min"": 0, ""max"": 300, ""type"": ""float""}
+    lead_time_demand_factor = 0.5  # OPT_PARAM: {""initial"": 0.5, ""min"": 0.5, ""max"": 2.5, ""type"": ""float""}
+    
+    # Calculate inventory position
+    inventory_position = on_hand_inventory + sum(pipeline_orders)
+    
+    # Estimate lead time demand using recent pipeline arrivals
+    # Use average of recent pipeline orders as demand proxy
+    if len(pipeline_orders) > 0:
+        recent_orders = pipeline_orders[:3]  # Look at oldest 3 orders (recent arrivals)
+        avg_recent_demand = sum(recent_orders) / len(recent_orders) if recent_orders else 0
+    else:
+        avg_recent_demand = 0
+    
+    # Dynamic base stock adjustment based on recent demand
+    dynamic_base = base_stock + safety_stock + lead_time_demand_factor * avg_recent_demand
+    
+    # Smooth ordering: don't order if we're close to target
+    order_up_to = max(0, dynamic_base - inventory_position)
+    
+    # Apply ordering threshold to reduce small orders
+    ordering_threshold = 0.0  # OPT_PARAM: {""initial"": 0.0, ""min"": 0, ""max"": 100, ""type"": ""float""}
+    
+    if order_up_to < ordering_threshold:
+        order_amount = 0
+    else:
+        # Round to nearest integer for practical ordering
+        order_amount = int(round(order_up_to))
+    
+    return order_amount"
+thresholding,positive,normal_std30_L6_c1_2,5,deepseek-chat_normal_std30_L6_c1_2_50_plain_processed_scipy_15_default_m2_10_r1,1,2367.73863,"def compute_order_amount(on_hand_inventory, pipeline_orders):
+    # Fixed constants from dataset analysis
+    mean_demand = 100.0
+    L = len(pipeline_orders)
+    
+    # Core policy parameters
+    base_stock = 557.2324112169556  # OPT_PARAM: {""initial"": 557.2324112169556, ""min"": 400, ""max"": 700, ""type"": ""float""}
+    
+    # Pipeline discount factors - decreasing with arrival time
+    early_discount = 0.8  # OPT_PARAM: {""initial"": 0.8, ""min"": 0.8, ""max"": 1.0, ""type"": ""float""}
+    mid_discount = 0.7202479204005128  # OPT_PARAM: {""initial"": 0.7202479204005128, ""min"": 0.5, ""max"": 0.9, ""type"": ""float""}
+    late_discount = 0.6559003781932152  # OPT_PARAM: {""initial"": 0.6559003781932152, ""min"": 0.3, ""max"": 0.7, ""type"": ""float""}
+    
+    # Order smoothing parameters
+    min_order = 21.952728222801436  # OPT_PARAM: {""initial"": 21.952728222801436, ""min"": 5, ""max"": 30, ""type"": ""float""}
+    max_order = 100.0  # OPT_PARAM: {""initial"": 100.0, ""min"": 100, ""max"": 200, ""type"": ""float""}
+    
+    # Aggressiveness adjustment based on current availability
+    availability = on_hand_inventory + pipeline_orders[0]
+    low_stock_threshold = 40.0  # OPT_PARAM: {""initial"": 40.0, ""min"": 20, ""max"": 80, ""type"": ""float""}
+    high_stock_threshold = 153.9793309403859  # OPT_PARAM: {""initial"": 153.9793309403859, ""min"": 120, ""max"": 250, ""type"": ""float""}
+    
+    # Shortfall-based adjustment factor
+    shortfall_factor = 1.0660727327505668  # OPT_PARAM: {""initial"": 1.0660727327505668, ""min"": 1.0, ""max"": 1.5, ""type"": ""float""}
+    
+    # Calculate discounted pipeline value
+    discounted_pipeline = 0.0
+    
+    for i in range(L):
+        if i < 2:  # Arriving in next 2 periods
+            discounted_pipeline += pipeline_orders[i] * early_discount
+        elif i < 4:  # Arriving in periods 3-4
+            discounted_pipeline += pipeline_orders[i] * mid_discount
+        else:  # Arriving in periods 5-6
+            discounted_pipeline += pipeline_orders[i] * late_discount"
+thresholding,positive,normal_std30_L6_c1_5,10,deepseek-chat_normal_std30_L6_c1_5_50_plain_processed_scipy_15_default_m2_4_r8,7,3839.24926,"def compute_order_amount(on_hand_inventory, pipeline_orders):
+    base_stock = 840.9620595232684  # OPT_PARAM: {""initial"": 840.9620595232684, ""min"": 700, ""max"": 1000, ""type"": ""float""}
+    safety_stock = 170.47856675888184  # OPT_PARAM: {""initial"": 170.47856675888184, ""min"": 150, ""max"": 300, ""type"": ""float""}
+    demand_estimate = 89.5202867374274  # OPT_PARAM: {""initial"": 89.5202867374274, ""min"": 85, ""max"": 105, ""type"": ""float""}
+    smoothing_factor = 0.05  # OPT_PARAM: {""initial"": 0.05, ""min"": 0.05, ""max"": 0.3, ""type"": ""float""}
+    order_multiplier = 1.0  # OPT_PARAM: {""initial"": 1.0, ""min"": 1.0, ""max"": 1.2, ""type"": ""float""}
+    pipeline_weight = 0.8  # OPT_PARAM: {""initial"": 0.8, ""min"": 0.5, ""max"": 0.9, ""type"": ""float""}
+    min_order_threshold = 15.0  # OPT_PARAM: {""initial"": 15.0, ""min"": 5, ""max"": 30, ""type"": ""float""}
+    
+    # Calculate inventory position
+    inventory_position = on_hand_inventory + sum(pipeline_orders)
+    
+    # Calculate weighted pipeline contribution
+    weighted_pipeline = pipeline_weight * sum(pipeline_orders)
+    
+    # Calculate expected demand during lead time with multiplier
+    lead_time = len(pipeline_orders)
+    expected_lead_time_demand = demand_estimate * lead_time * order_multiplier
+    
+    # Calculate target inventory position
+    target_position = expected_lead_time_demand + safety_stock
+    
+    # Calculate order amount with pipeline consideration
+    raw_order = max(0, target_position - (on_hand_inventory + weighted_pipeline))
+    
+    # Apply smoothing
+    smoothed_order = smoothing_factor * raw_order + (1 - smoothing_factor) * demand_estimate
+    
+    # Apply base stock constraint
+    order_amount = min(smoothed_order, max(0, base_stock - inventory_position))
+    
+    # Apply minimum order threshold
+    if order_amount < min_order_threshold:
+        order_amount = 0
+    "
+thresholding,negative,poisson_L6_c1_2,10,deepseek-chat_poisson_L6_c1_2_50_plain_processed_scipy_15_default_m2_10_r5,8,810.97381,"def compute_order_amount(on_hand_inventory, pipeline_orders):
+    base_stock = 550.2  # OPT_PARAM: {""initial"": 550.2, ""min"": 300, ""max"": 800, ""type"": ""float""}
+    safety_stock = 96.69804133096886  # OPT_PARAM: {""initial"": 96.69804133096886, ""min"": 0, ""max"": 100, ""type"": ""float""}
+    demand_forecast = 118.44992068864283  # OPT_PARAM: {""initial"": 118.44992068864283, ""min"": 80, ""max"": 120, ""type"": ""float""}
+    max_order = 100.0  # OPT_PARAM: {""initial"": 100.0, ""min"": 100, ""max"": 300, ""type"": ""float""}
+    adjustment_factor = 0.9897427974738369  # OPT_PARAM: {""initial"": 0.9897427974738369, ""min"": 0.5, ""max"": 1.2, ""type"": ""float""}
+    
+    # Calculate inventory position
+    inventory_position = on_hand_inventory + sum(pipeline_orders)
+    
+    # Calculate expected demand during lead time
+    expected_lead_time_demand = demand_forecast * len(pipeline_orders)
+    
+    # Calculate target inventory position with adjustment
+    target_position = expected_lead_time_demand + safety_stock
+    
+    # Apply adjustment factor to smooth ordering
+    adjusted_target = target_position * adjustment_factor
+    
+    # Calculate order amount
+    order_amount = max(0, adjusted_target - inventory_position)
+    
+    # Cap order amount
+    order_amount = min(order_amount, max_order)
+    
+    # Round to nearest integer
+    return order_amount"
+thresholding,negative,exponential_L6_c1_5,9,deepseek-chat_exponential_L6_c1_5_50_plain_processed_scipy_15_default_m2_10_r1,10,11098.42315,"def compute_order_amount(on_hand_inventory, pipeline_orders):
+    base_stock = 380.11676115654956  # OPT_PARAM: {""initial"": 380.11676115654956, ""min"": 300, ""max"": 450, ""type"": ""float""}
+    safety_stock = 180.0628258095986  # OPT_PARAM: {""initial"": 180.0628258095986, ""min"": 150, ""max"": 250, ""type"": ""float""}
+    demand_smoothing = 0.3  # OPT_PARAM: {""initial"": 0.3, ""min"": 0.05, ""max"": 0.3, ""type"": ""float""}
+    pipeline_weight = 0.6599267720445183  # OPT_PARAM: {""initial"": 0.6599267720445183, ""min"": 0.5, ""max"": 1.2, ""type"": ""float""}
+    order_smoothing = 0.1  # OPT_PARAM: {""initial"": 0.1, ""min"": 0.1, ""max"": 0.5, ""type"": ""float""}
+    demand_window = 4  # OPT_PARAM: {""initial"": 4, ""min"": 2, ""max"": 6, ""type"": ""int""}
+    
+    # Calculate inventory position
+    inventory_position = on_hand_inventory + sum(pipeline_orders)
+    
+    # Demand estimation using recent pipeline arrivals (more stable window)
+    if len(pipeline_orders) >= demand_window:
+        recent_arrivals = pipeline_orders[:demand_window]
+        avg_recent_demand = sum(recent_arrivals) / demand_window
+    else:
+        avg_recent_demand = base_stock / 8
+    
+    # Smooth demand estimate with stronger smoothing
+    smoothed_demand = demand_smoothing * avg_recent_demand + (1 - demand_smoothing) * (base_stock / 8)
+    
+    # Calculate expected demand during lead time with adjusted weight
+    expected_lead_time_demand = smoothed_demand * len(pipeline_orders) * pipeline_weight
+    
+    # Determine order-up-to level with increased safety stock
+    order_up_to = base_stock + safety_stock + expected_lead_time_demand
+    
+    # Calculate order amount
+    order_amount = max(0, order_up_to - inventory_position)
+    
+    # Apply stronger smoothing to order amount for stability
+    if order_amount > 0:
+        order_amount = order_smoothing * order_amount + (1 - order_smoothing) * smoothed_demand
+    
+    # Round to nearest integer (as required by output type)"
+thresholding,negative,poisson_L4_c1_5,2,deepseek-chat_poisson_L4_c1_5_50_plain_processed_scipy_15_default_m2_4_r8,5,2074.57994,"def compute_order_amount(on_hand_inventory, pipeline_orders):
+    base_stock = 559.5965814446148  # OPT_PARAM: {""initial"": 559.5965814446148, ""min"": 400, ""max"": 700, ""type"": ""float""}
+    safety_stock = 30.0  # OPT_PARAM: {""initial"": 30.0, ""min"": 10, ""max"": 80, ""type"": ""float""}
+    demand_estimate = 102.0  # OPT_PARAM: {""initial"": 102.0, ""min"": 90, ""max"": 110, ""type"": ""float""}
+    adjustment_factor = 0.6  # OPT_PARAM: {""initial"": 0.6, ""min"": 0.5, ""max"": 1.0, ""type"": ""float""}
+    pipeline_weight = 0.6929688919087689  # OPT_PARAM: {""initial"": 0.6929688919087689, ""min"": 0.3, ""max"": 0.9, ""type"": ""float""}
+    
+    # Calculate inventory position
+    inventory_position = on_hand_inventory + sum(pipeline_orders)
+    
+    # Calculate expected demand during lead time with pipeline awareness
+    expected_lead_time_demand = demand_estimate * len(pipeline_orders)
+    
+    # Adjust target based on pipeline composition
+    pipeline_ratio = sum(pipeline_orders) / max(1, expected_lead_time_demand)
+    pipeline_adjustment = 1.0 + pipeline_weight * (1.0 - pipeline_ratio)
+    
+    # Calculate target inventory position
+    target_position = expected_lead_time_demand * pipeline_adjustment + safety_stock
+    
+    # Use the maximum of base_stock and adjusted target
+    order_up_to = max(base_stock, target_position)
+    
+    # Calculate order amount
+    order_amount = max(0, order_up_to - inventory_position)
+    
+    # Apply adjustment factor
+    order_amount = order_amount * adjustment_factor
+    
+    # Round to nearest integer
+    return order_amount"
+thresholding,negative,exponential_L6_c1_2,8,deepseek-chat_exponential_L6_c1_2_50_plain_processed_scipy_15_default_m2_2_r6,10,6014.64,"def compute_order_amount(on_hand_inventory, pipeline_orders):
+    base_stock = 274.67527773039234  # OPT_PARAM: {""initial"": 274.67527773039234, ""min"": 200, ""max"": 350, ""type"": ""float""}
+    pipeline_coverage = 0.7  # OPT_PARAM: {""initial"": 0.7, ""min"": 0.7, ""max"": 1.0, ""type"": ""float""}
+    safety_multiplier = 1.3  # OPT_PARAM: {""initial"": 1.3, ""min"": 1.2, ""max"": 2.5, ""type"": ""float""}
+    demand_buffer = 0.9  # OPT_PARAM: {""initial"": 0.9, ""min"": 0.9, ""max"": 1.3, ""type"": ""float""}
+    pipeline_weight = 0.9  # OPT_PARAM: {""initial"": 0.9, ""min"": 0.5, ""max"": 0.9, ""type"": ""float""}
+    smoothing_factor = 0.3  # OPT_PARAM: {""initial"": 0.3, ""min"": 0.3, ""max"": 0.8, ""type"": ""float""}
+    
+    # Calculate weighted pipeline with exponential decay
+    weighted_pipeline = 0
+    for i, q in enumerate(pipeline_orders):
+        weight = pipeline_weight ** (len(pipeline_orders) - i - 1)
+        weighted_pipeline += q * weight
+    
+    # Calculate effective inventory position
+    effective_inventory = on_hand_inventory + weighted_pipeline
+    
+    # Calculate target inventory position
+    target_inventory = base_stock * demand_buffer
+    
+    # Calculate expected shortfall with pipeline coverage adjustment
+    expected_shortfall = max(0, target_inventory * pipeline_coverage - effective_inventory)
+    
+    # Dynamic safety stock based on base stock
+    safety_component = base_stock * 0.15 * safety_multiplier
+    
+    # Calculate order amount with exponential smoothing
+    order_amount = max(0, expected_shortfall * smoothing_factor + safety_component)
+    
+    # Round to nearest integer
+    order_amount = int(round(order_amount))
+    
+    return order_amount"

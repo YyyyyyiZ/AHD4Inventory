@@ -1,0 +1,18 @@
+{
+     "algorithm": "Improved policy by incorporating dynamic adjustment based on last demand, smoothing between target and current position, and partial pipeline consideration. The parameters allow optimization of base inventory level, demand responsiveness, smoothing intensity, and pipeline consideration.",
+     "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 128.42862990607142  # OPT_PARAM: {\"initial\": 128.42862990607142, \"min\": 50.0, \"max\": 300.0, \"type\": \"float\"}\n    demand_multiplier = 0.6311160847183058  # OPT_PARAM: {\"initial\": 0.6311160847183058, \"min\": 0.5, \"max\": 2.5, \"type\": \"float\"}\n    smooth_factor = 0.2939568621453809  # OPT_PARAM: {\"initial\": 0.2939568621453809, \"min\": 0.1, \"max\": 0.9, \"type\": \"float\"}\n    pipeline_adjustment = 0.7548462798322613  # OPT_PARAM: {\"initial\": 0.7548462798322613, \"min\": 0.1, \"max\": 1.0, \"type\": \"float\"}\n    \n    adjusted_target = base_target + demand_multiplier * last_demand\n    smoothed_target = smooth_factor * adjusted_target + (1 - smooth_factor) * (on_hand_inventory + sum(pipeline_orders))\n    order_amount = max(0.0, smoothed_target - pipeline_adjustment * sum(pipeline_orders) - on_hand_inventory)\n    return order_amount\n",
+     "description": "",
+     "intuition": "",
+     "reasoning": "Improved policy by incorporating dynamic adjustment based on last demand, smoothing between target and current position, and partial pipeline consideration. The parameters allow optimization of base inventory level, demand responsiveness, smoothing intensity, and pipeline consideration.",
+     "opt_params": {
+          "base_target": 128.42862990607142,
+          "demand_multiplier": 0.6311160847183058,
+          "smooth_factor": 0.2939568621453809,
+          "pipeline_adjustment": 0.7548462798322613
+     },
+     "cost": null,
+     "objective": 16340.85604,
+     "lower": 15313.04163,
+     "upper": 17481.32915,
+     "other_inf": null
+}

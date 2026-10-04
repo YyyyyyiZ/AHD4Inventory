@@ -1,0 +1,232 @@
+<svg id="representative-policy-trajectory-vector"
+     xmlns="http://www.w3.org/2000/svg"
+     width="1672" height="941" viewBox="0 0 1672 941"
+     role="img" aria-labelledby="trajectory-title trajectory-desc">
+  <title id="trajectory-title">Representative policy trajectory</title>
+  <desc id="trajectory-desc">A stepwise empirical training-cost trajectory across generations, with six policy callouts and the final selected policy.</desc>
+  <style>
+    #representative-policy-trajectory-vector {
+      color: var(--foreground, #000);
+      background: var(--background, #fff);
+      font-family: "Times New Roman", Times, serif;
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+    .background { fill: var(--background, #fff); }
+    .axis, .tick, .trajectory, .connector, .callout {
+      stroke: currentColor;
+      fill: none;
+      stroke-linecap: butt;
+      stroke-linejoin: miter;
+    }
+    .axis { stroke-width: 2.4; }
+    .tick { stroke-width: 2; }
+    .trajectory { stroke-width: 3.6; }
+    .connector { stroke-width: 2; }
+    .callout { stroke-width: 2; fill: var(--background, #fff); }
+    .open-node { stroke: currentColor; stroke-width: 3.4; fill: var(--background, #fff); }
+    .final-node { fill: currentColor; stroke: currentColor; stroke-width: 2; }
+    .label { fill: currentColor; stroke: none; }
+    .tick-label { font-size: 32px; font-weight: 400; }
+    .axis-label { font-size: 40px; font-weight: 700; }
+    .value-label { font-size: 29px; font-weight: 400; }
+    .box-title { font-size: 29px; font-weight: 700; }
+    .top-title { font-size: 28px; font-weight: 700; }
+    .body { font-family: "STIX Two Text", "STIXGeneral", "Times New Roman", serif; font-size: 24px; }
+    .body-small { font-family: "STIX Two Text", "STIXGeneral", "Times New Roman", serif; font-size: 21px; }
+    .body-p3 { font-family: "STIX Two Text", "STIXGeneral", "Times New Roman", serif; font-size: 23.5px; }
+    .body-top { font-family: "STIX Two Text", "STIXGeneral", "Times New Roman", serif; font-size: 26px; }
+    .math { font-style: italic; }
+    .q-sub { font-size: 70%; baseline-shift: sub; }
+    .roman { font-family: "Times New Roman", Times, serif; font-style: normal; }
+  </style>
+
+  <rect class="background" x="0" y="0" width="1672" height="941"/>
+
+  <!-- Axes -->
+  <path class="axis" d="M128 829 L128 14"/>
+  <polygon points="128,5 122,17 134,17" fill="currentColor"/>
+  <path class="axis" d="M128 829 L1658 829"/>
+  <polygon points="1666,829 1653,823 1653,835" fill="currentColor"/>
+
+  <!-- Y-axis ticks and labels -->
+  <g class="label tick-label" text-anchor="end">
+    <line class="tick" x1="118" y1="66.5" x2="128" y2="66.5"/>
+    <text x="113" y="76">1800</text>
+    <line class="tick" x1="118" y1="196.5" x2="128" y2="196.5"/>
+    <text x="113" y="206">1600</text>
+    <line class="tick" x1="118" y1="322.5" x2="128" y2="322.5"/>
+    <text x="113" y="332">1400</text>
+    <line class="tick" x1="118" y1="446.5" x2="128" y2="446.5"/>
+    <text x="113" y="456">1200</text>
+    <line class="tick" x1="118" y1="572.5" x2="128" y2="572.5"/>
+    <text x="113" y="582">1000</text>
+    <line class="tick" x1="118" y1="699.5" x2="128" y2="699.5"/>
+    <text x="113" y="709">800</text>
+    <line class="tick" x1="118" y1="828.5" x2="128" y2="828.5"/>
+    <text x="113" y="838">600</text>
+  </g>
+
+  <!-- X-axis ticks and labels -->
+  <g class="label tick-label" text-anchor="middle">
+    <line class="tick" x1="187" y1="829" x2="187" y2="838"/>
+    <text x="187" y="868">0</text>
+    <line class="tick" x1="297" y1="829" x2="297" y2="838"/>
+    <text x="297" y="868">1</text>
+    <line class="tick" x1="404" y1="829" x2="404" y2="838"/>
+    <text x="404" y="868">2</text>
+    <line class="tick" x1="508" y1="829" x2="508" y2="838"/>
+    <text x="508" y="868">3</text>
+    <line class="tick" x1="769" y1="829" x2="769" y2="838"/>
+    <text x="769" y="868">5</text>
+    <line class="tick" x1="1187" y1="829" x2="1187" y2="838"/>
+    <text x="1187" y="868">8</text>
+    <line class="tick" x1="1540" y1="829" x2="1540" y2="838"/>
+    <text x="1540" y="868">10</text>
+  </g>
+
+  <text class="label axis-label" x="836" y="924" text-anchor="middle">Generation</text>
+  <text class="label axis-label" x="29" y="440" text-anchor="middle"
+        transform="rotate(-90 29 440)">Empirical training cost (objective)</text>
+
+  <!-- Step trajectory -->
+  <path class="trajectory"
+        d="M187 111 H297 V259 H365 V529 H508 V592 H717 V721 H1187 V738 H1540"/>
+
+  <!-- Callout connectors -->
+  <g class="connector">
+    <path d="M187 111 L310 59"/>
+    <path d="M296 259 L392 204"/>
+    <path d="M365 529 L487 409"/>
+    <path d="M508 592 L435 659"/>
+    <path d="M717 721 L815 630"/>
+    <path d="M1187 738 L1221 665"/>
+    <path d="M1540 738 L1563 554"/>
+  </g>
+
+  <!-- Callout boxes -->
+  <g>
+    <rect class="callout" x="310" y="9" width="369" height="125"/>
+    <rect class="callout" x="392" y="153" width="483" height="151"/>
+    <rect class="callout" x="487" y="323" width="454" height="149"/>
+    <rect class="callout" x="197" y="659" width="397" height="156"/>
+    <rect class="callout" x="765" y="485" width="441" height="146"/>
+    <rect class="callout" x="1221" y="571" width="265" height="145"/>
+    <rect class="callout" x="1446" y="507" width="220" height="47"/>
+  </g>
+
+  <!-- Optimized base-stock policy -->
+  <g class="label">
+    <text class="top-title" x="326" y="44">Optimized Base-Stock Policy</text>
+    <text class="body-top" x="326" y="79">
+      <tspan class="roman">Rule: </tspan>
+      <tspan class="math">aₜ = (482.0 − IPₜ)⁺</tspan>
+    </text>
+    <text class="body-top math" x="326" y="113">IPₜ = Iₜ + ∑⁴ₗ₌₁ q<tspan class="q-sub">t,l</tspan></text>
+  </g>
+
+  <!-- Policy 1 -->
+  <g class="label">
+    <text class="box-title" x="408" y="188">Policy 1</text>
+    <text class="body" x="408" y="221">
+      <tspan class="math">Aₜ = q<tspan class="q-sub">t,1</tspan> + q<tspan class="q-sub">t,2</tspan></tspan>
+      <tspan class="roman"> (arrivals in the next 2 periods)</tspan>
+    </text>
+    <text class="body math" x="408" y="255">gₜ = (530.0 − IPₜ − 0.3Aₜ)⁺</text>
+    <text class="body" x="408" y="289">
+      <tspan class="math">aₜ = </tspan>
+      <tspan class="roman">min</tspan>
+      <tspan class="math">{150, gₜ} </tspan>
+      <tspan class="roman" font-weight="700">1</tspan>
+      <tspan class="math">{gₜ ≥ 20}</tspan>
+    </text>
+  </g>
+
+  <!-- Policy 2 -->
+  <g class="label">
+    <text class="box-title" x="503" y="358">Policy 2</text>
+    <text class="body" x="496" y="391">
+      <tspan class="math">Aₜ = q<tspan class="q-sub">t,1</tspan> + q<tspan class="q-sub">t,2</tspan></tspan>
+      <tspan class="roman"> (arrivals in the next 2 periods)</tspan>
+    </text>
+    <text class="body math" x="496" y="425">gₜ = (524.0 − IPₜ − 0.2Aₜ)⁺</text>
+    <text class="body" x="496" y="459">
+      <tspan class="math">aₜ = </tspan>
+      <tspan class="roman">min</tspan>
+      <tspan class="math">{120, gₜ} </tspan>
+      <tspan class="roman" font-weight="700">1</tspan>
+      <tspan class="math">{gₜ ≥ 40}</tspan>
+    </text>
+  </g>
+
+  <!-- Policy 3 -->
+  <g class="label">
+    <text class="box-title" x="213" y="694">Policy 3</text>
+    <text class="body-p3 math" x="213" y="728">Eₜ = Iₜ + 0.8q<tspan class="q-sub">t,1</tspan> + 0.7(q<tspan class="q-sub">t,2</tspan> + q<tspan class="q-sub">t,3</tspan> + q<tspan class="q-sub">t,4</tspan>)</text>
+    <text class="body" x="213" y="762">
+      <tspan class="math">rₜ = 0.5(502.5 − Eₜ)⁺</tspan>
+    </text>
+    <text class="body" x="213" y="796">
+      <tspan class="math">aₜ = </tspan>
+      <tspan class="roman">clip</tspan>
+      <tspan class="math" baseline-shift="sub" font-size="15px">[10,120]</tspan>
+      <tspan class="math" baseline-shift="baseline"> (rₜ)</tspan>
+    </text>
+  </g>
+
+  <!-- Policy 4 -->
+  <g class="label">
+    <text class="box-title" x="781" y="520">Policy 4</text>
+    <text class="body-small" x="781" y="552">
+      <tspan class="math">Bₜ = q<tspan class="q-sub">t,1</tspan> + 0.5q<tspan class="q-sub">t,2</tspan></tspan>
+      <tspan class="roman"> (timing-weighted near arrivals)</tspan>
+    </text>
+    <text class="body" x="781" y="585">
+      <tspan class="math">gₜ = (513.5 − IPₜ − 0.2Bₜ)⁺</tspan>
+    </text>
+    <text class="body" x="781" y="618">
+      <tspan class="math">aₜ = </tspan>
+      <tspan class="roman">min</tspan>
+      <tspan class="math">{100, gₜ} </tspan>
+      <tspan class="roman" font-weight="700">1</tspan>
+      <tspan class="math">{gₜ ≥ 20}</tspan>
+    </text>
+  </g>
+
+  <!-- Policy 5 -->
+  <g class="label">
+    <text class="box-title" x="1237" y="606">Policy 5</text>
+    <text class="body math" x="1237" y="640" font-size="23px">Wₜ = Iₜ + 0.952 ∑⁴ₗ₌₁ q<tspan class="q-sub">t,l</tspan></text>
+    <text class="body math" x="1237" y="673">rₜ = 0.550(551.9 − Wₜ)⁺</text>
+    <text class="body" x="1237" y="706">
+      <tspan class="math">aₜ = </tspan>
+      <tspan class="roman">clip</tspan>
+      <tspan class="math" baseline-shift="sub" font-size="15px">[10,100]</tspan>
+      <tspan class="math" baseline-shift="baseline"> (rₜ)</tspan>
+    </text>
+  </g>
+
+  <!-- Final selected policy -->
+  <text class="label" x="1556" y="540" text-anchor="middle" font-size="24px">Final selected policy</text>
+
+  <!-- Trajectory nodes and objective values -->
+  <g>
+    <circle class="open-node" cx="187" cy="111" r="8.7"/>
+    <circle class="open-node" cx="296" cy="259" r="8.7"/>
+    <circle class="open-node" cx="365" cy="529" r="8.7"/>
+    <circle class="open-node" cx="508" cy="592" r="8.7"/>
+    <circle class="open-node" cx="717" cy="721" r="8.7"/>
+    <circle class="open-node" cx="1187" cy="738" r="8.7"/>
+    <circle class="final-node" cx="1540" cy="738" r="8.8"/>
+  </g>
+  <g class="label value-label">
+    <text x="167" y="154">1,727.92</text>
+    <text x="241" y="306">1,497.53</text>
+    <text x="382" y="568">1,071.14</text>
+    <text x="522" y="630">965.34</text>
+    <text x="684" y="768">768.14</text>
+    <text x="1142" y="785">745.56</text>
+    <text x="1492" y="785">745.56</text>
+  </g>
+</svg>

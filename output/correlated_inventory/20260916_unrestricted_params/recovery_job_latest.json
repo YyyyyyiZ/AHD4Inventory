@@ -1,0 +1,24 @@
+{
+  "started_utc": "2026-09-16T16:54:15.725467+00:00",
+  "pid": 44449,
+  "caffeinate_pid": 44450,
+  "command": [
+    "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/.venv/bin/python",
+    "-m",
+    "examples.inventory.correlated_benchmark.orchestrator",
+    "train",
+    "--run-dir",
+    "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_unrestricted_params",
+    "--scenario",
+    "exp_ar_pos08_fixed6",
+    "--horizon",
+    "100",
+    "--repeat",
+    "2"
+  ],
+  "chain_dir": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_unrestricted_params/training/exp_ar_pos08_fixed6/self_evolve_h100_r2",
+  "request_id": "a3731521984e4d5ca1ea08ccdd91ddf9",
+  "folder": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_unrestricted_params/recovery_jobs/20260916T165415Z",
+  "parent_controller_still_running": 21662,
+  "instructions": "Do not duplicate this chain while its process is active. After refit controller exits from the recorded old failure, resume night_runner only once all active training is accounted for."
+}

@@ -1,0 +1,23 @@
+{
+  "status": "completed",
+  "best_code_path": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_stationary_priority/training/exp_regime095_fixed6/self_evolve_h200_r1/policy.py",
+  "code_sha256": "35c373998b491ac02bed563eadbbeb12f52b13b366d17f19d5cd06895ac12db9",
+  "best_train_cost": 31349.40946596107,
+  "algorithm": "The new policy uses separate base stock levels for high and low demand regimes, removing the smoothing factor to make the response more decisive. The parameters are tuned to better handle the observed demand autocorrelation while maintaining a stationary structure. The higher lost-sales cost suggests we should bias towards higher inventory levels during high-demand periods.",
+  "checkpoint_path": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_stationary_priority/training/exp_regime095_fixed6/self_evolve_h200_r1/checkpoints/g010.json.gz",
+  "model_calls": 106,
+  "training_evaluations": 10584,
+  "training_cache_hits": 497,
+  "compiled_structures": 60,
+  "optimizer": "SciPy L-BFGS-B",
+  "optimizer_maxiter": 15,
+  "test_evaluated": false,
+  "scenario_id": "exp_regime095_fixed6",
+  "policy_id": "self_evolve_h200_r1",
+  "family": "self_evolve",
+  "repeat": 1,
+  "source_training_horizon": 200,
+  "elapsed_seconds": 1363.9489985839464,
+  "finished_utc": "2026-09-16T05:05:30.820207+00:00",
+  "full_protocol": true
+}

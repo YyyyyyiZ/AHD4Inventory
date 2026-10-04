@@ -1,0 +1,18 @@
+{
+     "algorithm": "Increased base_stock and safety_stock to reduce lost sales, added demand_response to adapt to demand fluctuations, and introduced min_order to maintain consistent ordering activity. The parameters were tuned based on the training performance which showed high lost sales costs.",
+     "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_stock = 294.797001035174  # OPT_PARAM: {\"initial\": 294.797001035174, \"min\": 100.0, \"max\": 600.0, \"type\": \"float\"}\n    demand_response = 0.0  # OPT_PARAM: {\"initial\": 0.0, \"min\": 0.0, \"max\": 2.0, \"type\": \"float\"}\n    safety_stock = 94.79700103467039  # OPT_PARAM: {\"initial\": 94.79700103467039, \"min\": 50.0, \"max\": 300.0, \"type\": \"float\"}\n    min_order = 50.0  # OPT_PARAM: {\"initial\": 50.0, \"min\": 0.0, \"max\": 50.0, \"type\": \"float\"}\n    \n    inventory_position = on_hand_inventory + sum(pipeline_orders)\n    adjusted_base = base_stock + safety_stock + demand_response * (last_demand - 100.0)\n    order_amount = max(min_order, adjusted_base - inventory_position)\n    return order_amount\n",
+     "description": "",
+     "intuition": "",
+     "reasoning": "Increased base_stock and safety_stock to reduce lost sales, added demand_response to adapt to demand fluctuations, and introduced min_order to maintain consistent ordering activity. The parameters were tuned based on the training performance which showed high lost sales costs.",
+     "opt_params": {
+          "base_stock": 294.797001035174,
+          "demand_response": 0.0,
+          "safety_stock": 94.79700103467039,
+          "min_order": 50.0
+     },
+     "cost": null,
+     "objective": 25052.33348,
+     "lower": 24542.99936,
+     "upper": 25571.48836,
+     "other_inf": null
+}

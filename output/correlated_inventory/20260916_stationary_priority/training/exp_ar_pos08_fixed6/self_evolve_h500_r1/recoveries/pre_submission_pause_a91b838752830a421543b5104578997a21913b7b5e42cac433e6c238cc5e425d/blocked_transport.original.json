@@ -1,0 +1,17 @@
+{
+  "status": "blocked",
+  "metadata": {
+    "scenario_id": "exp_ar_pos08_fixed6",
+    "repeat": 1,
+    "chain_dir": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_stationary_priority/training/exp_ar_pos08_fixed6/self_evolve_h500_r1",
+    "generation": 1,
+    "operator": "m2",
+    "candidate_index": 4,
+    "parent_code_sha256": "486fe9f03da2e7c09bb379ae27bd9519415f4d98fad7627a17b754ce5340bdbe",
+    "candidate_attempt": 1,
+    "prompt_sha256": "1d9782500d0bf5c751174dcc851b1f2c7fd1362662e5f8d60224cec07b227eec"
+  },
+  "error_type": "ModelRequestError",
+  "error": "Experiment paused before request submission",
+  "instruction": "No automatic retry or re-POST. Review request accounting before resume."
+}

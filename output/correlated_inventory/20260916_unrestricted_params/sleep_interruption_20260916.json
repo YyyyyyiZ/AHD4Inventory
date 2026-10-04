@@ -1,0 +1,23 @@
+{
+  "recorded_utc": "2026-09-16T18:01:52.215831+00:00",
+  "evidence": "Independent read-only agent inspected pmset log limited to this experiment 16:40–18:00 UTC and request ledger timestamps.",
+  "sleep_events_utc": [
+    "2026-09-16 17:00:50 Clamshell Sleep",
+    "2026-09-16 17:01:48 Wake",
+    "2026-09-16 17:02:04 Sleep",
+    "2026-09-16 17:52:28/33 FullWake"
+  ],
+  "intermediate_dark_wakes": true,
+  "associated_new_errors": {
+    "TimeoutError": 7,
+    "URLError": 2
+  },
+  "interpretation": "Confirmed local clamshell sleep; timing coincides with clustered request failures. Specific URLError network cause and upstream execution/charges remain unknown.",
+  "new_successes_after_1753_as_of_1759": 79,
+  "recent_success_seconds_range": [
+    8,
+    26
+  ],
+  "system_settings_changed": false,
+  "recovery_manifest": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_unrestricted_params/cross_run_recovery_latest.json"
+}

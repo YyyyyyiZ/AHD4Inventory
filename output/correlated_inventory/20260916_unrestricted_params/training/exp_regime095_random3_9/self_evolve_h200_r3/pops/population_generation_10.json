@@ -1,0 +1,183 @@
+[
+     {
+          "algorithm": "Reduced low_base_target to better match low-demand periods, increased high_base_target for better high-demand coverage. Increased lead_time_sensitivity to better respond to longer lead times. Increased demand_response to be more reactive to recent demand changes while staying within reasonable bounds. These changes aim to reduce lost sales while keeping holding costs in check.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    low_base_target = 112.82157981768405  # OPT_PARAM: {\"initial\": 112.82157981768405, \"min\": 80.0, \"max\": 150.0, \"type\": \"float\"}\n    high_base_target = 200.0  # OPT_PARAM: {\"initial\": 200.0, \"min\": 200.0, \"max\": 400.0, \"type\": \"float\"}\n    lead_time_sensitivity = 5.0  # OPT_PARAM: {\"initial\": 5.0, \"min\": 5.0, \"max\": 15.0, \"type\": \"float\"}\n    demand_response = 0.2  # OPT_PARAM: {\"initial\": 0.2, \"min\": 0.2, \"max\": 0.6, \"type\": \"float\"}\n    \n    # Detect demand regime\n    is_high_demand = last_demand >= 100.0 * np.log(2)\n    \n    # Select base target based on regime\n    base_target = high_base_target if is_high_demand else low_base_target\n    \n    # Adjust target based on lead time and recent demand\n    adjusted_target = base_target + (lead_time_sensitivity * (quoted_lead_time - 6)) + (demand_response * last_demand)\n    \n    # Calculate net inventory position\n    net_inventory = on_hand_inventory + sum(pipeline_orders[:quoted_lead_time])\n    \n    # Place order to reach adjusted target\n    order_amount = max(0.0, adjusted_target - net_inventory)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Reduced low_base_target to better match low-demand periods, increased high_base_target for better high-demand coverage. Increased lead_time_sensitivity to better respond to longer lead times. Increased demand_response to be more reactive to recent demand changes while staying within reasonable bounds. These changes aim to reduce lost sales while keeping holding costs in check.",
+          "opt_params": {
+               "low_base_target": 112.82157981768405,
+               "high_base_target": 200.0,
+               "lead_time_sensitivity": 5.0,
+               "demand_response": 0.2
+          },
+          "cost": null,
+          "objective": 31988.23707,
+          "lower": 30309.69981,
+          "upper": 33767.78428,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base targets and response parameters to better handle high-demand periods and reduce lost sales, while maintaining lead-time sensitivity. The higher demand response (0.4 vs 0.2) makes the policy more reactive to recent demand patterns.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    low_base_target = 121.05735943228107  # OPT_PARAM: {\"initial\": 121.05735943228107, \"min\": 100.0, \"max\": 200.0, \"type\": \"float\"}\n    high_base_target = 206.0451370929181  # OPT_PARAM: {\"initial\": 206.0451370929181, \"min\": 200.0, \"max\": 400.0, \"type\": \"float\"}\n    lead_time_sensitivity = 5.0  # OPT_PARAM: {\"initial\": 5.0, \"min\": 5.0, \"max\": 15.0, \"type\": \"float\"}\n    demand_response = 0.2  # OPT_PARAM: {\"initial\": 0.2, \"min\": 0.2, \"max\": 0.6, \"type\": \"float\"}\n    \n    # Detect demand regime\n    is_high_demand = last_demand >= 100.0 * np.log(2)\n    \n    # Select base target based on regime\n    base_target = high_base_target if is_high_demand else low_base_target\n    \n    # Adjust target based on lead time and recent demand\n    adjusted_target = base_target + (lead_time_sensitivity * (quoted_lead_time - 6)) + (demand_response * last_demand)\n    \n    # Calculate net inventory position\n    net_inventory = on_hand_inventory + sum(pipeline_orders[:quoted_lead_time])\n    \n    # Place order to reach adjusted target\n    order_amount = max(0.0, adjusted_target - net_inventory)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base targets and response parameters to better handle high-demand periods and reduce lost sales, while maintaining lead-time sensitivity. The higher demand response (0.4 vs 0.2) makes the policy more reactive to recent demand patterns.",
+          "opt_params": {
+               "low_base_target": 121.05735943228107,
+               "high_base_target": 206.0451370929181,
+               "lead_time_sensitivity": 5.0,
+               "demand_response": 0.2
+          },
+          "cost": null,
+          "objective": 31990.24287,
+          "lower": 30333.89904,
+          "upper": 33739.52735,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Key improvements: 1) Separate base targets for low/high demand regimes based on training diagnostics showing distinct demand clusters, 2) Simplified parameter structure focusing on lead-time adjustment and demand response, 3) Adjusted parameter ranges based on observed demand patterns and cost trade-offs. The policy remains strictly stationary while better adapting to the observed demand autocorrelation.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    low_base_target = 122.88423549167752  # OPT_PARAM: {\"initial\": 122.88423549167752, \"min\": 80.0, \"max\": 200.0, \"type\": \"float\"}\n    high_base_target = 191.70052038293787  # OPT_PARAM: {\"initial\": 191.70052038293787, \"min\": 150.0, \"max\": 400.0, \"type\": \"float\"}\n    lead_time_sensitivity = 5.0  # OPT_PARAM: {\"initial\": 5.0, \"min\": 5.0, \"max\": 20.0, \"type\": \"float\"}\n    demand_response = 0.2  # OPT_PARAM: {\"initial\": 0.2, \"min\": 0.2, \"max\": 0.8, \"type\": \"float\"}\n    \n    # Detect demand regime\n    is_high_demand = last_demand >= 100.0 * np.log(2)\n    \n    # Select base target based on regime\n    base_target = high_base_target if is_high_demand else low_base_target\n    \n    # Adjust target based on lead time and recent demand\n    adjusted_target = base_target + (lead_time_sensitivity * (quoted_lead_time - 6)) + (demand_response * last_demand)\n    \n    # Calculate net inventory position\n    net_inventory = on_hand_inventory + sum(pipeline_orders[:quoted_lead_time])\n    \n    # Place order to reach adjusted target\n    order_amount = max(0.0, adjusted_target - net_inventory)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Key improvements: 1) Separate base targets for low/high demand regimes based on training diagnostics showing distinct demand clusters, 2) Simplified parameter structure focusing on lead-time adjustment and demand response, 3) Adjusted parameter ranges based on observed demand patterns and cost trade-offs. The policy remains strictly stationary while better adapting to the observed demand autocorrelation.",
+          "opt_params": {
+               "low_base_target": 122.88423549167752,
+               "high_base_target": 191.70052038293787,
+               "lead_time_sensitivity": 5.0,
+               "demand_response": 0.2
+          },
+          "cost": null,
+          "objective": 32010.9002,
+          "lower": 30289.64454,
+          "upper": 33818.2026,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base_target to better handle average demand, adjusted demand_sensitivity to be more responsive to recent demand, reduced lead_time_penalty as it was over-penalizing long lead times, and set high_demand_multiplier to a more moderate value. These changes aim to better balance holding costs and lost sales based on the training performance metrics.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 121.94848655634246  # OPT_PARAM: {\"initial\": 121.94848655634246, \"min\": 100.0, \"max\": 300.0, \"type\": \"float\"}\n    demand_sensitivity = 0.2  # OPT_PARAM: {\"initial\": 0.2, \"min\": 0.2, \"max\": 0.8, \"type\": \"float\"}\n    high_demand_multiplier = 1.6131347245134537  # OPT_PARAM: {\"initial\": 1.6131347245134537, \"min\": 1.2, \"max\": 3.0, \"type\": \"float\"}\n    lead_time_penalty = 5.0  # OPT_PARAM: {\"initial\": 5.0, \"min\": 5.0, \"max\": 20.0, \"type\": \"float\"}\n    \n    # Detect high demand regime\n    is_high_demand = last_demand >= 100.0 * np.log(2)\n    \n    # Adjust base target based on demand regime\n    if is_high_demand:\n        target = base_target * high_demand_multiplier\n    else:\n        target = base_target\n        \n    # Further adjust based on last demand and lead time\n    adjusted_target = target + (demand_sensitivity * last_demand) + (lead_time_penalty * (quoted_lead_time - 6))\n    \n    # Calculate net inventory position\n    net_inventory = on_hand_inventory + sum(pipeline_orders[:quoted_lead_time])\n    \n    # Place order to reach adjusted target\n    order_amount = max(0.0, adjusted_target - net_inventory)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base_target to better handle average demand, adjusted demand_sensitivity to be more responsive to recent demand, reduced lead_time_penalty as it was over-penalizing long lead times, and set high_demand_multiplier to a more moderate value. These changes aim to better balance holding costs and lost sales based on the training performance metrics.",
+          "opt_params": {
+               "base_target": 121.94848655634246,
+               "demand_sensitivity": 0.2,
+               "high_demand_multiplier": 1.6131347245134537,
+               "lead_time_penalty": 5.0
+          },
+          "cost": null,
+          "objective": 32020.57483,
+          "lower": 30297.63142,
+          "upper": 33840.91216,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base targets and demand response to better handle high demand periods, which were causing most lost sales. Adjusted lead time sensitivity to better account for longer lead times. The original policy was too conservative, resulting in high lost sales costs.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    low_base_target = 145.8928310639008  # OPT_PARAM: {\"initial\": 145.8928310639008, \"min\": 100.0, \"max\": 200.0, \"type\": \"float\"}\n    high_base_target = 233.1477106381639  # OPT_PARAM: {\"initial\": 233.1477106381639, \"min\": 200.0, \"max\": 400.0, \"type\": \"float\"}\n    lead_time_sensitivity = 8.263093084164325  # OPT_PARAM: {\"initial\": 8.263093084164325, \"min\": 0.0, \"max\": 20.0, \"type\": \"float\"}\n    demand_response = 0.1  # OPT_PARAM: {\"initial\": 0.1, \"min\": 0.1, \"max\": 1.0, \"type\": \"float\"}\n    \n    # Detect demand regime\n    is_high_demand = last_demand >= 100.0 * np.log(2)\n    \n    # Select base target based on regime\n    base_target = high_base_target if is_high_demand else low_base_target\n    \n    # Adjust target based on lead time and recent demand\n    adjusted_target = base_target + (lead_time_sensitivity * (quoted_lead_time - 6)) + (demand_response * last_demand)\n    \n    # Calculate net inventory position\n    net_inventory = on_hand_inventory + sum(pipeline_orders[:quoted_lead_time])\n    \n    # Place order to reach adjusted target\n    order_amount = max(0.0, adjusted_target - net_inventory)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base targets and demand response to better handle high demand periods, which were causing most lost sales. Adjusted lead time sensitivity to better account for longer lead times. The original policy was too conservative, resulting in high lost sales costs.",
+          "opt_params": {
+               "low_base_target": 145.8928310639008,
+               "high_base_target": 233.1477106381639,
+               "lead_time_sensitivity": 8.263093084164325,
+               "demand_response": 0.1
+          },
+          "cost": null,
+          "objective": 32094.64451,
+          "lower": 30342.21736,
+          "upper": 33834.1104,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base targets and response parameters to better handle demand spikes, while maintaining the structure. Adjusted lead-time sensitivity to balance between different lead times. The changes aim to reduce lost sales while controlling holding costs.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    low_base_target = 111.7473528670252  # OPT_PARAM: {\"initial\": 111.7473528670252, \"min\": 100.0, \"max\": 160.0, \"type\": \"float\"}\n    high_base_target = 200.0  # OPT_PARAM: {\"initial\": 200.0, \"min\": 200.0, \"max\": 300.0, \"type\": \"float\"}\n    lead_time_sensitivity = 5.043165251830479  # OPT_PARAM: {\"initial\": 5.043165251830479, \"min\": 5.0, \"max\": 12.0, \"type\": \"float\"}\n    demand_response = 0.25  # OPT_PARAM: {\"initial\": 0.25, \"min\": 0.25, \"max\": 0.5, \"type\": \"float\"}\n    \n    # Detect demand regime\n    is_high_demand = last_demand >= 100.0 * np.log(2)\n    \n    # Select base target based on regime\n    base_target = high_base_target if is_high_demand else low_base_target\n    \n    # Adjust target based on lead time and recent demand\n    adjusted_target = base_target + (lead_time_sensitivity * (quoted_lead_time - 6)) + (demand_response * last_demand)\n    \n    # Calculate net inventory position\n    net_inventory = on_hand_inventory + sum(pipeline_orders[:quoted_lead_time])\n    \n    # Place order to reach adjusted target\n    order_amount = max(0.0, adjusted_target - net_inventory)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base targets and response parameters to better handle demand spikes, while maintaining the structure. Adjusted lead-time sensitivity to balance between different lead times. The changes aim to reduce lost sales while controlling holding costs.",
+          "opt_params": {
+               "low_base_target": 111.7473528670252,
+               "high_base_target": 200.0,
+               "lead_time_sensitivity": 5.043165251830479,
+               "demand_response": 0.25
+          },
+          "cost": null,
+          "objective": 32126.69459,
+          "lower": 30448.82874,
+          "upper": 33858.03568,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Key improvements: 1) Increased base_target and high_demand_multiplier to better handle demand spikes, 2) Higher demand_sensitivity for more responsive adjustments, 3) Added pipeline_boost to account for future pipeline orders, 4) Optimized lead_time_penalty balance. These changes better match the demand regime switching behavior shown in the training diagnostics, reducing lost sales while controlling holding costs.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 147.17600556907257  # OPT_PARAM: {\"initial\": 147.17600556907257, \"min\": 100.0, \"max\": 250.0, \"type\": \"float\"}\n    demand_sensitivity = 0.3  # OPT_PARAM: {\"initial\": 0.3, \"min\": 0.3, \"max\": 0.8, \"type\": \"float\"}\n    high_demand_multiplier = 1.5  # OPT_PARAM: {\"initial\": 1.5, \"min\": 1.5, \"max\": 2.5, \"type\": \"float\"}\n    lead_time_penalty = 8.053602840372369  # OPT_PARAM: {\"initial\": 8.053602840372369, \"min\": 8.0, \"max\": 16.0, \"type\": \"float\"}\n    pipeline_boost = 0.29656651693322156  # OPT_PARAM: {\"initial\": 0.29656651693322156, \"min\": 0.1, \"max\": 0.5, \"type\": \"float\"}\n    \n    # Detect high demand regime\n    is_high_demand = last_demand >= 100.0 * np.log(2)\n    \n    # Calculate net inventory position including pipeline boost\n    net_inventory = on_hand_inventory + sum(pipeline_orders[:quoted_lead_time]) + (pipeline_boost * sum(pipeline_orders[quoted_lead_time:]))\n    \n    # Adjust base target based on demand regime\n    target = base_target * (high_demand_multiplier if is_high_demand else 1.0)\n    \n    # Further adjust based on last demand and lead time\n    adjusted_target = target + (demand_sensitivity * last_demand) + (lead_time_penalty * (quoted_lead_time - 6))\n    \n    # Place order to reach adjusted target\n    order_amount = max(0.0, adjusted_target - net_inventory)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Key improvements: 1) Increased base_target and high_demand_multiplier to better handle demand spikes, 2) Higher demand_sensitivity for more responsive adjustments, 3) Added pipeline_boost to account for future pipeline orders, 4) Optimized lead_time_penalty balance. These changes better match the demand regime switching behavior shown in the training diagnostics, reducing lost sales while controlling holding costs.",
+          "opt_params": {
+               "base_target": 147.17600556907257,
+               "demand_sensitivity": 0.3,
+               "high_demand_multiplier": 1.5,
+               "lead_time_penalty": 8.053602840372369,
+               "pipeline_boost": 0.29656651693322156
+          },
+          "cost": null,
+          "objective": 32148.4084,
+          "lower": 30447.36954,
+          "upper": 33918.59737,
+          "other_inf": null
+     },
+     {
+          "algorithm": "1. Increased base_target to better handle average demand levels.\n2. Added regime detection using the known generator property (S_t identified by last_demand >= 100*log(2)).\n3. Introduced high_demand_multiplier to more aggressively stock up during high demand periods.\n4. Adjusted demand_sensitivity to be more responsive to recent demand.\n5. Simplified lead time adjustment to be more consistent.\n6. The changes aim to reduce lost sales during high demand periods while maintaining reasonable inventory levels.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 148.2569198358892  # OPT_PARAM: {\"initial\": 148.2569198358892, \"min\": 100.0, \"max\": 300.0, \"type\": \"float\"}\n    demand_sensitivity = 0.2  # OPT_PARAM: {\"initial\": 0.2, \"min\": 0.2, \"max\": 0.8, \"type\": \"float\"}\n    high_demand_multiplier = 1.2716935543175731  # OPT_PARAM: {\"initial\": 1.2716935543175731, \"min\": 1.2, \"max\": 3.0, \"type\": \"float\"}\n    lead_time_penalty = 14.95261075508209  # OPT_PARAM: {\"initial\": 14.95261075508209, \"min\": 5.0, \"max\": 20.0, \"type\": \"float\"}\n    \n    # Detect high demand regime\n    is_high_demand = last_demand >= 100.0 * np.log(2)\n    \n    # Adjust base target based on demand regime\n    if is_high_demand:\n        target = base_target * high_demand_multiplier\n    else:\n        target = base_target\n        \n    # Further adjust based on last demand and lead time\n    adjusted_target = target + (demand_sensitivity * last_demand) + (lead_time_penalty * (quoted_lead_time - 6))\n    \n    # Calculate net inventory position\n    net_inventory = on_hand_inventory + sum(pipeline_orders[:quoted_lead_time])\n    \n    # Place order to reach adjusted target\n    order_amount = max(0.0, adjusted_target - net_inventory)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "1. Increased base_target to better handle average demand levels.\n2. Added regime detection using the known generator property (S_t identified by last_demand >= 100*log(2)).\n3. Introduced high_demand_multiplier to more aggressively stock up during high demand periods.\n4. Adjusted demand_sensitivity to be more responsive to recent demand.\n5. Simplified lead time adjustment to be more consistent.\n6. The changes aim to reduce lost sales during high demand periods while maintaining reasonable inventory levels.",
+          "opt_params": {
+               "base_target": 148.2569198358892,
+               "demand_sensitivity": 0.2,
+               "high_demand_multiplier": 1.2716935543175731,
+               "lead_time_penalty": 14.95261075508209
+          },
+          "cost": null,
+          "objective": 32339.60848,
+          "lower": 30623.62248,
+          "upper": 34124.52121,
+          "other_inf": null
+     },
+     {
+          "algorithm": "1. Increased base targets (low and high) to reduce lost sales which were dominating costs\n2. Increased lead_time_sensitivity to better handle longer lead times\n3. Increased demand_response to be more reactive to recent demand spikes\n4. The policy still maintains the same structure but with more aggressive parameters to address the high lost sales costs\n5. Kept the regime switching logic which was effective but made it more responsive",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    low_base_target = 131.74573108292537  # OPT_PARAM: {\"initial\": 131.74573108292537, \"min\": 100.0, \"max\": 250.0, \"type\": \"float\"}\n    high_base_target = 236.1750362778199  # OPT_PARAM: {\"initial\": 236.1750362778199, \"min\": 200.0, \"max\": 500.0, \"type\": \"float\"}\n    lead_time_sensitivity = 6.473854516464559  # OPT_PARAM: {\"initial\": 6.473854516464559, \"min\": 5.0, \"max\": 15.0, \"type\": \"float\"}\n    demand_response = 0.2  # OPT_PARAM: {\"initial\": 0.2, \"min\": 0.2, \"max\": 0.6, \"type\": \"float\"}\n    \n    # Detect demand regime\n    is_high_demand = last_demand >= 100.0 * np.log(2)\n    \n    # Select base target based on regime\n    base_target = high_base_target if is_high_demand else low_base_target\n    \n    # Adjust target based on lead time and recent demand\n    adjusted_target = base_target + (lead_time_sensitivity * (quoted_lead_time - 6)) + (demand_response * last_demand)\n    \n    # Calculate net inventory position\n    net_inventory = on_hand_inventory + sum(pipeline_orders[:quoted_lead_time])\n    \n    # Place order to reach adjusted target\n    order_amount = max(0.0, adjusted_target - net_inventory)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "1. Increased base targets (low and high) to reduce lost sales which were dominating costs\n2. Increased lead_time_sensitivity to better handle longer lead times\n3. Increased demand_response to be more reactive to recent demand spikes\n4. The policy still maintains the same structure but with more aggressive parameters to address the high lost sales costs\n5. Kept the regime switching logic which was effective but made it more responsive",
+          "opt_params": {
+               "low_base_target": 131.74573108292537,
+               "high_base_target": 236.1750362778199,
+               "lead_time_sensitivity": 6.473854516464559,
+               "demand_response": 0.2
+          },
+          "cost": null,
+          "objective": 32341.15005,
+          "lower": 30671.59274,
+          "upper": 34023.66289,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base stock levels for both regimes, strengthened demand response and lead-time sensitivity, and expanded pipeline consideration to prevent stockouts during high-demand periods. The policy now more aggressively builds inventory when demand is high or lead times are long, while maintaining sufficient stock during low-demand periods.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    low_base_target = 145.00432938377665  # OPT_PARAM: {\"initial\": 145.00432938377665, \"min\": 100.0, \"max\": 200.0, \"type\": \"float\"}\n    high_base_target = 238.1300285599182  # OPT_PARAM: {\"initial\": 238.1300285599182, \"min\": 200.0, \"max\": 400.0, \"type\": \"float\"}\n    lead_time_sensitivity = 10.864353654813218  # OPT_PARAM: {\"initial\": 10.864353654813218, \"min\": 5.0, \"max\": 15.0, \"type\": \"float\"}\n    demand_response = 0.3  # OPT_PARAM: {\"initial\": 0.3, \"min\": 0.3, \"max\": 0.7, \"type\": \"float\"}\n    demand_threshold = 100.0 * np.log(2)  # Approximately 69.31\n    \n    # More aggressive regime detection\n    is_high_demand = last_demand >= demand_threshold\n    \n    # Higher base targets for both regimes\n    base_target = high_base_target if is_high_demand else low_base_target\n    \n    # Stronger lead time adjustment and demand response\n    adjusted_target = base_target + (lead_time_sensitivity * (quoted_lead_time - 6)) + (demand_response * last_demand)\n    \n    # Calculate net inventory position considering more pipeline orders\n    net_inventory = on_hand_inventory + sum(pipeline_orders[:min(quoted_lead_time + 2, 8)])\n    \n    # More aggressive ordering\n    order_amount = max(0.0, adjusted_target - net_inventory)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base stock levels for both regimes, strengthened demand response and lead-time sensitivity, and expanded pipeline consideration to prevent stockouts during high-demand periods. The policy now more aggressively builds inventory when demand is high or lead times are long, while maintaining sufficient stock during low-demand periods.",
+          "opt_params": {
+               "low_base_target": 145.00432938377665,
+               "high_base_target": 238.1300285599182,
+               "lead_time_sensitivity": 10.864353654813218,
+               "demand_response": 0.3
+          },
+          "cost": null,
+          "objective": 32353.82708,
+          "lower": 30666.31834,
+          "upper": 34105.37832,
+          "other_inf": null
+     }
+]

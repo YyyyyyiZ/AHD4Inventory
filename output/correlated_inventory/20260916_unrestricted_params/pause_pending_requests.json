@@ -1,0 +1,42 @@
+{
+  "paused_utc": "2026-09-16T18:08:27.209539+00:00",
+  "requests": [
+    {
+      "request_id": "15501f058b9042048f40a2b825495f90",
+      "chain_dir": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_adaptive_pil_seed/training/exp_regime095_random3_9/self_evolve_h200_r3",
+      "created_utc": "2026-09-16T18:08:09.677024+00:00",
+      "reserved_usd": 0.009927700000000001
+    },
+    {
+      "request_id": "3d1a833374db4754b5535430fa73d3eb",
+      "chain_dir": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_adaptive_pil_seed/training/exp_regime095_fixed6/self_evolve_h200_r2",
+      "created_utc": "2026-09-16T18:08:16.779113+00:00",
+      "reserved_usd": 0.009816700000000001
+    },
+    {
+      "request_id": "d2057df77ebc41bdb942f13961a6b691",
+      "chain_dir": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_adaptive_pil_seed/training/exp_regime095_random3_9/self_evolve_h200_r2",
+      "created_utc": "2026-09-16T18:08:21.176653+00:00",
+      "reserved_usd": 0.009872200000000001
+    },
+    {
+      "request_id": "5ef0d0a0b3254e179a3e511da1773a57",
+      "chain_dir": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_unrestricted_params/training/exp_ar_pos08_fixed6/self_evolve_h500_r3",
+      "created_utc": "2026-09-16T18:08:21.971104+00:00",
+      "reserved_usd": 0.0086967
+    },
+    {
+      "request_id": "1baae2456582496a8872cf9b2fa22f58",
+      "chain_dir": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_adaptive_pil_seed/training/exp_iid_random3_9/self_evolve_h200_r3",
+      "created_utc": "2026-09-16T18:08:22.235450+00:00",
+      "reserved_usd": 0.0096807
+    },
+    {
+      "request_id": "06a1da4cba2440708e2abc5efefd2587",
+      "chain_dir": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_adaptive_pil_seed/training/exp_regime095_fixed6/self_evolve_h200_r3",
+      "created_utc": "2026-09-16T18:08:24.009554+00:00",
+      "reserved_usd": 0.009816700000000001
+    }
+  ],
+  "instruction": "Preserve all pending reservations. Prefer allowing already-submitted requests to return; never re-POST on resume without reconciliation."
+}

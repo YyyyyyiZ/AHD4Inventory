@@ -1,0 +1,18 @@
+{
+     "algorithm": "Increased base_target to better match demand mean, strengthened demand_response to react more aggressively to demand spikes, reduced min_order to allow smaller adjustments, and added modest lead_time_adjustment to account for longer lead times. These changes balance holding and lost-sales costs better based on the training performance metrics.",
+     "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 188.1393579754419  # OPT_PARAM: {\"initial\": 188.1393579754419, \"min\": 150.0, \"max\": 300.0, \"type\": \"float\"}\n    demand_response = 0.3  # OPT_PARAM: {\"initial\": 0.3, \"min\": 0.3, \"max\": 1.0, \"type\": \"float\"}\n    lead_time_adjustment = 0.0  # OPT_PARAM: {\"initial\": 0.0, \"min\": 0.0, \"max\": 0.1, \"type\": \"float\"}\n    min_order = 49.632635501119935  # OPT_PARAM: {\"initial\": 49.632635501119935, \"min\": 0.0, \"max\": 50.0, \"type\": \"float\"}\n    \n    adjusted_target = base_target + demand_response * last_demand + lead_time_adjustment * quoted_lead_time * base_target\n    net_inventory = on_hand_inventory + np.sum(pipeline_orders)\n    order_amount = max(min_order, adjusted_target - net_inventory)\n    return max(0.0, order_amount)\n",
+     "description": "",
+     "intuition": "",
+     "reasoning": "Increased base_target to better match demand mean, strengthened demand_response to react more aggressively to demand spikes, reduced min_order to allow smaller adjustments, and added modest lead_time_adjustment to account for longer lead times. These changes balance holding and lost-sales costs better based on the training performance metrics.",
+     "opt_params": {
+          "base_target": 188.1393579754419,
+          "demand_response": 0.3,
+          "lead_time_adjustment": 0.0,
+          "min_order": 49.632635501119935
+     },
+     "cost": null,
+     "objective": 27472.06378,
+     "lower": 26939.12359,
+     "upper": 27983.732,
+     "other_inf": null
+}

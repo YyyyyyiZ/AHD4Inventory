@@ -1,0 +1,104 @@
+{
+  "revision": "flash_generational_evolve_optimize_v1",
+  "status": "configured",
+  "created_utc": "2026-09-17T13:25:50.283226+00:00",
+  "objective": "Run user-selected DeepSeek Flash for 10 synchronous generations with 10 proposals per generation, on 20 perishable inventory instances; preserve 3 independent repetitions.",
+  "provider_confirmation_required": false,
+  "requested_model_unresolved": null,
+  "prospective_model_roles": [
+    "deepseek-flash"
+  ],
+  "model_selection_note": "User explicitly selected Flash after official endpoint/model options were stated. Use official DeepSeek API.",
+  "previous_known_usd": 12.7751011,
+  "cumulative_user_limit_usd": 50.0,
+  "new_experiment_limit_usd": 30.0,
+  "grid": {
+    "m": [
+      3,
+      4,
+      5,
+      7,
+      8
+    ],
+    "L": 2,
+    "cv": [
+      1.5,
+      2.0
+    ],
+    "f": [
+      0.0,
+      0.5
+    ],
+    "mean": 4,
+    "h": 0,
+    "p": 100,
+    "w": 100
+  },
+  "discovery_m": [
+    3,
+    5,
+    7
+  ],
+  "transfer_m": [
+    4,
+    8
+  ],
+  "repetitions": 3,
+  "generated_candidates_per_repetition": 100,
+  "independent_initial_candidates": 10,
+  "feedback": "Freeze the parent pool and failures at the start of each generation. Each of its ten proposals receives only that frozen prior-generation feedback: top candidate code, fitted theta, per-scenario cost/components, numeric work, and earlier failures. No within-generation feedback. Initial ten proposals independently use common baselines.",
+  "parameter_count_limit": null,
+  "optimizer": {
+    "algorithm": "differential_evolution_on_unit_box",
+    "population": "min(128,max(16,4*d))",
+    "initials": "Evaluate literal defaults and supplied warm starts before remaining bounded search. Final refit inherits fitted parameters; transfer uses same-CV/same-f nearest discovery m, ties lower m.",
+    "polish": false
+  },
+  "stages": {
+    "train": {
+      "paths": 16,
+      "burnin": 200,
+      "horizon": 512,
+      "budget": 512
+    },
+    "promote": {
+      "paths": 32,
+      "burnin": 500,
+      "horizon": 1000,
+      "budget": 1536,
+      "top_k": 3
+    },
+    "validation": {
+      "paths": 32,
+      "burnin": 500,
+      "horizon": 1000
+    },
+    "refit": {
+      "paths": 32,
+      "burnin": 500,
+      "horizon": 1500,
+      "budget": 1536
+    },
+    "test": {
+      "paths": 128,
+      "burnin": 500,
+      "horizon": 3000
+    }
+  },
+  "numerical_workers": 3,
+  "memory_limit_bytes": 1073741824,
+  "candidate_timeout_seconds": 3600,
+  "action_memoization": "Exact pure-policy raw-action cache enabled consistently in all new stages, with stored demand hashes and bounded memory.",
+  "seeds": "Fresh stage/repeat seeds, common across backbones; confirmation demand generated only after every submitted policy and coefficient is frozen. Seeds are excluded from model prompts.",
+  "selection": "After search, promote top three by training score plus the best common baseline if absent; retain promotion/validation failures and select among successful predeclared candidates on independent validation. No replacements or fresh candidates. If all fail or final refit fails, keep the repetition incomplete. Refit, freeze every model, then test.",
+  "primary_comparison": "Standalone Flash performance on all20 and transfer8; fixed-selected-structure optimizer ablation; historical old Sol/Baek results only with workflow/sample caveat, not a matched-backbone superiority claim.",
+  "closeness_margin_pct": 2.0,
+  "inference": "Three independent algorithm-generation repetitions; demand-path intervals are conditional simulation uncertainty. If evidence is insufficient, do not claim noninferiority.",
+  "old_results": "Frozen old Sol and Baek policies are optional historical references; workflow changes prevent attributing old-versus-new differences solely to the backbone.",
+  "paid_requests_sent": 0,
+  "comparison_mode": "standalone_flash",
+  "generations": 10,
+  "proposals_per_generation": 10,
+  "total": 100,
+  "llm_max_output_tokens": 65536
+}

@@ -1,0 +1,29 @@
+{
+  "created_utc": "2026-09-16T13:27:30.497364+00:00",
+  "tests_passed": 8,
+  "tests": [
+    "test_parameter_limits",
+    "test_evaluation",
+    "test_api_client"
+  ],
+  "unrestricted_parameters_compiled_and_optimized": 12,
+  "network_requests_in_tests": 0,
+  "default_max_opt_params": null,
+  "all_parameter_values_reach_optimizer": true,
+  "prompts_contain_parameter_count_ceiling": false,
+  "holdout_gate": "all 27 training runs and hashes required before loading validation/test",
+  "input_reuse_audit": "300 source/copy/manifest hashes agree; no old self-evolve copied",
+  "framework_sha256": {
+    "eoh/src/eoh/methods/eoh/eoh.py": "5ba704cef63d6813ffce0780408a1b5bbadeb533d79efe554222a9fb8df3fb37",
+    "eoh/src/eoh/methods/eoh/eoh_interface_EC.py": "b40bfb99c359c2ab1f5ba3f06d30718c2c8592c3a329952bdaf85442fa554439",
+    "eoh/src/eoh/methods/eoh/eoh_evolution.py": "34be8aaa3d03a20de8db71ca6af899d705f48e057ab71968d34c4f24b8f30007",
+    "eoh/src/eoh/methods/selection/best_deterministic.py": "85bb90bb1b915d9bd202c99d4549efcda8d18e8b7830d7aa3f664af7db5a3fad",
+    "eoh/src/eoh/methods/management/pop_greedy.py": "eebc9bf3a59237de0d71b003b151a5a2b0bdc7eead3b2a90313fad61e4ead04b",
+    "eoh/src/eoh/methods/eoh/external_scipy.py": "bd0197b3d5283d1065cf8272d10cee8b8e87af86ae40036ac74bf0f3eabea60b"
+  },
+  "comparison_offline_tests_passed": 7,
+  "comparison_real_partial_status": "incomplete",
+  "comparison_incomplete_exit_code": 2,
+  "final_evaluator_12_parameters_fixed_and_random_windows": 16,
+  "final_evaluator_max_absolute_error": 0.0
+}

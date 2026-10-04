@@ -1,0 +1,57 @@
+{
+  "model": "openai/gpt-5.6-sol",
+  "reasoning": "high",
+  "llm_budget_allocation_usd": 35,
+  "baek_allocation_usd": 12,
+  "unallocated_usd": 3,
+  "n_repeats": 3,
+  "candidates_per_arm": 8,
+  "one_query_candidates": 4,
+  "discovery_m": [
+    3,
+    5
+  ],
+  "transfer_m": [
+    4
+  ],
+  "cv": [
+    1.5,
+    2.0
+  ],
+  "fifo": [
+    0.0,
+    0.5
+  ],
+  "L": 2,
+  "train": {
+    "paths": 8,
+    "burnin": 200,
+    "horizon": 512,
+    "seed": 17091001,
+    "budget": 256
+  },
+  "validation": {
+    "paths": 32,
+    "burnin": 500,
+    "horizon": 1000,
+    "seed": 17092001
+  },
+  "refit": {
+    "paths": 32,
+    "burnin": 500,
+    "horizon": 1000,
+    "seed": 17093001,
+    "budget": 768
+  },
+  "test": {
+    "paths": 128,
+    "burnin": 500,
+    "horizon": 3000,
+    "seed": 17094001
+  },
+  "parameter_count_limit": null,
+  "selection": "training only during search; validation chooses final structure within each arm before test",
+  "interpretation": "exploratory family screen; algorithm-generation repetitions are 3, not number of paths",
+  "optimizer": "common derivative-free differential evolution; exact objective-call ceiling",
+  "baek": "tool-enabled L2 protocol adaptation; 50 tools/3600s maximum, separately measured resources"
+}

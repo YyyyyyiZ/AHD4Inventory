@@ -1,0 +1,10 @@
+All comparison arms receive the SAME common initial policy and training information below. You may retain, improve or replace it. Lower cost is better.
+{"name": "age_discount", "training_score": 1.0, "costs": {"perish_m7_L2_cv1.5_f0": 149.14375, "perish_m7_L2_cv1.5_f0.5": 122.14375, "perish_m7_L2_cv2_f0": 191.471875, "perish_m7_L2_cv2_f0.5": 170.30937500000002}, "fitted_parameters": {"perish_m7_L2_cv1.5_f0": [16.82362227052272, 18.561404171591573, 0.05552496609617075], "perish_m7_L2_cv1.5_f0.5": [16.29721092854831, 20.30122219377725, 0.9076730989899537], "perish_m7_L2_cv2_f0": [15.117285293211898, 28.547151415579293, 0.03255685935867936], "perish_m7_L2_cv2_f0.5": [13.983163205026056, 5.890122783909247, 1.0672962231356822]}, "cost_metrics": {"perish_m7_L2_cv1.5_f0": [0.49537499999999995, 0.9960625, 3.4717499999999997], "perish_m7_L2_cv1.5_f0.5": [0.4350624999999999, 0.7863749999999998, 3.659812500000001], "perish_m7_L2_cv2_f0": [0.45049999999999996, 1.46421875, 3.0217812499999996], "perish_m7_L2_cv2_f0.5": [0.39590624999999996, 1.3071874999999997, 3.16365625]}}
+def compute_order_amount(age, pipeline, mu, cv, f, L):
+    S = 10.0 # OPT_PARAM: {"type":"float","initial":10.0,"min":0.0,"max":60.0}
+    C = 6.0 # OPT_PARAM: {"type":"float","initial":6.0,"min":0.0,"max":30.0}
+    a = 1.0 # OPT_PARAM: {"type":"float","initial":1.0,"min":0.0,"max":3.0}
+    effective = 0.0
+    for i in range(len(age)):
+        effective = effective + age[i]*min(1.0,((i+1.0)/len(age))**a)
+    return max(0.0,min(C,S-effective-sum(pipeline)))

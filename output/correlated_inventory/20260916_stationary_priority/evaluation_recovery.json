@@ -1,0 +1,43 @@
+{
+  "recorded_utc": "2026-09-16T07:53:09.792875+00:00",
+  "status": "complete_verified",
+  "completed_training_runs": 27,
+  "all_policy_seal_bindings_verified": 63,
+  "all_frozen_adapter_hashes_verified": true,
+  "all_policies_freeze_sha256": "355c2351308e2c5fdddd44e0e4474a808df735110657ab87ba90e3341a0b5348",
+  "prior_controller_pid": 84211,
+  "failure_phase": "validation",
+  "failure_type": "Numba persistent-cache serialization ReferenceError: underlying object has vanished",
+  "archive": "evaluation_recovery/20260916T0751Z",
+  "evaluation_source_archived_sha256": "b9230daecdd8dbf1f35849fa4d1a823784f55c228e433a77cb82331544e1d8b0",
+  "budget": {
+    "limit_usd": 20.0,
+    "known_cost_usd": 1.78133475,
+    "held_upper_usd": 0.044427,
+    "committed_upper_usd": 1.82576175,
+    "requests": 2775,
+    "completed": 2770,
+    "uncertain": 5
+  },
+  "existing_evaluation_files": {
+    "validation": 70,
+    "test": 0
+  },
+  "verified_utc": "2026-09-16T07:57:57.089560+00:00",
+  "evaluation_source_after_sha256": "42950e722aed6566e75876209ed2c2b8eadf6478f328902f1523a3c0703ab2fc",
+  "test_source_sha256": "8e16b8ac499e60db4d66e22887e3d4312a545fe871ae75948afa0bbfc272a9af",
+  "fix": "Use process-local NullCache for the same Numba simulator; no source/parameter/algorithm changes to frozen numerical kernel.",
+  "verification": {
+    "offline_regression_tests_passed": 2,
+    "dynamic_policy_closures": 6,
+    "fixed_and_random_leads": true,
+    "garbage_collection_exercised": true,
+    "persistent_cache_reads_or_writes": 0,
+    "three_actual_baseline_validation_prefix_max_abs_difference": 0.0,
+    "test_data_used_for_fix": false,
+    "verified_by": "estimate_baek_budget"
+  },
+  "frozen_source_and_policy_seal_rechecked": true,
+  "full_validation_and_test_completed": true,
+  "final_audit": "final_audit.json"
+}

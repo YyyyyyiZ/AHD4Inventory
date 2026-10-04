@@ -1,0 +1,7 @@
+{
+  "kind": "evaluation_only_boundscheck",
+  "reason": "Prevent silent out-of-bounds reads in arbitrary compiled returned policies",
+  "mechanism": "Set NUMBA_BOUNDSCHECK=1 and numba.config.BOUNDSCHECK=1 before final source compilation and design; runtime overrides decorator flag",
+  "generation_prompt_changed": false,
+  "generation_prelude_changed": false
+}

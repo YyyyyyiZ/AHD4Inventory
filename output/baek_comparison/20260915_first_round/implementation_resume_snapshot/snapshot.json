@@ -1,0 +1,25 @@
+{
+  "created_utc": "2026-09-15T23:55:25.952257+00:00",
+  "files_sha256": {
+    "baselines.py": "aeb537e1c4daf39c945b712d9cd42f5c64005dd9b6b52f04c6d84cf5aea40f92",
+    "runner.py": "b6d003bb3d53e4e8561382aff1fc233b2c2f4f8ba6426ddf1af9603efba47b11",
+    "harness.py": "237631ea6ac3c1bc8796e2a5c74fd8efd720389fb521e4e74b0e255b145a187d",
+    "analysis.py": "093dbb31663bc7244da34ad9cc9cffc4df6d522a249211a617de5e2265cefae8",
+    "test_harness.py": "35fd0dad32de240da0d65ab7b9c9ae8c43eb79c1cad2a3c27ace8c2709c02681",
+    "scoring.py": "1cc84719fe7b48d1b0485596795e9f51737b968636df1306f71802cb05ba97ed",
+    "evaluation.py": "a6b37a74b07cd963f9c8bd9ef92fcbb4d34f49522b9d7bde55aa1a3650147c48",
+    "__init__.py": "2d760e154d1d8eb2ef522ab6a1c0785a6fe4f8f45eea042d05dd8f14dad947bb",
+    "prompts.py": "febb2bc72eb4b2fbd4b15281c4d266a0b12d62689ea0d5b743ff60dceb8ac1be",
+    "sandbox.py": "3d286ec3270d7fa81dcfc05b21b7b13e1a4f9891302f4a880d768ea40d6bcf37",
+    "test_evaluation.py": "598b6f31d2c6ecbb8e931127376d7c3ee000e54c8e21f3c7920aeb24ed966cda",
+    "pipeline.py": "f6e345576c1cb3542b4b19e975292d5c6ec69bf195c827a544bf38db367e0a54",
+    "evaluation_queue.py": "2a636e7e4ec3759b5d6d1ac120f7e3807f1e187a63eb2881821f571c20b87fda",
+    "environment.py": "bc1bbeb839d4fcb70086fda44fbc75dce79eedf7d858b93c0a794e9e30c6f815",
+    "test_retry_invalid.py": "4c88fdd10864c0ab4d6d8fce5994f70070274cd1bd32ccc4f31cfa8759a9c817",
+    "retry_invalid.py": "eb33c7ab41d5f0cddb70cbcf6f0ede4fb7d3a0b6d5719df69ba1df006f244b6b",
+    "report.py": "8bbacb561db2b172e6c437e723402773d8ddfe4bbf7419a4c20cba83eb1554c8",
+    "test_environment.py": "ab05561bf7c32807841cc2b86a5d353cb312107dbdeb00841bc39cdc3f592503"
+  },
+  "protocol_changes": false,
+  "changes": "Checkpoint continuation and evaluation queue only. Frozen prompts, model settings and scoring protocol unchanged."
+}

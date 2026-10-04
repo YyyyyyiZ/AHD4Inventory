@@ -1,0 +1,172 @@
+[
+     {
+          "algorithm": "Reduced base target to better match demand mean while increasing demand responsiveness (0\u21920.85) and lead-time sensitivity (2.25\u21923.8). This balances holding vs. lost sales costs given the exponential demand distribution with mean ~100 and high variance. The parameters were optimized to minimize total cost on the training trajectories.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    target = 392.82820678467414  # OPT_PARAM: {\"initial\": 392.82820678467414, \"min\": 100.0, \"max\": 500.0, \"type\": \"float\"}\n    demand_response = 0.0  # OPT_PARAM: {\"initial\": 0.0, \"min\": 0.0, \"max\": 1.5, \"type\": \"float\"}\n    lead_time_adjustment = 2.1854065313448254  # OPT_PARAM: {\"initial\": 2.1854065313448254, \"min\": 0.0, \"max\": 50.0, \"type\": \"float\"}\n    \n    adjusted_target = target + demand_response * last_demand + lead_time_adjustment * (quoted_lead_time - 6)\n    inventory_position = on_hand_inventory + sum(pipeline_orders)\n    order_amount = max(0.0, adjusted_target - inventory_position)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Reduced base target to better match demand mean while increasing demand responsiveness (0\u21920.85) and lead-time sensitivity (2.25\u21923.8). This balances holding vs. lost sales costs given the exponential demand distribution with mean ~100 and high variance. The parameters were optimized to minimize total cost on the training trajectories.",
+          "opt_params": {
+               "target": 392.82820678467414,
+               "demand_response": 0.0,
+               "lead_time_adjustment": 2.1854065313448254
+          },
+          "cost": null,
+          "objective": 29590.44492,
+          "lower": 29024.95666,
+          "upper": 30168.03787,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased the base target to handle higher demand spikes better, strengthened demand response to be more adaptive to recent demand, and increased lead time adjustment to better account for longer lead times. These changes better balance holding costs and lost sales costs given the exponential demand distribution.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    target = 390.5684294096992  # OPT_PARAM: {\"initial\": 390.5684294096992, \"min\": 100.0, \"max\": 500.0, \"type\": \"float\"}\n    demand_response = 0.0  # OPT_PARAM: {\"initial\": 0.0, \"min\": 0.0, \"max\": 1.5, \"type\": \"float\"}\n    lead_time_adjustment = 2.245543006020309  # OPT_PARAM: {\"initial\": 2.245543006020309, \"min\": 0.0, \"max\": 50.0, \"type\": \"float\"}\n    \n    adjusted_target = target + demand_response * last_demand + lead_time_adjustment * (quoted_lead_time - 6)\n    inventory_position = on_hand_inventory + sum(pipeline_orders)\n    order_amount = max(0.0, adjusted_target - inventory_position)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased the base target to handle higher demand spikes better, strengthened demand response to be more adaptive to recent demand, and increased lead time adjustment to better account for longer lead times. These changes better balance holding costs and lost sales costs given the exponential demand distribution.",
+          "opt_params": {
+               "target": 390.5684294096992,
+               "demand_response": 0.0,
+               "lead_time_adjustment": 2.245543006020309
+          },
+          "cost": null,
+          "objective": 29590.4675,
+          "lower": 29016.77666,
+          "upper": 30171.81899,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased target inventory level to better handle high demand spikes, strengthened demand response to be more reactive to recent demand, and increased lead time adjustment to account more aggressively for longer lead times. These changes aim to reduce lost sales while maintaining reasonable holding costs.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    target = 390.55692460595446  # OPT_PARAM: {\"initial\": 390.55692460595446, \"min\": 100.0, \"max\": 500.0, \"type\": \"float\"}\n    demand_response = 0.0  # OPT_PARAM: {\"initial\": 0.0, \"min\": 0.0, \"max\": 1.5, \"type\": \"float\"}\n    lead_time_adjustment = 2.2332012724154637  # OPT_PARAM: {\"initial\": 2.2332012724154637, \"min\": 0.0, \"max\": 50.0, \"type\": \"float\"}\n    \n    adjusted_target = target + demand_response * last_demand + lead_time_adjustment * (quoted_lead_time - 6)\n    inventory_position = on_hand_inventory + sum(pipeline_orders)\n    order_amount = max(0.0, adjusted_target - inventory_position)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased target inventory level to better handle high demand spikes, strengthened demand response to be more reactive to recent demand, and increased lead time adjustment to account more aggressively for longer lead times. These changes aim to reduce lost sales while maintaining reasonable holding costs.",
+          "opt_params": {
+               "target": 390.55692460595446,
+               "demand_response": 0.0,
+               "lead_time_adjustment": 2.2332012724154637
+          },
+          "cost": null,
+          "objective": 29590.4913,
+          "lower": 29017.14341,
+          "upper": 30172.02023,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Reduced base target to 320 since mean demand is ~100, increased demand response to 0.8 to better react to demand fluctuations, and increased lead time adjustment to 5.0 to better account for longer lead times. These changes better balance holding vs lost sales costs based on the exponential demand distribution and lead time variability.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    target = 391.9086208135329  # OPT_PARAM: {\"initial\": 391.9086208135329, \"min\": 100.0, \"max\": 500.0, \"type\": \"float\"}\n    demand_response = 0.0  # OPT_PARAM: {\"initial\": 0.0, \"min\": 0.0, \"max\": 1.5, \"type\": \"float\"}\n    lead_time_adjustment = 2.1846555900738545  # OPT_PARAM: {\"initial\": 2.1846555900738545, \"min\": 0.0, \"max\": 50.0, \"type\": \"float\"}\n    \n    adjusted_target = target + demand_response * last_demand + lead_time_adjustment * (quoted_lead_time - 6)\n    inventory_position = on_hand_inventory + sum(pipeline_orders)\n    order_amount = max(0.0, adjusted_target - inventory_position)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Reduced base target to 320 since mean demand is ~100, increased demand response to 0.8 to better react to demand fluctuations, and increased lead time adjustment to 5.0 to better account for longer lead times. These changes better balance holding vs lost sales costs based on the exponential demand distribution and lead time variability.",
+          "opt_params": {
+               "target": 391.9086208135329,
+               "demand_response": 0.0,
+               "lead_time_adjustment": 2.1846555900738545
+          },
+          "cost": null,
+          "objective": 29590.50789,
+          "lower": 29022.51592,
+          "upper": 30169.99664,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Reduced the base target to 350, added a demand response factor (0.5) to adjust based on last demand, and included a lead-time adjustment (20 per period deviation from mean lead-time of 6). This should better respond to demand fluctuations and lead-time variability while maintaining a lower base stock level.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    target = 391.6377653872111  # OPT_PARAM: {\"initial\": 391.6377653872111, \"min\": 100.0, \"max\": 500.0, \"type\": \"float\"}\n    demand_response = 0.0  # OPT_PARAM: {\"initial\": 0.0, \"min\": 0.0, \"max\": 1.5, \"type\": \"float\"}\n    lead_time_adjustment = 2.2163347821324906  # OPT_PARAM: {\"initial\": 2.2163347821324906, \"min\": 0.0, \"max\": 50.0, \"type\": \"float\"}\n    \n    adjusted_target = target + demand_response * last_demand + lead_time_adjustment * (quoted_lead_time - 6)\n    inventory_position = on_hand_inventory + sum(pipeline_orders)\n    order_amount = max(0.0, adjusted_target - inventory_position)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Reduced the base target to 350, added a demand response factor (0.5) to adjust based on last demand, and included a lead-time adjustment (20 per period deviation from mean lead-time of 6). This should better respond to demand fluctuations and lead-time variability while maintaining a lower base stock level.",
+          "opt_params": {
+               "target": 391.6377653872111,
+               "demand_response": 0.0,
+               "lead_time_adjustment": 2.2163347821324906
+          },
+          "cost": null,
+          "objective": 29590.58494,
+          "lower": 29020.70962,
+          "upper": 30170.33052,
+          "other_inf": null
+     },
+     {
+          "algorithm": "The new policy incorporates lead time adjustments and demand smoothing to better respond to system dynamics. The base stock level is optimized, with additional inventory based on lead time deviation from minimum. Demand is estimated using exponential smoothing. This should better balance holding and lost sales costs.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_stock = 283.8658226828985  # OPT_PARAM: {\"initial\": 283.8658226828985, \"min\": 100.0, \"max\": 600.0, \"type\": \"float\"}\n    lead_time_adjustment = 2.301259608030635  # OPT_PARAM: {\"initial\": 2.301259608030635, \"min\": 0.0, \"max\": 200.0, \"type\": \"float\"}\n    demand_smoothing = 0.0  # OPT_PARAM: {\"initial\": 0.0, \"min\": 0.0, \"max\": 1.0, \"type\": \"float\"}\n    \n    effective_lead_time = quoted_lead_time - 3  # center around minimum lead time\n    adjusted_target = base_stock + lead_time_adjustment * effective_lead_time\n    smoothed_demand = demand_smoothing * last_demand + (1 - demand_smoothing) * 100.0\n    \n    inventory_position = on_hand_inventory + sum(pipeline_orders)\n    order_amount = max(0.0, adjusted_target + smoothed_demand - inventory_position)\n    \n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "The new policy incorporates lead time adjustments and demand smoothing to better respond to system dynamics. The base stock level is optimized, with additional inventory based on lead time deviation from minimum. Demand is estimated using exponential smoothing. This should better balance holding and lost sales costs.",
+          "opt_params": {
+               "base_stock": 283.8658226828985,
+               "lead_time_adjustment": 2.301259608030635,
+               "demand_smoothing": 0.0
+          },
+          "cost": null,
+          "objective": 29590.5993,
+          "lower": 29015.90591,
+          "upper": 30171.74315,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Reduced base target to better match demand patterns, increased lead time sensitivity to account for longer delays, and added moderate demand response to adapt to recent demand while avoiding overreaction to spikes. The new parameters balance holding costs (reduced target) with lost sales (better lead time adjustment) while maintaining responsiveness to demand fluctuations.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    target = 391.6327972255865  # OPT_PARAM: {\"initial\": 391.6327972255865, \"min\": 100.0, \"max\": 500.0, \"type\": \"float\"}\n    demand_response = 0.0  # OPT_PARAM: {\"initial\": 0.0, \"min\": 0.0, \"max\": 1.5, \"type\": \"float\"}\n    lead_time_adjustment = 2.2131569408793776  # OPT_PARAM: {\"initial\": 2.2131569408793776, \"min\": 0.0, \"max\": 50.0, \"type\": \"float\"}\n    \n    adjusted_target = target + demand_response * last_demand + lead_time_adjustment * (quoted_lead_time - 6)\n    inventory_position = on_hand_inventory + sum(pipeline_orders)\n    order_amount = max(0.0, adjusted_target - inventory_position)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Reduced base target to better match demand patterns, increased lead time sensitivity to account for longer delays, and added moderate demand response to adapt to recent demand while avoiding overreaction to spikes. The new parameters balance holding costs (reduced target) with lost sales (better lead time adjustment) while maintaining responsiveness to demand fluctuations.",
+          "opt_params": {
+               "target": 391.6327972255865,
+               "demand_response": 0.0,
+               "lead_time_adjustment": 2.2131569408793776
+          },
+          "cost": null,
+          "objective": 29590.59999,
+          "lower": 29020.81154,
+          "upper": 30170.37362,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Reduced base target to better match demand characteristics, increased demand response to be more reactive to recent demand, and adjusted lead time factor to better account for longer lead times. These changes better balance holding vs lost sales costs given the exponential demand distribution.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    target = 389.93617047133034  # OPT_PARAM: {\"initial\": 389.93617047133034, \"min\": 100.0, \"max\": 500.0, \"type\": \"float\"}\n    demand_response = 0.0  # OPT_PARAM: {\"initial\": 0.0, \"min\": 0.0, \"max\": 1.5, \"type\": \"float\"}\n    lead_time_adjustment = 2.215550759547731  # OPT_PARAM: {\"initial\": 2.215550759547731, \"min\": 0.0, \"max\": 50.0, \"type\": \"float\"}\n    \n    adjusted_target = target + demand_response * last_demand + lead_time_adjustment * (quoted_lead_time - 6)\n    inventory_position = on_hand_inventory + sum(pipeline_orders)\n    order_amount = max(0.0, adjusted_target - inventory_position)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Reduced base target to better match demand characteristics, increased demand response to be more reactive to recent demand, and adjusted lead time factor to better account for longer lead times. These changes better balance holding vs lost sales costs given the exponential demand distribution.",
+          "opt_params": {
+               "target": 389.93617047133034,
+               "demand_response": 0.0,
+               "lead_time_adjustment": 2.215550759547731
+          },
+          "cost": null,
+          "objective": 29590.6635,
+          "lower": 29016.10985,
+          "upper": 30172.47591,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Optimized parameters to better balance holding and lost-sales costs. Reduced base target while increasing demand responsiveness. Lowered lead-time adjustment to reduce over-reaction to lead time changes. The new parameters achieved better cost balance (39.41 holding vs 108.54 lost-sales previously).",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    target = 384.2026817361509  # OPT_PARAM: {\"initial\": 384.2026817361509, \"min\": 100.0, \"max\": 500.0, \"type\": \"float\"}\n    demand_response = 0.0  # OPT_PARAM: {\"initial\": 0.0, \"min\": 0.0, \"max\": 1.5, \"type\": \"float\"}\n    lead_time_adjustment = 1.4873372031472372  # OPT_PARAM: {\"initial\": 1.4873372031472372, \"min\": 0.0, \"max\": 50.0, \"type\": \"float\"}\n    \n    adjusted_target = target + demand_response * last_demand + lead_time_adjustment * (quoted_lead_time - 6)\n    inventory_position = on_hand_inventory + sum(pipeline_orders)\n    order_amount = max(0.0, adjusted_target - inventory_position)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Optimized parameters to better balance holding and lost-sales costs. Reduced base target while increasing demand responsiveness. Lowered lead-time adjustment to reduce over-reaction to lead time changes. The new parameters achieved better cost balance (39.41 holding vs 108.54 lost-sales previously).",
+          "opt_params": {
+               "target": 384.2026817361509,
+               "demand_response": 0.0,
+               "lead_time_adjustment": 1.4873372031472372
+          },
+          "cost": null,
+          "objective": 29591.5548,
+          "lower": 29026.95451,
+          "upper": 30181.50246,
+          "other_inf": null
+     },
+     {
+          "algorithm": "The original policy had excessive lost sales (108.24) compared to holding costs (39.71), indicating insufficient inventory. Reduced base target to 350 but increased demand response to 0.8 and lead time adjustment to 5.0 to be more responsive to demand fluctuations and lead time variations. This should better balance holding and lost sales costs.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    target = 384.2018128801894  # OPT_PARAM: {\"initial\": 384.2018128801894, \"min\": 100.0, \"max\": 500.0, \"type\": \"float\"}\n    demand_response = 0.0  # OPT_PARAM: {\"initial\": 0.0, \"min\": 0.0, \"max\": 1.5, \"type\": \"float\"}\n    lead_time_adjustment = 1.547995217781673  # OPT_PARAM: {\"initial\": 1.547995217781673, \"min\": 0.0, \"max\": 50.0, \"type\": \"float\"}\n    \n    adjusted_target = target + demand_response * last_demand + lead_time_adjustment * (quoted_lead_time - 6)\n    inventory_position = on_hand_inventory + sum(pipeline_orders)\n    order_amount = max(0.0, adjusted_target - inventory_position)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "The original policy had excessive lost sales (108.24) compared to holding costs (39.71), indicating insufficient inventory. Reduced base target to 350 but increased demand response to 0.8 and lead time adjustment to 5.0 to be more responsive to demand fluctuations and lead time variations. This should better balance holding and lost sales costs.",
+          "opt_params": {
+               "target": 384.2018128801894,
+               "demand_response": 0.0,
+               "lead_time_adjustment": 1.547995217781673
+          },
+          "cost": null,
+          "objective": 29591.63234,
+          "lower": 29024.66247,
+          "upper": 30181.65362,
+          "other_inf": null
+     }
+]

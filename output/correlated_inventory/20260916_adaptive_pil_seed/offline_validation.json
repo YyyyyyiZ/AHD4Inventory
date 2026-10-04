@@ -1,0 +1,32 @@
+{
+  "recorded_utc": "2026-09-16T14:55:15.329881+00:00",
+  "status": "passed",
+  "evidence": "Independent implementation agents executed these suites successfully before launch; no API calls. Seed fidelity is recorded separately.",
+  "tests": {
+    "test_adaptive_pil_seed.py": {
+      "passed": 5,
+      "sha256": "4a6c09a5c3ab042c59c28baeadc5a657caf0c8875ec9058cb0d65113764b63af"
+    },
+    "test_adaptive_pil_worker.py": {
+      "passed": 5,
+      "sha256": "322eafffdb58b24102a472bd84e90b76c1ab180d9b2a42a692810b51030f8b64"
+    },
+    "test_adaptive_pil_runner.py": {
+      "passed": 4,
+      "sha256": "48385762d6e8b311869c7d06e45d4440568b03169a6c53103fe7caa127633e65"
+    },
+    "test_adaptive_pil_report.py": {
+      "passed": 8,
+      "sha256": "566a5d6f3881b44b10261c16579bb54551cc31c4ef04065d1d3d2f8ee9608ddd"
+    }
+  },
+  "integration": {
+    "optimizer": "original SciPy L-BFGS-B",
+    "operator": "original m2",
+    "five_parameter_seed": true,
+    "six_parameter_candidates": true,
+    "elite_retained": true,
+    "resume_new_model_calls": 0,
+    "reject_17_of_18_holdout": true
+  }
+}

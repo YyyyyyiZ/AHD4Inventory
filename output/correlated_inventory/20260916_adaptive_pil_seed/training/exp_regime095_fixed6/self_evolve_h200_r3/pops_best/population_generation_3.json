@@ -1,0 +1,19 @@
+{
+     "algorithm": "Key changes: 1) Simplified parameter structure with fewer coefficients, 2) Added demand sensitivity to adjust base stock based on recent demand, 3) Reduced forecast gain to prevent overreaction to arrival mean fluctuations, 4) Tightened parameter bounds based on observed demand patterns, 5) Adjusted base stock and cap ratios to better handle demand spikes while maintaining inventory efficiency.",
+     "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    S_over_mean = 0.6296696103980012  # OPT_PARAM: {\"initial\": 0.6296696103980012, \"min\": 0.5, \"max\": 2.0, \"type\": \"float\"}\n    cap_over_mean = 2.5  # OPT_PARAM: {\"initial\": 2.5, \"min\": 1.0, \"max\": 4.0, \"type\": \"float\"}\n    forecast_gain = 0.6742278579240546  # OPT_PARAM: {\"initial\": 0.6742278579240546, \"min\": 0.0, \"max\": 2.0, \"type\": \"float\"}\n    inventory_gain = 1.422902384755258  # OPT_PARAM: {\"initial\": 1.422902384755258, \"min\": 0.5, \"max\": 1.5, \"type\": \"float\"}\n    demand_sensitivity = 0.81327341122932  # OPT_PARAM: {\"initial\": 0.81327341122932, \"min\": 0.0, \"max\": 1.0, \"type\": \"float\"}\n    \n    mean_demand = 100.0\n    arrival_mean = conditional_arrival_mean(last_demand, quoted_lead_time)\n    projected_inventory = conditional_projected_inventory(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time)\n    \n    # More aggressive response to demand fluctuations\n    adjusted_mean = mean_demand * (1 + demand_sensitivity * (last_demand - mean_demand)/mean_demand)\n    \n    target = max(0.0, adjusted_mean * S_over_mean + forecast_gain * (arrival_mean - adjusted_mean))\n    cap = max(0.0, adjusted_mean * cap_over_mean)\n    \n    order_amount = min(cap, max(0.0, target - inventory_gain * projected_inventory))\n    return order_amount\n",
+     "description": "",
+     "intuition": "",
+     "reasoning": "Key changes: 1) Simplified parameter structure with fewer coefficients, 2) Added demand sensitivity to adjust base stock based on recent demand, 3) Reduced forecast gain to prevent overreaction to arrival mean fluctuations, 4) Tightened parameter bounds based on observed demand patterns, 5) Adjusted base stock and cap ratios to better handle demand spikes while maintaining inventory efficiency.",
+     "opt_params": {
+          "S_over_mean": 0.6296696103980012,
+          "cap_over_mean": 2.5,
+          "forecast_gain": 0.6742278579240546,
+          "inventory_gain": 1.422902384755258,
+          "demand_sensitivity": 0.81327341122932
+     },
+     "cost": null,
+     "objective": 29623.66708,
+     "lower": 27992.43009,
+     "upper": 31349.28176,
+     "other_inf": null
+}

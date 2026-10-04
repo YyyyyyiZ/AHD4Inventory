@@ -1,0 +1,6 @@
+display,model,calls,prompt,completion,total,reasoning,cached,cache_write,cost,missing_cost,log
+DeepSeek V3-0324,deepseek/deepseek-chat-v3-0324,142,1594939,24647,1619586,0,1528512,0,0.25361341000000015,0,cost_measurements_noopt_20260708/deepseek__deepseek_chat_v3_0324/openrouter_usage.jsonl
+Gemini 2.5 Flash Lite,google/gemini-2.5-flash-lite,100,1545260,106472,1651732,0,1223984,0,0.08695623999999996,0,cost_measurements_noopt_20260708/google__gemini_2_5_flash_lite/openrouter_usage.jsonl
+Gemini 3 Flash Preview,google/gemini-3-flash-preview,100,1556140,50765,1606905,0,944251,0,0.50545205,0,cost_measurements_noopt_20260708/google__gemini_3_flash_preview/openrouter_usage.jsonl
+GPT-5 Mini,openai/gpt-5-mini,101,1144296,126924,1271220,102784,1073664,0,0.2983476000000001,0,cost_measurements_noopt_20260708/openai__gpt_5_mini/openrouter_usage.jsonl
+GPT-5 Nano,openai/gpt-5-nano,100,1136660,230446,1367106,205056,1079680,0,0.10042579999999998,0,cost_measurements_noopt_20260708/openai__gpt_5_nano/openrouter_usage.jsonl

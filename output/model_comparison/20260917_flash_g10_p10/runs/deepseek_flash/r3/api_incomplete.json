@@ -1,0 +1,24 @@
+{
+  "status": "incomplete_api_failure",
+  "opportunity": {
+    "slug": "deepseek_flash",
+    "repeat": 3,
+    "candidate": 22
+  },
+  "reason": "Request failed; repetition is incomplete and this opportunity will not be resent",
+  "error_type": "ClientError",
+  "ledger_attempts": [
+    {
+      "request_id": "3745ccd6f1284d7585ae153c089fa5f4",
+      "state": "unknown_charge",
+      "reserved_usd": "0.087440100000",
+      "actual_cost_usd": null,
+      "estimated_upper_usd": null,
+      "http_status": null,
+      "error_type": "TimeoutError"
+    }
+  ],
+  "automatic_retry_allowed": false,
+  "blocks_repetition": true,
+  "recorded_utc": "2026-09-17T16:11:45.213743+00:00"
+}

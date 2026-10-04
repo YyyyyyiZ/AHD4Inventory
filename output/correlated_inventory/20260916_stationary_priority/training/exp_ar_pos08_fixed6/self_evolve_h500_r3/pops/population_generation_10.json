@@ -1,0 +1,182 @@
+[
+     {
+          "algorithm": "Increased base_target and demand_response to better handle high-demand periods while adjusting inventory and pipeline weights to maintain better balance between holding and lost-sales costs. The parameters were tuned to reduce the high lost-sales cost observed in the training performance while keeping holding costs reasonable.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 61.00926882074305  # OPT_PARAM: {\"initial\": 61.00926882074305, \"min\": 50.0, \"max\": 120.0, \"type\": \"float\"}\n    demand_response = 0.15049617067344262  # OPT_PARAM: {\"initial\": 0.15049617067344262, \"min\": 0.1, \"max\": 0.4, \"type\": \"float\"}\n    inventory_weight = 0.3  # OPT_PARAM: {\"initial\": 0.3, \"min\": 0.3, \"max\": 0.5, \"type\": \"float\"}\n    pipeline_weight = 0.18961198282493966  # OPT_PARAM: {\"initial\": 0.18961198282493966, \"min\": 0.1, \"max\": 0.3, \"type\": \"float\"}\n    \n    adjusted_target = base_target + demand_response * last_demand\n    order_amount = max(0.0, adjusted_target - inventory_weight * on_hand_inventory - pipeline_weight * sum(pipeline_orders))\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base_target and demand_response to better handle high-demand periods while adjusting inventory and pipeline weights to maintain better balance between holding and lost-sales costs. The parameters were tuned to reduce the high lost-sales cost observed in the training performance while keeping holding costs reasonable.",
+          "opt_params": {
+               "base_target": 61.00926882074305,
+               "demand_response": 0.15049617067344262,
+               "inventory_weight": 0.3,
+               "pipeline_weight": 0.18961198282493966
+          },
+          "cost": null,
+          "objective": 81639.85246,
+          "lower": 79093.61718,
+          "upper": 84177.36333,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base_target to account for higher expected demand, boosted demand_response to react more aggressively to recent demand, adjusted inventory_weight to better balance holding costs, and reduced pipeline_weight since the lead time is fixed at 6 periods. These changes aim to reduce lost sales while keeping holding costs manageable.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 56.17832319137338  # OPT_PARAM: {\"initial\": 56.17832319137338, \"min\": 50.0, \"max\": 120.0, \"type\": \"float\"}\n    demand_response = 0.2  # OPT_PARAM: {\"initial\": 0.2, \"min\": 0.1, \"max\": 0.5, \"type\": \"float\"}\n    inventory_weight = 0.3  # OPT_PARAM: {\"initial\": 0.3, \"min\": 0.3, \"max\": 0.6, \"type\": \"float\"}\n    pipeline_weight = 0.2  # OPT_PARAM: {\"initial\": 0.2, \"min\": 0.05, \"max\": 0.2, \"type\": \"float\"}\n    \n    adjusted_target = base_target + demand_response * last_demand\n    order_amount = max(0.0, adjusted_target - inventory_weight * on_hand_inventory - pipeline_weight * sum(pipeline_orders))\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base_target to account for higher expected demand, boosted demand_response to react more aggressively to recent demand, adjusted inventory_weight to better balance holding costs, and reduced pipeline_weight since the lead time is fixed at 6 periods. These changes aim to reduce lost sales while keeping holding costs manageable.",
+          "opt_params": {
+               "base_target": 56.17832319137338,
+               "demand_response": 0.2,
+               "inventory_weight": 0.3,
+               "pipeline_weight": 0.2
+          },
+          "cost": null,
+          "objective": 81642.36851,
+          "lower": 79118.41948,
+          "upper": 84225.95781,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base_target and demand_response to better match demand spikes, adjusted weights to better balance inventory and pipeline considerations based on the high lost sales cost. The changes aim to reduce the lost sales while keeping holding costs manageable.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 57.63288201171503  # OPT_PARAM: {\"initial\": 57.63288201171503, \"min\": 20.0, \"max\": 150.0, \"type\": \"float\"}\n    demand_response = 0.13355662653009412  # OPT_PARAM: {\"initial\": 0.13355662653009412, \"min\": 0.05, \"max\": 0.5, \"type\": \"float\"}\n    inventory_weight = 0.295365053174806  # OPT_PARAM: {\"initial\": 0.295365053174806, \"min\": 0.2, \"max\": 0.8, \"type\": \"float\"}\n    pipeline_weight = 0.1622699243839357  # OPT_PARAM: {\"initial\": 0.1622699243839357, \"min\": 0.05, \"max\": 0.4, \"type\": \"float\"}\n    \n    adjusted_target = base_target + demand_response * last_demand\n    order_amount = max(0.0, adjusted_target - inventory_weight * on_hand_inventory - pipeline_weight * sum(pipeline_orders))\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base_target and demand_response to better match demand spikes, adjusted weights to better balance inventory and pipeline considerations based on the high lost sales cost. The changes aim to reduce the lost sales while keeping holding costs manageable.",
+          "opt_params": {
+               "base_target": 57.63288201171503,
+               "demand_response": 0.13355662653009412,
+               "inventory_weight": 0.295365053174806,
+               "pipeline_weight": 0.1622699243839357
+          },
+          "cost": null,
+          "objective": 81646.20123,
+          "lower": 79105.40427,
+          "upper": 84197.82262,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base_target and demand_response to better match demand spikes, adjusted inventory_weight and pipeline_weight for more balanced inventory control. The higher demand_response helps track the autocorrelated demand patterns better.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 60.0  # OPT_PARAM: {\"initial\": 60.0, \"min\": 60.0, \"max\": 120.0, \"type\": \"float\"}\n    demand_response = 0.2  # OPT_PARAM: {\"initial\": 0.2, \"min\": 0.2, \"max\": 0.5, \"type\": \"float\"}\n    inventory_weight = 0.3  # OPT_PARAM: {\"initial\": 0.3, \"min\": 0.3, \"max\": 0.5, \"type\": \"float\"}\n    pipeline_weight = 0.19999999999999998  # OPT_PARAM: {\"initial\": 0.19999999999999998, \"min\": 0.1, \"max\": 0.3, \"type\": \"float\"}\n    \n    adjusted_target = base_target + demand_response * last_demand\n    order_amount = max(0.0, adjusted_target - inventory_weight * on_hand_inventory - pipeline_weight * sum(pipeline_orders))\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base_target and demand_response to better match demand spikes, adjusted inventory_weight and pipeline_weight for more balanced inventory control. The higher demand_response helps track the autocorrelated demand patterns better.",
+          "opt_params": {
+               "base_target": 60.0,
+               "demand_response": 0.2,
+               "inventory_weight": 0.3,
+               "pipeline_weight": 0.19999999999999998
+          },
+          "cost": null,
+          "objective": 81657.2374,
+          "lower": 79199.18584,
+          "upper": 84204.63757,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base_target to match demand mean, raised demand_response to better account for demand autocorrelation, and adjusted inventory/pipeline weights to balance holding and lost-sales costs.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 63.04188929809031  # OPT_PARAM: {\"initial\": 63.04188929809031, \"min\": 50.0, \"max\": 300.0, \"type\": \"float\"}\n    demand_response = 0.1357222479417497  # OPT_PARAM: {\"initial\": 0.1357222479417497, \"min\": 0.1, \"max\": 1.5, \"type\": \"float\"}\n    inventory_weight = 0.33562710486514824  # OPT_PARAM: {\"initial\": 0.33562710486514824, \"min\": 0.1, \"max\": 1.0, \"type\": \"float\"}\n    pipeline_weight = 0.1764564275858671  # OPT_PARAM: {\"initial\": 0.1764564275858671, \"min\": 0.1, \"max\": 1.0, \"type\": \"float\"}\n    \n    adjusted_target = base_target + demand_response * last_demand\n    order_amount = max(0.0, adjusted_target - inventory_weight * on_hand_inventory - pipeline_weight * sum(pipeline_orders))\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base_target to match demand mean, raised demand_response to better account for demand autocorrelation, and adjusted inventory/pipeline weights to balance holding and lost-sales costs.",
+          "opt_params": {
+               "base_target": 63.04188929809031,
+               "demand_response": 0.1357222479417497,
+               "inventory_weight": 0.33562710486514824,
+               "pipeline_weight": 0.1764564275858671
+          },
+          "cost": null,
+          "objective": 81695.82055,
+          "lower": 79172.48537,
+          "upper": 84230.32743,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base_target and demand_response to better match the demand distribution while adjusting inventory and pipeline weights to balance holding and lost-sales costs. The changes aim to reduce the high lost-sales cost observed in the training performance.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 63.67616243649962  # OPT_PARAM: {\"initial\": 63.67616243649962, \"min\": 50.0, \"max\": 300.0, \"type\": \"float\"}\n    demand_response = 0.1718534501206449  # OPT_PARAM: {\"initial\": 0.1718534501206449, \"min\": 0.1, \"max\": 1.5, \"type\": \"float\"}\n    inventory_weight = 0.27410431198408114  # OPT_PARAM: {\"initial\": 0.27410431198408114, \"min\": 0.1, \"max\": 1.0, \"type\": \"float\"}\n    pipeline_weight = 0.2093861977903931  # OPT_PARAM: {\"initial\": 0.2093861977903931, \"min\": 0.1, \"max\": 1.0, \"type\": \"float\"}\n    \n    adjusted_target = base_target + demand_response * last_demand\n    order_amount = max(0.0, adjusted_target - inventory_weight * on_hand_inventory - pipeline_weight * sum(pipeline_orders))\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base_target and demand_response to better match the demand distribution while adjusting inventory and pipeline weights to balance holding and lost-sales costs. The changes aim to reduce the high lost-sales cost observed in the training performance.",
+          "opt_params": {
+               "base_target": 63.67616243649962,
+               "demand_response": 0.1718534501206449,
+               "inventory_weight": 0.27410431198408114,
+               "pipeline_weight": 0.2093861977903931
+          },
+          "cost": null,
+          "objective": 81707.99124,
+          "lower": 79275.29751,
+          "upper": 84216.78883,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base_target and demand_response to better match demand spikes while adjusting inventory and pipeline weights for better balance. The changes aim to reduce lost sales (currently high at 138.61) while keeping holding costs reasonable. The more aggressive demand response helps anticipate demand persistence.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 66.36036673705513  # OPT_PARAM: {\"initial\": 66.36036673705513, \"min\": 60.0, \"max\": 100.0, \"type\": \"float\"}\n    demand_response = 0.1666294546582823  # OPT_PARAM: {\"initial\": 0.1666294546582823, \"min\": 0.15, \"max\": 0.35, \"type\": \"float\"}\n    inventory_weight = 0.3  # OPT_PARAM: {\"initial\": 0.3, \"min\": 0.3, \"max\": 0.5, \"type\": \"float\"}\n    pipeline_weight = 0.25  # OPT_PARAM: {\"initial\": 0.25, \"min\": 0.15, \"max\": 0.25, \"type\": \"float\"}\n    \n    adjusted_target = base_target + demand_response * last_demand\n    order_amount = max(0.0, adjusted_target - inventory_weight * on_hand_inventory - pipeline_weight * sum(pipeline_orders))\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base_target and demand_response to better match demand spikes while adjusting inventory and pipeline weights for better balance. The changes aim to reduce lost sales (currently high at 138.61) while keeping holding costs reasonable. The more aggressive demand response helps anticipate demand persistence.",
+          "opt_params": {
+               "base_target": 66.36036673705513,
+               "demand_response": 0.1666294546582823,
+               "inventory_weight": 0.3,
+               "pipeline_weight": 0.25
+          },
+          "cost": null,
+          "objective": 81719.23871,
+          "lower": 79167.75433,
+          "upper": 84313.26466,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base_target and demand_response to better handle the high lost-sales costs, while adjusting inventory and pipeline weights for better balance. The changes aim to reduce the high lost-sales costs observed in training while maintaining reasonable holding costs.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 67.76806280236416  # OPT_PARAM: {\"initial\": 67.76806280236416, \"min\": 50.0, \"max\": 120.0, \"type\": \"float\"}\n    demand_response = 0.13362928262105958  # OPT_PARAM: {\"initial\": 0.13362928262105958, \"min\": 0.1, \"max\": 0.4, \"type\": \"float\"}\n    inventory_weight = 0.3358305045911694  # OPT_PARAM: {\"initial\": 0.3358305045911694, \"min\": 0.2, \"max\": 0.5, \"type\": \"float\"}\n    pipeline_weight = 0.21406909392650145  # OPT_PARAM: {\"initial\": 0.21406909392650145, \"min\": 0.05, \"max\": 0.25, \"type\": \"float\"}\n    \n    adjusted_target = base_target + demand_response * last_demand\n    order_amount = max(0.0, adjusted_target - inventory_weight * on_hand_inventory - pipeline_weight * sum(pipeline_orders))\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base_target and demand_response to better handle the high lost-sales costs, while adjusting inventory and pipeline weights for better balance. The changes aim to reduce the high lost-sales costs observed in training while maintaining reasonable holding costs.",
+          "opt_params": {
+               "base_target": 67.76806280236416,
+               "demand_response": 0.13362928262105958,
+               "inventory_weight": 0.3358305045911694,
+               "pipeline_weight": 0.21406909392650145
+          },
+          "cost": null,
+          "objective": 81721.88329,
+          "lower": 79188.54096,
+          "upper": 84270.71123,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base_target and demand_response to better match demand autocorrelation, while adjusting weights to balance inventory and pipeline. The higher demand_response (0.8 vs 0.127) better captures the strong positive autocorrelation in demand (0.769 at lag 1).",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 64.93990548513844  # OPT_PARAM: {\"initial\": 64.93990548513844, \"min\": 50.0, \"max\": 300.0, \"type\": \"float\"}\n    demand_response = 0.16945666530460324  # OPT_PARAM: {\"initial\": 0.16945666530460324, \"min\": 0.1, \"max\": 1.5, \"type\": \"float\"}\n    inventory_weight = 0.27830815338879195  # OPT_PARAM: {\"initial\": 0.27830815338879195, \"min\": 0.1, \"max\": 1.0, \"type\": \"float\"}\n    pipeline_weight = 0.2135976655621341  # OPT_PARAM: {\"initial\": 0.2135976655621341, \"min\": 0.1, \"max\": 1.0, \"type\": \"float\"}\n    \n    adjusted_target = base_target + demand_response * last_demand\n    order_amount = max(0.0, adjusted_target - inventory_weight * on_hand_inventory - pipeline_weight * sum(pipeline_orders))\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base_target and demand_response to better match demand autocorrelation, while adjusting weights to balance inventory and pipeline. The higher demand_response (0.8 vs 0.127) better captures the strong positive autocorrelation in demand (0.769 at lag 1).",
+          "opt_params": {
+               "base_target": 64.93990548513844,
+               "demand_response": 0.16945666530460324,
+               "inventory_weight": 0.27830815338879195,
+               "pipeline_weight": 0.2135976655621341
+          },
+          "cost": null,
+          "objective": 81722.40616,
+          "lower": 79281.57028,
+          "upper": 84217.18513,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base_target to match demand mean, adjusted demand_response to better capture demand autocorrelation, and tuned inventory/pipeline weights to balance holding and lost-sales costs.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 58.49969699171057  # OPT_PARAM: {\"initial\": 58.49969699171057, \"min\": 50.0, \"max\": 300.0, \"type\": \"float\"}\n    demand_response = 0.12709318977890688  # OPT_PARAM: {\"initial\": 0.12709318977890688, \"min\": 0.1, \"max\": 1.5, \"type\": \"float\"}\n    inventory_weight = 0.2865908725472253  # OPT_PARAM: {\"initial\": 0.2865908725472253, \"min\": 0.1, \"max\": 1.0, \"type\": \"float\"}\n    pipeline_weight = 0.142826082438674  # OPT_PARAM: {\"initial\": 0.142826082438674, \"min\": 0.1, \"max\": 1.0, \"type\": \"float\"}\n    \n    adjusted_target = base_target + demand_response * last_demand\n    order_amount = max(0.0, adjusted_target - inventory_weight * on_hand_inventory - pipeline_weight * sum(pipeline_orders))\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base_target to match demand mean, adjusted demand_response to better capture demand autocorrelation, and tuned inventory/pipeline weights to balance holding and lost-sales costs.",
+          "opt_params": {
+               "base_target": 58.49969699171057,
+               "demand_response": 0.12709318977890688,
+               "inventory_weight": 0.2865908725472253,
+               "pipeline_weight": 0.142826082438674
+          },
+          "cost": null,
+          "objective": 81732.54053,
+          "lower": 79254.68538,
+          "upper": 84229.69391,
+          "other_inf": null
+     }
+]

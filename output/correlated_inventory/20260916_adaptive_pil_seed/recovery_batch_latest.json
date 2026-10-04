@@ -1,0 +1,16 @@
+{
+  "started_utc": "2026-09-16T15:47:45.567916+00:00",
+  "pid": 21664,
+  "caffeinate_pid": 21665,
+  "workers": 2,
+  "folder": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_adaptive_pil_seed/recovery_jobs/20260916T154745Z",
+  "scenarios": [
+    "exp_iid_fixed6",
+    "exp_ar_pos08_fixed6",
+    "exp_ar_neg06_fixed6",
+    "exp_regime095_fixed6"
+  ],
+  "repeat": 1,
+  "main_controller_pid": 11858,
+  "reason": "Resume only the four independently audited and reconciled failed chains from exact saved slots; the original controller continues other chains."
+}

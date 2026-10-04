@@ -1,0 +1,69 @@
+Design a reusable algorithm for the following CLASS of perishable inventory problems.
+You receive the mathematical model and broad parameter ranges, not the target evaluation instance list.
+Return Python source defining design(params), which returns a stationary order function policy(age,pipeline).
+Choose any algorithmic representation or parameter count. Your task is to minimize expected long-run cost.
+
+MODEL AND OBSERVATIONS
+One product has integer inventory. At a decision epoch, age is a length-m int64 array ordered by
+remaining shelf life 1,2,...,m, and already includes today's receipts. pipeline is length L-1:
+pipeline[k-1] is old quantity arriving k periods from now. Decide a nonnegative order q;
+it arrives L periods later, with m usable periods of fresh shelf life. There are no clocks,
+future-demand observations, episode indexes, or persistent policy memory. Use only current state and fixed params.
+The simulator projects every method's action identically: first max(0, q), then clip to
+max(0, cap - sum(age) - sum(pipeline)), then round with numpy.rint (half to even).
+Thus cap constrains current inventory POSITION, not just the amount ordered or the on-hand stock.
+
+After ordering, two independent demands are realized. Serve the FIFO group first using oldest stock first;
+then serve the LIFO group using freshest stock first. Unmet demand is lost. Any remaining stock with one
+usable period expires. The surviving stock ages one period; the next period's due orders then arrive fresh.
+The per-period cost is w*(expired units) + p*(lost units) + h*(surviving units). No purchasing or fixed order costs.
+
+DEMAND LAW (exact known distribution, not just moment information)
+Total demand mean is mean, its standard deviation is cv*mean; cv is the ordinary coefficient of variation.
+FIFO and LIFO demands are INDEPENDENT nonnegative-integer two-moment Adan--van Eenige--Resing distributions.
+FIFO mean = f*mean, variance = f*(cv*mean)^2. LIFO mean = (1-f)*mean, variance = (1-f)*(cv*mean)^2.
+These are not binomial shares of one sampled total demand and need not be a single negative-binomial law.
+The preloaded _aer_components and aer_pmf implement the exact distribution; sample_demands samples it.
+Across periods all demands are independent. No law needs to be estimated.
+cap is the smallest integer q whose cumulative probability under the sum of (m+L) iid TOTAL demands
+is at least p/(p+w), computed by the supplied inventory_cap. It is not a high-percentile safety limit.
+
+PARAMETERS
+The problem class has shelf life m in {3,4,5}, lead time L=2, mean=4,
+ordinary demand CV cv in {1.5,2}, FIFO fraction f in {0,0.5}, h=0, p=100, w=100,
+with demand_mode='paper_cv', cap_mode='paper'. These family specifications are common to all approaches.
+It may also contain name, actual_cv, and inventory_cap for reporting; ignore additional reporting keys.
+This is an explicitly specified extension of the Baek L2 design protocol to perishable inventory.
+
+COMMON TRUSTED COMPUTATION PROVIDED TO EVERY TOOL CALL AND FINAL DESIGN
+The following helpers are already loaded, with no access to any validation/test demands:
+  Scenario(name,m,L,cv,f,mean=4,h=0,p=100,w=100,demand_mode='paper_cv',cap_mode='paper')
+  scenario_from_params(params) -> Scenario
+  _aer_components(mean,sd) -> (mixture weight, SciPy discrete distribution) pairs
+  aer_pmf(mean,sd) -> NumPy probability mass array, tail below 1e-13 numerically removed
+  inventory_cap(scenario) -> int; sample_demands(scenario,npaths,periods,seed) -> [npaths,periods,2] integer array
+  evaluate_python(scenario,demands,policy,burnin=200) -> (per_path_cost_per_period,per_path_[waste,lost,order])
+  training_demands(params) -> common training sample, 8 paths of 200+512 periods, seed=17091001
+  simulate(policy,params,demands=None,npaths=8,burnin=200,horizon=512,seed=17091001)
+      -> dict(mean_cost,path_costs,components,backend); arbitrary policy(age,pipeline) accepted.
+  evaluate(scenario,demands,numba_policy,theta,burnin=200) -> same arrays as evaluate_python.
+      For this fast parameterized helper only: numba_policy(age,pipeline,theta,mu,cv,f,L) returns scalar q.
+  optimize(objective,bounds,initial,budget=256,seed=1) -> dict(theta,cost,nfev,seconds).
+      This is the same 256-evaluation, 16-population differential-evolution helper available to the competing workflow.
+You may use or replace these helpers; they do not constrain your final algorithm. numpy as np, scipy, numba.njit,
+and Python standard libraries are available. TRUSTED_BENCHMARK_SOURCE contains full helper source for inspection.
+Numba acceleration and shared simulator/optimizer access are explicit favorable adaptations to the original protocol.
+Simulation begins empty with ordinary demand during an unscored burn-in. Default training uses 200 burn-in +512
+scored periods on 8 paths; independent evaluation uses longer trajectories. You may generate your own samples.
+No zero-demand stocking periods and no terminal salvage value are used.
+
+COMPUTATION BUDGET
+You have 3,600 seconds cumulative run_python execution across at most 50 calls, shared across all development
+and experiments in this session. Each call is a fresh process: re-define your own variables/functions each time;
+the trusted helpers are reloaded automatically. Test and revise any approach within this budget.
+Final design(params) may do instance-specific computation, including simulation and optimization. Aim to finish
+within 30 seconds per instance; a 600-second hang guard is used and actual setup time is recorded.
+The returned policy(age,pipeline) must be lightweight, deterministic, and stationary. It must not invoke an LLM,
+read files, use networking, or access future demand. Helper functions, arbitrary fixed tables, NumPy, SciPy and
+Numba are allowed; there is no numerical-parameter-count limit. Final helpers provided above remain available.
+Return your final complete source in one Python code block, defining design(params). No prose after the code.

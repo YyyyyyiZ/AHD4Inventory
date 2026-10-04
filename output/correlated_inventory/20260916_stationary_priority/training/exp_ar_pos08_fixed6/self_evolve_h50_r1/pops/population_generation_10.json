@@ -1,0 +1,182 @@
+[
+     {
+          "algorithm": "Reduced base_target to lower holding costs, increased demand_response to better react to demand surges, set inventory_coverage to 1.0 for full inventory consideration, and reduced pipeline_coverage to lessen over-ordering from pipeline.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 117.53287059636646  # OPT_PARAM: {\"initial\": 117.53287059636646, \"min\": 50.0, \"max\": 200.0, \"type\": \"float\"}\n    demand_response = 0.16091018470609797  # OPT_PARAM: {\"initial\": 0.16091018470609797, \"min\": 0.1, \"max\": 1.5, \"type\": \"float\"}\n    inventory_coverage = 0.5  # OPT_PARAM: {\"initial\": 0.5, \"min\": 0.5, \"max\": 2.0, \"type\": \"float\"}\n    pipeline_coverage = 0.47012324492030344  # OPT_PARAM: {\"initial\": 0.47012324492030344, \"min\": 0.1, \"max\": 1.5, \"type\": \"float\"}\n    \n    adjusted_target = base_target + demand_response * last_demand\n    total_coverage = on_hand_inventory * inventory_coverage + np.sum(pipeline_orders) * pipeline_coverage\n    order_amount = max(0.0, adjusted_target - total_coverage)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Reduced base_target to lower holding costs, increased demand_response to better react to demand surges, set inventory_coverage to 1.0 for full inventory consideration, and reduced pipeline_coverage to lessen over-ordering from pipeline.",
+          "opt_params": {
+               "base_target": 117.53287059636646,
+               "demand_response": 0.16091018470609797,
+               "inventory_coverage": 0.5,
+               "pipeline_coverage": 0.47012324492030344
+          },
+          "cost": null,
+          "objective": 8027.3698,
+          "lower": 7175.12426,
+          "upper": 9006.46598,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base_target and demand_response to better handle high demand periods while reducing pipeline_coverage and adjusting inventory_coverage to balance holding and lost-sales costs. The parameters were tuned to reduce the significant lost-sales costs observed in the training performance while maintaining reasonable holding costs.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 111.00126547916692  # OPT_PARAM: {\"initial\": 111.00126547916692, \"min\": 100.0, \"max\": 180.0, \"type\": \"float\"}\n    demand_response = 0.2  # OPT_PARAM: {\"initial\": 0.2, \"min\": 0.2, \"max\": 0.8, \"type\": \"float\"}\n    inventory_coverage = 0.5  # OPT_PARAM: {\"initial\": 0.5, \"min\": 0.5, \"max\": 1.0, \"type\": \"float\"}\n    pipeline_coverage = 0.5  # OPT_PARAM: {\"initial\": 0.5, \"min\": 0.2, \"max\": 0.5, \"type\": \"float\"}\n    \n    adjusted_target = base_target + demand_response * last_demand\n    total_coverage = on_hand_inventory * inventory_coverage + np.sum(pipeline_orders) * pipeline_coverage\n    order_amount = max(0.0, adjusted_target - total_coverage)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base_target and demand_response to better handle high demand periods while reducing pipeline_coverage and adjusting inventory_coverage to balance holding and lost-sales costs. The parameters were tuned to reduce the significant lost-sales costs observed in the training performance while maintaining reasonable holding costs.",
+          "opt_params": {
+               "base_target": 111.00126547916692,
+               "demand_response": 0.2,
+               "inventory_coverage": 0.5,
+               "pipeline_coverage": 0.5
+          },
+          "cost": null,
+          "objective": 8034.90778,
+          "lower": 7150.28146,
+          "upper": 9032.83758,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base_target and demand_response to better handle high-demand periods while reducing pipeline_coverage to avoid over-ordering. Adjusted inventory_coverage to keep more stock on hand to prevent lost sales. The parameters were optimized to balance holding costs and lost sales costs given the demand autocorrelation.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 111.01150630416741  # OPT_PARAM: {\"initial\": 111.01150630416741, \"min\": 100.0, \"max\": 200.0, \"type\": \"float\"}\n    demand_response = 0.2  # OPT_PARAM: {\"initial\": 0.2, \"min\": 0.2, \"max\": 0.5, \"type\": \"float\"}\n    inventory_coverage = 0.5  # OPT_PARAM: {\"initial\": 0.5, \"min\": 0.5, \"max\": 1.0, \"type\": \"float\"}\n    pipeline_coverage = 0.5  # OPT_PARAM: {\"initial\": 0.5, \"min\": 0.1, \"max\": 0.5, \"type\": \"float\"}\n    \n    adjusted_target = base_target + demand_response * last_demand\n    total_coverage = on_hand_inventory * inventory_coverage + np.sum(pipeline_orders) * pipeline_coverage\n    order_amount = max(0.0, adjusted_target - total_coverage)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base_target and demand_response to better handle high-demand periods while reducing pipeline_coverage to avoid over-ordering. Adjusted inventory_coverage to keep more stock on hand to prevent lost sales. The parameters were optimized to balance holding costs and lost sales costs given the demand autocorrelation.",
+          "opt_params": {
+               "base_target": 111.01150630416741,
+               "demand_response": 0.2,
+               "inventory_coverage": 0.5,
+               "pipeline_coverage": 0.5
+          },
+          "cost": null,
+          "objective": 8034.90791,
+          "lower": 7150.33716,
+          "upper": 9032.80973,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base_target to better handle high demand periods, adjusted demand_response to be more sensitive to recent demand, and rebalanced coverage factors to reduce lost sales while maintaining reasonable holding costs.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 112.10602369770479  # OPT_PARAM: {\"initial\": 112.10602369770479, \"min\": 100.0, \"max\": 180.0, \"type\": \"float\"}\n    demand_response = 0.2  # OPT_PARAM: {\"initial\": 0.2, \"min\": 0.2, \"max\": 0.6, \"type\": \"float\"}\n    inventory_coverage = 0.5  # OPT_PARAM: {\"initial\": 0.5, \"min\": 0.5, \"max\": 1.2, \"type\": \"float\"}\n    pipeline_coverage = 0.5  # OPT_PARAM: {\"initial\": 0.5, \"min\": 0.1, \"max\": 0.5, \"type\": \"float\"}\n    \n    adjusted_target = base_target + demand_response * last_demand\n    total_coverage = on_hand_inventory * inventory_coverage + np.sum(pipeline_orders) * pipeline_coverage\n    order_amount = max(0.0, adjusted_target - total_coverage)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base_target to better handle high demand periods, adjusted demand_response to be more sensitive to recent demand, and rebalanced coverage factors to reduce lost sales while maintaining reasonable holding costs.",
+          "opt_params": {
+               "base_target": 112.10602369770479,
+               "demand_response": 0.2,
+               "inventory_coverage": 0.5,
+               "pipeline_coverage": 0.5
+          },
+          "cost": null,
+          "objective": 8034.98504,
+          "lower": 7156.40066,
+          "upper": 9029.8973,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base_target and demand_response to better handle the high lost-sales costs, while reducing pipeline_coverage to account for order overtaking. Adjusted inventory_coverage to balance holding and lost-sales costs. The new parameters reflect the demand autocorrelation and higher variance in the training data.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 117.0735335508785  # OPT_PARAM: {\"initial\": 117.0735335508785, \"min\": 80.0, \"max\": 180.0, \"type\": \"float\"}\n    demand_response = 0.11502578883420828  # OPT_PARAM: {\"initial\": 0.11502578883420828, \"min\": 0.1, \"max\": 0.5, \"type\": \"float\"}\n    inventory_coverage = 0.5  # OPT_PARAM: {\"initial\": 0.5, \"min\": 0.5, \"max\": 1.0, \"type\": \"float\"}\n    pipeline_coverage = 0.4950918557538888  # OPT_PARAM: {\"initial\": 0.4950918557538888, \"min\": 0.1, \"max\": 0.5, \"type\": \"float\"}\n    \n    adjusted_target = base_target + demand_response * last_demand\n    total_coverage = on_hand_inventory * inventory_coverage + np.sum(pipeline_orders) * pipeline_coverage\n    order_amount = max(0.0, adjusted_target - total_coverage)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base_target and demand_response to better handle the high lost-sales costs, while reducing pipeline_coverage to account for order overtaking. Adjusted inventory_coverage to balance holding and lost-sales costs. The new parameters reflect the demand autocorrelation and higher variance in the training data.",
+          "opt_params": {
+               "base_target": 117.0735335508785,
+               "demand_response": 0.11502578883420828,
+               "inventory_coverage": 0.5,
+               "pipeline_coverage": 0.4950918557538888
+          },
+          "cost": null,
+          "objective": 8043.65325,
+          "lower": 7163.2429,
+          "upper": 9063.64125,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base_target to better handle average demand, reduced demand_response to be less reactive to spikes, increased inventory_coverage to maintain more safety stock, and decreased pipeline_coverage to rely more on current inventory. These changes aim to reduce lost sales while controlling holding costs.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 120.43455877285065  # OPT_PARAM: {\"initial\": 120.43455877285065, \"min\": 80.0, \"max\": 200.0, \"type\": \"float\"}\n    demand_response = 0.1147237843256364  # OPT_PARAM: {\"initial\": 0.1147237843256364, \"min\": 0.1, \"max\": 0.5, \"type\": \"float\"}\n    inventory_coverage = 0.5  # OPT_PARAM: {\"initial\": 0.5, \"min\": 0.5, \"max\": 1.5, \"type\": \"float\"}\n    pipeline_coverage = 0.5  # OPT_PARAM: {\"initial\": 0.5, \"min\": 0.1, \"max\": 0.5, \"type\": \"float\"}\n    \n    adjusted_target = base_target + demand_response * last_demand\n    total_coverage = on_hand_inventory * inventory_coverage + np.sum(pipeline_orders) * pipeline_coverage\n    order_amount = max(0.0, adjusted_target - total_coverage)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base_target to better handle average demand, reduced demand_response to be less reactive to spikes, increased inventory_coverage to maintain more safety stock, and decreased pipeline_coverage to rely more on current inventory. These changes aim to reduce lost sales while controlling holding costs.",
+          "opt_params": {
+               "base_target": 120.43455877285065,
+               "demand_response": 0.1147237843256364,
+               "inventory_coverage": 0.5,
+               "pipeline_coverage": 0.5
+          },
+          "cost": null,
+          "objective": 8044.72222,
+          "lower": 7174.14475,
+          "upper": 9058.6025,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base_target and demand_response to better handle high demand periods, adjusted coverage factors to better balance inventory and pipeline coverage given the demand correlation structure. The changes aim to reduce lost sales while controlling holding costs.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 118.99956248931159  # OPT_PARAM: {\"initial\": 118.99956248931159, \"min\": 100.0, \"max\": 200.0, \"type\": \"float\"}\n    demand_response = 0.11320329144920685  # OPT_PARAM: {\"initial\": 0.11320329144920685, \"min\": 0.1, \"max\": 0.8, \"type\": \"float\"}\n    inventory_coverage = 0.5  # OPT_PARAM: {\"initial\": 0.5, \"min\": 0.5, \"max\": 2.0, \"type\": \"float\"}\n    pipeline_coverage = 0.5  # OPT_PARAM: {\"initial\": 0.5, \"min\": 0.5, \"max\": 1.0, \"type\": \"float\"}\n    \n    adjusted_target = base_target + demand_response * last_demand\n    total_coverage = on_hand_inventory * inventory_coverage + np.sum(pipeline_orders) * pipeline_coverage\n    order_amount = max(0.0, adjusted_target - total_coverage)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base_target and demand_response to better handle high demand periods, adjusted coverage factors to better balance inventory and pipeline coverage given the demand correlation structure. The changes aim to reduce lost sales while controlling holding costs.",
+          "opt_params": {
+               "base_target": 118.99956248931159,
+               "demand_response": 0.11320329144920685,
+               "inventory_coverage": 0.5,
+               "pipeline_coverage": 0.5
+          },
+          "cost": null,
+          "objective": 8045.57898,
+          "lower": 7169.80142,
+          "upper": 9064.42724,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base_target and adjusted parameters to better handle demand spikes while reducing lost sales. Higher inventory_coverage helps maintain stock during high demand periods, while lower pipeline_coverage prevents over-ordering from future arrivals. The increased demand_response makes the policy more reactive to recent demand changes.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 121.88254191298063  # OPT_PARAM: {\"initial\": 121.88254191298063, \"min\": 100.0, \"max\": 250.0, \"type\": \"float\"}\n    demand_response = 0.10544963905112789  # OPT_PARAM: {\"initial\": 0.10544963905112789, \"min\": 0.1, \"max\": 0.5, \"type\": \"float\"}\n    inventory_coverage = 0.5  # OPT_PARAM: {\"initial\": 0.5, \"min\": 0.5, \"max\": 1.2, \"type\": \"float\"}\n    pipeline_coverage = 0.5  # OPT_PARAM: {\"initial\": 0.5, \"min\": 0.1, \"max\": 0.5, \"type\": \"float\"}\n    \n    adjusted_target = base_target + demand_response * last_demand\n    total_coverage = on_hand_inventory * inventory_coverage + np.sum(pipeline_orders) * pipeline_coverage\n    order_amount = max(0.0, adjusted_target - total_coverage)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base_target and adjusted parameters to better handle demand spikes while reducing lost sales. Higher inventory_coverage helps maintain stock during high demand periods, while lower pipeline_coverage prevents over-ordering from future arrivals. The increased demand_response makes the policy more reactive to recent demand changes.",
+          "opt_params": {
+               "base_target": 121.88254191298063,
+               "demand_response": 0.10544963905112789,
+               "inventory_coverage": 0.5,
+               "pipeline_coverage": 0.5
+          },
+          "cost": null,
+          "objective": 8048.19109,
+          "lower": 7174.00512,
+          "upper": 9062.54079,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base_target and coverage factors to better match demand spikes, while reducing lost sales. Adjusted demand_response to better track demand autocorrelation. The new parameters aim to reduce the high lost-sales costs while maintaining reasonable holding costs.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 129.57560622482498  # OPT_PARAM: {\"initial\": 129.57560622482498, \"min\": 100.0, \"max\": 250.0, \"type\": \"float\"}\n    demand_response = 0.1  # OPT_PARAM: {\"initial\": 0.1, \"min\": 0.1, \"max\": 0.5, \"type\": \"float\"}\n    inventory_coverage = 0.5205733493317243  # OPT_PARAM: {\"initial\": 0.5205733493317243, \"min\": 0.5, \"max\": 1.2, \"type\": \"float\"}\n    pipeline_coverage = 0.46474955092450043  # OPT_PARAM: {\"initial\": 0.46474955092450043, \"min\": 0.3, \"max\": 1.0, \"type\": \"float\"}\n    \n    adjusted_target = base_target + demand_response * last_demand\n    total_coverage = on_hand_inventory * inventory_coverage + np.sum(pipeline_orders) * pipeline_coverage\n    order_amount = max(0.0, adjusted_target - total_coverage)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base_target and coverage factors to better match demand spikes, while reducing lost sales. Adjusted demand_response to better track demand autocorrelation. The new parameters aim to reduce the high lost-sales costs while maintaining reasonable holding costs.",
+          "opt_params": {
+               "base_target": 129.57560622482498,
+               "demand_response": 0.1,
+               "inventory_coverage": 0.5205733493317243,
+               "pipeline_coverage": 0.46474955092450043
+          },
+          "cost": null,
+          "objective": 8053.70709,
+          "lower": 7206.96662,
+          "upper": 9026.37413,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base_target and demand_response to better match demand patterns, and adjusted coverage factors to balance holding and lost-sales costs. The policy now more aggressively responds to recent demand while maintaining higher inventory levels to reduce stockouts.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 142.97102783567854  # OPT_PARAM: {\"initial\": 142.97102783567854, \"min\": 50.0, \"max\": 300.0, \"type\": \"float\"}\n    demand_response = 0.1  # OPT_PARAM: {\"initial\": 0.1, \"min\": 0.1, \"max\": 1.5, \"type\": \"float\"}\n    inventory_coverage = 0.6003543139980846  # OPT_PARAM: {\"initial\": 0.6003543139980846, \"min\": 0.5, \"max\": 2.0, \"type\": \"float\"}\n    pipeline_coverage = 0.5708564473369084  # OPT_PARAM: {\"initial\": 0.5708564473369084, \"min\": 0.1, \"max\": 1.5, \"type\": \"float\"}\n    \n    adjusted_target = base_target + demand_response * last_demand\n    total_coverage = on_hand_inventory * inventory_coverage + np.sum(pipeline_orders) * pipeline_coverage\n    order_amount = max(0.0, adjusted_target - total_coverage)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base_target and demand_response to better match demand patterns, and adjusted coverage factors to balance holding and lost-sales costs. The policy now more aggressively responds to recent demand while maintaining higher inventory levels to reduce stockouts.",
+          "opt_params": {
+               "base_target": 142.97102783567854,
+               "demand_response": 0.1,
+               "inventory_coverage": 0.6003543139980846,
+               "pipeline_coverage": 0.5708564473369084
+          },
+          "cost": null,
+          "objective": 8067.38015,
+          "lower": 7184.56379,
+          "upper": 9073.79369,
+          "other_inf": null
+     }
+]

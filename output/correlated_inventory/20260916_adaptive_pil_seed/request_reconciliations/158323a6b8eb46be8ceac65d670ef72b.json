@@ -1,0 +1,44 @@
+{
+  "recorded_utc": "2026-09-16T18:00:16.018940+00:00",
+  "chain": "training/exp_iid_random3_9/self_evolve_h200_r2",
+  "metadata": {
+    "scenario_id": "exp_iid_random3_9",
+    "repeat": 2,
+    "chain_dir": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_adaptive_pil_seed/training/exp_iid_random3_9/self_evolve_h200_r2",
+    "generation": 7,
+    "operator": "m2",
+    "candidate_index": 7,
+    "parent_code_sha256": "89c0d6d13322611308dd28cdacd4277fa79e895129f2f475ff2adf449485399a",
+    "candidate_attempt": 1,
+    "prompt_sha256": "ecc6a134bfa36c15c2bf84bf9370de8a1744d3a96ac4f3c97ccd2933c5497cc2"
+  },
+  "request_id": "158323a6b8eb46be8ceac65d670ef72b",
+  "resolution": "retain_upper_bound_skip_candidate",
+  "no_repost": true,
+  "no_replacement_candidate": true,
+  "error_type": "TimeoutError",
+  "no_response_available": true,
+  "unknown_cost_upper_usd": 0.0096807,
+  "shared_ledger_run_dir": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_unrestricted_params",
+  "audit": "Unique submitted request, identical pending/request/ledger/block metadata, exact prompt and prior population parent hashes, no provider response, no candidate, exclusive chain lock acquired.",
+  "evidence": {
+    "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_adaptive_pil_seed/training/exp_iid_random3_9/self_evolve_h200_r2/blocked_transport.json": {
+      "sha256": "47d3b499e418ea55d5ce4c0440a1a0e138004f5ba78ee3ff02a53837f8bee298",
+      "archived_path": "training/exp_iid_random3_9/self_evolve_h200_r2/recoveries/158323a6b8eb46be8ceac65d670ef72b/blocked_transport.original.json"
+    },
+    "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_adaptive_pil_seed/training/exp_iid_random3_9/self_evolve_h200_r2/model_responses/3613abcd2136515822223085273c6ee6d296a210b60bdea3cf193c5dce94d3ad.json": {
+      "sha256": "ad71681821a2efa356e8fdfb4a667057bea756e515779dfefbb7d569be256cc3",
+      "archived_path": "training/exp_iid_random3_9/self_evolve_h200_r2/recoveries/158323a6b8eb46be8ceac65d670ef72b/pending_model_response.original.json"
+    },
+    "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_adaptive_pil_seed/training/exp_iid_random3_9/self_evolve_h200_r2/status.json": {
+      "sha256": "96ea54b2c29b65ea90754f5efc85ce4b8bd6abc5e17b123ea63f5ebd89f6b5f5",
+      "archived_path": "training/exp_iid_random3_9/self_evolve_h200_r2/recoveries/158323a6b8eb46be8ceac65d670ef72b/status.original.json"
+    },
+    "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_unrestricted_params/api_requests/158323a6b8eb46be8ceac65d670ef72b/request.json": {
+      "sha256": "2844f934f77a544018f8cc59160c2543dc8a0ef0d409e2c1e1bbf97ce04f9fea",
+      "archived_path": "training/exp_iid_random3_9/self_evolve_h200_r2/recoveries/158323a6b8eb46be8ceac65d670ef72b/provider_request.original.json"
+    }
+  },
+  "failed_candidate_path": "training/exp_iid_random3_9/self_evolve_h200_r2/candidates/g007_m2_007.json.gz",
+  "failed_candidate_sha256": "7eabe635059c244c39f06d693c423bff37ed78455bae32bd78bc58042295e7b4"
+}

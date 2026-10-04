@@ -1,0 +1,59 @@
+{
+  "created_utc": "2026-09-16T14:54:09.444098+00:00",
+  "configuration": {
+    "protocol_id": "stationary-correlated-adaptive-pil-initialization-v1",
+    "model": "deepseek/deepseek-chat-v3-0324",
+    "shared_budget_run_dir": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_unrestricted_params",
+    "shared_budget_limit_usd": 18.17,
+    "previous_committed_upper_usd": 1.82576175,
+    "session_budget_usd": 20.0,
+    "train_paths": 50,
+    "validation_paths": 128,
+    "test_paths": 1000,
+    "training_horizon": 200,
+    "burn_in": 500,
+    "horizons": [
+      50,
+      100,
+      200,
+      500
+    ],
+    "evaluation_modes": {
+      "steady": 500,
+      "cold_start": 0
+    },
+    "primary_runs": 18,
+    "evolution": {
+      "operator": "m2",
+      "population": 10,
+      "generations": 10,
+      "repetitions": 3,
+      "optimizer": "original SciPy L-BFGS-B",
+      "maxiter": 15,
+      "eps": 0.1,
+      "max_opt_params": null,
+      "initial_seed": "the scenario's frozen optimized Adaptive PIL",
+      "selection_parent": "best training policy"
+    },
+    "initialization": "exact outer five-parameter Adaptive PIL formula and the original frozen conditional projection bank",
+    "seed_generation_zero": "original EOH may further optimize generation zero on train; compare final with the original frozen Adaptive PIL as well",
+    "trusted_helpers": [
+      "conditional_projected_inventory",
+      "conditional_arrival_mean"
+    ],
+    "search_freedom": "unbounded OPT_PARAM count; mutate the whole outer decision rule, add coefficients, or ignore helpers",
+    "selection": "training only; retain the best training policy; no guarantee of test improvement",
+    "holdout_gate": "all 18 policies frozen before new validation or test scoring",
+    "comparators": [
+      "conditional_pil",
+      "forecast_adaptive_pil",
+      "pil_cop_continuation",
+      "four-parameter base-stock initialization",
+      "unrestricted base-stock initialization"
+    ],
+    "data_source": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_stationary_priority",
+    "unrestricted_comparison_run": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_unrestricted_params",
+    "previous_holdout_seen": true,
+    "interpretation": "exploratory initialization experiment on the existing benchmark; not a fresh unseen holdout"
+  }
+}

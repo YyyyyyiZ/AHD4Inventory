@@ -1,0 +1,182 @@
+[
+     {
+          "algorithm": "The changes aim to reduce lost sales costs while keeping holding costs manageable: (1) Increased base_target to better handle high demand periods (2) Adjusted demand_multiplier to focus more on recent demand (3) Increased pipeline_weight to respond more aggressively to inventory gaps (4) Set a small min_order to maintain continuous replenishment. The higher weights and targets should reduce stockouts during demand spikes while the min_order prevents complete inactivity during low demand.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 259.11107797698776  # OPT_PARAM: {\"initial\": 259.11107797698776, \"min\": 250.0, \"max\": 500.0, \"type\": \"float\"}\n    demand_multiplier = 3.790424124191899  # OPT_PARAM: {\"initial\": 3.790424124191899, \"min\": 2.0, \"max\": 4.0, \"type\": \"float\"}\n    pipeline_weight = 0.1  # OPT_PARAM: {\"initial\": 0.1, \"min\": 0.1, \"max\": 0.5, \"type\": \"float\"}\n    min_order = 0.0  # OPT_PARAM: {\"initial\": 0.0, \"min\": 0.0, \"max\": 10.0, \"type\": \"float\"}\n    \n    inventory_position = on_hand_inventory + sum(pipeline_orders)\n    demand_component = demand_multiplier * last_demand\n    target = min(base_target + demand_component, 1000.0)\n    order_amount = max(min_order, pipeline_weight * (target - inventory_position))\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "The changes aim to reduce lost sales costs while keeping holding costs manageable: (1) Increased base_target to better handle high demand periods (2) Adjusted demand_multiplier to focus more on recent demand (3) Increased pipeline_weight to respond more aggressively to inventory gaps (4) Set a small min_order to maintain continuous replenishment. The higher weights and targets should reduce stockouts during demand spikes while the min_order prevents complete inactivity during low demand.",
+          "opt_params": {
+               "base_target": 259.11107797698776,
+               "demand_multiplier": 3.790424124191899,
+               "pipeline_weight": 0.1,
+               "min_order": 0.0
+          },
+          "cost": null,
+          "objective": 30743.79058,
+          "lower": 29127.14857,
+          "upper": 32442.39593,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base_target to better handle high demand periods, reduced demand_multiplier to be less reactive to demand spikes, increased pipeline_weight for faster adjustment to inventory gaps, and set min_order to 5.0 to ensure continuous replenishment. These changes aim to balance holding and lost-sales costs based on observed training performance.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 258.73244928485855  # OPT_PARAM: {\"initial\": 258.73244928485855, \"min\": 250.0, \"max\": 400.0, \"type\": \"float\"}\n    demand_multiplier = 3.5  # OPT_PARAM: {\"initial\": 3.5, \"min\": 1.5, \"max\": 3.5, \"type\": \"float\"}\n    pipeline_weight = 0.1  # OPT_PARAM: {\"initial\": 0.1, \"min\": 0.1, \"max\": 0.5, \"type\": \"float\"}\n    min_order = 0.0  # OPT_PARAM: {\"initial\": 0.0, \"min\": 0.0, \"max\": 10.0, \"type\": \"float\"}\n    \n    inventory_position = on_hand_inventory + sum(pipeline_orders)\n    demand_component = demand_multiplier * last_demand\n    target = min(base_target + demand_component, 800.0)\n    order_amount = max(min_order, pipeline_weight * (target - inventory_position))\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base_target to better handle high demand periods, reduced demand_multiplier to be less reactive to demand spikes, increased pipeline_weight for faster adjustment to inventory gaps, and set min_order to 5.0 to ensure continuous replenishment. These changes aim to balance holding and lost-sales costs based on observed training performance.",
+          "opt_params": {
+               "base_target": 258.73244928485855,
+               "demand_multiplier": 3.5,
+               "pipeline_weight": 0.1,
+               "min_order": 0.0
+          },
+          "cost": null,
+          "objective": 30789.14564,
+          "lower": 29052.37142,
+          "upper": 32536.86655,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base_target to better match demand spikes, adjusted demand_multiplier to balance responsiveness, increased pipeline_weight for faster inventory adjustment, and set min_order to prevent stockouts during low demand periods. These changes aim to reduce lost sales while controlling holding costs.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 259.32461003675843  # OPT_PARAM: {\"initial\": 259.32461003675843, \"min\": 250.0, \"max\": 400.0, \"type\": \"float\"}\n    demand_multiplier = 3.5  # OPT_PARAM: {\"initial\": 3.5, \"min\": 1.5, \"max\": 3.5, \"type\": \"float\"}\n    pipeline_weight = 0.1  # OPT_PARAM: {\"initial\": 0.1, \"min\": 0.1, \"max\": 0.5, \"type\": \"float\"}\n    min_order = 0.0  # OPT_PARAM: {\"initial\": 0.0, \"min\": 0.0, \"max\": 10.0, \"type\": \"float\"}\n    \n    inventory_position = on_hand_inventory + sum(pipeline_orders)\n    demand_component = demand_multiplier * last_demand\n    target = min(base_target + demand_component, 800.0)\n    order_amount = max(min_order, pipeline_weight * (target - inventory_position))\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base_target to better match demand spikes, adjusted demand_multiplier to balance responsiveness, increased pipeline_weight for faster inventory adjustment, and set min_order to prevent stockouts during low demand periods. These changes aim to reduce lost sales while controlling holding costs.",
+          "opt_params": {
+               "base_target": 259.32461003675843,
+               "demand_multiplier": 3.5,
+               "pipeline_weight": 0.1,
+               "min_order": 0.0
+          },
+          "cost": null,
+          "objective": 30789.14816,
+          "lower": 29052.9835,
+          "upper": 32536.20184,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base_target to better handle high-demand periods, reduced demand_multiplier to be less reactive to demand spikes, increased pipeline_weight to respond more aggressively to inventory gaps, and set a minimum order to maintain consistent replenishment. This balances holding and lost-sales costs better based on the training diagnostics showing high lost-sales costs.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 250.1  # OPT_PARAM: {\"initial\": 250.1, \"min\": 250.0, \"max\": 400.0, \"type\": \"float\"}\n    demand_multiplier = 3.5  # OPT_PARAM: {\"initial\": 3.5, \"min\": 1.5, \"max\": 3.5, \"type\": \"float\"}\n    pipeline_weight = 0.1  # OPT_PARAM: {\"initial\": 0.1, \"min\": 0.1, \"max\": 0.5, \"type\": \"float\"}\n    min_order = 0.0  # OPT_PARAM: {\"initial\": 0.0, \"min\": 0.0, \"max\": 10.0, \"type\": \"float\"}\n    \n    inventory_position = on_hand_inventory + sum(pipeline_orders)\n    demand_component = demand_multiplier * last_demand\n    target = min(base_target + demand_component, 800.0)\n    order_amount = max(min_order, pipeline_weight * (target - inventory_position))\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base_target to better handle high-demand periods, reduced demand_multiplier to be less reactive to demand spikes, increased pipeline_weight to respond more aggressively to inventory gaps, and set a minimum order to maintain consistent replenishment. This balances holding and lost-sales costs better based on the training diagnostics showing high lost-sales costs.",
+          "opt_params": {
+               "base_target": 250.1,
+               "demand_multiplier": 3.5,
+               "pipeline_weight": 0.1,
+               "min_order": 0.0
+          },
+          "cost": null,
+          "objective": 30793.50376,
+          "lower": 29049.52663,
+          "upper": 32549.71759,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base_target to account for higher demand variability, reduced demand_multiplier to be less reactive to spikes, increased pipeline_weight for faster replenishment, and set minimum order to prevent stockouts during low-demand periods. These changes aim to balance holding costs and lost sales better based on the training diagnostics.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 285.66912683429126  # OPT_PARAM: {\"initial\": 285.66912683429126, \"min\": 250.0, \"max\": 400.0, \"type\": \"float\"}\n    demand_multiplier = 3.5362965639040405  # OPT_PARAM: {\"initial\": 3.5362965639040405, \"min\": 1.5, \"max\": 4.0, \"type\": \"float\"}\n    pipeline_weight = 0.1  # OPT_PARAM: {\"initial\": 0.1, \"min\": 0.1, \"max\": 0.5, \"type\": \"float\"}\n    min_order = 0.0  # OPT_PARAM: {\"initial\": 0.0, \"min\": 0.0, \"max\": 10.0, \"type\": \"float\"}\n    \n    inventory_position = on_hand_inventory + sum(pipeline_orders)\n    demand_component = demand_multiplier * last_demand\n    target = min(base_target + demand_component, 800.0)\n    order_amount = max(min_order, pipeline_weight * (target - inventory_position))\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base_target to account for higher demand variability, reduced demand_multiplier to be less reactive to spikes, increased pipeline_weight for faster replenishment, and set minimum order to prevent stockouts during low-demand periods. These changes aim to balance holding costs and lost sales better based on the training diagnostics.",
+          "opt_params": {
+               "base_target": 285.66912683429126,
+               "demand_multiplier": 3.5362965639040405,
+               "pipeline_weight": 0.1,
+               "min_order": 0.0
+          },
+          "cost": null,
+          "objective": 30828.51918,
+          "lower": 29124.77674,
+          "upper": 32535.19816,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base_target to better handle high-demand periods, adjusted demand_multiplier to be more responsive to demand changes, increased pipeline_weight for faster inventory replenishment, and set a small minimum order to maintain flow. These changes aim to reduce lost sales while controlling holding costs.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 300.0  # OPT_PARAM: {\"initial\": 300.0, \"min\": 300.0, \"max\": 500.0, \"type\": \"float\"}\n    demand_multiplier = 3.3157398732882966  # OPT_PARAM: {\"initial\": 3.3157398732882966, \"min\": 1.5, \"max\": 3.5, \"type\": \"float\"}\n    pipeline_weight = 0.1  # OPT_PARAM: {\"initial\": 0.1, \"min\": 0.1, \"max\": 0.5, \"type\": \"float\"}\n    min_order = 0.0  # OPT_PARAM: {\"initial\": 0.0, \"min\": 0.0, \"max\": 20.0, \"type\": \"float\"}\n    \n    inventory_position = on_hand_inventory + sum(pipeline_orders)\n    demand_component = demand_multiplier * last_demand\n    target = min(base_target + demand_component, 800.0)\n    order_amount = max(min_order, pipeline_weight * (target - inventory_position))\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base_target to better handle high-demand periods, adjusted demand_multiplier to be more responsive to demand changes, increased pipeline_weight for faster inventory replenishment, and set a small minimum order to maintain flow. These changes aim to reduce lost sales while controlling holding costs.",
+          "opt_params": {
+               "base_target": 300.0,
+               "demand_multiplier": 3.3157398732882966,
+               "pipeline_weight": 0.1,
+               "min_order": 0.0
+          },
+          "cost": null,
+          "objective": 30884.66896,
+          "lower": 29186.29657,
+          "upper": 32584.06792,
+          "other_inf": null
+     },
+     {
+          "algorithm": "The original policy suffered from high lost sales costs (136.23) compared to holding costs (17.71), indicating insufficient inventory. Increased base_target to 350 and pipeline_weight to 0.3 to respond more aggressively to inventory gaps. Reduced demand_multiplier to 2.5 as the original 3.5 was too volatile. Added minimum order of 5.0 to maintain steady replenishment. These changes should better balance holding and lost sales costs while maintaining responsiveness to demand patterns.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 300.0  # OPT_PARAM: {\"initial\": 300.0, \"min\": 300.0, \"max\": 400.0, \"type\": \"float\"}\n    demand_multiplier = 3.3074573869041144  # OPT_PARAM: {\"initial\": 3.3074573869041144, \"min\": 1.5, \"max\": 3.5, \"type\": \"float\"}\n    pipeline_weight = 0.1  # OPT_PARAM: {\"initial\": 0.1, \"min\": 0.1, \"max\": 0.5, \"type\": \"float\"}\n    min_order = 0.0  # OPT_PARAM: {\"initial\": 0.0, \"min\": 0.0, \"max\": 10.0, \"type\": \"float\"}\n    \n    inventory_position = on_hand_inventory + sum(pipeline_orders)\n    demand_component = demand_multiplier * last_demand\n    target = min(base_target + demand_component, 800.0)\n    order_amount = max(min_order, pipeline_weight * (target - inventory_position))\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "The original policy suffered from high lost sales costs (136.23) compared to holding costs (17.71), indicating insufficient inventory. Increased base_target to 350 and pipeline_weight to 0.3 to respond more aggressively to inventory gaps. Reduced demand_multiplier to 2.5 as the original 3.5 was too volatile. Added minimum order of 5.0 to maintain steady replenishment. These changes should better balance holding and lost sales costs while maintaining responsiveness to demand patterns.",
+          "opt_params": {
+               "base_target": 300.0,
+               "demand_multiplier": 3.3074573869041144,
+               "pipeline_weight": 0.1,
+               "min_order": 0.0
+          },
+          "cost": null,
+          "objective": 30884.6775,
+          "lower": 29185.60689,
+          "upper": 32584.64856,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base_target to cover higher demand spikes, reduced demand_multiplier to be less reactive to extreme values, increased pipeline_weight to respond more aggressively to inventory gaps, and set a reasonable min_order to prevent stockouts during low demand periods. The policy maintains the same structure but with better parameter values based on the training performance.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 283.23310895545166  # OPT_PARAM: {\"initial\": 283.23310895545166, \"min\": 200.0, \"max\": 400.0, \"type\": \"float\"}\n    demand_multiplier = 3.0  # OPT_PARAM: {\"initial\": 3.0, \"min\": 1.0, \"max\": 3.0, \"type\": \"float\"}\n    pipeline_weight = 0.1  # OPT_PARAM: {\"initial\": 0.1, \"min\": 0.1, \"max\": 0.5, \"type\": \"float\"}\n    min_order = 0.0  # OPT_PARAM: {\"initial\": 0.0, \"min\": 0.0, \"max\": 20.0, \"type\": \"float\"}\n    \n    inventory_position = on_hand_inventory + sum(pipeline_orders)\n    demand_component = demand_multiplier * last_demand\n    target = min(base_target + demand_component, 800.0)\n    order_amount = max(min_order, pipeline_weight * (target - inventory_position))\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base_target to cover higher demand spikes, reduced demand_multiplier to be less reactive to extreme values, increased pipeline_weight to respond more aggressively to inventory gaps, and set a reasonable min_order to prevent stockouts during low demand periods. The policy maintains the same structure but with better parameter values based on the training performance.",
+          "opt_params": {
+               "base_target": 283.23310895545166,
+               "demand_multiplier": 3.0,
+               "pipeline_weight": 0.1,
+               "min_order": 0.0
+          },
+          "cost": null,
+          "objective": 30885.89105,
+          "lower": 29140.91941,
+          "upper": 32625.89067,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Reduced demand_multiplier to better handle demand bursts while increasing base_target and pipeline_weight for more stable inventory. Added minimum order to prevent stockouts during low demand periods. These changes aim to balance holding and lost-sales costs based on the training performance showing high lost-sales costs.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 283.09857451363763  # OPT_PARAM: {\"initial\": 283.09857451363763, \"min\": 250.0, \"max\": 350.0, \"type\": \"float\"}\n    demand_multiplier = 3.0  # OPT_PARAM: {\"initial\": 3.0, \"min\": 2.0, \"max\": 3.0, \"type\": \"float\"}\n    pipeline_weight = 0.1  # OPT_PARAM: {\"initial\": 0.1, \"min\": 0.1, \"max\": 0.3, \"type\": \"float\"}\n    min_order = 0.0  # OPT_PARAM: {\"initial\": 0.0, \"min\": 0.0, \"max\": 10.0, \"type\": \"float\"}\n    \n    inventory_position = on_hand_inventory + sum(pipeline_orders)\n    demand_component = demand_multiplier * last_demand\n    target = min(base_target + demand_component, 800.0)\n    order_amount = max(min_order, pipeline_weight * (target - inventory_position))\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Reduced demand_multiplier to better handle demand bursts while increasing base_target and pipeline_weight for more stable inventory. Added minimum order to prevent stockouts during low demand periods. These changes aim to balance holding and lost-sales costs based on the training performance showing high lost-sales costs.",
+          "opt_params": {
+               "base_target": 283.09857451363763,
+               "demand_multiplier": 3.0,
+               "pipeline_weight": 0.1,
+               "min_order": 0.0
+          },
+          "cost": null,
+          "objective": 30885.89158,
+          "lower": 29140.75883,
+          "upper": 32626.05221,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base_target and pipeline_weight to better match demand spikes, reduced demand_multiplier to smooth orders, and raised min_order to avoid negligible orders. This balances holding and lost-sales costs better.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 282.94166386145486  # OPT_PARAM: {\"initial\": 282.94166386145486, \"min\": 200.0, \"max\": 500.0, \"type\": \"float\"}\n    demand_multiplier = 3.0  # OPT_PARAM: {\"initial\": 3.0, \"min\": 1.0, \"max\": 3.0, \"type\": \"float\"}\n    min_order = 0.0  # OPT_PARAM: {\"initial\": 0.0, \"min\": 0.0, \"max\": 20.0, \"type\": \"float\"}\n    pipeline_weight = 0.1  # OPT_PARAM: {\"initial\": 0.1, \"min\": 0.1, \"max\": 0.5, \"type\": \"float\"}\n    \n    inventory_position = on_hand_inventory + sum(pipeline_orders)\n    demand_component = demand_multiplier * last_demand\n    target = min(base_target + demand_component, 800.0)\n    order_amount = max(min_order, pipeline_weight * (target - inventory_position))\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base_target and pipeline_weight to better match demand spikes, reduced demand_multiplier to smooth orders, and raised min_order to avoid negligible orders. This balances holding and lost-sales costs better.",
+          "opt_params": {
+               "base_target": 282.94166386145486,
+               "demand_multiplier": 3.0,
+               "min_order": 0.0,
+               "pipeline_weight": 0.1
+          },
+          "cost": null,
+          "objective": 30885.89268,
+          "lower": 29140.57231,
+          "upper": 32626.24066,
+          "other_inf": null
+     }
+]

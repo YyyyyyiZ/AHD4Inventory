@@ -1,0 +1,23 @@
+{
+  "status": "completed",
+  "best_code_path": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_unrestricted_params/training/exp_iid_random3_9/self_evolve_h200_r3/policy.py",
+  "code_sha256": "bc26548da18f8e09fe6fd0ee10532e210e5122f3ac2dec637c2d5bf5ae5fce14",
+  "best_train_cost": 29588.128435571456,
+  "algorithm": "The original policy showed high lost sales costs (108.29) compared to holding costs (39.65), indicating insufficient stock. Increased base_stock (350 vs 329), lead_time_adjustment (3.0 vs 2.14), safety_stock (80 vs 50), and demand_response (0.8 vs 0.5) to better match demand patterns while maintaining reasonable holding costs. Narrowed parameter ranges based on training performance insights.",
+  "checkpoint_path": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_unrestricted_params/training/exp_iid_random3_9/self_evolve_h200_r3/checkpoints/g010.json.gz",
+  "model_calls": 101,
+  "training_evaluations": 10423,
+  "training_cache_hits": 468,
+  "compiled_structures": 21,
+  "optimizer": "SciPy L-BFGS-B",
+  "optimizer_maxiter": 15,
+  "test_evaluated": false,
+  "scenario_id": "exp_iid_random3_9",
+  "policy_id": "self_evolve_h200_r3",
+  "family": "self_evolve",
+  "repeat": 3,
+  "source_training_horizon": 200,
+  "elapsed_seconds": 1351.1856376249343,
+  "finished_utc": "2026-09-16T15:14:12.870551+00:00",
+  "full_protocol": true
+}

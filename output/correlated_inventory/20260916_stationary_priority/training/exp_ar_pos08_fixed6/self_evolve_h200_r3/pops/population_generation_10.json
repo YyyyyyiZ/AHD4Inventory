@@ -1,0 +1,174 @@
+[
+     {
+          "algorithm": "Increased base_target and demand_response to better match high demand autocorrelation; raised min_order to reduce stockouts; reduced pipeline_coverage to account for order overtaking. These changes aim to reduce lost-sales costs while maintaining reasonable holding costs.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 226.7667443273936  # OPT_PARAM: {\"initial\": 226.7667443273936, \"min\": 100.0, \"max\": 500.0, \"type\": \"float\"}\n    demand_response = 0.1  # OPT_PARAM: {\"initial\": 0.1, \"min\": 0.1, \"max\": 1.5, \"type\": \"float\"}\n    min_order = 0.6840888067051129  # OPT_PARAM: {\"initial\": 0.6840888067051129, \"min\": 0.0, \"max\": 20.0, \"type\": \"float\"}\n    pipeline_coverage = 1.0  # OPT_PARAM: {\"initial\": 1.0, \"min\": 0.5, \"max\": 1.0, \"type\": \"float\"}\n    \n    adjusted_target = base_target + demand_response * last_demand\n    order_amount = max(min_order, adjusted_target - on_hand_inventory - pipeline_coverage * sum(pipeline_orders))\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base_target and demand_response to better match high demand autocorrelation; raised min_order to reduce stockouts; reduced pipeline_coverage to account for order overtaking. These changes aim to reduce lost-sales costs while maintaining reasonable holding costs.",
+          "opt_params": {
+               "base_target": 226.7667443273936,
+               "demand_response": 0.1,
+               "min_order": 0.6840888067051129,
+               "pipeline_coverage": 1.0
+          },
+          "cost": null,
+          "objective": 34404.91267,
+          "lower": 32853.66518,
+          "upper": 36073.54707,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base_target and demand_response to better match demand patterns, raised min_order to prevent stockouts, and reduced pipeline_coverage to account for order overtaking. The historical policy showed high lost sales costs (145.23 vs holding costs of 26.80), indicating insufficient inventory.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 226.81023278990304  # OPT_PARAM: {\"initial\": 226.81023278990304, \"min\": 100.0, \"max\": 500.0, \"type\": \"float\"}\n    demand_response = 0.1  # OPT_PARAM: {\"initial\": 0.1, \"min\": 0.1, \"max\": 1.5, \"type\": \"float\"}\n    min_order = 0.6973694289453688  # OPT_PARAM: {\"initial\": 0.6973694289453688, \"min\": 0.0, \"max\": 20.0, \"type\": \"float\"}\n    pipeline_coverage = 1.0  # OPT_PARAM: {\"initial\": 1.0, \"min\": 0.5, \"max\": 1.0, \"type\": \"float\"}\n    \n    adjusted_target = base_target + demand_response * last_demand\n    order_amount = max(min_order, adjusted_target - on_hand_inventory - pipeline_coverage * sum(pipeline_orders))\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base_target and demand_response to better match demand patterns, raised min_order to prevent stockouts, and reduced pipeline_coverage to account for order overtaking. The historical policy showed high lost sales costs (145.23 vs holding costs of 26.80), indicating insufficient inventory.",
+          "opt_params": {
+               "base_target": 226.81023278990304,
+               "demand_response": 0.1,
+               "min_order": 0.6973694289453688,
+               "pipeline_coverage": 1.0
+          },
+          "cost": null,
+          "objective": 34404.91701,
+          "lower": 32853.83077,
+          "upper": 36073.47672,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Modified the policy to include: 1) a base target inventory level, 2) responsiveness to last demand, 3) a minimum order quantity, and 4) partial consideration of pipeline inventory. This better adapts to demand patterns while preventing excessive lost sales.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 226.95773693247534  # OPT_PARAM: {\"initial\": 226.95773693247534, \"min\": 100.0, \"max\": 500.0, \"type\": \"float\"}\n    demand_response = 0.1  # OPT_PARAM: {\"initial\": 0.1, \"min\": 0.1, \"max\": 1.5, \"type\": \"float\"}\n    min_order = 0.675528683623864  # OPT_PARAM: {\"initial\": 0.675528683623864, \"min\": 0.0, \"max\": 20.0, \"type\": \"float\"}\n    pipeline_coverage = 1.0  # OPT_PARAM: {\"initial\": 1.0, \"min\": 0.5, \"max\": 1.0, \"type\": \"float\"}\n    \n    adjusted_target = base_target + demand_response * last_demand\n    order_amount = max(min_order, adjusted_target - on_hand_inventory - pipeline_coverage * sum(pipeline_orders))\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Modified the policy to include: 1) a base target inventory level, 2) responsiveness to last demand, 3) a minimum order quantity, and 4) partial consideration of pipeline inventory. This better adapts to demand patterns while preventing excessive lost sales.",
+          "opt_params": {
+               "base_target": 226.95773693247534,
+               "demand_response": 0.1,
+               "min_order": 0.675528683623864,
+               "pipeline_coverage": 1.0
+          },
+          "cost": null,
+          "objective": 34404.91868,
+          "lower": 32854.18345,
+          "upper": 36073.45455,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base_target and demand_response to better match observed demand patterns while reducing pipeline_coverage to account for order overtaking. Increased min_order to prevent excessively small orders. These changes aim to reduce lost sales while controlling holding costs.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 227.06268068980614  # OPT_PARAM: {\"initial\": 227.06268068980614, \"min\": 100.0, \"max\": 500.0, \"type\": \"float\"}\n    demand_response = 0.1  # OPT_PARAM: {\"initial\": 0.1, \"min\": 0.1, \"max\": 1.5, \"type\": \"float\"}\n    min_order = 0.6980097499681204  # OPT_PARAM: {\"initial\": 0.6980097499681204, \"min\": 0.0, \"max\": 20.0, \"type\": \"float\"}\n    pipeline_coverage = 1.0  # OPT_PARAM: {\"initial\": 1.0, \"min\": 0.5, \"max\": 1.0, \"type\": \"float\"}\n    \n    adjusted_target = base_target + demand_response * last_demand\n    order_amount = max(min_order, adjusted_target - on_hand_inventory - pipeline_coverage * sum(pipeline_orders))\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base_target and demand_response to better match observed demand patterns while reducing pipeline_coverage to account for order overtaking. Increased min_order to prevent excessively small orders. These changes aim to reduce lost sales while controlling holding costs.",
+          "opt_params": {
+               "base_target": 227.06268068980614,
+               "demand_response": 0.1,
+               "min_order": 0.6980097499681204,
+               "pipeline_coverage": 1.0
+          },
+          "cost": null,
+          "objective": 34404.92725,
+          "lower": 32854.55396,
+          "upper": 36073.3132,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base_target and demand_response to better match high demand scenarios seen in training (mean demand 102.7). Reduced pipeline_coverage to account for demand autocorrelation. Increased min_order to prevent stockouts during low-demand periods while maintaining responsiveness.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 226.38974859897104  # OPT_PARAM: {\"initial\": 226.38974859897104, \"min\": 100.0, \"max\": 500.0, \"type\": \"float\"}\n    demand_response = 0.1  # OPT_PARAM: {\"initial\": 0.1, \"min\": 0.1, \"max\": 1.5, \"type\": \"float\"}\n    min_order = 0.04254062393962756  # OPT_PARAM: {\"initial\": 0.04254062393962756, \"min\": 0.0, \"max\": 20.0, \"type\": \"float\"}\n    pipeline_coverage = 1.0  # OPT_PARAM: {\"initial\": 1.0, \"min\": 0.5, \"max\": 1.0, \"type\": \"float\"}\n    \n    adjusted_target = base_target + demand_response * last_demand\n    order_amount = max(min_order, adjusted_target - on_hand_inventory - pipeline_coverage * sum(pipeline_orders))\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base_target and demand_response to better match high demand scenarios seen in training (mean demand 102.7). Reduced pipeline_coverage to account for demand autocorrelation. Increased min_order to prevent stockouts during low-demand periods while maintaining responsiveness.",
+          "opt_params": {
+               "base_target": 226.38974859897104,
+               "demand_response": 0.1,
+               "min_order": 0.04254062393962756,
+               "pipeline_coverage": 1.0
+          },
+          "cost": null,
+          "objective": 34407.13877,
+          "lower": 32854.85433,
+          "upper": 36078.42842,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Reduced base target to better match demand quantiles, increased demand response to better react to demand autocorrelation, added safety stock parameter, and slightly reduced pipeline coverage to account for order overtaking. The new structure estimates demand based on deviation from base target rather than absolute value, which should better handle the AR(1) demand pattern.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 184.04141318708682  # OPT_PARAM: {\"initial\": 184.04141318708682, \"min\": 100.0, \"max\": 300.0, \"type\": \"float\"}\n    demand_response = 0.1  # OPT_PARAM: {\"initial\": 0.1, \"min\": 0.1, \"max\": 1.5, \"type\": \"float\"}\n    safety_stock = 61.16097593513484  # OPT_PARAM: {\"initial\": 61.16097593513484, \"min\": 10.0, \"max\": 100.0, \"type\": \"float\"}\n    pipeline_coverage = 1.0  # OPT_PARAM: {\"initial\": 1.0, \"min\": 0.5, \"max\": 1.0, \"type\": \"float\"}\n    \n    demand_estimate = base_target + demand_response * (last_demand - base_target)\n    inventory_position = on_hand_inventory + pipeline_coverage * sum(pipeline_orders)\n    order_amount = max(0.0, demand_estimate + safety_stock - inventory_position)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Reduced base target to better match demand quantiles, increased demand response to better react to demand autocorrelation, added safety stock parameter, and slightly reduced pipeline coverage to account for order overtaking. The new structure estimates demand based on deviation from base target rather than absolute value, which should better handle the AR(1) demand pattern.",
+          "opt_params": {
+               "base_target": 184.04141318708682,
+               "demand_response": 0.1,
+               "safety_stock": 61.16097593513484,
+               "pipeline_coverage": 1.0
+          },
+          "cost": null,
+          "objective": 34407.27382,
+          "lower": 32855.75404,
+          "upper": 36078.5405,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Reduced base_target to better match demand levels, increased demand_response to be more reactive to recent demand, reduced pipeline_coverage to account for order overtaking, and removed min_order which was causing unnecessary small orders. These changes aim to better balance holding costs and lost sales while maintaining responsiveness to demand patterns.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 226.78017563886996  # OPT_PARAM: {\"initial\": 226.78017563886996, \"min\": 100.0, \"max\": 300.0, \"type\": \"float\"}\n    demand_response = 0.1  # OPT_PARAM: {\"initial\": 0.1, \"min\": 0.1, \"max\": 1.5, \"type\": \"float\"}\n    pipeline_coverage = 1.0  # OPT_PARAM: {\"initial\": 1.0, \"min\": 0.5, \"max\": 1.0, \"type\": \"float\"}\n    \n    adjusted_target = base_target + demand_response * last_demand\n    order_amount = max(0.0, adjusted_target - on_hand_inventory - pipeline_coverage * sum(pipeline_orders))\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Reduced base_target to better match demand levels, increased demand_response to be more reactive to recent demand, reduced pipeline_coverage to account for order overtaking, and removed min_order which was causing unnecessary small orders. These changes aim to better balance holding costs and lost sales while maintaining responsiveness to demand patterns.",
+          "opt_params": {
+               "base_target": 226.78017563886996,
+               "demand_response": 0.1,
+               "pipeline_coverage": 1.0
+          },
+          "cost": null,
+          "objective": 34407.27455,
+          "lower": 32855.70381,
+          "upper": 36078.55034,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Modified the policy to incorporate: 1) a base target level, 2) responsiveness to last demand, 3) partial pipeline coverage, and 4) safety stock. This better adapts to demand patterns while maintaining stationary structure.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 168.54705042802465  # OPT_PARAM: {\"initial\": 168.54705042802465, \"min\": 50.0, \"max\": 300.0, \"type\": \"float\"}\n    demand_response = 0.1  # OPT_PARAM: {\"initial\": 0.1, \"min\": 0.1, \"max\": 1.5, \"type\": \"float\"}\n    pipeline_coverage = 1.0  # OPT_PARAM: {\"initial\": 1.0, \"min\": 0.1, \"max\": 1.0, \"type\": \"float\"}\n    safety_stock = 58.204428267044804  # OPT_PARAM: {\"initial\": 58.204428267044804, \"min\": 10.0, \"max\": 100.0, \"type\": \"float\"}\n    \n    demand_component = demand_response * last_demand\n    pipeline_component = pipeline_coverage * sum(pipeline_orders)\n    target = base_target + demand_component + safety_stock - pipeline_component\n    order_amount = max(0.0, target - on_hand_inventory)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Modified the policy to incorporate: 1) a base target level, 2) responsiveness to last demand, 3) partial pipeline coverage, and 4) safety stock. This better adapts to demand patterns while maintaining stationary structure.",
+          "opt_params": {
+               "base_target": 168.54705042802465,
+               "demand_response": 0.1,
+               "pipeline_coverage": 1.0,
+               "safety_stock": 58.204428267044804
+          },
+          "cost": null,
+          "objective": 34407.27844,
+          "lower": 32855.62679,
+          "upper": 36078.56864,
+          "other_inf": null
+     },
+     {
+          "algorithm": "The new policy incorporates: 1) A base stock level, 2) Demand forecasting using last demand, 3) Pipeline inventory adjustment, and 4) Minimum order quantity to prevent tiny orders. This should better respond to demand patterns while maintaining inventory stability.",
+          "code": "import numpy as np\nimport math\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_stock = 235.90487758929862  # OPT_PARAM: {\"initial\": 235.90487758929862, \"min\": 100.0, \"max\": 500.0, \"type\": \"float\"}\n    demand_multiplier = 0.1  # OPT_PARAM: {\"initial\": 0.1, \"min\": 0.1, \"max\": 2.0, \"type\": \"float\"}\n    pipeline_adjustment = 1.0  # OPT_PARAM: {\"initial\": 1.0, \"min\": 0.0, \"max\": 1.0, \"type\": \"float\"}\n    min_order = 0.0  # OPT_PARAM: {\"initial\": 0.0, \"min\": 0.0, \"max\": 50.0, \"type\": \"float\"}\n    \n    forecast = demand_multiplier * last_demand\n    pipeline = sum(pipeline_orders) * pipeline_adjustment\n    target = max(base_stock, forecast)\n    order_amount = max(min_order, target - on_hand_inventory - pipeline)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "The new policy incorporates: 1) A base stock level, 2) Demand forecasting using last demand, 3) Pipeline inventory adjustment, and 4) Minimum order quantity to prevent tiny orders. This should better respond to demand patterns while maintaining inventory stability.",
+          "opt_params": {
+               "base_stock": 235.90487758929862,
+               "demand_multiplier": 0.1,
+               "pipeline_adjustment": 1.0,
+               "min_order": 0.0
+          },
+          "cost": null,
+          "objective": 34407.67062,
+          "lower": 32820.69475,
+          "upper": 36079.37474,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Base-stock seed using the training sample mean.",
+          "code": "def compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    target = 235.9193323523204  # OPT_PARAM: {\"initial\": 235.9193323523204, \"min\": 0.0, \"max\": 2863.834697778544, \"type\": \"float\"}\n    order_amount = max(0.0, target - on_hand_inventory - sum(pipeline_orders))\n    return order_amount\n",
+          "objective": 34407.67174,
+          "other_inf": null,
+          "lower": 32820.70624,
+          "upper": 36079.39615,
+          "opt_params": {
+               "target": 235.9193323523204
+          }
+     }
+]

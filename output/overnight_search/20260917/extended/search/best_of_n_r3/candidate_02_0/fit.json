@@ -1,0 +1,272 @@
+{
+  "results": {
+    "perish_m7_L2_cv1.5_f0": {
+      "theta": [
+        12.366182853628978,
+        18.85511127822296,
+        2.3311601976454894,
+        0.15226643832625375,
+        0.9658185705580008,
+        4.8573964550242135,
+        1.9153731657205328
+      ],
+      "cost": 142.45,
+      "nfev": 1024,
+      "seconds": 40.26700820890255,
+      "path_costs": [
+        130.7,
+        136.4,
+        150.7,
+        140.5,
+        133.1,
+        143.5,
+        143.2,
+        152.6,
+        147.8,
+        133.0,
+        123.8,
+        129.5,
+        190.5,
+        167.3,
+        145.7,
+        127.1,
+        152.8,
+        131.5,
+        113.4,
+        163.7,
+        123.8,
+        156.4,
+        162.1,
+        142.2,
+        151.3,
+        140.1,
+        135.4,
+        135.9,
+        136.2,
+        130.9,
+        148.8,
+        138.5
+      ],
+      "metrics": [
+        0.4806875,
+        0.9438125000000003,
+        3.508937499999999
+      ],
+      "cap": 32
+    },
+    "perish_m7_L2_cv1.5_f0.5": {
+      "theta": [
+        14.813556903561626,
+        21.99041588722927,
+        0.5165351699453425,
+        0.467619142940352,
+        0.8189619899106912,
+        4.2847777145534875,
+        0.7211034919655981
+      ],
+      "cost": 121.125,
+      "nfev": 1024,
+      "seconds": 52.2644895829726,
+      "path_costs": [
+        125.1,
+        126.2,
+        112.0,
+        116.7,
+        142.8,
+        108.8,
+        122.6,
+        106.4,
+        122.5,
+        117.3,
+        121.7,
+        115.9,
+        113.3,
+        114.6,
+        137.3,
+        127.4,
+        153.9,
+        115.2,
+        120.5,
+        117.4,
+        114.6,
+        119.9,
+        115.3,
+        126.6,
+        109.5,
+        126.7,
+        124.8,
+        136.6,
+        116.1,
+        115.7,
+        112.2,
+        120.4
+      ],
+      "metrics": [
+        0.41853124999999997,
+        0.79271875,
+        3.6371249999999997
+      ],
+      "cap": 32
+    },
+    "perish_m7_L2_cv2_f0": {
+      "theta": [
+        11.634373456619024,
+        18.557859944102653,
+        1.0564575438803343,
+        0.01323620623317101,
+        0.9970920140094945,
+        1.3652612987824493,
+        1.892314368684327
+      ],
+      "cost": 183.82812500000003,
+      "nfev": 1024,
+      "seconds": 43.04645304218866,
+      "path_costs": [
+        202.4,
+        187.0,
+        190.5,
+        177.3,
+        209.5,
+        195.9,
+        208.4,
+        164.6,
+        179.6,
+        160.3,
+        191.7,
+        172.5,
+        191.1,
+        182.7,
+        202.7,
+        171.0,
+        173.6,
+        153.7,
+        166.5,
+        192.3,
+        183.8,
+        170.8,
+        233.2,
+        182.8,
+        175.7,
+        170.1,
+        174.2,
+        191.7,
+        180.3,
+        204.1,
+        165.5,
+        177.0
+      ],
+      "metrics": [
+        0.44571874999999994,
+        1.3925625000000004,
+        3.087312500000001
+      ],
+      "cap": 29
+    },
+    "perish_m7_L2_cv2_f0.5": {
+      "theta": [
+        10.931324806044405,
+        23.723255939459833,
+        0.5700927827587682,
+        0.6176905790181293,
+        0.6165530619193784,
+        4.359020328466043,
+        0.728230426695958
+      ],
+      "cost": 169.3125,
+      "nfev": 1024,
+      "seconds": 51.89369795820676,
+      "path_costs": [
+        178.1,
+        167.4,
+        150.8,
+        158.5,
+        153.3,
+        169.0,
+        179.8,
+        144.5,
+        196.7,
+        191.1,
+        152.1,
+        144.8,
+        151.3,
+        152.6,
+        154.9,
+        170.0,
+        194.7,
+        169.0,
+        167.0,
+        182.9,
+        203.3,
+        152.5,
+        163.7,
+        190.0,
+        192.4,
+        197.6,
+        146.5,
+        185.2,
+        156.7,
+        157.1,
+        193.6,
+        150.9
+      ],
+      "metrics": [
+        0.3908749999999999,
+        1.3022500000000001,
+        3.1639062500000006
+      ],
+      "cap": 28
+    }
+  },
+  "parameters": {
+    "S": {
+      "type": "float",
+      "initial": 12.0,
+      "min": 0.0,
+      "max": 60.0
+    },
+    "C": {
+      "type": "float",
+      "initial": 18.0,
+      "min": 0.0,
+      "max": 40.0
+    },
+    "KF": {
+      "type": "float",
+      "initial": 1.0,
+      "min": 0.0,
+      "max": 2.5
+    },
+    "KL": {
+      "type": "float",
+      "initial": 1.0,
+      "min": 0.0,
+      "max": 2.5
+    },
+    "W": {
+      "type": "float",
+      "initial": 0.05,
+      "min": 0.0,
+      "max": 1.0
+    },
+    "A": {
+      "type": "float",
+      "initial": 1.0,
+      "min": 0.0,
+      "max": 5.0
+    },
+    "G": {
+      "type": "float",
+      "initial": 1.0,
+      "min": 0.1,
+      "max": 2.0
+    }
+  },
+  "structure_sha256": "762db5df89723b83c0d6753f6692fa8c1509a0e122ab4eee7d9207ebcce2321a",
+  "code_sha256": "646681ad719a45703ed3a0b4d16b0b1be269c2ba60a2a9085408ad356dc6e42a",
+  "import_normalization": [],
+  "wall_seconds": 189.18338445806876,
+  "transitions": 196800000,
+  "valid": true,
+  "score": 0.9752509739444062,
+  "code": "def compute_order_amount(age, pipeline, mu, cv, f, L):\n    S = 12.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":12.0,\"min\":0.0,\"max\":60.0}\n    C = 18.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":18.0,\"min\":0.0,\"max\":40.0}\n    KF = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":2.5}\n    KL = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":2.5}\n    W = 0.05 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.05,\"min\":0.0,\"max\":1.0}\n    A = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":5.0}\n    G = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.1,\"max\":2.0}\n\n    m = len(age)\n    x = [0.0] * m\n    for i in range(m):\n        x[i] = max(0.0, age[i])\n\n    for t in range(L):\n        if t > 0 and t - 1 < len(pipeline):\n            x[m - 1] = x[m - 1] + max(0.0, pipeline[t - 1])\n\n        total = 0.0\n        for i in range(m):\n            total = total + x[i]\n\n        sold_f = 0.0\n        if f > 0.0 and total > 0.0:\n            M = f * mu\n            V = f * (mu * cv) * (mu * cv)\n            aa = V / (M * M) - 1.0 / M\n            root = max(0.0, aa * aa - 1.0) ** 0.5\n            b = 1.0 + aa + root\n            c = 1.0 + aa - root\n            weight1 = 1.0 / b\n            p1 = 2.0 / (2.0 + M * b)\n            p2 = 2.0 / (2.0 + M * c)\n            q1 = 1.0 - p1\n            q2 = 1.0 - p2\n            n = int(total)\n            r = total - n\n            e1 = q1 * (1.0 - q1 ** n) / p1 + r * q1 ** (n + 1)\n            e2 = q2 * (1.0 - q2 ** n) / p2 + r * q2 ** (n + 1)\n            sold_f = min(total, KF * (weight1 * e1 + (1.0 - weight1) * e2))\n\n        remaining = sold_f\n        for i in range(m):\n            take = min(x[i], remaining)\n            x[i] = x[i] - take\n            remaining = remaining - take\n\n        total = 0.0\n        for i in range(m):\n            total = total + x[i]\n\n        sold_l = 0.0\n        g = 1.0 - f\n        if g > 0.0 and total > 0.0:\n            M = g * mu\n            V = g * (mu * cv) * (mu * cv)\n            aa = V / (M * M) - 1.0 / M\n            root = max(0.0, aa * aa - 1.0) ** 0.5\n            b = 1.0 + aa + root\n            c = 1.0 + aa - root\n            weight1 = 1.0 / b\n            p1 = 2.0 / (2.0 + M * b)\n            p2 = 2.0 / (2.0 + M * c)\n            q1 = 1.0 - p1\n            q2 = 1.0 - p2\n            n = int(total)\n            r = total - n\n            e1 = q1 * (1.0 - q1 ** n) / p1 + r * q1 ** (n + 1)\n            e2 = q2 * (1.0 - q2 ** n) / p2 + r * q2 ** (n + 1)\n            sold_l = min(total, KL * (weight1 * e1 + (1.0 - weight1) * e2))\n\n        remaining = sold_l\n        for j in range(m):\n            i = m - 1 - j\n            take = min(x[i], remaining)\n            x[i] = x[i] - take\n            remaining = remaining - take\n\n        for i in range(m - 1):\n            x[i] = x[i + 1]\n        x[m - 1] = 0.0\n\n    effective = 0.0\n    for i in range(m):\n        life_fraction = (i + 1.0) / m\n        weight = W + (1.0 - W) * life_fraction ** A\n        effective = effective + weight * x[i]\n\n    order = G * (S - effective)\n    order = max(0.0, min(C, order))\n    if order != order:\n        return 0.0\n    return order\n"
+}

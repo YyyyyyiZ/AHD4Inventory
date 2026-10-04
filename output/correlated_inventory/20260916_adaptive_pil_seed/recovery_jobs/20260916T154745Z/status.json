@@ -1,0 +1,29 @@
+{
+  "status": "complete",
+  "pid": 21664,
+  "workers": 2,
+  "jobs": [
+    {
+      "scenario": "exp_iid_fixed6",
+      "status": "complete",
+      "exit_code": 0
+    },
+    {
+      "scenario": "exp_ar_pos08_fixed6",
+      "status": "complete",
+      "exit_code": 0
+    },
+    {
+      "scenario": "exp_ar_neg06_fixed6",
+      "status": "complete",
+      "exit_code": 0
+    },
+    {
+      "scenario": "exp_regime095_fixed6",
+      "status": "complete",
+      "exit_code": 0
+    }
+  ],
+  "started_utc": "2026-09-16T15:47:45.647175+00:00",
+  "finished_utc": "2026-09-16T16:37:21.865659+00:00"
+}

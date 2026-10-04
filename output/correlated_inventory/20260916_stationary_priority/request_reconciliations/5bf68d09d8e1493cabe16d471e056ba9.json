@@ -1,0 +1,43 @@
+{
+  "recorded_utc": "2026-09-16T07:13:44.566660+00:00",
+  "chain": "training/exp_ar_pos08_fixed6/self_evolve_h50_r1",
+  "metadata": {
+    "scenario_id": "exp_ar_pos08_fixed6",
+    "repeat": 1,
+    "chain_dir": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_stationary_priority/training/exp_ar_pos08_fixed6/self_evolve_h50_r1",
+    "generation": 10,
+    "operator": "m2",
+    "candidate_index": 0,
+    "parent_code_sha256": "cc37dc3c0124103545667be5b98a6d98dca17957062d85ce31a70c10781b4939",
+    "candidate_attempt": 1,
+    "prompt_sha256": "1df9f212be980c500b027e246f3e054694499f3d8a5d262f8c500eb2520edb6f"
+  },
+  "request_id": "5bf68d09d8e1493cabe16d471e056ba9",
+  "resolution": "retain_upper_bound_skip_candidate",
+  "no_repost": true,
+  "evidence": {
+    "training/exp_ar_pos08_fixed6/self_evolve_h50_r1/blocked_transport.json": {
+      "sha256": "0f3ba11aa476b79a8da2540f63cbc4f4598efeb68ddbcabc3e6982d26b42355c",
+      "archived_path": "training/exp_ar_pos08_fixed6/self_evolve_h50_r1/recoveries/5bf68d09d8e1493cabe16d471e056ba9/blocked_transport.original.json"
+    },
+    "training/exp_ar_pos08_fixed6/self_evolve_h50_r1/model_responses/a0abec5c1bd596d1c6334aa9f6a716003ea70261451fdfa374ba4ff6668aab29.json": {
+      "sha256": "c001607e006fcaa9191f2fda3f2c10870c0a982bd6dc9f06951e8c435678b9f3",
+      "archived_path": "training/exp_ar_pos08_fixed6/self_evolve_h50_r1/recoveries/5bf68d09d8e1493cabe16d471e056ba9/pending_model_response.original.json"
+    },
+    "training/exp_ar_pos08_fixed6/self_evolve_h50_r1/status.json": {
+      "sha256": "f0f33c777347cad09aca7cf4c1fcdb2fcad698a47fe73715513c125a4196df69",
+      "archived_path": "training/exp_ar_pos08_fixed6/self_evolve_h50_r1/recoveries/5bf68d09d8e1493cabe16d471e056ba9/status.original.json"
+    },
+    "api_requests/5bf68d09d8e1493cabe16d471e056ba9/request.json": {
+      "sha256": "76740ef38d822b9c37e44b69d9b7a72bf724486ca270799c16b679f4de299fd5",
+      "archived_path": "training/exp_ar_pos08_fixed6/self_evolve_h50_r1/recoveries/5bf68d09d8e1493cabe16d471e056ba9/provider_request.original.json"
+    }
+  },
+  "independent_auditor": "explain_optimization",
+  "error_type": "URLError",
+  "unknown_cost_upper_usd": 0.0089212,
+  "no_response_available": true,
+  "no_replacement_candidate": true,
+  "failed_candidate_path": "training/exp_ar_pos08_fixed6/self_evolve_h50_r1/candidates/g010_m2_000.json.gz",
+  "failed_candidate_sha256": "fce11a9e0da0acf62ff961d51b82866fafbca5d69e41e26b07acbf65a8138651"
+}

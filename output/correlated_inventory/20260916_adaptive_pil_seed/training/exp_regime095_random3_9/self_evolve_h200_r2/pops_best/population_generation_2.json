@@ -1,0 +1,19 @@
+{
+     "algorithm": "Increased base stock levels (S_over_mean) and cap (cap_over_mean) to better handle high-demand regimes. Added demand_response parameter to strengthen reaction to demand signals. Increased forecast_gain to better respond to arrival forecasts. Tuned inventory_gain to balance holding and lost-sales costs.",
+     "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    S_over_mean = 0.7754764238054559  # OPT_PARAM: {\"initial\": 0.7754764238054559, \"min\": 0.7, \"max\": 1.2, \"type\": \"float\"}\n    cap_over_mean = 2.5  # OPT_PARAM: {\"initial\": 2.5, \"min\": 2.0, \"max\": 3.0, \"type\": \"float\"}\n    forecast_gain = 1.3490471523890881  # OPT_PARAM: {\"initial\": 1.3490471523890881, \"min\": 0.8, \"max\": 1.5, \"type\": \"float\"}\n    inventory_gain = 0.7993647682593922  # OPT_PARAM: {\"initial\": 0.7993647682593922, \"min\": 0.5, \"max\": 0.9, \"type\": \"float\"}\n    demand_response = 0.8490471523890882  # OPT_PARAM: {\"initial\": 0.8490471523890882, \"min\": 0.3, \"max\": 0.9, \"type\": \"float\"}\n    mean_demand = 100.0\n    \n    arrival_mean = conditional_arrival_mean(last_demand, quoted_lead_time)\n    projected_inventory = conditional_projected_inventory(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time)\n    \n    demand_signal = 1.0 if last_demand >= 100.0 * np.log(2) else 0.0\n    adjusted_mean = mean_demand * (1.0 + demand_response * demand_signal)\n    \n    target = max(0.0, adjusted_mean * S_over_mean + forecast_gain * (arrival_mean - adjusted_mean))\n    cap = max(0.0, adjusted_mean * cap_over_mean)\n    \n    order_amount = min(cap, max(0.0, target - inventory_gain * projected_inventory))\n    return order_amount\n",
+     "description": "",
+     "intuition": "",
+     "reasoning": "Increased base stock levels (S_over_mean) and cap (cap_over_mean) to better handle high-demand regimes. Added demand_response parameter to strengthen reaction to demand signals. Increased forecast_gain to better respond to arrival forecasts. Tuned inventory_gain to balance holding and lost-sales costs.",
+     "opt_params": {
+          "S_over_mean": 0.7754764238054559,
+          "cap_over_mean": 2.5,
+          "forecast_gain": 1.3490471523890881,
+          "inventory_gain": 0.7993647682593922,
+          "demand_response": 0.8490471523890882
+     },
+     "cost": null,
+     "objective": 29509.37932,
+     "lower": 27924.04058,
+     "upper": 31160.68877,
+     "other_inf": null
+}

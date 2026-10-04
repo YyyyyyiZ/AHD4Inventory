@@ -1,0 +1,23 @@
+{
+  "status": "completed",
+  "best_code_path": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_stationary_priority/training/exp_regime095_random3_9/self_evolve_h200_r2/policy.py",
+  "code_sha256": "4557e78a897e2d8a070c764df595ee416a138892ca6b285c3afa679558dd05ad",
+  "best_train_cost": 30312.59953492547,
+  "algorithm": "Increased base stock level and adjusted regime sensitivity for better high-demand handling. Strengthened demand response and lead time weighting while maintaining smooth adjustments. The policy now reacts more aggressively to observed high demand periods while maintaining stability during low demand.",
+  "checkpoint_path": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_stationary_priority/training/exp_regime095_random3_9/self_evolve_h200_r2/checkpoints/g010.json.gz",
+  "model_calls": 112,
+  "training_evaluations": 14937,
+  "training_cache_hits": 508,
+  "compiled_structures": 62,
+  "optimizer": "SciPy L-BFGS-B",
+  "optimizer_maxiter": 15,
+  "test_evaluated": false,
+  "scenario_id": "exp_regime095_random3_9",
+  "policy_id": "self_evolve_h200_r2",
+  "family": "self_evolve",
+  "repeat": 2,
+  "source_training_horizon": 200,
+  "elapsed_seconds": 1432.6377797920723,
+  "finished_utc": "2026-09-16T05:51:49.729801+00:00",
+  "full_protocol": true
+}

@@ -1,0 +1,148 @@
+{
+  "scenario": {
+    "scenario_id": "normal_std50_L6_c1_5",
+    "distribution": "normal",
+    "lead_time": 6,
+    "holding_cost": 1.0,
+    "lost_sales_cost": 5.0,
+    "mean_demand": 100.0,
+    "std_normal": 50.0,
+    "horizon": 50
+  },
+  "fits": {
+    "base_stock": {
+      "name": "base_stock",
+      "params": {
+        "S": 687.9905842084577
+      },
+      "train_mean_cost": 8590.220188315827,
+      "search": {
+        "version": "training-grid-refine-v1",
+        "parameter_sets_scored": 172,
+        "initial_upper": {
+          "S": 1491.9312271690687
+        },
+        "rounds": [
+          {
+            "upper": {
+              "S": 1491.9312271690687
+            },
+            "best_params": {
+              "S": 687.9905842084577
+            },
+            "train_mean_cost": 8590.220188315827,
+            "upper_edge": {
+              "S": false
+            }
+          }
+        ],
+        "unresolved_upper_edge": false,
+        "continuous_actions": true,
+        "integer_orders": false
+      },
+      "scenario_id": "normal_std50_L6_c1_5",
+      "n_train": 50,
+      "training_selection": "first_n_paths",
+      "horizon": 50,
+      "planning_periods": 6,
+      "training_demands_sha256": "ec006b15558cb22239f2ed237987949e068084fc3b02ff4f45d94d2ad2ce9e84"
+    },
+    "constant_order": {
+      "name": "constant_order",
+      "params": {
+        "q": 85.37388886801753
+      },
+      "train_mean_cost": 6626.532522222639,
+      "search": {
+        "version": "training-grid-refine-v1",
+        "parameter_sets_scored": 184,
+        "initial_upper": {
+          "q": 399.3811159837059
+        },
+        "rounds": [
+          {
+            "upper": {
+              "q": 399.3811159837059
+            },
+            "best_params": {
+              "q": 85.37388886801753
+            },
+            "train_mean_cost": 6626.532522222639,
+            "upper_edge": {
+              "q": false
+            }
+          }
+        ],
+        "unresolved_upper_edge": false,
+        "continuous_actions": true,
+        "integer_orders": false
+      },
+      "scenario_id": "normal_std50_L6_c1_5",
+      "n_train": 50,
+      "training_selection": "first_n_paths",
+      "horizon": 50,
+      "planning_periods": 6,
+      "training_demands_sha256": "ec006b15558cb22239f2ed237987949e068084fc3b02ff4f45d94d2ad2ce9e84"
+    },
+    "capped_base_stock": {
+      "name": "capped_base_stock",
+      "params": {
+        "S": 731.7602137164695,
+        "cap": 94.23873256793256
+      },
+      "train_mean_cost": 6244.170492845908,
+      "search": {
+        "version": "training-grid-refine-v1",
+        "parameter_sets_scored": 1685,
+        "initial_upper": {
+          "S": 1491.9312271690687,
+          "cap": 399.3811159837059
+        },
+        "rounds": [
+          {
+            "upper": {
+              "S": 1491.9312271690687,
+              "cap": 399.3811159837059
+            },
+            "best_params": {
+              "S": 731.7602137164695,
+              "cap": 94.23873256793256
+            },
+            "train_mean_cost": 6244.170492845908,
+            "upper_edge": {
+              "S": false,
+              "cap": false
+            }
+          }
+        ],
+        "unresolved_upper_edge": false,
+        "continuous_actions": true,
+        "integer_orders": false,
+        "embedded_family_candidates": [
+          {
+            "family": "base_stock",
+            "params": {
+              "S": 687.9905842084577,
+              "cap": 687.9905842084577
+            },
+            "train_mean_cost": 8590.220188315827
+          },
+          {
+            "family": "constant_order",
+            "params": {
+              "S": 4780.937776608982,
+              "cap": 85.37388886801753
+            },
+            "train_mean_cost": 6626.532522222639
+          }
+        ]
+      },
+      "scenario_id": "normal_std50_L6_c1_5",
+      "n_train": 50,
+      "training_selection": "first_n_paths",
+      "horizon": 50,
+      "planning_periods": 6,
+      "training_demands_sha256": "ec006b15558cb22239f2ed237987949e068084fc3b02ff4f45d94d2ad2ce9e84"
+    }
+  }
+}

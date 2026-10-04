@@ -1,0 +1,90 @@
+{
+  "status": "completed",
+  "paused_utc": "2026-09-15T23:44:34.572646+00:00",
+  "processes": [
+    {
+      "pid": 15413,
+      "ppid": 50338,
+      "state": "Ts",
+      "command": "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/Resources/Python.app/Contents/MacOS/Python -m examples.inventory.baek_comparison.runner generate --workers 3"
+    },
+    {
+      "pid": 23698,
+      "ppid": 50338,
+      "state": "Ts",
+      "command": "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/Resources/Python.app/Contents/MacOS/Python -u -"
+    },
+    {
+      "pid": 21628,
+      "ppid": 50338,
+      "state": "Ts",
+      "command": "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/Resources/Python.app/Contents/MacOS/Python -u -"
+    },
+    {
+      "pid": 27241,
+      "ppid": 15413,
+      "state": "Ts",
+      "command": "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/Resources/Python.app/Contents/MacOS/Python -I -B -S /private/var/folders/b7/dlsj_scs5pxbrd6_69xztsmr0000gn/T/baek-python-ss8o5364/bootstrap.py"
+    },
+    {
+      "pid": 27337,
+      "ppid": 15413,
+      "state": "Ts",
+      "command": "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/Resources/Python.app/Contents/MacOS/Python -I -B -S /private/var/folders/b7/dlsj_scs5pxbrd6_69xztsmr0000gn/T/baek-python-i_v1zfsw/bootstrap.py"
+    }
+  ],
+  "confirmed_cost_usd": 0.8056262,
+  "sessions": [
+    {
+      "session_id": "l1_normal_r1",
+      "final_result_saved": false,
+      "last_event": "response"
+    },
+    {
+      "session_id": "l1_poisson_r1",
+      "final_result_saved": false,
+      "last_event": "response"
+    },
+    {
+      "session_id": "l2_normal_r1",
+      "final_result_saved": false,
+      "last_event": "request"
+    },
+    {
+      "session_id": "l2_poisson_r1",
+      "final_result_saved": true,
+      "last_event": "session_end"
+    }
+  ],
+  "automatic_resume": false,
+  "resume_note": "Processes are suspended, including all active simulation workers. Before any authorized resume, account for paused wall time in subprocess timeouts and execution budgets; do not blindly continue or start duplicate sessions. Preserve frozen prompts and completed policy artifacts.",
+  "resumed_utc": "2026-09-15T23:55:25.952257+00:00",
+  "generation_pid": null,
+  "evaluation_queue_pid": null,
+  "tool_recovery_monitor_pid": 30359,
+  "resume_method": "Recovered original HTTP response without repost; preserved live Python processes and excluded suspended wall time; rebuilt complete recorded conversation for new runner.",
+  "evaluation_queue_restarts": [
+    {
+      "utc": "2026-09-16T00:52:51.832148+00:00",
+      "old_pid": 31158,
+      "new_pid": 48359,
+      "reason": "Reload reviewed report wording; six completed groups retained; no generation or scoring rerun"
+    }
+  ],
+  "transport_recovery_restarts": [
+    {
+      "utc": "2026-09-16T01:32:35.485195+00:00",
+      "old_generation_pid": 31067,
+      "new_generation_pid": 50797,
+      "old_evaluation_pid": 48359,
+      "new_evaluation_pid": 50835,
+      "reason": "Explicit continuation of two original TLS-interrupted sessions, preserving context and tool budgets; full USD1.772716 unknown charge bounds retained; eight completed scored groups preserved",
+      "evidence": "transport_recovery_ssl_20260916/recovery_application.json"
+    }
+  ],
+  "completed_utc": "2026-09-16T03:30:51.909482+00:00",
+  "finished_generation_pid": 50797,
+  "finished_evaluation_queue_pid": 50835,
+  "completion_record": "completion.json",
+  "completion_note": "All 18 generation groups and 99 policy instances completed; generation/evaluation processes exited. Earlier pause/resume fields are preserved as historical evidence."
+}

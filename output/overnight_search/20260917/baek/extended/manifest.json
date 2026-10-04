@@ -1,0 +1,22 @@
+{
+  "identity": {
+    "protocol": "Baek-style-L2-perishable-common-seed-tools-v2",
+    "model": "openai/gpt-5.6-sol",
+    "reasoning_effort": "high",
+    "sessions": 3,
+    "python_budget_seconds_per_session": 3600,
+    "max_tool_calls_per_session": 50,
+    "hard_global_allocation_usd": 12.0,
+    "setup_target_seconds": 30,
+    "setup_guard_seconds": 600,
+    "prompt_sha256": "a482bf7bc4bca5dddc146377472bc95cf8d0f44ac419b83195c5ddf6c513a96e",
+    "trusted_prelude_sha256": "b9107bb9b3e58c28e122b11bd73fe3d339631e3dd88eac1aa046ad6f2cf5e5b9",
+    "independent_draw_selection": "All submitted valid draws; no score-based replacement",
+    "adaptation": "Perishable inventory; supplied trusted simulator and shared optimizer helpers; deterministic order rules; common initial policy and training diagnostics given identically to all arms",
+    "memory_limit_bytes": 1073741824,
+    "memory_guard": "0.1-second parent RSS watchdog, whole-worker-group termination",
+    "common_initial_information_sha256": "67b1054887e75827f018dfc5394c92c6aec3399f5d67b93699629812e29c1901"
+  },
+  "created_utc": "2026-09-17T03:38:28.782778+00:00",
+  "python": "3.14.3 (main, Feb 21 2026, 23:43:38) [Clang 13.1.6 (clang-1316.0.21.2.5)]"
+}

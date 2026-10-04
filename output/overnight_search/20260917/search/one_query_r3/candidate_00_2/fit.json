@@ -1,0 +1,308 @@
+{
+  "results": {
+    "perish_m3_L2_cv1.5_f0": {
+      "theta": [
+        8.554685197839632,
+        0.8546410162189825,
+        1.7342587502448032,
+        1.3789135956544158,
+        -0.11026396667624794,
+        0.9836471064701959,
+        0.28218333836436393,
+        1.1802649066497986
+      ],
+      "cost": 233.4228515625,
+      "nfev": 256,
+      "seconds": 1.0606220001354814,
+      "path_costs": [
+        231.4453125,
+        202.1484375,
+        234.765625,
+        227.34375,
+        239.453125,
+        259.1796875,
+        241.6015625,
+        231.4453125
+      ],
+      "metrics": [
+        0.6796875,
+        1.654541015625,
+        3.0
+      ],
+      "cap": 17
+    },
+    "perish_m3_L2_cv1.5_f0.5": {
+      "theta": [
+        6.518227314541335,
+        0.6623905427636301,
+        1.7983264358364426,
+        0.8618918747271819,
+        -1.5864565532202095,
+        1.1134516359143574,
+        0.1336590531628531,
+        0.7585575065014278
+      ],
+      "cost": 214.0625,
+      "nfev": 256,
+      "seconds": 0.1420282090548426,
+      "path_costs": [
+        220.8984375,
+        232.421875,
+        159.765625,
+        192.578125,
+        208.3984375,
+        266.015625,
+        195.3125,
+        237.109375
+      ],
+      "metrics": [
+        0.5595703125,
+        1.5810546875,
+        3.113525390625
+      ],
+      "cap": 16
+    },
+    "perish_m3_L2_cv2_f0": {
+      "theta": [
+        9.807611770585709,
+        1.705214928650956,
+        1.6311575947694075,
+        1.58724968132183,
+        -0.283988197409238,
+        1.412588946522896,
+        0.33879321640292837,
+        1.3404653250724432
+      ],
+      "cost": 260.2294921875,
+      "nfev": 256,
+      "seconds": 0.14385983301326632,
+      "path_costs": [
+        225.78125,
+        237.890625,
+        272.265625,
+        267.3828125,
+        309.1796875,
+        229.1015625,
+        238.0859375,
+        302.1484375
+      ],
+      "metrics": [
+        0.672607421875,
+        1.9296875,
+        2.7001953125
+      ],
+      "cap": 14
+    },
+    "perish_m3_L2_cv2_f0.5": {
+      "theta": [
+        5.956775887117406,
+        0.7166635651679196,
+        2.4804205621179176,
+        1.730216526485997,
+        -2.027643233608533,
+        0.8636636382698817,
+        0.6252389947174917,
+        0.727525387958423
+      ],
+      "cost": 237.3779296875,
+      "nfev": 256,
+      "seconds": 0.1476532919332385,
+      "path_costs": [
+        236.1328125,
+        266.40625,
+        289.84375,
+        198.6328125,
+        234.5703125,
+        206.0546875,
+        183.59375,
+        283.7890625
+      ],
+      "metrics": [
+        0.52197265625,
+        1.851806640625,
+        2.66552734375
+      ],
+      "cap": 14
+    },
+    "perish_m5_L2_cv1.5_f0": {
+      "theta": [
+        12.842975477618879,
+        0.6769225846844759,
+        1.6128272097102658,
+        0.7849326387489144,
+        0.47967951433314826,
+        1.0290869366695117,
+        0.737975892229482,
+        1.1020102042494198
+      ],
+      "cost": 180.4931640625,
+      "nfev": 256,
+      "seconds": 0.1702074168715626,
+      "path_costs": [
+        187.109375,
+        145.703125,
+        179.6875,
+        169.921875,
+        180.6640625,
+        212.890625,
+        182.6171875,
+        185.3515625
+      ],
+      "metrics": [
+        0.648681640625,
+        1.15625,
+        3.469482421875
+      ],
+      "cap": 25
+    },
+    "perish_m5_L2_cv1.5_f0.5": {
+      "theta": [
+        15.33799483116974,
+        1.3037998699572277,
+        0.13654606811552927,
+        2.081215388866942,
+        -0.1543957486476495,
+        0.635649387750183,
+        0.5372097946473309,
+        0.8315134169896456
+      ],
+      "cost": 166.3818359375,
+      "nfev": 256,
+      "seconds": 0.17114758281968534,
+      "path_costs": [
+        170.703125,
+        177.5390625,
+        129.6875,
+        148.046875,
+        155.078125,
+        200.1953125,
+        166.9921875,
+        182.8125
+      ],
+      "metrics": [
+        0.512451171875,
+        1.1513671875,
+        3.49755859375
+      ],
+      "cap": 24
+    },
+    "perish_m5_L2_cv2_f0": {
+      "theta": [
+        12.330312399120029,
+        0.9903596899661249,
+        0.6625846843235208,
+        1.5504593975423144,
+        0.22758323758848664,
+        1.5666542420171357,
+        0.3804382411332743,
+        0.6996092563381032
+      ],
+      "cost": 215.7958984375,
+      "nfev": 256,
+      "seconds": 0.16992950020357966,
+      "path_costs": [
+        187.6953125,
+        196.484375,
+        228.125,
+        225.9765625,
+        262.109375,
+        183.984375,
+        201.171875,
+        240.8203125
+      ],
+      "metrics": [
+        0.557861328125,
+        1.60009765625,
+        2.915771484375
+      ],
+      "cap": 22
+    },
+    "perish_m5_L2_cv2_f0.5": {
+      "theta": [
+        13.008394795329352,
+        1.038039458978555,
+        0.9137245196577898,
+        1.4323443714550421,
+        -0.2657692486898251,
+        1.6038172503826786,
+        1.1222853946932418,
+        0.5685292358679694
+      ],
+      "cost": 197.265625,
+      "nfev": 256,
+      "seconds": 0.16844512498937547,
+      "path_costs": [
+        202.34375,
+        227.9296875,
+        248.6328125,
+        154.6875,
+        195.1171875,
+        166.9921875,
+        144.140625,
+        238.28125
+      ],
+      "metrics": [
+        0.47265625,
+        1.5,
+        2.970458984375
+      ],
+      "cap": 21
+    }
+  },
+  "parameters": {
+    "S": {
+      "type": "float",
+      "initial": 22.0,
+      "min": 0.0,
+      "max": 60.0
+    },
+    "pipeline_weight": {
+      "type": "float",
+      "initial": 1.0,
+      "min": 0.0,
+      "max": 2.0
+    },
+    "fifo_capacity_scale": {
+      "type": "float",
+      "initial": 0.75,
+      "min": 0.0,
+      "max": 2.5
+    },
+    "lifo_capacity_scale": {
+      "type": "float",
+      "initial": 0.65,
+      "min": 0.0,
+      "max": 2.5
+    },
+    "capacity_quantile": {
+      "type": "float",
+      "initial": -0.4,
+      "min": -3.0,
+      "max": 2.0
+    },
+    "younger_crowding": {
+      "type": "float",
+      "initial": 1.0,
+      "min": 0.0,
+      "max": 2.0
+    },
+    "lifo_spill_credit": {
+      "type": "float",
+      "initial": 1.0,
+      "min": 0.0,
+      "max": 2.0
+    },
+    "risk_gain": {
+      "type": "float",
+      "initial": 0.8,
+      "min": 0.0,
+      "max": 3.0
+    }
+  },
+  "structure_sha256": "7fb7908f76e5d4db5069a716a9b99b2689212d4d7bdaaab69c98cdb4da718829",
+  "wall_seconds": 3.070378417149186,
+  "transitions": 11710976,
+  "valid": true,
+  "score": 1.0001830690774987,
+  "code": "def compute_order_amount(age, pipeline, mu, cv, f, L):\n    S = 22.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":22.0,\"min\":0.0,\"max\":60.0}\n    pipeline_weight = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":2.0}\n    fifo_capacity_scale = 0.75 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.75,\"min\":0.0,\"max\":2.5}\n    lifo_capacity_scale = 0.65 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.65,\"min\":0.0,\"max\":2.5}\n    capacity_quantile = -0.4 # OPT_PARAM: {\"type\":\"float\",\"initial\":-0.4,\"min\":-3.0,\"max\":2.0}\n    younger_crowding = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":2.0}\n    lifo_spill_credit = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":2.0}\n    risk_gain = 0.8 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.8,\"min\":0.0,\"max\":3.0}\n\n    m = len(age)\n    on_hand = 0.0\n    pipeline_stock = 0.0\n\n    for i in range(m):\n        x = age[i]\n        if x > 0.0:\n            on_hand = on_hand + x\n\n    for j in range(len(pipeline)):\n        x = pipeline[j]\n        if x > 0.0:\n            pipeline_stock = pipeline_stock + x\n\n    cumulative_old = 0.0\n    deadline_risk = 0.0\n\n    for i in range(m):\n        x = age[i]\n        if x > 0.0:\n            cumulative_old = cumulative_old + x\n\n        horizon = i + 1.0\n        fifo_mean = fifo_capacity_scale * f * mu * horizon\n        fifo_sd = mu * cv * (f * horizon) ** 0.5\n        fifo_capacity = fifo_mean + capacity_quantile * fifo_sd\n        if fifo_capacity < 0.0:\n            fifo_capacity = 0.0\n\n        lifo_mean = lifo_capacity_scale * (1.0 - f) * mu * horizon\n        lifo_sd = mu * cv * ((1.0 - f) * horizon) ** 0.5\n        lifo_capacity = lifo_mean + capacity_quantile * lifo_sd\n        if lifo_capacity < 0.0:\n            lifo_capacity = 0.0\n\n        younger_supply = 0.0\n        for k in range(i + 1, m):\n            y = age[k]\n            if y > 0.0:\n                younger_supply = younger_supply + y\n\n        for j in range(len(pipeline)):\n            if j + 1 < horizon:\n                y = pipeline[j]\n                if y > 0.0:\n                    younger_supply = younger_supply + y\n\n        lifo_spill = lifo_capacity - younger_crowding * younger_supply\n        if lifo_spill < 0.0:\n            lifo_spill = 0.0\n\n        accessible_demand = fifo_capacity + lifo_spill_credit * lifo_spill\n        excess = cumulative_old - accessible_demand\n        if excess > deadline_risk:\n            deadline_risk = excess\n\n    q = S - on_hand - pipeline_weight * pipeline_stock\n    q = q + risk_gain * deadline_risk\n\n    if q != q:\n        q = 0.0\n    if q < 0.0:\n        q = 0.0\n    if q > 1000000.0:\n        q = 1000000.0\n    return float(q)\n"
+}

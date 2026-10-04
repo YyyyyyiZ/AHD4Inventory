@@ -1,0 +1,74 @@
+{
+  "revision": "leading_numerical_imports_v1",
+  "profile": "primary",
+  "candidates": [
+    "search/best_of_n_r2/candidate_06_0",
+    "search/best_of_n_r3/candidate_06_0"
+  ],
+  "reasons": {
+    "search/best_of_n_r2/candidate_06_0": "leading_import_scope",
+    "search/best_of_n_r3/candidate_06_0": "leading_import_scope"
+  },
+  "training_settings": {
+    "paths": 8,
+    "burnin": 200,
+    "horizon": 512,
+    "seed": 17091001,
+    "budget": 256
+  },
+  "timeout_seconds": 240,
+  "final_test_access": false,
+  "paid_calls": 0,
+  "feedback_replayed": false,
+  "applied": true,
+  "records": [
+    {
+      "origin": "search/best_of_n_r2/candidate_06_0",
+      "valid": true,
+      "code_sha256": "a6ea30d7c70df757d55fc56b3a18faf4d42935c76de462ae0fb1cc1fe64c45fa",
+      "archived_fit": "normalization_repair/leading_numerical_imports_v1/archive/search/best_of_n_r2/candidate_06_0/fit.json",
+      "corrected_fit_sha256": "731ee4d3ad75b516c5cc9722f344e3efd9936c0ba034b7783719d178eb98f802",
+      "correction": {
+        "revision": "leading_numerical_imports_v1",
+        "request_sha256": "617346d7228729841136150a0f6206f3d68592c986032752a1c8d6486dc97e61",
+        "reason": "leading_import_scope",
+        "original_fit_sha256": "1706f280faca729ba41a8ef5980f4e55a7ffc6eea7ce8c6495e26ab9a2426a35",
+        "code_sha256": "a6ea30d7c70df757d55fc56b3a18faf4d42935c76de462ae0fb1cc1fe64c45fa",
+        "elapsed_seconds": 33.224792749853805,
+        "timeout_seconds": 240,
+        "training_settings": {
+          "paths": 8,
+          "burnin": 200,
+          "horizon": 512,
+          "seed": 17091001,
+          "budget": 256
+        },
+        "feedback_replayed": false
+      }
+    },
+    {
+      "origin": "search/best_of_n_r3/candidate_06_0",
+      "valid": true,
+      "code_sha256": "3ef8935ffbaa47f0eb6a9f51afa2e7053f6bc778f94835b121bdb15ed7c1d021",
+      "archived_fit": "normalization_repair/leading_numerical_imports_v1/archive/search/best_of_n_r3/candidate_06_0/fit.json",
+      "corrected_fit_sha256": "6ba2f7ac86cab03dc656e1fb13c82b41f12787742aec4af9fd9b91652a34518a",
+      "correction": {
+        "revision": "leading_numerical_imports_v1",
+        "request_sha256": "ef0e5ae350c5d690ca8f203161653b90c2e5c247d73e4033ba40bb3b89b295d9",
+        "reason": "leading_import_scope",
+        "original_fit_sha256": "439a1dacc718594669cdd4e70610e87b5dcacb05ad1c53961c3f3b8750b5336a",
+        "code_sha256": "3ef8935ffbaa47f0eb6a9f51afa2e7053f6bc778f94835b121bdb15ed7c1d021",
+        "elapsed_seconds": 56.87481858301908,
+        "timeout_seconds": 240,
+        "training_settings": {
+          "paths": 8,
+          "burnin": 200,
+          "horizon": 512,
+          "seed": 17091001,
+          "budget": 256
+        },
+        "feedback_replayed": false
+      }
+    }
+  ]
+}

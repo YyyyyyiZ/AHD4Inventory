@@ -1,0 +1,23 @@
+{
+  "status": "completed",
+  "best_code_path": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_unrestricted_params/training/exp_iid_random3_9/self_evolve_h200_r2/policy.py",
+  "code_sha256": "3b095a2ac442ed355a1d4092d5508d663d45af92e7a8fcce8b7fc52522614d48",
+  "best_train_cost": 29590.39834176212,
+  "algorithm": "Reduced base_stock to better balance holding and lost-sales costs, increased lead_time_adjustment to better account for lead time variability, and increased demand_response_factor to be more responsive to recent demand while keeping the same policy structure. The changes aim to reduce the high lost-sales costs while maintaining reasonable holding costs.",
+  "checkpoint_path": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_unrestricted_params/training/exp_iid_random3_9/self_evolve_h200_r2/checkpoints/g010.json.gz",
+  "model_calls": 102,
+  "training_evaluations": 6916,
+  "training_cache_hits": 252,
+  "compiled_structures": 6,
+  "optimizer": "SciPy L-BFGS-B",
+  "optimizer_maxiter": 15,
+  "test_evaluated": false,
+  "scenario_id": "exp_iid_random3_9",
+  "policy_id": "self_evolve_h200_r2",
+  "family": "self_evolve",
+  "repeat": 2,
+  "source_training_horizon": 200,
+  "elapsed_seconds": 751.847319459077,
+  "finished_utc": "2026-09-16T16:00:23.574906+00:00",
+  "full_protocol": true
+}

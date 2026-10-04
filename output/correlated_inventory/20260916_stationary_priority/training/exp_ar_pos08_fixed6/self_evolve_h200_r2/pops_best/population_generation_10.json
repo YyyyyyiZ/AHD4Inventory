@@ -1,0 +1,18 @@
+{
+     "algorithm": "The modified policy increases the base multiplier to better handle demand spikes, reduces smoothing to be more responsive to recent demand, raises the minimum buffer to prevent stockouts, and increases the response rate to adjust inventory faster. These changes should reduce lost sales while maintaining reasonable holding costs.",
+     "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_multiplier = 3.0670569407555943  # OPT_PARAM: {\"initial\": 3.0670569407555943, \"min\": 3.0, \"max\": 3.5, \"type\": \"float\"}\n    smoothing_factor = 0.2  # OPT_PARAM: {\"initial\": 0.2, \"min\": 0.1, \"max\": 0.2, \"type\": \"float\"}\n    min_buffer = 95.0  # OPT_PARAM: {\"initial\": 95.0, \"min\": 90.0, \"max\": 100.0, \"type\": \"float\"}\n    demand_response = 0.3  # OPT_PARAM: {\"initial\": 0.3, \"min\": 0.3, \"max\": 0.5, \"type\": \"float\"}\n    \n    smoothed_demand = smoothing_factor * last_demand + (1 - smoothing_factor) * 100.0\n    target = max(min_buffer, base_multiplier * smoothed_demand)\n    order_amount = max(0.0, demand_response * (target - on_hand_inventory - sum(pipeline_orders)))\n    return order_amount\n",
+     "description": "",
+     "intuition": "",
+     "reasoning": "The modified policy increases the base multiplier to better handle demand spikes, reduces smoothing to be more responsive to recent demand, raises the minimum buffer to prevent stockouts, and increases the response rate to adjust inventory faster. These changes should reduce lost sales while maintaining reasonable holding costs.",
+     "opt_params": {
+          "base_multiplier": 3.0670569407555943,
+          "smoothing_factor": 0.2,
+          "min_buffer": 95.0,
+          "demand_response": 0.3
+     },
+     "cost": null,
+     "objective": 33700.81706,
+     "lower": 32166.64104,
+     "upper": 35340.11251,
+     "other_inf": null
+}

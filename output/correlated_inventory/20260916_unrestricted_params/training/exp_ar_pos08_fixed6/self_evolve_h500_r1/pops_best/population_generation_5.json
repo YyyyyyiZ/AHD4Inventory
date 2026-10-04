@@ -1,0 +1,18 @@
+{
+     "algorithm": "Increased base_target to better match demand mean, set demand_response to fully react to last demand, increased adjustment_factor for more responsive ordering, and increased pipeline_weight to better account for incoming orders. These changes aim to reduce lost sales while controlling holding costs.",
+     "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 200.0  # OPT_PARAM: {\"initial\": 200.0, \"min\": 200.0, \"max\": 350.0, \"type\": \"float\"}\n    demand_response = 0.8  # OPT_PARAM: {\"initial\": 0.8, \"min\": 0.8, \"max\": 1.1, \"type\": \"float\"}\n    adjustment_factor = 0.2  # OPT_PARAM: {\"initial\": 0.2, \"min\": 0.2, \"max\": 0.5, \"type\": \"float\"}\n    pipeline_weight = 0.5  # OPT_PARAM: {\"initial\": 0.5, \"min\": 0.5, \"max\": 1.0, \"type\": \"float\"}\n    \n    demand_adjustment = demand_response * last_demand\n    target = base_target + demand_adjustment\n    pipeline_sum = pipeline_weight * sum(pipeline_orders[:5])\n    order_amount = max(0.0, adjustment_factor * (target - on_hand_inventory - pipeline_sum))\n    return order_amount\n",
+     "description": "",
+     "intuition": "",
+     "reasoning": "Increased base_target to better match demand mean, set demand_response to fully react to last demand, increased adjustment_factor for more responsive ordering, and increased pipeline_weight to better account for incoming orders. These changes aim to reduce lost sales while controlling holding costs.",
+     "opt_params": {
+          "base_target": 200.0,
+          "demand_response": 0.8,
+          "adjustment_factor": 0.2,
+          "pipeline_weight": 0.5
+     },
+     "cost": null,
+     "objective": 81591.22986,
+     "lower": 79130.99467,
+     "upper": 84114.90782,
+     "other_inf": null
+}

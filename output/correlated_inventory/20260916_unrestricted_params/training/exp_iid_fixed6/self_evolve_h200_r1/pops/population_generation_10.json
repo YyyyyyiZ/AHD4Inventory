@@ -1,0 +1,174 @@
+[
+     {
+          "algorithm": "Increased base_stock to better handle high demand variability, increased demand_factor to be more responsive to recent demand, and added small smoothing to reduce order volatility while maintaining responsiveness.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_stock = 402.98258104331575  # OPT_PARAM: {\"initial\": 402.98258104331575, \"min\": 350.0, \"max\": 600.0, \"type\": \"float\"}\n    demand_factor = 0.3  # OPT_PARAM: {\"initial\": 0.3, \"min\": 0.3, \"max\": 0.8, \"type\": \"float\"}\n    smoothing_factor = 0.0  # OPT_PARAM: {\"initial\": 0.0, \"min\": 0.0, \"max\": 0.2, \"type\": \"float\"}\n    \n    adjusted_target = base_stock + demand_factor * last_demand\n    smoothed_target = smoothing_factor * adjusted_target + (1 - smoothing_factor) * base_stock\n    order_amount = max(0.0, smoothed_target - on_hand_inventory - np.sum(pipeline_orders))\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base_stock to better handle high demand variability, increased demand_factor to be more responsive to recent demand, and added small smoothing to reduce order volatility while maintaining responsiveness.",
+          "opt_params": {
+               "base_stock": 402.98258104331575,
+               "demand_factor": 0.3,
+               "smoothing_factor": 0.0
+          },
+          "cost": null,
+          "objective": 27540.41355,
+          "lower": 26945.51134,
+          "upper": 28113.7836,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base_stock to better match demand variability, adjusted demand_factor to be more responsive to recent demand, and introduced slight smoothing to balance stability and responsiveness. The higher base stock reduces lost sales (more costly than holding costs) while the adjusted factors help adapt to demand fluctuations.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_stock = 402.98245432355384  # OPT_PARAM: {\"initial\": 402.98245432355384, \"min\": 100.0, \"max\": 1000.0, \"type\": \"float\"}\n    demand_factor = 0.2  # OPT_PARAM: {\"initial\": 0.2, \"min\": 0.1, \"max\": 1.0, \"type\": \"float\"}\n    smoothing_factor = 0.0  # OPT_PARAM: {\"initial\": 0.0, \"min\": 0.0, \"max\": 0.5, \"type\": \"float\"}\n    \n    adjusted_target = base_stock + demand_factor * last_demand\n    smoothed_target = smoothing_factor * adjusted_target + (1 - smoothing_factor) * base_stock\n    order_amount = max(0.0, smoothed_target - on_hand_inventory - np.sum(pipeline_orders))\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base_stock to better match demand variability, adjusted demand_factor to be more responsive to recent demand, and introduced slight smoothing to balance stability and responsiveness. The higher base stock reduces lost sales (more costly than holding costs) while the adjusted factors help adapt to demand fluctuations.",
+          "opt_params": {
+               "base_stock": 402.98245432355384,
+               "demand_factor": 0.2,
+               "smoothing_factor": 0.0
+          },
+          "cost": null,
+          "objective": 27540.41356,
+          "lower": 26945.51147,
+          "upper": 28113.78409,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base_stock to better match demand mean (101.8), adjusted demand_factor to be more responsive to recent demand while maintaining stability through smoothing_factor. The new parameters balance holding costs (38.27) and lost sales costs (99.43) more effectively.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_stock = 402.983602600041  # OPT_PARAM: {\"initial\": 402.983602600041, \"min\": 100.0, \"max\": 800.0, \"type\": \"float\"}\n    demand_factor = 0.1  # OPT_PARAM: {\"initial\": 0.1, \"min\": 0.1, \"max\": 1.5, \"type\": \"float\"}\n    smoothing_factor = 0.0  # OPT_PARAM: {\"initial\": 0.0, \"min\": 0.0, \"max\": 0.5, \"type\": \"float\"}\n    \n    adjusted_target = base_stock + demand_factor * last_demand\n    smoothed_target = smoothing_factor * adjusted_target + (1 - smoothing_factor) * base_stock\n    order_amount = max(0.0, smoothed_target - on_hand_inventory - np.sum(pipeline_orders))\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base_stock to better match demand mean (101.8), adjusted demand_factor to be more responsive to recent demand while maintaining stability through smoothing_factor. The new parameters balance holding costs (38.27) and lost sales costs (99.43) more effectively.",
+          "opt_params": {
+               "base_stock": 402.983602600041,
+               "demand_factor": 0.1,
+               "smoothing_factor": 0.0
+          },
+          "cost": null,
+          "objective": 27540.41358,
+          "lower": 26945.511,
+          "upper": 28113.77963,
+          "other_inf": null
+     },
+     {
+          "algorithm": "The new policy improves upon the historical one by: 1) Setting a more optimized base stock level (350 vs 403), 2) Incorporating last demand to better anticipate future needs, 3) Adding smoothing to stabilize order fluctuations. The parameters allow optimization to balance holding and lost-sales costs given the demand distribution.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_stock = 402.9779819684839  # OPT_PARAM: {\"initial\": 402.9779819684839, \"min\": 0.0, \"max\": 1000.0, \"type\": \"float\"}\n    demand_factor = 0.1  # OPT_PARAM: {\"initial\": 0.1, \"min\": 0.1, \"max\": 2.0, \"type\": \"float\"}\n    smoothing_factor = 0.0  # OPT_PARAM: {\"initial\": 0.0, \"min\": 0.0, \"max\": 1.0, \"type\": \"float\"}\n    \n    adjusted_target = base_stock + demand_factor * last_demand\n    smoothed_target = smoothing_factor * adjusted_target + (1 - smoothing_factor) * base_stock\n    order_amount = max(0.0, smoothed_target - on_hand_inventory - np.sum(pipeline_orders))\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "The new policy improves upon the historical one by: 1) Setting a more optimized base stock level (350 vs 403), 2) Incorporating last demand to better anticipate future needs, 3) Adding smoothing to stabilize order fluctuations. The parameters allow optimization to balance holding and lost-sales costs given the demand distribution.",
+          "opt_params": {
+               "base_stock": 402.9779819684839,
+               "demand_factor": 0.1,
+               "smoothing_factor": 0.0
+          },
+          "cost": null,
+          "objective": 27540.41401,
+          "lower": 26945.51624,
+          "upper": 28113.8015,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base_stock to reduce lost sales (which were more costly than holding), adjusted demand_factor to better respond to demand fluctuations, and added slight smoothing to stabilize orders. The parameters were optimized to balance holding costs and lost sales costs given the Exponential(100) demand distribution.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_stock = 402.98980129456606  # OPT_PARAM: {\"initial\": 402.98980129456606, \"min\": 400.0, \"max\": 700.0, \"type\": \"float\"}\n    demand_factor = 0.2  # OPT_PARAM: {\"initial\": 0.2, \"min\": 0.2, \"max\": 0.5, \"type\": \"float\"}\n    smoothing_factor = 0.0  # OPT_PARAM: {\"initial\": 0.0, \"min\": 0.0, \"max\": 0.2, \"type\": \"float\"}\n    \n    adjusted_target = base_stock + demand_factor * last_demand\n    smoothed_target = smoothing_factor * adjusted_target + (1 - smoothing_factor) * base_stock\n    order_amount = max(0.0, smoothed_target - on_hand_inventory - np.sum(pipeline_orders))\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base_stock to reduce lost sales (which were more costly than holding), adjusted demand_factor to better respond to demand fluctuations, and added slight smoothing to stabilize orders. The parameters were optimized to balance holding costs and lost sales costs given the Exponential(100) demand distribution.",
+          "opt_params": {
+               "base_stock": 402.98980129456606,
+               "demand_factor": 0.2,
+               "smoothing_factor": 0.0
+          },
+          "cost": null,
+          "objective": 27540.41407,
+          "lower": 26945.51091,
+          "upper": 28113.75555,
+          "other_inf": null
+     },
+     {
+          "algorithm": "1. Increased base_stock from ~403 to 480 to better match demand (mean ~100) and reduce lost sales which were costly (99.43 vs 38.27 holding).\n2. Adjusted demand_factor from 0.3 to 0.5 to be more responsive to recent demand while maintaining stability.\n3. Added slight smoothing (0.1) to balance between base stock and demand-adjusted targets.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_stock = 402.9767369780958  # OPT_PARAM: {\"initial\": 402.9767369780958, \"min\": 400.0, \"max\": 550.0, \"type\": \"float\"}\n    demand_factor = 0.4  # OPT_PARAM: {\"initial\": 0.4, \"min\": 0.4, \"max\": 0.7, \"type\": \"float\"}\n    smoothing_factor = 0.0  # OPT_PARAM: {\"initial\": 0.0, \"min\": 0.0, \"max\": 0.15, \"type\": \"float\"}\n    \n    adjusted_target = base_stock + demand_factor * last_demand\n    smoothed_target = smoothing_factor * adjusted_target + (1 - smoothing_factor) * base_stock\n    order_amount = max(0.0, smoothed_target - on_hand_inventory - np.sum(pipeline_orders))\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "1. Increased base_stock from ~403 to 480 to better match demand (mean ~100) and reduce lost sales which were costly (99.43 vs 38.27 holding).\n2. Adjusted demand_factor from 0.3 to 0.5 to be more responsive to recent demand while maintaining stability.\n3. Added slight smoothing (0.1) to balance between base stock and demand-adjusted targets.",
+          "opt_params": {
+               "base_stock": 402.9767369780958,
+               "demand_factor": 0.4,
+               "smoothing_factor": 0.0
+          },
+          "cost": null,
+          "objective": 27540.41414,
+          "lower": 26945.51757,
+          "upper": 28113.80635,
+          "other_inf": null
+     },
+     {
+          "algorithm": "The original policy had high lost sales costs (99.43) compared to holding costs (38.27). The new version: 1) Reduced base_stock to better balance costs, 2) Increased demand_factor to respond more aggressively to recent demand, 3) Added pipeline_factor to better account for incoming orders, and 4) Added slight smoothing for stability. These changes should better handle the exponential demand variability while maintaining cost efficiency.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_stock = 402.9759026922622  # OPT_PARAM: {\"initial\": 402.9759026922622, \"min\": 250.0, \"max\": 450.0, \"type\": \"float\"}\n    demand_factor = 0.3  # OPT_PARAM: {\"initial\": 0.3, \"min\": 0.3, \"max\": 0.7, \"type\": \"float\"}\n    smoothing_factor = 0.0  # OPT_PARAM: {\"initial\": 0.0, \"min\": 0.0, \"max\": 0.2, \"type\": \"float\"}\n    pipeline_factor = 1.0  # OPT_PARAM: {\"initial\": 1.0, \"min\": 0.5, \"max\": 1.0, \"type\": \"float\"}\n    \n    pipeline_total = np.sum(pipeline_orders) * pipeline_factor\n    adjusted_target = base_stock + demand_factor * last_demand\n    smoothed_target = smoothing_factor * adjusted_target + (1 - smoothing_factor) * base_stock\n    order_amount = max(0.0, smoothed_target - on_hand_inventory - pipeline_total)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "The original policy had high lost sales costs (99.43) compared to holding costs (38.27). The new version: 1) Reduced base_stock to better balance costs, 2) Increased demand_factor to respond more aggressively to recent demand, 3) Added pipeline_factor to better account for incoming orders, and 4) Added slight smoothing for stability. These changes should better handle the exponential demand variability while maintaining cost efficiency.",
+          "opt_params": {
+               "base_stock": 402.9759026922622,
+               "demand_factor": 0.3,
+               "smoothing_factor": 0.0,
+               "pipeline_factor": 1.0
+          },
+          "cost": null,
+          "objective": 27540.41422,
+          "lower": 26945.51846,
+          "upper": 28113.8096,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base_stock to better handle high demand spikes, increased demand_factor to be more responsive to recent demand, and added slight smoothing to stabilize orders. These changes aim to reduce lost sales while keeping holding costs manageable.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_stock = 402.97246669083694  # OPT_PARAM: {\"initial\": 402.97246669083694, \"min\": 400.0, \"max\": 500.0, \"type\": \"float\"}\n    demand_factor = 0.4  # OPT_PARAM: {\"initial\": 0.4, \"min\": 0.4, \"max\": 0.7, \"type\": \"float\"}\n    smoothing_factor = 0.0  # OPT_PARAM: {\"initial\": 0.0, \"min\": 0.0, \"max\": 0.2, \"type\": \"float\"}\n    \n    adjusted_target = base_stock + demand_factor * last_demand\n    smoothed_target = smoothing_factor * adjusted_target + (1 - smoothing_factor) * base_stock\n    order_amount = max(0.0, smoothed_target - on_hand_inventory - np.sum(pipeline_orders))\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base_stock to better handle high demand spikes, increased demand_factor to be more responsive to recent demand, and added slight smoothing to stabilize orders. These changes aim to reduce lost sales while keeping holding costs manageable.",
+          "opt_params": {
+               "base_stock": 402.97246669083694,
+               "demand_factor": 0.4,
+               "smoothing_factor": 0.0
+          },
+          "cost": null,
+          "objective": 27540.41456,
+          "lower": 26945.52212,
+          "upper": 28113.82298,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base_stock and demand_factor to better handle the exponential demand distribution (mean ~100), while adding moderate smoothing to reduce volatility in orders. The higher base stock reduces lost sales (costlier than holding) while the stronger demand response helps track demand spikes.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_stock = 402.99624069773444  # OPT_PARAM: {\"initial\": 402.99624069773444, \"min\": 0.0, \"max\": 1000.0, \"type\": \"float\"}\n    demand_factor = 0.1  # OPT_PARAM: {\"initial\": 0.1, \"min\": 0.1, \"max\": 2.0, \"type\": \"float\"}\n    smoothing_factor = 0.0  # OPT_PARAM: {\"initial\": 0.0, \"min\": 0.0, \"max\": 1.0, \"type\": \"float\"}\n    \n    adjusted_target = base_stock + demand_factor * last_demand\n    smoothed_target = smoothing_factor * adjusted_target + (1 - smoothing_factor) * base_stock\n    order_amount = max(0.0, smoothed_target - on_hand_inventory - np.sum(pipeline_orders))\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base_stock and demand_factor to better handle the exponential demand distribution (mean ~100), while adding moderate smoothing to reduce volatility in orders. The higher base stock reduces lost sales (costlier than holding) while the stronger demand response helps track demand spikes.",
+          "opt_params": {
+               "base_stock": 402.99624069773444,
+               "demand_factor": 0.1,
+               "smoothing_factor": 0.0
+          },
+          "cost": null,
+          "objective": 27540.41459,
+          "lower": 26945.51083,
+          "upper": 28113.73053,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base_stock to reduce lost sales; adjusted demand_factor and smoothing_factor to better respond to demand variability; added pipeline_factor to account for pipeline inventory more dynamically.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_stock = 402.970674369984  # OPT_PARAM: {\"initial\": 402.970674369984, \"min\": 350.0, \"max\": 550.0, \"type\": \"float\"}\n    demand_factor = 0.3  # OPT_PARAM: {\"initial\": 0.3, \"min\": 0.3, \"max\": 0.7, \"type\": \"float\"}\n    smoothing_factor = 0.0  # OPT_PARAM: {\"initial\": 0.0, \"min\": 0.0, \"max\": 0.2, \"type\": \"float\"}\n    pipeline_factor = 0.0  # OPT_PARAM: {\"initial\": 0.0, \"min\": 0.0, \"max\": 0.5, \"type\": \"float\"}\n    \n    adjusted_target = base_stock + demand_factor * last_demand\n    smoothed_target = smoothing_factor * adjusted_target + (1 - smoothing_factor) * base_stock\n    pipeline_adjustment = pipeline_factor * np.sum(pipeline_orders)\n    order_amount = max(0.0, smoothed_target - on_hand_inventory - np.sum(pipeline_orders) + pipeline_adjustment)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base_stock to reduce lost sales; adjusted demand_factor and smoothing_factor to better respond to demand variability; added pipeline_factor to account for pipeline inventory more dynamically.",
+          "opt_params": {
+               "base_stock": 402.970674369984,
+               "demand_factor": 0.3,
+               "smoothing_factor": 0.0,
+               "pipeline_factor": 0.0
+          },
+          "cost": null,
+          "objective": 27540.41474,
+          "lower": 26945.52403,
+          "upper": 28113.82996,
+          "other_inf": null
+     }
+]

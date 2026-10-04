@@ -1,0 +1,147 @@
+{
+  "results": {
+    "perish_m5_L2_cv2_f0": {
+      "theta": [
+        11.004033341750294,
+        9.272779982960849,
+        1.3598461439056684,
+        0.9559358131554321,
+        0.6802792291603634,
+        1.5992699989685586,
+        0.5356680008821071,
+        2.1170341825183683,
+        0.22997283081037412,
+        1.1849154172167027
+      ],
+      "cost": 216.35000000000002,
+      "nfev": 768,
+      "seconds": 23.06928566703573,
+      "path_costs": [
+        205.3,
+        209.0,
+        197.1,
+        237.4,
+        216.9,
+        227.5,
+        220.8,
+        206.4,
+        203.5,
+        216.4,
+        221.4,
+        199.7,
+        189.1,
+        202.9,
+        228.5,
+        185.1,
+        228.8,
+        228.0,
+        202.9,
+        217.4,
+        209.9,
+        210.1,
+        183.4,
+        220.6,
+        270.5,
+        227.8,
+        238.8,
+        237.4,
+        222.6,
+        244.9,
+        208.6,
+        204.5
+      ],
+      "metrics": [
+        0.545625,
+        1.6178749999999997,
+        2.9559999999999995
+      ],
+      "cap": 22
+    }
+  },
+  "parameters": {
+    "S": {
+      "type": "float",
+      "initial": 10.0,
+      "min": 0.0,
+      "max": 60.0
+    },
+    "C": {
+      "type": "float",
+      "initial": 6.0,
+      "min": 0.0,
+      "max": 30.0
+    },
+    "GAIN": {
+      "type": "float",
+      "initial": 1.0,
+      "min": 0.3,
+      "max": 1.8
+    },
+    "TAIL": {
+      "type": "float",
+      "initial": 0.12,
+      "min": 0.0,
+      "max": 1.5
+    },
+    "K": {
+      "type": "float",
+      "initial": 1.0,
+      "min": 0.4,
+      "max": 1.8
+    },
+    "SCEN_TAIL": {
+      "type": "float",
+      "initial": 1.0,
+      "min": 0.05,
+      "max": 2.5
+    },
+    "A": {
+      "type": "float",
+      "initial": 1.0,
+      "min": 0.1,
+      "max": 8.0
+    },
+    "FRESH_FLOOR": {
+      "type": "float",
+      "initial": 0.2,
+      "min": 0.0,
+      "max": 2.5
+    },
+    "SELL_BLEND": {
+      "type": "float",
+      "initial": 0.25,
+      "min": 0.0,
+      "max": 1.0
+    },
+    "RISK": {
+      "type": "float",
+      "initial": 0.0,
+      "min": -2.5,
+      "max": 2.5
+    }
+  },
+  "structure_sha256": "a5fbac7586cefb21f997111be77b02fd98147046c926d7b17ccbafabddea0164",
+  "code_sha256": "fa58f9c5afdd4661bd2335d98391bf8801b7344ba305bf1ccf1067305bc7d744",
+  "import_normalization": [],
+  "action_cache": {
+    "enabled": true,
+    "version": 1,
+    "scenarios": {
+      "perish_m5_L2_cv2_f0": {
+        "hits": 32688630,
+        "misses": 4223370,
+        "peak_entries": 28407,
+        "configuration": {
+          "dense": false,
+          "slots": 131072,
+          "slot_bits": 17,
+          "max_entries": 48000,
+          "buffer_bytes": 2097152
+        }
+      }
+    }
+  },
+  "wall_seconds": 24.164476375095546,
+  "transitions": 36912000,
+  "request_sha256": "abf0ba670bf4878592f5093431c95504778f0d5bc1266043fef14c07b2dd2904"
+}

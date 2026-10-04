@@ -1,0 +1,23 @@
+{
+     "algorithm": "Increased safety stock (S_over_mean) and cap levels to reduce lost sales, adjusted regime parameters to better reflect demand autocorrelation, added pipeline adjustment to account for incoming orders, and fine-tuned response parameters based on training performance. The changes aim to reduce the high lost-sales costs while maintaining reasonable holding costs.",
+     "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    S_over_mean = 0.7  # OPT_PARAM: {\"initial\": 0.7, \"min\": 0.7, \"max\": 1.0, \"type\": \"float\"}\n    cap_over_mean = 3.5  # OPT_PARAM: {\"initial\": 3.5, \"min\": 2.5, \"max\": 4.0, \"type\": \"float\"}\n    target_forecast_gain = 1.2566730385508063  # OPT_PARAM: {\"initial\": 1.2566730385508063, \"min\": 0.9, \"max\": 1.3, \"type\": \"float\"}\n    cap_forecast_gain = 2.3  # OPT_PARAM: {\"initial\": 2.3, \"min\": 2.0, \"max\": 2.5, \"type\": \"float\"}\n    inventory_gain = 0.5  # OPT_PARAM: {\"initial\": 0.5, \"min\": 0.5, \"max\": 0.8, \"type\": \"float\"}\n    demand_response = 0.1  # OPT_PARAM: {\"initial\": 0.1, \"min\": 0.1, \"max\": 0.2, \"type\": \"float\"}\n    high_regime_adjustment = 1.278660344164842  # OPT_PARAM: {\"initial\": 1.278660344164842, \"min\": 1.2, \"max\": 1.8, \"type\": \"float\"}\n    low_regime_adjustment = 0.7340128158737399  # OPT_PARAM: {\"initial\": 0.7340128158737399, \"min\": 0.7, \"max\": 1.1, \"type\": \"float\"}\n    pipeline_adjustment = 0.1  # OPT_PARAM: {\"initial\": 0.1, \"min\": 0.1, \"max\": 0.3, \"type\": \"float\"}\n    \n    mean_demand = 100.0\n    arrival_mean = conditional_arrival_mean(last_demand, quoted_lead_time)\n    projected_inventory = conditional_projected_inventory(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time)\n    total_pipeline = np.sum(pipeline_orders)\n    \n    if last_demand >= 100.0 * np.log(2):\n        adjusted_mean = high_regime_adjustment * ((1 - demand_response) * mean_demand + demand_response * last_demand)\n    else:\n        adjusted_mean = low_regime_adjustment * ((1 - demand_response) * mean_demand + demand_response * last_demand)\n    \n    target = max(0.0, adjusted_mean * S_over_mean + target_forecast_gain * (arrival_mean - adjusted_mean))\n    cap = max(0.0, adjusted_mean * cap_over_mean + cap_forecast_gain * (arrival_mean - adjusted_mean))\n    \n    order_amount = min(cap, max(0.0, target - inventory_gain * projected_inventory - pipeline_adjustment * total_pipeline))\n    return order_amount\n",
+     "description": "",
+     "intuition": "",
+     "reasoning": "Increased safety stock (S_over_mean) and cap levels to reduce lost sales, adjusted regime parameters to better reflect demand autocorrelation, added pipeline adjustment to account for incoming orders, and fine-tuned response parameters based on training performance. The changes aim to reduce the high lost-sales costs while maintaining reasonable holding costs.",
+     "opt_params": {
+          "S_over_mean": 0.7,
+          "cap_over_mean": 3.5,
+          "target_forecast_gain": 1.2566730385508063,
+          "cap_forecast_gain": 2.3,
+          "inventory_gain": 0.5,
+          "demand_response": 0.1,
+          "high_regime_adjustment": 1.278660344164842,
+          "low_regime_adjustment": 0.7340128158737399,
+          "pipeline_adjustment": 0.1
+     },
+     "cost": null,
+     "objective": 29428.37162,
+     "lower": 27817.70597,
+     "upper": 31073.56112,
+     "other_inf": null
+}

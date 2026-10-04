@@ -1,0 +1,278 @@
+{
+  "created_utc": "2026-09-16T14:30:33.882439+00:00",
+  "split": "train",
+  "horizon": 200,
+  "burnin": 500,
+  "training_paths": 50,
+  "status": "interim_not_test",
+  "display_rule": "main table includes repeat 1 from every scenario; all other completed repeats are listed separately; no test-best selection",
+  "repeats_are_not_paired_model_seeds": true,
+  "new_test_evaluated": false,
+  "planned_final_comparison": "Both runs use all three repetitions, all three implemented PIL families, every cold/steady window H=50/100/200/500, per-period cost differences and paired path bootstrap CI after all27 policies freeze.",
+  "records": [
+    {
+      "scenario_id": "exp_iid_fixed6",
+      "repeat": 1,
+      "source_training_horizon": 200,
+      "old_cost_per_period": 127.55208920590522,
+      "new_cost_per_period": 137.70206775412535,
+      "new_vs_old_improvement_pct": -7.957516502795333,
+      "comparisons": {
+        "conditional_pil": {
+          "baseline_cost_per_period": 124.17614183780967,
+          "old_cost_difference": 3.3759473680955523,
+          "new_cost_difference": 13.525925916315686,
+          "old_improvement_pct": -2.7186763239149294,
+          "new_improvement_pct": -10.892531943843384
+        },
+        "forecast_adaptive_pil": {
+          "baseline_cost_per_period": 123.95571224940359,
+          "old_cost_difference": 3.5963769565016293,
+          "new_cost_difference": 13.746355504721762,
+          "old_improvement_pct": -2.901340237766197,
+          "new_improvement_pct": -11.089731368784017
+        },
+        "pil_cop_continuation": {
+          "baseline_cost_per_period": 124.17614183780967,
+          "old_cost_difference": 3.3759473680955523,
+          "new_cost_difference": 13.525925916315686,
+          "old_improvement_pct": -2.7186763239149294,
+          "new_improvement_pct": -10.892531943843384
+        }
+      },
+      "new_code_sha256": "5961d53acc5fec68b9d677cb22e7956bc9c646d4bc6071694879109330c20931",
+      "old_code_sha256": "5a9c2559938f19f639982944be23b3b66f63311346d54d9a04d49b248f6f7566"
+    },
+    {
+      "scenario_id": "exp_iid_fixed6",
+      "repeat": 2,
+      "source_training_horizon": 200,
+      "old_cost_per_period": 125.26166739344839,
+      "new_cost_per_period": 137.70206760825954,
+      "new_vs_old_improvement_pct": -9.931530111071972,
+      "comparisons": {
+        "conditional_pil": {
+          "baseline_cost_per_period": 124.17614183780967,
+          "old_cost_difference": 1.0855255556387249,
+          "new_cost_difference": 13.525925770449874,
+          "old_improvement_pct": -0.8741820607186875,
+          "new_improvement_pct": -10.892531826376525
+        },
+        "forecast_adaptive_pil": {
+          "baseline_cost_per_period": 123.95571224940359,
+          "old_cost_difference": 1.3059551440448018,
+          "new_cost_difference": 13.74635535885595,
+          "old_improvement_pct": -1.0535659231396861,
+          "new_improvement_pct": -11.089731251108269
+        },
+        "pil_cop_continuation": {
+          "baseline_cost_per_period": 124.17614183780967,
+          "old_cost_difference": 1.0855255556387249,
+          "new_cost_difference": 13.525925770449874,
+          "old_improvement_pct": -0.8741820607186875,
+          "new_improvement_pct": -10.892531826376525
+        }
+      },
+      "new_code_sha256": "061dd9508ca43f2be1eed5530d2dd2dfd7ba5fb83b65dd18fd39bb97147c1aa5",
+      "old_code_sha256": "53c8c8dc17081e41a02015bf56580c624f62e56cc5094182f482bc5936ebac9f"
+    },
+    {
+      "scenario_id": "exp_ar_pos08_fixed6",
+      "repeat": 1,
+      "source_training_horizon": 200,
+      "old_cost_per_period": 172.03636848975304,
+      "new_cost_per_period": 171.91354935114907,
+      "new_vs_old_improvement_pct": 0.0713913806029264,
+      "comparisons": {
+        "conditional_pil": {
+          "baseline_cost_per_period": 167.25343602710294,
+          "old_cost_difference": 4.782932462650109,
+          "new_cost_difference": 4.6601133240461365,
+          "old_improvement_pct": -2.8596916011190636,
+          "new_improvement_pct": -2.7862586472011124
+        },
+        "forecast_adaptive_pil": {
+          "baseline_cost_per_period": 166.59415298176413,
+          "old_cost_difference": 5.442215507988919,
+          "new_cost_difference": 5.319396369384947,
+          "old_improvement_pct": -3.266750609539484,
+          "new_improvement_pct": -3.1930270505755525
+        },
+        "pil_cop_continuation": {
+          "baseline_cost_per_period": 167.25343602710294,
+          "old_cost_difference": 4.782932462650109,
+          "new_cost_difference": 4.6601133240461365,
+          "old_improvement_pct": -2.8596916011190636,
+          "new_improvement_pct": -2.7862586472011124
+        }
+      },
+      "new_code_sha256": "169088cb722d87f92f5cf5b91970979fbaf81a2174764b711a4e279dc2b11396",
+      "old_code_sha256": "70b2dad127c439a94f9cf9a6c52a350f7c735a279733640bf28652c17ab32220"
+    },
+    {
+      "scenario_id": "exp_ar_pos08_fixed6",
+      "repeat": 2,
+      "source_training_horizon": 200,
+      "old_cost_per_period": 168.50408528658048,
+      "new_cost_per_period": 171.9135238976674,
+      "new_vs_old_improvement_pct": -2.023356647578236,
+      "comparisons": {
+        "conditional_pil": {
+          "baseline_cost_per_period": 167.25343602710294,
+          "old_cost_difference": 1.250649259477541,
+          "new_cost_difference": 4.6600878705644675,
+          "old_improvement_pct": -0.747756990340621,
+          "new_improvement_pct": -2.786243428690645
+        },
+        "forecast_adaptive_pil": {
+          "baseline_cost_per_period": 166.59415298176413,
+          "old_cost_difference": 1.9099323048163512,
+          "new_cost_difference": 5.319370915903278,
+          "old_improvement_pct": -1.146458186335878,
+          "new_improvement_pct": -3.1930117718390463
+        },
+        "pil_cop_continuation": {
+          "baseline_cost_per_period": 167.25343602710294,
+          "old_cost_difference": 1.250649259477541,
+          "new_cost_difference": 4.6600878705644675,
+          "old_improvement_pct": -0.747756990340621,
+          "new_improvement_pct": -2.786243428690645
+        }
+      },
+      "new_code_sha256": "eedc62f077f48d923f96586dad3ed052b6091024b61e97721c772de050d9c1bc",
+      "old_code_sha256": "f532720639dd828a4175b9b83fc9c60438484e3356b63ceaea9227dc80b2367c"
+    },
+    {
+      "scenario_id": "exp_ar_neg06_fixed6",
+      "repeat": 1,
+      "source_training_horizon": 200,
+      "old_cost_per_period": 100.47431578670154,
+      "new_cost_per_period": 100.47431576961982,
+      "new_vs_old_improvement_pct": 1.7001078574324843e-08,
+      "comparisons": {
+        "conditional_pil": {
+          "baseline_cost_per_period": 100.361330294639,
+          "old_cost_difference": 0.11298549206253483,
+          "new_cost_difference": 0.11298547498081746,
+          "old_improvement_pct": -0.11257871107410995,
+          "new_improvement_pct": -0.11257869405389179
+        },
+        "forecast_adaptive_pil": {
+          "baseline_cost_per_period": 100.19812171911249,
+          "old_cost_difference": 0.27619406758904574,
+          "new_cost_difference": 0.27619405050732837,
+          "old_improvement_pct": -0.2756479491335241,
+          "new_improvement_pct": -0.27564793208558236
+        },
+        "pil_cop_continuation": {
+          "baseline_cost_per_period": 100.361330294639,
+          "old_cost_difference": 0.11298549206253483,
+          "new_cost_difference": 0.11298547498081746,
+          "old_improvement_pct": -0.11257871107410995,
+          "new_improvement_pct": -0.11257869405389179
+        }
+      },
+      "new_code_sha256": "753766c93f28c544fb33e5fb4382dc779cf81aaabc6b2952ef7646a99893b578",
+      "old_code_sha256": "7c95e942f2496c7b9eb663c7e8414cad177b2809e370d82689a1f7e4ee269d8c"
+    },
+    {
+      "scenario_id": "exp_regime095_fixed6",
+      "repeat": 1,
+      "source_training_horizon": 200,
+      "old_cost_per_period": 156.74704732980535,
+      "new_cost_per_period": 148.48157777939173,
+      "new_vs_old_improvement_pct": 5.273126155303311,
+      "comparisons": {
+        "conditional_pil": {
+          "baseline_cost_per_period": 152.03513294279534,
+          "old_cost_difference": 4.711914387010012,
+          "new_cost_difference": -3.5535551634036153,
+          "old_improvement_pct": -3.0992273271355733,
+          "new_improvement_pct": 2.337324994967232
+        },
+        "forecast_adaptive_pil": {
+          "baseline_cost_per_period": 148.15124556677674,
+          "old_cost_difference": 8.595801763028618,
+          "new_cost_difference": 0.3303322126149908,
+          "old_improvement_pct": -5.802044883351455,
+          "new_improvement_pct": -0.22296958176169973
+        },
+        "pil_cop_continuation": {
+          "baseline_cost_per_period": 152.03513294279534,
+          "old_cost_difference": 4.711914387010012,
+          "new_cost_difference": -3.5535551634036153,
+          "old_improvement_pct": -3.0992273271355733,
+          "new_improvement_pct": 2.337324994967232
+        }
+      },
+      "new_code_sha256": "da3986a5d474090b35cc0021d0bb8c48809b33faa877e26d9a44384176c35067",
+      "old_code_sha256": "35c373998b491ac02bed563eadbbeb12f52b13b366d17f19d5cd06895ac12db9"
+    },
+    {
+      "scenario_id": "exp_iid_random3_9",
+      "repeat": 1,
+      "source_training_horizon": 200,
+      "old_cost_per_period": 137.2161160359705,
+      "new_cost_per_period": 147.95222458756137,
+      "new_vs_old_improvement_pct": -7.824232941250481,
+      "comparisons": {
+        "conditional_pil": {
+          "baseline_cost_per_period": 133.88754118728303,
+          "old_cost_difference": 3.3285748486874525,
+          "new_cost_difference": 14.06468340027834,
+          "old_improvement_pct": -2.4860975257073497,
+          "new_improvement_pct": -10.50484852851584
+        },
+        "forecast_adaptive_pil": {
+          "baseline_cost_per_period": 133.52727276856254,
+          "old_cost_difference": 3.6888432674079468,
+          "new_cost_difference": 14.424951818998835,
+          "old_improvement_pct": -2.7626141019158466,
+          "new_improvement_pct": -10.803000405768058
+        },
+        "pil_cop_continuation": {
+          "baseline_cost_per_period": 134.5306925781585,
+          "old_cost_difference": 2.685423457811993,
+          "new_cost_difference": 13.421532009402881,
+          "old_improvement_pct": -1.9961418516089469,
+          "new_improvement_pct": -9.976557581167103
+        }
+      },
+      "new_code_sha256": "1fd39e3e1895c3e3fdb86c7eb1b143b79f82d58a87c29d7b05cfe7dc9ca08abc",
+      "old_code_sha256": "2df85190498a25e291515dfa3e561bb1736f5cbac9d94f38ff70f0b42389a048"
+    },
+    {
+      "scenario_id": "exp_regime095_random3_9",
+      "repeat": 1,
+      "source_training_horizon": 200,
+      "old_cost_per_period": 153.71895291415134,
+      "new_cost_per_period": 158.02795472399927,
+      "new_vs_old_improvement_pct": -2.803168853390779,
+      "comparisons": {
+        "conditional_pil": {
+          "baseline_cost_per_period": 156.43433262069266,
+          "old_cost_difference": -2.715379706541313,
+          "new_cost_difference": 1.5936221033066147,
+          "old_improvement_pct": 1.7357952445933411,
+          "new_improvement_pct": -1.018716337142359
+        },
+        "forecast_adaptive_pil": {
+          "baseline_cost_per_period": 148.10674934717147,
+          "old_cost_difference": 5.612203566979872,
+          "new_cost_difference": 9.9212053768278,
+          "old_improvement_pct": -3.789296295892982,
+          "new_improvement_pct": -6.698685522812924
+        },
+        "pil_cop_continuation": {
+          "baseline_cost_per_period": 153.97352577752483,
+          "old_cost_difference": -0.2545728633734825,
+          "new_cost_difference": 4.054428946474445,
+          "old_improvement_pct": 0.16533547704903043,
+          "new_improvement_pct": -2.633198743745505
+        }
+      },
+      "new_code_sha256": "2cf2cac7c68e9919814449e5b94f8ae8ae8cf933f7271916ad1434e68c148007",
+      "old_code_sha256": "36c32606430a0a8dd7f896e151b3e447751e0200975536c57c274b4054359396"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "verified_utc": "2026-09-16T05:39:16.762461+00:00",
+  "reconciliation": "request_reconciliations/c9c728f9bc614f478258cd38b138a1e9.json",
+  "independent_recovery_auditor": "explain_optimization",
+  "recovery_verified": "First subsequent request starts at generation5/slot8; original failed request remains unique, unknown_charge and fully reserved. Frozen source hashes verified unchanged before recovery.",
+  "report_auditor": "audit_inventory_environment",
+  "report_checks": "16 offline analysis tests passed, as reported by independent agent; transport failure is separately reported as a subset of invalid slots, unknown-cost reserve counted once. No test outcomes read.",
+  "report_sources_sha256": {
+    "examples/inventory/correlated_benchmark/analysis_report.py": "e18833a61a4d83e64cd0579a2f705dff7958c517356ef4e596700088fc9e561a",
+    "examples/inventory/correlated_benchmark/test_analysis.py": "93fa8ac679430c4f876ef428dd59d3c2b1b149630a995a840e9e0024e74eade9"
+  },
+  "next_action": "After original controller exits and standalone recovery chain completes, resume original night_runner; do not launch duplicate controllers or resend original failed request."
+}

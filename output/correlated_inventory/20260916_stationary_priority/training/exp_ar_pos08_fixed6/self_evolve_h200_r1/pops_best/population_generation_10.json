@@ -1,0 +1,18 @@
+{
+     "algorithm": "Modified the policy to dynamically adjust the target based on last demand and pipeline orders, while maintaining a base stock level and safety stock. This should better respond to demand fluctuations and reduce lost sales while controlling holding costs.",
+     "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_stock = 183.54452919412546  # OPT_PARAM: {\"initial\": 183.54452919412546, \"min\": 50.0, \"max\": 400.0, \"type\": \"float\"}\n    demand_response = 0.1  # OPT_PARAM: {\"initial\": 0.1, \"min\": 0.1, \"max\": 1.5, \"type\": \"float\"}\n    pipeline_adjustment = 1.0  # OPT_PARAM: {\"initial\": 1.0, \"min\": 0.1, \"max\": 1.0, \"type\": \"float\"}\n    safety_stock = 43.25684640055422  # OPT_PARAM: {\"initial\": 43.25684640055422, \"min\": 10.0, \"max\": 100.0, \"type\": \"float\"}\n    \n    demand_estimate = demand_response * last_demand\n    total_pipeline = sum(pipeline_orders)\n    target = base_stock + safety_stock + demand_estimate - pipeline_adjustment * total_pipeline\n    order_amount = max(0.0, target - on_hand_inventory)\n    return order_amount\n",
+     "description": "",
+     "intuition": "",
+     "reasoning": "Modified the policy to dynamically adjust the target based on last demand and pipeline orders, while maintaining a base stock level and safety stock. This should better respond to demand fluctuations and reduce lost sales while controlling holding costs.",
+     "opt_params": {
+          "base_stock": 183.54452919412546,
+          "demand_response": 0.1,
+          "pipeline_adjustment": 1.0,
+          "safety_stock": 43.25684640055422
+     },
+     "cost": null,
+     "objective": 34407.2737,
+     "lower": 32855.76273,
+     "upper": 36078.53879,
+     "other_inf": null
+}

@@ -1,0 +1,280 @@
+{
+  "results": {
+    "perish_m3_L2_cv1.5_f0": {
+      "theta": [
+        7.534016371594483,
+        22.45510963739959,
+        6.000881190409764,
+        1.4904524322331663,
+        0.3995888660740047,
+        0.5153869494812193
+      ],
+      "cost": 233.2275390625,
+      "nfev": 256,
+      "seconds": 3.1123777080792934,
+      "path_costs": [
+        229.4921875,
+        201.953125,
+        234.765625,
+        227.34375,
+        239.453125,
+        259.1796875,
+        241.6015625,
+        232.03125
+      ],
+      "metrics": [
+        0.6787109375,
+        1.653564453125,
+        3.000732421875
+      ],
+      "cap": 17
+    },
+    "perish_m3_L2_cv1.5_f0.5": {
+      "theta": [
+        6.2750858114950105,
+        25.028059888396356,
+        4.557311653802014,
+        0.5841301731550366,
+        0.4617429469979045,
+        0.23085556902281523
+      ],
+      "cost": 213.96484375,
+      "nfev": 256,
+      "seconds": 1.5074589170981199,
+      "path_costs": [
+        222.0703125,
+        230.46875,
+        161.71875,
+        193.359375,
+        204.8828125,
+        264.84375,
+        197.8515625,
+        236.5234375
+      ],
+      "metrics": [
+        0.602294921875,
+        1.537353515625,
+        3.19970703125
+      ],
+      "cap": 16
+    },
+    "perish_m3_L2_cv2_f0": {
+      "theta": [
+        4.125331903992269,
+        15.749707645497491,
+        4.008482899674382,
+        1.2051334678925258,
+        0.7725869954952906,
+        0.4740047758133449
+      ],
+      "cost": 259.86328125,
+      "nfev": 256,
+      "seconds": 1.323636749992147,
+      "path_costs": [
+        224.8046875,
+        238.8671875,
+        269.53125,
+        268.359375,
+        310.546875,
+        227.9296875,
+        239.453125,
+        299.4140625
+      ],
+      "metrics": [
+        0.653564453125,
+        1.945068359375,
+        2.666015625
+      ],
+      "cap": 14
+    },
+    "perish_m3_L2_cv2_f0.5": {
+      "theta": [
+        3.949409947635015,
+        15.184492227859662,
+        2.00707915357886,
+        1.7954757905891854,
+        0.8866049492782355,
+        0.636036748272383
+      ],
+      "cost": 237.158203125,
+      "nfev": 256,
+      "seconds": 1.5722502910066396,
+      "path_costs": [
+        235.9375,
+        266.2109375,
+        289.0625,
+        197.4609375,
+        232.8125,
+        206.640625,
+        184.9609375,
+        284.1796875
+      ],
+      "metrics": [
+        0.4658203125,
+        1.90576171875,
+        2.5556640625
+      ],
+      "cap": 14
+    },
+    "perish_m5_L2_cv1.5_f0": {
+      "theta": [
+        9.812929370007929,
+        15.718879452374303,
+        0.4324111503637371,
+        0.2884272807274779,
+        0.20084958307668016,
+        0.41937515711647705
+      ],
+      "cost": 180.4931640625,
+      "nfev": 256,
+      "seconds": 1.8845063338521868,
+      "path_costs": [
+        186.71875,
+        149.0234375,
+        179.4921875,
+        172.8515625,
+        185.15625,
+        207.421875,
+        184.1796875,
+        179.1015625
+      ],
+      "metrics": [
+        0.527099609375,
+        1.27783203125,
+        3.2236328125
+      ],
+      "cap": 25
+    },
+    "perish_m5_L2_cv1.5_f0.5": {
+      "theta": [
+        8.565531486340067,
+        15.139605451864565,
+        0.3323111327913857,
+        1.6533287250765984,
+        0.984273946074741,
+        0.43537752803287877
+      ],
+      "cost": 165.4052734375,
+      "nfev": 256,
+      "seconds": 2.236726624891162,
+      "path_costs": [
+        165.4296875,
+        174.4140625,
+        131.8359375,
+        151.7578125,
+        153.90625,
+        198.2421875,
+        165.625,
+        182.03125
+      ],
+      "metrics": [
+        0.544189453125,
+        1.10986328125,
+        3.5703125
+      ],
+      "cap": 24
+    },
+    "perish_m5_L2_cv2_f0": {
+      "theta": [
+        8.856665960828469,
+        25.94008896800416,
+        0.05678787743227831,
+        0.7300707876009245,
+        0.544746807574982,
+        0.6167401220838206
+      ],
+      "cost": 214.5751953125,
+      "nfev": 256,
+      "seconds": 1.8988182079046965,
+      "path_costs": [
+        185.9375,
+        195.3125,
+        225.9765625,
+        223.4375,
+        261.328125,
+        182.8125,
+        201.5625,
+        240.234375
+      ],
+      "metrics": [
+        0.521240234375,
+        1.62451171875,
+        2.854736328125
+      ],
+      "cap": 22
+    },
+    "perish_m5_L2_cv2_f0.5": {
+      "theta": [
+        9.232505270917638,
+        19.1413846504545,
+        0.7277321348381101,
+        1.057319167302924,
+        0.4090799077335432,
+        0.4432103219725366
+      ],
+      "cost": 195.6787109375,
+      "nfev": 256,
+      "seconds": 2.398113291943446,
+      "path_costs": [
+        197.65625,
+        223.6328125,
+        245.703125,
+        154.6875,
+        195.1171875,
+        165.625,
+        142.7734375,
+        240.234375
+      ],
+      "metrics": [
+        0.399658203125,
+        1.55712890625,
+        2.84033203125
+      ],
+      "cap": 21
+    }
+  },
+  "parameters": {
+    "S": {
+      "type": "float",
+      "initial": 10.0,
+      "min": 0.0,
+      "max": 60.0
+    },
+    "C": {
+      "type": "float",
+      "initial": 6.0,
+      "min": 0.0,
+      "max": 30.0
+    },
+    "A": {
+      "type": "float",
+      "initial": 1.0,
+      "min": 0.0,
+      "max": 8.0
+    },
+    "P": {
+      "type": "float",
+      "initial": 1.0,
+      "min": 0.0,
+      "max": 2.0
+    },
+    "B": {
+      "type": "float",
+      "initial": 0.75,
+      "min": 0.0,
+      "max": 1.0
+    },
+    "H": {
+      "type": "float",
+      "initial": 0.1,
+      "min": 0.0,
+      "max": 1.0
+    }
+  },
+  "structure_sha256": "5439d436e6b4aa1d7b0ec3dc5a4c9456366fe5944070f5152cef2cc8a5aa7c48",
+  "wall_seconds": 17.329232666874304,
+  "transitions": 11710976,
+  "valid": true,
+  "score": 0.9972703611649341,
+  "code": "def compute_order_amount(age, pipeline, mu, cv, f, L):\n    S = 10.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":10.0,\"min\":0.0,\"max\":60.0}\n    C = 6.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":6.0,\"min\":0.0,\"max\":30.0}\n    A = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":8.0}\n    P = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":2.0}\n    B = 0.75 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.75,\"min\":0.0,\"max\":1.0}\n    H = 0.1 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.1,\"min\":0.0,\"max\":1.0}\n\n    m = len(age)\n    raw_effective = 0.0\n    pipeline_stock = 0.0\n\n    for i in range(m):\n        relative_life = (i + 1.0) / m\n        raw_effective = raw_effective + max(0.0, age[i]) * (relative_life ** A)\n\n    for j in range(len(pipeline)):\n        pipeline_stock = pipeline_stock + max(0.0, pipeline[j])\n\n    raw_effective = raw_effective + P * pipeline_stock\n\n    aggregate = [0.0] * m\n    layered = [0.0] * m\n\n    for i in range(m):\n        aggregate[i] = max(0.0, age[i])\n        layered[i] = max(0.0, age[i])\n\n    for step in range(L):\n        for stream in range(2):\n            if stream == 0:\n                g = f\n            else:\n                g = 1.0 - f\n\n            M = g * mu\n            if M > 0.0:\n                V = g * (mu * cv) * (mu * cv)\n                shape = V / (M * M) - 1.0 / M\n                root = max(0.0, shape * shape - 1.0) ** 0.5\n                b = 1.0 + shape + root\n                c = 1.0 + shape - root\n                weight1 = 1.0 / b\n                p1 = 2.0 / (2.0 + M * b)\n                p2 = 2.0 / (2.0 + M * c)\n                r1 = 1.0 - p1\n                r2 = 1.0 - p2\n\n                available = 0.0\n                for i in range(m):\n                    available = available + aggregate[i]\n\n                expected_use = 0.0\n                if available > 0.0:\n                    n = int(available)\n                    fraction = available - n\n\n                    if n > 0:\n                        expected_use = weight1 * r1 * (1.0 - r1 ** n) / (1.0 - r1)\n                        expected_use = expected_use + (1.0 - weight1) * r2 * (1.0 - r2 ** n) / (1.0 - r2)\n\n                    tail = weight1 * (r1 ** (n + 1))\n                    tail = tail + (1.0 - weight1) * (r2 ** (n + 1))\n                    expected_use = expected_use + fraction * tail\n                    expected_use = max(0.0, min(available, expected_use))\n\n                remaining = expected_use\n                if stream == 0:\n                    for i in range(m):\n                        take = min(aggregate[i], remaining)\n                        aggregate[i] = aggregate[i] - take\n                        remaining = remaining - take\n                else:\n                    for i in range(m - 1, -1, -1):\n                        take = min(aggregate[i], remaining)\n                        aggregate[i] = aggregate[i] - take\n                        remaining = remaining - take\n\n                cumulative = 0.0\n                for pos in range(m):\n                    if stream == 0:\n                        idx = pos\n                    else:\n                        idx = m - 1 - pos\n\n                    cohort = layered[idx]\n                    lower = cumulative\n                    upper = cumulative + cohort\n                    lower_n = int(lower)\n                    upper_n = int(upper)\n                    lower_fraction = lower - lower_n\n                    upper_fraction = upper - upper_n\n                    lower_use = 0.0\n                    upper_use = 0.0\n\n                    if lower_n > 0:\n                        lower_use = weight1 * r1 * (1.0 - r1 ** lower_n) / (1.0 - r1)\n                        lower_use = lower_use + (1.0 - weight1) * r2 * (1.0 - r2 ** lower_n) / (1.0 - r2)\n\n                    lower_tail = weight1 * (r1 ** (lower_n + 1))\n                    lower_tail = lower_tail + (1.0 - weight1) * (r2 ** (lower_n + 1))\n                    lower_use = lower_use + lower_fraction * lower_tail\n\n                    if upper_n > 0:\n                        upper_use = weight1 * r1 * (1.0 - r1 ** upper_n) / (1.0 - r1)\n                        upper_use = upper_use + (1.0 - weight1) * r2 * (1.0 - r2 ** upper_n) / (1.0 - r2)\n\n                    upper_tail = weight1 * (r1 ** (upper_n + 1))\n                    upper_tail = upper_tail + (1.0 - weight1) * (r2 ** (upper_n + 1))\n                    upper_use = upper_use + upper_fraction * upper_tail\n\n                    cohort_use = max(0.0, min(cohort, upper_use - lower_use))\n                    layered[idx] = cohort - cohort_use\n                    cumulative = upper\n\n        shifted_aggregate = [0.0] * m\n        shifted_layered = [0.0] * m\n\n        for i in range(m - 1):\n            shifted_aggregate[i] = aggregate[i + 1]\n            shifted_layered[i] = layered[i + 1]\n\n        if step < len(pipeline):\n            arrival = max(0.0, pipeline[step])\n            shifted_aggregate[m - 1] = arrival\n            shifted_layered[m - 1] = arrival\n\n        aggregate = shifted_aggregate\n        layered = shifted_layered\n\n    aggregate_effective = 0.0\n    layered_effective = 0.0\n\n    for i in range(m):\n        relative_life = (i + 1.0) / m\n        life_weight = relative_life ** A\n        aggregate_effective = aggregate_effective + aggregate[i] * life_weight\n        layered_effective = layered_effective + layered[i] * life_weight\n\n    projected_effective = (1.0 - H) * aggregate_effective + H * layered_effective\n    effective = (1.0 - B) * raw_effective + B * projected_effective\n    order = max(0.0, min(C, S - effective))\n\n    if order != order:\n        return 0.0\n    return order\n"
+}

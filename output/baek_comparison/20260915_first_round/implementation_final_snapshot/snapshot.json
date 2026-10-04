@@ -1,0 +1,27 @@
+{
+  "created_utc": "2026-09-16T03:26:24.555913+00:00",
+  "purpose": "Final implementation after all 18 generation groups and 99 evaluations completed; includes report median, scope caveat, figure and policy-explanation links. Prior snapshots preserved.",
+  "files_sha256": {
+    "README.md": "c1412746a548e2cb9f238c7a0098f032bc650893dbce347debdd6771ab16bca9",
+    "__init__.py": "2d760e154d1d8eb2ef522ab6a1c0785a6fe4f8f45eea042d05dd8f14dad947bb",
+    "analysis.py": "093dbb31663bc7244da34ad9cc9cffc4df6d522a249211a617de5e2265cefae8",
+    "baselines.py": "aeb537e1c4daf39c945b712d9cd42f5c64005dd9b6b52f04c6d84cf5aea40f92",
+    "environment.py": "bc1bbeb839d4fcb70086fda44fbc75dce79eedf7d858b93c0a794e9e30c6f815",
+    "evaluation.py": "a6b37a74b07cd963f9c8bd9ef92fcbb4d34f49522b9d7bde55aa1a3650147c48",
+    "evaluation_queue.py": "2a636e7e4ec3759b5d6d1ac120f7e3807f1e187a63eb2881821f571c20b87fda",
+    "harness.py": "0362f5b3800c9ebc2e21599685aa21eab3557c3ab5c1689de10045933267adff",
+    "pipeline.py": "f6e345576c1cb3542b4b19e975292d5c6ec69bf195c827a544bf38db367e0a54",
+    "prompts.py": "febb2bc72eb4b2fbd4b15281c4d266a0b12d62689ea0d5b743ff60dceb8ac1be",
+    "report.py": "42e61e77a9368cbc144a1047182a25d3b5fd437300d6d46dc5cb7fe84d84b81a",
+    "retry_invalid.py": "b8b3fc2fa68a70ca00287708876798c23293a56f8cb2567c6bf116074541b40e",
+    "runner.py": "20b5560f075aa3b7590246122db7fdd183c5ca4ab6f204fe5fd8fe1a83eb83e7",
+    "sandbox.py": "3d286ec3270d7fa81dcfc05b21b7b13e1a4f9891302f4a880d768ea40d6bcf37",
+    "scoring.py": "1cc84719fe7b48d1b0485596795e9f51737b968636df1306f71802cb05ba97ed",
+    "test_environment.py": "ab05561bf7c32807841cc2b86a5d353cb312107dbdeb00841bc39cdc3f592503",
+    "test_evaluation.py": "598b6f31d2c6ecbb8e931127376d7c3ee000e54c8e21f3c7920aeb24ed966cda",
+    "test_harness.py": "f6e0eabeeb5967c89b71d601c60563ca5b61f1333107402cf7cdd13281098dd4",
+    "test_retry_invalid.py": "9e53a909f586eb2d60ad62902cd9b20cb60caec53bd1db19440643f4b9553397",
+    "test_runner.py": "a29b69fec712fc12c2f5e5fb3170d291706d038394680635d8a0578c458cc759"
+  },
+  "run_manifest_sha256": "88945883d10220e0571a2448d1afde0a3df906ab638023719d884728fccd51ce"
+}

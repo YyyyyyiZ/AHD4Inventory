@@ -1,0 +1,716 @@
+[
+  {
+    "split": "train",
+    "scenario_id": "exp_iid_fixed6",
+    "n_paths": 50,
+    "n_periods": 1000,
+    "marginal_mean": 100.25126965778442,
+    "marginal_std": 99.58051462611806,
+    "expected_mean": 100.0,
+    "expected_std": 100.0,
+    "mean_standard_error_across_independent_paths": 0.46164349148831496,
+    "mean_within_six_path_standard_errors": true,
+    "quantiles": {
+      "0.1": 10.382882657526993,
+      "0.5": 69.50614106578789,
+      "0.9": 231.42885372881292,
+      "0.99": 453.74143029149917
+    },
+    "acf_demand": {
+      "1": -0.00529174580290513,
+      "2": 0.007730462906386777,
+      "5": 0.003125218328949578,
+      "10": -0.0072754894003009,
+      "20": -0.00019059045386759325,
+      "50": -0.0015801209792922532
+    },
+    "rho_latent": 0.0,
+    "acf_note": "ACF is measured on demand; rho_latent is not demand Pearson correlation",
+    "first_period_mean": 98.27876714382427,
+    "last_period_mean": 128.62845435531545,
+    "initial_last_demand_mean": 105.16459530024116,
+    "lead_time_frequencies": {
+      "6": 1.0
+    },
+    "finite_nonnegative": true
+  },
+  {
+    "split": "validation",
+    "scenario_id": "exp_iid_fixed6",
+    "n_paths": 128,
+    "n_periods": 1000,
+    "marginal_mean": 100.20777846771688,
+    "marginal_std": 100.25334922547619,
+    "expected_mean": 100.0,
+    "expected_std": 100.0,
+    "mean_standard_error_across_independent_paths": 0.28255113031063034,
+    "mean_within_six_path_standard_errors": true,
+    "quantiles": {
+      "0.1": 10.633924612468299,
+      "0.5": 69.42115983737406,
+      "0.9": 230.03864766141953,
+      "0.99": 465.06099593294937
+    },
+    "acf_demand": {
+      "1": -0.007391584813309931,
+      "2": 0.00021668274781450915,
+      "5": -0.003855383434318173,
+      "10": 0.0035697139824589726,
+      "20": 0.0008918692985454287,
+      "50": -0.0067619433223093
+    },
+    "rho_latent": 0.0,
+    "acf_note": "ACF is measured on demand; rho_latent is not demand Pearson correlation",
+    "first_period_mean": 107.03703467454552,
+    "last_period_mean": 98.2655023698684,
+    "initial_last_demand_mean": 109.50550444171012,
+    "lead_time_frequencies": {
+      "6": 1.0
+    },
+    "finite_nonnegative": true
+  },
+  {
+    "split": "test",
+    "scenario_id": "exp_iid_fixed6",
+    "n_paths": 1000,
+    "n_periods": 1000,
+    "marginal_mean": 99.94997973426133,
+    "marginal_std": 99.96600739613243,
+    "expected_mean": 100.0,
+    "expected_std": 100.0,
+    "mean_standard_error_across_independent_paths": 0.09968820501935431,
+    "mean_within_six_path_standard_errors": true,
+    "quantiles": {
+      "0.1": 10.564197692014329,
+      "0.5": 69.27681542364391,
+      "0.9": 230.0335269746639,
+      "0.99": 461.3856074510804
+    },
+    "acf_demand": {
+      "1": 0.0007858981443218428,
+      "2": 0.0014305587085052902,
+      "5": -7.043389204108261e-05,
+      "10": 0.0010630782241443412,
+      "20": -0.0019328099568338946,
+      "50": -0.0001705954403910544
+    },
+    "rho_latent": 0.0,
+    "acf_note": "ACF is measured on demand; rho_latent is not demand Pearson correlation",
+    "first_period_mean": 99.87580487680644,
+    "last_period_mean": 105.28405730289651,
+    "initial_last_demand_mean": 104.01894716489453,
+    "lead_time_frequencies": {
+      "6": 1.0
+    },
+    "finite_nonnegative": true
+  },
+  {
+    "split": "train",
+    "scenario_id": "exp_ar_pos08_fixed6",
+    "n_paths": 50,
+    "n_periods": 1000,
+    "marginal_mean": 101.0029826742994,
+    "marginal_std": 100.95659656336072,
+    "expected_mean": 100.0,
+    "expected_std": 100.0,
+    "mean_standard_error_across_independent_paths": 1.2691503510344384,
+    "mean_within_six_path_standard_errors": true,
+    "quantiles": {
+      "0.1": 10.701468968913879,
+      "0.5": 69.91710924862886,
+      "0.9": 233.60583212089884,
+      "0.99": 463.1486671328182
+    },
+    "acf_demand": {
+      "1": 0.768872152878805,
+      "2": 0.5945647301929221,
+      "5": 0.28801509933573366,
+      "10": 0.08017828353264586,
+      "20": 0.0018986049664141051,
+      "50": 0.00690173137529747
+    },
+    "rho_latent": 0.8,
+    "acf_note": "ACF is measured on demand; rho_latent is not demand Pearson correlation",
+    "first_period_mean": 118.5552532848957,
+    "last_period_mean": 112.65149272858329,
+    "initial_last_demand_mean": 103.73093664580028,
+    "lead_time_frequencies": {
+      "6": 1.0
+    },
+    "finite_nonnegative": true
+  },
+  {
+    "split": "validation",
+    "scenario_id": "exp_ar_pos08_fixed6",
+    "n_paths": 128,
+    "n_periods": 1000,
+    "marginal_mean": 99.89945008736457,
+    "marginal_std": 100.20700623136848,
+    "expected_mean": 100.0,
+    "expected_std": 100.0,
+    "mean_standard_error_across_independent_paths": 0.8203732701473515,
+    "mean_within_six_path_standard_errors": true,
+    "quantiles": {
+      "0.1": 10.47139422480658,
+      "0.5": 68.91797134083002,
+      "0.9": 230.10681383852804,
+      "0.99": 460.36523697255427
+    },
+    "acf_demand": {
+      "1": 0.7698640170398257,
+      "2": 0.5966530329664194,
+      "5": 0.2891550582603985,
+      "10": 0.08584042082839745,
+      "20": 0.006738224866523629,
+      "50": -0.0029152236553567955
+    },
+    "rho_latent": 0.8,
+    "acf_note": "ACF is measured on demand; rho_latent is not demand Pearson correlation",
+    "first_period_mean": 106.18308184254266,
+    "last_period_mean": 104.51191143521484,
+    "initial_last_demand_mean": 109.82650229413471,
+    "lead_time_frequencies": {
+      "6": 1.0
+    },
+    "finite_nonnegative": true
+  },
+  {
+    "split": "test",
+    "scenario_id": "exp_ar_pos08_fixed6",
+    "n_paths": 1000,
+    "n_periods": 1000,
+    "marginal_mean": 99.95317209215239,
+    "marginal_std": 100.00966857017535,
+    "expected_mean": 100.0,
+    "expected_std": 100.0,
+    "mean_standard_error_across_independent_paths": 0.2816513066239203,
+    "mean_within_six_path_standard_errors": true,
+    "quantiles": {
+      "0.1": 10.525230569754987,
+      "0.5": 69.29506605506944,
+      "0.9": 230.15973895677067,
+      "0.99": 459.71437909515845
+    },
+    "acf_demand": {
+      "1": 0.7693023833407,
+      "2": 0.5959315084193527,
+      "5": 0.2852812935593139,
+      "10": 0.0878181782404424,
+      "20": 0.012312113362932853,
+      "50": -0.00021004385395660338
+    },
+    "rho_latent": 0.8,
+    "acf_note": "ACF is measured on demand; rho_latent is not demand Pearson correlation",
+    "first_period_mean": 103.81331801409783,
+    "last_period_mean": 98.59068584022334,
+    "initial_last_demand_mean": 101.29986010831722,
+    "lead_time_frequencies": {
+      "6": 1.0
+    },
+    "finite_nonnegative": true
+  },
+  {
+    "split": "train",
+    "scenario_id": "exp_ar_neg06_fixed6",
+    "n_paths": 50,
+    "n_periods": 1000,
+    "marginal_mean": 99.7014723844444,
+    "marginal_std": 99.69812944717523,
+    "expected_mean": 100.0,
+    "expected_std": 100.0,
+    "mean_standard_error_across_independent_paths": 0.34093438276919863,
+    "mean_within_six_path_standard_errors": true,
+    "quantiles": {
+      "0.1": 10.716372838123391,
+      "0.5": 68.72055625467387,
+      "0.9": 229.62624146612325,
+      "0.99": 461.33544018232016
+    },
+    "acf_demand": {
+      "1": -0.42383022025515477,
+      "2": 0.31774267543916485,
+      "5": -0.057795418521975936,
+      "10": -0.0009026800026661147,
+      "20": 0.004188622025239868,
+      "50": 0.002679075435707594
+    },
+    "rho_latent": -0.6,
+    "acf_note": "ACF is measured on demand; rho_latent is not demand Pearson correlation",
+    "first_period_mean": 81.12429712737908,
+    "last_period_mean": 117.09348631992003,
+    "initial_last_demand_mean": 123.6092579012552,
+    "lead_time_frequencies": {
+      "6": 1.0
+    },
+    "finite_nonnegative": true
+  },
+  {
+    "split": "validation",
+    "scenario_id": "exp_ar_neg06_fixed6",
+    "n_paths": 128,
+    "n_periods": 1000,
+    "marginal_mean": 100.02766921954608,
+    "marginal_std": 99.847794268554,
+    "expected_mean": 100.0,
+    "expected_std": 100.0,
+    "mean_standard_error_across_independent_paths": 0.21818365055438263,
+    "mean_within_six_path_standard_errors": true,
+    "quantiles": {
+      "0.1": 10.515911679318094,
+      "0.5": 69.43802560112178,
+      "0.9": 230.59069382451887,
+      "0.99": 457.2126357141035
+    },
+    "acf_demand": {
+      "1": -0.42796214965986606,
+      "2": 0.3156635905606728,
+      "5": -0.0657089023544074,
+      "10": 0.009875280450691136,
+      "20": 0.0031785533009874695,
+      "50": 0.004938685655991607
+    },
+    "rho_latent": -0.6,
+    "acf_note": "ACF is measured on demand; rho_latent is not demand Pearson correlation",
+    "first_period_mean": 103.40925020537841,
+    "last_period_mean": 87.18857240783228,
+    "initial_last_demand_mean": 106.40728490133301,
+    "lead_time_frequencies": {
+      "6": 1.0
+    },
+    "finite_nonnegative": true
+  },
+  {
+    "split": "test",
+    "scenario_id": "exp_ar_neg06_fixed6",
+    "n_paths": 1000,
+    "n_periods": 1000,
+    "marginal_mean": 99.817573866923,
+    "marginal_std": 99.71474753834929,
+    "expected_mean": 100.0,
+    "expected_std": 100.0,
+    "mean_standard_error_across_independent_paths": 0.07742655269231147,
+    "mean_within_six_path_standard_errors": true,
+    "quantiles": {
+      "0.1": 10.523564883517775,
+      "0.5": 69.36893364814526,
+      "0.9": 229.39543349774965,
+      "0.99": 459.8651383996429
+    },
+    "acf_demand": {
+      "1": -0.4261485549542838,
+      "2": 0.31477922730241736,
+      "5": -0.06262462126934201,
+      "10": 0.003987512604580525,
+      "20": 0.0013250421263754431,
+      "50": -5.361945579672252e-05
+    },
+    "rho_latent": -0.6,
+    "acf_note": "ACF is measured on demand; rho_latent is not demand Pearson correlation",
+    "first_period_mean": 99.67828268397663,
+    "last_period_mean": 95.48937230405149,
+    "initial_last_demand_mean": 101.4140313623331,
+    "lead_time_frequencies": {
+      "6": 1.0
+    },
+    "finite_nonnegative": true
+  },
+  {
+    "split": "train",
+    "scenario_id": "exp_regime095_fixed6",
+    "n_paths": 50,
+    "n_periods": 1000,
+    "marginal_mean": 100.16812785784907,
+    "marginal_std": 100.03932007784775,
+    "expected_mean": 100.0,
+    "expected_std": 100.0,
+    "mean_standard_error_across_independent_paths": 1.3829029194118028,
+    "mean_within_six_path_standard_errors": true,
+    "quantiles": {
+      "0.1": 10.7607909571105,
+      "0.5": 69.74706827526163,
+      "0.9": 229.4795824085235,
+      "0.99": 461.627085329815
+    },
+    "acf_demand": {
+      "1": 0.428478999715099,
+      "2": 0.38603401936928444,
+      "5": 0.27650475033319305,
+      "10": 0.16202268059958588,
+      "20": 0.05356657876731272,
+      "50": -0.0033697209312731624
+    },
+    "rho_latent": 0.0,
+    "acf_note": "ACF is measured on demand; rho_latent is not demand Pearson correlation",
+    "first_period_mean": 89.34283724288326,
+    "last_period_mean": 102.50203576088103,
+    "initial_last_demand_mean": 102.55158320966835,
+    "lead_time_frequencies": {
+      "6": 1.0
+    },
+    "finite_nonnegative": true,
+    "regime_high_fraction": 0.50212,
+    "regime_empirical_stay": 0.94946,
+    "regime_p_stay": 0.95,
+    "regime_mean_duration": 19.999999999999982,
+    "theoretical_acf": {
+      "1": 0.4324077125263812,
+      "2": 0.389166941273743,
+      "5": 0.2837027001885586,
+      "10": 0.1675236074343419,
+      "20": 0.058411870120131035,
+      "50": 0.002476146831413839
+    },
+    "regime_formula": "S0~Bernoulli(1/2); P(stay)=p; U_t=(S_t+V_t)/2, V_t iid Uniform; D_t=-mu log(1-U_t)"
+  },
+  {
+    "split": "validation",
+    "scenario_id": "exp_regime095_fixed6",
+    "n_paths": 128,
+    "n_periods": 1000,
+    "marginal_mean": 100.6552637616613,
+    "marginal_std": 100.79216940843287,
+    "expected_mean": 100.0,
+    "expected_std": 100.0,
+    "mean_standard_error_across_independent_paths": 0.8560857991211038,
+    "mean_within_six_path_standard_errors": true,
+    "quantiles": {
+      "0.1": 10.630428736722717,
+      "0.5": 69.78129538265671,
+      "0.9": 231.83926971214282,
+      "0.99": 466.10211415430786
+    },
+    "acf_demand": {
+      "1": 0.4280946247019845,
+      "2": 0.37935073454948903,
+      "5": 0.2752600594672088,
+      "10": 0.15794399995453917,
+      "20": 0.0449296626596648,
+      "50": 0.004910754771378789
+    },
+    "rho_latent": 0.0,
+    "acf_note": "ACF is measured on demand; rho_latent is not demand Pearson correlation",
+    "first_period_mean": 111.10085195015158,
+    "last_period_mean": 90.95563995811882,
+    "initial_last_demand_mean": 99.43990841046839,
+    "lead_time_frequencies": {
+      "6": 1.0
+    },
+    "finite_nonnegative": true,
+    "regime_high_fraction": 0.50228125,
+    "regime_empirical_stay": 0.9488203125,
+    "regime_p_stay": 0.95,
+    "regime_mean_duration": 19.999999999999982,
+    "theoretical_acf": {
+      "1": 0.4324077125263812,
+      "2": 0.389166941273743,
+      "5": 0.2837027001885586,
+      "10": 0.1675236074343419,
+      "20": 0.058411870120131035,
+      "50": 0.002476146831413839
+    },
+    "regime_formula": "S0~Bernoulli(1/2); P(stay)=p; U_t=(S_t+V_t)/2, V_t iid Uniform; D_t=-mu log(1-U_t)"
+  },
+  {
+    "split": "test",
+    "scenario_id": "exp_regime095_fixed6",
+    "n_paths": 1000,
+    "n_periods": 1000,
+    "marginal_mean": 99.69872614325642,
+    "marginal_std": 99.9971686147634,
+    "expected_mean": 100.0,
+    "expected_std": 100.0,
+    "mean_standard_error_across_independent_paths": 0.3120074777451173,
+    "mean_within_six_path_standard_errors": true,
+    "quantiles": {
+      "0.1": 10.497226473943961,
+      "0.5": 68.98611896958703,
+      "0.9": 229.69447772245593,
+      "0.99": 460.3510562021936
+    },
+    "acf_demand": {
+      "1": 0.43171526086142786,
+      "2": 0.38868506097491795,
+      "5": 0.28213225284255444,
+      "10": 0.1652406668782357,
+      "20": 0.057017549944251206,
+      "50": 0.00282415276312004
+    },
+    "rho_latent": 0.0,
+    "acf_note": "ACF is measured on demand; rho_latent is not demand Pearson correlation",
+    "first_period_mean": 100.49681036700018,
+    "last_period_mean": 103.19400680273255,
+    "initial_last_demand_mean": 97.33148293802104,
+    "lead_time_frequencies": {
+      "6": 1.0
+    },
+    "finite_nonnegative": true,
+    "regime_high_fraction": 0.498281,
+    "regime_empirical_stay": 0.949571,
+    "regime_p_stay": 0.95,
+    "regime_mean_duration": 19.999999999999982,
+    "theoretical_acf": {
+      "1": 0.4324077125263812,
+      "2": 0.389166941273743,
+      "5": 0.2837027001885586,
+      "10": 0.1675236074343419,
+      "20": 0.058411870120131035,
+      "50": 0.002476146831413839
+    },
+    "regime_formula": "S0~Bernoulli(1/2); P(stay)=p; U_t=(S_t+V_t)/2, V_t iid Uniform; D_t=-mu log(1-U_t)"
+  },
+  {
+    "split": "train",
+    "scenario_id": "exp_iid_random3_9",
+    "n_paths": 50,
+    "n_periods": 1000,
+    "marginal_mean": 100.25126965778442,
+    "marginal_std": 99.58051462611806,
+    "expected_mean": 100.0,
+    "expected_std": 100.0,
+    "mean_standard_error_across_independent_paths": 0.46164349148831496,
+    "mean_within_six_path_standard_errors": true,
+    "quantiles": {
+      "0.1": 10.382882657526993,
+      "0.5": 69.50614106578789,
+      "0.9": 231.42885372881292,
+      "0.99": 453.74143029149917
+    },
+    "acf_demand": {
+      "1": -0.00529174580290513,
+      "2": 0.007730462906386777,
+      "5": 0.003125218328949578,
+      "10": -0.0072754894003009,
+      "20": -0.00019059045386759325,
+      "50": -0.0015801209792922532
+    },
+    "rho_latent": 0.0,
+    "acf_note": "ACF is measured on demand; rho_latent is not demand Pearson correlation",
+    "first_period_mean": 98.27876714382427,
+    "last_period_mean": 128.62845435531545,
+    "initial_last_demand_mean": 105.16459530024116,
+    "lead_time_frequencies": {
+      "3": 0.49884,
+      "9": 0.50116
+    },
+    "finite_nonnegative": true
+  },
+  {
+    "split": "validation",
+    "scenario_id": "exp_iid_random3_9",
+    "n_paths": 128,
+    "n_periods": 1000,
+    "marginal_mean": 100.20777846771688,
+    "marginal_std": 100.25334922547619,
+    "expected_mean": 100.0,
+    "expected_std": 100.0,
+    "mean_standard_error_across_independent_paths": 0.28255113031063034,
+    "mean_within_six_path_standard_errors": true,
+    "quantiles": {
+      "0.1": 10.633924612468299,
+      "0.5": 69.42115983737406,
+      "0.9": 230.03864766141953,
+      "0.99": 465.06099593294937
+    },
+    "acf_demand": {
+      "1": -0.007391584813309931,
+      "2": 0.00021668274781450915,
+      "5": -0.003855383434318173,
+      "10": 0.0035697139824589726,
+      "20": 0.0008918692985454287,
+      "50": -0.0067619433223093
+    },
+    "rho_latent": 0.0,
+    "acf_note": "ACF is measured on demand; rho_latent is not demand Pearson correlation",
+    "first_period_mean": 107.03703467454552,
+    "last_period_mean": 98.2655023698684,
+    "initial_last_demand_mean": 109.50550444171012,
+    "lead_time_frequencies": {
+      "3": 0.5016171875,
+      "9": 0.4983828125
+    },
+    "finite_nonnegative": true
+  },
+  {
+    "split": "test",
+    "scenario_id": "exp_iid_random3_9",
+    "n_paths": 1000,
+    "n_periods": 1000,
+    "marginal_mean": 99.94997973426133,
+    "marginal_std": 99.96600739613243,
+    "expected_mean": 100.0,
+    "expected_std": 100.0,
+    "mean_standard_error_across_independent_paths": 0.09968820501935431,
+    "mean_within_six_path_standard_errors": true,
+    "quantiles": {
+      "0.1": 10.564197692014329,
+      "0.5": 69.27681542364391,
+      "0.9": 230.0335269746639,
+      "0.99": 461.3856074510804
+    },
+    "acf_demand": {
+      "1": 0.0007858981443218428,
+      "2": 0.0014305587085052902,
+      "5": -7.043389204108261e-05,
+      "10": 0.0010630782241443412,
+      "20": -0.0019328099568338946,
+      "50": -0.0001705954403910544
+    },
+    "rho_latent": 0.0,
+    "acf_note": "ACF is measured on demand; rho_latent is not demand Pearson correlation",
+    "first_period_mean": 99.87580487680644,
+    "last_period_mean": 105.28405730289651,
+    "initial_last_demand_mean": 104.01894716489453,
+    "lead_time_frequencies": {
+      "3": 0.499682,
+      "9": 0.500318
+    },
+    "finite_nonnegative": true
+  },
+  {
+    "split": "train",
+    "scenario_id": "exp_regime095_random3_9",
+    "n_paths": 50,
+    "n_periods": 1000,
+    "marginal_mean": 100.16812785784907,
+    "marginal_std": 100.03932007784775,
+    "expected_mean": 100.0,
+    "expected_std": 100.0,
+    "mean_standard_error_across_independent_paths": 1.3829029194118028,
+    "mean_within_six_path_standard_errors": true,
+    "quantiles": {
+      "0.1": 10.7607909571105,
+      "0.5": 69.74706827526163,
+      "0.9": 229.4795824085235,
+      "0.99": 461.627085329815
+    },
+    "acf_demand": {
+      "1": 0.428478999715099,
+      "2": 0.38603401936928444,
+      "5": 0.27650475033319305,
+      "10": 0.16202268059958588,
+      "20": 0.05356657876731272,
+      "50": -0.0033697209312731624
+    },
+    "rho_latent": 0.0,
+    "acf_note": "ACF is measured on demand; rho_latent is not demand Pearson correlation",
+    "first_period_mean": 89.34283724288326,
+    "last_period_mean": 102.50203576088103,
+    "initial_last_demand_mean": 102.55158320966835,
+    "lead_time_frequencies": {
+      "3": 0.50042,
+      "9": 0.49958
+    },
+    "finite_nonnegative": true,
+    "regime_high_fraction": 0.50212,
+    "regime_empirical_stay": 0.94946,
+    "regime_p_stay": 0.95,
+    "regime_mean_duration": 19.999999999999982,
+    "theoretical_acf": {
+      "1": 0.4324077125263812,
+      "2": 0.389166941273743,
+      "5": 0.2837027001885586,
+      "10": 0.1675236074343419,
+      "20": 0.058411870120131035,
+      "50": 0.002476146831413839
+    },
+    "regime_formula": "S0~Bernoulli(1/2); P(stay)=p; U_t=(S_t+V_t)/2, V_t iid Uniform; D_t=-mu log(1-U_t)"
+  },
+  {
+    "split": "validation",
+    "scenario_id": "exp_regime095_random3_9",
+    "n_paths": 128,
+    "n_periods": 1000,
+    "marginal_mean": 100.6552637616613,
+    "marginal_std": 100.79216940843287,
+    "expected_mean": 100.0,
+    "expected_std": 100.0,
+    "mean_standard_error_across_independent_paths": 0.8560857991211038,
+    "mean_within_six_path_standard_errors": true,
+    "quantiles": {
+      "0.1": 10.630428736722717,
+      "0.5": 69.78129538265671,
+      "0.9": 231.83926971214282,
+      "0.99": 466.10211415430786
+    },
+    "acf_demand": {
+      "1": 0.4280946247019845,
+      "2": 0.37935073454948903,
+      "5": 0.2752600594672088,
+      "10": 0.15794399995453917,
+      "20": 0.0449296626596648,
+      "50": 0.004910754771378789
+    },
+    "rho_latent": 0.0,
+    "acf_note": "ACF is measured on demand; rho_latent is not demand Pearson correlation",
+    "first_period_mean": 111.10085195015158,
+    "last_period_mean": 90.95563995811882,
+    "initial_last_demand_mean": 99.43990841046839,
+    "lead_time_frequencies": {
+      "3": 0.497734375,
+      "9": 0.502265625
+    },
+    "finite_nonnegative": true,
+    "regime_high_fraction": 0.50228125,
+    "regime_empirical_stay": 0.9488203125,
+    "regime_p_stay": 0.95,
+    "regime_mean_duration": 19.999999999999982,
+    "theoretical_acf": {
+      "1": 0.4324077125263812,
+      "2": 0.389166941273743,
+      "5": 0.2837027001885586,
+      "10": 0.1675236074343419,
+      "20": 0.058411870120131035,
+      "50": 0.002476146831413839
+    },
+    "regime_formula": "S0~Bernoulli(1/2); P(stay)=p; U_t=(S_t+V_t)/2, V_t iid Uniform; D_t=-mu log(1-U_t)"
+  },
+  {
+    "split": "test",
+    "scenario_id": "exp_regime095_random3_9",
+    "n_paths": 1000,
+    "n_periods": 1000,
+    "marginal_mean": 99.69872614325642,
+    "marginal_std": 99.9971686147634,
+    "expected_mean": 100.0,
+    "expected_std": 100.0,
+    "mean_standard_error_across_independent_paths": 0.3120074777451173,
+    "mean_within_six_path_standard_errors": true,
+    "quantiles": {
+      "0.1": 10.497226473943961,
+      "0.5": 68.98611896958703,
+      "0.9": 229.69447772245593,
+      "0.99": 460.3510562021936
+    },
+    "acf_demand": {
+      "1": 0.43171526086142786,
+      "2": 0.38868506097491795,
+      "5": 0.28213225284255444,
+      "10": 0.1652406668782357,
+      "20": 0.057017549944251206,
+      "50": 0.00282415276312004
+    },
+    "rho_latent": 0.0,
+    "acf_note": "ACF is measured on demand; rho_latent is not demand Pearson correlation",
+    "first_period_mean": 100.49681036700018,
+    "last_period_mean": 103.19400680273255,
+    "initial_last_demand_mean": 97.33148293802104,
+    "lead_time_frequencies": {
+      "3": 0.499773,
+      "9": 0.500227
+    },
+    "finite_nonnegative": true,
+    "regime_high_fraction": 0.498281,
+    "regime_empirical_stay": 0.949571,
+    "regime_p_stay": 0.95,
+    "regime_mean_duration": 19.999999999999982,
+    "theoretical_acf": {
+      "1": 0.4324077125263812,
+      "2": 0.389166941273743,
+      "5": 0.2837027001885586,
+      "10": 0.1675236074343419,
+      "20": 0.058411870120131035,
+      "50": 0.002476146831413839
+    },
+    "regime_formula": "S0~Bernoulli(1/2); P(stay)=p; U_t=(S_t+V_t)/2, V_t iid Uniform; D_t=-mu log(1-U_t)"
+  }
+]

@@ -1,0 +1,266 @@
+{
+  "results": {
+    "perish_m3_L2_cv1.5_f0": {
+      "theta": [
+        5.193029819714987,
+        0.8395082063344096,
+        0.5864195542739553,
+        1.0088042335770104,
+        0.48601495788227994
+      ],
+      "cost": 233.4228515625,
+      "nfev": 177,
+      "seconds": 3.6612052919808775,
+      "path_costs": [
+        231.4453125,
+        202.1484375,
+        234.765625,
+        227.34375,
+        239.453125,
+        259.1796875,
+        241.6015625,
+        231.4453125
+      ],
+      "metrics": [
+        0.6796875,
+        1.654541015625,
+        3.0
+      ],
+      "cap": 17
+    },
+    "perish_m3_L2_cv1.5_f0.5": {
+      "theta": [
+        4.219769724922781,
+        1.1014582172300575,
+        0.25329711470923133,
+        0.4850383309823434,
+        0.502828216914697
+      ],
+      "cost": 213.5009765625,
+      "nfev": 256,
+      "seconds": 2.792675499804318,
+      "path_costs": [
+        222.65625,
+        232.03125,
+        155.859375,
+        192.7734375,
+        207.421875,
+        263.8671875,
+        195.5078125,
+        237.890625
+      ],
+      "metrics": [
+        0.504638671875,
+        1.63037109375,
+        3.00927734375
+      ],
+      "cap": 16
+    },
+    "perish_m3_L2_cv2_f0": {
+      "theta": [
+        9.1806867383978,
+        0.0871785029385912,
+        0.2638647311617712,
+        1.3641460042165425,
+        0.48047425608612254
+      ],
+      "cost": 259.47265625,
+      "nfev": 256,
+      "seconds": 1.863705167081207,
+      "path_costs": [
+        222.4609375,
+        236.71875,
+        258.0078125,
+        266.2109375,
+        313.671875,
+        230.078125,
+        244.7265625,
+        303.90625
+      ],
+      "metrics": [
+        0.625,
+        1.9697265625,
+        2.611328125
+      ],
+      "cap": 14
+    },
+    "perish_m3_L2_cv2_f0.5": {
+      "theta": [
+        6.9866171017783465,
+        0.419948938863006,
+        0.6530375599718226,
+        1.2508075483875256,
+        0.5749789366797463
+      ],
+      "cost": 238.134765625,
+      "nfev": 256,
+      "seconds": 2.7210772081743926,
+      "path_costs": [
+        236.71875,
+        265.8203125,
+        291.9921875,
+        201.3671875,
+        233.203125,
+        205.859375,
+        185.3515625,
+        284.765625
+      ],
+      "metrics": [
+        0.47265625,
+        1.90869140625,
+        2.5595703125
+      ],
+      "cap": 14
+    },
+    "perish_m5_L2_cv1.5_f0": {
+      "theta": [
+        15.995687513282235,
+        0.214207959089177,
+        0.5247677248942941,
+        1.3905444205111075,
+        0.02363330715912737
+      ],
+      "cost": 181.8359375,
+      "nfev": 256,
+      "seconds": 2.471895624883473,
+      "path_costs": [
+        192.96875,
+        147.4609375,
+        182.03125,
+        174.0234375,
+        193.9453125,
+        207.8125,
+        179.1015625,
+        177.34375
+      ],
+      "metrics": [
+        0.654296875,
+        1.1640625,
+        3.471435546875
+      ],
+      "cap": 25
+    },
+    "perish_m5_L2_cv1.5_f0.5": {
+      "theta": [
+        6.016439490410946,
+        1.8500420090757743,
+        0.06605332164350486,
+        0.9315325271178438,
+        0.1832485556954273
+      ],
+      "cost": 165.52734375,
+      "nfev": 256,
+      "seconds": 3.2697525001131,
+      "path_costs": [
+        166.6015625,
+        175.9765625,
+        129.4921875,
+        151.5625,
+        153.7109375,
+        199.4140625,
+        162.890625,
+        184.5703125
+      ],
+      "metrics": [
+        0.52978515625,
+        1.12548828125,
+        3.5400390625
+      ],
+      "cap": 24
+    },
+    "perish_m5_L2_cv2_f0": {
+      "theta": [
+        13.244128379480458,
+        0.049393813189440916,
+        0.9935008750948587,
+        1.2802495448136175,
+        0.051065857616310883
+      ],
+      "cost": 212.548828125,
+      "nfev": 256,
+      "seconds": 2.170665791956708,
+      "path_costs": [
+        182.421875,
+        190.625,
+        226.953125,
+        227.1484375,
+        259.9609375,
+        175.9765625,
+        196.875,
+        240.4296875
+      ],
+      "metrics": [
+        0.48095703125,
+        1.64453125,
+        2.793701171875
+      ],
+      "cap": 22
+    },
+    "perish_m5_L2_cv2_f0.5": {
+      "theta": [
+        5.427790048067866,
+        1.491846253805925,
+        0.038052777680714134,
+        0.7806585149966085,
+        0.18171221700927626
+      ],
+      "cost": 195.3369140625,
+      "nfev": 256,
+      "seconds": 2.927790499990806,
+      "path_costs": [
+        198.2421875,
+        220.703125,
+        245.5078125,
+        154.6875,
+        194.140625,
+        165.4296875,
+        142.1875,
+        241.796875
+      ],
+      "metrics": [
+        0.38818359375,
+        1.565185546875,
+        2.8203125
+      ],
+      "cap": 21
+    }
+  },
+  "parameters": {
+    "S": {
+      "type": "float",
+      "initial": 16.0,
+      "min": 0.0,
+      "max": 60.0
+    },
+    "K": {
+      "type": "float",
+      "initial": 1.0,
+      "min": 0.0,
+      "max": 2.5
+    },
+    "B": {
+      "type": "float",
+      "initial": 0.1,
+      "min": 0.0,
+      "max": 1.0
+    },
+    "W0": {
+      "type": "float",
+      "initial": 0.2,
+      "min": 0.0,
+      "max": 1.5
+    },
+    "WSTEP": {
+      "type": "float",
+      "initial": 0.25,
+      "min": 0.0,
+      "max": 0.8
+    }
+  },
+  "structure_sha256": "13a0f6a592b4b48d4c5c98f830b3944876f0ed8f856d8ce29ec3aad7f804466c",
+  "wall_seconds": 23.153266375185922,
+  "transitions": 11260992,
+  "valid": true,
+  "score": 0.9970513028678509,
+  "code": "def compute_order_amount(age, pipeline, mu, cv, f, L):\n    S = 16.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":16.0,\"min\":0.0,\"max\":60.0}\n    K = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":2.5}\n    B = 0.1 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.1,\"min\":0.0,\"max\":1.0}\n    W0 = 0.2 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.2,\"min\":0.0,\"max\":1.5}\n    WSTEP = 0.25 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.25,\"min\":0.0,\"max\":0.8}\n\n    m = len(age)\n    x = [0.0] * m\n    for i in range(m):\n        v = float(age[i])\n        if v < 0.0:\n            v = 0.0\n        x[i] = v\n\n    mf = float(f) * float(mu)\n    ml = (1.0 - float(f)) * float(mu)\n    variance_scale = (float(mu) * float(cv)) ** 2\n\n    if mf > 0.0:\n        vf = float(f) * variance_scale\n        af = vf / (mf * mf) - 1.0 / mf\n        if af < 1.0:\n            af = 1.0\n        rootf = (af * af - 1.0) ** 0.5\n        bf = 1.0 + af + rootf\n        cf = 1.0 + af - rootf\n        wf = 1.0 / bf\n        pf1 = 2.0 / (2.0 + mf * bf)\n        pf2 = 2.0 / (2.0 + mf * cf)\n        rf1 = 1.0 - pf1\n        rf2 = 1.0 - pf2\n\n    if ml > 0.0:\n        vl = (1.0 - float(f)) * variance_scale\n        al = vl / (ml * ml) - 1.0 / ml\n        if al < 1.0:\n            al = 1.0\n        rootl = (al * al - 1.0) ** 0.5\n        bl = 1.0 + al + rootl\n        cl = 1.0 + al - rootl\n        wl = 1.0 / bl\n        pl1 = 2.0 / (2.0 + ml * bl)\n        pl2 = 2.0 / (2.0 + ml * cl)\n        rl1 = 1.0 - pl1\n        rl2 = 1.0 - pl2\n\n    for period in range(int(L)):\n        if mf > 0.0:\n            y = [0.0] * m\n            before = 0.0\n            for i in range(m):\n                end = before + x[i]\n\n                nb = int(before)\n                fb = before - float(nb)\n                eb1 = rf1 * (1.0 - rf1 ** nb) / pf1 + fb * rf1 ** (nb + 1)\n                eb2 = rf2 * (1.0 - rf2 ** nb) / pf2 + fb * rf2 ** (nb + 1)\n                eb = wf * eb1 + (1.0 - wf) * eb2\n\n                ne = int(end)\n                fe = end - float(ne)\n                ee1 = rf1 * (1.0 - rf1 ** ne) / pf1 + fe * rf1 ** (ne + 1)\n                ee2 = rf2 * (1.0 - rf2 ** ne) / pf2 + fe * rf2 ** (ne + 1)\n                ee = wf * ee1 + (1.0 - wf) * ee2\n\n                exact_remove = ee - eb\n                fluid_end = end\n                if fluid_end > mf:\n                    fluid_end = mf\n                fluid_before = before\n                if fluid_before > mf:\n                    fluid_before = mf\n                fluid_remove = fluid_end - fluid_before\n\n                remove = K * ((1.0 - B) * exact_remove + B * fluid_remove)\n                if remove < 0.0:\n                    remove = 0.0\n                if remove > x[i]:\n                    remove = x[i]\n                y[i] = x[i] - remove\n                before = end\n            x = y\n\n        if ml > 0.0:\n            y = [0.0] * m\n            before = 0.0\n            for k in range(m):\n                i = m - 1 - k\n                end = before + x[i]\n\n                nb = int(before)\n                fb = before - float(nb)\n                eb1 = rl1 * (1.0 - rl1 ** nb) / pl1 + fb * rl1 ** (nb + 1)\n                eb2 = rl2 * (1.0 - rl2 ** nb) / pl2 + fb * rl2 ** (nb + 1)\n                eb = wl * eb1 + (1.0 - wl) * eb2\n\n                ne = int(end)\n                fe = end - float(ne)\n                ee1 = rl1 * (1.0 - rl1 ** ne) / pl1 + fe * rl1 ** (ne + 1)\n                ee2 = rl2 * (1.0 - rl2 ** ne) / pl2 + fe * rl2 ** (ne + 1)\n                ee = wl * ee1 + (1.0 - wl) * ee2\n\n                exact_remove = ee - eb\n                fluid_end = end\n                if fluid_end > ml:\n                    fluid_end = ml\n                fluid_before = before\n                if fluid_before > ml:\n                    fluid_before = ml\n                fluid_remove = fluid_end - fluid_before\n\n                remove = K * ((1.0 - B) * exact_remove + B * fluid_remove)\n                if remove < 0.0:\n                    remove = 0.0\n                if remove > x[i]:\n                    remove = x[i]\n                y[i] = x[i] - remove\n                before = end\n            x = y\n\n        y = [0.0] * m\n        for i in range(m - 1):\n            y[i] = x[i + 1]\n        if period < len(pipeline):\n            arrival = float(pipeline[period])\n            if arrival < 0.0:\n                arrival = 0.0\n            y[m - 1] = arrival\n        x = y\n\n    effective_stock = 0.0\n    for i in range(m):\n        weight = W0 + WSTEP * float(i)\n        if weight > 1.5:\n            weight = 1.5\n        effective_stock = effective_stock + weight * x[i]\n\n    q = S - effective_stock\n    if not (q >= 0.0):\n        q = 0.0\n    return q\n"
+}

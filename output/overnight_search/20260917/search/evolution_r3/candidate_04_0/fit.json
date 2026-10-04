@@ -1,0 +1,322 @@
+{
+  "results": {
+    "perish_m3_L2_cv1.5_f0": {
+      "theta": [
+        5.3275693966858455,
+        24.518941256353735,
+        1.0538060914720446,
+        1.3012029514271142,
+        0.3223165361469077,
+        0.3084766453392816,
+        0.37121843601775745,
+        5.20621864447243,
+        1.095592255893299
+      ],
+      "cost": 233.4228515625,
+      "nfev": 209,
+      "seconds": 6.295877208001912,
+      "path_costs": [
+        231.4453125,
+        202.1484375,
+        234.765625,
+        227.34375,
+        239.453125,
+        259.1796875,
+        241.6015625,
+        231.4453125
+      ],
+      "metrics": [
+        0.6796875,
+        1.654541015625,
+        3.0
+      ],
+      "cap": 17
+    },
+    "perish_m3_L2_cv1.5_f0.5": {
+      "theta": [
+        3.919537518030886,
+        12.452492569905118,
+        0.7039710154809173,
+        1.1498666889745777,
+        0.5998554085877575,
+        0.4878798782366229,
+        0.6383683966298755,
+        5.197789965563606,
+        0.17477143185416644
+      ],
+      "cost": 214.013671875,
+      "nfev": 256,
+      "seconds": 22.829789374955,
+      "path_costs": [
+        221.2890625,
+        231.640625,
+        161.328125,
+        192.96875,
+        205.2734375,
+        265.4296875,
+        197.4609375,
+        236.71875
+      ],
+      "metrics": [
+        0.59619140625,
+        1.5439453125,
+        3.18701171875
+      ],
+      "cap": 16
+    },
+    "perish_m3_L2_cv2_f0": {
+      "theta": [
+        4.8240171162550745,
+        8.200167931779042,
+        1.027962952161405,
+        1.1405131759265383,
+        0.6297709197237257,
+        0.2575077815048834,
+        0.7896971605215941,
+        3.9466766882792133,
+        0.7402753903934706
+      ],
+      "cost": 259.86328125,
+      "nfev": 256,
+      "seconds": 4.537846083054319,
+      "path_costs": [
+        224.8046875,
+        238.8671875,
+        269.53125,
+        268.359375,
+        310.546875,
+        227.9296875,
+        239.453125,
+        299.4140625
+      ],
+      "metrics": [
+        0.653564453125,
+        1.945068359375,
+        2.666015625
+      ],
+      "cap": 14
+    },
+    "perish_m3_L2_cv2_f0.5": {
+      "theta": [
+        5.4147432201234444,
+        11.08026216518057,
+        0.860241212353769,
+        1.1303204675705834,
+        0.6918952666306784,
+        0.3979928429821958,
+        0.5498256858798352,
+        4.446426434093795,
+        1.1639415574979048
+      ],
+      "cost": 236.7919921875,
+      "nfev": 256,
+      "seconds": 21.888348791981116,
+      "path_costs": [
+        239.0625,
+        266.2109375,
+        290.4296875,
+        195.3125,
+        234.765625,
+        203.3203125,
+        183.59375,
+        281.640625
+      ],
+      "metrics": [
+        0.551513671875,
+        1.81640625,
+        2.73095703125
+      ],
+      "cap": 14
+    },
+    "perish_m5_L2_cv1.5_f0": {
+      "theta": [
+        8.988052041531493,
+        19.042774216050134,
+        0.21196304546347888,
+        0.7491416886623471,
+        0.29103237604568705,
+        0.44063437905704633,
+        0.11993814634276362,
+        1.6195484953275132,
+        1.3203143309081828
+      ],
+      "cost": 180.9814453125,
+      "nfev": 256,
+      "seconds": 5.507174541940913,
+      "path_costs": [
+        190.8203125,
+        151.7578125,
+        177.9296875,
+        172.4609375,
+        188.28125,
+        203.7109375,
+        184.9609375,
+        177.9296875
+      ],
+      "metrics": [
+        0.6357421875,
+        1.174072265625,
+        3.437744140625
+      ],
+      "cap": 25
+    },
+    "perish_m5_L2_cv1.5_f0.5": {
+      "theta": [
+        6.607450936092157,
+        17.079462803493627,
+        0.5987154754029584,
+        1.26652831094298,
+        0.688688074816172,
+        0.5965795328712191,
+        0.26072374088181094,
+        4.312063452047963,
+        0.8362635396729926
+      ],
+      "cost": 164.9169921875,
+      "nfev": 256,
+      "seconds": 29.574874167097732,
+      "path_costs": [
+        166.796875,
+        177.5390625,
+        128.515625,
+        149.0234375,
+        150.78125,
+        201.5625,
+        163.8671875,
+        181.25
+      ],
+      "metrics": [
+        0.482421875,
+        1.166748046875,
+        3.451416015625
+      ],
+      "cap": 24
+    },
+    "perish_m5_L2_cv2_f0": {
+      "theta": [
+        8.238485570388171,
+        10.777683813225682,
+        0.41896547143806184,
+        0.9331116835310037,
+        0.7809023830063925,
+        0.6893214223238642,
+        0.44876344392700374,
+        2.4113210011089787,
+        1.3664022584702231
+      ],
+      "cost": 212.646484375,
+      "nfev": 256,
+      "seconds": 5.368376082973555,
+      "path_costs": [
+        183.3984375,
+        194.53125,
+        228.90625,
+        223.046875,
+        257.6171875,
+        177.34375,
+        196.2890625,
+        240.0390625
+      ],
+      "metrics": [
+        0.558837890625,
+        1.567626953125,
+        2.947021484375
+      ],
+      "cap": 22
+    },
+    "perish_m5_L2_cv2_f0.5": {
+      "theta": [
+        6.291398947059534,
+        5.855546161409279,
+        1.266994752687154,
+        0.7740850076724388,
+        0.3411260892204966,
+        0.3810572031841761,
+        0.270729575170731,
+        1.3828392418102893,
+        0.6254349820422075
+      ],
+      "cost": 195.3857421875,
+      "nfev": 256,
+      "seconds": 27.59645220800303,
+      "path_costs": [
+        199.0234375,
+        220.5078125,
+        245.703125,
+        154.6875,
+        194.53125,
+        165.8203125,
+        142.578125,
+        240.234375
+      ],
+      "metrics": [
+        0.410888671875,
+        1.54296875,
+        2.86572265625
+      ],
+      "cap": 21
+    }
+  },
+  "parameters": {
+    "S": {
+      "type": "float",
+      "initial": 10.0,
+      "min": 0.0,
+      "max": 60.0
+    },
+    "C": {
+      "type": "float",
+      "initial": 6.0,
+      "min": 0.0,
+      "max": 30.0
+    },
+    "TAIL": {
+      "type": "float",
+      "initial": 0.15,
+      "min": 0.0,
+      "max": 1.5
+    },
+    "D_SCALE": {
+      "type": "float",
+      "initial": 1.0,
+      "min": 0.6,
+      "max": 1.5
+    },
+    "SPLIT": {
+      "type": "float",
+      "initial": 0.55,
+      "min": 0.2,
+      "max": 0.85
+    },
+    "ALPHA": {
+      "type": "float",
+      "initial": 0.5,
+      "min": 0.2,
+      "max": 0.8
+    },
+    "QBLEND": {
+      "type": "float",
+      "initial": 0.8,
+      "min": 0.0,
+      "max": 1.0
+    },
+    "A": {
+      "type": "float",
+      "initial": 1.0,
+      "min": 0.1,
+      "max": 8.0
+    },
+    "FRESH_FLOOR": {
+      "type": "float",
+      "initial": 0.15,
+      "min": 0.0,
+      "max": 1.5
+    }
+  },
+  "structure_sha256": "9c7f7c5ae2b6bb50abb606b8a2fef1fd3f5dccb1a24fbd9f638c18d2700e6ecf",
+  "wall_seconds": 125.43057316588238,
+  "transitions": 11443264,
+  "valid": true,
+  "score": 0.9958725279631355,
+  "code": "def compute_order_amount(age, pipeline, mu, cv, f, L):\n    S = 10.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":10.0,\"min\":0.0,\"max\":60.0}\n    C = 6.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":6.0,\"min\":0.0,\"max\":30.0}\n    TAIL = 0.15 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.15,\"min\":0.0,\"max\":1.5}\n    D_SCALE = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.6,\"max\":1.5}\n    SPLIT = 0.55 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.55,\"min\":0.2,\"max\":0.85}\n    ALPHA = 0.5 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.5,\"min\":0.2,\"max\":0.8}\n    QBLEND = 0.8 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.8,\"min\":0.0,\"max\":1.0}\n    A = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.1,\"max\":8.0}\n    FRESH_FLOOR = 0.15 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.15,\"min\":0.0,\"max\":1.5}\n\n    m = len(age)\n    ff = float(f)\n    if not (ff >= 0.0):\n        ff = 0.0\n    if ff > 1.0:\n        ff = 1.0\n\n    base = [0.0] * m\n    for i in range(m):\n        value = float(age[i])\n        if value >= 0.0 and value < 1.0e100:\n            base[i] = value\n        else:\n            base[i] = 0.0\n\n    supports = [[0.0, 0.0, 0.0], [0.0, 0.0, 0.0]]\n    probabilities = [[1.0, 0.0, 0.0], [1.0, 0.0, 0.0]]\n    counts = [1, 1]\n\n    for group_index in range(2):\n        if group_index == 0:\n            g = ff\n        else:\n            g = 1.0 - ff\n\n        M = g * float(mu)\n        if M > 0.0:\n            V = g * (float(mu) * float(cv)) * (float(mu) * float(cv))\n            aa = V / (M * M) - 1.0 / M\n            if aa < 1.0:\n                aa = 1.0\n\n            root = (aa * aa - 1.0) ** 0.5\n            b = 1.0 + aa + root\n            c = 1.0 + aa - root\n            mixture_weight = 1.0 / b\n            p1 = 2.0 / (2.0 + M * b)\n            p2 = 2.0 / (2.0 + M * c)\n            r1 = 1.0 - p1\n            r2 = 1.0 - p2\n\n            zero_probability = mixture_weight * p1 + (1.0 - mixture_weight) * p2\n            positive_probability = 1.0 - zero_probability\n            target_probability = SPLIT * positive_probability\n\n            cut = 1\n            best_error = 1.0e100\n            for n in range(1, 81):\n                low_probability_n = (\n                    mixture_weight * (r1 - r1 ** (n + 1))\n                    + (1.0 - mixture_weight) * (r2 - r2 ** (n + 1))\n                )\n                error = low_probability_n - target_probability\n                if error < 0.0:\n                    error = -error\n                if error < best_error:\n                    best_error = error\n                    cut = n\n\n            low_probability = (\n                mixture_weight * (r1 - r1 ** (cut + 1))\n                + (1.0 - mixture_weight) * (r2 - r2 ** (cut + 1))\n            )\n            tail_probability = positive_probability - low_probability\n            if tail_probability < 0.0:\n                tail_probability = 0.0\n\n            low_mean1 = (\n                r1\n                * (1.0 - (cut + 1.0) * r1 ** cut + cut * r1 ** (cut + 1))\n                / p1\n            )\n            low_mean2 = (\n                r2\n                * (1.0 - (cut + 1.0) * r2 ** cut + cut * r2 ** (cut + 1))\n                / p2\n            )\n            low_mean = mixture_weight * low_mean1 + (1.0 - mixture_weight) * low_mean2\n            tail_mean = M - low_mean\n            if tail_mean < 0.0:\n                tail_mean = 0.0\n\n            low_support = 0.0\n            if low_probability > 1.0e-14:\n                low_support = low_mean / low_probability\n\n            tail_support = low_support\n            if tail_probability > 1.0e-14:\n                tail_support = tail_mean / tail_probability\n\n            supports[group_index][0] = 0.0\n            supports[group_index][1] = low_support\n            supports[group_index][2] = tail_support\n            probabilities[group_index][0] = zero_probability\n            probabilities[group_index][1] = low_probability\n            probabilities[group_index][2] = tail_probability\n            counts[group_index] = 3\n\n    requirements = [0.0] * 81\n    scenario_weights = [0.0] * 81\n    scenario_count = 0\n    probability_total = 0.0\n    requirement_mean = 0.0\n\n    for a0 in range(counts[0]):\n        for b0 in range(counts[1]):\n            first_probability = probabilities[0][a0] * probabilities[1][b0]\n            if first_probability > 0.0:\n                x = [0.0] * m\n                for i in range(m):\n                    x[i] = base[i]\n\n                remaining = D_SCALE * supports[0][a0]\n                for i in range(m):\n                    used = x[i]\n                    if used > remaining:\n                        used = remaining\n                    if used < 0.0:\n                        used = 0.0\n                    x[i] = x[i] - used\n                    remaining = remaining - used\n\n                remaining = D_SCALE * supports[1][b0]\n                for step in range(m):\n                    idx = m - 1 - step\n                    used = x[idx]\n                    if used > remaining:\n                        used = remaining\n                    if used < 0.0:\n                        used = 0.0\n                    x[idx] = x[idx] - used\n                    remaining = remaining - used\n\n                for i in range(m - 1):\n                    x[i] = x[i + 1]\n                x[m - 1] = 0.0\n\n                arrival = 0.0\n                if len(pipeline) > 0:\n                    arrival_value = float(pipeline[0])\n                    if arrival_value >= 0.0 and arrival_value < 1.0e100:\n                        arrival = arrival_value\n                x[m - 1] = x[m - 1] + arrival\n\n                for a1 in range(counts[0]):\n                    for b1 in range(counts[1]):\n                        scenario_probability = (\n                            first_probability\n                            * probabilities[0][a1]\n                            * probabilities[1][b1]\n                        )\n                        if scenario_probability > 0.0:\n                            y = [0.0] * m\n                            for i in range(m):\n                                y[i] = x[i]\n\n                            remaining = D_SCALE * supports[0][a1]\n                            for i in range(m):\n                                used = y[i]\n                                if used > remaining:\n                                    used = remaining\n                                if used < 0.0:\n                                    used = 0.0\n                                y[i] = y[i] - used\n                                remaining = remaining - used\n\n                            remaining = D_SCALE * supports[1][b1]\n                            for step in range(m):\n                                idx = m - 1 - step\n                                used = y[idx]\n                                if used > remaining:\n                                    used = remaining\n                                if used < 0.0:\n                                    used = 0.0\n                                y[idx] = y[idx] - used\n                                remaining = remaining - used\n\n                            for i in range(m - 1):\n                                y[i] = y[i + 1]\n                            y[m - 1] = 0.0\n\n                            effective = 0.0\n                            for i in range(m):\n                                freshness = (i + 1.0) / m\n                                inventory_weight = (\n                                    FRESH_FLOOR\n                                    + (1.0 - FRESH_FLOOR) * freshness ** A\n                                )\n                                if inventory_weight < 0.0:\n                                    inventory_weight = 0.0\n                                effective = effective + inventory_weight * y[i]\n\n                            requirement = S - effective\n                            requirements[scenario_count] = requirement\n                            scenario_weights[scenario_count] = scenario_probability\n                            scenario_count = scenario_count + 1\n                            probability_total = probability_total + scenario_probability\n                            requirement_mean = (\n                                requirement_mean + scenario_probability * requirement\n                            )\n\n    if scenario_count <= 0 or probability_total <= 0.0:\n        raw_gap = S\n    else:\n        requirement_mean = requirement_mean / probability_total\n        lower = requirements[0]\n        upper = requirements[0]\n\n        for i in range(1, scenario_count):\n            if requirements[i] < lower:\n                lower = requirements[i]\n            if requirements[i] > upper:\n                upper = requirements[i]\n\n        for iteration in range(18):\n            midpoint = 0.5 * (lower + upper)\n            cumulative_probability = 0.0\n            for i in range(scenario_count):\n                if requirements[i] <= midpoint:\n                    cumulative_probability = (\n                        cumulative_probability + scenario_weights[i]\n                    )\n            cumulative_probability = cumulative_probability / probability_total\n            if cumulative_probability < ALPHA:\n                lower = midpoint\n            else:\n                upper = midpoint\n\n        quantile_requirement = 0.5 * (lower + upper)\n        raw_gap = (\n            QBLEND * quantile_requirement\n            + (1.0 - QBLEND) * requirement_mean\n        )\n\n    if raw_gap <= 0.0:\n        q = 0.0\n    elif raw_gap <= C:\n        q = raw_gap\n    else:\n        q = C + TAIL * (raw_gap - C)\n\n    if not (q >= 0.0):\n        q = 0.0\n    if q > 1000000.0:\n        q = 1000000.0\n    return float(q)\n"
+}

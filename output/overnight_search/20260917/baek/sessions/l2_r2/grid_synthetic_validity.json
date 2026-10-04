@@ -1,0 +1,108 @@
+{
+  "policy_sha256": "98682aa68ab5618dc5702d32c16ff59f26dc359cc2378979520b90fcaee74161",
+  "data_purpose": "synthetic interface/probe validation; no holdout costs",
+  "seed": 419928,
+  "npaths": 1,
+  "periods": 50,
+  "burnin": 10,
+  "rows": [
+    {
+      "scenario": "perish_m3_L2_cv2_f0",
+      "setup_seconds": 1.0778959160670638,
+      "backend": "python",
+      "stationary_probe_passed": true,
+      "numba_boundscheck_enforced": true,
+      "status": "valid"
+    },
+    {
+      "scenario": "perish_m3_L2_cv1.5_f0.5",
+      "setup_seconds": 1.0870754171628505,
+      "backend": "python",
+      "stationary_probe_passed": true,
+      "numba_boundscheck_enforced": true,
+      "status": "valid"
+    },
+    {
+      "scenario": "perish_m3_L2_cv1.5_f0",
+      "setup_seconds": 1.3399838751647621,
+      "backend": "python",
+      "stationary_probe_passed": true,
+      "numba_boundscheck_enforced": true,
+      "status": "valid"
+    },
+    {
+      "scenario": "perish_m3_L2_cv2_f0.5",
+      "setup_seconds": 1.5492705828510225,
+      "backend": "python",
+      "stationary_probe_passed": true,
+      "numba_boundscheck_enforced": true,
+      "status": "valid"
+    },
+    {
+      "scenario": "perish_m4_L2_cv1.5_f0.5",
+      "setup_seconds": 1.7880555831361562,
+      "backend": "python",
+      "stationary_probe_passed": true,
+      "numba_boundscheck_enforced": true,
+      "status": "valid"
+    },
+    {
+      "scenario": "perish_m4_L2_cv1.5_f0",
+      "setup_seconds": 3.027185375103727,
+      "backend": "python",
+      "stationary_probe_passed": true,
+      "numba_boundscheck_enforced": true,
+      "status": "valid"
+    },
+    {
+      "scenario": "perish_m4_L2_cv2_f0",
+      "setup_seconds": 2.714246208081022,
+      "backend": "python",
+      "stationary_probe_passed": true,
+      "numba_boundscheck_enforced": true,
+      "status": "valid"
+    },
+    {
+      "scenario": "perish_m4_L2_cv2_f0.5",
+      "setup_seconds": 1.9368149158544838,
+      "backend": "python",
+      "stationary_probe_passed": true,
+      "numba_boundscheck_enforced": true,
+      "status": "valid"
+    },
+    {
+      "scenario": "perish_m5_L2_cv1.5_f0.5",
+      "setup_seconds": 8.311930832918733,
+      "backend": "python",
+      "stationary_probe_passed": true,
+      "numba_boundscheck_enforced": true,
+      "status": "valid"
+    },
+    {
+      "scenario": "perish_m5_L2_cv2_f0",
+      "setup_seconds": 11.368687083013356,
+      "backend": "python",
+      "stationary_probe_passed": true,
+      "numba_boundscheck_enforced": true,
+      "status": "valid"
+    },
+    {
+      "scenario": "perish_m5_L2_cv2_f0.5",
+      "setup_seconds": 4.566505167167634,
+      "backend": "python",
+      "stationary_probe_passed": true,
+      "numba_boundscheck_enforced": true,
+      "status": "valid"
+    },
+    {
+      "scenario": "perish_m5_L2_cv1.5_f0",
+      "setup_seconds": 21.531144415959716,
+      "backend": "python",
+      "stationary_probe_passed": true,
+      "numba_boundscheck_enforced": true,
+      "status": "valid"
+    }
+  ],
+  "complete": true,
+  "all_valid": true
+}

@@ -1,0 +1,20 @@
+{
+  "checked_utc": "2026-09-16T03:23:57.299075+00:00",
+  "complete_expected_coverage": true,
+  "status": "pass",
+  "counts": {
+    "completed_generation_groups": 18,
+    "selected_groups": 18,
+    "scored_instances": 99,
+    "main_paired_comparisons": 540,
+    "max_setup_seconds": 16.50718787498772,
+    "setups_over_30_seconds": 0,
+    "known_actual_usd": 5.439323899999999,
+    "held_upper_usd": 1.772716,
+    "accounted_upper_usd": 7.212039899999999,
+    "unresolved_requests": 2,
+    "blocking_unresolved_requests": 0
+  },
+  "issues": [],
+  "scope": "Saved source/prompt hashes, all path means, paired demand hashes, percentages, repeat means/sample SD, coverage and request ledger. No model or policy execution; no bootstrap resampling rerun."
+}

@@ -1,0 +1,108 @@
+{
+  "policy_sha256": "3e6a25b7fd7ce59984a8c614c532faaf5b61eeebdd07903b9c6d3ca6e2056b59",
+  "data_purpose": "synthetic interface/probe validation; no holdout costs",
+  "seed": 419928,
+  "npaths": 1,
+  "periods": 50,
+  "burnin": 10,
+  "rows": [
+    {
+      "scenario": "perish_m3_L2_cv1.5_f0.5",
+      "status": "valid",
+      "setup_seconds": 0.0007111250888556242,
+      "backend": "numba",
+      "stationary_probe_passed": true,
+      "numba_boundscheck_enforced": true
+    },
+    {
+      "scenario": "perish_m3_L2_cv2_f0",
+      "status": "valid",
+      "setup_seconds": 0.0017249579541385174,
+      "backend": "numba",
+      "stationary_probe_passed": true,
+      "numba_boundscheck_enforced": true
+    },
+    {
+      "scenario": "perish_m3_L2_cv1.5_f0",
+      "status": "valid",
+      "setup_seconds": 0.0006032499950379133,
+      "backend": "numba",
+      "stationary_probe_passed": true,
+      "numba_boundscheck_enforced": true
+    },
+    {
+      "scenario": "perish_m3_L2_cv2_f0.5",
+      "status": "valid",
+      "setup_seconds": 0.0005891250912100077,
+      "backend": "numba",
+      "stationary_probe_passed": true,
+      "numba_boundscheck_enforced": true
+    },
+    {
+      "scenario": "perish_m4_L2_cv1.5_f0.5",
+      "status": "valid",
+      "setup_seconds": 0.0005888750310987234,
+      "backend": "numba",
+      "stationary_probe_passed": true,
+      "numba_boundscheck_enforced": true
+    },
+    {
+      "scenario": "perish_m4_L2_cv1.5_f0",
+      "status": "valid",
+      "setup_seconds": 0.0006286660209298134,
+      "backend": "numba",
+      "stationary_probe_passed": true,
+      "numba_boundscheck_enforced": true
+    },
+    {
+      "scenario": "perish_m4_L2_cv2_f0",
+      "status": "valid",
+      "setup_seconds": 0.0005865830462425947,
+      "backend": "numba",
+      "stationary_probe_passed": true,
+      "numba_boundscheck_enforced": true
+    },
+    {
+      "scenario": "perish_m4_L2_cv2_f0.5",
+      "status": "valid",
+      "setup_seconds": 0.0031952920835465193,
+      "backend": "numba",
+      "stationary_probe_passed": true,
+      "numba_boundscheck_enforced": true
+    },
+    {
+      "scenario": "perish_m5_L2_cv1.5_f0",
+      "status": "valid",
+      "setup_seconds": 0.0006009999196976423,
+      "backend": "numba",
+      "stationary_probe_passed": true,
+      "numba_boundscheck_enforced": true
+    },
+    {
+      "scenario": "perish_m5_L2_cv1.5_f0.5",
+      "status": "valid",
+      "setup_seconds": 0.0016205001156777143,
+      "backend": "numba",
+      "stationary_probe_passed": true,
+      "numba_boundscheck_enforced": true
+    },
+    {
+      "scenario": "perish_m5_L2_cv2_f0",
+      "status": "valid",
+      "setup_seconds": 0.0006713748443871737,
+      "backend": "numba",
+      "stationary_probe_passed": true,
+      "numba_boundscheck_enforced": true
+    },
+    {
+      "scenario": "perish_m5_L2_cv2_f0.5",
+      "status": "valid",
+      "setup_seconds": 0.0005981670692563057,
+      "backend": "numba",
+      "stationary_probe_passed": true,
+      "numba_boundscheck_enforced": true
+    }
+  ],
+  "complete": true,
+  "all_valid": true
+}

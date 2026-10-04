@@ -1,0 +1,304 @@
+{
+  "results": {
+    "perish_m7_L2_cv1.5_f0": {
+      "theta": [
+        16.430669958288686,
+        22.935824935476997,
+        2.903175732548363,
+        1.0931872839875827,
+        1.9701440830223338,
+        0.03943902258307208,
+        2.0273924560387173,
+        3.3966715963035283
+      ],
+      "cost": 145.240625,
+      "nfev": 1024,
+      "seconds": 20.008915125159547,
+      "path_costs": [
+        130.4,
+        141.0,
+        151.6,
+        144.8,
+        132.5,
+        147.6,
+        145.0,
+        160.1,
+        153.1,
+        136.5,
+        124.3,
+        138.0,
+        189.8,
+        168.8,
+        149.3,
+        131.8,
+        158.4,
+        135.4,
+        113.3,
+        166.6,
+        126.9,
+        157.9,
+        161.1,
+        149.5,
+        151.4,
+        144.1,
+        140.7,
+        133.0,
+        134.4,
+        138.2,
+        155.5,
+        136.7
+      ],
+      "metrics": [
+        0.5071875,
+        0.9452187499999999,
+        3.5340937500000007
+      ],
+      "cap": 32
+    },
+    "perish_m7_L2_cv1.5_f0.5": {
+      "theta": [
+        11.066842040343253,
+        19.704637143784744,
+        3.5923210032812833,
+        0.21476884861515633,
+        0.6480648394043971,
+        1.8479056377743077,
+        1.4545058781266675,
+        3.0122108976994473
+      ],
+      "cost": 121.14062500000001,
+      "nfev": 1024,
+      "seconds": 17.14326037489809,
+      "path_costs": [
+        124.8,
+        126.4,
+        112.7,
+        115.3,
+        143.5,
+        108.8,
+        121.9,
+        106.6,
+        121.9,
+        117.8,
+        121.4,
+        116.3,
+        113.2,
+        114.0,
+        138.1,
+        128.0,
+        154.9,
+        114.4,
+        120.5,
+        117.1,
+        115.4,
+        121.3,
+        115.6,
+        126.2,
+        110.4,
+        126.8,
+        124.3,
+        136.3,
+        117.0,
+        115.4,
+        110.8,
+        119.4
+      ],
+      "metrics": [
+        0.4075937499999999,
+        0.8038124999999999,
+        3.615031250000001
+      ],
+      "cap": 32
+    },
+    "perish_m7_L2_cv2_f0": {
+      "theta": [
+        14.41429845135943,
+        26.247942735141738,
+        1.6272758407094596,
+        1.0856757081502901,
+        1.1694917185625895,
+        0.014077382572481367,
+        0.05555381756082611,
+        3.837184648773306
+      ],
+      "cost": 187.91562500000003,
+      "nfev": 1024,
+      "seconds": 17.98151595913805,
+      "path_costs": [
+        204.7,
+        187.8,
+        194.3,
+        176.5,
+        216.1,
+        203.2,
+        216.8,
+        167.6,
+        184.3,
+        166.2,
+        190.4,
+        171.6,
+        190.4,
+        191.6,
+        203.9,
+        181.6,
+        182.4,
+        157.9,
+        175.0,
+        196.2,
+        184.2,
+        172.6,
+        238.3,
+        184.8,
+        176.5,
+        171.6,
+        180.6,
+        199.7,
+        186.8,
+        212.8,
+        172.9,
+        174.0
+      ],
+      "metrics": [
+        0.47934375,
+        1.3998124999999997,
+        3.1144375000000006
+      ],
+      "cap": 29
+    },
+    "perish_m7_L2_cv2_f0.5": {
+      "theta": [
+        9.84756463003708,
+        43.53044567431685,
+        3.1711968395939114,
+        0.4310227512126851,
+        0.5966222239753001,
+        1.7692326161752039,
+        0.5645905606913306,
+        1.615893424430251
+      ],
+      "cost": 169.4125,
+      "nfev": 1024,
+      "seconds": 16.756106958026066,
+      "path_costs": [
+        178.7,
+        168.0,
+        152.5,
+        160.6,
+        153.8,
+        168.8,
+        179.9,
+        144.1,
+        195.3,
+        190.3,
+        152.3,
+        145.1,
+        152.3,
+        151.3,
+        155.7,
+        169.3,
+        194.0,
+        170.2,
+        166.2,
+        182.0,
+        203.3,
+        152.9,
+        162.7,
+        189.7,
+        190.8,
+        198.7,
+        147.3,
+        186.1,
+        158.2,
+        156.6,
+        194.0,
+        150.5
+      ],
+      "metrics": [
+        0.39031250000000006,
+        1.3038125000000003,
+        3.1617500000000005
+      ],
+      "cap": 28
+    }
+  },
+  "parameters": {
+    "S": {
+      "type": "float",
+      "initial": 16.0,
+      "min": 0.0,
+      "max": 60.0
+    },
+    "C": {
+      "type": "float",
+      "initial": 24.0,
+      "min": 0.0,
+      "max": 60.0
+    },
+    "age_power": {
+      "type": "float",
+      "initial": 0.7,
+      "min": 0.0,
+      "max": 4.0
+    },
+    "floor_credit": {
+      "type": "float",
+      "initial": 0.3,
+      "min": 0.0,
+      "max": 1.5
+    },
+    "fifo_rate": {
+      "type": "float",
+      "initial": 1.0,
+      "min": 0.0,
+      "max": 3.0
+    },
+    "lifo_rate": {
+      "type": "float",
+      "initial": 1.0,
+      "min": 0.0,
+      "max": 3.0
+    },
+    "age_weight": {
+      "type": "float",
+      "initial": 0.7,
+      "min": 0.0,
+      "max": 4.0
+    },
+    "flow_weight": {
+      "type": "float",
+      "initial": 0.7,
+      "min": 0.0,
+      "max": 4.0
+    }
+  },
+  "structure_sha256": "e567418119d0bd4988b523cba3ff99e755791d126475e55aa9633f14da11313f",
+  "code_sha256": "b69566c251c4f95aaa3768eb37679ba12b6ca909446e54123df426d97793d673",
+  "import_normalization": [],
+  "action_cache": {
+    "enabled": false,
+    "version": 1,
+    "scenarios": {}
+  },
+  "wall_seconds": 73.01709137507714,
+  "transitions": 196800000,
+  "valid": true,
+  "score": 0.9854444358767349,
+  "code": "def compute_order_amount(age, pipeline, mu, cv, f, L):\n    S = 16.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":16.0,\"min\":0.0,\"max\":60.0}\n    C = 24.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":24.0,\"min\":0.0,\"max\":60.0}\n    age_power = 0.7 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.7,\"min\":0.0,\"max\":4.0}\n    floor_credit = 0.3 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.3,\"min\":0.0,\"max\":1.5}\n    fifo_rate = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":3.0}\n    lifo_rate = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":3.0}\n    age_weight = 0.7 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.7,\"min\":0.0,\"max\":4.0}\n    flow_weight = 0.7 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.7,\"min\":0.0,\"max\":4.0}\n    m = len(age)\n    total = 0.0\n    effective = 0.0\n    x = [0.0] * m\n    for i in range(m):\n        total = total + age[i]\n        x[i] = float(age[i])\n        relative_age = (i + 1.0) / m\n        credit = floor_credit + (1.0 - floor_credit) * (relative_age ** age_power)\n        effective = effective + age[i] * credit\n    pipe = 0.0\n    for j in range(len(pipeline)):\n        pipe = pipe + pipeline[j]\n    for t in range(L):\n        if t > 0 and t - 1 < len(pipeline):\n            x[m - 1] = x[m - 1] + pipeline[t - 1]\n        remaining_fifo = fifo_rate * f * mu\n        for i in range(m):\n            take = min(x[i], remaining_fifo)\n            x[i] = x[i] - take\n            remaining_fifo = remaining_fifo - take\n        remaining_lifo = lifo_rate * (1.0 - f) * mu\n        for k in range(m):\n            i = m - 1 - k\n            take = min(x[i], remaining_lifo)\n            x[i] = x[i] - take\n            remaining_lifo = remaining_lifo - take\n        for i in range(m - 1):\n            x[i] = x[i + 1]\n        x[m - 1] = 0.0\n    survivors = 0.0\n    for i in range(m):\n        survivors = survivors + x[i]\n    position_signal = max(0.0, S - total - pipe)\n    age_signal = max(0.0, S - effective - pipe)\n    flow_signal = max(0.0, S - survivors)\n    denominator = 1.0 + age_weight + flow_weight\n    raw = (position_signal + age_weight * age_signal + flow_weight * flow_signal) / denominator\n    return max(0.0, min(C, raw))\n",
+  "evaluation_correction": {
+    "revision": "leading_numerical_imports_v1",
+    "request_sha256": "f09c721190384249f13d8dc112c55a3ae194c17812e432e9651a27fb5bb2f32b",
+    "reason": "transient_missing_import_normalization_metadata",
+    "original_fit_sha256": "acc12c16e7e19a423e00ae6bf66bf654a37b391e41aed4a6a792fc9abc3fafdb",
+    "code_sha256": "b69566c251c4f95aaa3768eb37679ba12b6ca909446e54123df426d97793d673",
+    "elapsed_seconds": 73.1949577499181,
+    "timeout_seconds": 900,
+    "training_settings": {
+      "paths": 32,
+      "burnin": 500,
+      "horizon": 1000,
+      "seed": 18091001,
+      "budget": 1024
+    },
+    "feedback_replayed": false
+  }
+}

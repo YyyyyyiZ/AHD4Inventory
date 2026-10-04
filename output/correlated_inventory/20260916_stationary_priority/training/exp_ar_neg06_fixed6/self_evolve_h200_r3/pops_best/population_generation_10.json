@@ -1,0 +1,18 @@
+{
+     "algorithm": "Increased base_target and demand_response to better handle high demand variability, reduced pipeline_coef to account for lower pipeline reliability, and raised min_order to reduce lost sales.",
+     "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 161.9628774535099  # OPT_PARAM: {\"initial\": 161.9628774535099, \"min\": 150.0, \"max\": 250.0, \"type\": \"float\"}\n    demand_response = 0.4  # OPT_PARAM: {\"initial\": 0.4, \"min\": 0.4, \"max\": 0.9, \"type\": \"float\"}\n    pipeline_coef = 1.0  # OPT_PARAM: {\"initial\": 1.0, \"min\": 0.6, \"max\": 1.0, \"type\": \"float\"}\n    min_order = 66.99396590225446  # OPT_PARAM: {\"initial\": 66.99396590225446, \"min\": 50.0, \"max\": 100.0, \"type\": \"float\"}\n    \n    adjusted_target = base_target + demand_response * last_demand\n    inventory_position = on_hand_inventory + pipeline_coef * sum(pipeline_orders)\n    order_amount = max(min_order, adjusted_target - inventory_position)\n    return order_amount\n",
+     "description": "",
+     "intuition": "",
+     "reasoning": "Increased base_target and demand_response to better handle high demand variability, reduced pipeline_coef to account for lower pipeline reliability, and raised min_order to reduce lost sales.",
+     "opt_params": {
+          "base_target": 161.9628774535099,
+          "demand_response": 0.4,
+          "pipeline_coef": 1.0,
+          "min_order": 66.99396590225446
+     },
+     "cost": null,
+     "objective": 20076.30634,
+     "lower": 19544.78552,
+     "upper": 20612.89333,
+     "other_inf": null
+}

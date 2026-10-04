@@ -1,0 +1,23 @@
+{
+  "status": "completed",
+  "best_code_path": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_stationary_priority/training/exp_regime095_fixed6/self_evolve_h200_r2/policy.py",
+  "code_sha256": "2996f31d357f870fd69bf3c674b01d7e5c0f0b5de2d7e7a672e49f467f873496",
+  "best_train_cost": 30828.228336206073,
+  "algorithm": "Modified the policy to incorporate demand responsiveness and partial adjustment for both inventory and pipeline. The new policy uses four parameters: a base target level, a demand response factor, and adjustment factors for current inventory and pipeline. This should better handle demand fluctuations while maintaining reasonable inventory levels.",
+  "checkpoint_path": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_stationary_priority/training/exp_regime095_fixed6/self_evolve_h200_r2/checkpoints/g010.json.gz",
+  "model_calls": 101,
+  "training_evaluations": 8686,
+  "training_cache_hits": 499,
+  "compiled_structures": 26,
+  "optimizer": "SciPy L-BFGS-B",
+  "optimizer_maxiter": 15,
+  "test_evaluated": false,
+  "scenario_id": "exp_regime095_fixed6",
+  "policy_id": "self_evolve_h200_r2",
+  "family": "self_evolve",
+  "repeat": 2,
+  "source_training_horizon": 200,
+  "elapsed_seconds": 1214.9755520001054,
+  "finished_utc": "2026-09-16T05:45:17.144344+00:00",
+  "full_protocol": true
+}

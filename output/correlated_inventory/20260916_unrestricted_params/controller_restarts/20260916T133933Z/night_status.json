@@ -1,0 +1,21 @@
+{
+  "status": "paused",
+  "started_utc": "2026-09-16T13:27:30.991069+00:00",
+  "pid": 249,
+  "workers": 4,
+  "planned_primary_runs": 18,
+  "planned_refit_runs": 9,
+  "budget_usd": 18.17,
+  "phases": [
+    {
+      "phase": "primary",
+      "exit_code": 1,
+      "elapsed_seconds": 492.1168631250039,
+      "finished_utc": "2026-09-16T13:35:43.106060+00:00"
+    }
+  ],
+  "current_phase": "primary",
+  "updated_utc": "2026-09-16T13:35:43.107371+00:00",
+  "error_type": "RuntimeError",
+  "error": "Phase primary failed; inspect night_primary.log"
+}

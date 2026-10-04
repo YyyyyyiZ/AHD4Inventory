@@ -1,0 +1,23 @@
+{
+  "recorded_utc": "2026-09-16T15:14:19.448414+00:00",
+  "source_hashes_match": true,
+  "source_files_checked": 10,
+  "active_chain_seed_identities_match": 4,
+  "completed_generation_best_costs_nonincreasing": true,
+  "best_no_worse_than_original_adaptive_seed": true,
+  "candidate_snapshot": {
+    "records": 175,
+    "valid": 174,
+    "invalid": 1,
+    "valid_parameter_count_distribution": {
+      "2": 1,
+      "3": 22,
+      "4": 23,
+      "5": 90,
+      "6": 38
+    }
+  },
+  "blocked_transport": 0,
+  "holdout_scoring_performed": false,
+  "audit": "Independent read-only agent audit; running counts are a point-in-time snapshot."
+}

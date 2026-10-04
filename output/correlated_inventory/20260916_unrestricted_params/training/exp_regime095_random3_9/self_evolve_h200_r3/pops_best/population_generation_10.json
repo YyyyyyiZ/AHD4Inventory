@@ -1,0 +1,18 @@
+{
+     "algorithm": "Reduced low_base_target to better match low-demand periods, increased high_base_target for better high-demand coverage. Increased lead_time_sensitivity to better respond to longer lead times. Increased demand_response to be more reactive to recent demand changes while staying within reasonable bounds. These changes aim to reduce lost sales while keeping holding costs in check.",
+     "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    low_base_target = 112.82157981768405  # OPT_PARAM: {\"initial\": 112.82157981768405, \"min\": 80.0, \"max\": 150.0, \"type\": \"float\"}\n    high_base_target = 200.0  # OPT_PARAM: {\"initial\": 200.0, \"min\": 200.0, \"max\": 400.0, \"type\": \"float\"}\n    lead_time_sensitivity = 5.0  # OPT_PARAM: {\"initial\": 5.0, \"min\": 5.0, \"max\": 15.0, \"type\": \"float\"}\n    demand_response = 0.2  # OPT_PARAM: {\"initial\": 0.2, \"min\": 0.2, \"max\": 0.6, \"type\": \"float\"}\n    \n    # Detect demand regime\n    is_high_demand = last_demand >= 100.0 * np.log(2)\n    \n    # Select base target based on regime\n    base_target = high_base_target if is_high_demand else low_base_target\n    \n    # Adjust target based on lead time and recent demand\n    adjusted_target = base_target + (lead_time_sensitivity * (quoted_lead_time - 6)) + (demand_response * last_demand)\n    \n    # Calculate net inventory position\n    net_inventory = on_hand_inventory + sum(pipeline_orders[:quoted_lead_time])\n    \n    # Place order to reach adjusted target\n    order_amount = max(0.0, adjusted_target - net_inventory)\n    return order_amount\n",
+     "description": "",
+     "intuition": "",
+     "reasoning": "Reduced low_base_target to better match low-demand periods, increased high_base_target for better high-demand coverage. Increased lead_time_sensitivity to better respond to longer lead times. Increased demand_response to be more reactive to recent demand changes while staying within reasonable bounds. These changes aim to reduce lost sales while keeping holding costs in check.",
+     "opt_params": {
+          "low_base_target": 112.82157981768405,
+          "high_base_target": 200.0,
+          "lead_time_sensitivity": 5.0,
+          "demand_response": 0.2
+     },
+     "cost": null,
+     "objective": 31988.23707,
+     "lower": 30309.69981,
+     "upper": 33767.78428,
+     "other_inf": null
+}

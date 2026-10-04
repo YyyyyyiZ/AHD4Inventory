@@ -1,0 +1,28 @@
+{
+  "started_utc": "2026-09-16T07:57:57.099507+00:00",
+  "old_pid": 84211,
+  "new_pid": 90196,
+  "caffeinate_pid": 90197,
+  "command": [
+    "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/.venv/bin/python",
+    "-m",
+    "examples.inventory.correlated_benchmark.night_runner",
+    "--run-dir",
+    "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_stationary_priority",
+    "--workers",
+    "4"
+  ],
+  "reason": "Resume frozen evaluation after process-local disk-cache fix; all 27 training chains and 63 source bindings unchanged. Existing validated evaluation files are reused.",
+  "all_policies_sealed": true,
+  "prior_state_archive": "controller_restarts/20260916T0757Z",
+  "evaluation_fix_record": "evaluation_recovery.json",
+  "budget_at_restart": {
+    "limit_usd": 20.0,
+    "known_cost_usd": 1.78133475,
+    "held_upper_usd": 0.044427,
+    "committed_upper_usd": 1.82576175,
+    "requests": 2775,
+    "completed": 2770,
+    "uncertain": 5
+  }
+}

@@ -1,0 +1,660 @@
+{
+  "results": {
+    "perish_m3_L2_cv1.5_f0": {
+      "theta": [
+        3.0
+      ],
+      "cost": 234.423828125,
+      "nfev": 81,
+      "seconds": 1.3477030829526484,
+      "population_size": 16,
+      "starts": [
+        {
+          "kind": "literal",
+          "theta": [
+            3.0
+          ],
+          "cost": 234.423828125
+        }
+      ],
+      "optimizer_revision": "unit_box_warm_de_v1",
+      "path_costs": [
+        237.109375,
+        224.8046875,
+        222.65625,
+        220.1171875,
+        229.296875,
+        220.1171875,
+        261.9140625,
+        213.671875,
+        241.796875,
+        208.0078125,
+        242.96875,
+        242.1875,
+        263.28125,
+        244.53125,
+        232.2265625,
+        246.09375
+      ],
+      "metrics": [
+        0.6724853515625,
+        1.6717529296875,
+        3.0
+      ],
+      "cap": 17,
+      "demand_sha256": "7fcadd29a82e09ee8870a8ccf50ec81cb4420362bb862e7c849a6af0d0ae9a12",
+      "demand_seed": 1774737172,
+      "cache_actions": true,
+      "action_cache": {
+        "hits": 876480,
+        "misses": 57664,
+        "peak_entries": 3695,
+        "evaluations": 82
+      },
+      "transitions": 934144
+    },
+    "perish_m3_L2_cv1.5_f0.5": {
+      "theta": [
+        3.0
+      ],
+      "cost": 199.462890625,
+      "nfev": 81,
+      "seconds": 0.04958858294412494,
+      "population_size": 16,
+      "starts": [
+        {
+          "kind": "literal",
+          "theta": [
+            3.0
+          ],
+          "cost": 199.462890625
+        }
+      ],
+      "optimizer_revision": "unit_box_warm_de_v1",
+      "path_costs": [
+        215.0390625,
+        214.0625,
+        194.7265625,
+        262.890625,
+        176.3671875,
+        190.8203125,
+        203.125,
+        208.59375,
+        218.359375,
+        184.5703125,
+        156.25,
+        201.3671875,
+        218.75,
+        182.8125,
+        178.125,
+        185.546875
+      ],
+      "metrics": [
+        0.5389404296875,
+        1.4556884765625,
+        3.0
+      ],
+      "cap": 16,
+      "demand_sha256": "4f98ee85b2e69cb79c9c23a384aabaef4c903639186f0ec3bddfce655e162885",
+      "demand_seed": 2028277592,
+      "cache_actions": true,
+      "action_cache": {
+        "hits": 872378,
+        "misses": 61766,
+        "peak_entries": 3602,
+        "evaluations": 82
+      },
+      "transitions": 934144
+    },
+    "perish_m3_L2_cv2_f0": {
+      "theta": [
+        3.0
+      ],
+      "cost": 264.07470703125,
+      "nfev": 81,
+      "seconds": 0.05668012495152652,
+      "population_size": 16,
+      "starts": [
+        {
+          "kind": "literal",
+          "theta": [
+            3.0
+          ],
+          "cost": 264.07470703125
+        }
+      ],
+      "optimizer_revision": "unit_box_warm_de_v1",
+      "path_costs": [
+        225.78125,
+        239.2578125,
+        235.3515625,
+        288.0859375,
+        280.46875,
+        299.4140625,
+        265.0390625,
+        236.71875,
+        262.6953125,
+        266.2109375,
+        264.6484375,
+        248.2421875,
+        271.2890625,
+        223.4375,
+        313.28125,
+        305.2734375
+      ],
+      "metrics": [
+        0.812744140625,
+        1.8280029296875,
+        2.9493408203125
+      ],
+      "cap": 14,
+      "demand_sha256": "72bb286fde3807e8e1706a30651ffd5a32ff886a09d36df6107eecb2844fffd0",
+      "demand_seed": 399254705,
+      "cache_actions": true,
+      "action_cache": {
+        "hits": 883379,
+        "misses": 50765,
+        "peak_entries": 2462,
+        "evaluations": 82
+      },
+      "transitions": 934144
+    },
+    "perish_m3_L2_cv2_f0.5": {
+      "theta": [
+        3.0
+      ],
+      "cost": 226.28173828125,
+      "nfev": 81,
+      "seconds": 0.04843020788393915,
+      "population_size": 16,
+      "starts": [
+        {
+          "kind": "literal",
+          "theta": [
+            3.0
+          ],
+          "cost": 226.28173828125
+        }
+      ],
+      "optimizer_revision": "unit_box_warm_de_v1",
+      "path_costs": [
+        216.40625,
+        222.65625,
+        189.453125,
+        192.578125,
+        233.59375,
+        243.1640625,
+        229.1015625,
+        219.140625,
+        258.984375,
+        217.3828125,
+        223.6328125,
+        240.234375,
+        246.2890625,
+        221.09375,
+        236.71875,
+        230.078125
+      ],
+      "metrics": [
+        0.64794921875,
+        1.6148681640625,
+        2.9351806640625
+      ],
+      "cap": 14,
+      "demand_sha256": "f33c4aae79fd75fc025b508fce0a3dab1fa57f67869b0d75a5d4895495badd50",
+      "demand_seed": 937787395,
+      "cache_actions": true,
+      "action_cache": {
+        "hits": 879026,
+        "misses": 55118,
+        "peak_entries": 2656,
+        "evaluations": 82
+      },
+      "transitions": 934144
+    },
+    "perish_m5_L2_cv1.5_f0": {
+      "theta": [
+        3.0
+      ],
+      "cost": 196.22802734375,
+      "nfev": 81,
+      "seconds": 0.07719041686505079,
+      "population_size": 16,
+      "starts": [
+        {
+          "kind": "literal",
+          "theta": [
+            3.0
+          ],
+          "cost": 196.22802734375
+        }
+      ],
+      "optimizer_revision": "unit_box_warm_de_v1",
+      "path_costs": [
+        224.8046875,
+        207.2265625,
+        157.6171875,
+        164.2578125,
+        183.984375,
+        204.8828125,
+        190.234375,
+        187.890625,
+        202.9296875,
+        184.765625,
+        212.890625,
+        238.4765625,
+        242.3828125,
+        188.0859375,
+        164.2578125,
+        184.9609375
+      ],
+      "metrics": [
+        0.4549560546875,
+        1.50732421875,
+        3.0
+      ],
+      "cap": 25,
+      "demand_sha256": "7b03d24284f0cdab56bb6dfd19f8d6dadfa7d58db5295680c72b6bdd76eda8ab",
+      "demand_seed": 1302964901,
+      "cache_actions": true,
+      "action_cache": {
+        "hits": 778311,
+        "misses": 155833,
+        "peak_entries": 8376,
+        "evaluations": 82
+      },
+      "transitions": 934144
+    },
+    "perish_m5_L2_cv1.5_f0.5": {
+      "theta": [
+        3.631747424505961
+      ],
+      "cost": 155.57861328125,
+      "nfev": 97,
+      "seconds": 0.11609583278186619,
+      "population_size": 16,
+      "starts": [
+        {
+          "kind": "literal",
+          "theta": [
+            3.0
+          ],
+          "cost": 157.80029296875
+        }
+      ],
+      "optimizer_revision": "unit_box_warm_de_v1",
+      "path_costs": [
+        190.0390625,
+        162.109375,
+        151.3671875,
+        139.453125,
+        134.5703125,
+        159.9609375,
+        123.4375,
+        154.6875,
+        161.9140625,
+        152.734375,
+        153.515625,
+        175.5859375,
+        172.4609375,
+        164.2578125,
+        158.59375,
+        134.5703125
+      ],
+      "metrics": [
+        0.726806640625,
+        0.8289794921875,
+        3.8748779296875
+      ],
+      "cap": 24,
+      "demand_sha256": "5dd11e4f372fbf3bc1a1f23ad643023c5bf982dece496b7ec4dcef20853249a3",
+      "demand_seed": 266648294,
+      "cache_actions": true,
+      "action_cache": {
+        "hits": 846379,
+        "misses": 270037,
+        "peak_entries": 9332,
+        "evaluations": 98
+      },
+      "transitions": 1116416
+    },
+    "perish_m5_L2_cv2_f0": {
+      "theta": [
+        3.0
+      ],
+      "cost": 226.79443359375,
+      "nfev": 81,
+      "seconds": 0.0639852499589324,
+      "population_size": 16,
+      "starts": [
+        {
+          "kind": "literal",
+          "theta": [
+            3.0
+          ],
+          "cost": 226.79443359375
+        }
+      ],
+      "optimizer_revision": "unit_box_warm_de_v1",
+      "path_costs": [
+        226.5625,
+        233.984375,
+        218.75,
+        206.4453125,
+        285.15625,
+        298.2421875,
+        190.4296875,
+        223.828125,
+        233.7890625,
+        226.7578125,
+        190.8203125,
+        303.3203125,
+        241.6015625,
+        157.03125,
+        158.59375,
+        233.3984375
+      ],
+      "metrics": [
+        0.6253662109375,
+        1.642578125,
+        3.0
+      ],
+      "cap": 22,
+      "demand_sha256": "159273040bc59bfd9cdc035940f7fcb48e3ec90e877c53a535ff6bf3b181b458",
+      "demand_seed": 517673267,
+      "cache_actions": true,
+      "action_cache": {
+        "hits": 770211,
+        "misses": 163933,
+        "peak_entries": 7962,
+        "evaluations": 82
+      },
+      "transitions": 934144
+    },
+    "perish_m5_L2_cv2_f0.5": {
+      "theta": [
+        3.0
+      ],
+      "cost": 188.31787109375,
+      "nfev": 81,
+      "seconds": 0.08801570790819824,
+      "population_size": 16,
+      "starts": [
+        {
+          "kind": "literal",
+          "theta": [
+            3.0
+          ],
+          "cost": 188.31787109375
+        }
+      ],
+      "optimizer_revision": "unit_box_warm_de_v1",
+      "path_costs": [
+        177.5390625,
+        181.640625,
+        213.8671875,
+        177.5390625,
+        183.7890625,
+        206.25,
+        175.1953125,
+        229.8828125,
+        182.03125,
+        185.3515625,
+        169.921875,
+        204.1015625,
+        184.1796875,
+        152.5390625,
+        187.109375,
+        202.1484375
+      ],
+      "metrics": [
+        0.4796142578125,
+        1.403564453125,
+        3.0
+      ],
+      "cap": 21,
+      "demand_sha256": "723768c2eaa13c2f8faaa20d74b05ad8eab37fd01dcceb64e029c6e153c42120",
+      "demand_seed": 869845365,
+      "cache_actions": true,
+      "action_cache": {
+        "hits": 725121,
+        "misses": 209023,
+        "peak_entries": 9099,
+        "evaluations": 82
+      },
+      "transitions": 934144
+    },
+    "perish_m7_L2_cv1.5_f0": {
+      "theta": [
+        3.631747424505961
+      ],
+      "cost": 172.05810546875,
+      "nfev": 97,
+      "seconds": 0.10487233405001462,
+      "population_size": 16,
+      "starts": [
+        {
+          "kind": "literal",
+          "theta": [
+            3.0
+          ],
+          "cost": 172.10693359375
+        }
+      ],
+      "optimizer_revision": "unit_box_warm_de_v1",
+      "path_costs": [
+        162.890625,
+        168.359375,
+        185.3515625,
+        172.0703125,
+        185.9375,
+        176.5625,
+        168.75,
+        165.4296875,
+        186.1328125,
+        150.1953125,
+        150.78125,
+        160.546875,
+        160.3515625,
+        197.4609375,
+        195.1171875,
+        166.9921875
+      ],
+      "metrics": [
+        0.8692626953125,
+        0.851318359375,
+        3.991455078125
+      ],
+      "cap": 32,
+      "demand_sha256": "45f1881a5f9945341f4ea21863f064d3ca01ef2766a1b7df66526fb3b43e776d",
+      "demand_seed": 39100023,
+      "cache_actions": true,
+      "action_cache": {
+        "hits": 657806,
+        "misses": 458610,
+        "peak_entries": 9911,
+        "evaluations": 98
+      },
+      "transitions": 1116416
+    },
+    "perish_m7_L2_cv1.5_f0.5": {
+      "theta": [
+        3.631747424505961
+      ],
+      "cost": 130.615234375,
+      "nfev": 97,
+      "seconds": 0.14183029090054333,
+      "population_size": 16,
+      "starts": [
+        {
+          "kind": "literal",
+          "theta": [
+            3.0
+          ],
+          "cost": 139.453125
+        }
+      ],
+      "optimizer_revision": "unit_box_warm_de_v1",
+      "path_costs": [
+        128.3203125,
+        147.65625,
+        137.6953125,
+        108.3984375,
+        151.7578125,
+        138.8671875,
+        128.7109375,
+        114.0625,
+        146.6796875,
+        142.1875,
+        158.0078125,
+        126.953125,
+        125.0,
+        101.171875,
+        119.140625,
+        115.234375
+      ],
+      "metrics": [
+        0.6380615234375,
+        0.6680908203125,
+        3.9613037109375
+      ],
+      "cap": 32,
+      "demand_sha256": "9bb3fdd05904c95aa9f3f922e37d9773445bca3cf1a0026bbe774913845f8632",
+      "demand_seed": 451802344,
+      "cache_actions": true,
+      "action_cache": {
+        "hits": 631791,
+        "misses": 484625,
+        "peak_entries": 10477,
+        "evaluations": 98
+      },
+      "transitions": 1116416
+    },
+    "perish_m7_L2_cv2_f0": {
+      "theta": [
+        3.0
+      ],
+      "cost": 210.43701171875,
+      "nfev": 81,
+      "seconds": 0.10743495798669755,
+      "population_size": 16,
+      "starts": [
+        {
+          "kind": "literal",
+          "theta": [
+            3.0
+          ],
+          "cost": 210.43701171875
+        }
+      ],
+      "optimizer_revision": "unit_box_warm_de_v1",
+      "path_costs": [
+        231.4453125,
+        244.3359375,
+        217.96875,
+        224.609375,
+        211.328125,
+        190.625,
+        259.375,
+        229.296875,
+        162.6953125,
+        180.2734375,
+        218.359375,
+        219.3359375,
+        222.8515625,
+        175.1953125,
+        197.8515625,
+        181.4453125
+      ],
+      "metrics": [
+        0.543212890625,
+        1.5611572265625,
+        3.0
+      ],
+      "cap": 29,
+      "demand_sha256": "e884c1499a51745ba2328d7ff61fe6393944a9822e5270dc40ccc6f316958c08",
+      "demand_seed": 1532896506,
+      "cache_actions": true,
+      "action_cache": {
+        "hits": 605879,
+        "misses": 328265,
+        "peak_entries": 9599,
+        "evaluations": 82
+      },
+      "transitions": 934144
+    },
+    "perish_m7_L2_cv2_f0.5": {
+      "theta": [
+        3.0
+      ],
+      "cost": 192.22412109375,
+      "nfev": 81,
+      "seconds": 0.10142000019550323,
+      "population_size": 16,
+      "starts": [
+        {
+          "kind": "literal",
+          "theta": [
+            3.0
+          ],
+          "cost": 192.22412109375
+        }
+      ],
+      "optimizer_revision": "unit_box_warm_de_v1",
+      "path_costs": [
+        192.7734375,
+        168.9453125,
+        184.5703125,
+        203.515625,
+        167.7734375,
+        178.3203125,
+        237.109375,
+        147.0703125,
+        169.921875,
+        212.109375,
+        205.2734375,
+        180.6640625,
+        215.625,
+        215.625,
+        181.25,
+        215.0390625
+      ],
+      "metrics": [
+        0.3577880859375,
+        1.564453125,
+        3.0
+      ],
+      "cap": 28,
+      "demand_sha256": "e433288f0c58ffb21b1299e457ad2effb73c5e11a32c494f17a47e94249e95c8",
+      "demand_seed": 728317491,
+      "cache_actions": true,
+      "action_cache": {
+        "hits": 596719,
+        "misses": 337425,
+        "peak_entries": 9967,
+        "evaluations": 82
+      },
+      "transitions": 934144
+    }
+  },
+  "parameters": {
+    "C": {
+      "type": "float",
+      "initial": 3.0,
+      "min": 0.0,
+      "max": 15.0
+    }
+  },
+  "code_sha256": "ddd5464183353d82335357956e684fd3d9e2ff25da80da0d682627bbd6f773f2",
+  "structure_sha256": "a4899f188f5793b04cbbdfbaaa6fd56ad4935bf5e2bb8e11c22b9418af94782a",
+  "import_normalization": [],
+  "transitions": 11756544,
+  "execution_revision": "model_comparison_numeric_v1",
+  "wall_seconds": 3.902859249850735,
+  "worker_seconds": 3.548261209158227,
+  "peak_rss_bytes": 197050368,
+  "timeout_seconds": 3600,
+  "trusted_source_sha256": "804d5b0b6780f8bd0266af9a6f07b3c81a810e3630ac6a2e28160c0e4f052cde",
+  "request_sha256": "0d242e8c2b173021d0c33aa81c4b0e87a67a12b2d291a84fb60a2309adc3a4f3",
+  "valid": true
+}

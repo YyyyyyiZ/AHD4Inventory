@@ -1,0 +1,15 @@
+{
+  "status": "completed",
+  "best_code_path": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_stationary_priority/training/exp_ar_pos08_fixed6/self_evolve_h50_r1/policy.py",
+  "code_sha256": "cc37dc3c0124103545667be5b98a6d98dca17957062d85ce31a70c10781b4939",
+  "best_train_cost": 8027.369801560696,
+  "algorithm": "Reduced base_target to lower holding costs, increased demand_response to better react to demand surges, set inventory_coverage to 1.0 for full inventory consideration, and reduced pipeline_coverage to lessen over-ordering from pipeline.",
+  "checkpoint_path": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_stationary_priority/training/exp_ar_pos08_fixed6/self_evolve_h50_r1/checkpoints/g010.json.gz",
+  "model_calls": 101,
+  "training_evaluations": 1016,
+  "training_cache_hits": 79,
+  "compiled_structures": 3,
+  "optimizer": "SciPy L-BFGS-B",
+  "optimizer_maxiter": 15,
+  "test_evaluated": false
+}

@@ -1,0 +1,252 @@
+{
+  "results": {
+    "perish_m3_L2_cv1.5_f0": {
+      "theta": [
+        8.002765665006816,
+        1.4922238802263854,
+        0.14357922839355508,
+        0.6931066490210417
+      ],
+      "cost": 232.275390625,
+      "nfev": 256,
+      "seconds": 3.6290499169845134,
+      "path_costs": [
+        231.25,
+        200.390625,
+        235.3515625,
+        224.609375,
+        239.453125,
+        257.8125,
+        240.4296875,
+        228.90625
+      ],
+      "metrics": [
+        0.67431640625,
+        1.6484375,
+        2.998046875
+      ],
+      "cap": 17
+    },
+    "perish_m3_L2_cv1.5_f0.5": {
+      "theta": [
+        7.906151591096371,
+        1.2101443175283668,
+        -0.07635095475422232,
+        0.602898221361954
+      ],
+      "cost": 213.7451171875,
+      "nfev": 256,
+      "seconds": 1.850029082968831,
+      "path_costs": [
+        224.0234375,
+        232.03125,
+        158.3984375,
+        194.140625,
+        204.4921875,
+        261.9140625,
+        196.6796875,
+        238.28125
+      ],
+      "metrics": [
+        0.57666015625,
+        1.560791015625,
+        3.150390625
+      ],
+      "cap": 16
+    },
+    "perish_m3_L2_cv2_f0": {
+      "theta": [
+        4.985610465322555,
+        0.822023847381496,
+        0.18950914281494202,
+        0.8102691792559891
+      ],
+      "cost": 259.86328125,
+      "nfev": 225,
+      "seconds": 1.1797520827967674,
+      "path_costs": [
+        224.8046875,
+        238.8671875,
+        269.53125,
+        268.359375,
+        310.546875,
+        227.9296875,
+        239.453125,
+        299.4140625
+      ],
+      "metrics": [
+        0.653564453125,
+        1.945068359375,
+        2.666015625
+      ],
+      "cap": 14
+    },
+    "perish_m3_L2_cv2_f0.5": {
+      "theta": [
+        4.725091003156411,
+        0.7319676002861406,
+        0.5388118593825489,
+        0.9437839376967003
+      ],
+      "cost": 236.7919921875,
+      "nfev": 256,
+      "seconds": 2.397929167142138,
+      "path_costs": [
+        234.9609375,
+        264.2578125,
+        288.671875,
+        199.4140625,
+        233.3984375,
+        204.296875,
+        184.1796875,
+        285.15625
+      ],
+      "metrics": [
+        0.4365234375,
+        1.931396484375,
+        2.50048828125
+      ],
+      "cap": 14
+    },
+    "perish_m5_L2_cv1.5_f0": {
+      "theta": [
+        5.757743487673544,
+        1.1709130967390013,
+        -0.10759815127093242,
+        1.3903755361096428
+      ],
+      "cost": 183.59375,
+      "nfev": 256,
+      "seconds": 1.8391803328413516,
+      "path_costs": [
+        192.1875,
+        148.4375,
+        179.296875,
+        174.0234375,
+        192.3828125,
+        211.5234375,
+        188.28125,
+        182.6171875
+      ],
+      "metrics": [
+        0.60888671875,
+        1.22705078125,
+        3.3564453125
+      ],
+      "cap": 25
+    },
+    "perish_m5_L2_cv1.5_f0.5": {
+      "theta": [
+        7.122536074666151,
+        0.7257295172437225,
+        0.10187109021859259,
+        1.290917800023329
+      ],
+      "cost": 165.0146484375,
+      "nfev": 256,
+      "seconds": 2.693435875000432,
+      "path_costs": [
+        167.7734375,
+        177.734375,
+        126.171875,
+        149.4140625,
+        152.9296875,
+        200.390625,
+        162.3046875,
+        183.3984375
+      ],
+      "metrics": [
+        0.476318359375,
+        1.173828125,
+        3.43896484375
+      ],
+      "cap": 24
+    },
+    "perish_m5_L2_cv2_f0": {
+      "theta": [
+        9.65594781125682,
+        1.4358794831473272,
+        -0.10319430502605709,
+        0.7502798361190169
+      ],
+      "cost": 212.353515625,
+      "nfev": 256,
+      "seconds": 1.7088469159789383,
+      "path_costs": [
+        183.59375,
+        195.1171875,
+        229.8828125,
+        223.6328125,
+        255.6640625,
+        176.3671875,
+        196.484375,
+        238.0859375
+      ],
+      "metrics": [
+        0.56884765625,
+        1.5546875,
+        2.97021484375
+      ],
+      "cap": 22
+    },
+    "perish_m5_L2_cv2_f0.5": {
+      "theta": [
+        5.10967243275207,
+        0.8782930737957138,
+        0.14901295489542982,
+        1.646221372273867
+      ],
+      "cost": 194.9951171875,
+      "nfev": 256,
+      "seconds": 2.7019102920312434,
+      "path_costs": [
+        198.6328125,
+        219.53125,
+        245.703125,
+        154.1015625,
+        193.5546875,
+        164.84375,
+        142.3828125,
+        241.2109375
+      ],
+      "metrics": [
+        0.39453125,
+        1.555419921875,
+        2.836669921875
+      ],
+      "cap": 21
+    }
+  },
+  "parameters": {
+    "S": {
+      "type": "float",
+      "initial": 12.0,
+      "min": 0.0,
+      "max": 60.0
+    },
+    "age_base": {
+      "type": "float",
+      "initial": 0.3,
+      "min": 0.0,
+      "max": 1.5
+    },
+    "age_slope": {
+      "type": "float",
+      "initial": 0.2,
+      "min": -0.2,
+      "max": 0.8
+    },
+    "depletion_scale": {
+      "type": "float",
+      "initial": 1.0,
+      "min": 0.25,
+      "max": 1.75
+    }
+  },
+  "structure_sha256": "87d3da3ffbf600c19b845b18c0416ec9f6efa01bddb5f0c8a34c0bca772dec0f",
+  "wall_seconds": 19.432492791907862,
+  "transitions": 11534400,
+  "valid": true,
+  "score": 0.9965407420791389,
+  "code": "def compute_order_amount(age, pipeline, mu, cv, f, L):\n    S = 12.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":12.0,\"min\":0.0,\"max\":60.0}\n    age_base = 0.30 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.30,\"min\":0.0,\"max\":1.5}\n    age_slope = 0.20 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.20,\"min\":-0.2,\"max\":0.8}\n    depletion_scale = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.25,\"max\":1.75}\n\n    m = len(age)\n    lead = int(L)\n    x = [0.0 for _ in range(m)]\n    for i in range(m):\n        value = float(age[i])\n        if value < 0.0:\n            value = 0.0\n        x[i] = value\n\n    demand_variance_scale = (mu * cv) * (mu * cv)\n\n    mf = f * mu\n    vf = f * demand_variance_scale\n    if mf > 0.0:\n        af = vf / (mf * mf) - 1.0 / mf\n        if af < 1.0:\n            af = 1.0\n        rootf = (af * af - 1.0) ** 0.5\n        bf = 1.0 + af + rootf\n        cf = 1.0 + af - rootf\n        wf = 1.0 / bf\n        pf1 = 2.0 / (2.0 + mf * bf)\n        pf2 = 2.0 / (2.0 + mf * cf)\n        rf1 = 1.0 - pf1\n        rf2 = 1.0 - pf2\n        gf1 = rf1 / pf1\n        gf2 = rf2 / pf2\n    else:\n        wf = 0.0\n        rf1 = 0.0\n        rf2 = 0.0\n        gf1 = 0.0\n        gf2 = 0.0\n\n    ml = (1.0 - f) * mu\n    vl = (1.0 - f) * demand_variance_scale\n    if ml > 0.0:\n        al = vl / (ml * ml) - 1.0 / ml\n        if al < 1.0:\n            al = 1.0\n        rootl = (al * al - 1.0) ** 0.5\n        bl = 1.0 + al + rootl\n        cl = 1.0 + al - rootl\n        wl = 1.0 / bl\n        pl1 = 2.0 / (2.0 + ml * bl)\n        pl2 = 2.0 / (2.0 + ml * cl)\n        rl1 = 1.0 - pl1\n        rl2 = 1.0 - pl2\n        gl1 = rl1 / pl1\n        gl2 = rl2 / pl2\n    else:\n        wl = 0.0\n        rl1 = 0.0\n        rl2 = 0.0\n        gl1 = 0.0\n        gl2 = 0.0\n\n    for h in range(lead):\n        if mf > 0.0:\n            cumulative = 0.0\n            for i in range(m):\n                stock = x[i]\n                stop0 = wf * gf1 * (rf1 ** cumulative) + (1.0 - wf) * gf2 * (rf2 ** cumulative)\n                threshold = cumulative + stock\n                stop1 = wf * gf1 * (rf1 ** threshold) + (1.0 - wf) * gf2 * (rf2 ** threshold)\n                used = depletion_scale * (stop0 - stop1)\n                if used < 0.0:\n                    used = 0.0\n                if used > stock:\n                    used = stock\n                x[i] = stock - used\n                cumulative = threshold\n\n        if ml > 0.0:\n            cumulative = 0.0\n            for i in range(m - 1, -1, -1):\n                stock = x[i]\n                stop0 = wl * gl1 * (rl1 ** cumulative) + (1.0 - wl) * gl2 * (rl2 ** cumulative)\n                threshold = cumulative + stock\n                stop1 = wl * gl1 * (rl1 ** threshold) + (1.0 - wl) * gl2 * (rl2 ** threshold)\n                used = depletion_scale * (stop0 - stop1)\n                if used < 0.0:\n                    used = 0.0\n                if used > stock:\n                    used = stock\n                x[i] = stock - used\n                cumulative = threshold\n\n        for i in range(m - 1):\n            x[i] = x[i + 1]\n        if m > 0:\n            x[m - 1] = 0.0\n\n        if h < lead - 1 and h < len(pipeline) and m > 0:\n            arrival = float(pipeline[h])\n            if arrival < 0.0:\n                arrival = 0.0\n            x[m - 1] = arrival\n\n    effective_stock = 0.0\n    for i in range(m):\n        weight = age_base + age_slope * float(i)\n        if weight < 0.0:\n            weight = 0.0\n        if weight > 2.0:\n            weight = 2.0\n        effective_stock = effective_stock + weight * x[i]\n\n    order = S - effective_stock\n    if not (order == order):\n        order = 0.0\n    if order < 0.0:\n        order = 0.0\n    if order > 1000000.0:\n        order = 1000000.0\n    return float(order)\n"
+}

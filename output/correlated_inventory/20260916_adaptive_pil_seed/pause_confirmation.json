@@ -1,0 +1,19 @@
+{
+  "confirmed_utc": "2026-09-16T18:10:14.903889+00:00",
+  "status": "paused",
+  "reason": "User explicitly requested stop",
+  "live_experiment_processes": [],
+  "pending_model_requests": [],
+  "automation_status": "PAUSED",
+  "request_states": {
+    "complete": 3805,
+    "unknown_charge": 17
+  },
+  "known_shared_cost_usd": 2.82583697,
+  "held_shared_upper_usd": 0.15874090000000002,
+  "completed_runs": {
+    "20260916_unrestricted_params": 22,
+    "20260916_adaptive_pil_seed": 9
+  },
+  "resume_instructions": "Wait for explicit user resume. Keep PAUSE files. Reconcile paused-before-submit pending/blocked markers against ledger/provider requests before continuing; never treat an unsubmitted pause as a consumed candidate, and never re-POST a submitted unknown request."
+}

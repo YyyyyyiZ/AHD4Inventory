@@ -1,0 +1,18 @@
+{
+  "created_utc": "2026-09-17T04:09:41.402858+00:00",
+  "final_test_opened": false,
+  "change": "Checkpoint final numeric refits independently per scenario, rather than one worker for the entire family.",
+  "reason": "Avoid losing completed independent fits when a long family exceeds one aggregate wall-time guard.",
+  "unchanged": [
+    "All policy sources and parameter domains",
+    "Train/validation/refit/test demand seeds and sizes",
+    "Optimizer seed and per-scenario objective-call ceilings",
+    "Worker RSS cap",
+    "Search candidate timeouts and Baek development/setup budgets",
+    "No API calls added"
+  ],
+  "refit_worker_guard_seconds_per_scenario": 900,
+  "old_complete_full_refits_reused": true,
+  "synthetic_verification": "Whole two-scenario fit and separately checkpointed fits have exactly equal theta, cost, nfev, path costs, metrics, and capacity.",
+  "implementation": "examples/inventory/overnight_search/evaluate_search.py:refit"
+}

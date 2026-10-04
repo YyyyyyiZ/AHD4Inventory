@@ -1,0 +1,192 @@
+[
+     {
+          "algorithm": "Reduced base_level and regime_multiplier to lower holding costs while still maintaining coverage. Increased demand_multiplier to respond more aggressively to recent demand. Adjusted smoothing_factor to be more responsive to current inventory levels. These changes aim to better balance holding and lost-sales costs based on the observed demand patterns and regime switching behavior.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_level = 211.12623267442575  # OPT_PARAM: {\"initial\": 211.12623267442575, \"min\": 150.0, \"max\": 220.0, \"type\": \"float\"}\n    demand_multiplier = 1.1  # OPT_PARAM: {\"initial\": 1.1, \"min\": 1.1, \"max\": 1.5, \"type\": \"float\"}\n    lead_time_adjustment = 0.35  # OPT_PARAM: {\"initial\": 0.35, \"min\": 0.35, \"max\": 0.45, \"type\": \"float\"}\n    smoothing_factor = 0.2  # OPT_PARAM: {\"initial\": 0.2, \"min\": 0.2, \"max\": 0.4, \"type\": \"float\"}\n    regime_multiplier = 2.2  # OPT_PARAM: {\"initial\": 2.2, \"min\": 1.5, \"max\": 2.2, \"type\": \"float\"}\n    regime_threshold = 100.0 * np.log(2)  # 69.3147\n    \n    pipeline_total = np.sum(pipeline_orders)\n    is_high_demand = last_demand >= regime_threshold\n    \n    regime_adjusted_base = base_level * (regime_multiplier if is_high_demand else 1.0)\n    \n    demand_estimate = last_demand * (1.3 if is_high_demand else 1.0)\n    lead_time_factor = lead_time_adjustment ** (quoted_lead_time - 3)\n    \n    target = (regime_adjusted_base + \n             demand_multiplier * demand_estimate * lead_time_factor)\n    \n    smoothed_target = smoothing_factor * target + (1 - smoothing_factor) * (on_hand_inventory + pipeline_total)\n    \n    order_amount = max(0.0, smoothed_target - on_hand_inventory - pipeline_total)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Reduced base_level and regime_multiplier to lower holding costs while still maintaining coverage. Increased demand_multiplier to respond more aggressively to recent demand. Adjusted smoothing_factor to be more responsive to current inventory levels. These changes aim to better balance holding and lost-sales costs based on the observed demand patterns and regime switching behavior.",
+          "opt_params": {
+               "base_level": 211.12623267442575,
+               "demand_multiplier": 1.1,
+               "lead_time_adjustment": 0.35,
+               "smoothing_factor": 0.2,
+               "regime_multiplier": 2.2
+          },
+          "cost": null,
+          "objective": 29634.2326,
+          "lower": 28056.78967,
+          "upper": 31349.37322,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Reduced base_level and regime_multiplier to better balance holding vs lost-sales costs. Increased demand_multiplier and smoothing_factor to respond more aggressively to demand changes. Adjusted lead_time_adjustment to better account for lead time variations. These changes aim to reduce the high lost-sales costs while maintaining reasonable holding costs.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_level = 210.0  # OPT_PARAM: {\"initial\": 210.0, \"min\": 180.0, \"max\": 210.0, \"type\": \"float\"}\n    demand_multiplier = 1.0849938186311479  # OPT_PARAM: {\"initial\": 1.0849938186311479, \"min\": 1.0, \"max\": 1.5, \"type\": \"float\"}\n    lead_time_adjustment = 0.36523777697656423  # OPT_PARAM: {\"initial\": 0.36523777697656423, \"min\": 0.3, \"max\": 0.45, \"type\": \"float\"}\n    smoothing_factor = 0.2  # OPT_PARAM: {\"initial\": 0.2, \"min\": 0.2, \"max\": 0.4, \"type\": \"float\"}\n    regime_multiplier = 2.2  # OPT_PARAM: {\"initial\": 2.2, \"min\": 1.5, \"max\": 2.2, \"type\": \"float\"}\n    regime_threshold = 100.0 * np.log(2)\n    \n    pipeline_total = np.sum(pipeline_orders)\n    is_high_demand = last_demand >= regime_threshold\n    \n    regime_adjusted_base = base_level * (regime_multiplier if is_high_demand else 1.0)\n    \n    demand_estimate = last_demand * (1.25 if is_high_demand else 1.0)\n    lead_time_factor = lead_time_adjustment ** (quoted_lead_time - 3)\n    \n    target = (regime_adjusted_base + \n             demand_multiplier * demand_estimate * lead_time_factor)\n    \n    smoothed_target = smoothing_factor * target + (1 - smoothing_factor) * (on_hand_inventory + pipeline_total)\n    \n    order_amount = max(0.0, smoothed_target - on_hand_inventory - pipeline_total)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Reduced base_level and regime_multiplier to better balance holding vs lost-sales costs. Increased demand_multiplier and smoothing_factor to respond more aggressively to demand changes. Adjusted lead_time_adjustment to better account for lead time variations. These changes aim to reduce the high lost-sales costs while maintaining reasonable holding costs.",
+          "opt_params": {
+               "base_level": 210.0,
+               "demand_multiplier": 1.0849938186311479,
+               "lead_time_adjustment": 0.36523777697656423,
+               "smoothing_factor": 0.2,
+               "regime_multiplier": 2.2
+          },
+          "cost": null,
+          "objective": 29638.27833,
+          "lower": 28032.36102,
+          "upper": 31364.01598,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Reduced base_level and regime_multiplier to decrease holding costs, increased demand_multiplier and lead_time_adjustment to better respond to demand spikes, adjusted smoothing_factor for more balanced inventory management. These changes aim to reduce lost-sales costs while maintaining reasonable holding costs, based on the high lost-sales to holding cost ratio in the training performance.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_level = 214.82737713140787  # OPT_PARAM: {\"initial\": 214.82737713140787, \"min\": 150.0, \"max\": 220.0, \"type\": \"float\"}\n    demand_multiplier = 1.1  # OPT_PARAM: {\"initial\": 1.1, \"min\": 1.1, \"max\": 1.5, \"type\": \"float\"}\n    lead_time_adjustment = 0.35  # OPT_PARAM: {\"initial\": 0.35, \"min\": 0.35, \"max\": 0.45, \"type\": \"float\"}\n    smoothing_factor = 0.2  # OPT_PARAM: {\"initial\": 0.2, \"min\": 0.2, \"max\": 0.4, \"type\": \"float\"}\n    regime_multiplier = 2.2  # OPT_PARAM: {\"initial\": 2.2, \"min\": 1.5, \"max\": 2.2, \"type\": \"float\"}\n    regime_threshold = 100.0 * np.log(2)  # 69.3147\n    \n    pipeline_total = np.sum(pipeline_orders)\n    is_high_demand = last_demand >= regime_threshold\n    \n    regime_adjusted_base = base_level * (regime_multiplier if is_high_demand else 1.0)\n    \n    demand_estimate = last_demand * (1.2 if is_high_demand else 1.0)\n    lead_time_factor = lead_time_adjustment ** (quoted_lead_time - 3)\n    \n    target = (regime_adjusted_base + \n             demand_multiplier * demand_estimate * lead_time_factor)\n    \n    smoothed_target = smoothing_factor * target + (1 - smoothing_factor) * (on_hand_inventory + pipeline_total)\n    \n    order_amount = max(0.0, smoothed_target - on_hand_inventory - pipeline_total)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Reduced base_level and regime_multiplier to decrease holding costs, increased demand_multiplier and lead_time_adjustment to better respond to demand spikes, adjusted smoothing_factor for more balanced inventory management. These changes aim to reduce lost-sales costs while maintaining reasonable holding costs, based on the high lost-sales to holding cost ratio in the training performance.",
+          "opt_params": {
+               "base_level": 214.82737713140787,
+               "demand_multiplier": 1.1,
+               "lead_time_adjustment": 0.35,
+               "smoothing_factor": 0.2,
+               "regime_multiplier": 2.2
+          },
+          "cost": null,
+          "objective": 29638.85603,
+          "lower": 28048.67987,
+          "upper": 31356.57106,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Adjusted parameters to better respond to high-demand regimes and reduce lost sales costs. Increased demand multiplier and lead time adjustment to account for demand surges, and reduced base level and regime multiplier to balance holding costs. Increased smoothing factor for more stable inventory levels.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_level = 206.9742090149139  # OPT_PARAM: {\"initial\": 206.9742090149139, \"min\": 180.0, \"max\": 220.0, \"type\": \"float\"}\n    demand_multiplier = 1.1  # OPT_PARAM: {\"initial\": 1.1, \"min\": 1.1, \"max\": 1.5, \"type\": \"float\"}\n    lead_time_adjustment = 0.35  # OPT_PARAM: {\"initial\": 0.35, \"min\": 0.35, \"max\": 0.45, \"type\": \"float\"}\n    smoothing_factor = 0.2  # OPT_PARAM: {\"initial\": 0.2, \"min\": 0.2, \"max\": 0.4, \"type\": \"float\"}\n    regime_multiplier = 2.2  # OPT_PARAM: {\"initial\": 2.2, \"min\": 1.5, \"max\": 2.2, \"type\": \"float\"}\n    regime_threshold = 100.0 * np.log(2)  # 69.3147\n    \n    pipeline_total = np.sum(pipeline_orders)\n    is_high_demand = last_demand >= regime_threshold\n    \n    regime_adjusted_base = base_level * (regime_multiplier if is_high_demand else 1.0)\n    \n    demand_estimate = last_demand * (1.5 if is_high_demand else 1.0)\n    lead_time_factor = lead_time_adjustment ** (quoted_lead_time - 3)\n    \n    target = (regime_adjusted_base + \n             demand_multiplier * demand_estimate * lead_time_factor)\n    \n    smoothed_target = smoothing_factor * target + (1 - smoothing_factor) * (on_hand_inventory + pipeline_total)\n    \n    order_amount = max(0.0, smoothed_target - on_hand_inventory - pipeline_total)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Adjusted parameters to better respond to high-demand regimes and reduce lost sales costs. Increased demand multiplier and lead time adjustment to account for demand surges, and reduced base level and regime multiplier to balance holding costs. Increased smoothing factor for more stable inventory levels.",
+          "opt_params": {
+               "base_level": 206.9742090149139,
+               "demand_multiplier": 1.1,
+               "lead_time_adjustment": 0.35,
+               "smoothing_factor": 0.2,
+               "regime_multiplier": 2.2
+          },
+          "cost": null,
+          "objective": 29652.89557,
+          "lower": 28071.91992,
+          "upper": 31356.43455,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Reduced base_level to better match demand patterns, increased demand_multiplier to be more responsive to recent demand, adjusted lead_time_adjustment and smoothing_factor for better stability, and lowered regime_multiplier while maintaining regime detection. These changes aim to reduce both holding and lost-sales costs by being more adaptive to demand fluctuations while avoiding overstocking.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_level = 207.4103404331619  # OPT_PARAM: {\"initial\": 207.4103404331619, \"min\": 180.0, \"max\": 210.0, \"type\": \"float\"}\n    demand_multiplier = 1.1  # OPT_PARAM: {\"initial\": 1.1, \"min\": 1.1, \"max\": 1.5, \"type\": \"float\"}\n    lead_time_adjustment = 0.4383594005533812  # OPT_PARAM: {\"initial\": 0.4383594005533812, \"min\": 0.35, \"max\": 0.45, \"type\": \"float\"}\n    smoothing_factor = 0.2  # OPT_PARAM: {\"initial\": 0.2, \"min\": 0.2, \"max\": 0.4, \"type\": \"float\"}\n    regime_multiplier = 2.190073729465817  # OPT_PARAM: {\"initial\": 2.190073729465817, \"min\": 1.8, \"max\": 2.2, \"type\": \"float\"}\n    regime_threshold = 100.0 * np.log(2)  # 69.3147\n    \n    pipeline_total = np.sum(pipeline_orders)\n    is_high_demand = last_demand >= regime_threshold\n    \n    regime_adjusted_base = base_level * (regime_multiplier if is_high_demand else 1.0)\n    \n    demand_estimate = last_demand * (1.5 if is_high_demand else 1.0)\n    lead_time_factor = lead_time_adjustment ** (quoted_lead_time - 3)\n    \n    target = (regime_adjusted_base + \n             demand_multiplier * demand_estimate * lead_time_factor)\n    \n    smoothed_target = smoothing_factor * target + (1 - smoothing_factor) * (on_hand_inventory + pipeline_total)\n    \n    order_amount = max(0.0, smoothed_target - on_hand_inventory - pipeline_total)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Reduced base_level to better match demand patterns, increased demand_multiplier to be more responsive to recent demand, adjusted lead_time_adjustment and smoothing_factor for better stability, and lowered regime_multiplier while maintaining regime detection. These changes aim to reduce both holding and lost-sales costs by being more adaptive to demand fluctuations while avoiding overstocking.",
+          "opt_params": {
+               "base_level": 207.4103404331619,
+               "demand_multiplier": 1.1,
+               "lead_time_adjustment": 0.4383594005533812,
+               "smoothing_factor": 0.2,
+               "regime_multiplier": 2.190073729465817
+          },
+          "cost": null,
+          "objective": 29654.37096,
+          "lower": 28073.83097,
+          "upper": 31357.58964,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Key changes: 1) Reduced base_stock to better balance holding vs lost sales costs, 2) Increased demand_multiplier and lead_time_adjustment for more responsive replenishment, 3) Added demand boost during high regime, 4) Adjusted smoothing factor for faster response while maintaining stability, 5) Simplified regime_multiplier to a more balanced value. The policy now more aggressively responds to demand spikes while maintaining lower inventory during normal periods.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_level = 206.35553020448543  # OPT_PARAM: {\"initial\": 206.35553020448543, \"min\": 150.0, \"max\": 220.0, \"type\": \"float\"}\n    demand_multiplier = 1.1  # OPT_PARAM: {\"initial\": 1.1, \"min\": 1.1, \"max\": 1.4, \"type\": \"float\"}\n    lead_time_adjustment = 0.44189653684989494  # OPT_PARAM: {\"initial\": 0.44189653684989494, \"min\": 0.35, \"max\": 0.45, \"type\": \"float\"}\n    smoothing_factor = 0.2  # OPT_PARAM: {\"initial\": 0.2, \"min\": 0.2, \"max\": 0.4, \"type\": \"float\"}\n    regime_multiplier = 2.2  # OPT_PARAM: {\"initial\": 2.2, \"min\": 1.8, \"max\": 2.2, \"type\": \"float\"}\n    regime_threshold = 100.0 * np.log(2)  # 69.3147\n    \n    pipeline_total = np.sum(pipeline_orders)\n    is_high_demand = last_demand >= regime_threshold\n    \n    regime_adjusted_base = base_level * (regime_multiplier if is_high_demand else 1.0)\n    \n    demand_estimate = last_demand * (1.5 if is_high_demand else 1.0)\n    lead_time_factor = lead_time_adjustment ** (quoted_lead_time - 3)\n    \n    target = (regime_adjusted_base + \n             demand_multiplier * demand_estimate * lead_time_factor)\n    \n    smoothed_target = smoothing_factor * target + (1 - smoothing_factor) * (on_hand_inventory + pipeline_total)\n    \n    order_amount = max(0.0, smoothed_target - on_hand_inventory - pipeline_total)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Key changes: 1) Reduced base_stock to better balance holding vs lost sales costs, 2) Increased demand_multiplier and lead_time_adjustment for more responsive replenishment, 3) Added demand boost during high regime, 4) Adjusted smoothing factor for faster response while maintaining stability, 5) Simplified regime_multiplier to a more balanced value. The policy now more aggressively responds to demand spikes while maintaining lower inventory during normal periods.",
+          "opt_params": {
+               "base_level": 206.35553020448543,
+               "demand_multiplier": 1.1,
+               "lead_time_adjustment": 0.44189653684989494,
+               "smoothing_factor": 0.2,
+               "regime_multiplier": 2.2
+          },
+          "cost": null,
+          "objective": 29655.1213,
+          "lower": 28074.57716,
+          "upper": 31358.15013,
+          "other_inf": null
+     },
+     {
+          "algorithm": "The key changes are: 1) Reduced base_level to better match observed demand patterns, 2) Increased demand_multiplier to be more responsive to recent demand, 3) Increased lead_time_adjustment to better account for longer lead times, 4) Increased smoothing_factor for more stable inventory levels, and 5) Simplified regime_multiplier to a round number that still captures regime switching. These changes aim to better balance holding costs and lost sales based on the training performance metrics.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_level = 208.8469047602358  # OPT_PARAM: {\"initial\": 208.8469047602358, \"min\": 180.0, \"max\": 250.0, \"type\": \"float\"}\n    demand_multiplier = 1.137970924178184  # OPT_PARAM: {\"initial\": 1.137970924178184, \"min\": 1.0, \"max\": 1.5, \"type\": \"float\"}\n    lead_time_adjustment = 0.3571806241842555  # OPT_PARAM: {\"initial\": 0.3571806241842555, \"min\": 0.3, \"max\": 0.5, \"type\": \"float\"}\n    smoothing_factor = 0.2  # OPT_PARAM: {\"initial\": 0.2, \"min\": 0.2, \"max\": 0.4, \"type\": \"float\"}\n    regime_multiplier = 2.3362911523770373  # OPT_PARAM: {\"initial\": 2.3362911523770373, \"min\": 1.5, \"max\": 2.5, \"type\": \"float\"}\n    \n    pipeline_total = np.sum(pipeline_orders)\n    is_high_demand = last_demand >= 100.0 * np.log(2)\n    \n    regime_adjusted_base = base_level * (regime_multiplier if is_high_demand else 1.0)\n    \n    target = (regime_adjusted_base + \n             demand_multiplier * last_demand * (lead_time_adjustment ** (quoted_lead_time - 3)))\n    \n    smoothed_target = smoothing_factor * target + (1 - smoothing_factor) * (on_hand_inventory + pipeline_total)\n    \n    order_amount = max(0.0, smoothed_target - on_hand_inventory - pipeline_total)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "The key changes are: 1) Reduced base_level to better match observed demand patterns, 2) Increased demand_multiplier to be more responsive to recent demand, 3) Increased lead_time_adjustment to better account for longer lead times, 4) Increased smoothing_factor for more stable inventory levels, and 5) Simplified regime_multiplier to a round number that still captures regime switching. These changes aim to better balance holding costs and lost sales based on the training performance metrics.",
+          "opt_params": {
+               "base_level": 208.8469047602358,
+               "demand_multiplier": 1.137970924178184,
+               "lead_time_adjustment": 0.3571806241842555,
+               "smoothing_factor": 0.2,
+               "regime_multiplier": 2.3362911523770373
+          },
+          "cost": null,
+          "objective": 29656.25411,
+          "lower": 28049.09352,
+          "upper": 31361.51628,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Reduced base_level and adjusted other parameters to better balance holding and lost-sales costs based on training performance. The new values are more conservative, reducing excessive inventory during high-demand periods while maintaining responsiveness to demand changes.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_level = 215.14703125102986  # OPT_PARAM: {\"initial\": 215.14703125102986, \"min\": 150.0, \"max\": 220.0, \"type\": \"float\"}\n    demand_multiplier = 1.1  # OPT_PARAM: {\"initial\": 1.1, \"min\": 1.1, \"max\": 1.5, \"type\": \"float\"}\n    lead_time_adjustment = 0.3023350237429905  # OPT_PARAM: {\"initial\": 0.3023350237429905, \"min\": 0.3, \"max\": 0.5, \"type\": \"float\"}\n    smoothing_factor = 0.2  # OPT_PARAM: {\"initial\": 0.2, \"min\": 0.2, \"max\": 0.4, \"type\": \"float\"}\n    regime_multiplier = 2.3  # OPT_PARAM: {\"initial\": 2.3, \"min\": 1.8, \"max\": 2.3, \"type\": \"float\"}\n    \n    pipeline_total = np.sum(pipeline_orders)\n    is_high_demand = last_demand >= 100.0 * np.log(2)\n    \n    regime_adjusted_base = base_level * (regime_multiplier if is_high_demand else 1.0)\n    \n    target = (regime_adjusted_base + \n             demand_multiplier * last_demand * (lead_time_adjustment ** (quoted_lead_time - 3)))\n    \n    smoothed_target = smoothing_factor * target + (1 - smoothing_factor) * (on_hand_inventory + pipeline_total)\n    \n    order_amount = max(0.0, smoothed_target - on_hand_inventory - pipeline_total)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Reduced base_level and adjusted other parameters to better balance holding and lost-sales costs based on training performance. The new values are more conservative, reducing excessive inventory during high-demand periods while maintaining responsiveness to demand changes.",
+          "opt_params": {
+               "base_level": 215.14703125102986,
+               "demand_multiplier": 1.1,
+               "lead_time_adjustment": 0.3023350237429905,
+               "smoothing_factor": 0.2,
+               "regime_multiplier": 2.3
+          },
+          "cost": null,
+          "objective": 29656.38501,
+          "lower": 28058.94256,
+          "upper": 31357.95654,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Reduced base_level and increased demand_multiplier to better respond to demand fluctuations. Adjusted smoothing_factor and regime_multiplier for more balanced inventory control. These changes aim to reduce lost sales while maintaining reasonable holding costs.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_level = 214.63560855695806  # OPT_PARAM: {\"initial\": 214.63560855695806, \"min\": 180.0, \"max\": 250.0, \"type\": \"float\"}\n    demand_multiplier = 1.1317140279537155  # OPT_PARAM: {\"initial\": 1.1317140279537155, \"min\": 1.0, \"max\": 1.5, \"type\": \"float\"}\n    lead_time_adjustment = 0.3988600296163399  # OPT_PARAM: {\"initial\": 0.3988600296163399, \"min\": 0.3, \"max\": 0.5, \"type\": \"float\"}\n    smoothing_factor = 0.2  # OPT_PARAM: {\"initial\": 0.2, \"min\": 0.2, \"max\": 0.4, \"type\": \"float\"}\n    regime_multiplier = 2.2901742352782595  # OPT_PARAM: {\"initial\": 2.2901742352782595, \"min\": 1.5, \"max\": 2.5, \"type\": \"float\"}\n    \n    pipeline_total = np.sum(pipeline_orders)\n    is_high_demand = last_demand >= 100.0 * np.log(2)\n    \n    regime_adjusted_base = base_level * (regime_multiplier if is_high_demand else 1.0)\n    \n    target = (regime_adjusted_base + \n             demand_multiplier * last_demand * (lead_time_adjustment ** (quoted_lead_time - 3)))\n    \n    smoothed_target = smoothing_factor * target + (1 - smoothing_factor) * (on_hand_inventory + pipeline_total)\n    \n    order_amount = max(0.0, smoothed_target - on_hand_inventory - pipeline_total)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Reduced base_level and increased demand_multiplier to better respond to demand fluctuations. Adjusted smoothing_factor and regime_multiplier for more balanced inventory control. These changes aim to reduce lost sales while maintaining reasonable holding costs.",
+          "opt_params": {
+               "base_level": 214.63560855695806,
+               "demand_multiplier": 1.1317140279537155,
+               "lead_time_adjustment": 0.3988600296163399,
+               "smoothing_factor": 0.2,
+               "regime_multiplier": 2.2901742352782595
+          },
+          "cost": null,
+          "objective": 29657.92689,
+          "lower": 28057.08688,
+          "upper": 31362.86732,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Reduced base_level to better match demand patterns, increased demand_multiplier to be more responsive to demand changes, adjusted lead_time_adjustment and smoothing_factor for better balance between responsiveness and stability, and lowered regime_multiplier while maintaining regime detection. These changes aim to reduce both holding and lost-sales costs based on the training performance metrics.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_level = 200.0  # OPT_PARAM: {\"initial\": 200.0, \"min\": 150.0, \"max\": 200.0, \"type\": \"float\"}\n    demand_multiplier = 1.1  # OPT_PARAM: {\"initial\": 1.1, \"min\": 1.1, \"max\": 1.5, \"type\": \"float\"}\n    lead_time_adjustment = 0.35  # OPT_PARAM: {\"initial\": 0.35, \"min\": 0.35, \"max\": 0.45, \"type\": \"float\"}\n    smoothing_factor = 0.2  # OPT_PARAM: {\"initial\": 0.2, \"min\": 0.2, \"max\": 0.4, \"type\": \"float\"}\n    regime_multiplier = 2.2  # OPT_PARAM: {\"initial\": 2.2, \"min\": 1.8, \"max\": 2.2, \"type\": \"float\"}\n    regime_threshold = 100.0 * np.log(2)  # 69.3147\n    \n    pipeline_total = np.sum(pipeline_orders)\n    is_high_demand = last_demand >= regime_threshold\n    \n    regime_adjusted_base = base_level * (regime_multiplier if is_high_demand else 1.0)\n    \n    demand_estimate = last_demand * (1.5 if is_high_demand else 1.0)\n    lead_time_factor = lead_time_adjustment ** (quoted_lead_time - 3)\n    \n    target = (regime_adjusted_base + \n             demand_multiplier * demand_estimate * lead_time_factor)\n    \n    smoothed_target = smoothing_factor * target + (1 - smoothing_factor) * (on_hand_inventory + pipeline_total)\n    \n    order_amount = max(0.0, smoothed_target - on_hand_inventory - pipeline_total)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Reduced base_level to better match demand patterns, increased demand_multiplier to be more responsive to demand changes, adjusted lead_time_adjustment and smoothing_factor for better balance between responsiveness and stability, and lowered regime_multiplier while maintaining regime detection. These changes aim to reduce both holding and lost-sales costs based on the training performance metrics.",
+          "opt_params": {
+               "base_level": 200.0,
+               "demand_multiplier": 1.1,
+               "lead_time_adjustment": 0.35,
+               "smoothing_factor": 0.2,
+               "regime_multiplier": 2.2
+          },
+          "cost": null,
+          "objective": 29663.85713,
+          "lower": 28081.88372,
+          "upper": 31374.57657,
+          "other_inf": null
+     }
+]

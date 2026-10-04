@@ -1,0 +1,166 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1220" height="1315" viewBox="0 0 1220 1315">
+<rect width="100%" height="100%" fill="#fff"/>
+<style>text{font-family:Arial,sans-serif;fill:#1f2937;font-size:13px}.small{font-size:11px}.title{font-size:22px;font-weight:bold}</style>
+<text x="25" y="34" class="title">existing_test: improvement over train-selected classical baseline</text>
+<text x="25" y="59">Points: mean across valid independent draws; whiskers: observed minimum to maximum across draws.</text>
+<text x="25" y="80">Positive values indicate lower cost. Whiskers are generation spread, not confidence intervals. Counts show paired / planned.</text>
+<line x1="295.00" x2="295.00" y1="102" y2="1255" stroke="#e5e7eb"/>
+<text x="295.00" y="1280" text-anchor="middle">-1.2%</text>
+<line x1="415.83" x2="415.83" y1="102" y2="1255" stroke="#e5e7eb"/>
+<text x="415.83" y="1280" text-anchor="middle">-0.7%</text>
+<line x1="536.67" x2="536.67" y1="102" y2="1255" stroke="#e5e7eb"/>
+<text x="536.67" y="1280" text-anchor="middle">-0.1%</text>
+<line x1="657.50" x2="657.50" y1="102" y2="1255" stroke="#e5e7eb"/>
+<text x="657.50" y="1280" text-anchor="middle">0.4%</text>
+<line x1="778.33" x2="778.33" y1="102" y2="1255" stroke="#e5e7eb"/>
+<text x="778.33" y="1280" text-anchor="middle">0.9%</text>
+<line x1="899.17" x2="899.17" y1="102" y2="1255" stroke="#e5e7eb"/>
+<text x="899.17" y="1280" text-anchor="middle">1.5%</text>
+<line x1="1020.00" x2="1020.00" y1="102" y2="1255" stroke="#e5e7eb"/>
+<text x="1020.00" y="1280" text-anchor="middle">2.0%</text>
+<line x1="568.35" x2="568.35" y1="102" y2="1255" stroke="#374151" stroke-width="1.5"/>
+<rect x="15" y="108" width="1170" height="35" fill="#f8fafc" opacity="0.7"/>
+<text x="25" y="127">exponential_L2_c1_2</text>
+<line x1="680.80" x2="688.28" y1="128" y2="128" stroke="#0369a1" stroke-width="2"/>
+<circle cx="685.55" cy="128" r="4" fill="#0369a1"/>
+<text x="1035" y="132" class="small">Baek-L2 +0.52% (3/3)</text>
+<text x="25" y="164">exponential_L2_c1_5</text>
+<line x1="780.95" x2="799.20" y1="165" y2="165" stroke="#0369a1" stroke-width="2"/>
+<circle cx="792.57" cy="165" r="4" fill="#0369a1"/>
+<text x="1035" y="169" class="small">Baek-L2 +1.00% (3/3)</text>
+<rect x="15" y="182" width="1170" height="35" fill="#f8fafc" opacity="0.7"/>
+<text x="25" y="201">exponential_L4_c1_2</text>
+<line x1="651.10" x2="668.11" y1="202" y2="202" stroke="#0369a1" stroke-width="2"/>
+<circle cx="662.42" cy="202" r="4" fill="#0369a1"/>
+<text x="1035" y="206" class="small">Baek-L2 +0.42% (3/3)</text>
+<text x="25" y="238">exponential_L4_c1_5</text>
+<line x1="779.70" x2="851.23" y1="239" y2="239" stroke="#0369a1" stroke-width="2"/>
+<circle cx="825.01" cy="239" r="4" fill="#0369a1"/>
+<text x="1035" y="243" class="small">Baek-L2 +1.15% (3/3)</text>
+<rect x="15" y="256" width="1170" height="35" fill="#f8fafc" opacity="0.7"/>
+<text x="25" y="275">exponential_L6_c1_2</text>
+<line x1="646.29" x2="648.61" y1="265" y2="265" stroke="#b45309" stroke-width="2"/>
+<circle cx="647.59" cy="265" r="4" fill="#b45309"/>
+<text x="1035" y="269" class="small">Baek-L1 +0.35% (3/3)</text>
+<line x1="608.01" x2="647.52" y1="276" y2="276" stroke="#0369a1" stroke-width="2"/>
+<circle cx="628.35" cy="276" r="4" fill="#0369a1"/>
+<text x="1035" y="280" class="small">Baek-L2 +0.27% (3/3)</text>
+<text x="25" y="312">exponential_L6_c1_5</text>
+<line x1="789.69" x2="880.83" y1="313" y2="313" stroke="#0369a1" stroke-width="2"/>
+<circle cx="849.80" cy="313" r="4" fill="#0369a1"/>
+<text x="1035" y="317" class="small">Baek-L2 +1.26% (3/3)</text>
+<rect x="15" y="330" width="1170" height="35" fill="#f8fafc" opacity="0.7"/>
+<text x="25" y="349">normal_std10_L2_c1_2</text>
+<line x1="713.83" x2="717.14" y1="350" y2="350" stroke="#0369a1" stroke-width="2"/>
+<circle cx="715.95" cy="350" r="4" fill="#0369a1"/>
+<text x="1035" y="354" class="small">Baek-L2 +0.66% (3/3)</text>
+<text x="25" y="386">normal_std10_L2_c1_5</text>
+<line x1="739.42" x2="749.12" y1="387" y2="387" stroke="#0369a1" stroke-width="2"/>
+<circle cx="745.68" cy="387" r="4" fill="#0369a1"/>
+<text x="1035" y="391" class="small">Baek-L2 +0.79% (3/3)</text>
+<rect x="15" y="404" width="1170" height="35" fill="#f8fafc" opacity="0.7"/>
+<text x="25" y="423">normal_std10_L4_c1_2</text>
+<line x1="692.35" x2="713.66" y1="424" y2="424" stroke="#0369a1" stroke-width="2"/>
+<circle cx="703.34" cy="424" r="4" fill="#0369a1"/>
+<text x="1035" y="428" class="small">Baek-L2 +0.60% (3/3)</text>
+<text x="25" y="460">normal_std10_L4_c1_5</text>
+<line x1="808.02" x2="828.10" y1="461" y2="461" stroke="#0369a1" stroke-width="2"/>
+<circle cx="818.83" cy="461" r="4" fill="#0369a1"/>
+<text x="1035" y="465" class="small">Baek-L2 +1.12% (3/3)</text>
+<rect x="15" y="478" width="1170" height="35" fill="#f8fafc" opacity="0.7"/>
+<text x="25" y="497">normal_std10_L6_c1_2</text>
+<line x1="651.74" x2="704.08" y1="498" y2="498" stroke="#0369a1" stroke-width="2"/>
+<circle cx="680.45" cy="498" r="4" fill="#0369a1"/>
+<text x="1035" y="502" class="small">Baek-L2 +0.50% (3/3)</text>
+<text x="25" y="534">normal_std10_L6_c1_5</text>
+<line x1="941.68" x2="948.03" y1="535" y2="535" stroke="#0369a1" stroke-width="2"/>
+<circle cx="945.82" cy="535" r="4" fill="#0369a1"/>
+<text x="1035" y="539" class="small">Baek-L2 +1.69% (3/3)</text>
+<rect x="15" y="552" width="1170" height="35" fill="#f8fafc" opacity="0.7"/>
+<text x="25" y="571">normal_std30_L2_c1_2</text>
+<line x1="733.92" x2="741.93" y1="572" y2="572" stroke="#0369a1" stroke-width="2"/>
+<circle cx="738.68" cy="572" r="4" fill="#0369a1"/>
+<text x="1035" y="576" class="small">Baek-L2 +0.76% (3/3)</text>
+<text x="25" y="608">normal_std30_L2_c1_5</text>
+<line x1="771.71" x2="777.34" y1="609" y2="609" stroke="#0369a1" stroke-width="2"/>
+<circle cx="774.35" cy="609" r="4" fill="#0369a1"/>
+<text x="1035" y="613" class="small">Baek-L2 +0.92% (3/3)</text>
+<rect x="15" y="626" width="1170" height="35" fill="#f8fafc" opacity="0.7"/>
+<text x="25" y="645">normal_std30_L4_c1_2</text>
+<line x1="686.73" x2="694.44" y1="646" y2="646" stroke="#0369a1" stroke-width="2"/>
+<circle cx="691.12" cy="646" r="4" fill="#0369a1"/>
+<text x="1035" y="650" class="small">Baek-L2 +0.55% (3/3)</text>
+<text x="25" y="682">normal_std30_L4_c1_5</text>
+<line x1="808.88" x2="832.85" y1="683" y2="683" stroke="#0369a1" stroke-width="2"/>
+<circle cx="823.09" cy="683" r="4" fill="#0369a1"/>
+<text x="1035" y="687" class="small">Baek-L2 +1.14% (3/3)</text>
+<rect x="15" y="700" width="1170" height="35" fill="#f8fafc" opacity="0.7"/>
+<text x="25" y="719">normal_std30_L6_c1_2</text>
+<line x1="682.76" x2="705.52" y1="709" y2="709" stroke="#b45309" stroke-width="2"/>
+<circle cx="696.70" cy="709" r="4" fill="#b45309"/>
+<text x="1035" y="713" class="small">Baek-L1 +0.57% (3/3)</text>
+<line x1="713.84" x2="719.83" y1="720" y2="720" stroke="#0369a1" stroke-width="2"/>
+<circle cx="716.95" cy="720" r="4" fill="#0369a1"/>
+<text x="1035" y="724" class="small">Baek-L2 +0.67% (3/3)</text>
+<text x="25" y="756">normal_std30_L6_c1_5</text>
+<line x1="927.04" x2="935.02" y1="757" y2="757" stroke="#0369a1" stroke-width="2"/>
+<circle cx="931.96" cy="757" r="4" fill="#0369a1"/>
+<text x="1035" y="761" class="small">Baek-L2 +1.63% (3/3)</text>
+<rect x="15" y="774" width="1170" height="35" fill="#f8fafc" opacity="0.7"/>
+<text x="25" y="793">normal_std50_L2_c1_2</text>
+<line x1="668.94" x2="676.91" y1="794" y2="794" stroke="#0369a1" stroke-width="2"/>
+<circle cx="673.48" cy="794" r="4" fill="#0369a1"/>
+<text x="1035" y="798" class="small">Baek-L2 +0.47% (3/3)</text>
+<text x="25" y="830">normal_std50_L2_c1_5</text>
+<line x1="712.73" x2="728.74" y1="831" y2="831" stroke="#0369a1" stroke-width="2"/>
+<circle cx="720.59" cy="831" r="4" fill="#0369a1"/>
+<text x="1035" y="835" class="small">Baek-L2 +0.68% (3/3)</text>
+<rect x="15" y="848" width="1170" height="35" fill="#f8fafc" opacity="0.7"/>
+<text x="25" y="867">normal_std50_L4_c1_2</text>
+<line x1="715.51" x2="721.19" y1="868" y2="868" stroke="#0369a1" stroke-width="2"/>
+<circle cx="718.32" cy="868" r="4" fill="#0369a1"/>
+<text x="1035" y="872" class="small">Baek-L2 +0.67% (3/3)</text>
+<text x="25" y="904">normal_std50_L4_c1_5</text>
+<line x1="848.37" x2="862.95" y1="905" y2="905" stroke="#0369a1" stroke-width="2"/>
+<circle cx="855.38" cy="905" r="4" fill="#0369a1"/>
+<text x="1035" y="909" class="small">Baek-L2 +1.29% (3/3)</text>
+<rect x="15" y="922" width="1170" height="35" fill="#f8fafc" opacity="0.7"/>
+<text x="25" y="941">normal_std50_L6_c1_2</text>
+<line x1="674.34" x2="686.29" y1="942" y2="942" stroke="#0369a1" stroke-width="2"/>
+<circle cx="682.05" cy="942" r="4" fill="#0369a1"/>
+<text x="1035" y="946" class="small">Baek-L2 +0.51% (3/3)</text>
+<text x="25" y="978">normal_std50_L6_c1_5</text>
+<line x1="886.99" x2="889.89" y1="979" y2="979" stroke="#0369a1" stroke-width="2"/>
+<circle cx="888.32" cy="979" r="4" fill="#0369a1"/>
+<text x="1035" y="983" class="small">Baek-L2 +1.43% (3/3)</text>
+<rect x="15" y="996" width="1170" height="35" fill="#f8fafc" opacity="0.7"/>
+<text x="25" y="1015">poisson_L2_c1_2</text>
+<line x1="736.59" x2="752.03" y1="1016" y2="1016" stroke="#0369a1" stroke-width="2"/>
+<circle cx="742.32" cy="1016" r="4" fill="#0369a1"/>
+<text x="1035" y="1020" class="small">Baek-L2 +0.78% (3/3)</text>
+<text x="25" y="1052">poisson_L2_c1_5</text>
+<line x1="570.41" x2="726.20" y1="1053" y2="1053" stroke="#0369a1" stroke-width="2"/>
+<circle cx="668.63" cy="1053" r="4" fill="#0369a1"/>
+<text x="1035" y="1057" class="small">Baek-L2 +0.45% (3/3)</text>
+<rect x="15" y="1070" width="1170" height="35" fill="#f8fafc" opacity="0.7"/>
+<text x="25" y="1089">poisson_L4_c1_2</text>
+<line x1="806.45" x2="814.35" y1="1090" y2="1090" stroke="#0369a1" stroke-width="2"/>
+<circle cx="809.48" cy="1090" r="4" fill="#0369a1"/>
+<text x="1035" y="1094" class="small">Baek-L2 +1.08% (3/3)</text>
+<text x="25" y="1126">poisson_L4_c1_5</text>
+<line x1="758.41" x2="839.13" y1="1127" y2="1127" stroke="#0369a1" stroke-width="2"/>
+<circle cx="787.12" cy="1127" r="4" fill="#0369a1"/>
+<text x="1035" y="1131" class="small">Baek-L2 +0.98% (3/3)</text>
+<rect x="15" y="1144" width="1170" height="35" fill="#f8fafc" opacity="0.7"/>
+<text x="25" y="1163">poisson_L6_c1_2</text>
+<line x1="675.08" x2="678.26" y1="1153" y2="1153" stroke="#b45309" stroke-width="2"/>
+<circle cx="676.35" cy="1153" r="4" fill="#b45309"/>
+<text x="1035" y="1157" class="small">Baek-L1 +0.48% (3/3)</text>
+<line x1="655.34" x2="678.85" y1="1164" y2="1164" stroke="#0369a1" stroke-width="2"/>
+<circle cx="664.09" cy="1164" r="4" fill="#0369a1"/>
+<text x="1035" y="1168" class="small">Baek-L2 +0.43% (3/3)</text>
+<text x="25" y="1200">poisson_L6_c1_5</text>
+<line x1="893.60" x2="970.00" y1="1201" y2="1201" stroke="#0369a1" stroke-width="2"/>
+<circle cx="927.26" cy="1201" r="4" fill="#0369a1"/>
+<text x="1035" y="1205" class="small">Baek-L2 +1.61% (3/3)</text>
+</svg>

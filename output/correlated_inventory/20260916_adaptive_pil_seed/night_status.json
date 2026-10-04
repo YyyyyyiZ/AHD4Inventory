@@ -1,0 +1,12 @@
+{
+  "status": "paused",
+  "pid": 11858,
+  "started_utc": "2026-09-16T14:55:15.990919+00:00",
+  "workers": 4,
+  "planned_runs": 18,
+  "current_phase": "training",
+  "shared_budget_run_dir": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_unrestricted_params",
+  "updated_utc": "2026-09-16T18:09:13.583676+00:00",
+  "error_type": "RuntimeError",
+  "error": "One or more warm-start training jobs need attention"
+}

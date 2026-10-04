@@ -1,0 +1,15 @@
+{
+  "status": "completed",
+  "best_code_path": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_stationary_priority/training/exp_regime095_random3_9/self_evolve_h200_r3/policy.py",
+  "code_sha256": "339addad22195e2fb57b81fdf5ccd59812353617bbfb9bf41fdc026ecb53d2a5",
+  "best_train_cost": 31265.68622825573,
+  "algorithm": "Increased base_target and demand_response to better handle high-demand periods while reducing pipeline_weight to be less conservative about incoming orders. The higher high_target_multiplier helps respond more aggressively to regime shifts.",
+  "checkpoint_path": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_stationary_priority/training/exp_regime095_random3_9/self_evolve_h200_r3/checkpoints/g010.json.gz",
+  "model_calls": 104,
+  "training_evaluations": 22468,
+  "training_cache_hits": 432,
+  "compiled_structures": 27,
+  "optimizer": "SciPy L-BFGS-B",
+  "optimizer_maxiter": 15,
+  "test_evaluated": false
+}

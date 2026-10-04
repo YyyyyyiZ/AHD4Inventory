@@ -1,0 +1,182 @@
+[
+     {
+          "algorithm": "Increased base stock levels to better handle high-demand regimes while reducing demand sensitivity to prevent over-ordering during low-demand periods. Adjusted smoothing factor for more stable ordering.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_stock_min = 219.6053865825864  # OPT_PARAM: {\"initial\": 219.6053865825864, \"min\": 180.0, \"max\": 250.0, \"type\": \"float\"}\n    base_stock_max = 463.5221462621035  # OPT_PARAM: {\"initial\": 463.5221462621035, \"min\": 400.0, \"max\": 500.0, \"type\": \"float\"}\n    demand_sensitivity = 1.2499962340784292  # OPT_PARAM: {\"initial\": 1.2499962340784292, \"min\": 1.0, \"max\": 1.5, \"type\": \"float\"}\n    smoothing_factor = 0.2  # OPT_PARAM: {\"initial\": 0.2, \"min\": 0.2, \"max\": 0.4, \"type\": \"float\"}\n    demand_threshold = 100.0 * np.log(2)\n    \n    if last_demand >= demand_threshold:\n        base_stock = base_stock_max\n    else:\n        base_stock = base_stock_min\n        \n    current_position = on_hand_inventory + np.sum(pipeline_orders)\n    order_amount = max(0.0, smoothing_factor * (demand_sensitivity * base_stock - current_position))\n    \n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base stock levels to better handle high-demand regimes while reducing demand sensitivity to prevent over-ordering during low-demand periods. Adjusted smoothing factor for more stable ordering.",
+          "opt_params": {
+               "base_stock_min": 219.6053865825864,
+               "base_stock_max": 463.5221462621035,
+               "demand_sensitivity": 1.2499962340784292,
+               "smoothing_factor": 0.2
+          },
+          "cost": null,
+          "objective": 29696.31556,
+          "lower": 28063.11583,
+          "upper": 31385.58651,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Reduced base stock levels and adjusted sensitivity to better match demand patterns. Increased smoothing factor for more responsive ordering while maintaining stability. The policy now reacts more quickly to demand spikes while keeping lower inventory in low-demand regimes.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_stock_min = 180.0  # OPT_PARAM: {\"initial\": 180.0, \"min\": 120.0, \"max\": 180.0, \"type\": \"float\"}\n    base_stock_max = 389.1638386066895  # OPT_PARAM: {\"initial\": 389.1638386066895, \"min\": 300.0, \"max\": 420.0, \"type\": \"float\"}\n    demand_sensitivity = 1.5  # OPT_PARAM: {\"initial\": 1.5, \"min\": 1.0, \"max\": 1.5, \"type\": \"float\"}\n    smoothing_factor = 0.2  # OPT_PARAM: {\"initial\": 0.2, \"min\": 0.2, \"max\": 0.5, \"type\": \"float\"}\n    demand_threshold = 100.0 * np.log(2)  # Approximately 69.31\n    \n    # More aggressive regime switching\n    if last_demand >= demand_threshold:\n        base_stock = base_stock_max\n    else:\n        base_stock = base_stock_min\n        \n    # Calculate current inventory position including pipeline\n    current_position = on_hand_inventory + np.sum(pipeline_orders)\n    \n    # More responsive ordering with adjusted parameters\n    order_amount = max(0.0, smoothing_factor * (demand_sensitivity * base_stock - current_position))\n    \n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Reduced base stock levels and adjusted sensitivity to better match demand patterns. Increased smoothing factor for more responsive ordering while maintaining stability. The policy now reacts more quickly to demand spikes while keeping lower inventory in low-demand regimes.",
+          "opt_params": {
+               "base_stock_min": 180.0,
+               "base_stock_max": 389.1638386066895,
+               "demand_sensitivity": 1.5,
+               "smoothing_factor": 0.2
+          },
+          "cost": null,
+          "objective": 29697.47531,
+          "lower": 28059.39558,
+          "upper": 31376.59537,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Key changes: 1) Reduced base_stock_min since high min was causing excess inventory in low-demand regimes; 2) Adjusted base_stock_max closer to observed high demand quantiles; 3) Used exact demand threshold from generator specification; 4) Incorporated demand_sensitivity directly into ordering formula; 5) Increased smoothing_factor for more responsive ordering.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_stock_min = 186.63422227157696  # OPT_PARAM: {\"initial\": 186.63422227157696, \"min\": 100.0, \"max\": 250.0, \"type\": \"float\"}\n    base_stock_max = 416.70091933129686  # OPT_PARAM: {\"initial\": 416.70091933129686, \"min\": 350.0, \"max\": 550.0, \"type\": \"float\"}\n    demand_sensitivity = 1.4150664107907123  # OPT_PARAM: {\"initial\": 1.4150664107907123, \"min\": 0.8, \"max\": 2.0, \"type\": \"float\"}\n    smoothing_factor = 0.2  # OPT_PARAM: {\"initial\": 0.2, \"min\": 0.2, \"max\": 0.8, \"type\": \"float\"}\n    demand_threshold = 100.0 * np.log(2)  # Approximately 69.31\n    \n    # Adjust base stock based on demand regime\n    if last_demand >= demand_threshold:\n        base_stock = base_stock_max\n    else:\n        base_stock = base_stock_min\n        \n    # Calculate current inventory position including pipeline\n    current_position = on_hand_inventory + np.sum(pipeline_orders)\n    \n    # Calculate order amount with adjusted sensitivity\n    order_amount = max(0.0, smoothing_factor * (demand_sensitivity * base_stock - current_position))\n    \n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Key changes: 1) Reduced base_stock_min since high min was causing excess inventory in low-demand regimes; 2) Adjusted base_stock_max closer to observed high demand quantiles; 3) Used exact demand threshold from generator specification; 4) Incorporated demand_sensitivity directly into ordering formula; 5) Increased smoothing_factor for more responsive ordering.",
+          "opt_params": {
+               "base_stock_min": 186.63422227157696,
+               "base_stock_max": 416.70091933129686,
+               "demand_sensitivity": 1.4150664107907123,
+               "smoothing_factor": 0.2
+          },
+          "cost": null,
+          "objective": 29705.86307,
+          "lower": 28062.41821,
+          "upper": 31369.36793,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base_stock_min to better handle high-demand periods while reducing demand_sensitivity to prevent over-ordering. Adjusted smoothing_factor to balance responsiveness and stability. These changes aim to reduce lost sales while controlling holding costs.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_stock_min = 209.57033576359825  # OPT_PARAM: {\"initial\": 209.57033576359825, \"min\": 150.0, \"max\": 300.0, \"type\": \"float\"}\n    base_stock_max = 449.39026042400945  # OPT_PARAM: {\"initial\": 449.39026042400945, \"min\": 350.0, \"max\": 550.0, \"type\": \"float\"}\n    demand_sensitivity = 1.1462148799998702  # OPT_PARAM: {\"initial\": 1.1462148799998702, \"min\": 0.8, \"max\": 1.5, \"type\": \"float\"}\n    smoothing_factor = 0.2523770679924654  # OPT_PARAM: {\"initial\": 0.2523770679924654, \"min\": 0.1, \"max\": 0.5, \"type\": \"float\"}\n    demand_threshold = 100.0 * np.log(2)  # Approximately 69.31\n    \n    # Adjust base stock based on demand regime\n    if last_demand >= demand_threshold:\n        base_stock = base_stock_max\n    else:\n        base_stock = base_stock_min\n        \n    # Calculate current inventory position including pipeline\n    current_position = on_hand_inventory + np.sum(pipeline_orders)\n    \n    # Calculate order amount with adjusted sensitivity\n    order_amount = max(0.0, smoothing_factor * (demand_sensitivity * base_stock - current_position))\n    \n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base_stock_min to better handle high-demand periods while reducing demand_sensitivity to prevent over-ordering. Adjusted smoothing_factor to balance responsiveness and stability. These changes aim to reduce lost sales while controlling holding costs.",
+          "opt_params": {
+               "base_stock_min": 209.57033576359825,
+               "base_stock_max": 449.39026042400945,
+               "demand_sensitivity": 1.1462148799998702,
+               "smoothing_factor": 0.2523770679924654
+          },
+          "cost": null,
+          "objective": 29728.52817,
+          "lower": 28093.70802,
+          "upper": 31434.13838,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base_stock_min and base_stock_max to better handle demand spikes, reduced demand_sensitivity to be less aggressive with ordering, and increased smoothing_factor for more stable adjustments. The changes aim to better balance holding costs and lost sales costs based on the training performance showing high lost sales costs.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_stock_min = 209.48778918076118  # OPT_PARAM: {\"initial\": 209.48778918076118, \"min\": 180.0, \"max\": 250.0, \"type\": \"float\"}\n    base_stock_max = 477.9354037979666  # OPT_PARAM: {\"initial\": 477.9354037979666, \"min\": 400.0, \"max\": 550.0, \"type\": \"float\"}\n    demand_sensitivity = 1.1542715358925961  # OPT_PARAM: {\"initial\": 1.1542715358925961, \"min\": 1.0, \"max\": 1.5, \"type\": \"float\"}\n    smoothing_factor = 0.23256208301063996  # OPT_PARAM: {\"initial\": 0.23256208301063996, \"min\": 0.1, \"max\": 0.5, \"type\": \"float\"}\n    demand_threshold = 100.0 * np.log(2)\n    \n    if last_demand >= demand_threshold:\n        base_stock = base_stock_max\n    else:\n        base_stock = base_stock_min\n        \n    current_position = on_hand_inventory + np.sum(pipeline_orders)\n    order_amount = max(0.0, smoothing_factor * (demand_sensitivity * base_stock - current_position))\n    \n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base_stock_min and base_stock_max to better handle demand spikes, reduced demand_sensitivity to be less aggressive with ordering, and increased smoothing_factor for more stable adjustments. The changes aim to better balance holding costs and lost sales costs based on the training performance showing high lost sales costs.",
+          "opt_params": {
+               "base_stock_min": 209.48778918076118,
+               "base_stock_max": 477.9354037979666,
+               "demand_sensitivity": 1.1542715358925961,
+               "smoothing_factor": 0.23256208301063996
+          },
+          "cost": null,
+          "objective": 29735.24698,
+          "lower": 28095.62744,
+          "upper": 31393.38223,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base_stock_min and decreased base_stock_max to better match demand regimes. Reduced demand_sensitivity to prevent over-ordering. Increased smoothing_factor for more responsive ordering. These changes aim to balance holding and lost sales costs based on the training performance showing high lost sales costs.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_stock_min = 226.7754417358975  # OPT_PARAM: {\"initial\": 226.7754417358975, \"min\": 200.0, \"max\": 300.0, \"type\": \"float\"}\n    base_stock_max = 457.1425929720573  # OPT_PARAM: {\"initial\": 457.1425929720573, \"min\": 400.0, \"max\": 500.0, \"type\": \"float\"}\n    demand_sensitivity = 1.054521206098744  # OPT_PARAM: {\"initial\": 1.054521206098744, \"min\": 1.0, \"max\": 1.5, \"type\": \"float\"}\n    smoothing_factor = 0.3  # OPT_PARAM: {\"initial\": 0.3, \"min\": 0.3, \"max\": 0.7, \"type\": \"float\"}\n    demand_threshold = 100.0 * np.log(2)\n    \n    if last_demand >= demand_threshold:\n        base_stock = base_stock_max\n    else:\n        base_stock = base_stock_min\n        \n    current_position = on_hand_inventory + np.sum(pipeline_orders)\n    order_amount = max(0.0, smoothing_factor * (demand_sensitivity * base_stock - current_position))\n    \n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base_stock_min and decreased base_stock_max to better match demand regimes. Reduced demand_sensitivity to prevent over-ordering. Increased smoothing_factor for more responsive ordering. These changes aim to balance holding and lost sales costs based on the training performance showing high lost sales costs.",
+          "opt_params": {
+               "base_stock_min": 226.7754417358975,
+               "base_stock_max": 457.1425929720573,
+               "demand_sensitivity": 1.054521206098744,
+               "smoothing_factor": 0.3
+          },
+          "cost": null,
+          "objective": 29745.16729,
+          "lower": 28118.42044,
+          "upper": 31443.19996,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base stock levels to better handle high-demand periods, reduced demand sensitivity to prevent over-ordering, and adjusted smoothing factor for more stable responses. The changes aim to reduce lost sales while maintaining reasonable holding costs.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_stock_min = 238.60064889346367  # OPT_PARAM: {\"initial\": 238.60064889346367, \"min\": 180.0, \"max\": 250.0, \"type\": \"float\"}\n    base_stock_max = 491.7488388981114  # OPT_PARAM: {\"initial\": 491.7488388981114, \"min\": 400.0, \"max\": 500.0, \"type\": \"float\"}\n    demand_sensitivity = 1.0  # OPT_PARAM: {\"initial\": 1.0, \"min\": 1.0, \"max\": 1.5, \"type\": \"float\"}\n    smoothing_factor = 0.3  # OPT_PARAM: {\"initial\": 0.3, \"min\": 0.3, \"max\": 0.6, \"type\": \"float\"}\n    demand_threshold = 100.0 * np.log(2)\n    \n    if last_demand >= demand_threshold:\n        base_stock = base_stock_max\n    else:\n        base_stock = base_stock_min\n        \n    current_position = on_hand_inventory + np.sum(pipeline_orders)\n    order_amount = max(0.0, smoothing_factor * (demand_sensitivity * base_stock - current_position))\n    \n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base stock levels to better handle high-demand periods, reduced demand sensitivity to prevent over-ordering, and adjusted smoothing factor for more stable responses. The changes aim to reduce lost sales while maintaining reasonable holding costs.",
+          "opt_params": {
+               "base_stock_min": 238.60064889346367,
+               "base_stock_max": 491.7488388981114,
+               "demand_sensitivity": 1.0,
+               "smoothing_factor": 0.3
+          },
+          "cost": null,
+          "objective": 29747.58334,
+          "lower": 28118.80499,
+          "upper": 31413.75579,
+          "other_inf": null
+     },
+     {
+          "algorithm": "The optimized parameters show: 1) Increased base_stock_min to better handle low-demand periods, 2) Reduced demand_sensitivity to prevent over-ordering, 3) Increased smoothing_factor for more responsive ordering, while maintaining the same overall structure. The changes aim to balance holding and lost-sales costs based on the training performance metrics.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_stock_min = 238.04196925875223  # OPT_PARAM: {\"initial\": 238.04196925875223, \"min\": 150.0, \"max\": 300.0, \"type\": \"float\"}\n    base_stock_max = 471.51012169308603  # OPT_PARAM: {\"initial\": 471.51012169308603, \"min\": 350.0, \"max\": 550.0, \"type\": \"float\"}\n    demand_sensitivity = 1.0016698632560073  # OPT_PARAM: {\"initial\": 1.0016698632560073, \"min\": 0.8, \"max\": 1.5, \"type\": \"float\"}\n    smoothing_factor = 0.3  # OPT_PARAM: {\"initial\": 0.3, \"min\": 0.3, \"max\": 0.7, \"type\": \"float\"}\n    demand_threshold = 100.0 * np.log(2)\n    \n    # Adjust base stock based on demand regime\n    if last_demand >= demand_threshold:\n        base_stock = base_stock_max\n    else:\n        base_stock = base_stock_min\n        \n    # Calculate current inventory position including pipeline\n    current_position = on_hand_inventory + np.sum(pipeline_orders)\n    \n    # Calculate order amount with adjusted sensitivity\n    order_amount = max(0.0, smoothing_factor * (demand_sensitivity * base_stock - current_position))\n    \n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "The optimized parameters show: 1) Increased base_stock_min to better handle low-demand periods, 2) Reduced demand_sensitivity to prevent over-ordering, 3) Increased smoothing_factor for more responsive ordering, while maintaining the same overall structure. The changes aim to balance holding and lost-sales costs based on the training performance metrics.",
+          "opt_params": {
+               "base_stock_min": 238.04196925875223,
+               "base_stock_max": 471.51012169308603,
+               "demand_sensitivity": 1.0016698632560073,
+               "smoothing_factor": 0.3
+          },
+          "cost": null,
+          "objective": 29748.66181,
+          "lower": 28122.94421,
+          "upper": 31476.80083,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Key changes: 1) Used the known regime threshold for better regime detection, 2) Reduced base stock levels to balance holding and lost sales costs, 3) Adjusted demand sensitivity to better respond to demand changes, 4) Increased smoothing factor for more stable ordering. The new parameters aim to better match the demand patterns observed in the training data, particularly the high autocorrelation and regime switches.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_stock_min = 190.6752286192021  # OPT_PARAM: {\"initial\": 190.6752286192021, \"min\": 150.0, \"max\": 220.0, \"type\": \"float\"}\n    base_stock_max = 400.0  # OPT_PARAM: {\"initial\": 400.0, \"min\": 400.0, \"max\": 500.0, \"type\": \"float\"}\n    demand_sensitivity = 1.2294637311792478  # OPT_PARAM: {\"initial\": 1.2294637311792478, \"min\": 0.8, \"max\": 1.5, \"type\": \"float\"}\n    smoothing_factor = 0.3  # OPT_PARAM: {\"initial\": 0.3, \"min\": 0.3, \"max\": 0.7, \"type\": \"float\"}\n    demand_threshold = 100.0 * np.log(2)  # Using the known regime threshold\n    \n    # Use regime detection to adjust base stock\n    if last_demand >= demand_threshold:\n        base_stock = base_stock_max\n    else:\n        base_stock = base_stock_min\n        \n    # Calculate current inventory position including new demand information\n    current_position = on_hand_inventory + sum(pipeline_orders)\n    \n    # More responsive ordering based on demand sensitivity\n    order_amount = max(0.0, smoothing_factor * (demand_sensitivity * base_stock - current_position))\n    \n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Key changes: 1) Used the known regime threshold for better regime detection, 2) Reduced base stock levels to balance holding and lost sales costs, 3) Adjusted demand sensitivity to better respond to demand changes, 4) Increased smoothing factor for more stable ordering. The new parameters aim to better match the demand patterns observed in the training data, particularly the high autocorrelation and regime switches.",
+          "opt_params": {
+               "base_stock_min": 190.6752286192021,
+               "base_stock_max": 400.0,
+               "demand_sensitivity": 1.2294637311792478,
+               "smoothing_factor": 0.3
+          },
+          "cost": null,
+          "objective": 29752.21048,
+          "lower": 28125.96706,
+          "upper": 31422.30203,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base stock levels and adjusted sensitivity to better match demand patterns. Increased smoothing factor to reduce order volatility while maintaining responsiveness to demand changes. The changes aim to balance holding costs and lost sales costs based on the observed performance where lost sales dominated the total cost.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_stock_min = 235.2294336985039  # OPT_PARAM: {\"initial\": 235.2294336985039, \"min\": 180.0, \"max\": 240.0, \"type\": \"float\"}\n    base_stock_max = 496.2816566841303  # OPT_PARAM: {\"initial\": 496.2816566841303, \"min\": 400.0, \"max\": 500.0, \"type\": \"float\"}\n    demand_sensitivity = 1.0  # OPT_PARAM: {\"initial\": 1.0, \"min\": 1.0, \"max\": 1.5, \"type\": \"float\"}\n    smoothing_factor = 0.3  # OPT_PARAM: {\"initial\": 0.3, \"min\": 0.3, \"max\": 0.7, \"type\": \"float\"}\n    demand_threshold = 100.0 * np.log(2)  # Approximately 69.31\n    \n    # Adjust base stock based on demand regime\n    if last_demand >= demand_threshold:\n        base_stock = base_stock_max\n    else:\n        base_stock = base_stock_min\n        \n    # Calculate current inventory position including pipeline\n    current_position = on_hand_inventory + np.sum(pipeline_orders)\n    \n    # Calculate order amount with adjusted sensitivity\n    order_amount = max(0.0, smoothing_factor * (demand_sensitivity * base_stock - current_position))\n    \n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base stock levels and adjusted sensitivity to better match demand patterns. Increased smoothing factor to reduce order volatility while maintaining responsiveness to demand changes. The changes aim to balance holding costs and lost sales costs based on the observed performance where lost sales dominated the total cost.",
+          "opt_params": {
+               "base_stock_min": 235.2294336985039,
+               "base_stock_max": 496.2816566841303,
+               "demand_sensitivity": 1.0,
+               "smoothing_factor": 0.3
+          },
+          "cost": null,
+          "objective": 29753.82533,
+          "lower": 28126.58849,
+          "upper": 31408.11394,
+          "other_inf": null
+     }
+]

@@ -1,0 +1,12 @@
+{
+  "automation_id": "automation",
+  "cadence_minutes": 15,
+  "stop_after_verified_completion": true,
+  "controller_pid": 63218,
+  "caffeinate_pid": 63816,
+  "note": "Idle sleep inhibition lasts only while the experiment controller is alive.",
+  "status": "PAUSED",
+  "finished_utc": "2026-09-16T08:05:53.271823+00:00",
+  "final_audit": "final_audit.json",
+  "reason": "All requested experiments, reports and final independent audits complete."
+}

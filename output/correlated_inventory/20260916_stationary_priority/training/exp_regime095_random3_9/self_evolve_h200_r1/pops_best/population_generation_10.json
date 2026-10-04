@@ -1,0 +1,18 @@
+{
+     "algorithm": "The changes aim to reduce lost sales costs while keeping holding costs manageable: (1) Increased base_target to better handle high demand periods (2) Adjusted demand_multiplier to focus more on recent demand (3) Increased pipeline_weight to respond more aggressively to inventory gaps (4) Set a small min_order to maintain continuous replenishment. The higher weights and targets should reduce stockouts during demand spikes while the min_order prevents complete inactivity during low demand.",
+     "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 259.11107797698776  # OPT_PARAM: {\"initial\": 259.11107797698776, \"min\": 250.0, \"max\": 500.0, \"type\": \"float\"}\n    demand_multiplier = 3.790424124191899  # OPT_PARAM: {\"initial\": 3.790424124191899, \"min\": 2.0, \"max\": 4.0, \"type\": \"float\"}\n    pipeline_weight = 0.1  # OPT_PARAM: {\"initial\": 0.1, \"min\": 0.1, \"max\": 0.5, \"type\": \"float\"}\n    min_order = 0.0  # OPT_PARAM: {\"initial\": 0.0, \"min\": 0.0, \"max\": 10.0, \"type\": \"float\"}\n    \n    inventory_position = on_hand_inventory + sum(pipeline_orders)\n    demand_component = demand_multiplier * last_demand\n    target = min(base_target + demand_component, 1000.0)\n    order_amount = max(min_order, pipeline_weight * (target - inventory_position))\n    return order_amount\n",
+     "description": "",
+     "intuition": "",
+     "reasoning": "The changes aim to reduce lost sales costs while keeping holding costs manageable: (1) Increased base_target to better handle high demand periods (2) Adjusted demand_multiplier to focus more on recent demand (3) Increased pipeline_weight to respond more aggressively to inventory gaps (4) Set a small min_order to maintain continuous replenishment. The higher weights and targets should reduce stockouts during demand spikes while the min_order prevents complete inactivity during low demand.",
+     "opt_params": {
+          "base_target": 259.11107797698776,
+          "demand_multiplier": 3.790424124191899,
+          "pipeline_weight": 0.1,
+          "min_order": 0.0
+     },
+     "cost": null,
+     "objective": 30743.79058,
+     "lower": 29127.14857,
+     "upper": 32442.39593,
+     "other_inf": null
+}

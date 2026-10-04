@@ -1,0 +1,500 @@
+{
+  "arm": "one_query",
+  "repeat": 1,
+  "selected": {
+    "code": "def compute_order_amount(age, pipeline, mu, cv, f, L):\n    S = 16.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":16.0,\"min\":0.0,\"max\":60.0}\n    C = 25.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":25.0,\"min\":0.0,\"max\":60.0}\n    WP = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":2.0}\n    W0 = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":1.5}\n    W1 = 0.9 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.9,\"min\":0.0,\"max\":1.5}\n    W2 = 0.78 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.78,\"min\":0.0,\"max\":1.5}\n    W3 = 0.65 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.65,\"min\":0.0,\"max\":1.5}\n    W4 = 0.5 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.5,\"min\":0.0,\"max\":1.5}\n    W5 = 0.36 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.36,\"min\":0.0,\"max\":1.5}\n    W6 = 0.23 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.23,\"min\":0.0,\"max\":1.5}\n    W7 = 0.12 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.12,\"min\":0.0,\"max\":1.5}\n    m = len(age)\n    effective = 0.0\n    for i in range(m):\n        d = m - 1 - i\n        if d == 0:\n            weight = W0\n        elif d == 1:\n            weight = W1\n        elif d == 2:\n            weight = W2\n        elif d == 3:\n            weight = W3\n        elif d == 4:\n            weight = W4\n        elif d == 5:\n            weight = W5\n        elif d == 6:\n            weight = W6\n        else:\n            weight = W7\n        effective = effective + weight * age[i]\n    pipe = 0.0\n    for j in range(len(pipeline)):\n        pipe = pipe + pipeline[j]\n    raw = S - effective - WP * pipe\n    return max(0.0, min(C, raw))\n",
+    "origin": "search/one_query_r1/candidate_00_1",
+    "validation": 0.9693584985546319,
+    "train_score": 0.9669485468539105,
+    "train_theta": {
+      "perish_m7_L2_cv1.5_f0": [
+        16.377851455782995,
+        40.65764059193822,
+        0.7181228029786729,
+        0.833064100281794,
+        1.0974085243106533,
+        1.1689754910792298,
+        1.3128886241653794,
+        1.4951756103721647,
+        0.10251308868336739,
+        0.18966755508522337,
+        1.1640223522485496
+      ],
+      "perish_m7_L2_cv1.5_f0.5": [
+        12.702330267471442,
+        13.996573172600186,
+        0.7933406412926095,
+        0.6106831359829507,
+        0.49974995158534075,
+        0.6283818231198008,
+        0.5865977321586202,
+        0.3921704147648831,
+        0.22014231492474867,
+        0.22365888920197785,
+        0.7206530954679671
+      ],
+      "perish_m7_L2_cv2_f0": [
+        13.683796643328275,
+        14.942002035438051,
+        0.6255735989677464,
+        0.7138050005150309,
+        1.1132120539603223,
+        1.1461805407583545,
+        1.3296119712898031,
+        1.2746892441582405,
+        0.10758368299560539,
+        0.0252802198887202,
+        0.44691799742892624
+      ],
+      "perish_m7_L2_cv2_f0.5": [
+        11.330690438796868,
+        24.049253013275127,
+        0.8715033574414524,
+        0.5662141867069423,
+        0.4399667056191104,
+        0.5994880439533611,
+        0.6330427711807673,
+        0.48288930110098305,
+        0.23132607442073172,
+        0.35497020576075355,
+        1.3910639806273717
+      ]
+    },
+    "structure_sha256": "cf13ae2e1eb9ade0a3844064d781c92e0a156332b550602ac301331f9f64ce24"
+  },
+  "choices": [
+    {
+      "code": "def compute_order_amount(age, pipeline, mu, cv, f, L):\n    S = 10.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":10.0,\"min\":0.0,\"max\":60.0}\n    C = 6.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":6.0,\"min\":0.0,\"max\":30.0}\n    a = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":3.0}\n    effective = 0.0\n    for i in range(len(age)):\n        effective = effective + age[i]*min(1.0,((i+1.0)/len(age))**a)\n    return max(0.0,min(C,S-effective-sum(pipeline)))\n",
+      "origin": "common_baseline:age_discount",
+      "validation": 1.0,
+      "train_score": 1.0,
+      "train_theta": {
+        "perish_m7_L2_cv1.5_f0": [
+          16.82362227052272,
+          18.561404171591573,
+          0.05552496609617075
+        ],
+        "perish_m7_L2_cv1.5_f0.5": [
+          16.29721092854831,
+          20.30122219377725,
+          0.9076730989899537
+        ],
+        "perish_m7_L2_cv2_f0": [
+          15.117285293211898,
+          28.547151415579293,
+          0.03255685935867936
+        ],
+        "perish_m7_L2_cv2_f0.5": [
+          13.983163205026056,
+          5.890122783909247,
+          1.0672962231356822
+        ]
+      },
+      "structure_sha256": "a1b0ebc321b761ae22824b3e92851628015388b4655bbab8275e5e5560198f5a"
+    },
+    {
+      "code": "def compute_order_amount(age, pipeline, mu, cv, f, L):\n    S = 16.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":16.0,\"min\":0.0,\"max\":60.0}\n    C = 24.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":24.0,\"min\":0.0,\"max\":60.0}\n    A = 0.8 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.8,\"min\":0.0,\"max\":4.0}\n    F = 0.05 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.05,\"min\":0.0,\"max\":1.0}\n    W = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":2.0}\n    m = len(age)\n    effective = 0.0\n    for i in range(m):\n        x = (i + 1.0) / m\n        weight = F + (1.0 - F) * (x ** A)\n        effective = effective + weight * age[i]\n    pipe = 0.0\n    for j in range(len(pipeline)):\n        pipe = pipe + pipeline[j]\n    raw = S - effective - W * pipe\n    return max(0.0, min(C, raw))\n",
+      "origin": "search/one_query_r1/candidate_00_0",
+      "validation": 0.9909635804298533,
+      "train_score": 0.9902748170949275,
+      "train_theta": {
+        "perish_m7_L2_cv1.5_f0": [
+          12.882322815559444,
+          6.89940658280732,
+          0.6764098942633743,
+          0.4262976010530236,
+          0.03908690952481164
+        ],
+        "perish_m7_L2_cv1.5_f0.5": [
+          18.047460425391744,
+          9.190210256113438,
+          0.8416045266940866,
+          0.24205295066329152,
+          1.187485923061756
+        ],
+        "perish_m7_L2_cv2_f0": [
+          10.829274316365638,
+          11.374334255286268,
+          0.4599508220654227,
+          0.05876492661753685,
+          0.04370820526614727
+        ],
+        "perish_m7_L2_cv2_f0.5": [
+          13.464308347398696,
+          38.97853437349798,
+          3.69350755914426,
+          0.3792184028905114,
+          0.9965961639597314
+        ]
+      },
+      "structure_sha256": "96794995985879eed3581d7cc9958b275bc5cbd39371cded977cce4105205d50"
+    },
+    {
+      "code": "def compute_order_amount(age, pipeline, mu, cv, f, L):\n    S = 16.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":16.0,\"min\":0.0,\"max\":60.0}\n    C = 25.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":25.0,\"min\":0.0,\"max\":60.0}\n    WP = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":2.0}\n    W0 = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":1.5}\n    W1 = 0.9 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.9,\"min\":0.0,\"max\":1.5}\n    W2 = 0.78 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.78,\"min\":0.0,\"max\":1.5}\n    W3 = 0.65 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.65,\"min\":0.0,\"max\":1.5}\n    W4 = 0.5 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.5,\"min\":0.0,\"max\":1.5}\n    W5 = 0.36 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.36,\"min\":0.0,\"max\":1.5}\n    W6 = 0.23 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.23,\"min\":0.0,\"max\":1.5}\n    W7 = 0.12 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.12,\"min\":0.0,\"max\":1.5}\n    m = len(age)\n    effective = 0.0\n    for i in range(m):\n        d = m - 1 - i\n        if d == 0:\n            weight = W0\n        elif d == 1:\n            weight = W1\n        elif d == 2:\n            weight = W2\n        elif d == 3:\n            weight = W3\n        elif d == 4:\n            weight = W4\n        elif d == 5:\n            weight = W5\n        elif d == 6:\n            weight = W6\n        else:\n            weight = W7\n        effective = effective + weight * age[i]\n    pipe = 0.0\n    for j in range(len(pipeline)):\n        pipe = pipe + pipeline[j]\n    raw = S - effective - WP * pipe\n    return max(0.0, min(C, raw))\n",
+      "origin": "search/one_query_r1/candidate_00_1",
+      "validation": 0.9693584985546319,
+      "train_score": 0.9669485468539105,
+      "train_theta": {
+        "perish_m7_L2_cv1.5_f0": [
+          16.377851455782995,
+          40.65764059193822,
+          0.7181228029786729,
+          0.833064100281794,
+          1.0974085243106533,
+          1.1689754910792298,
+          1.3128886241653794,
+          1.4951756103721647,
+          0.10251308868336739,
+          0.18966755508522337,
+          1.1640223522485496
+        ],
+        "perish_m7_L2_cv1.5_f0.5": [
+          12.702330267471442,
+          13.996573172600186,
+          0.7933406412926095,
+          0.6106831359829507,
+          0.49974995158534075,
+          0.6283818231198008,
+          0.5865977321586202,
+          0.3921704147648831,
+          0.22014231492474867,
+          0.22365888920197785,
+          0.7206530954679671
+        ],
+        "perish_m7_L2_cv2_f0": [
+          13.683796643328275,
+          14.942002035438051,
+          0.6255735989677464,
+          0.7138050005150309,
+          1.1132120539603223,
+          1.1461805407583545,
+          1.3296119712898031,
+          1.2746892441582405,
+          0.10758368299560539,
+          0.0252802198887202,
+          0.44691799742892624
+        ],
+        "perish_m7_L2_cv2_f0.5": [
+          11.330690438796868,
+          24.049253013275127,
+          0.8715033574414524,
+          0.5662141867069423,
+          0.4399667056191104,
+          0.5994880439533611,
+          0.6330427711807673,
+          0.48288930110098305,
+          0.23132607442073172,
+          0.35497020576075355,
+          1.3910639806273717
+        ]
+      },
+      "structure_sha256": "cf13ae2e1eb9ade0a3844064d781c92e0a156332b550602ac301331f9f64ce24"
+    },
+    {
+      "code": "def compute_order_amount(age, pipeline, mu, cv, f, L):\n    S = 16.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":16.0,\"min\":0.0,\"max\":60.0}\n    C = 25.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":25.0,\"min\":0.0,\"max\":60.0}\n    D = 0.65 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.65,\"min\":0.0,\"max\":1.5}\n    P = 1.2 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.2,\"min\":0.1,\"max\":5.0}\n    T = 2.5 # OPT_PARAM: {\"type\":\"float\",\"initial\":2.5,\"min\":0.0,\"max\":30.0}\n    H = 0.35 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.35,\"min\":0.0,\"max\":2.0}\n    WP = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":2.0}\n    m = len(age)\n    total = 0.0\n    pressure = 0.0\n    for i in range(m):\n        x = (i + 1.0) / m\n        total = total + age[i]\n        pressure = pressure + age[i] * ((1.0 - x) ** P)\n    pipe = 0.0\n    for j in range(len(pipeline)):\n        pipe = pipe + pipeline[j]\n    congestion = max(0.0, pressure - T)\n    raw = S - total - WP * pipe + D * pressure + H * congestion\n    return max(0.0, min(C, raw))\n",
+      "origin": "search/one_query_r1/candidate_00_2",
+      "validation": 0.9846889765496499,
+      "train_score": 0.9814328149632399,
+      "train_theta": {
+        "perish_m7_L2_cv1.5_f0": [
+          12.636522020968158,
+          50.89845308575926,
+          1.4144435959724233,
+          3.601554978994719,
+          3.1667330107106046,
+          1.599307803392166,
+          0.022604546691310068
+        ],
+        "perish_m7_L2_cv1.5_f0.5": [
+          16.44025475748159,
+          20.567775473712793,
+          0.8375959100570385,
+          0.8028948780779461,
+          14.678056510334223,
+          1.0510093633792796,
+          1.1284444802213187
+        ],
+        "perish_m7_L2_cv2_f0": [
+          10.736891665191965,
+          35.296746188863295,
+          1.4814761618700962,
+          3.043490425804022,
+          22.099997478335677,
+          1.6475800511024294,
+          0.033309560254659365
+        ],
+        "perish_m7_L2_cv2_f0.5": [
+          13.42525216275466,
+          25.30962173778795,
+          0.6425416621191382,
+          0.2167893892825159,
+          20.89725382119284,
+          0.326219711288117,
+          1.1027633491252933
+        ]
+      },
+      "structure_sha256": "7375465a5a2342258f032a70cd3436e117bb2b2ac5c488ec42d0e15e8b4758af"
+    },
+    {
+      "code": "def compute_order_amount(age, pipeline, mu, cv, f, L):\n    S = 12.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":12.0,\"min\":0.0,\"max\":60.0}\n    C = 25.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":25.0,\"min\":0.0,\"max\":60.0}\n    KF = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":3.0}\n    KL = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":3.0}\n    A = 0.45 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.45,\"min\":0.0,\"max\":4.0}\n    B = 0.15 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.15,\"min\":0.0,\"max\":1.0}\n    m = len(age)\n    work = [0.0] * m\n    for i in range(m):\n        work[i] = age[i]\n    for step in range(L):\n        fifo_left = KF * f * mu\n        for i in range(m):\n            take = min(work[i], fifo_left)\n            work[i] = work[i] - take\n            fifo_left = fifo_left - take\n        lifo_left = KL * (1.0 - f) * mu\n        for k in range(m):\n            i = m - 1 - k\n            take = min(work[i], lifo_left)\n            work[i] = work[i] - take\n            lifo_left = lifo_left - take\n        nxt = [0.0] * m\n        for i in range(m - 1):\n            nxt[i] = work[i + 1]\n        if step < len(pipeline):\n            nxt[m - 1] = pipeline[step]\n        else:\n            nxt[m - 1] = 0.0\n        work = nxt\n    effective = 0.0\n    for i in range(m):\n        x = (i + 1.0) / m\n        weight = B + (1.0 - B) * (x ** A)\n        effective = effective + weight * work[i]\n    raw = S - effective\n    return max(0.0, min(C, raw))\n",
+      "origin": "search/one_query_r1/candidate_00_3",
+      "validation": 0.9909470895279041,
+      "train_score": 0.9910045475935858,
+      "train_theta": {
+        "perish_m7_L2_cv1.5_f0": [
+          6.669268564670389,
+          32.85128542501326,
+          1.91645758858095,
+          1.2138667467682829,
+          3.0417841319005636,
+          0.9952925858587153
+        ],
+        "perish_m7_L2_cv1.5_f0.5": [
+          10.017324033638396,
+          46.803004121783324,
+          0.8284007632925046,
+          0.6219523363341277,
+          1.2276446963094787,
+          0.3080117583179109
+        ],
+        "perish_m7_L2_cv2_f0": [
+          14.262575555211006,
+          17.718100976297215,
+          1.041768112905749,
+          0.07826762812643318,
+          0.019878526923354567,
+          0.8723231090243139
+        ],
+        "perish_m7_L2_cv2_f0.5": [
+          7.363486645216895,
+          40.72170166511519,
+          0.512212688197811,
+          0.9444039843726068,
+          3.856936788122758,
+          0.46302731568326294
+        ]
+      },
+      "structure_sha256": "ccd57bf96689f5557384e7317ee9bf7b90c31a0d21fad309eeffaad6ac09c095"
+    },
+    {
+      "code": "def compute_order_amount(age, pipeline, mu, cv, f, L):\n    S = 16.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":16.0,\"min\":0.0,\"max\":60.0}\n    C = 26.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":26.0,\"min\":0.0,\"max\":60.0}\n    K = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.1,\"max\":3.0}\n    R = 0.6 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.6,\"min\":0.0,\"max\":1.5}\n    Z = 0.1 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.1,\"min\":0.0,\"max\":2.0}\n    DMAX = 0.7 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.7,\"min\":0.0,\"max\":2.0}\n    DAVG = 0.2 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.2,\"min\":0.0,\"max\":2.0}\n    WP = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":2.0}\n    m = len(age)\n    stock = 0.0\n    for i in range(m):\n        stock = stock + age[i]\n    pipe = 0.0\n    for j in range(len(pipeline)):\n        pipe = pipe + pipeline[j]\n    cumulative = 0.0\n    maximum_overload = 0.0\n    average_overload = 0.0\n    mix = f + R * (1.0 - f)\n    variance_mix = f + R * R * (1.0 - f)\n    for i in range(m):\n        cumulative = cumulative + age[i]\n        life = i + 1.0\n        capacity_mean = K * mu * mix * life\n        capacity_sd = Z * mu * cv * ((variance_mix * life) ** 0.5)\n        capacity = max(0.0, capacity_mean - capacity_sd)\n        overload = max(0.0, cumulative - capacity)\n        maximum_overload = max(maximum_overload, overload)\n        average_overload = average_overload + overload / m\n    raw = S - stock - WP * pipe + DMAX * maximum_overload + DAVG * average_overload\n    return max(0.0, min(C, raw))\n",
+      "origin": "search/one_query_r1/candidate_00_4",
+      "validation": 0.9832120409286802,
+      "train_score": 0.9813019378714373,
+      "train_theta": {
+        "perish_m7_L2_cv1.5_f0": [
+          14.097128664059845,
+          10.246098180786053,
+          2.399883582724067,
+          0.5695125405610733,
+          0.909243159831554,
+          1.8569253047614673,
+          1.304197083716249,
+          0.26322524291387217
+        ],
+        "perish_m7_L2_cv1.5_f0.5": [
+          20.331195755998152,
+          7.244134747389587,
+          1.4939692525016142,
+          0.46337409929787304,
+          0.7493245186380723,
+          0.7045488887068275,
+          0.5761996719553764,
+          1.2625059709435449
+        ],
+        "perish_m7_L2_cv2_f0": [
+          14.050885873006026,
+          26.497571251126367,
+          2.9516069210334184,
+          0.8600045490143082,
+          1.559266301128219,
+          1.6471967330500557,
+          0.7751434071672547,
+          0.5321672272133569
+        ],
+        "perish_m7_L2_cv2_f0.5": [
+          10.644014323628145,
+          20.495872219951305,
+          1.029449091985522,
+          0.779679083462594,
+          1.6575912547135434,
+          0.42080460921657714,
+          0.24696939980809796,
+          0.8165229774533488
+        ]
+      },
+      "structure_sha256": "d72bd3038e15f1ca147c9f05e7bbfdc7afc2aea43076fe3fee933e79c53665ed"
+    },
+    {
+      "code": "def compute_order_amount(age, pipeline, mu, cv, f, L):\n    S = 16.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":16.0,\"min\":0.0,\"max\":60.0}\n    C = 25.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":25.0,\"min\":0.0,\"max\":60.0}\n    KF = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.05,\"max\":4.0}\n    KL = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.05,\"max\":4.0}\n    PA = 0.8 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.8,\"min\":0.0,\"max\":2.0}\n    B = 0.1 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.1,\"min\":0.0,\"max\":1.0}\n    P = 0.8 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.8,\"min\":0.1,\"max\":4.0}\n    WP = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":2.0}\n    m = len(age)\n    pipe = 0.0\n    for j in range(len(pipeline)):\n        pipe = pipe + pipeline[j]\n    effective = 0.0\n    for i in range(m):\n        older = 0.0\n        for j in range(i):\n            older = older + age[j]\n        younger = PA * pipe\n        for j in range(i + 1, m):\n            younger = younger + age[j]\n        life = i + 1.0\n        fifo_capacity = KF * f * mu * life + 0.001\n        lifo_capacity = KL * (1.0 - f) * mu * life + 0.001\n        fifo_score = fifo_capacity / (fifo_capacity + older)\n        lifo_score = lifo_capacity / (lifo_capacity + younger)\n        score = f * fifo_score + (1.0 - f) * lifo_score\n        weight = B + (1.0 - B) * (score ** P)\n        effective = effective + weight * age[i]\n    raw = S - effective - WP * pipe\n    return max(0.0, min(C, raw))\n",
+      "origin": "search/one_query_r1/candidate_00_5",
+      "validation": 0.9916439033513911,
+      "train_score": 0.9890335823960006,
+      "train_theta": {
+        "perish_m7_L2_cv1.5_f0": [
+          12.554182435102913,
+          23.84517626106102,
+          3.406058699438315,
+          1.8424120927942564,
+          1.1437587800766658,
+          0.20068453854526702,
+          1.9472592729565814,
+          0.3398610690020959
+        ],
+        "perish_m7_L2_cv1.5_f0.5": [
+          15.397265886847016,
+          37.58643678385583,
+          2.2593153273313265,
+          1.1106980612321231,
+          0.7837732507336607,
+          0.07202447960765429,
+          1.4424115954155587,
+          1.0612476625591545
+        ],
+        "perish_m7_L2_cv2_f0": [
+          10.810729543589535,
+          9.279209624236778,
+          2.1738693415231864,
+          2.529602265792507,
+          0.8720004029140888,
+          0.07003125558413992,
+          2.6038928815119315,
+          0.18690270175137935
+        ],
+        "perish_m7_L2_cv2_f0.5": [
+          15.337764456387182,
+          4.588114844742442,
+          3.7198281085665847,
+          2.977732563846792,
+          1.454223546843746,
+          0.06858222162459726,
+          1.7005405365878836,
+          1.1619695900197022
+        ]
+      },
+      "structure_sha256": "38881f8cde9baa0fd2daa2e693cc8c613782b4af1ea79795ab68d1fcf79e77e1"
+    },
+    {
+      "code": "def compute_order_amount(age, pipeline, mu, cv, f, L):\n    Q = 4.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":4.0,\"min\":0.0,\"max\":20.0}\n    S = 15.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":15.0,\"min\":0.0,\"max\":60.0}\n    C = 25.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":25.0,\"min\":0.0,\"max\":60.0}\n    KU = 0.8 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.8,\"min\":0.0,\"max\":3.0}\n    KD = 0.6 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.6,\"min\":0.0,\"max\":3.0}\n    KE = 0.6 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.6,\"min\":0.0,\"max\":3.0}\n    T = 2.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":2.0,\"min\":0.0,\"max\":30.0}\n    KY = 0.15 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.15,\"min\":0.0,\"max\":2.0}\n    Y = 8.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":8.0,\"min\":0.0,\"max\":40.0}\n    WP = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":2.0}\n    m = len(age)\n    stock = 0.0\n    pressure = 0.0\n    fresh = 0.0\n    for i in range(m):\n        x = (i + 1.0) / m\n        stock = stock + age[i]\n        pressure = pressure + age[i] * (1.0 - x)\n        fresh = fresh + age[i] * x\n    pipe = 0.0\n    for j in range(len(pipeline)):\n        pipe = pipe + pipeline[j]\n    position = stock + WP * pipe\n    shortage_signal = max(0.0, S - position)\n    excess_signal = max(0.0, position - S)\n    expiry_signal = max(0.0, pressure - T)\n    fresh_signal = max(0.0, fresh + pipe - Y)\n    raw = Q + KU * shortage_signal - KD * excess_signal + KE * expiry_signal - KY * fresh_signal\n    return max(0.0, min(C, raw))\n",
+      "origin": "search/one_query_r1/candidate_00_6",
+      "validation": 0.9904444803379848,
+      "train_score": 0.9861594509929265,
+      "train_theta": {
+        "perish_m7_L2_cv1.5_f0": [
+          19.91760376928436,
+          2.9308188460007187,
+          48.88743965715409,
+          0.4800828159003858,
+          1.8346928083715155,
+          2.6652478049337467,
+          7.688570410133243,
+          1.3972493306490472,
+          17.244746046145966,
+          0.5540827452893156
+        ],
+        "perish_m7_L2_cv1.5_f0.5": [
+          2.3961733435422214,
+          17.623374740217493,
+          15.201177254308881,
+          0.5806443363207514,
+          0.8069700896480632,
+          0.517044153224757,
+          1.75824769351871,
+          0.41031995724752734,
+          16.57294954946891,
+          1.3234585554069227
+        ],
+        "perish_m7_L2_cv2_f0": [
+          2.454183011249685,
+          11.048345116652111,
+          8.873770444000826,
+          1.063197727760762,
+          1.6242069141113649,
+          1.3885824266795932,
+          5.387102720611912,
+          1.1438201859947734,
+          21.56958747964701,
+          0.2871794188983503
+        ],
+        "perish_m7_L2_cv2_f0.5": [
+          4.877329692598343,
+          15.436287871447362,
+          10.595378675136903,
+          0.12110022798320452,
+          1.3829952685895608,
+          0.9668225894929254,
+          7.665789683917922,
+          0.3275080694790502,
+          4.4550482226573695,
+          0.2928479124850857
+        ]
+      },
+      "structure_sha256": "bb523dc80b415512d8ca0e4061212136ef7e34c2674a7333dc1f819ea0704605"
+    },
+    {
+      "code": "def compute_order_amount(age, pipeline, mu, cv, f, L):\n    S = 12.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":12.0,\"min\":0.0,\"max\":60.0}\n    C = 28.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":28.0,\"min\":0.0,\"max\":60.0}\n    A = 0.45 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.45,\"min\":0.0,\"max\":4.0}\n    B = 0.1 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.1,\"min\":0.0,\"max\":1.0}\n    LOW = 0.1 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.1,\"min\":0.0,\"max\":1.0}\n    HF = 1.2 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.2,\"min\":0.0,\"max\":5.0}\n    HL = 1.2 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.2,\"min\":0.0,\"max\":5.0}\n    W0 = 0.15 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.15,\"min\":0.001,\"max\":2.0}\n    W1 = 0.5 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.5,\"min\":0.001,\"max\":2.0}\n    W2 = 0.12 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.12,\"min\":0.001,\"max\":2.0}\n    W3 = 0.12 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.12,\"min\":0.001,\"max\":2.0}\n    W4 = 0.06 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.06,\"min\":0.001,\"max\":2.0}\n    m = len(age)\n    weighted_gap = 0.0\n    weight_total = 0.0\n    for scenario in range(5):\n        if scenario == 0:\n            scale_f = LOW\n            scale_l = LOW\n            scenario_weight = W0\n        elif scenario == 1:\n            scale_f = 1.0\n            scale_l = 1.0\n            scenario_weight = W1\n        elif scenario == 2:\n            scale_f = 1.0 + HF * cv\n            scale_l = 1.0\n            scenario_weight = W2\n        elif scenario == 3:\n            scale_f = 1.0\n            scale_l = 1.0 + HL * cv\n            scenario_weight = W3\n        else:\n            scale_f = 1.0 + HF * cv\n            scale_l = 1.0 + HL * cv\n            scenario_weight = W4\n        work = [0.0] * m\n        for i in range(m):\n            work[i] = age[i]\n        for step in range(L):\n            fifo_left = scale_f * f * mu\n            for i in range(m):\n                take = min(work[i], fifo_left)\n                work[i] = work[i] - take\n                fifo_left = fifo_left - take\n            lifo_left = scale_l * (1.0 - f) * mu\n            for k in range(m):\n                i = m - 1 - k\n                take = min(work[i], lifo_left)\n                work[i] = work[i] - take\n                lifo_left = lifo_left - take\n            nxt = [0.0] * m\n            for i in range(m - 1):\n                nxt[i] = work[i + 1]\n            if step < len(pipeline):\n                nxt[m - 1] = pipeline[step]\n            else:\n                nxt[m - 1] = 0.0\n            work = nxt\n        effective = 0.0\n        for i in range(m):\n            x = (i + 1.0) / m\n            weight = B + (1.0 - B) * (x ** A)\n            effective = effective + weight * work[i]\n        gap = max(0.0, S - effective)\n        weighted_gap = weighted_gap + scenario_weight * gap\n        weight_total = weight_total + scenario_weight\n    raw = weighted_gap / weight_total\n    return max(0.0, min(C, raw))\n",
+      "origin": "search/one_query_r1/candidate_00_7",
+      "validation": 1.0160868808185588,
+      "train_score": 1.0172922374073456,
+      "train_theta": {
+        "perish_m7_L2_cv1.5_f0": [
+          8.809241041403077,
+          43.44304222959738,
+          0.010400137439881663,
+          0.046482330210477096,
+          0.8580149251443489,
+          2.952584969756095,
+          0.005482412003138926,
+          1.5537300489910342,
+          1.0848986637244822,
+          0.3300187795066376,
+          0.025503329310052503,
+          0.09409815764274265
+        ],
+        "perish_m7_L2_cv1.5_f0.5": [
+          11.34867078658085,
+          24.475117133584213,
+          3.2730336348776365,
+          0.8049998591395093,
+          0.12400868000619614,
+          0.24963251319668078,
+          0.5606827508290626,
+          1.7148747383581633,
+          0.6855991933994832,
+          0.3074795287067671,
+          0.3352183145841062,
+          0.2700709694003395
+        ],
+        "perish_m7_L2_cv2_f0": [
+          6.081628940904299,
+          2.7295383510105182,
+          1.9030510661163291,
+          0.9595797180788967,
+          0.8146746740621731,
+          2.6253943394539325,
+          4.608760244312063,
+          0.5518483309829658,
+          1.0276372851730007,
+          1.0489091201082335,
+          0.11098392774937893,
+          0.6098535006940528
+        ],
+        "perish_m7_L2_cv2_f0.5": [
+          56.10010487729961,
+          2.8298782245477163,
+          1.1908986080661035,
+          0.8340991720528292,
+          0.9223781196527848,
+          3.3783276083718317,
+          2.7270809477967672,
+          0.72169809254901,
+          0.3847101828625191,
+          1.8111495555723638,
+          0.5351149671712871,
+          0.4122839682552977
+        ]
+      },
+      "structure_sha256": "4e592f827a859be5ff7e9fcef432bd83977b2812e90aefcf145f8a326ad315da"
+    }
+  ]
+}

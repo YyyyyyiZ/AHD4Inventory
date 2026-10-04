@@ -1,0 +1,48 @@
+{
+  "session_id": "l1_poisson_r3",
+  "level": "L1",
+  "family": "poisson",
+  "repeat": 3,
+  "scenario_id": "poisson_L6_c1_2",
+  "prompt_sha256": "7924ab7e34729f260808c93b12391e0b8b6e02258d79bfd29ff2abbc53665f63",
+  "status": "completed",
+  "final_text": "```python\nimport math\n\n# Fixed policy parameters optimized for:\n# lead_time=6, Poisson mean=100, holding_cost=1, lost_sales_cost=2,\n# and 50 selling periods.\n_TARGET = 101.93\n_FORECAST_MEAN = 101.35\n_VARIANCE_SCALE = 1.43\n_VARIANCE_ADJUSTMENT = 0.075\n\n_SQRT_2 = math.sqrt(2.0)\n_INV_SQRT_2PI = 1.0 / math.sqrt(2.0 * math.pi)\n\n\ndef _positive_normal_moments(mean, variance):\n    \"\"\"Moments of max(X, 0) for a normal X.\"\"\"\n    if variance <= 0.0:\n        value = max(mean, 0.0)\n        return value, 0.0\n\n    sd = math.sqrt(variance)\n    z = mean / sd\n\n    if z >= 8.0:\n        return mean, variance\n    if z <= -12.0:\n        return 0.0, 0.0\n\n    cdf = 0.5 * math.erfc(-z / _SQRT_2)\n    density = math.exp(-0.5 * z * z) * _INV_SQRT_2PI\n\n    positive_mean = sd * density + mean * cdf\n    second_moment = (\n        (mean * mean + variance) * cdf\n        + mean * sd * density\n    )\n    positive_variance = second_moment - positive_mean * positive_mean\n    if positive_variance < 0.0:\n        positive_variance = 0.0\n\n    return positive_mean, positive_variance\n\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders):\n    inventory = float(on_hand_inventory)\n    pipeline = [float(x) for x in pipeline_orders]\n\n    # Prevent unnecessary large-number arithmetic. With this much inventory\n    # anywhere in the six-period supply path, the policy's order is zero.\n    if inventory > 1_000_000.0 or any(x > 1_000_000.0 for x in pipeline):\n        return 0.0\n\n    projected_mean = inventory\n    projected_variance = 0.0\n    demand_variance = 100.0 * _VARIANCE_SCALE\n\n    # Project inventory through the current period's demand and the following\n    # five demands. Each pipeline order is added only when it arrives.\n    for step in range(6):\n        projected_mean, projected_variance = _positive_normal_moments(\n            projected_mean - _FORECAST_MEAN,\n            projected_variance + demand_variance,\n        )\n        if step < 5:\n            projected_mean += pipeline[step]\n\n    target = (\n        _TARGET\n        + _VARIANCE_ADJUSTMENT\n        * (math.sqrt(projected_variance) - 10.0)\n    )\n    order = target - projected_mean\n\n    if order <= 0.0:\n        return 0.0\n    return float(order)\n```",
+  "final_code": "import math\n\n# Fixed policy parameters optimized for:\n# lead_time=6, Poisson mean=100, holding_cost=1, lost_sales_cost=2,\n# and 50 selling periods.\n_TARGET = 101.93\n_FORECAST_MEAN = 101.35\n_VARIANCE_SCALE = 1.43\n_VARIANCE_ADJUSTMENT = 0.075\n\n_SQRT_2 = math.sqrt(2.0)\n_INV_SQRT_2PI = 1.0 / math.sqrt(2.0 * math.pi)\n\n\ndef _positive_normal_moments(mean, variance):\n    \"\"\"Moments of max(X, 0) for a normal X.\"\"\"\n    if variance <= 0.0:\n        value = max(mean, 0.0)\n        return value, 0.0\n\n    sd = math.sqrt(variance)\n    z = mean / sd\n\n    if z >= 8.0:\n        return mean, variance\n    if z <= -12.0:\n        return 0.0, 0.0\n\n    cdf = 0.5 * math.erfc(-z / _SQRT_2)\n    density = math.exp(-0.5 * z * z) * _INV_SQRT_2PI\n\n    positive_mean = sd * density + mean * cdf\n    second_moment = (\n        (mean * mean + variance) * cdf\n        + mean * sd * density\n    )\n    positive_variance = second_moment - positive_mean * positive_mean\n    if positive_variance < 0.0:\n        positive_variance = 0.0\n\n    return positive_mean, positive_variance\n\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders):\n    inventory = float(on_hand_inventory)\n    pipeline = [float(x) for x in pipeline_orders]\n\n    # Prevent unnecessary large-number arithmetic. With this much inventory\n    # anywhere in the six-period supply path, the policy's order is zero.\n    if inventory > 1_000_000.0 or any(x > 1_000_000.0 for x in pipeline):\n        return 0.0\n\n    projected_mean = inventory\n    projected_variance = 0.0\n    demand_variance = 100.0 * _VARIANCE_SCALE\n\n    # Project inventory through the current period's demand and the following\n    # five demands. Each pipeline order is added only when it arrives.\n    for step in range(6):\n        projected_mean, projected_variance = _positive_normal_moments(\n            projected_mean - _FORECAST_MEAN,\n            projected_variance + demand_variance,\n        )\n        if step < 5:\n            projected_mean += pipeline[step]\n\n    target = (\n        _TARGET\n        + _VARIANCE_ADJUSTMENT\n        * (math.sqrt(projected_variance) - 10.0)\n    )\n    order = target - projected_mean\n\n    if order <= 0.0:\n        return 0.0\n    return float(order)\n",
+  "usage": {
+    "input_tokens": 190798,
+    "output_tokens": 13822,
+    "total_tokens": 204620,
+    "last_response_usage": {
+      "input_tokens": 19679,
+      "input_tokens_details": {
+        "cached_tokens": 18391,
+        "cache_write_tokens": 1285
+      },
+      "output_tokens": 1678,
+      "output_tokens_details": {
+        "reasoning_tokens": 1034
+      },
+      "total_tokens": 21357,
+      "cost": 0.0236767,
+      "is_byok": false,
+      "cost_details": {
+        "upstream_inference_cost": 0.0236767,
+        "upstream_inference_input_cost": 0.0068967,
+        "upstream_inference_output_cost": 0.01678
+      }
+    }
+  },
+  "cost_usd": 0.2233462,
+  "tool_calls": 16,
+  "python_seconds": 2995.221718498273,
+  "requests": 17,
+  "actual_models": [
+    "openai/gpt-5.6-sol"
+  ],
+  "error": null,
+  "http_status": null,
+  "uncertain_cost_usd": 0.0,
+  "interruption_waste_seconds": 0.0,
+  "resumed_from_checkpoint": false,
+  "code_sha256": "d0b8efaf6a42f6bb0b7cfb11dc6183be812ee656b17d5a3564d0379a567cadd7"
+}

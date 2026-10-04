@@ -1,0 +1,17 @@
+{
+     "algorithm": "The new policy uses separate base stock levels for high and low demand regimes, removing the smoothing factor to make the response more decisive. The parameters are tuned to better handle the observed demand autocorrelation while maintaining a stationary structure. The higher lost-sales cost suggests we should bias towards higher inventory levels during high-demand periods.",
+     "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_stock_low = 244.64033037234302  # OPT_PARAM: {\"initial\": 244.64033037234302, \"min\": 100.0, \"max\": 250.0, \"type\": \"float\"}\n    base_stock_high = 227.69842332107592  # OPT_PARAM: {\"initial\": 227.69842332107592, \"min\": 150.0, \"max\": 350.0, \"type\": \"float\"}\n    demand_response = 0.3  # OPT_PARAM: {\"initial\": 0.3, \"min\": 0.3, \"max\": 0.8, \"type\": \"float\"}\n    high_demand_threshold = 100.0 * np.log(2)\n    \n    if last_demand >= high_demand_threshold:\n        target = base_stock_high * (1 + demand_response)\n    else:\n        target = base_stock_low * (1 - demand_response * 0.5)\n    \n    order_amount = max(0.0, target - on_hand_inventory - sum(pipeline_orders))\n    return order_amount\n",
+     "description": "",
+     "intuition": "",
+     "reasoning": "The new policy uses separate base stock levels for high and low demand regimes, removing the smoothing factor to make the response more decisive. The parameters are tuned to better handle the observed demand autocorrelation while maintaining a stationary structure. The higher lost-sales cost suggests we should bias towards higher inventory levels during high-demand periods.",
+     "opt_params": {
+          "base_stock_low": 244.64033037234302,
+          "base_stock_high": 227.69842332107592,
+          "demand_response": 0.3
+     },
+     "cost": null,
+     "objective": 31349.40947,
+     "lower": 29634.98382,
+     "upper": 33068.71926,
+     "other_inf": null
+}

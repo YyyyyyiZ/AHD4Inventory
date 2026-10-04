@@ -1,0 +1,51 @@
+Design a stationary ordering policy class for single-product PERISHABLE lost-sales inventory.
+The numerical optimizer tunes your annotated constants separately for each instance.
+We compare designs fairly; seek low long-run cost rather than a desired winner.
+Known parameters: mean demand mu=4, actual coefficient of variation cv in {1.5,2.0},
+shelf life m in {7,8}, deterministic lead L=2, FIFO demand share f in {0,0.5}.
+Holding cost 0, lost-unit penalty 100, expired-unit penalty 100, no order cost.
+Each period: receive fresh order placed L periods ago; observe age and pipeline;
+order q; serve FIFO customers oldest first, then LIFO customers youngest first;
+expire remaining oldest units; shift ages. New order arrives in L periods.
+age[i] is available stock with remaining lifetime i+1, oldest first, length m.
+pipeline[j] arrives in j+1 periods, length L-1; current arrival already in age[-1].
+FIFO and LIFO demand are INDEPENDENT streams, iid over periods, with group
+means g*mu and variances g*(mu*cv)^2 for g=f and g=1-f. Each stream uses the
+Adan--van Eenige--Resing two-moment discrete distribution. For these high-CV
+instances each nonzero stream is a mixture of two geometric laws on 0,1,...:
+for stream mean M and variance V, a=V/M^2-1/M >=1; b=1+a+sqrt(a*a-1),
+c=1+a-sqrt(a*a-1); weight1=1/b; geometric1 success prob=2/(2+M*b),
+geometric2 success prob=2/(2+M*c). Zero-mean stream is identically zero.
+This is not binomial splitting of total demand and not a single negative binomial.
+Actions are rounded half-to-even, then clipped to [0,max(0,cap-sum(age)-sum(pipeline))].
+cap is the p/(p+w)=0.5 quantile of total demand over m+L periods
+(the paper's newsvendor inventory-position cap; same for all policies).
+Objective: expected mean cost after burnin. No finite selling-season or time index.
+Training uses independent paths; evaluation uses different unseen demand paths.
+The same function must support the full m/cv/f family. No exact test instances are disclosed.
+
+Return ONLY Python code defining compute_order_amount(age, pipeline, mu, cv, f, L).
+Return nonnegative finite scalar. Use numpy as np or math; built-in numeric operations,
+bounded for loops, local numerical arrays and if statements allowed. No helper functions,
+recursion, while, external side effects, random numbers, imports except math/numpy, files or network.
+Each tunable constant is a literal assignment INSIDE the function, with this exact comment:
+    S = 12.0 # OPT_PARAM: {"type":"float","initial":12.0,"min":0.0,"max":60.0}
+There is NO LIMIT on number of tunable parameters. Choose meaningful finite ranges yourself.
+Do not use +=; do not call array methods. Use len(age) for m.
+All eligible candidates receive the SAME derivative-free optimizer and evaluation budget.
+Avoid scipy in the per-period policy: this numerical subset is shared by all three structure arms.
+The separate unrestricted tool-enabled Baek baseline can use arbitrary NumPy/SciPy designs.
+Do not implement your own optimizer inside the ordering function.
+
+This machine has 8 GiB total RAM. Every phase-2 numerical worker, including the unrestricted Baek comparison, has the SAME 1 GiB resident-memory watchdog limit. Avoid full-state tables that exceed this disclosed resource limit. This is a machine-memory constraint, not a limit on the number of policy parameters.
+
+All comparison arms receive the SAME common initial policy and training information below. You may retain, improve or replace it. Lower cost is better.
+{"name": "age_discount", "training_score": 1.0, "costs": {"perish_m7_L2_cv1.5_f0": 149.14375, "perish_m7_L2_cv1.5_f0.5": 122.14375, "perish_m7_L2_cv2_f0": 191.471875, "perish_m7_L2_cv2_f0.5": 170.30937500000002}, "fitted_parameters": {"perish_m7_L2_cv1.5_f0": [16.82362227052272, 18.561404171591573, 0.05552496609617075], "perish_m7_L2_cv1.5_f0.5": [16.29721092854831, 20.30122219377725, 0.9076730989899537], "perish_m7_L2_cv2_f0": [15.117285293211898, 28.547151415579293, 0.03255685935867936], "perish_m7_L2_cv2_f0.5": [13.983163205026056, 5.890122783909247, 1.0672962231356822]}, "cost_metrics": {"perish_m7_L2_cv1.5_f0": [0.49537499999999995, 0.9960625, 3.4717499999999997], "perish_m7_L2_cv1.5_f0.5": [0.4350624999999999, 0.7863749999999998, 3.659812500000001], "perish_m7_L2_cv2_f0": [0.45049999999999996, 1.46421875, 3.0217812499999996], "perish_m7_L2_cv2_f0.5": [0.39590624999999996, 1.3071874999999997, 3.16365625]}}
+def compute_order_amount(age, pipeline, mu, cv, f, L):
+    S = 10.0 # OPT_PARAM: {"type":"float","initial":10.0,"min":0.0,"max":60.0}
+    C = 6.0 # OPT_PARAM: {"type":"float","initial":6.0,"min":0.0,"max":30.0}
+    a = 1.0 # OPT_PARAM: {"type":"float","initial":1.0,"min":0.0,"max":3.0}
+    effective = 0.0
+    for i in range(len(age)):
+        effective = effective + age[i]*min(1.0,((i+1.0)/len(age))**a)
+    return max(0.0,min(C,S-effective-sum(pipeline)))

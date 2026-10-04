@@ -1,0 +1,524 @@
+{
+  "arm": "evolution",
+  "repeat": 2,
+  "selected": {
+    "code": "def compute_order_amount(age, pipeline, mu, cv, f, L):\n    S = 10.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":10.0,\"min\":0.0,\"max\":60.0}\n    C = 6.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":6.0,\"min\":0.0,\"max\":30.0}\n    D = 0.75 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.75,\"min\":0.0,\"max\":2.5}\n    H = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":2.0}\n    ALPHA = 0.85 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.85,\"min\":0.55,\"max\":0.98}\n    A = 1.5 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.5,\"min\":0.0,\"max\":8.0}\n    W0 = 0.1 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.1,\"min\":0.0,\"max\":1.0}\n    K = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":3.0}\n    R = 0.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.0,\"min\":-3.0,\"max\":3.0}\n    G = 0.1 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.1,\"min\":0.0,\"max\":2.0}\n\n    m = len(age)\n    mf = f * mu\n    ml = (1.0 - f) * mu\n\n    fprob = [1.0, 0.0, 0.0]\n    fdem = [0.0, 0.0, 0.0]\n    if mf > 0.0:\n        vf = f * (mu * cv) * (mu * cv)\n        af = vf / (mf * mf) - 1.0 / mf\n        sf = max(0.0, af * af - 1.0) ** 0.5\n        bf = 1.0 + af + sf\n        cf = 1.0 + af - sf\n        wf = 1.0 / bf\n        pf1 = 2.0 / (2.0 + mf * bf)\n        pf2 = 2.0 / (2.0 + mf * cf)\n        p0f = wf * pf1 + (1.0 - wf) * pf2\n        rhof = max(0.0, min(1.0, 1.0 - p0f))\n        if rhof > 0.0:\n            condf = mf / rhof\n            secondf = (vf + mf * mf) / rhof\n            varcondf = max(0.0, secondf - condf * condf)\n            sdcondf = varcondf ** 0.5\n            ratio_low = ((1.0 - ALPHA) / ALPHA) ** 0.5\n            lowf = max(0.0, condf - H * sdcondf * ratio_low)\n            highf = max(0.0, (condf - ALPHA * lowf) / (1.0 - ALPHA))\n            fprob[0] = 1.0 - rhof\n            fprob[1] = rhof * ALPHA\n            fprob[2] = rhof * (1.0 - ALPHA)\n            fdem[1] = D * lowf\n            fdem[2] = D * highf\n\n    lprob = [1.0, 0.0, 0.0]\n    ldem = [0.0, 0.0, 0.0]\n    if ml > 0.0:\n        vl = (1.0 - f) * (mu * cv) * (mu * cv)\n        al = vl / (ml * ml) - 1.0 / ml\n        sl = max(0.0, al * al - 1.0) ** 0.5\n        bl = 1.0 + al + sl\n        cl = 1.0 + al - sl\n        wl = 1.0 / bl\n        pl1 = 2.0 / (2.0 + ml * bl)\n        pl2 = 2.0 / (2.0 + ml * cl)\n        p0l = wl * pl1 + (1.0 - wl) * pl2\n        rhol = max(0.0, min(1.0, 1.0 - p0l))\n        if rhol > 0.0:\n            condl = ml / rhol\n            secondl = (vl + ml * ml) / rhol\n            varcondl = max(0.0, secondl - condl * condl)\n            sdcondl = varcondl ** 0.5\n            ratio_low = ((1.0 - ALPHA) / ALPHA) ** 0.5\n            lowl = max(0.0, condl - H * sdcondl * ratio_low)\n            highl = max(0.0, (condl - ALPHA * lowl) / (1.0 - ALPHA))\n            lprob[0] = 1.0 - rhol\n            lprob[1] = rhol * ALPHA\n            lprob[2] = rhol * (1.0 - ALPHA)\n            ldem[1] = D * lowl\n            ldem[2] = D * highl\n\n    mean_credit = 0.0\n    second_credit = 0.0\n    mean_gap = 0.0\n    scenarios = 3 ** (2 * L)\n\n    for s in range(scenarios):\n        x = [0.0] * m\n        for i in range(m):\n            x[i] = age[i]\n\n        code = s\n        probability = 1.0\n\n        for t in range(L):\n            if t > 0 and t - 1 < len(pipeline):\n                x[m - 1] = x[m - 1] + pipeline[t - 1]\n\n            fifo_state = code % 3\n            code = code // 3\n            lifo_state = code % 3\n            code = code // 3\n\n            probability = probability * fprob[fifo_state] * lprob[lifo_state]\n\n            if probability > 0.0:\n                remaining = fdem[fifo_state]\n                for i in range(m):\n                    take = min(x[i], remaining)\n                    x[i] = x[i] - take\n                    remaining = remaining - take\n\n                remaining = ldem[lifo_state]\n                for j in range(m):\n                    i = m - 1 - j\n                    take = min(x[i], remaining)\n                    x[i] = x[i] - take\n                    remaining = remaining - take\n\n            for i in range(m - 1):\n                x[i] = x[i + 1]\n            x[m - 1] = 0.0\n\n        if probability > 0.0:\n            effective = 0.0\n            for i in range(m):\n                relative_life = (i + 1.0) / m\n                weight = W0 + (1.0 - W0) * (relative_life ** A)\n                effective = effective + weight * x[i]\n\n            credit = K * effective\n            gap = max(0.0, S - credit)\n            mean_credit = mean_credit + probability * credit\n            second_credit = second_credit + probability * credit * credit\n            mean_gap = mean_gap + probability * gap\n\n    variance_credit = max(\n        0.0, second_credit - mean_credit * mean_credit\n    )\n    deviation_credit = variance_credit ** 0.5\n    linear_gap = S - mean_credit\n    convex_adjustment = max(\n        0.0, mean_gap - max(0.0, linear_gap)\n    )\n    raw_order = linear_gap + G * convex_adjustment - R * deviation_credit\n\n    return max(0.0, min(C, raw_order))\n",
+    "origin": "search/evolution_r2/candidate_06_0",
+    "validation": 0.9936389486676405,
+    "train_score": 0.9938895620804619,
+    "train_theta": {
+      "perish_m3_L2_cv1.5_f0": [
+        21.42067643435619,
+        2.904175542715155,
+        0.9072758909824532,
+        0.4492483602321955,
+        0.9735593472231552,
+        5.175237589916609,
+        0.4857601189952192,
+        0.9612329858839583,
+        0.8338634579231217,
+        1.6503533535293617
+      ],
+      "perish_m3_L2_cv1.5_f0.5": [
+        21.42067643435619,
+        2.904175542715155,
+        0.9072758909824532,
+        0.4492483602321955,
+        0.9735593472231552,
+        5.175237589916609,
+        0.4857601189952192,
+        0.9612329858839583,
+        0.8338634579231217,
+        1.6503533535293617
+      ],
+      "perish_m3_L2_cv2_f0": [
+        5.817321415099553,
+        3.331064649255259,
+        1.8030911282115416,
+        1.201281426027111,
+        0.7552788463426533,
+        6.899475187256955,
+        0.8841679316014495,
+        0.9064028837756766,
+        0.07209187610424861,
+        1.5977569012572275
+      ],
+      "perish_m3_L2_cv2_f0.5": [
+        5.601528127086112,
+        9.800574123232604,
+        1.7692926138066611,
+        0.38515777744167745,
+        0.7919114019582895,
+        3.4362538137396204,
+        0.4297716049644301,
+        1.6734694723136858,
+        1.435286037556701,
+        1.8003887906098903
+      ],
+      "perish_m5_L2_cv1.5_f0": [
+        17.942573186279787,
+        15.22323646041617,
+        0.7468823473790466,
+        0.8432139293663875,
+        0.7499523873570908,
+        3.4823395828172146,
+        0.8651901518978532,
+        1.8981072978766285,
+        1.2188298069745782,
+        0.9591357097758875
+      ],
+      "perish_m5_L2_cv1.5_f0.5": [
+        7.7443142714206985,
+        20.10511168119921,
+        0.9634960794260858,
+        0.5392604541973104,
+        0.8794529586006701,
+        7.756093698057253,
+        0.15943564982416836,
+        1.9058171329248648,
+        1.5645870477278014,
+        1.8426609871233517
+      ],
+      "perish_m5_L2_cv2_f0": [
+        13.130701457933085,
+        13.169006340107938,
+        0.7015887636127599,
+        0.5518922792213227,
+        0.6923069979642446,
+        6.062221115193996,
+        0.8635277127694508,
+        1.4306309207511905,
+        1.2686119457245884,
+        0.34218888139410986
+      ],
+      "perish_m5_L2_cv2_f0.5": [
+        5.78166490223753,
+        13.10220631160877,
+        0.19432202969991352,
+        1.6436576737759037,
+        0.6019599929286735,
+        2.618300936265077,
+        0.383483504976587,
+        1.3242627665126914,
+        -2.133893695536304,
+        1.7327541150951378
+      ]
+    },
+    "structure_sha256": "fe406bdd40cad429001b4c0965b8b0ec24f02c9451a9caffc7d10b4786fb1158"
+  },
+  "choices": [
+    {
+      "code": "def compute_order_amount(age, pipeline, mu, cv, f, L):\n    S = 10.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":10.0,\"min\":0.0,\"max\":60.0}\n    C = 6.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":6.0,\"min\":0.0,\"max\":30.0}\n    a = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":3.0}\n    effective = 0.0\n    for i in range(len(age)):\n        effective = effective + age[i]*min(1.0,((i+1.0)/len(age))**a)\n    return max(0.0,min(C,S-effective-sum(pipeline)))\n",
+      "origin": "common_baseline:age_discount",
+      "validation": 1.0002549128661475,
+      "train_score": 1.0,
+      "train_theta": {
+        "perish_m3_L2_cv1.5_f0": [
+          37.00246970889457,
+          3.364727661832859,
+          1.8513005002865002
+        ],
+        "perish_m3_L2_cv1.5_f0.5": [
+          10.485371228430214,
+          3.7786378793562676,
+          2.1629712308392426
+        ],
+        "perish_m3_L2_cv2_f0": [
+          8.364894650130452,
+          2.8905768917510066,
+          2.07749642527094
+        ],
+        "perish_m3_L2_cv2_f0.5": [
+          10.092646662843695,
+          3.204119560795405,
+          0.8755255880969515
+        ],
+        "perish_m5_L2_cv1.5_f0": [
+          13.53090899674844,
+          16.611595077144273,
+          0.43471226549731545
+        ],
+        "perish_m5_L2_cv1.5_f0.5": [
+          13.938470294270381,
+          5.289202833486536,
+          1.3414026291246284
+        ],
+        "perish_m5_L2_cv2_f0": [
+          11.660517421776394,
+          6.199760833041662,
+          0.5324349925269172
+        ],
+        "perish_m5_L2_cv2_f0.5": [
+          11.49305626964916,
+          4.862628709010522,
+          1.0025122517002927
+        ]
+      },
+      "structure_sha256": "a1b0ebc321b761ae22824b3e92851628015388b4655bbab8275e5e5560198f5a"
+    },
+    {
+      "code": "def compute_order_amount(age, pipeline, mu, cv, f, L):\n    S = 10.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":10.0,\"min\":0.0,\"max\":60.0}\n    C = 6.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":6.0,\"min\":0.0,\"max\":30.0}\n    D = 0.75 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.75,\"min\":0.0,\"max\":2.5}\n    A = 1.5 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.5,\"min\":0.0,\"max\":8.0}\n    W0 = 0.1 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.1,\"min\":0.0,\"max\":1.0}\n    K = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":2.0}\n    R = 0.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.0,\"min\":-2.0,\"max\":2.0}\n\n    m = len(age)\n    mf = f * mu\n    ml = (1.0 - f) * mu\n\n    rhof = 0.0\n    condf = 0.0\n    if mf > 0.0:\n        vf = f * (mu * cv) * (mu * cv)\n        af = vf / (mf * mf) - 1.0 / mf\n        sf = max(0.0, af * af - 1.0) ** 0.5\n        bf = 1.0 + af + sf\n        cf = 1.0 + af - sf\n        wf = 1.0 / bf\n        pf1 = 2.0 / (2.0 + mf * bf)\n        pf2 = 2.0 / (2.0 + mf * cf)\n        p0f = wf * pf1 + (1.0 - wf) * pf2\n        rhof = max(0.0, min(1.0, 1.0 - p0f))\n        if rhof > 0.0:\n            condf = mf / rhof\n\n    rhol = 0.0\n    condl = 0.0\n    if ml > 0.0:\n        vl = (1.0 - f) * (mu * cv) * (mu * cv)\n        al = vl / (ml * ml) - 1.0 / ml\n        sl = max(0.0, al * al - 1.0) ** 0.5\n        bl = 1.0 + al + sl\n        cl = 1.0 + al - sl\n        wl = 1.0 / bl\n        pl1 = 2.0 / (2.0 + ml * bl)\n        pl2 = 2.0 / (2.0 + ml * cl)\n        p0l = wl * pl1 + (1.0 - wl) * pl2\n        rhol = max(0.0, min(1.0, 1.0 - p0l))\n        if rhol > 0.0:\n            condl = ml / rhol\n\n    mean_effective = 0.0\n    second_effective = 0.0\n    scenarios = 1 << (2 * L)\n\n    for s in range(scenarios):\n        x = [0.0] * m\n        for i in range(m):\n            x[i] = age[i]\n\n        probability = 1.0\n\n        for t in range(L):\n            if t > 0 and t - 1 < len(pipeline):\n                x[m - 1] = x[m - 1] + pipeline[t - 1]\n\n            fifo_active = (s >> (2 * t)) & 1\n            lifo_active = (s >> (2 * t + 1)) & 1\n\n            if fifo_active == 1:\n                probability = probability * rhof\n                fifo_demand = D * condf\n            else:\n                probability = probability * (1.0 - rhof)\n                fifo_demand = 0.0\n\n            if lifo_active == 1:\n                probability = probability * rhol\n                lifo_demand = D * condl\n            else:\n                probability = probability * (1.0 - rhol)\n                lifo_demand = 0.0\n\n            remaining = fifo_demand\n            for i in range(m):\n                take = min(x[i], remaining)\n                x[i] = x[i] - take\n                remaining = remaining - take\n\n            remaining = lifo_demand\n            for j in range(m):\n                i = m - 1 - j\n                take = min(x[i], remaining)\n                x[i] = x[i] - take\n                remaining = remaining - take\n\n            for i in range(m - 1):\n                x[i] = x[i + 1]\n            x[m - 1] = 0.0\n\n        effective = 0.0\n        for i in range(m):\n            relative_life = (i + 1.0) / m\n            weight = W0 + (1.0 - W0) * (relative_life ** A)\n            effective = effective + weight * x[i]\n\n        mean_effective = mean_effective + probability * effective\n        second_effective = second_effective + probability * effective * effective\n\n    variance_effective = max(0.0, second_effective - mean_effective * mean_effective)\n    deviation_effective = variance_effective ** 0.5\n    raw_order = S - K * mean_effective - R * deviation_effective\n    return max(0.0, min(C, raw_order))\n",
+      "origin": "search/evolution_r2/candidate_00_0",
+      "validation": 0.9950193486890949,
+      "train_score": 0.995663948047149,
+      "train_theta": {
+        "perish_m3_L2_cv1.5_f0": [
+          35.35056177985107,
+          2.8765162295124718,
+          1.15946121148677,
+          6.900460932997443,
+          0.7877328074335627,
+          0.1542731138483988,
+          0.9102669357850517
+        ],
+        "perish_m3_L2_cv1.5_f0.5": [
+          4.8592453552275146,
+          23.989727661832866,
+          0.7040791424100279,
+          3.9385582455454062,
+          0.5750668247799581,
+          0.4816899496287048,
+          0.6809401961479944
+        ],
+        "perish_m3_L2_cv2_f0": [
+          2.6512726822047554,
+          3.253050742640605,
+          0.3325258017291053,
+          2.3047079915382715,
+          0.5744215292668151,
+          0.8742310807407321,
+          -1.7058120945979263
+        ],
+        "perish_m3_L2_cv2_f0.5": [
+          4.322038828662574,
+          3.3892075371211092,
+          0.36182296216306065,
+          5.34716476579335,
+          0.2987132108739091,
+          1.831006908795179,
+          0.45190723408877975
+        ],
+        "perish_m5_L2_cv1.5_f0": [
+          13.769606930735936,
+          28.745346957258246,
+          0.1497208497163942,
+          6.931403430700078,
+          0.9694107961348576,
+          1.4852340455322335,
+          0.580769870485915
+        ],
+        "perish_m5_L2_cv1.5_f0.5": [
+          7.963379619060142,
+          4.553861322297193,
+          0.29896235830670803,
+          5.829968754263368,
+          0.561593355888621,
+          0.8935755106041579,
+          -1.0237048568496725
+        ],
+        "perish_m5_L2_cv2_f0": [
+          13.266108473434205,
+          26.35667566095792,
+          0.3028601365616539,
+          5.55942804040676,
+          0.9575174700573574,
+          1.7234009490520867,
+          0.8698743340413784
+        ],
+        "perish_m5_L2_cv2_f0.5": [
+          7.079367869893751,
+          5.116755638673565,
+          1.2771114625060158,
+          1.0533417344796376,
+          0.5647178387929893,
+          0.9685927581345667,
+          1.294668294441513
+        ]
+      },
+      "structure_sha256": "7c5de96dbc56ebfbd290f6e833cedc22cf24f7a3c27bd5b6499a8f4dda007c58"
+    },
+    {
+      "code": "def compute_order_amount(age, pipeline, mu, cv, f, L):\n    S = 10.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":10.0,\"min\":0.0,\"max\":60.0}\n    C = 6.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":6.0,\"min\":0.0,\"max\":30.0}\n    D = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.4,\"max\":1.8}\n    A = 1.5 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.5,\"min\":0.0,\"max\":8.0}\n    W0 = 0.1 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.1,\"min\":0.0,\"max\":1.0}\n    K = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":2.5}\n    R = 0.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.0,\"min\":-3.0,\"max\":3.0}\n\n    m = len(age)\n    mf = f * mu\n    ml = (1.0 - f) * mu\n\n    fprob = [1.0, 0.0, 0.0]\n    fp = [1.0, 1.0, 1.0]\n    if mf > 0.0:\n        vf = f * (mu * cv) * (mu * cv)\n        af = vf / (mf * mf) - 1.0 / mf\n        sf = max(0.0, af * af - 1.0) ** 0.5\n        bf = 1.0 + af + sf\n        cf = 1.0 + af - sf\n        wf = 1.0 / bf\n        pf1 = 2.0 / (2.0 + mf * bf)\n        pf2 = 2.0 / (2.0 + mf * cf)\n        fprob[0] = wf * pf1 + (1.0 - wf) * pf2\n        fprob[1] = wf * (1.0 - pf1)\n        fprob[2] = (1.0 - wf) * (1.0 - pf2)\n        fp[1] = pf1\n        fp[2] = pf2\n\n    lprob = [1.0, 0.0, 0.0]\n    lp = [1.0, 1.0, 1.0]\n    if ml > 0.0:\n        vl = (1.0 - f) * (mu * cv) * (mu * cv)\n        al = vl / (ml * ml) - 1.0 / ml\n        sl = max(0.0, al * al - 1.0) ** 0.5\n        bl = 1.0 + al + sl\n        cl = 1.0 + al - sl\n        wl = 1.0 / bl\n        pl1 = 2.0 / (2.0 + ml * bl)\n        pl2 = 2.0 / (2.0 + ml * cl)\n        lprob[0] = wl * pl1 + (1.0 - wl) * pl2\n        lprob[1] = wl * (1.0 - pl1)\n        lprob[2] = (1.0 - wl) * (1.0 - pl2)\n        lp[1] = pl1\n        lp[2] = pl2\n\n    mean_effective = 0.0\n    second_effective = 0.0\n    scenarios = 3 ** (2 * L)\n\n    for s in range(scenarios):\n        x = [0.0] * m\n        for i in range(m):\n            x[i] = age[i]\n\n        code = s\n        probability = 1.0\n\n        for t in range(L):\n            if t > 0 and t - 1 < len(pipeline):\n                x[m - 1] = x[m - 1] + pipeline[t - 1]\n\n            fifo_state = code % 3\n            code = code // 3\n            lifo_state = code % 3\n            code = code // 3\n\n            probability = probability * fprob[fifo_state] * lprob[lifo_state]\n\n            if fifo_state > 0:\n                stock = 0.0\n                for i in range(m):\n                    stock = stock + x[i]\n                pnow = fp[fifo_state]\n                fifo_demand = D * (1.0 - (1.0 - pnow) ** stock) / pnow\n                remaining = fifo_demand\n                for i in range(m):\n                    take = min(x[i], remaining)\n                    x[i] = x[i] - take\n                    remaining = remaining - take\n\n            if lifo_state > 0:\n                stock = 0.0\n                for i in range(m):\n                    stock = stock + x[i]\n                pnow = lp[lifo_state]\n                lifo_demand = D * (1.0 - (1.0 - pnow) ** stock) / pnow\n                remaining = lifo_demand\n                for j in range(m):\n                    i = m - 1 - j\n                    take = min(x[i], remaining)\n                    x[i] = x[i] - take\n                    remaining = remaining - take\n\n            for i in range(m - 1):\n                x[i] = x[i + 1]\n            x[m - 1] = 0.0\n\n        if probability > 0.0:\n            effective = 0.0\n            for i in range(m):\n                relative_life = (i + 1.0) / m\n                weight = W0 + (1.0 - W0) * (relative_life ** A)\n                effective = effective + weight * x[i]\n            mean_effective = mean_effective + probability * effective\n            second_effective = second_effective + probability * effective * effective\n\n    variance_effective = max(\n        0.0, second_effective - mean_effective * mean_effective\n    )\n    deviation_effective = variance_effective ** 0.5\n    raw_order = S - K * mean_effective - R * deviation_effective\n    return max(0.0, min(C, raw_order))\n",
+      "origin": "search/evolution_r2/candidate_01_0",
+      "validation": 0.9950622430873468,
+      "train_score": 0.9959960264997672,
+      "train_theta": {
+        "perish_m3_L2_cv1.5_f0": [
+          6.126490165946201,
+          4.714478732852113,
+          0.5068442638691745,
+          3.8026789603978526,
+          0.5443647971889055,
+          0.8460379501873626,
+          1.9963549357841257
+        ],
+        "perish_m3_L2_cv1.5_f0.5": [
+          35.35056177985107,
+          2.8765162295124718,
+          1.049298278432591,
+          6.900460932997443,
+          0.7877328074335627,
+          0.19284139231049857,
+          1.3654004036775775
+        ],
+        "perish_m3_L2_cv2_f0": [
+          35.35056177985107,
+          2.8765162295124718,
+          1.049298278432591,
+          6.900460932997443,
+          0.7877328074335627,
+          0.19284139231049857,
+          1.3654004036775775
+        ],
+        "perish_m3_L2_cv2_f0.5": [
+          4.807576550508408,
+          5.962163453087351,
+          1.1708577963316942,
+          4.92342476452622,
+          0.5860608274436174,
+          1.304738397554701,
+          0.5068302450539168
+        ],
+        "perish_m5_L2_cv1.5_f0": [
+          17.806588098323395,
+          14.904023971980768,
+          0.5847462713217505,
+          5.011034877149302,
+          0.9521875230269451,
+          1.774337242488876,
+          2.4217748403138413
+        ],
+        "perish_m5_L2_cv1.5_f0.5": [
+          7.834688785061651,
+          12.358160122941985,
+          1.0537119332642353,
+          5.566658133195419,
+          0.2954444341866366,
+          1.8173382312206816,
+          0.4081366390540704
+        ],
+        "perish_m5_L2_cv2_f0": [
+          14.439118067250332,
+          14.188303289935241,
+          0.6253695368851528,
+          6.394895273419406,
+          0.8145382615590433,
+          2.190889449606371,
+          0.9245194108107415
+        ],
+        "perish_m5_L2_cv2_f0.5": [
+          4.504146371638317,
+          16.037150685400462,
+          1.322580224861584,
+          2.801743045179313,
+          0.8721578947512301,
+          1.694602427610389,
+          -1.5992610663256106
+        ]
+      },
+      "structure_sha256": "8bf37cbff6d417ec671e140bf52170740f384073b569674ca0e745a90b7e56b9"
+    },
+    {
+      "code": "def compute_order_amount(age, pipeline, mu, cv, f, L):\n    S = 10.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":10.0,\"min\":0.0,\"max\":60.0}\n    C = 6.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":6.0,\"min\":0.0,\"max\":30.0}\n    DF = 0.75 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.75,\"min\":0.0,\"max\":2.5}\n    DL = 0.75 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.75,\"min\":0.0,\"max\":2.5}\n    A = 1.5 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.5,\"min\":0.0,\"max\":8.0}\n    W0 = 0.1 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.1,\"min\":0.0,\"max\":1.5}\n    K = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":3.0}\n    R = 0.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.0,\"min\":-3.0,\"max\":3.0}\n    G = 0.2 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.2,\"min\":0.0,\"max\":1.0}\n\n    m = len(age)\n    mf = f * mu\n    ml = (1.0 - f) * mu\n\n    rhof = 0.0\n    condf = 0.0\n    if mf > 0.0:\n        vf = f * (mu * cv) * (mu * cv)\n        af = vf / (mf * mf) - 1.0 / mf\n        sf = max(0.0, af * af - 1.0) ** 0.5\n        bf = 1.0 + af + sf\n        cf = 1.0 + af - sf\n        wf = 1.0 / bf\n        pf1 = 2.0 / (2.0 + mf * bf)\n        pf2 = 2.0 / (2.0 + mf * cf)\n        p0f = wf * pf1 + (1.0 - wf) * pf2\n        rhof = max(0.0, min(1.0, 1.0 - p0f))\n        if rhof > 0.0:\n            condf = mf / rhof\n\n    rhol = 0.0\n    condl = 0.0\n    if ml > 0.0:\n        vl = (1.0 - f) * (mu * cv) * (mu * cv)\n        al = vl / (ml * ml) - 1.0 / ml\n        sl = max(0.0, al * al - 1.0) ** 0.5\n        bl = 1.0 + al + sl\n        cl = 1.0 + al - sl\n        wl = 1.0 / bl\n        pl1 = 2.0 / (2.0 + ml * bl)\n        pl2 = 2.0 / (2.0 + ml * cl)\n        p0l = wl * pl1 + (1.0 - wl) * pl2\n        rhol = max(0.0, min(1.0, 1.0 - p0l))\n        if rhol > 0.0:\n            condl = ml / rhol\n\n    mean_credit = 0.0\n    second_credit = 0.0\n    mean_gap = 0.0\n    scenarios = 1 << (2 * L)\n\n    for s in range(scenarios):\n        x = [0.0] * m\n        for i in range(m):\n            x[i] = age[i]\n\n        probability = 1.0\n\n        for t in range(L):\n            if t > 0 and t - 1 < len(pipeline):\n                x[m - 1] = x[m - 1] + pipeline[t - 1]\n\n            fifo_active = (s >> (2 * t)) & 1\n            lifo_active = (s >> (2 * t + 1)) & 1\n\n            if fifo_active == 1:\n                probability = probability * rhof\n                fifo_demand = DF * condf\n            else:\n                probability = probability * (1.0 - rhof)\n                fifo_demand = 0.0\n\n            if lifo_active == 1:\n                probability = probability * rhol\n                lifo_demand = DL * condl\n            else:\n                probability = probability * (1.0 - rhol)\n                lifo_demand = 0.0\n\n            remaining = fifo_demand\n            for i in range(m):\n                take = min(x[i], remaining)\n                x[i] = x[i] - take\n                remaining = remaining - take\n\n            remaining = lifo_demand\n            for j in range(m):\n                i = m - 1 - j\n                take = min(x[i], remaining)\n                x[i] = x[i] - take\n                remaining = remaining - take\n\n            for i in range(m - 1):\n                x[i] = x[i + 1]\n            x[m - 1] = 0.0\n\n        effective = 0.0\n        for i in range(m):\n            relative_life = (i + 1.0) / m\n            weight = W0 + (1.0 - W0) * (relative_life ** A)\n            effective = effective + weight * x[i]\n\n        credit = K * effective\n        gap = max(0.0, S - credit)\n        mean_credit = mean_credit + probability * credit\n        second_credit = second_credit + probability * credit * credit\n        mean_gap = mean_gap + probability * gap\n\n    variance_credit = max(\n        0.0, second_credit - mean_credit * mean_credit\n    )\n    deviation_credit = variance_credit ** 0.5\n    linear_gap = S - mean_credit\n    convex_adjustment = max(0.0, mean_gap - max(0.0, linear_gap))\n    raw_order = linear_gap + G * convex_adjustment - R * deviation_credit\n\n    return max(0.0, min(C, raw_order))\n",
+      "origin": "search/evolution_r2/candidate_03_0",
+      "validation": 0.9965962505831808,
+      "train_score": 0.996437624901022,
+      "train_theta": {
+        "perish_m3_L2_cv1.5_f0": [
+          47.74721432491302,
+          2.6240982104653394,
+          2.094203440143877,
+          2.106717601118068,
+          3.6733607315887395,
+          0.04373657427159072,
+          1.4925052438649804,
+          2.5329878224547713,
+          0.17272465201652587
+        ],
+        "perish_m3_L2_cv1.5_f0.5": [
+          47.74721432491302,
+          2.6240982104653394,
+          2.094203440143877,
+          2.106717601118068,
+          3.6733607315887395,
+          0.04373657427159072,
+          1.4925052438649804,
+          2.5329878224547713,
+          0.17272465201652587
+        ],
+        "perish_m3_L2_cv2_f0": [
+          8.795950323169755,
+          7.046343589583545,
+          2.470413804185916,
+          2.4572904738983836,
+          6.384234487439759,
+          1.225426600447113,
+          2.904082624670881,
+          1.9781464747512367,
+          0.7057448565559268
+        ],
+        "perish_m3_L2_cv2_f0.5": [
+          4.184738767020775,
+          2.9698354557420004,
+          0.24541330996649924,
+          0.770906581185528,
+          1.9450138601972133,
+          1.2110659039092986,
+          0.4062952693996982,
+          0.6376401345787241,
+          0.745600925043959
+        ],
+        "perish_m5_L2_cv1.5_f0": [
+          30.623915712209822,
+          14.844163448768047,
+          1.2169665748779621,
+          1.1503203591768572,
+          5.269723422520654,
+          1.4433147409148304,
+          2.3274347869716556,
+          2.1406528142939845,
+          0.3785400465118092
+        ],
+        "perish_m5_L2_cv1.5_f0.5": [
+          7.142051951184303,
+          21.003022625029544,
+          2.3632401778229513,
+          1.8369355921615487,
+          4.301707582216595,
+          1.0515680058571921,
+          1.55520217497296,
+          0.48593570552392196,
+          0.6890507235411826
+        ],
+        "perish_m5_L2_cv2_f0": [
+          12.889461664337784,
+          16.613535328084712,
+          1.0305053080377093,
+          0.34559567317690276,
+          3.6850856819551367,
+          1.106865534589472,
+          2.934856045755254,
+          -0.7876982754101379,
+          0.3567405998186292
+        ],
+        "perish_m5_L2_cv2_f0.5": [
+          10.1918530554305,
+          2.7531359540253604,
+          0.8893503905797622,
+          1.0119801561659063,
+          0.9458746907098332,
+          0.730851411003234,
+          1.1256110121240397,
+          1.38650847952422,
+          0.05426378438460022
+        ]
+      },
+      "structure_sha256": "6b994e42c1b9aed7d19fbdcc64c765b3d52f72291b35d632d3bec9a796178250"
+    },
+    {
+      "code": "def compute_order_amount(age, pipeline, mu, cv, f, L):\n    S = 10.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":10.0,\"min\":0.0,\"max\":60.0}\n    C = 6.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":6.0,\"min\":0.0,\"max\":30.0}\n    D = 0.75 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.75,\"min\":0.0,\"max\":2.5}\n    H = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":2.0}\n    ALPHA = 0.85 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.85,\"min\":0.55,\"max\":0.98}\n    A = 1.5 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.5,\"min\":0.0,\"max\":8.0}\n    W0 = 0.1 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.1,\"min\":0.0,\"max\":1.0}\n    K = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":3.0}\n    R = 0.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.0,\"min\":-3.0,\"max\":3.0}\n    G = 0.1 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.1,\"min\":0.0,\"max\":2.0}\n\n    m = len(age)\n    mf = f * mu\n    ml = (1.0 - f) * mu\n\n    fprob = [1.0, 0.0, 0.0]\n    fdem = [0.0, 0.0, 0.0]\n    if mf > 0.0:\n        vf = f * (mu * cv) * (mu * cv)\n        af = vf / (mf * mf) - 1.0 / mf\n        sf = max(0.0, af * af - 1.0) ** 0.5\n        bf = 1.0 + af + sf\n        cf = 1.0 + af - sf\n        wf = 1.0 / bf\n        pf1 = 2.0 / (2.0 + mf * bf)\n        pf2 = 2.0 / (2.0 + mf * cf)\n        p0f = wf * pf1 + (1.0 - wf) * pf2\n        rhof = max(0.0, min(1.0, 1.0 - p0f))\n        if rhof > 0.0:\n            condf = mf / rhof\n            secondf = (vf + mf * mf) / rhof\n            varcondf = max(0.0, secondf - condf * condf)\n            sdcondf = varcondf ** 0.5\n            ratio_low = ((1.0 - ALPHA) / ALPHA) ** 0.5\n            lowf = max(0.0, condf - H * sdcondf * ratio_low)\n            highf = max(0.0, (condf - ALPHA * lowf) / (1.0 - ALPHA))\n            fprob[0] = 1.0 - rhof\n            fprob[1] = rhof * ALPHA\n            fprob[2] = rhof * (1.0 - ALPHA)\n            fdem[1] = D * lowf\n            fdem[2] = D * highf\n\n    lprob = [1.0, 0.0, 0.0]\n    ldem = [0.0, 0.0, 0.0]\n    if ml > 0.0:\n        vl = (1.0 - f) * (mu * cv) * (mu * cv)\n        al = vl / (ml * ml) - 1.0 / ml\n        sl = max(0.0, al * al - 1.0) ** 0.5\n        bl = 1.0 + al + sl\n        cl = 1.0 + al - sl\n        wl = 1.0 / bl\n        pl1 = 2.0 / (2.0 + ml * bl)\n        pl2 = 2.0 / (2.0 + ml * cl)\n        p0l = wl * pl1 + (1.0 - wl) * pl2\n        rhol = max(0.0, min(1.0, 1.0 - p0l))\n        if rhol > 0.0:\n            condl = ml / rhol\n            secondl = (vl + ml * ml) / rhol\n            varcondl = max(0.0, secondl - condl * condl)\n            sdcondl = varcondl ** 0.5\n            ratio_low = ((1.0 - ALPHA) / ALPHA) ** 0.5\n            lowl = max(0.0, condl - H * sdcondl * ratio_low)\n            highl = max(0.0, (condl - ALPHA * lowl) / (1.0 - ALPHA))\n            lprob[0] = 1.0 - rhol\n            lprob[1] = rhol * ALPHA\n            lprob[2] = rhol * (1.0 - ALPHA)\n            ldem[1] = D * lowl\n            ldem[2] = D * highl\n\n    mean_credit = 0.0\n    second_credit = 0.0\n    mean_gap = 0.0\n    scenarios = 3 ** (2 * L)\n\n    for s in range(scenarios):\n        x = [0.0] * m\n        for i in range(m):\n            x[i] = age[i]\n\n        code = s\n        probability = 1.0\n\n        for t in range(L):\n            if t > 0 and t - 1 < len(pipeline):\n                x[m - 1] = x[m - 1] + pipeline[t - 1]\n\n            fifo_state = code % 3\n            code = code // 3\n            lifo_state = code % 3\n            code = code // 3\n\n            probability = probability * fprob[fifo_state] * lprob[lifo_state]\n\n            if probability > 0.0:\n                remaining = fdem[fifo_state]\n                for i in range(m):\n                    take = min(x[i], remaining)\n                    x[i] = x[i] - take\n                    remaining = remaining - take\n\n                remaining = ldem[lifo_state]\n                for j in range(m):\n                    i = m - 1 - j\n                    take = min(x[i], remaining)\n                    x[i] = x[i] - take\n                    remaining = remaining - take\n\n            for i in range(m - 1):\n                x[i] = x[i + 1]\n            x[m - 1] = 0.0\n\n        if probability > 0.0:\n            effective = 0.0\n            for i in range(m):\n                relative_life = (i + 1.0) / m\n                weight = W0 + (1.0 - W0) * (relative_life ** A)\n                effective = effective + weight * x[i]\n\n            credit = K * effective\n            gap = max(0.0, S - credit)\n            mean_credit = mean_credit + probability * credit\n            second_credit = second_credit + probability * credit * credit\n            mean_gap = mean_gap + probability * gap\n\n    variance_credit = max(\n        0.0, second_credit - mean_credit * mean_credit\n    )\n    deviation_credit = variance_credit ** 0.5\n    linear_gap = S - mean_credit\n    convex_adjustment = max(\n        0.0, mean_gap - max(0.0, linear_gap)\n    )\n    raw_order = linear_gap + G * convex_adjustment - R * deviation_credit\n\n    return max(0.0, min(C, raw_order))\n",
+      "origin": "search/evolution_r2/candidate_06_0",
+      "validation": 0.9936389486676405,
+      "train_score": 0.9938895620804619,
+      "train_theta": {
+        "perish_m3_L2_cv1.5_f0": [
+          21.42067643435619,
+          2.904175542715155,
+          0.9072758909824532,
+          0.4492483602321955,
+          0.9735593472231552,
+          5.175237589916609,
+          0.4857601189952192,
+          0.9612329858839583,
+          0.8338634579231217,
+          1.6503533535293617
+        ],
+        "perish_m3_L2_cv1.5_f0.5": [
+          21.42067643435619,
+          2.904175542715155,
+          0.9072758909824532,
+          0.4492483602321955,
+          0.9735593472231552,
+          5.175237589916609,
+          0.4857601189952192,
+          0.9612329858839583,
+          0.8338634579231217,
+          1.6503533535293617
+        ],
+        "perish_m3_L2_cv2_f0": [
+          5.817321415099553,
+          3.331064649255259,
+          1.8030911282115416,
+          1.201281426027111,
+          0.7552788463426533,
+          6.899475187256955,
+          0.8841679316014495,
+          0.9064028837756766,
+          0.07209187610424861,
+          1.5977569012572275
+        ],
+        "perish_m3_L2_cv2_f0.5": [
+          5.601528127086112,
+          9.800574123232604,
+          1.7692926138066611,
+          0.38515777744167745,
+          0.7919114019582895,
+          3.4362538137396204,
+          0.4297716049644301,
+          1.6734694723136858,
+          1.435286037556701,
+          1.8003887906098903
+        ],
+        "perish_m5_L2_cv1.5_f0": [
+          17.942573186279787,
+          15.22323646041617,
+          0.7468823473790466,
+          0.8432139293663875,
+          0.7499523873570908,
+          3.4823395828172146,
+          0.8651901518978532,
+          1.8981072978766285,
+          1.2188298069745782,
+          0.9591357097758875
+        ],
+        "perish_m5_L2_cv1.5_f0.5": [
+          7.7443142714206985,
+          20.10511168119921,
+          0.9634960794260858,
+          0.5392604541973104,
+          0.8794529586006701,
+          7.756093698057253,
+          0.15943564982416836,
+          1.9058171329248648,
+          1.5645870477278014,
+          1.8426609871233517
+        ],
+        "perish_m5_L2_cv2_f0": [
+          13.130701457933085,
+          13.169006340107938,
+          0.7015887636127599,
+          0.5518922792213227,
+          0.6923069979642446,
+          6.062221115193996,
+          0.8635277127694508,
+          1.4306309207511905,
+          1.2686119457245884,
+          0.34218888139410986
+        ],
+        "perish_m5_L2_cv2_f0.5": [
+          5.78166490223753,
+          13.10220631160877,
+          0.19432202969991352,
+          1.6436576737759037,
+          0.6019599929286735,
+          2.618300936265077,
+          0.383483504976587,
+          1.3242627665126914,
+          -2.133893695536304,
+          1.7327541150951378
+        ]
+      },
+      "structure_sha256": "fe406bdd40cad429001b4c0965b8b0ec24f02c9451a9caffc7d10b4786fb1158"
+    }
+  ]
+}

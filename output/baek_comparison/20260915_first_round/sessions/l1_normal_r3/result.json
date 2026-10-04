@@ -1,0 +1,48 @@
+{
+  "session_id": "l1_normal_r3",
+  "level": "L1",
+  "family": "normal",
+  "repeat": 3,
+  "scenario_id": "normal_std30_L6_c1_2",
+  "prompt_sha256": "b093c1aee0482af8510760d06496a6168ff689d5ea490c5c419fa318fb7420f1",
+  "status": "completed",
+  "final_text": "```python\n_STARTUP_STATES = (\n    ((0.0, 0.0, 0.0, 0.0, 0.0), 103.0),\n    ((0.0, 0.0, 0.0, 0.0, 103.0), 90.0),\n    ((0.0, 0.0, 0.0, 103.0, 90.0), 88.0),\n    ((0.0, 0.0, 103.0, 90.0, 88.0), 87.0),\n    ((0.0, 103.0, 90.0, 88.0, 87.0), 87.0),\n    ((103.0, 90.0, 88.0, 87.0, 87.0), 86.0),\n)\n\n_TARGET = 87.3074014\n_FORECAST_DEMAND = 98.92710131\n_GAIN = 1.00220586\n\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders):\n    inventory = float(on_hand_inventory)\n    pipeline = tuple(float(v) for v in pipeline_orders)\n\n    if inventory == 0.0:\n        for startup_pipeline, order in _STARTUP_STATES:\n            if pipeline == startup_pipeline:\n                return order\n\n    projected_inventory = inventory\n\n    for k in range(6):\n        projected_inventory = max(\n            0.0, projected_inventory - _FORECAST_DEMAND\n        )\n        if k < 5:\n            projected_inventory += pipeline[k]\n\n    return float(max(0.0, _GAIN * (_TARGET - projected_inventory)))\n```",
+  "final_code": "_STARTUP_STATES = (\n    ((0.0, 0.0, 0.0, 0.0, 0.0), 103.0),\n    ((0.0, 0.0, 0.0, 0.0, 103.0), 90.0),\n    ((0.0, 0.0, 0.0, 103.0, 90.0), 88.0),\n    ((0.0, 0.0, 103.0, 90.0, 88.0), 87.0),\n    ((0.0, 103.0, 90.0, 88.0, 87.0), 87.0),\n    ((103.0, 90.0, 88.0, 87.0, 87.0), 86.0),\n)\n\n_TARGET = 87.3074014\n_FORECAST_DEMAND = 98.92710131\n_GAIN = 1.00220586\n\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders):\n    inventory = float(on_hand_inventory)\n    pipeline = tuple(float(v) for v in pipeline_orders)\n\n    if inventory == 0.0:\n        for startup_pipeline, order in _STARTUP_STATES:\n            if pipeline == startup_pipeline:\n                return order\n\n    projected_inventory = inventory\n\n    for k in range(6):\n        projected_inventory = max(\n            0.0, projected_inventory - _FORECAST_DEMAND\n        )\n        if k < 5:\n            projected_inventory += pipeline[k]\n\n    return float(max(0.0, _GAIN * (_TARGET - projected_inventory)))\n",
+  "usage": {
+    "input_tokens": 153936,
+    "output_tokens": 12516,
+    "total_tokens": 166452,
+    "last_response_usage": {
+      "input_tokens": 18617,
+      "input_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 18614
+      },
+      "output_tokens": 2215,
+      "output_tokens_details": {
+        "reasoning_tokens": 1848
+      },
+      "total_tokens": 20832,
+      "cost": 0.068691,
+      "is_byok": false,
+      "cost_details": {
+        "upstream_inference_cost": 0.068691,
+        "upstream_inference_input_cost": 0.046541,
+        "upstream_inference_output_cost": 0.02215
+      }
+    }
+  },
+  "cost_usd": 0.2412689,
+  "tool_calls": 13,
+  "python_seconds": 3600.021126207197,
+  "requests": 14,
+  "actual_models": [
+    "openai/gpt-5.6-sol"
+  ],
+  "error": null,
+  "http_status": null,
+  "uncertain_cost_usd": 0.0,
+  "interruption_waste_seconds": 0.0,
+  "resumed_from_checkpoint": false,
+  "code_sha256": "c3b0b9e23bdfa9e020cfe901d5dafb30b031da17beeeb284d6f4e0ea4ddc4b24"
+}

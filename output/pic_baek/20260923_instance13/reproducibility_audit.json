@@ -1,0 +1,145 @@
+{
+  "status": "passed",
+  "sessions": [
+    {
+      "session": "l1_main",
+      "generation_status": "completed",
+      "scoring_status": "valid",
+      "requests": 15,
+      "responses": 15,
+      "tool_calls": 14,
+      "python_seconds": 419.54337333189324,
+      "confirmed_cost_usd": 0.3546604
+    },
+    {
+      "session": "l2_main",
+      "generation_status": "completed",
+      "scoring_status": "valid",
+      "requests": 9,
+      "responses": 9,
+      "tool_calls": 8,
+      "python_seconds": 329.89294912456535,
+      "confirmed_cost_usd": 0.31507140000000006
+    },
+    {
+      "session": "l2_repeat_01",
+      "generation_status": "completed",
+      "scoring_status": "valid",
+      "requests": 6,
+      "responses": 6,
+      "tool_calls": 5,
+      "python_seconds": 26.12312912615016,
+      "confirmed_cost_usd": 0.2188784
+    },
+    {
+      "session": "l2_repeat_02",
+      "generation_status": "completed",
+      "scoring_status": "valid",
+      "requests": 9,
+      "responses": 9,
+      "tool_calls": 8,
+      "python_seconds": 74.59647050034255,
+      "confirmed_cost_usd": 0.2545813
+    },
+    {
+      "session": "l2_repeat_03",
+      "generation_status": "completed",
+      "scoring_status": "valid",
+      "requests": 12,
+      "responses": 12,
+      "tool_calls": 12,
+      "python_seconds": 102.1348461669404,
+      "confirmed_cost_usd": 0.3076784
+    },
+    {
+      "session": "l2_repeat_04",
+      "generation_status": "completed",
+      "scoring_status": "valid",
+      "requests": 9,
+      "responses": 9,
+      "tool_calls": 8,
+      "python_seconds": 78.23772750003263,
+      "confirmed_cost_usd": 0.30360519999999996
+    },
+    {
+      "session": "l2_repeat_05",
+      "generation_status": "completed",
+      "scoring_status": "valid",
+      "requests": 10,
+      "responses": 9,
+      "tool_calls": 8,
+      "python_seconds": 208.79413737589493,
+      "confirmed_cost_usd": 0.2786657
+    },
+    {
+      "session": "l2_repeat_06",
+      "generation_status": "completed",
+      "scoring_status": "valid",
+      "requests": 8,
+      "responses": 8,
+      "tool_calls": 7,
+      "python_seconds": 40.43521883385256,
+      "confirmed_cost_usd": 0.2213405
+    },
+    {
+      "session": "l2_repeat_07",
+      "generation_status": "completed",
+      "scoring_status": "valid",
+      "requests": 8,
+      "responses": 8,
+      "tool_calls": 7,
+      "python_seconds": 237.57432274962775,
+      "confirmed_cost_usd": 0.2742811
+    },
+    {
+      "session": "l2_repeat_08",
+      "generation_status": "completed",
+      "scoring_status": "valid",
+      "requests": 6,
+      "responses": 6,
+      "tool_calls": 6,
+      "python_seconds": 24.34665937605314,
+      "confirmed_cost_usd": 0.2332841
+    },
+    {
+      "session": "l2_repeat_09",
+      "generation_status": "completed",
+      "scoring_status": "valid",
+      "requests": 8,
+      "responses": 8,
+      "tool_calls": 7,
+      "python_seconds": 102.69103833287954,
+      "confirmed_cost_usd": 0.3199584
+    },
+    {
+      "session": "l2_repeat_10",
+      "generation_status": "completed",
+      "scoring_status": "valid",
+      "requests": 8,
+      "responses": 8,
+      "tool_calls": 7,
+      "python_seconds": 108.33874787506647,
+      "confirmed_cost_usd": 0.30363190000000007
+    }
+  ],
+  "excel_matrix_sha256": "d3487d26a8340f1a7fbc410e6c563b3af6c67843167958b5a6bb63e11e61b278",
+  "all_saved_statistics_recomputed": true,
+  "frozen_prompts_policies_and_source_hashes_match": true,
+  "model_reasoning_and_output_caps_verified_per_request": true,
+  "no_api_key_in_output_artifacts": true,
+  "confirmed_plus_conservatively_retained_cost_usd": 4.3122248,
+  "unresolved_cost_records": [
+    {
+      "log": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/pic_baek/20260923_instance13/sessions/l2_repeat_05/events.jsonl",
+      "request_index": 5,
+      "reserved_usd": 0.926588,
+      "reason": "conservative_bound",
+      "blocks_resume": false,
+      "reconciled_for_resume": true,
+      "charge_resolution": "conservative_bound",
+      "actual_cost_usd": null,
+      "retained_cost_upper_usd": 0.926588,
+      "reconciliation_id": "pic-l2-repeat05-transport-01"
+    }
+  ]
+}

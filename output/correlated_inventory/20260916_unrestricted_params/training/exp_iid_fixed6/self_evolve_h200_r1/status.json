@@ -1,0 +1,23 @@
+{
+  "status": "completed",
+  "best_code_path": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_unrestricted_params/training/exp_iid_fixed6/self_evolve_h200_r1/policy.py",
+  "code_sha256": "5961d53acc5fec68b9d677cb22e7956bc9c646d4bc6071694879109330c20931",
+  "best_train_cost": 27540.41355082507,
+  "algorithm": "Increased base_stock to better handle high demand variability, increased demand_factor to be more responsive to recent demand, and added small smoothing to reduce order volatility while maintaining responsiveness.",
+  "checkpoint_path": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_unrestricted_params/training/exp_iid_fixed6/self_evolve_h200_r1/checkpoints/g010.json.gz",
+  "model_calls": 101,
+  "training_evaluations": 3014,
+  "training_cache_hits": 129,
+  "compiled_structures": 6,
+  "optimizer": "SciPy L-BFGS-B",
+  "optimizer_maxiter": 15,
+  "test_evaluated": false,
+  "scenario_id": "exp_iid_fixed6",
+  "policy_id": "self_evolve_h200_r1",
+  "family": "self_evolve",
+  "repeat": 1,
+  "source_training_horizon": 200,
+  "elapsed_seconds": 690.0266113330144,
+  "finished_utc": "2026-09-16T13:51:05.086987+00:00",
+  "full_protocol": true
+}

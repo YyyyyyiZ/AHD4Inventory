@@ -1,0 +1,32 @@
+{
+  "slug": "deepseek_flash",
+  "label": "DeepSeek V4.1 Flash (max thinking)",
+  "model": "deepseek-flash",
+  "role": "candidate",
+  "credentials_path": "/Users/fenghua/.config/ahd4inventory/deepseek_model_comparison_20260917.json",
+  "credential_indices": [
+    0,
+    0,
+    0
+  ],
+  "client": {
+    "client_id": "flash_g10_p10",
+    "endpoint": "https://api.deepseek.com/chat/completions",
+    "model": "deepseek-flash",
+    "pricing": {
+      "input_uncached_usd_per_million": "0.30",
+      "input_cached_usd_per_million": "0.006",
+      "output_usd_per_million": "1.20",
+      "estimate_is_upper_bound": true
+    },
+    "endpoint_confirmed": true,
+    "allowed_returned_models": [
+      "deepseek-flash"
+    ],
+    "thinking_enabled": true,
+    "reasoning_effort": "max",
+    "reasoning_parameter": "reasoning_effort",
+    "request_timeout_seconds": 600,
+    "max_output_tokens_limit": 65536
+  }
+}

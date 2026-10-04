@@ -1,0 +1,302 @@
+{
+  "results": {
+    "perish_m7_L2_cv1.5_f0": {
+      "theta": [
+        7.613815010079726,
+        40.84408473615427,
+        3.0609012168091714,
+        0.10202419468328472,
+        0.7729668271128691,
+        1.1181686968446216,
+        0.8828053460674598,
+        0.9986377279424216,
+        0.37542524812168776,
+        0.6989602560601602
+      ],
+      "cost": 141.946875,
+      "nfev": 1024,
+      "seconds": 88.50903133396059,
+      "path_costs": [
+        127.8,
+        135.6,
+        150.5,
+        141.1,
+        130.1,
+        143.1,
+        138.2,
+        154.5,
+        142.4,
+        128.8,
+        119.4,
+        138.8,
+        190.5,
+        167.9,
+        143.7,
+        136.3,
+        153.5,
+        137.2,
+        103.1,
+        168.3,
+        122.1,
+        157.4,
+        159.9,
+        141.5,
+        145.3,
+        137.1,
+        144.4,
+        138.2,
+        126.5,
+        139.1,
+        148.1,
+        131.9
+      ],
+      "metrics": [
+        0.46099999999999997,
+        0.9584687499999999,
+        3.4760624999999994
+      ],
+      "cap": 32
+    },
+    "perish_m7_L2_cv1.5_f0.5": {
+      "theta": [
+        13.019009132464998,
+        40.26870940217573,
+        0.775039911346667,
+        0.5247441485824194,
+        0.41750405607120483,
+        0.965338783484404,
+        0.6444510899414511,
+        0.8166875845265673,
+        0.777362335670144,
+        1.319815154833175
+      ],
+      "cost": 121.175,
+      "nfev": 1024,
+      "seconds": 155.1773909581825,
+      "path_costs": [
+        125.6,
+        126.4,
+        111.8,
+        114.4,
+        142.8,
+        109.6,
+        122.6,
+        106.1,
+        122.2,
+        117.7,
+        122.9,
+        116.9,
+        112.8,
+        113.5,
+        138.8,
+        126.3,
+        154.4,
+        115.1,
+        119.6,
+        117.8,
+        115.3,
+        119.7,
+        116.9,
+        127.8,
+        109.6,
+        126.2,
+        125.3,
+        136.0,
+        115.7,
+        115.1,
+        112.6,
+        120.1
+      ],
+      "metrics": [
+        0.40059375,
+        0.8111562500000001,
+        3.6007499999999992
+      ],
+      "cap": 32
+    },
+    "perish_m7_L2_cv2_f0": {
+      "theta": [
+        7.3033979698225195,
+        19.216845238359944,
+        3.614364419689191,
+        1.5159906002346792,
+        0.9901722974695001,
+        1.675654388655802,
+        0.7071571542678587,
+        0.5740723371715631,
+        0.11215797502824731,
+        5.3850732395791265
+      ],
+      "cost": 180.66875,
+      "nfev": 1024,
+      "seconds": 79.43372216704302,
+      "path_costs": [
+        201.0,
+        190.3,
+        183.6,
+        167.5,
+        216.3,
+        198.1,
+        207.6,
+        160.0,
+        166.2,
+        153.1,
+        185.6,
+        164.9,
+        188.0,
+        182.6,
+        195.7,
+        177.4,
+        170.2,
+        158.4,
+        167.5,
+        186.6,
+        170.9,
+        162.4,
+        230.7,
+        177.2,
+        170.6,
+        165.3,
+        174.4,
+        189.3,
+        180.1,
+        207.7,
+        165.8,
+        166.4
+      ],
+      "metrics": [
+        0.4511250000000001,
+        1.3555625,
+        3.1310937500000002
+      ],
+      "cap": 29
+    },
+    "perish_m7_L2_cv2_f0.5": {
+      "theta": [
+        11.44493992229036,
+        7.858713754387551,
+        0.704132074785488,
+        0.42520513202966415,
+        0.8141902023609161,
+        1.2424243534272732,
+        0.776982243347862,
+        0.3350208041388216,
+        0.9036683037400841,
+        4.16744445642258
+      ],
+      "cost": 169.39687500000002,
+      "nfev": 1024,
+      "seconds": 128.9050357080996,
+      "path_costs": [
+        178.2,
+        168.5,
+        150.3,
+        159.7,
+        153.8,
+        168.8,
+        178.4,
+        145.7,
+        196.0,
+        189.1,
+        152.7,
+        144.7,
+        150.9,
+        152.4,
+        154.8,
+        170.2,
+        195.3,
+        170.0,
+        167.1,
+        182.3,
+        201.5,
+        153.7,
+        163.5,
+        190.1,
+        192.4,
+        197.5,
+        148.0,
+        186.0,
+        157.5,
+        157.1,
+        193.2,
+        151.3
+      ],
+      "metrics": [
+        0.41478125000000016,
+        1.2791875,
+        3.2107812499999997
+      ],
+      "cap": 28
+    }
+  },
+  "parameters": {
+    "S": {
+      "type": "float",
+      "initial": 12.0,
+      "min": 0.0,
+      "max": 40.0
+    },
+    "C": {
+      "type": "float",
+      "initial": 16.0,
+      "min": 0.0,
+      "max": 50.0
+    },
+    "K": {
+      "type": "float",
+      "initial": 1.5,
+      "min": 0.0,
+      "max": 5.0
+    },
+    "A": {
+      "type": "float",
+      "initial": 1.0,
+      "min": 0.0,
+      "max": 5.0
+    },
+    "R": {
+      "type": "float",
+      "initial": 0.7,
+      "min": 0.0,
+      "max": 1.0
+    },
+    "P": {
+      "type": "float",
+      "initial": 0.9,
+      "min": 0.0,
+      "max": 2.5
+    },
+    "H": {
+      "type": "float",
+      "initial": 0.9,
+      "min": 0.0,
+      "max": 1.0
+    },
+    "B": {
+      "type": "float",
+      "initial": 0.3,
+      "min": 0.0,
+      "max": 1.0
+    },
+    "G": {
+      "type": "float",
+      "initial": 0.8,
+      "min": 0.0,
+      "max": 3.0
+    },
+    "J": {
+      "type": "float",
+      "initial": 0.5,
+      "min": 0.0,
+      "max": 8.0
+    }
+  },
+  "structure_sha256": "0fef1ca03d960a41270d08ea5d332714f197d0dc448a20cc2e468c4583bcdc95",
+  "code_sha256": "f1803e988f4100a687a471526ef2c9d86e32c3a945578b7c9aecfb3b5df9effa",
+  "import_normalization": [],
+  "wall_seconds": 453.919444040861,
+  "transitions": 196800000,
+  "valid": true,
+  "score": 0.9705086957517088,
+  "code": "def compute_order_amount(age, pipeline, mu, cv, f, L):\n    S = 12.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":12.0,\"min\":0.0,\"max\":40.0}\n    C = 16.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":16.0,\"min\":0.0,\"max\":50.0}\n    K = 1.5 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.5,\"min\":0.0,\"max\":5.0}\n    A = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":5.0}\n    R = 0.7 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.7,\"min\":0.0,\"max\":1.0}\n    P = 0.9 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.9,\"min\":0.0,\"max\":2.5}\n    H = 0.9 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.9,\"min\":0.0,\"max\":1.0}\n    B = 0.3 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.3,\"min\":0.0,\"max\":1.0}\n    G = 0.8 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.8,\"min\":0.0,\"max\":3.0}\n    J = 0.5 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.5,\"min\":0.0,\"max\":8.0}\n\n    m = len(age)\n    if m <= 0:\n        return 0.0\n\n    initial = [0.0 for i in range(m)]\n    work = [0.0 for i in range(m)]\n\n    pipeline_total = 0.0\n    for j in range(len(pipeline)):\n        value = float(pipeline[j])\n        if value != value or value < 0.0:\n            value = 0.0\n        if value > 1000000.0:\n            value = 1000000.0\n        pipeline_total = pipeline_total + value\n\n    current_plain = P * pipeline_total\n    for i in range(m):\n        value = float(age[i])\n        if value != value or value < 0.0:\n            value = 0.0\n        if value > 1000000.0:\n            value = 1000000.0\n        initial[i] = value\n        work[i] = value\n        x = (i + 1.0) / m\n        weight = R + (1.0 - R) * (x ** A)\n        current_plain = current_plain + weight * value\n\n    fifo_mean = f * mu\n    lifo_share = 1.0 - f\n    lifo_mean = lifo_share * mu\n\n    fifo_active = fifo_mean > 0.0\n    lifo_active = lifo_mean > 0.0\n\n    fifo_w = 0.0\n    fifo_r1 = 0.0\n    fifo_r2 = 0.0\n    if fifo_active:\n        fifo_var = f * (mu * cv) * (mu * cv)\n        fifo_a = fifo_var / (fifo_mean * fifo_mean) - 1.0 / fifo_mean\n        if fifo_a < 1.0:\n            fifo_a = 1.0\n        fifo_root = (fifo_a * fifo_a - 1.0) ** 0.5\n        fifo_b = 1.0 + fifo_a + fifo_root\n        fifo_c = 1.0 + fifo_a - fifo_root\n        fifo_w = 1.0 / fifo_b\n        fifo_p1 = 2.0 / (2.0 + fifo_mean * fifo_b)\n        fifo_p2 = 2.0 / (2.0 + fifo_mean * fifo_c)\n        fifo_r1 = 1.0 - fifo_p1\n        fifo_r2 = 1.0 - fifo_p2\n\n    lifo_w = 0.0\n    lifo_r1 = 0.0\n    lifo_r2 = 0.0\n    if lifo_active:\n        lifo_var = lifo_share * (mu * cv) * (mu * cv)\n        lifo_a = lifo_var / (lifo_mean * lifo_mean) - 1.0 / lifo_mean\n        if lifo_a < 1.0:\n            lifo_a = 1.0\n        lifo_root = (lifo_a * lifo_a - 1.0) ** 0.5\n        lifo_b = 1.0 + lifo_a + lifo_root\n        lifo_c = 1.0 + lifo_a - lifo_root\n        lifo_w = 1.0 / lifo_b\n        lifo_p1 = 2.0 / (2.0 + lifo_mean * lifo_b)\n        lifo_p2 = 2.0 / (2.0 + lifo_mean * lifo_c)\n        lifo_r1 = 1.0 - lifo_p1\n        lifo_r2 = 1.0 - lifo_p2\n\n    for step in range(L):\n        if fifo_active:\n            before = 0.0\n            for i in range(m):\n                stock = work[i]\n                expected_take = 0.0\n                if stock > 0.0:\n                    part1 = fifo_w * (fifo_r1 ** (before + 1.0))\n                    part1 = part1 * (1.0 - fifo_r1 ** stock) / (1.0 - fifo_r1)\n                    part2 = (1.0 - fifo_w) * (fifo_r2 ** (before + 1.0))\n                    part2 = part2 * (1.0 - fifo_r2 ** stock) / (1.0 - fifo_r2)\n                    expected_take = part1 + part2\n                deterministic_take = fifo_mean - before\n                if deterministic_take < 0.0:\n                    deterministic_take = 0.0\n                if deterministic_take > stock:\n                    deterministic_take = stock\n                take = G * ((1.0 - B) * expected_take + B * deterministic_take)\n                if take < 0.0:\n                    take = 0.0\n                if take > stock:\n                    take = stock\n                work[i] = stock - take\n                before = before + stock\n\n        if lifo_active:\n            before = 0.0\n            for k in range(m):\n                i = m - 1 - k\n                stock = work[i]\n                expected_take = 0.0\n                if stock > 0.0:\n                    part1 = lifo_w * (lifo_r1 ** (before + 1.0))\n                    part1 = part1 * (1.0 - lifo_r1 ** stock) / (1.0 - lifo_r1)\n                    part2 = (1.0 - lifo_w) * (lifo_r2 ** (before + 1.0))\n                    part2 = part2 * (1.0 - lifo_r2 ** stock) / (1.0 - lifo_r2)\n                    expected_take = part1 + part2\n                deterministic_take = lifo_mean - before\n                if deterministic_take < 0.0:\n                    deterministic_take = 0.0\n                if deterministic_take > stock:\n                    deterministic_take = stock\n                take = G * ((1.0 - B) * expected_take + B * deterministic_take)\n                if take < 0.0:\n                    take = 0.0\n                if take > stock:\n                    take = stock\n                work[i] = stock - take\n                before = before + stock\n\n        for i in range(m - 1):\n            work[i] = work[i + 1]\n        work[m - 1] = 0.0\n\n        if step < len(pipeline):\n            arrival = float(pipeline[step])\n            if arrival != arrival or arrival < 0.0:\n                arrival = 0.0\n            if arrival > 1000000.0:\n                arrival = 1000000.0\n            work[m - 1] = arrival\n\n    projected_plain = 0.0\n    for i in range(m):\n        x = (i + 1.0) / m\n        weight = R + (1.0 - R) * (x ** A)\n        projected_plain = projected_plain + weight * work[i]\n\n    plain_effective = (1.0 - H) * current_plain + H * projected_plain\n    seed = K * (S - plain_effective)\n    if seed != seed or seed < 0.0:\n        seed = 0.0\n    if seed > C:\n        seed = C\n\n    current_effective = P * pipeline_total\n    younger = pipeline_total + seed\n    for k in range(m):\n        i = m - 1 - k\n        x = (i + 1.0) / m\n        age_weight = R + (1.0 - R) * (x ** A)\n        scale = mu * (i + 1.0) + 1.0\n        crowd = younger / scale\n        lifo_value = 1.0 / (1.0 + J * crowd)\n        service_weight = f + (1.0 - f) * lifo_value\n        current_effective = current_effective + age_weight * service_weight * initial[i]\n        younger = younger + initial[i]\n\n    projected_effective = 0.0\n    younger = seed\n    for k in range(m):\n        i = m - 1 - k\n        x = (i + 1.0) / m\n        age_weight = R + (1.0 - R) * (x ** A)\n        scale = mu * (i + 1.0) + 1.0\n        crowd = younger / scale\n        lifo_value = 1.0 / (1.0 + J * crowd)\n        service_weight = f + (1.0 - f) * lifo_value\n        projected_effective = projected_effective + age_weight * service_weight * work[i]\n        younger = younger + work[i]\n\n    effective = (1.0 - H) * current_effective + H * projected_effective\n    q = K * (S - effective)\n\n    if q != q or q < 0.0:\n        q = 0.0\n    if q > C:\n        q = C\n    return q\n"
+}

@@ -1,0 +1,18 @@
+{
+     "algorithm": "Increased base_target and demand_response to better handle high-demand periods while reducing pipeline_weight to be less conservative about incoming orders. The higher high_target_multiplier helps respond more aggressively to regime shifts.",
+     "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 109.33740256643024  # OPT_PARAM: {\"initial\": 109.33740256643024, \"min\": 100, \"max\": 150, \"type\": \"float\"}\n    high_target_multiplier = 1.926176108969146  # OPT_PARAM: {\"initial\": 1.926176108969146, \"min\": 1.8, \"max\": 2.2, \"type\": \"float\"}\n    pipeline_weight = 0.4881418258499627  # OPT_PARAM: {\"initial\": 0.4881418258499627, \"min\": 0.3, \"max\": 0.5, \"type\": \"float\"}\n    demand_response = 0.4  # OPT_PARAM: {\"initial\": 0.4, \"min\": 0.4, \"max\": 0.8, \"type\": \"float\"}\n    \n    if last_demand >= 100.0 * np.log(2):\n        target = base_target * high_target_multiplier\n    else:\n        target = base_target\n    \n    recent_demand_adjustment = demand_response * last_demand\n    adjusted_target = max(target, recent_demand_adjustment)\n    order_amount = max(0.0, adjusted_target - on_hand_inventory - pipeline_weight * sum(pipeline_orders))\n    return order_amount\n",
+     "description": "",
+     "intuition": "",
+     "reasoning": "Increased base_target and demand_response to better handle high-demand periods while reducing pipeline_weight to be less conservative about incoming orders. The higher high_target_multiplier helps respond more aggressively to regime shifts.",
+     "opt_params": {
+          "base_target": 109.33740256643024,
+          "high_target_multiplier": 1.926176108969146,
+          "pipeline_weight": 0.4881418258499627,
+          "demand_response": 0.4
+     },
+     "cost": null,
+     "objective": 31265.68623,
+     "lower": 29542.90598,
+     "upper": 32977.72327,
+     "other_inf": null
+}

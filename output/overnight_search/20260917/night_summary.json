@@ -1,0 +1,3135 @@
+{
+  "generated_utc": "2026-09-17T05:51:34.840445+00:00",
+  "synthetic_fixture": false,
+  "complete": true,
+  "comparison_complete": true,
+  "optimizer_complete": true,
+  "resource_summary_complete": true,
+  "planned_scenarios": 20,
+  "validated_principal_runs": 240,
+  "expected_principal_runs": 240,
+  "validated_three_draw_groups": 80,
+  "expected_three_draw_groups": 80,
+  "robust_candidates": [],
+  "robust_counts_by_phase": {
+    "primary": 0,
+    "extended": 0
+  },
+  "secondary_method_screens": [
+    {
+      "profile": "primary",
+      "name": "perish_m3_L2_cv1.5_f0",
+      "m": 3,
+      "cv": 1.5,
+      "f": 0.0,
+      "split": "discovery",
+      "method": "one_query",
+      "reference": "baek",
+      "comparison": {
+        "improvement_pct": -0.06167761630132238,
+        "candidate_mean_cost": 233.77378472222222,
+        "baek_mean_cost": 233.6296875,
+        "candidate_worst_cost": 234.43671874999998,
+        "baek_best_cost": 233.43671875,
+        "robust_screen_candidate": false
+      },
+      "robust_screen_candidate": false
+    },
+    {
+      "profile": "primary",
+      "name": "perish_m3_L2_cv1.5_f0",
+      "m": 3,
+      "cv": 1.5,
+      "f": 0.0,
+      "split": "discovery",
+      "method": "best_of_n",
+      "reference": "baek",
+      "comparison": {
+        "improvement_pct": 0.09455995993184117,
+        "candidate_mean_cost": 233.4087673611111,
+        "baek_mean_cost": 233.6296875,
+        "candidate_worst_cost": 233.453125,
+        "baek_best_cost": 233.43671875,
+        "robust_screen_candidate": false
+      },
+      "robust_screen_candidate": false
+    },
+    {
+      "profile": "primary",
+      "name": "perish_m3_L2_cv1.5_f0",
+      "m": 3,
+      "cv": 1.5,
+      "f": 0.0,
+      "split": "discovery",
+      "method": "evolution",
+      "reference": "baek",
+      "comparison": {
+        "improvement_pct": 0.09155038949786841,
+        "candidate_mean_cost": 233.4157986111111,
+        "baek_mean_cost": 233.6296875,
+        "candidate_worst_cost": 233.49479166666666,
+        "baek_best_cost": 233.43671875,
+        "robust_screen_candidate": false
+      },
+      "robust_screen_candidate": false
+    },
+    {
+      "profile": "primary",
+      "name": "perish_m3_L2_cv1.5_f0.5",
+      "m": 3,
+      "cv": 1.5,
+      "f": 0.5,
+      "split": "discovery",
+      "method": "one_query",
+      "reference": "baek",
+      "comparison": {
+        "improvement_pct": -0.12684185926219954,
+        "candidate_mean_cost": 203.99253472222222,
+        "baek_mean_cost": 203.73411458333334,
+        "candidate_worst_cost": 204.05807291666667,
+        "baek_best_cost": 203.63671875,
+        "robust_screen_candidate": false
+      },
+      "robust_screen_candidate": false
+    },
+    {
+      "profile": "primary",
+      "name": "perish_m3_L2_cv1.5_f0.5",
+      "m": 3,
+      "cv": 1.5,
+      "f": 0.5,
+      "split": "discovery",
+      "method": "best_of_n",
+      "reference": "baek",
+      "comparison": {
+        "improvement_pct": -0.08525715834184507,
+        "candidate_mean_cost": 203.9078125,
+        "baek_mean_cost": 203.73411458333334,
+        "candidate_worst_cost": 204.03203125,
+        "baek_best_cost": 203.63671875,
+        "robust_screen_candidate": false
+      },
+      "robust_screen_candidate": false
+    },
+    {
+      "profile": "primary",
+      "name": "perish_m3_L2_cv1.5_f0.5",
+      "m": 3,
+      "cv": 1.5,
+      "f": 0.5,
+      "split": "discovery",
+      "method": "evolution",
+      "reference": "baek",
+      "comparison": {
+        "improvement_pct": -0.12773661204839676,
+        "candidate_mean_cost": 203.99435763888889,
+        "baek_mean_cost": 203.73411458333334,
+        "candidate_worst_cost": 204.22395833333331,
+        "baek_best_cost": 203.63671875,
+        "robust_screen_candidate": false
+      },
+      "robust_screen_candidate": false
+    },
+    {
+      "profile": "primary",
+      "name": "perish_m3_L2_cv2_f0",
+      "m": 3,
+      "cv": 2.0,
+      "f": 0.0,
+      "split": "discovery",
+      "method": "one_query",
+      "reference": "baek",
+      "comparison": {
+        "improvement_pct": 0.01188754057322924,
+        "candidate_mean_cost": 263.57916666666665,
+        "baek_mean_cost": 263.6105034722222,
+        "candidate_worst_cost": 263.76458333333335,
+        "baek_best_cost": 263.41015625,
+        "robust_screen_candidate": false
+      },
+      "robust_screen_candidate": false
+    },
+    {
+      "profile": "primary",
+      "name": "perish_m3_L2_cv2_f0",
+      "m": 3,
+      "cv": 2.0,
+      "f": 0.0,
+      "split": "discovery",
+      "method": "best_of_n",
+      "reference": "baek",
+      "comparison": {
+        "improvement_pct": 0.027298535000565515,
+        "candidate_mean_cost": 263.5385416666667,
+        "baek_mean_cost": 263.6105034722222,
+        "candidate_worst_cost": 263.57890625,
+        "baek_best_cost": 263.41015625,
+        "robust_screen_candidate": false
+      },
+      "robust_screen_candidate": false
+    },
+    {
+      "profile": "primary",
+      "name": "perish_m3_L2_cv2_f0",
+      "m": 3,
+      "cv": 2.0,
+      "f": 0.0,
+      "split": "discovery",
+      "method": "evolution",
+      "reference": "baek",
+      "comparison": {
+        "improvement_pct": -0.015839077605888967,
+        "candidate_mean_cost": 263.65225694444445,
+        "baek_mean_cost": 263.6105034722222,
+        "candidate_worst_cost": 263.8140625,
+        "baek_best_cost": 263.41015625,
+        "robust_screen_candidate": false
+      },
+      "robust_screen_candidate": false
+    },
+    {
+      "profile": "primary",
+      "name": "perish_m3_L2_cv2_f0.5",
+      "m": 3,
+      "cv": 2.0,
+      "f": 0.5,
+      "split": "discovery",
+      "method": "one_query",
+      "reference": "baek",
+      "comparison": {
+        "improvement_pct": -0.03175244530966247,
+        "candidate_mean_cost": 233.81605902777778,
+        "baek_mean_cost": 233.74184027777778,
+        "candidate_worst_cost": 233.86640624999998,
+        "baek_best_cost": 233.67890625,
+        "robust_screen_candidate": false
+      },
+      "robust_screen_candidate": false
+    },
+    {
+      "profile": "primary",
+      "name": "perish_m3_L2_cv2_f0.5",
+      "m": 3,
+      "cv": 2.0,
+      "f": 0.5,
+      "split": "discovery",
+      "method": "best_of_n",
+      "reference": "baek",
+      "comparison": {
+        "improvement_pct": 0.022616654027583335,
+        "candidate_mean_cost": 233.68897569444445,
+        "baek_mean_cost": 233.74184027777778,
+        "candidate_worst_cost": 233.70364583333333,
+        "baek_best_cost": 233.67890625,
+        "robust_screen_candidate": false
+      },
+      "robust_screen_candidate": false
+    },
+    {
+      "profile": "primary",
+      "name": "perish_m3_L2_cv2_f0.5",
+      "m": 3,
+      "cv": 2.0,
+      "f": 0.5,
+      "split": "discovery",
+      "method": "evolution",
+      "reference": "baek",
+      "comparison": {
+        "improvement_pct": -0.001299807702727966,
+        "candidate_mean_cost": 233.7448784722222,
+        "baek_mean_cost": 233.74184027777778,
+        "candidate_worst_cost": 233.8484375,
+        "baek_best_cost": 233.67890625,
+        "robust_screen_candidate": false
+      },
+      "robust_screen_candidate": false
+    },
+    {
+      "profile": "primary",
+      "name": "perish_m4_L2_cv1.5_f0",
+      "m": 4,
+      "cv": 1.5,
+      "f": 0.0,
+      "split": "transfer",
+      "method": "one_query",
+      "reference": "baek",
+      "comparison": {
+        "improvement_pct": -0.6840164934681242,
+        "candidate_mean_cost": 204.11848958333334,
+        "baek_mean_cost": 202.73177083333334,
+        "candidate_worst_cost": 204.53333333333333,
+        "baek_best_cost": 202.546875,
+        "robust_screen_candidate": false
+      },
+      "robust_screen_candidate": false
+    },
+    {
+      "profile": "primary",
+      "name": "perish_m4_L2_cv1.5_f0",
+      "m": 4,
+      "cv": 1.5,
+      "f": 0.0,
+      "split": "transfer",
+      "method": "best_of_n",
+      "reference": "baek",
+      "comparison": {
+        "improvement_pct": -0.26478610301138744,
+        "candidate_mean_cost": 203.2685763888889,
+        "baek_mean_cost": 202.73177083333334,
+        "candidate_worst_cost": 203.58541666666667,
+        "baek_best_cost": 202.546875,
+        "robust_screen_candidate": false
+      },
+      "robust_screen_candidate": false
+    },
+    {
+      "profile": "primary",
+      "name": "perish_m4_L2_cv1.5_f0",
+      "m": 4,
+      "cv": 1.5,
+      "f": 0.0,
+      "split": "transfer",
+      "method": "evolution",
+      "reference": "baek",
+      "comparison": {
+        "improvement_pct": -1.3483367373590676,
+        "candidate_mean_cost": 205.46527777777777,
+        "baek_mean_cost": 202.73177083333334,
+        "candidate_worst_cost": 208.38671875,
+        "baek_best_cost": 202.546875,
+        "robust_screen_candidate": false
+      },
+      "robust_screen_candidate": false
+    },
+    {
+      "profile": "primary",
+      "name": "perish_m4_L2_cv1.5_f0.5",
+      "m": 4,
+      "cv": 1.5,
+      "f": 0.5,
+      "split": "transfer",
+      "method": "one_query",
+      "reference": "baek",
+      "comparison": {
+        "improvement_pct": -0.04941692964710293,
+        "candidate_mean_cost": 175.74635416666666,
+        "baek_mean_cost": 175.6595486111111,
+        "candidate_worst_cost": 175.81901041666669,
+        "baek_best_cost": 175.61015625,
+        "robust_screen_candidate": false
+      },
+      "robust_screen_candidate": false
+    },
+    {
+      "profile": "primary",
+      "name": "perish_m4_L2_cv1.5_f0.5",
+      "m": 4,
+      "cv": 1.5,
+      "f": 0.5,
+      "split": "transfer",
+      "method": "best_of_n",
+      "reference": "baek",
+      "comparison": {
+        "improvement_pct": -0.7669507481229177,
+        "candidate_mean_cost": 177.00677083333335,
+        "baek_mean_cost": 175.6595486111111,
+        "candidate_worst_cost": 179.52265625,
+        "baek_best_cost": 175.61015625,
+        "robust_screen_candidate": false
+      },
+      "robust_screen_candidate": false
+    },
+    {
+      "profile": "primary",
+      "name": "perish_m4_L2_cv1.5_f0.5",
+      "m": 4,
+      "cv": 1.5,
+      "f": 0.5,
+      "split": "transfer",
+      "method": "evolution",
+      "reference": "baek",
+      "comparison": {
+        "improvement_pct": -0.02075511045178485,
+        "candidate_mean_cost": 175.69600694444443,
+        "baek_mean_cost": 175.6595486111111,
+        "candidate_worst_cost": 175.70703125,
+        "baek_best_cost": 175.61015625,
+        "robust_screen_candidate": false
+      },
+      "robust_screen_candidate": false
+    },
+    {
+      "profile": "primary",
+      "name": "perish_m4_L2_cv2_f0",
+      "m": 4,
+      "cv": 2.0,
+      "f": 0.0,
+      "split": "transfer",
+      "method": "one_query",
+      "reference": "baek",
+      "comparison": {
+        "improvement_pct": -0.28760739903399246,
+        "candidate_mean_cost": 237.42821180555555,
+        "baek_mean_cost": 236.7473090277778,
+        "candidate_worst_cost": 237.49296875,
+        "baek_best_cost": 236.53958333333335,
+        "robust_screen_candidate": false
+      },
+      "robust_screen_candidate": false
+    },
+    {
+      "profile": "primary",
+      "name": "perish_m4_L2_cv2_f0",
+      "m": 4,
+      "cv": 2.0,
+      "f": 0.0,
+      "split": "transfer",
+      "method": "best_of_n",
+      "reference": "baek",
+      "comparison": {
+        "improvement_pct": -0.2400150476895168,
+        "candidate_mean_cost": 237.31553819444446,
+        "baek_mean_cost": 236.7473090277778,
+        "candidate_worst_cost": 237.61223958333332,
+        "baek_best_cost": 236.53958333333335,
+        "robust_screen_candidate": false
+      },
+      "robust_screen_candidate": false
+    },
+    {
+      "profile": "primary",
+      "name": "perish_m4_L2_cv2_f0",
+      "m": 4,
+      "cv": 2.0,
+      "f": 0.0,
+      "split": "transfer",
+      "method": "evolution",
+      "reference": "baek",
+      "comparison": {
+        "improvement_pct": -0.7836971630485242,
+        "candidate_mean_cost": 238.6026909722222,
+        "baek_mean_cost": 236.7473090277778,
+        "candidate_worst_cost": 240.521875,
+        "baek_best_cost": 236.53958333333335,
+        "robust_screen_candidate": false
+      },
+      "robust_screen_candidate": false
+    },
+    {
+      "profile": "primary",
+      "name": "perish_m4_L2_cv2_f0.5",
+      "m": 4,
+      "cv": 2.0,
+      "f": 0.5,
+      "split": "transfer",
+      "method": "one_query",
+      "reference": "baek",
+      "comparison": {
+        "improvement_pct": -0.06852396808776844,
+        "candidate_mean_cost": 210.05112847222222,
+        "baek_mean_cost": 209.90729166666665,
+        "candidate_worst_cost": 210.18411458333333,
+        "baek_best_cost": 209.88619791666667,
+        "robust_screen_candidate": false
+      },
+      "robust_screen_candidate": false
+    },
+    {
+      "profile": "primary",
+      "name": "perish_m4_L2_cv2_f0.5",
+      "m": 4,
+      "cv": 2.0,
+      "f": 0.5,
+      "split": "transfer",
+      "method": "best_of_n",
+      "reference": "baek",
+      "comparison": {
+        "improvement_pct": -0.07112928491911037,
+        "candidate_mean_cost": 210.05659722222222,
+        "baek_mean_cost": 209.90729166666665,
+        "candidate_worst_cost": 210.19479166666667,
+        "baek_best_cost": 209.88619791666667,
+        "robust_screen_candidate": false
+      },
+      "robust_screen_candidate": false
+    },
+    {
+      "profile": "primary",
+      "name": "perish_m4_L2_cv2_f0.5",
+      "m": 4,
+      "cv": 2.0,
+      "f": 0.5,
+      "split": "transfer",
+      "method": "evolution",
+      "reference": "baek",
+      "comparison": {
+        "improvement_pct": -0.4650697315117644,
+        "candidate_mean_cost": 210.88350694444443,
+        "baek_mean_cost": 209.90729166666665,
+        "candidate_worst_cost": 212.04322916666666,
+        "baek_best_cost": 209.88619791666667,
+        "robust_screen_candidate": false
+      },
+      "robust_screen_candidate": false
+    },
+    {
+      "profile": "primary",
+      "name": "perish_m5_L2_cv1.5_f0",
+      "m": 5,
+      "cv": 1.5,
+      "f": 0.0,
+      "split": "discovery",
+      "method": "one_query",
+      "reference": "baek",
+      "comparison": {
+        "improvement_pct": -1.0601168778003962,
+        "candidate_mean_cost": 179.79322916666666,
+        "baek_mean_cost": 177.9072048611111,
+        "candidate_worst_cost": 181.00859375,
+        "baek_best_cost": 177.51067708333332,
+        "robust_screen_candidate": false
+      },
+      "robust_screen_candidate": false
+    },
+    {
+      "profile": "primary",
+      "name": "perish_m5_L2_cv1.5_f0",
+      "m": 5,
+      "cv": 1.5,
+      "f": 0.0,
+      "split": "discovery",
+      "method": "best_of_n",
+      "reference": "baek",
+      "comparison": {
+        "improvement_pct": -0.5500878022884856,
+        "candidate_mean_cost": 178.88585069444446,
+        "baek_mean_cost": 177.9072048611111,
+        "candidate_worst_cost": 179.10885416666667,
+        "baek_best_cost": 177.51067708333332,
+        "robust_screen_candidate": false
+      },
+      "robust_screen_candidate": false
+    },
+    {
+      "profile": "primary",
+      "name": "perish_m5_L2_cv1.5_f0",
+      "m": 5,
+      "cv": 1.5,
+      "f": 0.0,
+      "split": "discovery",
+      "method": "evolution",
+      "reference": "baek",
+      "comparison": {
+        "improvement_pct": -1.857241627311371,
+        "candidate_mean_cost": 181.21137152777777,
+        "baek_mean_cost": 177.9072048611111,
+        "candidate_worst_cost": 183.559375,
+        "baek_best_cost": 177.51067708333332,
+        "robust_screen_candidate": false
+      },
+      "robust_screen_candidate": false
+    },
+    {
+      "profile": "primary",
+      "name": "perish_m5_L2_cv1.5_f0.5",
+      "m": 5,
+      "cv": 1.5,
+      "f": 0.5,
+      "split": "discovery",
+      "method": "one_query",
+      "reference": "baek",
+      "comparison": {
+        "improvement_pct": -0.10273396531656379,
+        "candidate_mean_cost": 153.93975694444444,
+        "baek_mean_cost": 153.78177083333333,
+        "candidate_worst_cost": 154.09739583333334,
+        "baek_best_cost": 153.73203125000003,
+        "robust_screen_candidate": false
+      },
+      "robust_screen_candidate": false
+    },
+    {
+      "profile": "primary",
+      "name": "perish_m5_L2_cv1.5_f0.5",
+      "m": 5,
+      "cv": 1.5,
+      "f": 0.5,
+      "split": "discovery",
+      "method": "best_of_n",
+      "reference": "baek",
+      "comparison": {
+        "improvement_pct": -0.04967356564758474,
+        "candidate_mean_cost": 153.85815972222224,
+        "baek_mean_cost": 153.78177083333333,
+        "candidate_worst_cost": 153.90026041666667,
+        "baek_best_cost": 153.73203125000003,
+        "robust_screen_candidate": false
+      },
+      "robust_screen_candidate": false
+    },
+    {
+      "profile": "primary",
+      "name": "perish_m5_L2_cv1.5_f0.5",
+      "m": 5,
+      "cv": 1.5,
+      "f": 0.5,
+      "split": "discovery",
+      "method": "evolution",
+      "reference": "baek",
+      "comparison": {
+        "improvement_pct": -0.08777544838861726,
+        "candidate_mean_cost": 153.91675347222224,
+        "baek_mean_cost": 153.78177083333333,
+        "candidate_worst_cost": 153.98333333333335,
+        "baek_best_cost": 153.73203125000003,
+        "robust_screen_candidate": false
+      },
+      "robust_screen_candidate": false
+    },
+    {
+      "profile": "primary",
+      "name": "perish_m5_L2_cv2_f0",
+      "m": 5,
+      "cv": 2.0,
+      "f": 0.0,
+      "split": "discovery",
+      "method": "one_query",
+      "reference": "baek",
+      "comparison": {
+        "improvement_pct": -0.7819719366098854,
+        "candidate_mean_cost": 216.51475694444446,
+        "baek_mean_cost": 214.8348090277778,
+        "candidate_worst_cost": 217.10781250000002,
+        "baek_best_cost": 214.43229166666669,
+        "robust_screen_candidate": false
+      },
+      "robust_screen_candidate": false
+    },
+    {
+      "profile": "primary",
+      "name": "perish_m5_L2_cv2_f0",
+      "m": 5,
+      "cv": 2.0,
+      "f": 0.0,
+      "split": "discovery",
+      "method": "best_of_n",
+      "reference": "baek",
+      "comparison": {
+        "improvement_pct": -0.0774173632276261,
+        "candidate_mean_cost": 215.0011284722222,
+        "baek_mean_cost": 214.8348090277778,
+        "candidate_worst_cost": 215.12343750000002,
+        "baek_best_cost": 214.43229166666669,
+        "robust_screen_candidate": false
+      },
+      "robust_screen_candidate": false
+    },
+    {
+      "profile": "primary",
+      "name": "perish_m5_L2_cv2_f0",
+      "m": 5,
+      "cv": 2.0,
+      "f": 0.0,
+      "split": "discovery",
+      "method": "evolution",
+      "reference": "baek",
+      "comparison": {
+        "improvement_pct": -1.188291876389185,
+        "candidate_mean_cost": 217.3876736111111,
+        "baek_mean_cost": 214.8348090277778,
+        "candidate_worst_cost": 220.19348958333333,
+        "baek_best_cost": 214.43229166666669,
+        "robust_screen_candidate": false
+      },
+      "robust_screen_candidate": false
+    },
+    {
+      "profile": "primary",
+      "name": "perish_m5_L2_cv2_f0.5",
+      "m": 5,
+      "cv": 2.0,
+      "f": 0.5,
+      "split": "discovery",
+      "method": "one_query",
+      "reference": "baek",
+      "comparison": {
+        "improvement_pct": -0.26981722673629993,
+        "candidate_mean_cost": 191.81076388888886,
+        "baek_mean_cost": 191.29461805555556,
+        "candidate_worst_cost": 192.45052083333331,
+        "baek_best_cost": 191.16822916666666,
+        "robust_screen_candidate": false
+      },
+      "robust_screen_candidate": false
+    },
+    {
+      "profile": "primary",
+      "name": "perish_m5_L2_cv2_f0.5",
+      "m": 5,
+      "cv": 2.0,
+      "f": 0.5,
+      "split": "discovery",
+      "method": "best_of_n",
+      "reference": "baek",
+      "comparison": {
+        "improvement_pct": -0.41479974261632463,
+        "candidate_mean_cost": 192.08810763888889,
+        "baek_mean_cost": 191.29461805555556,
+        "candidate_worst_cost": 193.5078125,
+        "baek_best_cost": 191.16822916666666,
+        "robust_screen_candidate": false
+      },
+      "robust_screen_candidate": false
+    },
+    {
+      "profile": "primary",
+      "name": "perish_m5_L2_cv2_f0.5",
+      "m": 5,
+      "cv": 2.0,
+      "f": 0.5,
+      "split": "discovery",
+      "method": "evolution",
+      "reference": "baek",
+      "comparison": {
+        "improvement_pct": -0.026273826821451754,
+        "candidate_mean_cost": 191.34487847222223,
+        "baek_mean_cost": 191.29461805555556,
+        "candidate_worst_cost": 191.46015625,
+        "baek_best_cost": 191.16822916666666,
+        "robust_screen_candidate": false
+      },
+      "robust_screen_candidate": false
+    },
+    {
+      "profile": "extended",
+      "name": "perish_m7_L2_cv1.5_f0",
+      "m": 7,
+      "cv": 1.5,
+      "f": 0.0,
+      "split": "discovery",
+      "method": "one_query",
+      "reference": "baek",
+      "comparison": {
+        "improvement_pct": -2.00052553745371,
+        "candidate_mean_cost": 144.89210069444445,
+        "baek_mean_cost": 142.05034722222223,
+        "candidate_worst_cost": 146.29557291666666,
+        "baek_best_cost": 142.01640625,
+        "robust_screen_candidate": false
+      },
+      "robust_screen_candidate": false
+    },
+    {
+      "profile": "extended",
+      "name": "perish_m7_L2_cv1.5_f0",
+      "m": 7,
+      "cv": 1.5,
+      "f": 0.0,
+      "split": "discovery",
+      "method": "best_of_n",
+      "reference": "baek",
+      "comparison": {
+        "improvement_pct": -0.4226298871927669,
+        "candidate_mean_cost": 142.65069444444444,
+        "baek_mean_cost": 142.05034722222223,
+        "candidate_worst_cost": 144.26744791666664,
+        "baek_best_cost": 142.01640625,
+        "robust_screen_candidate": false
+      },
+      "robust_screen_candidate": false
+    },
+    {
+      "profile": "extended",
+      "name": "perish_m7_L2_cv1.5_f0",
+      "m": 7,
+      "cv": 1.5,
+      "f": 0.0,
+      "split": "discovery",
+      "method": "evolution",
+      "reference": "baek",
+      "comparison": {
+        "improvement_pct": -0.08365822954987417,
+        "candidate_mean_cost": 142.1691840277778,
+        "baek_mean_cost": 142.05034722222223,
+        "candidate_worst_cost": 142.66822916666666,
+        "baek_best_cost": 142.01640625,
+        "robust_screen_candidate": false
+      },
+      "robust_screen_candidate": false
+    },
+    {
+      "profile": "extended",
+      "name": "perish_m7_L2_cv1.5_f0.5",
+      "m": 7,
+      "cv": 1.5,
+      "f": 0.5,
+      "split": "discovery",
+      "method": "one_query",
+      "reference": "baek",
+      "comparison": {
+        "improvement_pct": -0.00299047320678721,
+        "candidate_mean_cost": 121.9185763888889,
+        "baek_mean_cost": 121.91493055555556,
+        "candidate_worst_cost": 121.95677083333334,
+        "baek_best_cost": 121.85468750000001,
+        "robust_screen_candidate": false
+      },
+      "robust_screen_candidate": false
+    },
+    {
+      "profile": "extended",
+      "name": "perish_m7_L2_cv1.5_f0.5",
+      "m": 7,
+      "cv": 1.5,
+      "f": 0.5,
+      "split": "discovery",
+      "method": "best_of_n",
+      "reference": "baek",
+      "comparison": {
+        "improvement_pct": -0.020434900246352073,
+        "candidate_mean_cost": 121.93984375,
+        "baek_mean_cost": 121.91493055555556,
+        "candidate_worst_cost": 122.03515625,
+        "baek_best_cost": 121.85468750000001,
+        "robust_screen_candidate": false
+      },
+      "robust_screen_candidate": false
+    },
+    {
+      "profile": "extended",
+      "name": "perish_m7_L2_cv1.5_f0.5",
+      "m": 7,
+      "cv": 1.5,
+      "f": 0.5,
+      "split": "discovery",
+      "method": "evolution",
+      "reference": "baek",
+      "comparison": {
+        "improvement_pct": -0.133076057701891,
+        "candidate_mean_cost": 122.07717013888889,
+        "baek_mean_cost": 121.91493055555556,
+        "candidate_worst_cost": 122.15390625,
+        "baek_best_cost": 121.85468750000001,
+        "robust_screen_candidate": false
+      },
+      "robust_screen_candidate": false
+    },
+    {
+      "profile": "extended",
+      "name": "perish_m7_L2_cv2_f0",
+      "m": 7,
+      "cv": 2.0,
+      "f": 0.0,
+      "split": "discovery",
+      "method": "one_query",
+      "reference": "baek",
+      "comparison": {
+        "improvement_pct": -1.704091223499698,
+        "candidate_mean_cost": 183.53862847222223,
+        "baek_mean_cost": 180.46336805555555,
+        "candidate_worst_cost": 184.86197916666669,
+        "baek_best_cost": 180.384375,
+        "robust_screen_candidate": false
+      },
+      "robust_screen_candidate": false
+    },
+    {
+      "profile": "extended",
+      "name": "perish_m7_L2_cv2_f0",
+      "m": 7,
+      "cv": 2.0,
+      "f": 0.0,
+      "split": "discovery",
+      "method": "best_of_n",
+      "reference": "baek",
+      "comparison": {
+        "improvement_pct": 0.11621318192270302,
+        "candidate_mean_cost": 180.2536458333333,
+        "baek_mean_cost": 180.46336805555555,
+        "candidate_worst_cost": 180.49453125,
+        "baek_best_cost": 180.384375,
+        "robust_screen_candidate": false
+      },
+      "robust_screen_candidate": false
+    },
+    {
+      "profile": "extended",
+      "name": "perish_m7_L2_cv2_f0",
+      "m": 7,
+      "cv": 2.0,
+      "f": 0.0,
+      "split": "discovery",
+      "method": "evolution",
+      "reference": "baek",
+      "comparison": {
+        "improvement_pct": 0.057481271687754215,
+        "candidate_mean_cost": 180.35963541666666,
+        "baek_mean_cost": 180.46336805555555,
+        "candidate_worst_cost": 180.73671875,
+        "baek_best_cost": 180.384375,
+        "robust_screen_candidate": false
+      },
+      "robust_screen_candidate": false
+    },
+    {
+      "profile": "extended",
+      "name": "perish_m7_L2_cv2_f0.5",
+      "m": 7,
+      "cv": 2.0,
+      "f": 0.5,
+      "split": "discovery",
+      "method": "one_query",
+      "reference": "baek",
+      "comparison": {
+        "improvement_pct": -0.057707287863463,
+        "candidate_mean_cost": 163.90616319444445,
+        "baek_mean_cost": 163.81163194444443,
+        "candidate_worst_cost": 164.08098958333332,
+        "baek_best_cost": 163.79427083333331,
+        "robust_screen_candidate": false
+      },
+      "robust_screen_candidate": false
+    },
+    {
+      "profile": "extended",
+      "name": "perish_m7_L2_cv2_f0.5",
+      "m": 7,
+      "cv": 2.0,
+      "f": 0.5,
+      "split": "discovery",
+      "method": "best_of_n",
+      "reference": "baek",
+      "comparison": {
+        "improvement_pct": -0.27740831218106576,
+        "candidate_mean_cost": 164.26605902777777,
+        "baek_mean_cost": 163.81163194444443,
+        "candidate_worst_cost": 165.07578124999998,
+        "baek_best_cost": 163.79427083333331,
+        "robust_screen_candidate": false
+      },
+      "robust_screen_candidate": false
+    },
+    {
+      "profile": "extended",
+      "name": "perish_m7_L2_cv2_f0.5",
+      "m": 7,
+      "cv": 2.0,
+      "f": 0.5,
+      "split": "discovery",
+      "method": "evolution",
+      "reference": "baek",
+      "comparison": {
+        "improvement_pct": -0.5640900636423045,
+        "candidate_mean_cost": 164.73567708333334,
+        "baek_mean_cost": 163.81163194444443,
+        "candidate_worst_cost": 165.43671875,
+        "baek_best_cost": 163.79427083333331,
+        "robust_screen_candidate": false
+      },
+      "robust_screen_candidate": false
+    },
+    {
+      "profile": "extended",
+      "name": "perish_m8_L2_cv1.5_f0",
+      "m": 8,
+      "cv": 1.5,
+      "f": 0.0,
+      "split": "transfer",
+      "method": "one_query",
+      "reference": "baek",
+      "comparison": {
+        "improvement_pct": -2.3882060227441775,
+        "candidate_mean_cost": 131.4568576388889,
+        "baek_mean_cost": 128.390625,
+        "candidate_worst_cost": 133.0296875,
+        "baek_best_cost": 128.28098958333334,
+        "robust_screen_candidate": false
+      },
+      "robust_screen_candidate": false
+    },
+    {
+      "profile": "extended",
+      "name": "perish_m8_L2_cv1.5_f0",
+      "m": 8,
+      "cv": 1.5,
+      "f": 0.0,
+      "split": "transfer",
+      "method": "best_of_n",
+      "reference": "baek",
+      "comparison": {
+        "improvement_pct": 0.11473503441373993,
+        "candidate_mean_cost": 128.24331597222223,
+        "baek_mean_cost": 128.390625,
+        "candidate_worst_cost": 128.4296875,
+        "baek_best_cost": 128.28098958333334,
+        "robust_screen_candidate": false
+      },
+      "robust_screen_candidate": false
+    },
+    {
+      "profile": "extended",
+      "name": "perish_m8_L2_cv1.5_f0",
+      "m": 8,
+      "cv": 1.5,
+      "f": 0.0,
+      "split": "transfer",
+      "method": "evolution",
+      "reference": "baek",
+      "comparison": {
+        "improvement_pct": 0.15178559355266674,
+        "candidate_mean_cost": 128.19574652777777,
+        "baek_mean_cost": 128.390625,
+        "candidate_worst_cost": 128.38151041666666,
+        "baek_best_cost": 128.28098958333334,
+        "robust_screen_candidate": false
+      },
+      "robust_screen_candidate": false
+    },
+    {
+      "profile": "extended",
+      "name": "perish_m8_L2_cv1.5_f0.5",
+      "m": 8,
+      "cv": 1.5,
+      "f": 0.5,
+      "split": "transfer",
+      "method": "one_query",
+      "reference": "baek",
+      "comparison": {
+        "improvement_pct": -0.09771206136730962,
+        "candidate_mean_cost": 109.46657986111111,
+        "baek_mean_cost": 109.35972222222222,
+        "candidate_worst_cost": 109.55312500000001,
+        "baek_best_cost": 109.29973958333332,
+        "robust_screen_candidate": false
+      },
+      "robust_screen_candidate": false
+    },
+    {
+      "profile": "extended",
+      "name": "perish_m8_L2_cv1.5_f0.5",
+      "m": 8,
+      "cv": 1.5,
+      "f": 0.5,
+      "split": "transfer",
+      "method": "best_of_n",
+      "reference": "baek",
+      "comparison": {
+        "improvement_pct": 0.09096508718678338,
+        "candidate_mean_cost": 109.26024305555555,
+        "baek_mean_cost": 109.35972222222222,
+        "candidate_worst_cost": 109.26979166666666,
+        "baek_best_cost": 109.29973958333332,
+        "robust_screen_candidate": false
+      },
+      "robust_screen_candidate": false
+    },
+    {
+      "profile": "extended",
+      "name": "perish_m8_L2_cv1.5_f0.5",
+      "m": 8,
+      "cv": 1.5,
+      "f": 0.5,
+      "split": "transfer",
+      "method": "evolution",
+      "reference": "baek",
+      "comparison": {
+        "improvement_pct": 0.05865898728710417,
+        "candidate_mean_cost": 109.29557291666667,
+        "baek_mean_cost": 109.35972222222222,
+        "candidate_worst_cost": 109.32343750000001,
+        "baek_best_cost": 109.29973958333332,
+        "robust_screen_candidate": false
+      },
+      "robust_screen_candidate": false
+    },
+    {
+      "profile": "extended",
+      "name": "perish_m8_L2_cv2_f0",
+      "m": 8,
+      "cv": 2.0,
+      "f": 0.0,
+      "split": "transfer",
+      "method": "one_query",
+      "reference": "baek",
+      "comparison": {
+        "improvement_pct": -2.158655736272699,
+        "candidate_mean_cost": 170.5265625,
+        "baek_mean_cost": 166.9232638888889,
+        "candidate_worst_cost": 172.21223958333331,
+        "baek_best_cost": 166.80885416666666,
+        "robust_screen_candidate": false
+      },
+      "robust_screen_candidate": false
+    },
+    {
+      "profile": "extended",
+      "name": "perish_m8_L2_cv2_f0",
+      "m": 8,
+      "cv": 2.0,
+      "f": 0.0,
+      "split": "transfer",
+      "method": "best_of_n",
+      "reference": "baek",
+      "comparison": {
+        "improvement_pct": -0.03978250152369581,
+        "candidate_mean_cost": 166.9896701388889,
+        "baek_mean_cost": 166.9232638888889,
+        "candidate_worst_cost": 167.14947916666665,
+        "baek_best_cost": 166.80885416666666,
+        "robust_screen_candidate": false
+      },
+      "robust_screen_candidate": false
+    },
+    {
+      "profile": "extended",
+      "name": "perish_m8_L2_cv2_f0",
+      "m": 8,
+      "cv": 2.0,
+      "f": 0.0,
+      "split": "transfer",
+      "method": "evolution",
+      "reference": "baek",
+      "comparison": {
+        "improvement_pct": 0.007228454525234546,
+        "candidate_mean_cost": 166.91119791666665,
+        "baek_mean_cost": 166.9232638888889,
+        "candidate_worst_cost": 167.20807291666665,
+        "baek_best_cost": 166.80885416666666,
+        "robust_screen_candidate": false
+      },
+      "robust_screen_candidate": false
+    },
+    {
+      "profile": "extended",
+      "name": "perish_m8_L2_cv2_f0.5",
+      "m": 8,
+      "cv": 2.0,
+      "f": 0.5,
+      "split": "transfer",
+      "method": "one_query",
+      "reference": "baek",
+      "comparison": {
+        "improvement_pct": -0.0776381140436719,
+        "candidate_mean_cost": 152.40060763888889,
+        "baek_mean_cost": 152.2823784722222,
+        "candidate_worst_cost": 152.77057291666665,
+        "baek_best_cost": 152.13020833333331,
+        "robust_screen_candidate": false
+      },
+      "robust_screen_candidate": false
+    },
+    {
+      "profile": "extended",
+      "name": "perish_m8_L2_cv2_f0.5",
+      "m": 8,
+      "cv": 2.0,
+      "f": 0.5,
+      "split": "transfer",
+      "method": "best_of_n",
+      "reference": "baek",
+      "comparison": {
+        "improvement_pct": 0.10482855486510863,
+        "candidate_mean_cost": 152.12274305555556,
+        "baek_mean_cost": 152.2823784722222,
+        "candidate_worst_cost": 152.17161458333334,
+        "baek_best_cost": 152.13020833333331,
+        "robust_screen_candidate": false
+      },
+      "robust_screen_candidate": false
+    },
+    {
+      "profile": "extended",
+      "name": "perish_m8_L2_cv2_f0.5",
+      "m": 8,
+      "cv": 2.0,
+      "f": 0.5,
+      "split": "transfer",
+      "method": "evolution",
+      "reference": "baek",
+      "comparison": {
+        "improvement_pct": 0.002052108741231,
+        "candidate_mean_cost": 152.27925347222222,
+        "baek_mean_cost": 152.2823784722222,
+        "candidate_worst_cost": 152.47604166666667,
+        "baek_best_cost": 152.13020833333331,
+        "robust_screen_candidate": false
+      },
+      "robust_screen_candidate": false
+    }
+  ],
+  "secondary_robust_candidates_by_method": {
+    "one_query": [],
+    "best_of_n": [],
+    "evolution": []
+  },
+  "secondary_robust_counts_by_phase": {
+    "one_query": {
+      "primary": 0,
+      "extended": 0
+    },
+    "best_of_n": {
+      "primary": 0,
+      "extended": 0
+    },
+    "evolution": {
+      "primary": 0,
+      "extended": 0
+    }
+  },
+  "secondary_selection_inference": "Parallel secondary screens use each method's three fixed draws and the same worst-vs-best plus 1% mean-gain rule. Selection among methods is exploratory, without multiplicity correction; only evolution retains the original primary criterion. No confidence intervals are reconstructed from aggregate costs.",
+  "evolution_specific_advantage_claimed": false,
+  "scenarios": [
+    {
+      "profile": "primary",
+      "name": "perish_m3_L2_cv1.5_f0",
+      "m": 3,
+      "cv": 1.5,
+      "f": 0.0,
+      "split": "discovery",
+      "groups": {
+        "one_query": {
+          "cost": 233.77378472222222,
+          "generation_sd": 0.5779006892480657,
+          "generation_costs": [
+            234.43671874999998,
+            233.50833333333333,
+            233.37630208333331
+          ],
+          "best": 233.37630208333331,
+          "worst": 234.43671874999998
+        },
+        "best_of_n": {
+          "cost": 233.4087673611111,
+          "generation_sd": 0.03976821998646515,
+          "generation_costs": [
+            233.37630208333331,
+            233.453125,
+            233.396875
+          ],
+          "best": 233.37630208333331,
+          "worst": 233.453125
+        },
+        "evolution": {
+          "cost": 233.4157986111111,
+          "generation_sd": 0.06840999283367206,
+          "generation_costs": [
+            233.37630208333331,
+            233.37630208333331,
+            233.49479166666666
+          ],
+          "best": 233.37630208333331,
+          "worst": 233.49479166666666
+        },
+        "baek": {
+          "cost": 233.6296875,
+          "generation_sd": 0.23537734161775495,
+          "generation_costs": [
+            233.43671875,
+            233.56041666666667,
+            233.89192708333331
+          ],
+          "best": 233.43671875,
+          "worst": 233.89192708333331
+        }
+      },
+      "comparisons": {
+        "one_query": {
+          "candidate_cost": 233.4157986111111,
+          "reference_cost": 233.77378472222222,
+          "improvement_pct": 0.15313355667167827,
+          "improvement_ci_low": 0.0852875658398421,
+          "improvement_ci_high": 0.22509770490000483
+        },
+        "best_of_n": {
+          "candidate_cost": 233.4157986111111,
+          "reference_cost": 233.4087673611111,
+          "improvement_pct": -0.0030124189761495837,
+          "improvement_ci_low": -0.04998037001013709,
+          "improvement_ci_high": 0.04108526509832106
+        },
+        "baek": {
+          "candidate_cost": 233.4157986111111,
+          "reference_cost": 233.6296875,
+          "improvement_pct": 0.09155038949786841,
+          "improvement_ci_low": 0.006741741340108176,
+          "improvement_ci_high": 0.18305341422539276
+        }
+      },
+      "robust_screen_candidate": false
+    },
+    {
+      "profile": "primary",
+      "name": "perish_m3_L2_cv1.5_f0.5",
+      "m": 3,
+      "cv": 1.5,
+      "f": 0.5,
+      "split": "discovery",
+      "groups": {
+        "one_query": {
+          "cost": 203.99253472222222,
+          "generation_sd": 0.09188994370941916,
+          "generation_costs": [
+            203.8875,
+            204.05807291666667,
+            204.03203125
+          ],
+          "best": 203.8875,
+          "worst": 204.05807291666667
+        },
+        "best_of_n": {
+          "cost": 203.9078125,
+          "generation_sd": 0.14839249134883162,
+          "generation_costs": [
+            203.94791666666669,
+            203.74348958333334,
+            204.03203125
+          ],
+          "best": 203.74348958333334,
+          "worst": 204.03203125
+        },
+        "evolution": {
+          "cost": 203.99435763888889,
+          "generation_sd": 0.2505706829157407,
+          "generation_costs": [
+            204.22395833333331,
+            204.03203125,
+            203.72708333333333
+          ],
+          "best": 203.72708333333333,
+          "worst": 204.22395833333331
+        },
+        "baek": {
+          "cost": 203.73411458333334,
+          "generation_sd": 0.15623524235862782,
+          "generation_costs": [
+            203.63671875,
+            203.65130208333335,
+            203.91432291666666
+          ],
+          "best": 203.63671875,
+          "worst": 203.91432291666666
+        }
+      },
+      "comparisons": {
+        "one_query": {
+          "candidate_cost": 203.99435763888889,
+          "reference_cost": 203.99253472222222,
+          "improvement_pct": -0.0008936193028587234,
+          "improvement_ci_low": -0.02684808533382385,
+          "improvement_ci_high": 0.025795676946408632
+        },
+        "best_of_n": {
+          "candidate_cost": 203.99435763888889,
+          "reference_cost": 203.9078125,
+          "improvement_pct": -0.04244326778253288,
+          "improvement_ci_low": -0.06733490580345272,
+          "improvement_ci_high": -0.017104749762472365
+        },
+        "baek": {
+          "candidate_cost": 203.99435763888889,
+          "reference_cost": 203.73411458333334,
+          "improvement_pct": -0.12773661204839676,
+          "improvement_ci_low": -0.15447686958435708,
+          "improvement_ci_high": -0.10110533687602234
+        }
+      },
+      "robust_screen_candidate": false
+    },
+    {
+      "profile": "primary",
+      "name": "perish_m3_L2_cv2_f0",
+      "m": 3,
+      "cv": 2.0,
+      "f": 0.0,
+      "split": "discovery",
+      "groups": {
+        "one_query": {
+          "cost": 263.57916666666665,
+          "generation_sd": 0.1777822070099906,
+          "generation_costs": [
+            263.76458333333335,
+            263.56276041666666,
+            263.41015625
+          ],
+          "best": 263.41015625,
+          "worst": 263.76458333333335
+        },
+        "best_of_n": {
+          "cost": 263.5385416666667,
+          "generation_sd": 0.05651041666664014,
+          "generation_costs": [
+            263.57890625,
+            263.56276041666666,
+            263.47395833333337
+          ],
+          "best": 263.47395833333337,
+          "worst": 263.57890625
+        },
+        "evolution": {
+          "cost": 263.65225694444445,
+          "generation_sd": 0.23075287531812808,
+          "generation_costs": [
+            263.38802083333337,
+            263.75468750000005,
+            263.8140625
+          ],
+          "best": 263.38802083333337,
+          "worst": 263.8140625
+        },
+        "baek": {
+          "cost": 263.6105034722222,
+          "generation_sd": 0.344758752415174,
+          "generation_costs": [
+            263.4127604166667,
+            263.41015625,
+            264.00859374999993
+          ],
+          "best": 263.41015625,
+          "worst": 264.00859374999993
+        }
+      },
+      "comparisons": {
+        "one_query": {
+          "candidate_cost": 263.65225694444445,
+          "reference_cost": 263.57916666666665,
+          "improvement_pct": -0.0277299145839653,
+          "improvement_ci_low": -0.06983434588447218,
+          "improvement_ci_high": 0.013111831732569182
+        },
+        "best_of_n": {
+          "candidate_cost": 263.65225694444445,
+          "reference_cost": 263.5385416666667,
+          "improvement_pct": -0.04314939175826615,
+          "improvement_ci_low": -0.11123487293461376,
+          "improvement_ci_high": 0.023237784501772215
+        },
+        "baek": {
+          "candidate_cost": 263.65225694444445,
+          "reference_cost": 263.6105034722222,
+          "improvement_pct": -0.015839077605888967,
+          "improvement_ci_low": -0.06206586196450441,
+          "improvement_ci_high": 0.026957555574472995
+        }
+      },
+      "robust_screen_candidate": false
+    },
+    {
+      "profile": "primary",
+      "name": "perish_m3_L2_cv2_f0.5",
+      "m": 3,
+      "cv": 2.0,
+      "f": 0.5,
+      "split": "discovery",
+      "groups": {
+        "one_query": {
+          "cost": 233.81605902777778,
+          "generation_sd": 0.07556676644319123,
+          "generation_costs": [
+            233.86640624999998,
+            233.85260416666665,
+            233.72916666666669
+          ],
+          "best": 233.72916666666669,
+          "worst": 233.86640624999998
+        },
+        "best_of_n": {
+          "cost": 233.68897569444445,
+          "generation_sd": 0.015560486027280308,
+          "generation_costs": [
+            233.67265625,
+            233.70364583333333,
+            233.690625
+          ],
+          "best": 233.67265625,
+          "worst": 233.70364583333333
+        },
+        "evolution": {
+          "cost": 233.7448784722222,
+          "generation_sd": 0.08984349838933343,
+          "generation_costs": [
+            233.6984375,
+            233.8484375,
+            233.68776041666666
+          ],
+          "best": 233.68776041666666,
+          "worst": 233.8484375
+        },
+        "baek": {
+          "cost": 233.74184027777778,
+          "generation_sd": 0.10653376034600837,
+          "generation_costs": [
+            233.68177083333333,
+            233.67890625,
+            233.86484375
+          ],
+          "best": 233.67890625,
+          "worst": 233.86484375
+        }
+      },
+      "comparisons": {
+        "one_query": {
+          "candidate_cost": 233.7448784722222,
+          "reference_cost": 233.81605902777778,
+          "improvement_pct": 0.030442971219147512,
+          "improvement_ci_low": 0.0055850617569472615,
+          "improvement_ci_high": 0.05588376149791984
+        },
+        "best_of_n": {
+          "candidate_cost": 233.7448784722222,
+          "reference_cost": 233.68897569444445,
+          "improvement_pct": -0.023921872057351436,
+          "improvement_ci_low": -0.04164370424574246,
+          "improvement_ci_high": -0.006583633533748407
+        },
+        "baek": {
+          "candidate_cost": 233.7448784722222,
+          "reference_cost": 233.74184027777778,
+          "improvement_pct": -0.001299807702727966,
+          "improvement_ci_low": -0.020752077356119822,
+          "improvement_ci_high": 0.01762770772751453
+        }
+      },
+      "robust_screen_candidate": false
+    },
+    {
+      "profile": "primary",
+      "name": "perish_m4_L2_cv1.5_f0",
+      "m": 4,
+      "cv": 1.5,
+      "f": 0.0,
+      "split": "transfer",
+      "groups": {
+        "one_query": {
+          "cost": 204.11848958333334,
+          "generation_sd": 0.3807766336404594,
+          "generation_costs": [
+            203.78489583333334,
+            204.03723958333333,
+            204.53333333333333
+          ],
+          "best": 203.78489583333334,
+          "worst": 204.53333333333333
+        },
+        "best_of_n": {
+          "cost": 203.2685763888889,
+          "generation_sd": 0.28020304911632443,
+          "generation_costs": [
+            203.58541666666667,
+            203.16692708333332,
+            203.05338541666669
+          ],
+          "best": 203.05338541666669,
+          "worst": 203.58541666666667
+        },
+        "evolution": {
+          "cost": 205.46527777777777,
+          "generation_sd": 2.5309032139491645,
+          "generation_costs": [
+            208.38671875,
+            204.07057291666666,
+            203.93854166666665
+          ],
+          "best": 203.93854166666665,
+          "worst": 208.38671875
+        },
+        "baek": {
+          "cost": 202.73177083333334,
+          "generation_sd": 0.16262098194070854,
+          "generation_costs": [
+            202.85260416666665,
+            202.546875,
+            202.79583333333335
+          ],
+          "best": 202.546875,
+          "worst": 202.85260416666665
+        }
+      },
+      "comparisons": {
+        "one_query": {
+          "candidate_cost": 205.46527777777777,
+          "reference_cost": 204.11848958333334,
+          "improvement_pct": -0.6598070548109701,
+          "improvement_ci_low": -0.7614551280558185,
+          "improvement_ci_high": -0.5612829799050368
+        },
+        "best_of_n": {
+          "candidate_cost": 205.46527777777777,
+          "reference_cost": 203.2685763888889,
+          "improvement_pct": -1.0806891197418476,
+          "improvement_ci_low": -1.1772486087958383,
+          "improvement_ci_high": -0.9811423080247269
+        },
+        "baek": {
+          "candidate_cost": 205.46527777777777,
+          "reference_cost": 202.73177083333334,
+          "improvement_pct": -1.3483367373590676,
+          "improvement_ci_low": -1.4881377805822809,
+          "improvement_ci_high": -1.206728857479141
+        }
+      },
+      "robust_screen_candidate": false
+    },
+    {
+      "profile": "primary",
+      "name": "perish_m4_L2_cv1.5_f0.5",
+      "m": 4,
+      "cv": 1.5,
+      "f": 0.5,
+      "split": "transfer",
+      "groups": {
+        "one_query": {
+          "cost": 175.74635416666666,
+          "generation_sd": 0.07440674290518814,
+          "generation_costs": [
+            175.81901041666669,
+            175.6703125,
+            175.74973958333334
+          ],
+          "best": 175.6703125,
+          "worst": 175.81901041666669
+        },
+        "best_of_n": {
+          "cost": 177.00677083333335,
+          "generation_sd": 2.1796330980616485,
+          "generation_costs": [
+            175.68932291666667,
+            175.80833333333334,
+            179.52265625
+          ],
+          "best": 175.68932291666667,
+          "worst": 179.52265625
+        },
+        "evolution": {
+          "cost": 175.69600694444443,
+          "generation_sd": 0.014034340375667956,
+          "generation_costs": [
+            175.68020833333333,
+            175.70078124999998,
+            175.70703125
+          ],
+          "best": 175.68020833333333,
+          "worst": 175.70703125
+        },
+        "baek": {
+          "cost": 175.6595486111111,
+          "generation_sd": 0.04686221855064842,
+          "generation_costs": [
+            175.70338541666666,
+            175.61015625,
+            175.66510416666665
+          ],
+          "best": 175.61015625,
+          "worst": 175.70338541666666
+        }
+      },
+      "comparisons": {
+        "one_query": {
+          "candidate_cost": 175.69600694444443,
+          "reference_cost": 175.74635416666666,
+          "improvement_pct": 0.028647662400144266,
+          "improvement_ci_low": -0.007603159745072375,
+          "improvement_ci_high": 0.06522309530776496
+        },
+        "best_of_n": {
+          "candidate_cost": 175.69600694444443,
+          "reference_cost": 177.00677083333335,
+          "improvement_pct": 0.7405162428069533,
+          "improvement_ci_low": 0.6873532528779907,
+          "improvement_ci_high": 0.7932857736651049
+        },
+        "baek": {
+          "candidate_cost": 175.69600694444443,
+          "reference_cost": 175.6595486111111,
+          "improvement_pct": -0.02075511045178485,
+          "improvement_ci_low": -0.050835837237556726,
+          "improvement_ci_high": 0.007987145650481014
+        }
+      },
+      "robust_screen_candidate": false
+    },
+    {
+      "profile": "primary",
+      "name": "perish_m4_L2_cv2_f0",
+      "m": 4,
+      "cv": 2.0,
+      "f": 0.0,
+      "split": "transfer",
+      "groups": {
+        "one_query": {
+          "cost": 237.42821180555555,
+          "generation_sd": 0.08073140677896899,
+          "generation_costs": [
+            237.49296875,
+            237.33776041666664,
+            237.45390625000002
+          ],
+          "best": 237.33776041666664,
+          "worst": 237.49296875
+        },
+        "best_of_n": {
+          "cost": 237.31553819444446,
+          "generation_sd": 0.25794784606680177,
+          "generation_costs": [
+            237.18984375000002,
+            237.14453125,
+            237.61223958333332
+          ],
+          "best": 237.14453125,
+          "worst": 237.61223958333332
+        },
+        "evolution": {
+          "cost": 238.6026909722222,
+          "generation_sd": 1.6733018625110792,
+          "generation_costs": [
+            240.521875,
+            237.83671875,
+            237.44947916666666
+          ],
+          "best": 237.44947916666666,
+          "worst": 240.521875
+        },
+        "baek": {
+          "cost": 236.7473090277778,
+          "generation_sd": 0.18056179459705848,
+          "generation_costs": [
+            236.86666666666667,
+            236.53958333333335,
+            236.83567708333334
+          ],
+          "best": 236.53958333333335,
+          "worst": 236.86666666666667
+        }
+      },
+      "comparisons": {
+        "one_query": {
+          "candidate_cost": 238.6026909722222,
+          "reference_cost": 237.42821180555555,
+          "improvement_pct": -0.4946670649351939,
+          "improvement_ci_low": -0.5564168739816994,
+          "improvement_ci_high": -0.43546542471182215
+        },
+        "best_of_n": {
+          "candidate_cost": 238.6026909722222,
+          "reference_cost": 237.31553819444446,
+          "improvement_pct": -0.5423803209729656,
+          "improvement_ci_low": -0.6408257527564553,
+          "improvement_ci_high": -0.44380355168821417
+        },
+        "baek": {
+          "candidate_cost": 238.6026909722222,
+          "reference_cost": 236.7473090277778,
+          "improvement_pct": -0.7836971630485242,
+          "improvement_ci_low": -0.8935509317229887,
+          "improvement_ci_high": -0.6750180945964451
+        }
+      },
+      "robust_screen_candidate": false
+    },
+    {
+      "profile": "primary",
+      "name": "perish_m4_L2_cv2_f0.5",
+      "m": 4,
+      "cv": 2.0,
+      "f": 0.5,
+      "split": "transfer",
+      "groups": {
+        "one_query": {
+          "cost": 210.05112847222222,
+          "generation_sd": 0.13294272958836292,
+          "generation_costs": [
+            209.91822916666666,
+            210.18411458333333,
+            210.05104166666666
+          ],
+          "best": 209.91822916666666,
+          "worst": 210.18411458333333
+        },
+        "best_of_n": {
+          "cost": 210.05659722222222,
+          "generation_sd": 0.12059691235908361,
+          "generation_costs": [
+            210.19479166666667,
+            209.97265625000003,
+            210.00234374999997
+          ],
+          "best": 209.97265625000003,
+          "worst": 210.19479166666667
+        },
+        "evolution": {
+          "cost": 210.88350694444443,
+          "generation_sd": 1.0359464794699147,
+          "generation_costs": [
+            210.55755208333332,
+            212.04322916666666,
+            210.04973958333332
+          ],
+          "best": 210.04973958333332,
+          "worst": 212.04322916666666
+        },
+        "baek": {
+          "cost": 209.90729166666665,
+          "generation_sd": 0.01837183752546339,
+          "generation_costs": [
+            209.91588541666667,
+            209.91979166666664,
+            209.88619791666667
+          ],
+          "best": 209.88619791666667,
+          "worst": 209.91979166666664
+        }
+      },
+      "comparisons": {
+        "one_query": {
+          "candidate_cost": 210.88350694444443,
+          "reference_cost": 210.05112847222222,
+          "improvement_pct": -0.39627422060352957,
+          "improvement_ci_low": -0.4364441219170165,
+          "improvement_ci_high": -0.35580290858977115
+        },
+        "best_of_n": {
+          "candidate_cost": 210.88350694444443,
+          "reference_cost": 210.05659722222222,
+          "improvement_pct": -0.39366043873757056,
+          "improvement_ci_low": -0.44859706051836856,
+          "improvement_ci_high": -0.33839087493164743
+        },
+        "baek": {
+          "candidate_cost": 210.88350694444443,
+          "reference_cost": 209.90729166666665,
+          "improvement_pct": -0.4650697315117644,
+          "improvement_ci_low": -0.5070992004128424,
+          "improvement_ci_high": -0.4238390099576569
+        }
+      },
+      "robust_screen_candidate": false
+    },
+    {
+      "profile": "primary",
+      "name": "perish_m5_L2_cv1.5_f0",
+      "m": 5,
+      "cv": 1.5,
+      "f": 0.0,
+      "split": "discovery",
+      "groups": {
+        "one_query": {
+          "cost": 179.79322916666666,
+          "generation_sd": 1.0624667772072847,
+          "generation_costs": [
+            179.04062500000003,
+            179.33046875,
+            181.00859375
+          ],
+          "best": 179.04062500000003,
+          "worst": 181.00859375
+        },
+        "best_of_n": {
+          "cost": 178.88585069444446,
+          "generation_sd": 0.19431801212578903,
+          "generation_costs": [
+            179.10885416666667,
+            178.75286458333332,
+            178.79583333333335
+          ],
+          "best": 178.75286458333332,
+          "worst": 179.10885416666667
+        },
+        "evolution": {
+          "cost": 181.21137152777777,
+          "generation_sd": 2.141105708350945,
+          "generation_costs": [
+            183.559375,
+            180.70781250000002,
+            179.36692708333334
+          ],
+          "best": 179.36692708333334,
+          "worst": 183.559375
+        },
+        "baek": {
+          "cost": 177.9072048611111,
+          "generation_sd": 0.34927985162289776,
+          "generation_costs": [
+            178.04166666666669,
+            177.51067708333332,
+            178.16927083333331
+          ],
+          "best": 177.51067708333332,
+          "worst": 178.16927083333331
+        }
+      },
+      "comparisons": {
+        "one_query": {
+          "candidate_cost": 181.21137152777777,
+          "reference_cost": 179.79322916666666,
+          "improvement_pct": -0.7887629404533937,
+          "improvement_ci_low": -0.8716065593966232,
+          "improvement_ci_high": -0.704990970332947
+        },
+        "best_of_n": {
+          "candidate_cost": 181.21137152777777,
+          "reference_cost": 178.88585069444446,
+          "improvement_pct": -1.300002668911777,
+          "improvement_ci_low": -1.4062372077165046,
+          "improvement_ci_high": -1.1892607275614817
+        },
+        "baek": {
+          "candidate_cost": 181.21137152777777,
+          "reference_cost": 177.9072048611111,
+          "improvement_pct": -1.857241627311371,
+          "improvement_ci_low": -1.995079460104514,
+          "improvement_ci_high": -1.7236587938777397
+        }
+      },
+      "robust_screen_candidate": false
+    },
+    {
+      "profile": "primary",
+      "name": "perish_m5_L2_cv1.5_f0.5",
+      "m": 5,
+      "cv": 1.5,
+      "f": 0.5,
+      "split": "discovery",
+      "groups": {
+        "one_query": {
+          "cost": 153.93975694444444,
+          "generation_sd": 0.14538746324079752,
+          "generation_costs": [
+            154.09739583333334,
+            153.8109375,
+            153.9109375
+          ],
+          "best": 153.8109375,
+          "worst": 154.09739583333334
+        },
+        "best_of_n": {
+          "cost": 153.85815972222224,
+          "generation_sd": 0.05526869570927166,
+          "generation_costs": [
+            153.79557291666669,
+            153.90026041666667,
+            153.87864583333334
+          ],
+          "best": 153.79557291666669,
+          "worst": 153.90026041666667
+        },
+        "evolution": {
+          "cost": 153.91675347222224,
+          "generation_sd": 0.07606410794239774,
+          "generation_costs": [
+            153.98333333333335,
+            153.83385416666667,
+            153.93307291666667
+          ],
+          "best": 153.83385416666667,
+          "worst": 153.98333333333335
+        },
+        "baek": {
+          "cost": 153.78177083333333,
+          "generation_sd": 0.04317972197403007,
+          "generation_costs": [
+            153.80364583333332,
+            153.73203125000003,
+            153.80963541666665
+          ],
+          "best": 153.73203125000003,
+          "worst": 153.80963541666665
+        }
+      },
+      "comparisons": {
+        "one_query": {
+          "candidate_cost": 153.91675347222224,
+          "reference_cost": 153.93975694444444,
+          "improvement_pct": 0.014943165221770407,
+          "improvement_ci_low": -0.027577329092216742,
+          "improvement_ci_high": 0.05557016910077883
+        },
+        "best_of_n": {
+          "candidate_cost": 153.91675347222224,
+          "reference_cost": 153.85815972222224,
+          "improvement_pct": -0.0380829655741275,
+          "improvement_ci_low": -0.08605364081398718,
+          "improvement_ci_high": 0.00974684855499899
+        },
+        "baek": {
+          "candidate_cost": 153.91675347222224,
+          "reference_cost": 153.78177083333333,
+          "improvement_pct": -0.08777544838861726,
+          "improvement_ci_low": -0.13048981395680306,
+          "improvement_ci_high": -0.047742388562459055
+        }
+      },
+      "robust_screen_candidate": false
+    },
+    {
+      "profile": "primary",
+      "name": "perish_m5_L2_cv2_f0",
+      "m": 5,
+      "cv": 2.0,
+      "f": 0.0,
+      "split": "discovery",
+      "groups": {
+        "one_query": {
+          "cost": 216.51475694444446,
+          "generation_sd": 0.5832058043571232,
+          "generation_costs": [
+            216.49453125000002,
+            215.94192708333333,
+            217.10781250000002
+          ],
+          "best": 215.94192708333333,
+          "worst": 217.10781250000002
+        },
+        "best_of_n": {
+          "cost": 215.0011284722222,
+          "generation_sd": 0.10724625269318219,
+          "generation_costs": [
+            214.9567708333333,
+            215.12343750000002,
+            214.92317708333331
+          ],
+          "best": 214.92317708333331,
+          "worst": 215.12343750000002
+        },
+        "evolution": {
+          "cost": 217.3876736111111,
+          "generation_sd": 2.448854961094857,
+          "generation_costs": [
+            220.19348958333333,
+            216.28880208333334,
+            215.68072916666665
+          ],
+          "best": 215.68072916666665,
+          "worst": 220.19348958333333
+        },
+        "baek": {
+          "cost": 214.8348090277778,
+          "generation_sd": 0.3544987656101866,
+          "generation_costs": [
+            214.97161458333335,
+            214.43229166666669,
+            215.10052083333332
+          ],
+          "best": 214.43229166666669,
+          "worst": 215.10052083333332
+        }
+      },
+      "comparisons": {
+        "one_query": {
+          "candidate_cost": 217.3876736111111,
+          "reference_cost": 216.51475694444446,
+          "improvement_pct": -0.4031672847549241,
+          "improvement_ci_low": -0.48143323662639215,
+          "improvement_ci_high": -0.3215234848165
+        },
+        "best_of_n": {
+          "candidate_cost": 217.3876736111111,
+          "reference_cost": 215.0011284722222,
+          "improvement_pct": -1.1100151686865352,
+          "improvement_ci_low": -1.2042885512636998,
+          "improvement_ci_high": -1.0124423829804814
+        },
+        "baek": {
+          "candidate_cost": 217.3876736111111,
+          "reference_cost": 214.8348090277778,
+          "improvement_pct": -1.188291876389185,
+          "improvement_ci_low": -1.2866487914665234,
+          "improvement_ci_high": -1.093882834644299
+        }
+      },
+      "robust_screen_candidate": false
+    },
+    {
+      "profile": "primary",
+      "name": "perish_m5_L2_cv2_f0.5",
+      "m": 5,
+      "cv": 2.0,
+      "f": 0.5,
+      "split": "discovery",
+      "groups": {
+        "one_query": {
+          "cost": 191.81076388888886,
+          "generation_sd": 0.5709156184357241,
+          "generation_costs": [
+            192.45052083333331,
+            191.35312499999998,
+            191.6286458333333
+          ],
+          "best": 191.35312499999998,
+          "worst": 192.45052083333331
+        },
+        "best_of_n": {
+          "cost": 192.08810763888889,
+          "generation_sd": 1.2302647905622863,
+          "generation_costs": [
+            191.42161458333334,
+            191.33489583333335,
+            193.5078125
+          ],
+          "best": 191.33489583333335,
+          "worst": 193.5078125
+        },
+        "evolution": {
+          "cost": 191.34487847222223,
+          "generation_sd": 0.10500648868703048,
+          "generation_costs": [
+            191.46015625,
+            191.31979166666667,
+            191.2546875
+          ],
+          "best": 191.2546875,
+          "worst": 191.46015625
+        },
+        "baek": {
+          "cost": 191.29461805555556,
+          "generation_sd": 0.11000110150437273,
+          "generation_costs": [
+            191.346875,
+            191.16822916666666,
+            191.36874999999998
+          ],
+          "best": 191.16822916666666,
+          "worst": 191.36874999999998
+        }
+      },
+      "comparisons": {
+        "one_query": {
+          "candidate_cost": 191.34487847222223,
+          "reference_cost": 191.81076388888886,
+          "improvement_pct": 0.24288804612472048,
+          "improvement_ci_low": 0.20877853232537627,
+          "improvement_ci_high": 0.2773848269290136
+        },
+        "best_of_n": {
+          "candidate_cost": 191.34487847222223,
+          "reference_cost": 192.08810763888889,
+          "improvement_pct": 0.38692096861293784,
+          "improvement_ci_low": 0.3512120179451558,
+          "improvement_ci_high": 0.42301425759077776
+        },
+        "baek": {
+          "candidate_cost": 191.34487847222223,
+          "reference_cost": 191.29461805555556,
+          "improvement_pct": -0.026273826821451754,
+          "improvement_ci_low": -0.05511279548779466,
+          "improvement_ci_high": 0.0020429116736403663
+        }
+      },
+      "robust_screen_candidate": false
+    },
+    {
+      "profile": "extended",
+      "name": "perish_m7_L2_cv1.5_f0",
+      "m": 7,
+      "cv": 1.5,
+      "f": 0.0,
+      "split": "discovery",
+      "groups": {
+        "one_query": {
+          "cost": 144.89210069444445,
+          "generation_sd": 1.3480633275414753,
+          "generation_costs": [
+            143.60729166666667,
+            144.7734375,
+            146.29557291666666
+          ],
+          "best": 143.60729166666667,
+          "worst": 146.29557291666666
+        },
+        "best_of_n": {
+          "cost": 142.65069444444444,
+          "generation_sd": 1.400600736391057,
+          "generation_costs": [
+            141.80677083333333,
+            141.87786458333335,
+            144.26744791666664
+          ],
+          "best": 141.80677083333333,
+          "worst": 144.26744791666664
+        },
+        "evolution": {
+          "cost": 142.1691840277778,
+          "generation_sd": 0.4322290941578463,
+          "generation_costs": [
+            142.66822916666666,
+            141.92578125,
+            141.91354166666667
+          ],
+          "best": 141.91354166666667,
+          "worst": 142.66822916666666
+        },
+        "baek": {
+          "cost": 142.05034722222223,
+          "generation_sd": 0.0563249003000273,
+          "generation_costs": [
+            142.01927083333334,
+            142.11536458333333,
+            142.01640625
+          ],
+          "best": 142.01640625,
+          "worst": 142.11536458333333
+        }
+      },
+      "comparisons": {
+        "one_query": {
+          "candidate_cost": 142.1691840277778,
+          "reference_cost": 144.89210069444445,
+          "improvement_pct": 1.8792719917898648,
+          "improvement_ci_low": 1.6994001910874454,
+          "improvement_ci_high": 2.052752726367602
+        },
+        "best_of_n": {
+          "candidate_cost": 142.1691840277778,
+          "reference_cost": 142.65069444444444,
+          "improvement_pct": 0.33754509120470955,
+          "improvement_ci_low": 0.21841027428830787,
+          "improvement_ci_high": 0.45558316026921525
+        },
+        "baek": {
+          "candidate_cost": 142.1691840277778,
+          "reference_cost": 142.05034722222223,
+          "improvement_pct": -0.08365822954987417,
+          "improvement_ci_low": -0.18014691508663394,
+          "improvement_ci_high": 0.011075952281598796
+        }
+      },
+      "robust_screen_candidate": false
+    },
+    {
+      "profile": "extended",
+      "name": "perish_m7_L2_cv1.5_f0.5",
+      "m": 7,
+      "cv": 1.5,
+      "f": 0.5,
+      "split": "discovery",
+      "groups": {
+        "one_query": {
+          "cost": 121.9185763888889,
+          "generation_sd": 0.047704845821098726,
+          "generation_costs": [
+            121.95677083333334,
+            121.93385416666666,
+            121.86510416666667
+          ],
+          "best": 121.86510416666667,
+          "worst": 121.95677083333334
+        },
+        "best_of_n": {
+          "cost": 121.93984375,
+          "generation_sd": 0.09732443628626167,
+          "generation_costs": [
+            122.03515625,
+            121.94375,
+            121.84062499999999
+          ],
+          "best": 121.84062499999999,
+          "worst": 122.03515625
+        },
+        "evolution": {
+          "cost": 122.07717013888889,
+          "generation_sd": 0.07388555202104607,
+          "generation_costs": [
+            122.00651041666666,
+            122.15390625,
+            122.07109375000002
+          ],
+          "best": 122.00651041666666,
+          "worst": 122.15390625
+        },
+        "baek": {
+          "cost": 121.91493055555556,
+          "generation_sd": 0.0528750588279966,
+          "generation_costs": [
+            121.93645833333332,
+            121.95364583333334,
+            121.85468750000001
+          ],
+          "best": 121.85468750000001,
+          "worst": 121.95364583333334
+        }
+      },
+      "comparisons": {
+        "one_query": {
+          "candidate_cost": 122.07717013888889,
+          "reference_cost": 121.9185763888889,
+          "improvement_pct": -0.1300816944368847,
+          "improvement_ci_low": -0.19469648664263886,
+          "improvement_ci_high": -0.06771091302269049
+        },
+        "best_of_n": {
+          "candidate_cost": 122.07717013888889,
+          "reference_cost": 121.93984375,
+          "improvement_pct": -0.11261814405014298,
+          "improvement_ci_low": -0.1586035709715868,
+          "improvement_ci_high": -0.06540890895523212
+        },
+        "baek": {
+          "candidate_cost": 122.07717013888889,
+          "reference_cost": 121.91493055555556,
+          "improvement_pct": -0.133076057701891,
+          "improvement_ci_low": -0.19661493740716518,
+          "improvement_ci_high": -0.06918803825235542
+        }
+      },
+      "robust_screen_candidate": false
+    },
+    {
+      "profile": "extended",
+      "name": "perish_m7_L2_cv2_f0",
+      "m": 7,
+      "cv": 2.0,
+      "f": 0.0,
+      "split": "discovery",
+      "groups": {
+        "one_query": {
+          "cost": 183.53862847222223,
+          "generation_sd": 1.1676082142039257,
+          "generation_costs": [
+            183.10026041666669,
+            182.65364583333331,
+            184.86197916666669
+          ],
+          "best": 182.65364583333331,
+          "worst": 184.86197916666669
+        },
+        "best_of_n": {
+          "cost": 180.2536458333333,
+          "generation_sd": 0.20935216371111084,
+          "generation_costs": [
+            180.49453125,
+            180.115625,
+            180.15078124999997
+          ],
+          "best": 180.115625,
+          "worst": 180.49453125
+        },
+        "evolution": {
+          "cost": 180.35963541666666,
+          "generation_sd": 0.36112496634743985,
+          "generation_costs": [
+            180.32526041666665,
+            180.01692708333334,
+            180.73671875
+          ],
+          "best": 180.01692708333334,
+          "worst": 180.73671875
+        },
+        "baek": {
+          "cost": 180.46336805555555,
+          "generation_sd": 0.0838219453708342,
+          "generation_costs": [
+            180.384375,
+            180.55130208333333,
+            180.45442708333334
+          ],
+          "best": 180.384375,
+          "worst": 180.55130208333333
+        }
+      },
+      "comparisons": {
+        "one_query": {
+          "candidate_cost": 180.35963541666666,
+          "reference_cost": 183.53862847222223,
+          "improvement_pct": 1.732056669496521,
+          "improvement_ci_low": 1.5786288132689292,
+          "improvement_ci_high": 1.8861909486968256
+        },
+        "best_of_n": {
+          "candidate_cost": 180.35963541666666,
+          "reference_cost": 180.2536458333333,
+          "improvement_pct": -0.05880024386932767,
+          "improvement_ci_low": -0.12488603792641638,
+          "improvement_ci_high": 0.00814694108824542
+        },
+        "baek": {
+          "candidate_cost": 180.35963541666666,
+          "reference_cost": 180.46336805555555,
+          "improvement_pct": 0.057481271687754215,
+          "improvement_ci_low": -0.02034332330666323,
+          "improvement_ci_high": 0.1374993039713984
+        }
+      },
+      "robust_screen_candidate": false
+    },
+    {
+      "profile": "extended",
+      "name": "perish_m7_L2_cv2_f0.5",
+      "m": 7,
+      "cv": 2.0,
+      "f": 0.5,
+      "split": "discovery",
+      "groups": {
+        "one_query": {
+          "cost": 163.90616319444445,
+          "generation_sd": 0.15312861685541315,
+          "generation_costs": [
+            164.08098958333332,
+            163.79583333333335,
+            163.8416666666667
+          ],
+          "best": 163.79583333333335,
+          "worst": 164.08098958333332
+        },
+        "best_of_n": {
+          "cost": 164.26605902777777,
+          "generation_sd": 0.7016581117053464,
+          "generation_costs": [
+            163.88541666666666,
+            163.83697916666668,
+            165.07578124999998
+          ],
+          "best": 163.83697916666668,
+          "worst": 165.07578124999998
+        },
+        "evolution": {
+          "cost": 164.73567708333334,
+          "generation_sd": 0.6440127333493816,
+          "generation_costs": [
+            164.6,
+            165.43671875,
+            164.17031250000002
+          ],
+          "best": 164.17031250000002,
+          "worst": 165.43671875
+        },
+        "baek": {
+          "cost": 163.81163194444443,
+          "generation_sd": 0.029845083109672533,
+          "generation_costs": [
+            163.84609375000002,
+            163.79427083333331,
+            163.79453124999998
+          ],
+          "best": 163.79427083333331,
+          "worst": 163.84609375000002
+        }
+      },
+      "comparisons": {
+        "one_query": {
+          "candidate_cost": 164.73567708333334,
+          "reference_cost": 163.90616319444445,
+          "improvement_pct": -0.5060907245475765,
+          "improvement_ci_low": -0.5653578953919511,
+          "improvement_ci_high": -0.44737275541670796
+        },
+        "best_of_n": {
+          "candidate_cost": 164.73567708333334,
+          "reference_cost": 164.26605902777777,
+          "improvement_pct": -0.28588867252008393,
+          "improvement_ci_low": -0.3297620309265245,
+          "improvement_ci_high": -0.2424473577408729
+        },
+        "baek": {
+          "candidate_cost": 164.73567708333334,
+          "reference_cost": 163.81163194444443,
+          "improvement_pct": -0.5640900636423045,
+          "improvement_ci_low": -0.6265346363216066,
+          "improvement_ci_high": -0.5000691603175701
+        }
+      },
+      "robust_screen_candidate": false
+    },
+    {
+      "profile": "extended",
+      "name": "perish_m8_L2_cv1.5_f0",
+      "m": 8,
+      "cv": 1.5,
+      "f": 0.0,
+      "split": "transfer",
+      "groups": {
+        "one_query": {
+          "cost": 131.4568576388889,
+          "generation_sd": 1.3857407381910696,
+          "generation_costs": [
+            130.415625,
+            130.92526041666667,
+            133.0296875
+          ],
+          "best": 130.415625,
+          "worst": 133.0296875
+        },
+        "best_of_n": {
+          "cost": 128.24331597222223,
+          "generation_sd": 0.21144074699379445,
+          "generation_costs": [
+            128.01354166666667,
+            128.4296875,
+            128.28671875
+          ],
+          "best": 128.01354166666667,
+          "worst": 128.4296875
+        },
+        "evolution": {
+          "cost": 128.19574652777777,
+          "generation_sd": 0.22866441964447481,
+          "generation_costs": [
+            128.38151041666666,
+            127.94036458333332,
+            128.26536458333334
+          ],
+          "best": 127.94036458333332,
+          "worst": 128.38151041666666
+        },
+        "baek": {
+          "cost": 128.390625,
+          "generation_sd": 0.13704722445847803,
+          "generation_costs": [
+            128.54427083333334,
+            128.28098958333334,
+            128.34661458333332
+          ],
+          "best": 128.28098958333334,
+          "worst": 128.54427083333334
+        }
+      },
+      "comparisons": {
+        "one_query": {
+          "candidate_cost": 128.19574652777777,
+          "reference_cost": 131.4568576388889,
+          "improvement_pct": 2.4807462841302432,
+          "improvement_ci_low": 2.3011867811353963,
+          "improvement_ci_high": 2.6639320527644816
+        },
+        "best_of_n": {
+          "candidate_cost": 128.19574652777777,
+          "reference_cost": 128.24331597222223,
+          "improvement_pct": 0.03709311794056105,
+          "improvement_ci_low": -0.05907035424336719,
+          "improvement_ci_high": 0.13546384732440342
+        },
+        "baek": {
+          "candidate_cost": 128.19574652777777,
+          "reference_cost": 128.390625,
+          "improvement_pct": 0.15178559355266674,
+          "improvement_ci_low": 0.03702394580289881,
+          "improvement_ci_high": 0.2653960689004373
+        }
+      },
+      "robust_screen_candidate": false
+    },
+    {
+      "profile": "extended",
+      "name": "perish_m8_L2_cv1.5_f0.5",
+      "m": 8,
+      "cv": 1.5,
+      "f": 0.5,
+      "split": "transfer",
+      "groups": {
+        "one_query": {
+          "cost": 109.46657986111111,
+          "generation_sd": 0.08711485694219218,
+          "generation_costs": [
+            109.55312500000001,
+            109.46770833333333,
+            109.37890625
+          ],
+          "best": 109.37890625,
+          "worst": 109.55312500000001
+        },
+        "best_of_n": {
+          "cost": 109.26024305555555,
+          "generation_sd": 0.014987727666779319,
+          "generation_costs": [
+            109.24296874999999,
+            109.26796875,
+            109.26979166666666
+          ],
+          "best": 109.24296874999999,
+          "worst": 109.26979166666666
+        },
+        "evolution": {
+          "cost": 109.29557291666667,
+          "generation_sd": 0.026548454211258215,
+          "generation_costs": [
+            109.32343750000001,
+            109.29270833333334,
+            109.27057291666667
+          ],
+          "best": 109.27057291666667,
+          "worst": 109.32343750000001
+        },
+        "baek": {
+          "cost": 109.35972222222222,
+          "generation_sd": 0.06207556258462497,
+          "generation_costs": [
+            109.35572916666666,
+            109.42369791666667,
+            109.29973958333332
+          ],
+          "best": 109.29973958333332,
+          "worst": 109.42369791666667
+        }
+      },
+      "comparisons": {
+        "one_query": {
+          "candidate_cost": 109.29557291666667,
+          "reference_cost": 109.46657986111111,
+          "improvement_pct": 0.15621840443120893,
+          "improvement_ci_low": 0.09861010182383297,
+          "improvement_ci_high": 0.21335986010289007
+        },
+        "best_of_n": {
+          "candidate_cost": 109.29557291666667,
+          "reference_cost": 109.26024305555555,
+          "improvement_pct": -0.03233551392811622,
+          "improvement_ci_low": -0.07153897533168156,
+          "improvement_ci_high": 0.006125408879696985
+        },
+        "baek": {
+          "candidate_cost": 109.29557291666667,
+          "reference_cost": 109.35972222222222,
+          "improvement_pct": 0.05865898728710417,
+          "improvement_ci_low": 0.011025832363413347,
+          "improvement_ci_high": 0.1085377375025929
+        }
+      },
+      "robust_screen_candidate": false
+    },
+    {
+      "profile": "extended",
+      "name": "perish_m8_L2_cv2_f0",
+      "m": 8,
+      "cv": 2.0,
+      "f": 0.0,
+      "split": "transfer",
+      "groups": {
+        "one_query": {
+          "cost": 170.5265625,
+          "generation_sd": 1.4600336302624484,
+          "generation_costs": [
+            169.70755208333335,
+            169.65989583333334,
+            172.21223958333331
+          ],
+          "best": 169.65989583333334,
+          "worst": 172.21223958333331
+        },
+        "best_of_n": {
+          "cost": 166.9896701388889,
+          "generation_sd": 0.13944585048848737,
+          "generation_costs": [
+            166.89270833333333,
+            166.92682291666668,
+            167.14947916666665
+          ],
+          "best": 166.89270833333333,
+          "worst": 167.14947916666665
+        },
+        "evolution": {
+          "cost": 166.91119791666665,
+          "generation_sd": 0.288310889397723,
+          "generation_costs": [
+            167.20807291666665,
+            166.89322916666666,
+            166.63229166666667
+          ],
+          "best": 166.63229166666667,
+          "worst": 167.20807291666665
+        },
+        "baek": {
+          "cost": 166.9232638888889,
+          "generation_sd": 0.09909849357785497,
+          "generation_costs": [
+            166.97864583333336,
+            166.98229166666667,
+            166.80885416666666
+          ],
+          "best": 166.80885416666666,
+          "worst": 166.98229166666667
+        }
+      },
+      "comparisons": {
+        "one_query": {
+          "candidate_cost": 166.91119791666665,
+          "reference_cost": 170.5265625,
+          "improvement_pct": 2.120118138975187,
+          "improvement_ci_low": 1.9595028424989307,
+          "improvement_ci_high": 2.2861417962103516
+        },
+        "best_of_n": {
+          "candidate_cost": 166.91119791666665,
+          "reference_cost": 166.9896701388889,
+          "improvement_pct": 0.046992261351842035,
+          "improvement_ci_low": -0.02305053055263055,
+          "improvement_ci_high": 0.11796721388457543
+        },
+        "baek": {
+          "candidate_cost": 166.91119791666665,
+          "reference_cost": 166.9232638888889,
+          "improvement_pct": 0.007228454525234546,
+          "improvement_ci_low": -0.08856772238709167,
+          "improvement_ci_high": 0.11454475989332812
+        }
+      },
+      "robust_screen_candidate": false
+    },
+    {
+      "profile": "extended",
+      "name": "perish_m8_L2_cv2_f0.5",
+      "m": 8,
+      "cv": 2.0,
+      "f": 0.5,
+      "split": "transfer",
+      "groups": {
+        "one_query": {
+          "cost": 152.40060763888889,
+          "generation_sd": 0.3204553091764852,
+          "generation_costs": [
+            152.77057291666665,
+            152.22161458333332,
+            152.20963541666666
+          ],
+          "best": 152.20963541666666,
+          "worst": 152.77057291666665
+        },
+        "best_of_n": {
+          "cost": 152.12274305555556,
+          "generation_sd": 0.04288291089216763,
+          "generation_costs": [
+            152.09140625,
+            152.10520833333334,
+            152.17161458333334
+          ],
+          "best": 152.09140625,
+          "worst": 152.17161458333334
+        },
+        "evolution": {
+          "cost": 152.27925347222222,
+          "generation_sd": 0.17042481908390616,
+          "generation_costs": [
+            152.47604166666667,
+            152.18151041666667,
+            152.18020833333333
+          ],
+          "best": 152.18020833333333,
+          "worst": 152.47604166666667
+        },
+        "baek": {
+          "cost": 152.2823784722222,
+          "generation_sd": 0.22105162126437494,
+          "generation_costs": [
+            152.13020833333331,
+            152.18098958333331,
+            152.53593750000002
+          ],
+          "best": 152.13020833333331,
+          "worst": 152.53593750000002
+        }
+      },
+      "comparisons": {
+        "one_query": {
+          "candidate_cost": 152.27925347222222,
+          "reference_cost": 152.40060763888889,
+          "improvement_pct": 0.07962840079628153,
+          "improvement_ci_low": 0.03778480102428768,
+          "improvement_ci_high": 0.1214343646277429
+        },
+        "best_of_n": {
+          "candidate_cost": 152.27925347222222,
+          "reference_cost": 152.12274305555556,
+          "improvement_pct": -0.10288429824691298,
+          "improvement_ci_low": -0.13252001135174615,
+          "improvement_ci_high": -0.07150371780164519
+        },
+        "baek": {
+          "candidate_cost": 152.27925347222222,
+          "reference_cost": 152.2823784722222,
+          "improvement_pct": 0.002052108741231,
+          "improvement_ci_low": -0.033990930164929704,
+          "improvement_ci_high": 0.03982831146783536
+        }
+      },
+      "robust_screen_candidate": false
+    }
+  ],
+  "optimizer_aggregates": [
+    {
+      "scope": "primary",
+      "arm": "one_query",
+      "observed": 12,
+      "planned": 12,
+      "mean_pct": 15.674028993610092,
+      "median_pct": 15.493163696739902,
+      "minimum_pct": 12.064479190830282,
+      "maximum_pct": 20.179848130300876,
+      "positive": 12,
+      "nonpositive": 0
+    },
+    {
+      "scope": "primary",
+      "arm": "best_of_n",
+      "observed": 12,
+      "planned": 12,
+      "mean_pct": 13.0127059479715,
+      "median_pct": 12.68818967221725,
+      "minimum_pct": 9.877473390120082,
+      "maximum_pct": 16.529321963392654,
+      "positive": 12,
+      "nonpositive": 0
+    },
+    {
+      "scope": "primary",
+      "arm": "evolution",
+      "observed": 12,
+      "planned": 12,
+      "mean_pct": 10.137536606182314,
+      "median_pct": 9.07249783071957,
+      "minimum_pct": 7.25379603190502,
+      "maximum_pct": 14.727439313066446,
+      "positive": 12,
+      "nonpositive": 0
+    },
+    {
+      "scope": "extended",
+      "arm": "one_query",
+      "observed": 8,
+      "planned": 8,
+      "mean_pct": 5.148052747009885,
+      "median_pct": 5.641987782226379,
+      "minimum_pct": 0.914519721941754,
+      "maximum_pct": 9.615083898245382,
+      "positive": 8,
+      "nonpositive": 0
+    },
+    {
+      "scope": "extended",
+      "arm": "best_of_n",
+      "observed": 8,
+      "planned": 8,
+      "mean_pct": 4.610644646422067,
+      "median_pct": 5.040374331058553,
+      "minimum_pct": 1.779481155946479,
+      "maximum_pct": 8.345632597859014,
+      "positive": 8,
+      "nonpositive": 0
+    },
+    {
+      "scope": "extended",
+      "arm": "evolution",
+      "observed": 8,
+      "planned": 8,
+      "mean_pct": 5.92642651054002,
+      "median_pct": 5.936921317250754,
+      "minimum_pct": 1.324332700904087,
+      "maximum_pct": 10.124028554562209,
+      "positive": 8,
+      "nonpositive": 0
+    },
+    {
+      "scope": "combined",
+      "arm": "one_query",
+      "observed": 20,
+      "planned": 20,
+      "mean_pct": 11.46363849497001,
+      "median_pct": 12.608874030955459,
+      "minimum_pct": 0.914519721941754,
+      "maximum_pct": 20.179848130300876,
+      "positive": 20,
+      "nonpositive": 0
+    },
+    {
+      "scope": "combined",
+      "arm": "best_of_n",
+      "observed": 20,
+      "planned": 20,
+      "mean_pct": 9.651881427351727,
+      "median_pct": 10.68938804058138,
+      "minimum_pct": 1.779481155946479,
+      "maximum_pct": 16.529321963392654,
+      "positive": 20,
+      "nonpositive": 0
+    },
+    {
+      "scope": "combined",
+      "arm": "evolution",
+      "observed": 20,
+      "planned": 20,
+      "mean_pct": 8.453092567925397,
+      "median_pct": 9.07249783071957,
+      "minimum_pct": 1.324332700904087,
+      "maximum_pct": 14.727439313066446,
+      "positive": 20,
+      "nonpositive": 0
+    }
+  ],
+  "evolution_comparisons": [
+    {
+      "scope": "primary",
+      "reference": "one_query",
+      "observed": 12,
+      "planned": 12,
+      "mean_pct": -0.19177055815061453,
+      "median_pct": -0.014311766943412012,
+      "minimum_pct": -0.7887629404533937,
+      "maximum_pct": 0.24288804612472048,
+      "positive": 5,
+      "nonpositive": 7,
+      "path_ci_above_zero": 3,
+      "path_ci_below_zero": 5
+    },
+    {
+      "scope": "primary",
+      "reference": "best_of_n",
+      "observed": 12,
+      "planned": 12,
+      "mean_pct": -0.2874933684816027,
+      "median_pct": -0.042796329770399516,
+      "minimum_pct": -1.300002668911777,
+      "maximum_pct": 0.7405162428069533,
+      "positive": 2,
+      "nonpositive": 10,
+      "path_ci_above_zero": 2,
+      "path_ci_below_zero": 7
+    },
+    {
+      "scope": "primary",
+      "reference": "baek",
+      "observed": 12,
+      "planned": 12,
+      "mean_pct": -0.48589721909507594,
+      "median_pct": -0.107756030218507,
+      "minimum_pct": -1.857241627311371,
+      "maximum_pct": 0.09155038949786841,
+      "positive": 1,
+      "nonpositive": 11,
+      "path_ci_above_zero": 1,
+      "path_ci_below_zero": 7
+    },
+    {
+      "scope": "extended",
+      "reference": "one_query",
+      "observed": 8,
+      "planned": 8,
+      "mean_pct": 0.9764834338293557,
+      "median_pct": 0.9441375369638649,
+      "minimum_pct": -0.5060907245475765,
+      "maximum_pct": 2.4807462841302432,
+      "positive": 6,
+      "nonpositive": 2,
+      "path_ci_above_zero": 6,
+      "path_ci_below_zero": 2
+    },
+    {
+      "scope": "extended",
+      "reference": "best_of_n",
+      "observed": 8,
+      "planned": 8,
+      "mean_pct": -0.021362050264683893,
+      "median_pct": -0.04556787889872194,
+      "minimum_pct": -0.28588867252008393,
+      "maximum_pct": 0.33754509120470955,
+      "positive": 3,
+      "nonpositive": 5,
+      "path_ci_above_zero": 1,
+      "path_ci_below_zero": 3
+    },
+    {
+      "scope": "extended",
+      "reference": "baek",
+      "observed": 8,
+      "planned": 8,
+      "mean_pct": -0.06295224188750988,
+      "median_pct": 0.004640281633232773,
+      "minimum_pct": -0.5640900636423045,
+      "maximum_pct": 0.15178559355266674,
+      "positive": 5,
+      "nonpositive": 3,
+      "path_ci_above_zero": 2,
+      "path_ci_below_zero": 2
+    },
+    {
+      "scope": "combined",
+      "reference": "one_query",
+      "observed": 20,
+      "planned": 20,
+      "mean_pct": 0.2755310386413735,
+      "median_pct": 0.021795413810957336,
+      "minimum_pct": -0.7887629404533937,
+      "maximum_pct": 2.4807462841302432,
+      "positive": 11,
+      "nonpositive": 9,
+      "path_ci_above_zero": 9,
+      "path_ci_below_zero": 7
+    },
+    {
+      "scope": "combined",
+      "reference": "best_of_n",
+      "observed": 20,
+      "planned": 20,
+      "mean_pct": -0.18104084119483518,
+      "median_pct": -0.042796329770399516,
+      "minimum_pct": -1.300002668911777,
+      "maximum_pct": 0.7405162428069533,
+      "positive": 5,
+      "nonpositive": 15,
+      "path_ci_above_zero": 3,
+      "path_ci_below_zero": 10
+    },
+    {
+      "scope": "combined",
+      "reference": "baek",
+      "observed": 20,
+      "planned": 20,
+      "mean_pct": -0.3167192282120495,
+      "median_pct": -0.054966028185662964,
+      "minimum_pct": -1.857241627311371,
+      "maximum_pct": 0.15178559355266674,
+      "positive": 6,
+      "nonpositive": 14,
+      "path_ci_above_zero": 3,
+      "path_ci_below_zero": 9
+    }
+  ],
+  "resources": {
+    "available": true,
+    "complete": true,
+    "budget": {
+      "available": true,
+      "components": [
+        {
+          "component": "framework",
+          "known_usd": 10.6534996,
+          "held_usd": 0.0,
+          "allocated_usd": 35.0
+        },
+        {
+          "component": "baek",
+          "known_usd": 2.1216015,
+          "held_usd": 0.0,
+          "allocated_usd": 12.0
+        }
+      ],
+      "known_usd": 12.7751011,
+      "held_usd": 0.0,
+      "committed_usd": 12.7751011,
+      "user_limit_usd": 50.0,
+      "within_50": true,
+      "accounting": "One cumulative framework ledger plus one cumulative Baek ledger; phases are never summed again."
+    },
+    "groups": [
+      {
+        "profile": "primary",
+        "arm": "one_query",
+        "api_requests": 3.0,
+        "api_known_usd": 0.348354,
+        "api_held_usd": 0.0,
+        "input_tokens": 2272.0,
+        "output_tokens": 34381.0,
+        "recorded_compute_seconds": 43.79616654291749,
+        "compute_scope": "successful candidate fitting worker seconds",
+        "objective_or_tool_calls": 23671.0
+      },
+      {
+        "profile": "primary",
+        "arm": "best_of_n",
+        "api_requests": 26.0,
+        "api_known_usd": 2.753398,
+        "api_held_usd": 0.0,
+        "input_tokens": 19524.0,
+        "output_tokens": 271435.0,
+        "recorded_compute_seconds": 523.1068965818267,
+        "compute_scope": "successful candidate fitting worker seconds",
+        "objective_or_tool_calls": 48033.0
+      },
+      {
+        "profile": "primary",
+        "arm": "evolution",
+        "api_requests": 26.0,
+        "api_known_usd": 2.3498209,
+        "api_held_usd": 0.0,
+        "input_tokens": 105013.0,
+        "output_tokens": 218522.0,
+        "recorded_compute_seconds": 1358.2801425824873,
+        "compute_scope": "successful candidate fitting worker seconds",
+        "objective_or_tool_calls": 33794.0
+      },
+      {
+        "profile": "primary",
+        "arm": "baek",
+        "api_requests": 41.0,
+        "api_known_usd": 0.8840265,
+        "api_held_usd": 0.0,
+        "input_tokens": 573878.0,
+        "output_tokens": 58787.0,
+        "recorded_compute_seconds": 4259.807483624434,
+        "compute_scope": "tool wall seconds",
+        "objective_or_tool_calls": 38.0
+      },
+      {
+        "profile": "extended",
+        "arm": "one_query",
+        "api_requests": 3.0,
+        "api_known_usd": 0.34460389999999996,
+        "api_held_usd": 0.0,
+        "input_tokens": 4422.0,
+        "output_tokens": 34032.0,
+        "recorded_compute_seconds": 2100.9127505039796,
+        "compute_scope": "successful candidate fitting worker seconds",
+        "objective_or_tool_calls": 91537.0
+      },
+      {
+        "profile": "extended",
+        "arm": "best_of_n",
+        "api_requests": 24.0,
+        "api_known_usd": 2.4272042000000003,
+        "api_held_usd": 0.0,
+        "input_tokens": 35160.0,
+        "output_tokens": 241668.0,
+        "recorded_compute_seconds": 5735.32808395871,
+        "compute_scope": "successful candidate fitting worker seconds",
+        "objective_or_tool_calls": 91323.0
+      },
+      {
+        "profile": "extended",
+        "arm": "evolution",
+        "api_requests": 24.0,
+        "api_known_usd": 2.4301186,
+        "api_held_usd": 0.0,
+        "input_tokens": 155718.0,
+        "output_tokens": 215091.0,
+        "recorded_compute_seconds": 5635.194323745789,
+        "compute_scope": "successful candidate fitting worker seconds",
+        "objective_or_tool_calls": 73728.0
+      },
+      {
+        "profile": "extended",
+        "arm": "baek",
+        "api_requests": 59.0,
+        "api_known_usd": 1.237575,
+        "api_held_usd": 0.0,
+        "input_tokens": 1468266.0,
+        "output_tokens": 67063.0,
+        "recorded_compute_seconds": 7646.312049540691,
+        "compute_scope": "tool wall seconds",
+        "objective_or_tool_calls": 56.0
+      }
+    ],
+    "notes": [
+      "Monetary ledgers cover both phases and retain truncated/failed API responses.",
+      "Numerical fit counts exclude common baselines, validation, final refit and final test.",
+      "Invalid fits do not return objective counts or worker timings; their compute is missing, not zero.",
+      "Archived repaired attempts remain on disk but cannot be included in fit counters if no timings were saved.",
+      "Baek's reported Python seconds are tool execution wall time; they are not matched simulator transitions.",
+      "Parallel task times are summed work durations, not elapsed overnight duration.",
+      "Unfinished Baek sessions appear pending here; all their settled requests are already in budget totals.",
+      "The separate numerical_evaluation_resources list adds initial baseline fits, validation, final refits and tuned/default scoring to the existing search-only numeric rows.",
+      "Complete refit aggregates replace their checkpoint parts; partial refits count available checkpoint jobs only. These are recorded finished worker executions, not a complete CPU audit of failed unsaved workers.",
+      "Shared cache artifacts are attributed once with all known policy aliases. Separate scoring filenames execute independent workers even for an identical request; those executions are summed in one request row.",
+      "Action-cache hit/miss counters are distinct from artifact-cache reuse; the latter was not instrumented and remains null. Missing old resource metadata remains null, never zero.",
+      "The separate numerical list covers optimizer-pipeline workers and common baselines. Baek tool/setup/scoring and exact-DP diagnostic work have different accounting scopes and are not silently added to these optimizer totals."
+    ]
+  },
+  "problems": [],
+  "input_sha256": {
+    "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/overnight_search/20260917/report_summary.json": "43348f308cfcf27134338e76fbe6f99e4c4afe97ba016eac0e49b2d9ba4de1eb",
+    "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/overnight_search/20260917/tables/per_run.csv": "669c2ae9f6a5f1b61bdfe8261f97e7eb65b73ed5075de3bc3555f27310893254",
+    "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/overnight_search/20260917/tables/group_summary.csv": "7984c0c7b89a27c308475c85ae9bb12151059866d0f6cafccdf11298da7a024a",
+    "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/overnight_search/20260917/tables/paired_comparisons.csv": "df7728582f8ac128e73878a23c128c260ef7e7fdbf35bfe5cddb480e7c7a94b1",
+    "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/overnight_search/20260917/tables/optimizer_ablation.csv": "fe8880dbd330e3f6480370d62a73434ad8cc98ba9a8f4785678e7e632a87658c",
+    "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/overnight_search/20260917/extended/report_summary.json": "81300ef20e0125be82a37bb8fdedcc8c99c8ddf2785c25973709cc30f5239f08",
+    "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/overnight_search/20260917/extended/tables/per_run.csv": "d3e12dce46381094c43f30c8ea82e56df01bb406a773e5888e86de600e4e897d",
+    "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/overnight_search/20260917/extended/tables/group_summary.csv": "19e62049412d657662cc045460a24cc629aafb02bb63a91c6eb83dd354f0c814",
+    "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/overnight_search/20260917/extended/tables/paired_comparisons.csv": "bec8799f6a0b80d2f494998d899530eca0093911403e9430d2e5da645b2a8007",
+    "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/overnight_search/20260917/extended/tables/optimizer_ablation.csv": "708f427ca5689d5974b88ee10002bbdf358d2eca28ee0633bef5c82957daf471",
+    "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/overnight_search/20260917/resource_summary.json": "4f163eea964bf86f329efeda754627a82193f3730aa9296f064eb308f464e535"
+  },
+  "inference": "Exploratory full-family screen; three-draw means; path CIs conditional on fixed generated policies; no test-selected best draw."
+}

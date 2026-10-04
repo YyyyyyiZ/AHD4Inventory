@@ -1,0 +1,26 @@
+{
+  "verified_utc": "2026-09-16T07:18:44.119763+00:00",
+  "auditor": "explain_optimization",
+  "audit_type": "independent read-only verification",
+  "reconciliations": 8,
+  "archived_evidence_sha_verified": 28,
+  "null_transport_failure_checkpoints_verified": 4,
+  "archived_budget_entries_identical_to_current": 4,
+  "unknown_upper_total_usd": 0.044427,
+  "unknown_upper_this_incident_usd": 0.0356728,
+  "original_unknown_request_metadata_unique": true,
+  "first_new_requests_correct_next_slots_and_completed": 4,
+  "pre_submission_pause_failures_created": 0,
+  "pre_submission_pause_same_context_resume_verified": [
+    "self_evolve_h100_r2/g001_m2_003",
+    "self_evolve_h100_r3/g001_m2_004"
+  ],
+  "pre_submission_pause_remaining_unsubmitted_at_audit": [
+    "self_evolve_h500_r1/g001_m2_004",
+    "self_evolve_h500_r2/g001_m2_004"
+  ],
+  "test_results_read": false,
+  "api_calls_during_audit": 0,
+  "files_modified_by_auditor": false,
+  "conclusion": "No blocking issue. Continue the existing frozen experiment without re-posting unknown requests."
+}

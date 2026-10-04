@@ -1,0 +1,57 @@
+Write an ordering policy for the following SPECIFIC problem.
+
+
+PROBLEM. A retailer manages one product with lost sales and a fixed integer lead time L.
+The initial on-hand inventory and all outstanding orders are zero. An episode has L planning
+periods with demand exactly zero, followed by 50 selling periods. Only selling-period costs
+enter the objective. In EACH period, including planning periods, events occur in this order:
+(1) Receive the order placed L periods earlier and add ALL of it to inventory.
+(2) Observe on_hand_inventory AFTER that arrival and pipeline_orders, a list of length L-1.
+    pipeline_orders[j] arrives in j+1 periods. Choose this period's new order q.
+(3) Realize demand D, sell min(on_hand_inventory, D), and lose all unmet demand permanently.
+(4) Carry remaining inventory forward; the new order q will arrive exactly L periods later.
+(5) In selling periods, pay h times remaining inventory plus p times lost demand.
+For example, at L=2 the policy sees one outstanding order arriving next period, and its NEW
+order arrives two periods later. Do not count the current arrival twice.
+
+Orders can be any NONNEGATIVE FINITE REAL number. There is no order capacity, inventory
+capacity, ordering cost, backlog, or terminal salvage value. Inventory is never discarded.
+The objective is MINIMUM EXPECTED TOTAL COST over the 50 selling periods, from the stated
+initialization. Expectations average independent episodes of the given demand process.
+
+The policy MUST BE STATIONARY: q is a function only of current on-hand inventory, current
+pipeline, and fixed instance parameters. It has no period index, remaining horizon, phase
+flag, demand history, or future demand. Do not use a counter, mutable global/closure state,
+random seed state, or any other cross-call memory to infer the phase or episode position.
+Precomputed FIXED constants or tables are allowed. Return a deterministic state-to-action
+rule. The same rule is used in planning and selling periods.
+
+
+INSTANCE PARAMETERS (all known exactly):
+{"holding_cost": 1.0, "horizon": 50, "lead_time": 6, "lost_sales_cost": 2.0, "mean_demand": 100.0, "std_normal": 30.0}
+Here L=lead_time, h=holding_cost and p=lost_sales_cost.
+For every selling demand draw X from Normal(loc=100.0, scale=30.0), then set D=np.rint(max(0, X)). This is clipping negative draws to zero, NOT rejection sampling a truncated normal. The mean and standard deviation parameters describe X; clipping and rounding can change the moments of D.
+
+TOOLS AND BUDGET. You have one tool, run_python(code). It executes Python with
+the standard library, NumPy (importable as numpy) and SciPy. State does NOT persist between
+calls: define everything you need in each call. Print the results you want to see. You have
+3600 seconds of TOTAL Python execution across at most 50 calls, divided as you choose.
+Remaining time is reported after every call. You may implement simulations, test, and revise
+your approach within this budget. There is no web access, external data, repository access,
+or external optimization solver. The final policy will be evaluated outside this session
+on demand paths unavailable to you. Your final code must not call an LLM, network, files,
+or subprocesses and may use only the standard library, NumPy and SciPy.
+
+Final per-instance initialization should take at most 30 seconds on one CPU core. This is
+a measured target; a separate 600-second guard stops a construction that never returns.
+The per-period order function must be lightweight: no simulations or expensive optimization
+on each policy call. You may precompute fixed tables and constants at initialization.
+
+
+FINAL OUTPUT. Return ONLY one Python code block defining:
+def compute_order_amount(on_hand_inventory, pipeline_orders):
+    ...
+It must return a valid order for every nonnegative finite state with the stated shape.
+Embed the given fixed parameters in your source. Include every helper and import needed.
+Module-level initialization is permitted under the initialization-time target. Do not use
+an OPT_PARAM wrapper or assume an external tuner will adjust your returned code.

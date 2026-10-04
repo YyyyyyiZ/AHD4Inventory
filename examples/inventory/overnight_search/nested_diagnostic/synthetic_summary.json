@@ -1,0 +1,70 @@
+{
+  "label": "Fresh fixed-generator diagnostic, exact oracle; not AIPS success",
+  "n": 80,
+  "groups": [
+    {
+      "regime": "anticorrelated",
+      "split": "discovery",
+      "n": 10,
+      "mean_ratio": 1.0,
+      "min_ratio": 0.9999999999999998,
+      "within_0_1_percent": 10
+    },
+    {
+      "regime": "anticorrelated",
+      "split": "holdout",
+      "n": 10,
+      "mean_ratio": 1.0,
+      "min_ratio": 0.9999999999999998,
+      "within_0_1_percent": 10
+    },
+    {
+      "regime": "clustered",
+      "split": "discovery",
+      "n": 10,
+      "mean_ratio": 1.0,
+      "min_ratio": 0.9999999999999998,
+      "within_0_1_percent": 10
+    },
+    {
+      "regime": "clustered",
+      "split": "holdout",
+      "n": 10,
+      "mean_ratio": 1.0,
+      "min_ratio": 0.9999999999999999,
+      "within_0_1_percent": 10
+    },
+    {
+      "regime": "heterogeneous_nests",
+      "split": "discovery",
+      "n": 10,
+      "mean_ratio": 1.0,
+      "min_ratio": 0.9999999999999999,
+      "within_0_1_percent": 10
+    },
+    {
+      "regime": "heterogeneous_nests",
+      "split": "holdout",
+      "n": 10,
+      "mean_ratio": 1.0,
+      "min_ratio": 1.0,
+      "within_0_1_percent": 10
+    },
+    {
+      "regime": "independent",
+      "split": "discovery",
+      "n": 10,
+      "mean_ratio": 1.0,
+      "min_ratio": 0.9999999999999998,
+      "within_0_1_percent": 10
+    },
+    {
+      "regime": "independent",
+      "split": "holdout",
+      "n": 10,
+      "mean_ratio": 1.0,
+      "min_ratio": 0.9999999999999999,
+      "within_0_1_percent": 10
+    }
+  ]
+}

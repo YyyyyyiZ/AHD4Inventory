@@ -1,0 +1,32 @@
+{
+  "request_id": "c9c728f9bc614f478258cd38b138a1e9",
+  "resolution": "retain_upper_bound_skip_candidate",
+  "recorded_utc": "2026-09-16T05:34:26.888271+00:00",
+  "error_type": "IncompleteRead",
+  "unknown_cost_upper_usd": 0.0087542,
+  "no_response_available": true,
+  "no_repost": true,
+  "no_replacement_candidate": true,
+  "original_process_confirmed_exited": 66876,
+  "evidence": {
+    "training/exp_iid_random3_9/self_evolve_h200_r1/blocked_transport.json": {
+      "sha256": "9f0385574f5af6aaeed821efde50b751f0d0b03a0efe936f071afb419af9570c",
+      "archived_path": "training/exp_iid_random3_9/self_evolve_h200_r1/recoveries/c9c728f9bc614f478258cd38b138a1e9/blocked_transport.original.json"
+    },
+    "training/exp_iid_random3_9/self_evolve_h200_r1/model_responses/486bf35785da3cca0500d955571eced7b8bcd1ccc7d71a9e29606dda600f3b94.json": {
+      "sha256": "fe9138d218e443f7c53c0738f926efaa69bba9ce94f0dee5f9c4a41fa9c75d93",
+      "archived_path": "training/exp_iid_random3_9/self_evolve_h200_r1/recoveries/c9c728f9bc614f478258cd38b138a1e9/pending_model_response.original.json"
+    },
+    "api_requests/c9c728f9bc614f478258cd38b138a1e9/request.json": {
+      "sha256": "307acffe0abe7d1a878838a41407bba8390d9dbeb3fadcd034670d86cec2b5b8",
+      "archived_path": "training/exp_iid_random3_9/self_evolve_h200_r1/recoveries/c9c728f9bc614f478258cd38b138a1e9/provider_request.original.json"
+    },
+    "training/exp_iid_random3_9/self_evolve_h200_r1/status.json": {
+      "sha256": "eded7edd9caa3c137b4dc34bc3de6b83d77dcf2df4de7b694ca6bf9bd595ecfe",
+      "archived_path": "training/exp_iid_random3_9/self_evolve_h200_r1/recoveries/c9c728f9bc614f478258cd38b138a1e9/status.original.json"
+    }
+  },
+  "reason": "The original attempted candidate is recorded as a transport failure with no output. Continue only subsequent frozen candidate slots. Independent replay verified unchanged survivor selection.",
+  "failed_candidate_path": "training/exp_iid_random3_9/self_evolve_h200_r1/candidates/g005_m2_007.json.gz",
+  "failed_candidate_sha256": "f0e6f7260b612d5b5156912c208be73514fbe3e069949750559daf1d00a4a909"
+}

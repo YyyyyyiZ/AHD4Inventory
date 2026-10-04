@@ -1,0 +1,138 @@
+{
+  "timestamp_utc": "2026-09-16T16:33:04.396938+00:00",
+  "scope": "Training-only read-only checkpoint audit; no API or new evaluation.",
+  "scenario_id": "exp_regime095_random3_9",
+  "policy_id": "self_evolve_h200_r1",
+  "latest_verified_completed_generation": 7,
+  "planned_generations": 10,
+  "original_adaptive_pil_cost_per_period": 148.10674934717147,
+  "best_cost_per_period": 147.5813967,
+  "absolute_improvement_per_period": 0.5253526471714736,
+  "relative_improvement_pct": 0.3547121582825467,
+  "optimized_parameter_count": 8,
+  "optimized_parameters": [
+    {
+      "name": "S_over_mean",
+      "value": 0.539337292880149,
+      "metadata": {
+        "initial": 0.539337292880149,
+        "min": 0.5,
+        "max": 1.0,
+        "type": "float"
+      }
+    },
+    {
+      "name": "cap_over_mean",
+      "value": 3.3,
+      "metadata": {
+        "initial": 3.3,
+        "min": 2.0,
+        "max": 3.5,
+        "type": "float"
+      }
+    },
+    {
+      "name": "target_forecast_gain",
+      "value": 1.1756109550443543,
+      "metadata": {
+        "initial": 1.1756109550443543,
+        "min": 0.7,
+        "max": 1.2,
+        "type": "float"
+      }
+    },
+    {
+      "name": "cap_forecast_gain",
+      "value": 2.3,
+      "metadata": {
+        "initial": 2.3,
+        "min": 1.5,
+        "max": 2.5,
+        "type": "float"
+      }
+    },
+    {
+      "name": "inventory_gain",
+      "value": 0.5252658872850411,
+      "metadata": {
+        "initial": 0.5252658872850411,
+        "min": 0.4,
+        "max": 0.8,
+        "type": "float"
+      }
+    },
+    {
+      "name": "demand_response",
+      "value": 0.10760020736335871,
+      "metadata": {
+        "initial": 0.10760020736335871,
+        "min": 0.1,
+        "max": 0.3,
+        "type": "float"
+      }
+    },
+    {
+      "name": "high_regime_adjustment",
+      "value": 1.3199427877378531,
+      "metadata": {
+        "initial": 1.3199427877378531,
+        "min": 1.2,
+        "max": 1.6,
+        "type": "float"
+      }
+    },
+    {
+      "name": "low_regime_adjustment",
+      "value": 0.8057583581287994,
+      "metadata": {
+        "initial": 0.8057583581287994,
+        "min": 0.5,
+        "max": 1.1,
+        "type": "float"
+      }
+    }
+  ],
+  "best_code_sha256": "407993cba4b740df050be003c252fd6384e844aa9fbb41d7af5acaa8a2af40ed",
+  "first_complete_generation_with_current_best": 6,
+  "generation_checkpoints": [
+    {
+      "generation": 1,
+      "best_cost_per_period": 147.97483275000002,
+      "code_sha256": "95fcde7df1df4ff136ca9928e3fee465748a501f9e4c64c9e7071d11b64fd799"
+    },
+    {
+      "generation": 2,
+      "best_cost_per_period": 147.8970971,
+      "code_sha256": "5828471b04ee103cc35ac48fc6257afc9ed32c7eb7e0829fcd7d45cbe8723d0a"
+    },
+    {
+      "generation": 3,
+      "best_cost_per_period": 147.78715019999999,
+      "code_sha256": "d0b6b2000d21519227957ea9fb40c9748f5c912aaaf68bc064309c45e602f36b"
+    },
+    {
+      "generation": 4,
+      "best_cost_per_period": 147.73837505,
+      "code_sha256": "a60e879758e2629afe4fb8bdef3e03803a56f363c15b834d8d282c8b7c9e42ec"
+    },
+    {
+      "generation": 5,
+      "best_cost_per_period": 147.61052385000002,
+      "code_sha256": "e989543db75cc56f9309c3f65add4e7a2b94801492a0fa4a87894fefbf52e9a8"
+    },
+    {
+      "generation": 6,
+      "best_cost_per_period": 147.5813967,
+      "code_sha256": "407993cba4b740df050be003c252fd6384e844aa9fbb41d7af5acaa8a2af40ed"
+    },
+    {
+      "generation": 7,
+      "best_cost_per_period": 147.5813967,
+      "code_sha256": "407993cba4b740df050be003c252fd6384e844aa9fbb41d7af5acaa8a2af40ed"
+    }
+  ],
+  "core_change_zh": "保留 Adaptive PIL 的条件投影，新增根据上期需求识别高低状态并分别缩放参考需求的规则，同时影响目标库存和订货上限。",
+  "source_checkpoint": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_adaptive_pil_seed/training/exp_regime095_random3_9/self_evolve_h200_r1/checkpoints/g007.json.gz",
+  "seed_definition": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_adaptive_pil_seed/training/exp_regime095_random3_9/self_evolve_h200_r1/warmstart_definition.json",
+  "heldout_evaluated": false
+}

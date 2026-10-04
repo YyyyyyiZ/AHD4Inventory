@@ -1,0 +1,23 @@
+{
+  "status": "completed",
+  "best_code_path": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_unrestricted_params/training/exp_ar_pos08_fixed6/self_evolve_h100_r1/policy.py",
+  "code_sha256": "e8e0703986022d97732dc0beec3293dbfc4fc533e35a5d9500275bd92a9d538c",
+  "best_train_cost": 16674.321191468414,
+  "algorithm": "Increased base_target and demand_response to better handle high demand spikes, while adjusting demand_weight to be more responsive to recent demand. The higher base stock level and stronger response to demand deviations should reduce lost sales.",
+  "checkpoint_path": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_unrestricted_params/training/exp_ar_pos08_fixed6/self_evolve_h100_r1/checkpoints/g010.json.gz",
+  "model_calls": 105,
+  "training_evaluations": 11996,
+  "training_cache_hits": 460,
+  "compiled_structures": 20,
+  "optimizer": "SciPy L-BFGS-B",
+  "optimizer_maxiter": 15,
+  "test_evaluated": false,
+  "scenario_id": "exp_ar_pos08_fixed6",
+  "policy_id": "self_evolve_h100_r1",
+  "family": "self_evolve",
+  "repeat": 1,
+  "source_training_horizon": 100,
+  "elapsed_seconds": 1203.1492400839925,
+  "finished_utc": "2026-09-16T16:43:36.805177+00:00",
+  "full_protocol": true
+}

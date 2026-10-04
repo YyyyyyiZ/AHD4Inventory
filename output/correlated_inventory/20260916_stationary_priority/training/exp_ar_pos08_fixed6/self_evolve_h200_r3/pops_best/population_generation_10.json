@@ -1,0 +1,18 @@
+{
+     "algorithm": "Increased base_target and demand_response to better match high demand autocorrelation; raised min_order to reduce stockouts; reduced pipeline_coverage to account for order overtaking. These changes aim to reduce lost-sales costs while maintaining reasonable holding costs.",
+     "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 226.7667443273936  # OPT_PARAM: {\"initial\": 226.7667443273936, \"min\": 100.0, \"max\": 500.0, \"type\": \"float\"}\n    demand_response = 0.1  # OPT_PARAM: {\"initial\": 0.1, \"min\": 0.1, \"max\": 1.5, \"type\": \"float\"}\n    min_order = 0.6840888067051129  # OPT_PARAM: {\"initial\": 0.6840888067051129, \"min\": 0.0, \"max\": 20.0, \"type\": \"float\"}\n    pipeline_coverage = 1.0  # OPT_PARAM: {\"initial\": 1.0, \"min\": 0.5, \"max\": 1.0, \"type\": \"float\"}\n    \n    adjusted_target = base_target + demand_response * last_demand\n    order_amount = max(min_order, adjusted_target - on_hand_inventory - pipeline_coverage * sum(pipeline_orders))\n    return order_amount\n",
+     "description": "",
+     "intuition": "",
+     "reasoning": "Increased base_target and demand_response to better match high demand autocorrelation; raised min_order to reduce stockouts; reduced pipeline_coverage to account for order overtaking. These changes aim to reduce lost-sales costs while maintaining reasonable holding costs.",
+     "opt_params": {
+          "base_target": 226.7667443273936,
+          "demand_response": 0.1,
+          "min_order": 0.6840888067051129,
+          "pipeline_coverage": 1.0
+     },
+     "cost": null,
+     "objective": 34404.91267,
+     "lower": 32853.66518,
+     "upper": 36073.54707,
+     "other_inf": null
+}

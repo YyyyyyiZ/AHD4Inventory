@@ -1,0 +1,17 @@
+{
+  "status": "blocked",
+  "metadata": {
+    "scenario_id": "exp_iid_fixed6",
+    "repeat": 3,
+    "chain_dir": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_adaptive_pil_seed/training/exp_iid_fixed6/self_evolve_h200_r3",
+    "generation": 1,
+    "operator": "m2",
+    "candidate_index": 0,
+    "parent_code_sha256": "a8a4452a04393643945f4f24ea0b1059f9028f7c53aee26ba9c266a1235b51ab",
+    "candidate_attempt": 1,
+    "prompt_sha256": "64764a6da46228f534e144d2cdd2b2daee76d1472efd79dcced56aee901a5e80"
+  },
+  "error_type": "ModelRequestError",
+  "error": "OpenRouter transport failure (TimeoutError); request=f7a6f11488df412bbe78355e06b6fc7e; reservation retained",
+  "instruction": "No automatic retry or re-POST. Review request accounting before resume."
+}

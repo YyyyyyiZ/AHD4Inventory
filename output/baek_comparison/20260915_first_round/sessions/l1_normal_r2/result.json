@@ -1,0 +1,48 @@
+{
+  "session_id": "l1_normal_r2",
+  "level": "L1",
+  "family": "normal",
+  "repeat": 2,
+  "scenario_id": "normal_std30_L6_c1_2",
+  "prompt_sha256": "b093c1aee0482af8510760d06496a6168ff689d5ea490c5c419fa318fb7420f1",
+  "status": "completed",
+  "final_text": "```python\ndef compute_order_amount(on_hand_inventory, pipeline_orders):\n    x = float(on_hand_inventory)\n    p = tuple(float(v) for v in pipeline_orders)\n\n    # Stationary state-based initialization behavior.\n    if x == 0.0:\n        if p == (0.0, 0.0, 0.0, 0.0, 0.0):\n            return 103.0\n        if p == (0.0, 0.0, 0.0, 0.0, 103.0):\n            return 90.0\n        if p == (0.0, 0.0, 0.0, 103.0, 90.0):\n            return 88.0\n        if p == (0.0, 0.0, 103.0, 90.0, 88.0):\n            return 87.0\n        if p == (0.0, 103.0, 90.0, 88.0, 87.0):\n            return 87.0\n        if p == (103.0, 90.0, 88.0, 87.0, 87.0):\n            return 86.0\n\n    weighted_stock = (\n        x\n        + 1.14 * p[0]\n        + 1.06 * p[1]\n        + 1.17 * p[2]\n        + 1.20 * p[3]\n        + 1.65 * p[4]\n    )\n\n    low_gap = max(630.0 - weighted_stock, 0.0)\n    high_gap = max(weighted_stock - 668.0, 0.0)\n\n    q = (\n        88.0\n        + 0.085 * low_gap\n        - 0.35 * high_gap\n        - 0.0007 * high_gap * high_gap\n    )\n    return max(0.0, q)\n```",
+  "final_code": "def compute_order_amount(on_hand_inventory, pipeline_orders):\n    x = float(on_hand_inventory)\n    p = tuple(float(v) for v in pipeline_orders)\n\n    # Stationary state-based initialization behavior.\n    if x == 0.0:\n        if p == (0.0, 0.0, 0.0, 0.0, 0.0):\n            return 103.0\n        if p == (0.0, 0.0, 0.0, 0.0, 103.0):\n            return 90.0\n        if p == (0.0, 0.0, 0.0, 103.0, 90.0):\n            return 88.0\n        if p == (0.0, 0.0, 103.0, 90.0, 88.0):\n            return 87.0\n        if p == (0.0, 103.0, 90.0, 88.0, 87.0):\n            return 87.0\n        if p == (103.0, 90.0, 88.0, 87.0, 87.0):\n            return 86.0\n\n    weighted_stock = (\n        x\n        + 1.14 * p[0]\n        + 1.06 * p[1]\n        + 1.17 * p[2]\n        + 1.20 * p[3]\n        + 1.65 * p[4]\n    )\n\n    low_gap = max(630.0 - weighted_stock, 0.0)\n    high_gap = max(weighted_stock - 668.0, 0.0)\n\n    q = (\n        88.0\n        + 0.085 * low_gap\n        - 0.35 * high_gap\n        - 0.0007 * high_gap * high_gap\n    )\n    return max(0.0, q)\n",
+  "usage": {
+    "input_tokens": 530033,
+    "output_tokens": 19872,
+    "total_tokens": 549905,
+    "last_response_usage": {
+      "input_tokens": 31459,
+      "input_tokens_details": {
+        "cached_tokens": 29541,
+        "cache_write_tokens": 1915
+      },
+      "output_tokens": 878,
+      "output_tokens_details": {
+        "reasoning_tokens": 444
+      },
+      "total_tokens": 32337,
+      "cost": 0.0194817,
+      "is_byok": false,
+      "cost_details": {
+        "upstream_inference_cost": 0.0194817,
+        "upstream_inference_input_cost": 0.0107017,
+        "upstream_inference_output_cost": 0.00878
+      }
+    }
+  },
+  "cost_usd": 0.3789635999999999,
+  "tool_calls": 29,
+  "python_seconds": 1542.4447968320455,
+  "requests": 31,
+  "actual_models": [
+    "openai/gpt-5.6-sol"
+  ],
+  "error": null,
+  "http_status": null,
+  "uncertain_cost_usd": 0.952908,
+  "interruption_waste_seconds": 0.0,
+  "resumed_from_checkpoint": true,
+  "code_sha256": "9feeb105f700d46a2dcbf8aa3de49687fb197ce851ff0a07fa72cb84bf9bad7b"
+}

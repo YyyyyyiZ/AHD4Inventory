@@ -1,0 +1,14 @@
+{
+  "paused_utc": "2026-09-16T13:36:17.412655+00:00",
+  "reason": "Explicit user request: leaving, pause until user asks to continue",
+  "pause_file_present": true,
+  "automation_status": "PAUSED",
+  "controller_status": "paused",
+  "saved_candidates": 132,
+  "api_requests": 142,
+  "api_pending": 0,
+  "known_cost_usd": 0.08663879,
+  "uncertain_reserved_usd": 0.008472700000000001,
+  "tracked_processes_remaining": "",
+  "resume_note": "Keep PAUSE until the user resumes. Review pending_candidate and blocked_transport against request ledger before resuming; retain all saved responses and unknown charge reservations, never blindly resend."
+}

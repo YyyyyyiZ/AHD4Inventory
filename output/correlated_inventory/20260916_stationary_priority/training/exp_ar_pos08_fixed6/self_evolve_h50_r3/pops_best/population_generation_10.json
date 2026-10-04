@@ -1,0 +1,18 @@
+{
+     "algorithm": "Increased base_stock to better match demand mean, adjusted weights to balance holding and lost-sales costs based on training performance. The higher base_stock and demand_weight help prevent stockouts during high-demand periods, while reduced pipeline_weight focuses more on current inventory and recent demand.",
+     "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_stock = 72.61288604122132  # OPT_PARAM: {\"initial\": 72.61288604122132, \"min\": 50.0, \"max\": 300.0, \"type\": \"float\"}\n    demand_weight = 0.18117132546428727  # OPT_PARAM: {\"initial\": 0.18117132546428727, \"min\": 0.1, \"max\": 1.0, \"type\": \"float\"}\n    inventory_weight = 0.3134601987885489  # OPT_PARAM: {\"initial\": 0.3134601987885489, \"min\": 0.1, \"max\": 0.5, \"type\": \"float\"}\n    pipeline_weight = 0.2866724805589663  # OPT_PARAM: {\"initial\": 0.2866724805589663, \"min\": 0.0, \"max\": 0.3, \"type\": \"float\"}\n    \n    demand_estimate = base_stock + demand_weight * last_demand\n    inventory_adjustment = inventory_weight * on_hand_inventory\n    pipeline_adjustment = pipeline_weight * sum(pipeline_orders)\n    order_amount = max(0.0, demand_estimate - inventory_adjustment - pipeline_adjustment)\n    return order_amount\n",
+     "description": "",
+     "intuition": "",
+     "reasoning": "Increased base_stock to better match demand mean, adjusted weights to balance holding and lost-sales costs based on training performance. The higher base_stock and demand_weight help prevent stockouts during high-demand periods, while reduced pipeline_weight focuses more on current inventory and recent demand.",
+     "opt_params": {
+          "base_stock": 72.61288604122132,
+          "demand_weight": 0.18117132546428727,
+          "inventory_weight": 0.3134601987885489,
+          "pipeline_weight": 0.2866724805589663
+     },
+     "cost": null,
+     "objective": 7969.61752,
+     "lower": 7104.21809,
+     "upper": 8948.2867,
+     "other_inf": null
+}

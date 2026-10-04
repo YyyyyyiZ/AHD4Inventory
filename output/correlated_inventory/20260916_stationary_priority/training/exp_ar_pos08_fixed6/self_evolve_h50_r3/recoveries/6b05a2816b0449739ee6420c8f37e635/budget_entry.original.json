@@ -1,0 +1,20 @@
+{
+  "state": "unknown_charge",
+  "created_utc": "2026-09-16T07:08:13.473909+00:00",
+  "reserved_usd": 0.0089557,
+  "input_token_bound": 8081,
+  "max_output_tokens": 4096,
+  "metadata": {
+    "scenario_id": "exp_ar_pos08_fixed6",
+    "repeat": 3,
+    "chain_dir": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_stationary_priority/training/exp_ar_pos08_fixed6/self_evolve_h50_r3",
+    "generation": 9,
+    "operator": "m2",
+    "candidate_index": 9,
+    "parent_code_sha256": "c0a5d8d30cf71c94d890bec46330b18ef6f3e8d1c68847af8b6aae4e2c834362",
+    "candidate_attempt": 1,
+    "prompt_sha256": "c25bfbcec8cfb9a1bc7c6baf1154ff855e969df5c2a9ed791129e8715fca09fd"
+  },
+  "finished_utc": "2026-09-16T07:08:19.093806+00:00",
+  "error_type": "URLError"
+}

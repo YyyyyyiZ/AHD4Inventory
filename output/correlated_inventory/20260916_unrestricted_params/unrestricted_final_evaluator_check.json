@@ -1,0 +1,17 @@
+{
+  "offline_only": true,
+  "checks": [
+    {
+      "scenario": "offline_fixed",
+      "parameters": 12,
+      "windows": 8,
+      "max_absolute_error": 0.0
+    },
+    {
+      "scenario": "offline_random",
+      "parameters": 12,
+      "windows": 8,
+      "max_absolute_error": 0.0
+    }
+  ]
+}

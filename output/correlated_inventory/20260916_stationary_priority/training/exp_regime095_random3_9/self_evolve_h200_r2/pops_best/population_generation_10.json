@@ -1,0 +1,18 @@
+{
+     "algorithm": "Increased base stock level and adjusted regime sensitivity for better high-demand handling. Strengthened demand response and lead time weighting while maintaining smooth adjustments. The policy now reacts more aggressively to observed high demand periods while maintaining stability during low demand.",
+     "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_stock = 312.21467830087937  # OPT_PARAM: {\"initial\": 312.21467830087937, \"min\": 300.0, \"max\": 500.0, \"type\": \"float\"}\n    demand_response = 0.8  # OPT_PARAM: {\"initial\": 0.8, \"min\": 0.8, \"max\": 1.2, \"type\": \"float\"}\n    lead_time_weight = 14.388947217947239  # OPT_PARAM: {\"initial\": 14.388947217947239, \"min\": 5.0, \"max\": 15.0, \"type\": \"float\"}\n    adjustment_factor = 0.1  # OPT_PARAM: {\"initial\": 0.1, \"min\": 0.1, \"max\": 0.3, \"type\": \"float\"}\n    \n    # More sensitive demand regime detection\n    is_high_demand = last_demand >= 100.0 * np.log(2)\n    \n    # Dynamic base stock adjustment\n    adjusted_base = base_stock * (2.5 if is_high_demand else 1.0)\n    \n    # Target inventory calculation with stronger lead time response\n    target = adjusted_base + demand_response * last_demand + lead_time_weight * (quoted_lead_time - 6)\n    \n    # Current pipeline inventory\n    current_pipeline = on_hand_inventory + sum(pipeline_orders)\n    \n    # Order amount calculation\n    order_amount = max(0.0, (target - current_pipeline) * adjustment_factor)\n    return order_amount\n",
+     "description": "",
+     "intuition": "",
+     "reasoning": "Increased base stock level and adjusted regime sensitivity for better high-demand handling. Strengthened demand response and lead time weighting while maintaining smooth adjustments. The policy now reacts more aggressively to observed high demand periods while maintaining stability during low demand.",
+     "opt_params": {
+          "base_stock": 312.21467830087937,
+          "demand_response": 0.8,
+          "lead_time_weight": 14.388947217947239,
+          "adjustment_factor": 0.1
+     },
+     "cost": null,
+     "objective": 30312.59953,
+     "lower": 28732.39633,
+     "upper": 32038.76368,
+     "other_inf": null
+}

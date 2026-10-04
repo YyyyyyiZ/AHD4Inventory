@@ -1,0 +1,162 @@
+{
+  "protocol_differences": {
+    "api_budget_usd": {
+      "previous": 20.0,
+      "new": 18.17
+    },
+    "parameter_limit_ablation": {
+      "previous": null,
+      "new": {
+        "previous_run": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_stationary_priority",
+        "change": "remove the optimizable-parameter count ceiling from prompts and policy validation",
+        "reuse": "identical demand tapes and previously optimized baseline policies",
+        "previous_holdout_seen": true,
+        "interpretation": "user-requested exploratory ablation after reviewing the previous results; no fresh confirmatory test set",
+        "session_budget_usd": 20.0,
+        "previous_committed_upper_usd": 1.82576175
+      }
+    },
+    "evolution.max_opt_params": {
+      "previous": 4,
+      "new": null
+    },
+    "protocol_id": {
+      "previous": "stationary-correlated-exp100-v1",
+      "new": "stationary-correlated-exp100-unrestricted-params-v2"
+    }
+  },
+  "actual_request_prompt_checks": [
+    {
+      "request_id": "35d151f4b9a945c483eea5558d7ccb8f",
+      "payload_file_sha256": "e19325e26a3f5935b4351afa606f41810200ced55f9d7f3b3fe8a2d8023108aa",
+      "parameter_count_ceiling_present": false
+    },
+    {
+      "request_id": "23e808319a044efdbf64a7adfc48a498",
+      "payload_file_sha256": "f657d170876c5e4f78fb8250f94a73cbf1f720119c7eda071a93c94653b27d05",
+      "parameter_count_ceiling_present": false
+    },
+    {
+      "request_id": "729d8cf2163e46dd8f4f8323351d0091",
+      "payload_file_sha256": "9b76e6fb86aaa1e907ea00670c5eead95a182ca1b2729cd05b5a0c73547d5a6f",
+      "parameter_count_ceiling_present": false
+    },
+    {
+      "request_id": "16dd89c18c034827a3e7ff26669d3a7a",
+      "payload_file_sha256": "a87e2b0c71c3c905029aad387bcaab6089238da05e3ccdcc770f888842280318",
+      "parameter_count_ceiling_present": false
+    },
+    {
+      "request_id": "f4c99d7cd0a34f9cae9667d1fc244b53",
+      "payload_file_sha256": "2fdc92d211b95aa5fa51954f6a3acf5d011a6ef5419af4f559a929560d66b753",
+      "parameter_count_ceiling_present": false
+    },
+    {
+      "request_id": "e30f872922e64fc7952adbd8853dfed7",
+      "payload_file_sha256": "4448fbec559f65a2483b10abe00ae93d51ca805596ded3196322caa29667d078",
+      "parameter_count_ceiling_present": false
+    },
+    {
+      "request_id": "dda4b5ff11b3405c83d896074c055d30",
+      "payload_file_sha256": "aac692f128dac3e9cbd6d93034df503dd37033df0e779d6d12dc9577555c03b7",
+      "parameter_count_ceiling_present": false
+    },
+    {
+      "request_id": "c48da670551340f0841a8f3ac5bb7db3",
+      "payload_file_sha256": "89549dc956b9b7bd4ef76fc98d8020c0b9f11bd6e854e8f766f82bb61b255c54",
+      "parameter_count_ceiling_present": false
+    },
+    {
+      "request_id": "40963e2412ab4251aeb35499c8089388",
+      "payload_file_sha256": "fd4872d5cf5d8f4beafcd5edae53bf76ef1623e6d00f0095b1840404cff5fa74",
+      "parameter_count_ceiling_present": false
+    },
+    {
+      "request_id": "f7a464ff2520459dbcd3343bb971e679",
+      "payload_file_sha256": "9b2f21aca866c699dcf768437290c6e2e570ea96a34218a4fff8dc68504e9825",
+      "parameter_count_ceiling_present": false
+    },
+    {
+      "request_id": "7a28aa75bd49459eafad1ef5b32e6e2b",
+      "payload_file_sha256": "3ed48c0216d478a7c2ab739eb98c87cc4b5460b5b93e6fd0ace3874c359ef601",
+      "parameter_count_ceiling_present": false
+    },
+    {
+      "request_id": "cae0769a47d14278b52a425e7f34a950",
+      "payload_file_sha256": "c6137e6ef63189ed34378d91ff06e97d5a7b261e60237b24a478656239990402",
+      "parameter_count_ceiling_present": false
+    },
+    {
+      "request_id": "9f8f4118480145cb8ce9eae9d3e13a09",
+      "payload_file_sha256": "f87d48324fdcf704171c21575c13a74685fb91a19e64f303cfc65bf00d230991",
+      "parameter_count_ceiling_present": false
+    },
+    {
+      "request_id": "490344ed0c5d4bd59a0ba9b8d10bc2fd",
+      "payload_file_sha256": "a2328e148dc83c5cca5a73a9f00e15fe46c810a3db6f09503a117f0c58ef723e",
+      "parameter_count_ceiling_present": false
+    },
+    {
+      "request_id": "5bc6cf6360c64ba5b7d38b59f6aad110",
+      "payload_file_sha256": "2e9469a6abc350657d44113f22d9b86d4309eaee0dbf2b73a0d1fc5c1f7d49a7",
+      "parameter_count_ceiling_present": false
+    },
+    {
+      "request_id": "26f825cb69d04d65a9dc4b99c51bcef6",
+      "payload_file_sha256": "ace8a8d937afd9a1f5ff12aa02e45d08adb87a5e0da90ae83b71fc43d93d1038",
+      "parameter_count_ceiling_present": false
+    },
+    {
+      "request_id": "257790e725a4478c97b563f2a6265da1",
+      "payload_file_sha256": "83e1979255ca8172c21e8636641ce141fe4c576e7f928e69feeaa80b6342d8e2",
+      "parameter_count_ceiling_present": false
+    },
+    {
+      "request_id": "c78c5f5f929a4ca2842f6195a05f5b0c",
+      "payload_file_sha256": "6d6e6f4bc882e3771196b3856e2874262cb0722bb7d3815714503dffd1851afa",
+      "parameter_count_ceiling_present": false
+    },
+    {
+      "request_id": "adf63ce1d2ad442fb26fc9c6dfa5ade2",
+      "payload_file_sha256": "8f9710d362fa0056d56b18d8e45dc94119a6d3f73fdd43e3c47e57058d6f7111",
+      "parameter_count_ceiling_present": false
+    },
+    {
+      "request_id": "77992f58a2454126ad7f565203575dcb",
+      "payload_file_sha256": "4d0c957e65fb4442eda774f09fd71616a66201cd3c9a57e61330a2b882301205",
+      "parameter_count_ceiling_present": false
+    },
+    {
+      "request_id": "c1669487ebfa48609eea8bd30e155506",
+      "payload_file_sha256": "1a87ace66a8be6372d9d26df10ccc98d5402626f15efec1c42c06af41544d6e9",
+      "parameter_count_ceiling_present": false
+    },
+    {
+      "request_id": "a9dac1edd96441dba5389482faa9f91e",
+      "payload_file_sha256": "b6fb673353a551d89c40137c69e90a9dbdb8b305670ba2a62eb0e9ca86ca9924",
+      "parameter_count_ceiling_present": false
+    },
+    {
+      "request_id": "0632c72909fa4b078dc8f4ba8f69959f",
+      "payload_file_sha256": "7b9106c16adb6d23b9f9ac003c02293068cc8a27ead230f635c991bf09aae70b",
+      "parameter_count_ceiling_present": false
+    },
+    {
+      "request_id": "646862354e564ec482134055450f3cea",
+      "payload_file_sha256": "df5897c0c16bd7306d16aa4fadfadd2c70c0bc443b03688bf0e5a29e49886aa3",
+      "parameter_count_ceiling_present": false
+    },
+    {
+      "request_id": "62ae4ae50aa344318795bfee9dea6bd8",
+      "payload_file_sha256": "ed6f13921465189b766d6512eb3277d32ae07155a5ab20f2f84243998bd25ec9",
+      "parameter_count_ceiling_present": false
+    },
+    {
+      "request_id": "a8038c4754fa42be81d1f0d316e01602",
+      "payload_file_sha256": "5ba6a6fd3bf399665448e98b6850d9b66fb4a7a2fa35deaf809f2c0eb3bdad64",
+      "parameter_count_ceiling_present": false
+    }
+  ],
+  "all_checked_request_prompts_unrestricted": true,
+  "old_policy_seal_unchanged": true
+}

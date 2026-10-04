@@ -1,0 +1,87 @@
+{
+  "seed": 98714011,
+  "budget": 17,
+  "optimizer_seed": 98714012,
+  "elapsed_seconds": 13.377134999958798,
+  "records": [
+    {
+      "method": "evolution_r2",
+      "scenarios": [
+        "perish_m3_L2_cv1.5_f0",
+        "perish_m5_L2_cv2_f0.5"
+      ],
+      "fit_results_exact": true,
+      "metadata_exact": true,
+      "cached_stats": {
+        "enabled": true,
+        "version": 1,
+        "scenarios": {
+          "perish_m3_L2_cv1.5_f0": {
+            "hits": 7204,
+            "misses": 7196,
+            "peak_entries": 615,
+            "configuration": {
+              "dense": true,
+              "slots": 104976,
+              "slot_bits": 0,
+              "max_entries": 800,
+              "buffer_bytes": 839808
+            }
+          },
+          "perish_m5_L2_cv2_f0.5": {
+            "hits": 4298,
+            "misses": 10102,
+            "peak_entries": 756,
+            "configuration": {
+              "dense": false,
+              "slots": 2048,
+              "slot_bits": 11,
+              "max_entries": 800,
+              "buffer_bytes": 32768
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "evolution_r3",
+      "scenarios": [
+        "perish_m3_L2_cv1.5_f0",
+        "perish_m5_L2_cv2_f0.5"
+      ],
+      "fit_results_exact": true,
+      "metadata_exact": true,
+      "cached_stats": {
+        "enabled": true,
+        "version": 1,
+        "scenarios": {
+          "perish_m3_L2_cv1.5_f0": {
+            "hits": 5628,
+            "misses": 8772,
+            "peak_entries": 615,
+            "configuration": {
+              "dense": true,
+              "slots": 104976,
+              "slot_bits": 0,
+              "max_entries": 800,
+              "buffer_bytes": 839808
+            }
+          },
+          "perish_m5_L2_cv2_f0.5": {
+            "hits": 2554,
+            "misses": 11846,
+            "peak_entries": 756,
+            "configuration": {
+              "dense": false,
+              "slots": 2048,
+              "slot_bits": 11,
+              "max_entries": 800,
+              "buffer_bytes": 32768
+            }
+          }
+        }
+      }
+    }
+  ],
+  "active_source_unchanged": true
+}

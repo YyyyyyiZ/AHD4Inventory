@@ -1,0 +1,182 @@
+[
+     {
+          "algorithm": "Increased base_target and demand_response to better handle high demand variability, reduced pipeline_coef to account for lower pipeline reliability, and raised min_order to reduce lost sales.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 161.9628774535099  # OPT_PARAM: {\"initial\": 161.9628774535099, \"min\": 150.0, \"max\": 250.0, \"type\": \"float\"}\n    demand_response = 0.4  # OPT_PARAM: {\"initial\": 0.4, \"min\": 0.4, \"max\": 0.9, \"type\": \"float\"}\n    pipeline_coef = 1.0  # OPT_PARAM: {\"initial\": 1.0, \"min\": 0.6, \"max\": 1.0, \"type\": \"float\"}\n    min_order = 66.99396590225446  # OPT_PARAM: {\"initial\": 66.99396590225446, \"min\": 50.0, \"max\": 100.0, \"type\": \"float\"}\n    \n    adjusted_target = base_target + demand_response * last_demand\n    inventory_position = on_hand_inventory + pipeline_coef * sum(pipeline_orders)\n    order_amount = max(min_order, adjusted_target - inventory_position)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base_target and demand_response to better handle high demand variability, reduced pipeline_coef to account for lower pipeline reliability, and raised min_order to reduce lost sales.",
+          "opt_params": {
+               "base_target": 161.9628774535099,
+               "demand_response": 0.4,
+               "pipeline_coef": 1.0,
+               "min_order": 66.99396590225446
+          },
+          "cost": null,
+          "objective": 20076.30634,
+          "lower": 19544.78552,
+          "upper": 20612.89333,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base_target to better handle high demand periods, increased demand_response to react more strongly to previous demand, reduced pipeline_coef to account for potential overtaking, and increased min_order to maintain sufficient inventory flow. These changes aim to reduce lost sales while controlling holding costs.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 161.46031911007609  # OPT_PARAM: {\"initial\": 161.46031911007609, \"min\": 150.0, \"max\": 250.0, \"type\": \"float\"}\n    demand_response = 0.4  # OPT_PARAM: {\"initial\": 0.4, \"min\": 0.4, \"max\": 0.9, \"type\": \"float\"}\n    pipeline_coef = 1.0  # OPT_PARAM: {\"initial\": 1.0, \"min\": 0.6, \"max\": 1.0, \"type\": \"float\"}\n    min_order = 66.91670255793704  # OPT_PARAM: {\"initial\": 66.91670255793704, \"min\": 50.0, \"max\": 100.0, \"type\": \"float\"}\n    \n    adjusted_target = base_target + demand_response * last_demand\n    inventory_position = on_hand_inventory + pipeline_coef * sum(pipeline_orders)\n    order_amount = max(min_order, adjusted_target - inventory_position)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base_target to better handle high demand periods, increased demand_response to react more strongly to previous demand, reduced pipeline_coef to account for potential overtaking, and increased min_order to maintain sufficient inventory flow. These changes aim to reduce lost sales while controlling holding costs.",
+          "opt_params": {
+               "base_target": 161.46031911007609,
+               "demand_response": 0.4,
+               "pipeline_coef": 1.0,
+               "min_order": 66.91670255793704
+          },
+          "cost": null,
+          "objective": 20076.32133,
+          "lower": 19545.49619,
+          "upper": 20611.49253,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base_target to better match demand mean, adjusted demand_response to be more responsive to fluctuations, reduced pipeline_coef to account for order overtaking, and increased min_order to prevent stockouts. The parameters were optimized based on the high lost sales cost observed in the training performance.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 174.0282912659528  # OPT_PARAM: {\"initial\": 174.0282912659528, \"min\": 150.0, \"max\": 220.0, \"type\": \"float\"}\n    demand_response = 0.3  # OPT_PARAM: {\"initial\": 0.3, \"min\": 0.3, \"max\": 0.8, \"type\": \"float\"}\n    pipeline_coef = 0.8258104887590461  # OPT_PARAM: {\"initial\": 0.8258104887590461, \"min\": 0.5, \"max\": 1.0, \"type\": \"float\"}\n    min_order = 66.93841130980204  # OPT_PARAM: {\"initial\": 66.93841130980204, \"min\": 60.0, \"max\": 120.0, \"type\": \"float\"}\n    \n    adjusted_target = base_target + demand_response * last_demand\n    inventory_position = on_hand_inventory + pipeline_coef * sum(pipeline_orders)\n    order_amount = max(min_order, adjusted_target - inventory_position)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base_target to better match demand mean, adjusted demand_response to be more responsive to fluctuations, reduced pipeline_coef to account for order overtaking, and increased min_order to prevent stockouts. The parameters were optimized based on the high lost sales cost observed in the training performance.",
+          "opt_params": {
+               "base_target": 174.0282912659528,
+               "demand_response": 0.3,
+               "pipeline_coef": 0.8258104887590461,
+               "min_order": 66.93841130980204
+          },
+          "cost": null,
+          "objective": 20077.53377,
+          "lower": 19545.85365,
+          "upper": 20613.75292,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base_target and demand_response to better match demand patterns, reduced pipeline_coef to account for order overtaking, and lowered min_order to avoid excessive inventory buildup while maintaining service levels. The changes aim to reduce both holding and lost-sales costs based on the observed demand autocorrelation and conditional demand patterns.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 178.79958746404628  # OPT_PARAM: {\"initial\": 178.79958746404628, \"min\": 150.0, \"max\": 250.0, \"type\": \"float\"}\n    demand_response = 0.3289129994536858  # OPT_PARAM: {\"initial\": 0.3289129994536858, \"min\": 0.1, \"max\": 1.0, \"type\": \"float\"}\n    pipeline_coef = 0.9171453937562865  # OPT_PARAM: {\"initial\": 0.9171453937562865, \"min\": 0.5, \"max\": 1.0, \"type\": \"float\"}\n    min_order = 66.9325108855163  # OPT_PARAM: {\"initial\": 66.9325108855163, \"min\": 30.0, \"max\": 80.0, \"type\": \"float\"}\n    \n    adjusted_target = base_target + demand_response * last_demand\n    inventory_position = on_hand_inventory + pipeline_coef * sum(pipeline_orders)\n    order_amount = max(min_order, adjusted_target - inventory_position)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base_target and demand_response to better match demand patterns, reduced pipeline_coef to account for order overtaking, and lowered min_order to avoid excessive inventory buildup while maintaining service levels. The changes aim to reduce both holding and lost-sales costs based on the observed demand autocorrelation and conditional demand patterns.",
+          "opt_params": {
+               "base_target": 178.79958746404628,
+               "demand_response": 0.3289129994536858,
+               "pipeline_coef": 0.9171453937562865,
+               "min_order": 66.9325108855163
+          },
+          "cost": null,
+          "objective": 20077.54537,
+          "lower": 19545.98291,
+          "upper": 20613.55757,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base_target and demand_response to better match demand patterns, reduced pipeline_coef to account for orders already in transit, and slightly increased min_order to prevent stockouts during high-demand periods. The parameters were optimized to balance holding costs and lost sales costs based on the training diagnostics.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 178.54231018458702  # OPT_PARAM: {\"initial\": 178.54231018458702, \"min\": 150.0, \"max\": 250.0, \"type\": \"float\"}\n    demand_response = 0.27197719450307245  # OPT_PARAM: {\"initial\": 0.27197719450307245, \"min\": 0.1, \"max\": 1.0, \"type\": \"float\"}\n    pipeline_coef = 0.7687476023539601  # OPT_PARAM: {\"initial\": 0.7687476023539601, \"min\": 0.5, \"max\": 1.0, \"type\": \"float\"}\n    min_order = 66.9966787898706  # OPT_PARAM: {\"initial\": 66.9966787898706, \"min\": 50.0, \"max\": 100.0, \"type\": \"float\"}\n    \n    adjusted_target = base_target + demand_response * last_demand\n    inventory_position = on_hand_inventory + pipeline_coef * sum(pipeline_orders)\n    order_amount = max(min_order, adjusted_target - inventory_position)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base_target and demand_response to better match demand patterns, reduced pipeline_coef to account for orders already in transit, and slightly increased min_order to prevent stockouts during high-demand periods. The parameters were optimized to balance holding costs and lost sales costs based on the training diagnostics.",
+          "opt_params": {
+               "base_target": 178.54231018458702,
+               "demand_response": 0.27197719450307245,
+               "pipeline_coef": 0.7687476023539601,
+               "min_order": 66.9966787898706
+          },
+          "cost": null,
+          "objective": 20077.66687,
+          "lower": 19545.80669,
+          "upper": 20615.08574,
+          "other_inf": null
+     },
+     {
+          "algorithm": "1. Increased base_target to 180 to better match demand mean (99.84) and high variance\n2. Increased demand_response to 0.6 to be more responsive to demand spikes\n3. Reduced pipeline_coef to 0.8 to account for potential overtaking orders\n4. Lowered min_order to 50 to reduce excess inventory during low demand periods",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 178.71133728381545  # OPT_PARAM: {\"initial\": 178.71133728381545, \"min\": 150.0, \"max\": 220.0, \"type\": \"float\"}\n    demand_response = 0.33863417123079437  # OPT_PARAM: {\"initial\": 0.33863417123079437, \"min\": 0.3, \"max\": 0.8, \"type\": \"float\"}\n    pipeline_coef = 0.9587273493946789  # OPT_PARAM: {\"initial\": 0.9587273493946789, \"min\": 0.5, \"max\": 1.0, \"type\": \"float\"}\n    min_order = 66.82246039546988  # OPT_PARAM: {\"initial\": 66.82246039546988, \"min\": 20.0, \"max\": 80.0, \"type\": \"float\"}\n    \n    adjusted_target = base_target + demand_response * last_demand\n    inventory_position = on_hand_inventory + pipeline_coef * sum(pipeline_orders)\n    order_amount = max(min_order, adjusted_target - inventory_position)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "1. Increased base_target to 180 to better match demand mean (99.84) and high variance\n2. Increased demand_response to 0.6 to be more responsive to demand spikes\n3. Reduced pipeline_coef to 0.8 to account for potential overtaking orders\n4. Lowered min_order to 50 to reduce excess inventory during low demand periods",
+          "opt_params": {
+               "base_target": 178.71133728381545,
+               "demand_response": 0.33863417123079437,
+               "pipeline_coef": 0.9587273493946789,
+               "min_order": 66.82246039546988
+          },
+          "cost": null,
+          "objective": 20078.08691,
+          "lower": 19547.38669,
+          "upper": 20615.95017,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base_target to better match demand mean, adjusted demand_response to better track demand autocorrelation, reduced pipeline_coef to account for order overtaking, and increased min_order to reduce stockouts while maintaining reasonable holding costs.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 173.8205634670422  # OPT_PARAM: {\"initial\": 173.8205634670422, \"min\": 150.0, \"max\": 250.0, \"type\": \"float\"}\n    demand_response = 0.4  # OPT_PARAM: {\"initial\": 0.4, \"min\": 0.4, \"max\": 0.9, \"type\": \"float\"}\n    pipeline_coef = 1.0  # OPT_PARAM: {\"initial\": 1.0, \"min\": 0.6, \"max\": 1.0, \"type\": \"float\"}\n    min_order = 66.99557057094222  # OPT_PARAM: {\"initial\": 66.99557057094222, \"min\": 50.0, \"max\": 100.0, \"type\": \"float\"}\n    \n    adjusted_target = base_target + demand_response * last_demand\n    inventory_position = on_hand_inventory + pipeline_coef * sum(pipeline_orders)\n    order_amount = max(min_order, adjusted_target - inventory_position)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base_target to better match demand mean, adjusted demand_response to better track demand autocorrelation, reduced pipeline_coef to account for order overtaking, and increased min_order to reduce stockouts while maintaining reasonable holding costs.",
+          "opt_params": {
+               "base_target": 173.8205634670422,
+               "demand_response": 0.4,
+               "pipeline_coef": 1.0,
+               "min_order": 66.99557057094222
+          },
+          "cost": null,
+          "objective": 20078.15176,
+          "lower": 19546.73202,
+          "upper": 20615.0954,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base_target to better match demand mean, adjusted demand_response to be more reactive to demand fluctuations, reduced pipeline_coef to account for order overtaking, and raised min_order to maintain sufficient inventory flow. These changes aim to balance holding and lost-sales costs better.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 175.96333895410586  # OPT_PARAM: {\"initial\": 175.96333895410586, \"min\": 150.0, \"max\": 250.0, \"type\": \"float\"}\n    demand_response = 0.3  # OPT_PARAM: {\"initial\": 0.3, \"min\": 0.3, \"max\": 0.9, \"type\": \"float\"}\n    pipeline_coef = 0.8039390213609968  # OPT_PARAM: {\"initial\": 0.8039390213609968, \"min\": 0.6, \"max\": 1.0, \"type\": \"float\"}\n    min_order = 66.76704036567624  # OPT_PARAM: {\"initial\": 66.76704036567624, \"min\": 50.0, \"max\": 100.0, \"type\": \"float\"}\n    \n    adjusted_target = base_target + demand_response * last_demand\n    inventory_position = on_hand_inventory + pipeline_coef * sum(pipeline_orders)\n    order_amount = max(min_order, adjusted_target - inventory_position)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base_target to better match demand mean, adjusted demand_response to be more reactive to demand fluctuations, reduced pipeline_coef to account for order overtaking, and raised min_order to maintain sufficient inventory flow. These changes aim to balance holding and lost-sales costs better.",
+          "opt_params": {
+               "base_target": 175.96333895410586,
+               "demand_response": 0.3,
+               "pipeline_coef": 0.8039390213609968,
+               "min_order": 66.76704036567624
+          },
+          "cost": null,
+          "objective": 20078.19613,
+          "lower": 19548.21464,
+          "upper": 20615.14062,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base_target to better match demand mean (99.84), boosted demand_response to be more reactive to demand spikes, reduced pipeline_coef to account for inventory position overestimation, and raised min_order to prevent stockouts during high demand periods while keeping all parameters within their bounds.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 176.0158001642888  # OPT_PARAM: {\"initial\": 176.0158001642888, \"min\": 150.0, \"max\": 250.0, \"type\": \"float\"}\n    demand_response = 0.4  # OPT_PARAM: {\"initial\": 0.4, \"min\": 0.4, \"max\": 0.9, \"type\": \"float\"}\n    pipeline_coef = 1.0  # OPT_PARAM: {\"initial\": 1.0, \"min\": 0.6, \"max\": 1.0, \"type\": \"float\"}\n    min_order = 67.00423951105145  # OPT_PARAM: {\"initial\": 67.00423951105145, \"min\": 50.0, \"max\": 100.0, \"type\": \"float\"}\n    \n    adjusted_target = base_target + demand_response * last_demand\n    inventory_position = on_hand_inventory + pipeline_coef * sum(pipeline_orders)\n    order_amount = max(min_order, adjusted_target - inventory_position)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base_target to better match demand mean (99.84), boosted demand_response to be more reactive to demand spikes, reduced pipeline_coef to account for inventory position overestimation, and raised min_order to prevent stockouts during high demand periods while keeping all parameters within their bounds.",
+          "opt_params": {
+               "base_target": 176.0158001642888,
+               "demand_response": 0.4,
+               "pipeline_coef": 1.0,
+               "min_order": 67.00423951105145
+          },
+          "cost": null,
+          "objective": 20078.58414,
+          "lower": 19547.17973,
+          "upper": 20615.70346,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base_target to better match demand mean, boosted demand_response for stronger reaction to demand spikes, reduced pipeline_coef to account for demand autocorrelation, and lowered min_order to allow more flexibility.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 178.03489499191963  # OPT_PARAM: {\"initial\": 178.03489499191963, \"min\": 150.0, \"max\": 250.0, \"type\": \"float\"}\n    demand_response = 0.4  # OPT_PARAM: {\"initial\": 0.4, \"min\": 0.4, \"max\": 0.9, \"type\": \"float\"}\n    pipeline_coef = 1.0  # OPT_PARAM: {\"initial\": 1.0, \"min\": 0.6, \"max\": 1.0, \"type\": \"float\"}\n    min_order = 67.00614897764864  # OPT_PARAM: {\"initial\": 67.00614897764864, \"min\": 30.0, \"max\": 70.0, \"type\": \"float\"}\n    \n    adjusted_target = base_target + demand_response * last_demand\n    inventory_position = on_hand_inventory + pipeline_coef * sum(pipeline_orders)\n    order_amount = max(min_order, adjusted_target - inventory_position)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base_target to better match demand mean, boosted demand_response for stronger reaction to demand spikes, reduced pipeline_coef to account for demand autocorrelation, and lowered min_order to allow more flexibility.",
+          "opt_params": {
+               "base_target": 178.03489499191963,
+               "demand_response": 0.4,
+               "pipeline_coef": 1.0,
+               "min_order": 67.00614897764864
+          },
+          "cost": null,
+          "objective": 20078.98685,
+          "lower": 19547.60473,
+          "upper": 20616.16209,
+          "other_inf": null
+     }
+]

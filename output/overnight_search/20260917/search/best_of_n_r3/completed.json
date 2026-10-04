@@ -1,0 +1,2811 @@
+{
+  "arm": "best_of_n",
+  "repeat": 3,
+  "pool": [
+    {
+      "results": {
+        "perish_m3_L2_cv1.5_f0": {
+          "theta": [
+            37.00246970889457,
+            3.364727661832859,
+            1.8513005002865002
+          ],
+          "cost": 233.4228515625,
+          "nfev": 161,
+          "seconds": 0.9989193750079721,
+          "path_costs": [
+            231.4453125,
+            202.1484375,
+            234.765625,
+            227.34375,
+            239.453125,
+            259.1796875,
+            241.6015625,
+            231.4453125
+          ],
+          "metrics": [
+            0.6796875,
+            1.654541015625,
+            3.0
+          ],
+          "cap": 17
+        },
+        "perish_m3_L2_cv1.5_f0.5": {
+          "theta": [
+            10.485371228430214,
+            3.7786378793562676,
+            2.1629712308392426
+          ],
+          "cost": 213.671875,
+          "nfev": 256,
+          "seconds": 0.20117733301594853,
+          "path_costs": [
+            221.875,
+            230.46875,
+            159.5703125,
+            194.921875,
+            203.515625,
+            264.84375,
+            197.265625,
+            236.9140625
+          ],
+          "metrics": [
+            0.59033203125,
+            1.54638671875,
+            3.179443359375
+          ],
+          "cap": 16
+        },
+        "perish_m3_L2_cv2_f0": {
+          "theta": [
+            8.364894650130452,
+            2.8905768917510066,
+            2.07749642527094
+          ],
+          "cost": 260.9619140625,
+          "nfev": 256,
+          "seconds": 0.19157404219731688,
+          "path_costs": [
+            225.78125,
+            239.0625,
+            264.6484375,
+            269.7265625,
+            311.9140625,
+            229.4921875,
+            244.53125,
+            302.5390625
+          ],
+          "metrics": [
+            0.59814453125,
+            2.011474609375,
+            2.544921875
+          ],
+          "cap": 14
+        },
+        "perish_m3_L2_cv2_f0.5": {
+          "theta": [
+            10.092646662843695,
+            3.204119560795405,
+            0.8755255880969515
+          ],
+          "cost": 237.109375,
+          "nfev": 256,
+          "seconds": 0.1925965000409633,
+          "path_costs": [
+            237.5,
+            265.8203125,
+            288.671875,
+            198.2421875,
+            235.3515625,
+            206.4453125,
+            183.3984375,
+            281.4453125
+          ],
+          "metrics": [
+            0.5537109375,
+            1.8173828125,
+            2.732421875
+          ],
+          "cap": 14
+        },
+        "perish_m5_L2_cv1.5_f0": {
+          "theta": [
+            13.53090899674844,
+            16.611595077144273,
+            0.43471226549731545
+          ],
+          "cost": 182.91015625,
+          "nfev": 256,
+          "seconds": 0.23509524995461106,
+          "path_costs": [
+            190.4296875,
+            149.609375,
+            183.59375,
+            172.0703125,
+            190.4296875,
+            211.328125,
+            182.6171875,
+            183.203125
+          ],
+          "metrics": [
+            0.610107421875,
+            1.218994140625,
+            3.364990234375
+          ],
+          "cap": 25
+        },
+        "perish_m5_L2_cv1.5_f0.5": {
+          "theta": [
+            13.938470294270381,
+            5.289202833486536,
+            1.3414026291246284
+          ],
+          "cost": 165.2587890625,
+          "nfev": 256,
+          "seconds": 0.23611966706812382,
+          "path_costs": [
+            165.234375,
+            176.5625,
+            133.203125,
+            149.8046875,
+            151.953125,
+            198.4375,
+            166.015625,
+            180.859375
+          ],
+          "metrics": [
+            0.54541015625,
+            1.107177734375,
+            3.576904296875
+          ],
+          "cap": 24
+        },
+        "perish_m5_L2_cv2_f0": {
+          "theta": [
+            11.660517421776394,
+            6.199760833041662,
+            0.5324349925269172
+          ],
+          "cost": 216.259765625,
+          "nfev": 256,
+          "seconds": 0.23736566700972617,
+          "path_costs": [
+            188.671875,
+            195.703125,
+            227.734375,
+            226.3671875,
+            262.3046875,
+            187.109375,
+            202.1484375,
+            240.0390625
+          ],
+          "metrics": [
+            0.548583984375,
+            1.614013671875,
+            2.89111328125
+          ],
+          "cap": 22
+        },
+        "perish_m5_L2_cv2_f0.5": {
+          "theta": [
+            11.49305626964916,
+            4.862628709010522,
+            1.0025122517002927
+          ],
+          "cost": 195.3369140625,
+          "nfev": 256,
+          "seconds": 0.23502395791001618,
+          "path_costs": [
+            195.1171875,
+            221.09375,
+            246.09375,
+            155.6640625,
+            194.3359375,
+            167.1875,
+            142.3828125,
+            240.8203125
+          ],
+          "metrics": [
+            0.413818359375,
+            1.53955078125,
+            2.871826171875
+          ],
+          "cap": 21
+        }
+      },
+      "parameters": {
+        "S": {
+          "type": "float",
+          "initial": 10.0,
+          "min": 0.0,
+          "max": 60.0
+        },
+        "C": {
+          "type": "float",
+          "initial": 6.0,
+          "min": 0.0,
+          "max": 30.0
+        },
+        "a": {
+          "type": "float",
+          "initial": 1.0,
+          "min": 0.0,
+          "max": 3.0
+        }
+      },
+      "structure_sha256": "a1b0ebc321b761ae22824b3e92851628015388b4655bbab8275e5e5560198f5a",
+      "wall_seconds": 3.4311640828382224,
+      "transitions": 11169856,
+      "code": "def compute_order_amount(age, pipeline, mu, cv, f, L):\n    S = 10.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":10.0,\"min\":0.0,\"max\":60.0}\n    C = 6.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":6.0,\"min\":0.0,\"max\":30.0}\n    a = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":3.0}\n    effective = 0.0\n    for i in range(len(age)):\n        effective = effective + age[i]*min(1.0,((i+1.0)/len(age))**a)\n    return max(0.0,min(C,S-effective-sum(pipeline)))\n",
+      "valid": true,
+      "score": 1.0,
+      "origin": "common_baseline:age_discount"
+    },
+    {
+      "results": {
+        "perish_m3_L2_cv1.5_f0": {
+          "theta": [
+            7.548246434668972,
+            46.96428556317961,
+            0.825489588101406,
+            0.3078291064771528,
+            1.2236365169784287,
+            0.4621563787065506
+          ],
+          "cost": 232.1533203125,
+          "nfev": 256,
+          "seconds": 4.109990749973804,
+          "path_costs": [
+            231.8359375,
+            202.734375,
+            234.1796875,
+            223.046875,
+            239.0625,
+            256.640625,
+            241.40625,
+            228.3203125
+          ],
+          "metrics": [
+            0.673828125,
+            1.647705078125,
+            2.99609375
+          ],
+          "cap": 17
+        },
+        "perish_m3_L2_cv1.5_f0.5": {
+          "theta": [
+            4.556852144843518,
+            26.33386450068623,
+            0.9314167462831479,
+            1.7356926809933917,
+            1.3062111287515032,
+            1.2623819080052439
+          ],
+          "cost": 213.4033203125,
+          "nfev": 256,
+          "seconds": 2.2819772500079125,
+          "path_costs": [
+            223.4375,
+            230.859375,
+            157.8125,
+            192.7734375,
+            205.6640625,
+            263.4765625,
+            196.2890625,
+            236.9140625
+          ],
+          "metrics": [
+            0.552001953125,
+            1.58203125,
+            3.10546875
+          ],
+          "cap": 16
+        },
+        "perish_m3_L2_cv2_f0": {
+          "theta": [
+            7.7050537703414435,
+            24.811323678589325,
+            1.4308418150078417,
+            0.48773454375550984,
+            2.312148977880274,
+            0.5922047024962961
+          ],
+          "cost": 259.3505859375,
+          "nfev": 256,
+          "seconds": 1.7365964169148356,
+          "path_costs": [
+            220.1171875,
+            240.625,
+            262.5,
+            271.484375,
+            310.7421875,
+            227.1484375,
+            241.40625,
+            300.78125
+          ],
+          "metrics": [
+            0.56591796875,
+            2.027587890625,
+            2.50146484375
+          ],
+          "cap": 14
+        },
+        "perish_m3_L2_cv2_f0.5": {
+          "theta": [
+            3.6564665188864076,
+            10.792061438367348,
+            0.8769522550392412,
+            1.889909666438327,
+            1.732674649334347,
+            1.2725121400661514
+          ],
+          "cost": 236.865234375,
+          "nfev": 256,
+          "seconds": 1.7828952078707516,
+          "path_costs": [
+            233.984375,
+            266.6015625,
+            289.0625,
+            199.4140625,
+            233.984375,
+            203.7109375,
+            184.1796875,
+            283.984375
+          ],
+          "metrics": [
+            0.468505859375,
+            1.900146484375,
+            2.5634765625
+          ],
+          "cap": 14
+        },
+        "perish_m5_L2_cv1.5_f0": {
+          "theta": [
+            13.970360065497317,
+            31.227465988793156,
+            1.537752577381132,
+            0.704425196023945,
+            2.38813265375547,
+            0.6570305166039286
+          ],
+          "cost": 174.0478515625,
+          "nfev": 256,
+          "seconds": 1.7709908750839531,
+          "path_costs": [
+            181.0546875,
+            148.6328125,
+            181.25,
+            153.3203125,
+            177.9296875,
+            204.296875,
+            172.8515625,
+            173.046875
+          ],
+          "metrics": [
+            0.61376953125,
+            1.126708984375,
+            3.470703125
+          ],
+          "cap": 25
+        },
+        "perish_m5_L2_cv1.5_f0.5": {
+          "theta": [
+            8.005353423672545,
+            32.109880972499674,
+            1.171548715710836,
+            0.9055918171897679,
+            0.525926508874161,
+            1.0736893082275674
+          ],
+          "cost": 165.0634765625,
+          "nfev": 256,
+          "seconds": 2.4865552079863846,
+          "path_costs": [
+            166.40625,
+            176.7578125,
+            131.0546875,
+            149.4140625,
+            152.1484375,
+            198.828125,
+            165.625,
+            180.2734375
+          ],
+          "metrics": [
+            0.53125,
+            1.119384765625,
+            3.5478515625
+          ],
+          "cap": 24
+        },
+        "perish_m5_L2_cv2_f0": {
+          "theta": [
+            8.686216811082161,
+            39.61289652204932,
+            1.8582333030557407,
+            0.8956820324424424,
+            2.464446783931147,
+            0.25588050756600866
+          ],
+          "cost": 211.03515625,
+          "nfev": 256,
+          "seconds": 2.176880167098716,
+          "path_costs": [
+            178.90625,
+            193.5546875,
+            226.5625,
+            224.4140625,
+            258.59375,
+            174.8046875,
+            193.5546875,
+            237.890625
+          ],
+          "metrics": [
+            0.475341796875,
+            1.635009765625,
+            2.79345703125
+          ],
+          "cap": 22
+        },
+        "perish_m5_L2_cv2_f0.5": {
+          "theta": [
+            49.90663879794524,
+            2.768027271374944,
+            1.860283561107443,
+            0.8436904475056027,
+            1.6488862626307752,
+            0.5389686230900183
+          ],
+          "cost": 201.4404296875,
+          "nfev": 145,
+          "seconds": 1.3602491251658648,
+          "path_costs": [
+            203.125,
+            221.484375,
+            256.25,
+            159.765625,
+            199.609375,
+            172.0703125,
+            149.21875,
+            250.0
+          ],
+          "metrics": [
+            0.507568359375,
+            1.5068359375,
+            3.0
+          ],
+          "cap": 21
+        }
+      },
+      "parameters": {
+        "S": {
+          "type": "float",
+          "initial": 12.0,
+          "min": 0.0,
+          "max": 60.0
+        },
+        "Q": {
+          "type": "float",
+          "initial": 20.0,
+          "min": 0.0,
+          "max": 60.0
+        },
+        "fifo_depletion": {
+          "type": "float",
+          "initial": 1.0,
+          "min": 0.25,
+          "max": 2.0
+        },
+        "lifo_depletion": {
+          "type": "float",
+          "initial": 1.0,
+          "min": 0.25,
+          "max": 2.0
+        },
+        "old_weight": {
+          "type": "float",
+          "initial": 0.5,
+          "min": 0.0,
+          "max": 2.5
+        },
+        "young_weight": {
+          "type": "float",
+          "initial": 1.0,
+          "min": 0.0,
+          "max": 2.5
+        }
+      },
+      "structure_sha256": "5894aba41085e03bae7388ebc6aa5775f2247a7063e01d418c2f2605d4fe890e",
+      "wall_seconds": 18.948204915970564,
+      "transitions": 11078720,
+      "valid": true,
+      "score": 0.9929442197968237,
+      "code": "def compute_order_amount(age, pipeline, mu, cv, f, L):\n    S = 12.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":12.0,\"min\":0.0,\"max\":60.0}\n    Q = 20.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":20.0,\"min\":0.0,\"max\":60.0}\n    fifo_depletion = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.25,\"max\":2.0}\n    lifo_depletion = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.25,\"max\":2.0}\n    old_weight = 0.5 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.5,\"min\":0.0,\"max\":2.5}\n    young_weight = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":2.5}\n\n    m = len(age)\n    lead = int(L)\n    x = [float(age[i]) for i in range(m)]\n\n    groups = [float(f), 1.0 - float(f)]\n    means = [groups[0] * float(mu), groups[1] * float(mu)]\n    demand_variance = (float(mu) * float(cv)) * (float(mu) * float(cv))\n    variances = [groups[0] * demand_variance, groups[1] * demand_variance]\n\n    probabilities = [[1.0, 1.0], [1.0, 1.0]]\n    weights = [[1.0, 0.0], [1.0, 0.0]]\n\n    for stream in range(2):\n        M = means[stream]\n        if M > 0.0:\n            V = variances[stream]\n            a = V / (M * M) - 1.0 / M\n            discriminant = a * a - 1.0\n            if discriminant < 0.0:\n                discriminant = 0.0\n            root = discriminant ** 0.5\n            b = 1.0 + a + root\n            c = 1.0 + a - root\n            w1 = 1.0 / b\n            p1 = 2.0 / (2.0 + M * b)\n            p2 = 2.0 / (2.0 + M * c)\n            probabilities[stream][0] = p1\n            probabilities[stream][1] = p2\n            weights[stream][0] = w1\n            weights[stream][1] = 1.0 - w1\n\n    depletion_scales = [fifo_depletion, lifo_depletion]\n\n    for step in range(lead):\n        for stream in range(2):\n            if means[stream] > 0.0:\n                cumulative = 0.0\n                for position in range(m):\n                    if stream == 0:\n                        index = position\n                    else:\n                        index = m - 1 - position\n\n                    available = x[index]\n                    lower = cumulative\n                    upper = cumulative + available\n                    expected_lower = 0.0\n                    expected_upper = 0.0\n\n                    for component in range(2):\n                        p = probabilities[stream][component]\n                        r = 1.0 - p\n                        mixture_weight = weights[stream][component]\n\n                        lower_integer = int(lower)\n                        lower_fraction = lower - float(lower_integer)\n                        lower_value = (\n                            r * (1.0 - r ** lower_integer) / p\n                            + lower_fraction * r ** (lower_integer + 1)\n                        )\n\n                        upper_integer = int(upper)\n                        upper_fraction = upper - float(upper_integer)\n                        upper_value = (\n                            r * (1.0 - r ** upper_integer) / p\n                            + upper_fraction * r ** (upper_integer + 1)\n                        )\n\n                        expected_lower = expected_lower + mixture_weight * lower_value\n                        expected_upper = expected_upper + mixture_weight * upper_value\n\n                    consumed = depletion_scales[stream] * (\n                        expected_upper - expected_lower\n                    )\n                    if consumed < 0.0:\n                        consumed = 0.0\n                    if consumed > available:\n                        consumed = available\n\n                    x[index] = available - consumed\n                    cumulative = upper\n\n        shifted = [0.0 for i in range(m)]\n        for i in range(m - 1):\n            shifted[i] = x[i + 1]\n\n        if step < len(pipeline):\n            arrival = float(pipeline[step])\n            if arrival < 0.0:\n                arrival = 0.0\n            shifted[m - 1] = arrival\n        else:\n            shifted[m - 1] = 0.0\n\n        x = shifted\n\n    effective_inventory = 0.0\n    for i in range(m):\n        if m > 1:\n            relative_age = float(i) / float(m - 1)\n        else:\n            relative_age = 1.0\n        inventory_weight = (\n            old_weight + (young_weight - old_weight) * relative_age\n        )\n        effective_inventory = effective_inventory + inventory_weight * x[i]\n\n    order = S - effective_inventory\n    if order < 0.0:\n        order = 0.0\n    if order > Q:\n        order = Q\n    return float(order)\n",
+      "origin": "search/best_of_n_r3/candidate_00_0"
+    },
+    {
+      "results": {
+        "perish_m3_L2_cv1.5_f0": {
+          "theta": [
+            4.206423939823281,
+            1.2125029244757477,
+            1.3005727885256573,
+            1.5568911627358681,
+            0.845043475456536
+          ],
+          "cost": 233.4228515625,
+          "nfev": 145,
+          "seconds": 2.6403650830034167,
+          "path_costs": [
+            231.4453125,
+            202.1484375,
+            234.765625,
+            227.34375,
+            239.453125,
+            259.1796875,
+            241.6015625,
+            231.4453125
+          ],
+          "metrics": [
+            0.6796875,
+            1.654541015625,
+            3.0
+          ],
+          "cap": 17
+        },
+        "perish_m3_L2_cv1.5_f0.5": {
+          "theta": [
+            6.582488045772411,
+            0.6840917815534068,
+            1.2849180772034179,
+            1.0635785438954015,
+            0.8160193448502752
+          ],
+          "cost": 213.671875,
+          "nfev": 256,
+          "seconds": 2.4507784170564264,
+          "path_costs": [
+            221.484375,
+            230.859375,
+            160.15625,
+            193.359375,
+            204.8828125,
+            265.0390625,
+            196.09375,
+            237.5
+          ],
+          "metrics": [
+            0.586669921875,
+            1.550048828125,
+            3.171630859375
+          ],
+          "cap": 16
+        },
+        "perish_m3_L2_cv2_f0": {
+          "theta": [
+            4.629544393973749,
+            0.5448478610557984,
+            1.3051483733764737,
+            1.309102413603806,
+            0.7550048556204987
+          ],
+          "cost": 259.86328125,
+          "nfev": 256,
+          "seconds": 1.372041542083025,
+          "path_costs": [
+            224.8046875,
+            238.8671875,
+            269.53125,
+            268.359375,
+            310.546875,
+            227.9296875,
+            239.453125,
+            299.4140625
+          ],
+          "metrics": [
+            0.653564453125,
+            1.945068359375,
+            2.666015625
+          ],
+          "cap": 14
+        },
+        "perish_m3_L2_cv2_f0.5": {
+          "theta": [
+            7.1544991256862716,
+            0.6112561880263762,
+            1.5791107922635739,
+            1.4981516749058956,
+            0.8715781891099006
+          ],
+          "cost": 236.8896484375,
+          "nfev": 256,
+          "seconds": 2.322207875084132,
+          "path_costs": [
+            236.5234375,
+            265.234375,
+            289.84375,
+            197.8515625,
+            233.59375,
+            204.4921875,
+            184.765625,
+            282.8125
+          ],
+          "metrics": [
+            0.536865234375,
+            1.83203125,
+            2.7001953125
+          ],
+          "cap": 14
+        },
+        "perish_m5_L2_cv1.5_f0": {
+          "theta": [
+            5.806871787397764,
+            1.7121190746479356,
+            1.7195093255735294,
+            0.05868740690422147,
+            1.7799865020302406
+          ],
+          "cost": 183.1787109375,
+          "nfev": 256,
+          "seconds": 2.027391207870096,
+          "path_costs": [
+            192.3828125,
+            149.609375,
+            180.859375,
+            174.21875,
+            191.2109375,
+            209.9609375,
+            184.9609375,
+            182.2265625
+          ],
+          "metrics": [
+            0.6357421875,
+            1.196044921875,
+            3.413818359375
+          ],
+          "cap": 25
+        },
+        "perish_m5_L2_cv1.5_f0.5": {
+          "theta": [
+            5.962723442212827,
+            1.21816985943898,
+            1.5609327018759642,
+            0.5801295838606173,
+            1.7333316155292238
+          ],
+          "cost": 164.7705078125,
+          "nfev": 256,
+          "seconds": 4.783608665922657,
+          "path_costs": [
+            166.796875,
+            179.1015625,
+            125.78125,
+            147.65625,
+            151.5625,
+            202.5390625,
+            161.9140625,
+            182.8125
+          ],
+          "metrics": [
+            0.461181640625,
+            1.1865234375,
+            3.410400390625
+          ],
+          "cap": 24
+        },
+        "perish_m5_L2_cv2_f0": {
+          "theta": [
+            6.394799655973806,
+            1.1199597816998916,
+            1.6643494546613118,
+            1.2020106102653285,
+            1.265893884577256
+          ],
+          "cost": 217.5048828125,
+          "nfev": 256,
+          "seconds": 1.9135469591710716,
+          "path_costs": [
+            188.671875,
+            199.4140625,
+            231.25,
+            226.5625,
+            261.1328125,
+            188.0859375,
+            199.609375,
+            245.3125
+          ],
+          "metrics": [
+            0.51416015625,
+            1.660888671875,
+            2.809326171875
+          ],
+          "cap": 22
+        },
+        "perish_m5_L2_cv2_f0.5": {
+          "theta": [
+            5.924246594407386,
+            1.1582055316492808,
+            1.19868662386578,
+            0.7600729095553432,
+            1.3958296729977673
+          ],
+          "cost": 195.2392578125,
+          "nfev": 256,
+          "seconds": 3.8662177501246333,
+          "path_costs": [
+            198.6328125,
+            220.1171875,
+            247.4609375,
+            154.296875,
+            192.96875,
+            165.234375,
+            142.96875,
+            240.234375
+          ],
+          "metrics": [
+            0.4287109375,
+            1.523681640625,
+            2.90283203125
+          ],
+          "cap": 21
+        }
+      },
+      "parameters": {
+        "S": {
+          "type": "float",
+          "initial": 12.0,
+          "min": 0.0,
+          "max": 60.0
+        },
+        "lead_scale": {
+          "type": "float",
+          "initial": 1.0,
+          "min": 0.25,
+          "max": 1.75
+        },
+        "future_scale": {
+          "type": "float",
+          "initial": 1.0,
+          "min": 0.25,
+          "max": 1.75
+        },
+        "fifo_credit": {
+          "type": "float",
+          "initial": 1.0,
+          "min": 0.0,
+          "max": 2.0
+        },
+        "lifo_credit": {
+          "type": "float",
+          "initial": 0.25,
+          "min": 0.0,
+          "max": 2.0
+        }
+      },
+      "structure_sha256": "9c707574472b85cde6247852d5387f04064d84a838650dc7a723770c6b62b24b",
+      "wall_seconds": 22.604498541913927,
+      "transitions": 11078720,
+      "valid": true,
+      "score": 0.9998293165438032,
+      "code": "def compute_order_amount(age, pipeline, mu, cv, f, L):\n    S = 12.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":12.0,\"min\":0.0,\"max\":60.0}\n    lead_scale = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.25,\"max\":1.75}\n    future_scale = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.25,\"max\":1.75}\n    fifo_credit = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":2.0}\n    lifo_credit = 0.25 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.25,\"min\":0.0,\"max\":2.0}\n\n    m = len(age)\n    x = [0.0] * m\n    for i in range(m):\n        v = float(age[i])\n        if v < 0.0 or v != v:\n            v = 0.0\n        x[i] = v\n\n    MF = f * mu\n    ML = (1.0 - f) * mu\n    base_variance = (mu * cv) * (mu * cv)\n\n    fw = 0.0\n    fr1 = 0.0\n    fr2 = 0.0\n    fm1 = 0.0\n    fm2 = 0.0\n    if MF > 0.0:\n        VF = f * base_variance\n        fa = VF / (MF * MF) - 1.0 / MF\n        fdisc = fa * fa - 1.0\n        if fdisc < 0.0:\n            fdisc = 0.0\n        froot = fdisc ** 0.5\n        fb = 1.0 + fa + froot\n        fc = 1.0 + fa - froot\n        fw = 1.0 / fb\n        fp1 = 2.0 / (2.0 + MF * fb)\n        fp2 = 2.0 / (2.0 + MF * fc)\n        fr1 = 1.0 - fp1\n        fr2 = 1.0 - fp2\n        fm1 = fr1 / fp1\n        fm2 = fr2 / fp2\n\n    lw = 0.0\n    lr1 = 0.0\n    lr2 = 0.0\n    lm1 = 0.0\n    lm2 = 0.0\n    if ML > 0.0:\n        VL = (1.0 - f) * base_variance\n        la = VL / (ML * ML) - 1.0 / ML\n        ldisc = la * la - 1.0\n        if ldisc < 0.0:\n            ldisc = 0.0\n        lroot = ldisc ** 0.5\n        lb = 1.0 + la + lroot\n        lc = 1.0 + la - lroot\n        lw = 1.0 / lb\n        lp1 = 2.0 / (2.0 + ML * lb)\n        lp2 = 2.0 / (2.0 + ML * lc)\n        lr1 = 1.0 - lp1\n        lr2 = 1.0 - lp2\n        lm1 = lr1 / lp1\n        lm2 = lr2 / lp2\n\n    for step in range(L):\n        if MF > 0.0:\n            cumulative = 0.0\n            previous_served = 0.0\n            for i in range(m):\n                stock = x[i]\n                cumulative = cumulative + stock\n                served = fw * fm1 * (1.0 - fr1 ** cumulative)\n                served = served + (1.0 - fw) * fm2 * (1.0 - fr2 ** cumulative)\n                use = lead_scale * (served - previous_served)\n                if use < 0.0:\n                    use = 0.0\n                if use > stock:\n                    use = stock\n                x[i] = stock - use\n                previous_served = served\n\n        if ML > 0.0:\n            cumulative = 0.0\n            previous_served = 0.0\n            for k in range(m):\n                i = m - 1 - k\n                stock = x[i]\n                cumulative = cumulative + stock\n                served = lw * lm1 * (1.0 - lr1 ** cumulative)\n                served = served + (1.0 - lw) * lm2 * (1.0 - lr2 ** cumulative)\n                use = lead_scale * (served - previous_served)\n                if use < 0.0:\n                    use = 0.0\n                if use > stock:\n                    use = stock\n                x[i] = stock - use\n                previous_served = served\n\n        for i in range(m - 1):\n            x[i] = x[i + 1]\n\n        arrival = 0.0\n        if step < len(pipeline):\n            arrival = float(pipeline[step])\n            if arrival < 0.0 or arrival != arrival:\n                arrival = 0.0\n        x[m - 1] = arrival\n\n    yf = [0.0] * m\n    yb = [0.0] * m\n    for i in range(m):\n        yf[i] = x[i]\n        yb[i] = x[i]\n\n    fifo_utility = 0.0\n    for step in range(m):\n        if MF > 0.0:\n            cumulative = 0.0\n            previous_served = 0.0\n            for i in range(m):\n                stock = yf[i]\n                cumulative = cumulative + stock\n                served = fw * fm1 * (1.0 - fr1 ** cumulative)\n                served = served + (1.0 - fw) * fm2 * (1.0 - fr2 ** cumulative)\n                use = future_scale * (served - previous_served)\n                if use < 0.0:\n                    use = 0.0\n                if use > stock:\n                    use = stock\n                yf[i] = stock - use\n                fifo_utility = fifo_utility + use\n                previous_served = served\n\n        for i in range(m - 1):\n            yf[i] = yf[i + 1]\n        yf[m - 1] = 0.0\n\n    total_utility = 0.0\n    for step in range(m):\n        if MF > 0.0:\n            cumulative = 0.0\n            previous_served = 0.0\n            for i in range(m):\n                stock = yb[i]\n                cumulative = cumulative + stock\n                served = fw * fm1 * (1.0 - fr1 ** cumulative)\n                served = served + (1.0 - fw) * fm2 * (1.0 - fr2 ** cumulative)\n                use = future_scale * (served - previous_served)\n                if use < 0.0:\n                    use = 0.0\n                if use > stock:\n                    use = stock\n                yb[i] = stock - use\n                total_utility = total_utility + use\n                previous_served = served\n\n        if ML > 0.0:\n            cumulative = 0.0\n            previous_served = 0.0\n            for k in range(m):\n                i = m - 1 - k\n                stock = yb[i]\n                cumulative = cumulative + stock\n                served = lw * lm1 * (1.0 - lr1 ** cumulative)\n                served = served + (1.0 - lw) * lm2 * (1.0 - lr2 ** cumulative)\n                use = future_scale * (served - previous_served)\n                if use < 0.0:\n                    use = 0.0\n                if use > stock:\n                    use = stock\n                yb[i] = stock - use\n                total_utility = total_utility + use\n                previous_served = served\n\n        for i in range(m - 1):\n            yb[i] = yb[i + 1]\n        yb[m - 1] = 0.0\n\n    extra_utility = total_utility - fifo_utility\n    if extra_utility < 0.0:\n        extra_utility = 0.0\n\n    effective_stock = fifo_credit * fifo_utility + lifo_credit * extra_utility\n    order = S - effective_stock\n\n    if order != order:\n        order = 0.0\n    if order < 0.0:\n        order = 0.0\n    if order > 1000000.0:\n        order = 1000000.0\n    return float(order)\n",
+      "origin": "search/best_of_n_r3/candidate_01_0"
+    },
+    {
+      "results": {
+        "perish_m3_L2_cv1.5_f0": {
+          "theta": [
+            0.33065631434845555,
+            0.15154406867076653,
+            0.8064829929234464,
+            0.535956355672321,
+            1.0715157175772636,
+            0.983234655972369
+          ],
+          "cost": 233.4228515625,
+          "nfev": 256,
+          "seconds": 3.0655846670269966,
+          "path_costs": [
+            231.4453125,
+            202.1484375,
+            234.765625,
+            227.34375,
+            239.453125,
+            259.1796875,
+            241.6015625,
+            231.4453125
+          ],
+          "metrics": [
+            0.6796875,
+            1.654541015625,
+            3.0
+          ],
+          "cap": 17
+        },
+        "perish_m3_L2_cv1.5_f0.5": {
+          "theta": [
+            0.47443152115513754,
+            0.8788847738428494,
+            0.16260653119581658,
+            0.3472378603821523,
+            0.445415225658786,
+            0.2984952509908047
+          ],
+          "cost": 213.5009765625,
+          "nfev": 256,
+          "seconds": 1.943665249971673,
+          "path_costs": [
+            221.6796875,
+            231.8359375,
+            158.3984375,
+            192.578125,
+            204.4921875,
+            264.84375,
+            196.09375,
+            238.0859375
+          ],
+          "metrics": [
+            0.576416015625,
+            1.55859375,
+            3.15283203125
+          ],
+          "cap": 16
+        },
+        "perish_m3_L2_cv2_f0": {
+          "theta": [
+            0.4203063223155682,
+            1.1402802851043652,
+            0.09369588126229267,
+            0.39431335505793397,
+            0.8223540037006887,
+            0.21825370619696405
+          ],
+          "cost": 260.25390625,
+          "nfev": 256,
+          "seconds": 1.5562912919558585,
+          "path_costs": [
+            224.4140625,
+            237.5,
+            266.796875,
+            269.3359375,
+            312.5,
+            228.7109375,
+            241.9921875,
+            300.78125
+          ],
+          "metrics": [
+            0.626220703125,
+            1.976318359375,
+            2.607421875
+          ],
+          "cap": 14
+        },
+        "perish_m3_L2_cv2_f0.5": {
+          "theta": [
+            0.43141761549565893,
+            0.7350114320943575,
+            0.17653600287802096,
+            0.4903084940400373,
+            1.4695459583982726,
+            0.3308699143353129
+          ],
+          "cost": 236.9384765625,
+          "nfev": 256,
+          "seconds": 1.9874653748702258,
+          "path_costs": [
+            237.109375,
+            266.9921875,
+            291.2109375,
+            197.8515625,
+            234.375,
+            203.7109375,
+            183.7890625,
+            280.46875
+          ],
+          "metrics": [
+            0.579345703125,
+            1.7900390625,
+            2.784912109375
+          ],
+          "cap": 14
+        },
+        "perish_m5_L2_cv1.5_f0": {
+          "theta": [
+            0.5479387306793776,
+            1.188173121183852,
+            0.4900969572665803,
+            0.8244212217623043,
+            0.6823627033644778,
+            0.10374878709438617
+          ],
+          "cost": 181.2744140625,
+          "nfev": 256,
+          "seconds": 1.856450708117336,
+          "path_costs": [
+            188.4765625,
+            148.046875,
+            184.1796875,
+            171.875,
+            186.71875,
+            208.3984375,
+            182.6171875,
+            179.8828125
+          ],
+          "metrics": [
+            0.59423828125,
+            1.218505859375,
+            3.3486328125
+          ],
+          "cap": 25
+        },
+        "perish_m5_L2_cv1.5_f0.5": {
+          "theta": [
+            0.43312395138604454,
+            0.6747432439210906,
+            0.12478063489491903,
+            0.6702154904560533,
+            0.7210966864126221,
+            0.4207683776057147
+          ],
+          "cost": 164.6728515625,
+          "nfev": 256,
+          "seconds": 2.20580270816572,
+          "path_costs": [
+            164.6484375,
+            178.125,
+            129.1015625,
+            148.6328125,
+            151.3671875,
+            200.390625,
+            164.84375,
+            180.2734375
+          ],
+          "metrics": [
+            0.505126953125,
+            1.1416015625,
+            3.499267578125
+          ],
+          "cap": 24
+        },
+        "perish_m5_L2_cv2_f0": {
+          "theta": [
+            0.3615202051056735,
+            0.6026512327658944,
+            0.7976742314387667,
+            0.8027992360247371,
+            0.7273625327693629,
+            0.0981103331796368
+          ],
+          "cost": 216.4306640625,
+          "nfev": 256,
+          "seconds": 1.7305187499150634,
+          "path_costs": [
+            188.28125,
+            199.8046875,
+            229.4921875,
+            226.953125,
+            259.1796875,
+            185.546875,
+            201.171875,
+            241.015625
+          ],
+          "metrics": [
+            0.56005859375,
+            1.604248046875,
+            2.91357421875
+          ],
+          "cap": 22
+        },
+        "perish_m5_L2_cv2_f0.5": {
+          "theta": [
+            0.3531678039464078,
+            0.6969378303364596,
+            0.44863783491011655,
+            0.34733806915831233,
+            0.793715092737986,
+            0.20811991218332704
+          ],
+          "cost": 195.4345703125,
+          "nfev": 256,
+          "seconds": 2.2710547079332173,
+          "path_costs": [
+            198.4375,
+            220.8984375,
+            244.921875,
+            154.6875,
+            195.703125,
+            166.6015625,
+            141.6015625,
+            240.625
+          ],
+          "metrics": [
+            0.384521484375,
+            1.56982421875,
+            2.8115234375
+          ],
+          "cap": 21
+        }
+      },
+      "parameters": {
+        "S": {
+          "type": "float",
+          "initial": 1.0,
+          "min": 0.0,
+          "max": 2.2
+        },
+        "feedback": {
+          "type": "float",
+          "initial": 1.0,
+          "min": 0.0,
+          "max": 2.0
+        },
+        "position_blend": {
+          "type": "float",
+          "initial": 0.35,
+          "min": 0.0,
+          "max": 1.0
+        },
+        "terminal_weight": {
+          "type": "float",
+          "initial": 0.35,
+          "min": 0.0,
+          "max": 1.0
+        },
+        "demand_scale": {
+          "type": "float",
+          "initial": 1.0,
+          "min": 0.3,
+          "max": 1.8
+        },
+        "lead_credit": {
+          "type": "float",
+          "initial": 0.75,
+          "min": 0.0,
+          "max": 1.5
+        }
+      },
+      "structure_sha256": "d0bdb7ed7b8f2e7a1cfbe4141998ac7d3bf6a6ef79483567b13407555bb976e4",
+      "wall_seconds": 17.872858582995832,
+      "transitions": 11710976,
+      "valid": true,
+      "score": 0.9980710114097167,
+      "code": "def compute_order_amount(age, pipeline, mu, cv, f, L):\n    S = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":2.2}\n    feedback = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":2.0}\n    position_blend = 0.35 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.35,\"min\":0.0,\"max\":1.0}\n    terminal_weight = 0.35 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.35,\"min\":0.0,\"max\":1.0}\n    demand_scale = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.3,\"max\":1.8}\n    lead_credit = 0.75 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.75,\"min\":0.0,\"max\":1.5}\n\n    m = len(age)\n    muv = float(mu)\n    cvv = float(cv)\n    fv = float(f)\n\n    position = 0.0\n    x = [0.0] * m\n    for i in range(m):\n        value = float(age[i])\n        if value < 0.0:\n            value = 0.0\n        x[i] = value\n        position = position + value\n\n    for j in range(len(pipeline)):\n        value = float(pipeline[j])\n        if value > 0.0:\n            position = position + value\n\n    groups = [fv, 1.0 - fv]\n    active = [False, False]\n    r1 = [0.0, 0.0]\n    r2 = [0.0, 0.0]\n    mix1 = [0.0, 0.0]\n\n    for s in range(2):\n        g = groups[s]\n        if g > 0.0 and muv > 0.0:\n            mean_stream = g * muv\n            variance_stream = g * (muv * cvv) * (muv * cvv)\n            a = variance_stream / (mean_stream * mean_stream) - 1.0 / mean_stream\n            root_arg = a * a - 1.0\n            if root_arg < 0.0:\n                root_arg = 0.0\n            root = root_arg ** 0.5\n            b = 1.0 + a + root\n            c = 1.0 + a - root\n            p1 = 2.0 / (2.0 + mean_stream * b)\n            p2 = 2.0 / (2.0 + mean_stream * c)\n            r1[s] = 1.0 - p1\n            r2[s] = 1.0 - p2\n            mix1[s] = 1.0 / b\n            active[s] = True\n\n    for t in range(int(L)):\n        if t > 0 and t - 1 < len(pipeline):\n            arrival = float(pipeline[t - 1])\n            if arrival > 0.0:\n                x[m - 1] = x[m - 1] + arrival\n\n        cumulative = 0.0\n        for i in range(m):\n            block = x[i]\n            consumed = 0.0\n            if block > 0.0 and active[0]:\n                ra = r1[0]\n                rb = r2[0]\n                wa = mix1[0]\n                part_a = wa * (ra ** (cumulative + 1.0)) * (1.0 - ra ** block) / (1.0 - ra)\n                part_b = (1.0 - wa) * (rb ** (cumulative + 1.0)) * (1.0 - rb ** block) / (1.0 - rb)\n                consumed = demand_scale * (part_a + part_b)\n                if consumed > block:\n                    consumed = block\n                if consumed < 0.0:\n                    consumed = 0.0\n            x[i] = block - consumed\n            cumulative = cumulative + block\n\n        cumulative = 0.0\n        for z in range(m):\n            i = m - 1 - z\n            block = x[i]\n            consumed = 0.0\n            if block > 0.0 and active[1]:\n                ra = r1[1]\n                rb = r2[1]\n                wa = mix1[1]\n                part_a = wa * (ra ** (cumulative + 1.0)) * (1.0 - ra ** block) / (1.0 - ra)\n                part_b = (1.0 - wa) * (rb ** (cumulative + 1.0)) * (1.0 - rb ** block) / (1.0 - rb)\n                consumed = demand_scale * (part_a + part_b)\n                if consumed > block:\n                    consumed = block\n                if consumed < 0.0:\n                    consumed = 0.0\n            x[i] = block - consumed\n            cumulative = cumulative + block\n\n        shifted = [0.0] * m\n        for i in range(m - 1):\n            shifted[i] = x[i + 1]\n        shifted[m - 1] = 0.0\n        x = shifted\n\n    projected_effective = 0.0\n    denominator = float(max(1, m - 1))\n    for i in range(m):\n        freshness = float(i) / denominator\n        weight = terminal_weight + (1.0 - terminal_weight) * freshness\n        projected_effective = projected_effective + weight * x[i]\n\n    horizon = float(m + int(L))\n    median_adjustment = 1.0 - (cvv * cvv) / (9.0 * horizon)\n    if median_adjustment < 0.05:\n        median_adjustment = 0.05\n    cap_proxy = horizon * muv * median_adjustment * median_adjustment * median_adjustment\n\n    state_measure = position_blend * position + (1.0 - position_blend) * projected_effective\n    target = S * cap_proxy - (1.0 - position_blend) * lead_credit * muv * float(L)\n    order = target - feedback * state_measure\n\n    if order != order:\n        order = 0.0\n    if order < 0.0:\n        order = 0.0\n    if order > 1000000.0:\n        order = 1000000.0\n    return float(order)\n",
+      "origin": "search/best_of_n_r3/candidate_02_0"
+    },
+    {
+      "results": {
+        "perish_m3_L2_cv1.5_f0": {
+          "theta": [
+            1.6688676425371263,
+            1.7592372971194392,
+            0.2764536787232599,
+            -1.3865325910743334,
+            1.5317021752117206,
+            1.5014431721676151
+          ],
+          "cost": 233.4228515625,
+          "nfev": 256,
+          "seconds": 2.8518535839393735,
+          "path_costs": [
+            231.4453125,
+            202.1484375,
+            234.765625,
+            227.34375,
+            239.453125,
+            259.1796875,
+            241.6015625,
+            231.4453125
+          ],
+          "metrics": [
+            0.6796875,
+            1.654541015625,
+            3.0
+          ],
+          "cap": 17
+        },
+        "perish_m3_L2_cv1.5_f0.5": {
+          "theta": [
+            15.840079181736717,
+            1.2105353301405315,
+            1.3808109935624189,
+            2.19538498275036,
+            1.224551680121981,
+            0.27295033196128904
+          ],
+          "cost": 213.8671875,
+          "nfev": 256,
+          "seconds": 1.362190708052367,
+          "path_costs": [
+            223.2421875,
+            232.8125,
+            156.8359375,
+            192.7734375,
+            207.6171875,
+            265.625,
+            194.7265625,
+            237.3046875
+          ],
+          "metrics": [
+            0.54150390625,
+            1.59716796875,
+            3.078857421875
+          ],
+          "cap": 16
+        },
+        "perish_m3_L2_cv2_f0": {
+          "theta": [
+            3.405067162724521,
+            1.1733995342418593,
+            1.710357221920569,
+            0.49049067792261014,
+            0.9745024404902682,
+            1.9128636257638838
+          ],
+          "cost": 259.7900390625,
+          "nfev": 256,
+          "seconds": 0.7754755418282002,
+          "path_costs": [
+            217.96875,
+            242.96875,
+            261.1328125,
+            271.6796875,
+            312.5,
+            229.4921875,
+            238.28125,
+            304.296875
+          ],
+          "metrics": [
+            0.486572265625,
+            2.111328125,
+            2.337890625
+          ],
+          "cap": 14
+        },
+        "perish_m3_L2_cv2_f0.5": {
+          "theta": [
+            11.18772541219127,
+            1.2736452496155806,
+            1.7787057911674997,
+            0.16181035445048375,
+            0.7042202100511823,
+            0.2912916613351745
+          ],
+          "cost": 237.0361328125,
+          "nfev": 256,
+          "seconds": 1.3987798341549933,
+          "path_costs": [
+            234.765625,
+            266.015625,
+            289.453125,
+            198.828125,
+            234.375,
+            203.90625,
+            183.984375,
+            284.9609375
+          ],
+          "metrics": [
+            0.46826171875,
+            1.902099609375,
+            2.561279296875
+          ],
+          "cap": 14
+        },
+        "perish_m5_L2_cv1.5_f0": {
+          "theta": [
+            11.50069424534276,
+            0.4247324042819617,
+            0.8707125681165451,
+            1.5182451750084975,
+            2.309562864883299,
+            1.2959044886124766
+          ],
+          "cost": 174.51171875,
+          "nfev": 256,
+          "seconds": 0.8894054591655731,
+          "path_costs": [
+            182.03125,
+            150.0,
+            174.609375,
+            159.375,
+            174.609375,
+            204.296875,
+            174.609375,
+            176.5625
+          ],
+          "metrics": [
+            0.494140625,
+            1.2509765625,
+            3.219970703125
+          ],
+          "cap": 25
+        },
+        "perish_m5_L2_cv1.5_f0.5": {
+          "theta": [
+            13.406055138521705,
+            1.5985413906932189,
+            1.2097773707367763,
+            3.355496173715782,
+            1.8115430371200065,
+            0.49014707059005813
+          ],
+          "cost": 165.4541015625,
+          "nfev": 256,
+          "seconds": 1.575851917034015,
+          "path_costs": [
+            163.28125,
+            179.1015625,
+            128.515625,
+            147.265625,
+            154.4921875,
+            201.171875,
+            159.1796875,
+            190.625
+          ],
+          "metrics": [
+            0.470703125,
+            1.183837890625,
+            3.420166015625
+          ],
+          "cap": 24
+        },
+        "perish_m5_L2_cv2_f0": {
+          "theta": [
+            23.21954287651996,
+            0.6563329682390939,
+            1.5930139331630548,
+            3.3882301550927947,
+            0.990868299894841,
+            0.5278069898240715
+          ],
+          "cost": 211.62109375,
+          "nfev": 256,
+          "seconds": 0.9166224589571357,
+          "path_costs": [
+            177.5390625,
+            190.8203125,
+            223.2421875,
+            227.1484375,
+            255.46875,
+            175.390625,
+            197.265625,
+            246.09375
+          ],
+          "metrics": [
+            0.462890625,
+            1.6533203125,
+            2.769775390625
+          ],
+          "cap": 22
+        },
+        "perish_m5_L2_cv2_f0.5": {
+          "theta": [
+            4.574877462975042,
+            1.853835343782913,
+            1.5340253360685165,
+            -0.6562524261958267,
+            1.7959266429102487,
+            0.9907188790681696
+          ],
+          "cost": 195.068359375,
+          "nfev": 256,
+          "seconds": 1.6491995831020176,
+          "path_costs": [
+            199.21875,
+            219.53125,
+            245.1171875,
+            154.296875,
+            194.7265625,
+            165.234375,
+            141.6015625,
+            240.8203125
+          ],
+          "metrics": [
+            0.39794921875,
+            1.552734375,
+            2.842529296875
+          ],
+          "cap": 21
+        }
+      },
+      "parameters": {
+        "S": {
+          "type": "float",
+          "initial": 12.0,
+          "min": 0.0,
+          "max": 60.0
+        },
+        "lead_sales_scale": {
+          "type": "float",
+          "initial": 1.0,
+          "min": 0.0,
+          "max": 2.5
+        },
+        "carry_weight": {
+          "type": "float",
+          "initial": 1.0,
+          "min": 0.0,
+          "max": 2.5
+        },
+        "stale_weight": {
+          "type": "float",
+          "initial": 0.5,
+          "min": -2.0,
+          "max": 4.0
+        },
+        "stale_power": {
+          "type": "float",
+          "initial": 1.0,
+          "min": 0.2,
+          "max": 5.0
+        },
+        "reaction": {
+          "type": "float",
+          "initial": 1.0,
+          "min": 0.25,
+          "max": 2.0
+        }
+      },
+      "structure_sha256": "d3bdd5dba62af3b2a28d5e522809e2fa97370b5f0fd5f2206fb66ab8d15f509b",
+      "wall_seconds": 12.692304082913324,
+      "transitions": 11710976,
+      "valid": true,
+      "score": 0.9910695540740291,
+      "code": "def compute_order_amount(age, pipeline, mu, cv, f, L):\n    S = 12.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":12.0,\"min\":0.0,\"max\":60.0}\n    lead_sales_scale = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":2.5}\n    carry_weight = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":2.5}\n    stale_weight = 0.5 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.5,\"min\":-2.0,\"max\":4.0}\n    stale_power = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.2,\"max\":5.0}\n    reaction = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.25,\"max\":2.0}\n\n    m = len(age)\n    x = [0.0 for _ in range(m)]\n    for i in range(m):\n        v = float(age[i])\n        if v < 0.0:\n            v = 0.0\n        x[i] = v\n\n    mean_f = f * mu\n    mean_l = (1.0 - f) * mu\n    total_variance = (mu * cv) * (mu * cv)\n\n    active_f = mean_f > 0.0\n    if active_f:\n        var_f = f * total_variance\n        a_f = var_f / (mean_f * mean_f) - 1.0 / mean_f\n        root_f = (max(0.0, a_f * a_f - 1.0)) ** 0.5\n        b_f = 1.0 + a_f + root_f\n        c_f = 1.0 + a_f - root_f\n        mix_f = 1.0 / b_f\n        p1_f = 2.0 / (2.0 + mean_f * b_f)\n        p2_f = 2.0 / (2.0 + mean_f * c_f)\n        r1_f = 1.0 - p1_f\n        r2_f = 1.0 - p2_f\n        e1_f = r1_f / p1_f\n        e2_f = r2_f / p2_f\n    else:\n        mix_f = 0.0\n        p1_f = 1.0\n        p2_f = 1.0\n        r1_f = 0.0\n        r2_f = 0.0\n        e1_f = 0.0\n        e2_f = 0.0\n\n    active_l = mean_l > 0.0\n    if active_l:\n        var_l = (1.0 - f) * total_variance\n        a_l = var_l / (mean_l * mean_l) - 1.0 / mean_l\n        root_l = (max(0.0, a_l * a_l - 1.0)) ** 0.5\n        b_l = 1.0 + a_l + root_l\n        c_l = 1.0 + a_l - root_l\n        mix_l = 1.0 / b_l\n        p1_l = 2.0 / (2.0 + mean_l * b_l)\n        p2_l = 2.0 / (2.0 + mean_l * c_l)\n        r1_l = 1.0 - p1_l\n        r2_l = 1.0 - p2_l\n        e1_l = r1_l / p1_l\n        e2_l = r2_l / p2_l\n    else:\n        mix_l = 0.0\n        p1_l = 1.0\n        p2_l = 1.0\n        r1_l = 0.0\n        r2_l = 0.0\n        e1_l = 0.0\n        e2_l = 0.0\n\n    lead = int(L)\n    if lead < 0:\n        lead = 0\n\n    for step in range(lead):\n        if active_f:\n            cumulative = 0.0\n            for i in range(m):\n                stock = x[i]\n                if stock > 0.0:\n                    before = mix_f * e1_f * (r1_f ** cumulative) + (1.0 - mix_f) * e2_f * (r2_f ** cumulative)\n                    after_point = cumulative + stock\n                    after = mix_f * e1_f * (r1_f ** after_point) + (1.0 - mix_f) * e2_f * (r2_f ** after_point)\n                    used = lead_sales_scale * (before - after)\n                    if used < 0.0:\n                        used = 0.0\n                    if used > stock:\n                        used = stock\n                    x[i] = stock - used\n                    cumulative = cumulative + stock\n\n        if active_l:\n            cumulative = 0.0\n            for k in range(m):\n                i = m - 1 - k\n                stock = x[i]\n                if stock > 0.0:\n                    before = mix_l * e1_l * (r1_l ** cumulative) + (1.0 - mix_l) * e2_l * (r2_l ** cumulative)\n                    after_point = cumulative + stock\n                    after = mix_l * e1_l * (r1_l ** after_point) + (1.0 - mix_l) * e2_l * (r2_l ** after_point)\n                    used = lead_sales_scale * (before - after)\n                    if used < 0.0:\n                        used = 0.0\n                    if used > stock:\n                        used = stock\n                    x[i] = stock - used\n                    cumulative = cumulative + stock\n\n        for i in range(m - 1):\n            x[i] = x[i + 1]\n\n        arrival = 0.0\n        if step < len(pipeline):\n            arrival = float(pipeline[step])\n            if arrival < 0.0:\n                arrival = 0.0\n        if m > 0:\n            x[m - 1] = arrival\n\n    effective_carry = 0.0\n    if m > 0:\n        denominator = float(max(1, m - 1))\n        for i in range(m):\n            staleness = float(m - 1 - i) / denominator\n            weight = carry_weight + stale_weight * (staleness ** stale_power)\n            if weight < 0.0:\n                weight = 0.0\n            if weight > 6.0:\n                weight = 6.0\n            effective_carry = effective_carry + weight * x[i]\n\n    deficit = S - effective_carry\n    if deficit <= 0.0:\n        return 0.0\n\n    order = reaction * deficit\n    if not (order >= 0.0):\n        return 0.0\n    if order > 120.0:\n        order = 120.0\n    return order\n",
+      "origin": "search/best_of_n_r3/candidate_03_0"
+    },
+    {
+      "results": {
+        "perish_m3_L2_cv1.5_f0": {
+          "theta": [
+            4.844332979407991,
+            0.6264654212590456,
+            0.6964830489434767,
+            0.1932885332912873,
+            5.902963760591834,
+            1.9710283764204888,
+            1.5915738108304336,
+            1.3498797613953788
+          ],
+          "cost": 233.4228515625,
+          "nfev": 241,
+          "seconds": 6.743313332786784,
+          "path_costs": [
+            231.4453125,
+            202.1484375,
+            234.765625,
+            227.34375,
+            239.453125,
+            259.1796875,
+            241.6015625,
+            231.4453125
+          ],
+          "metrics": [
+            0.6796875,
+            1.654541015625,
+            3.0
+          ],
+          "cap": 17
+        },
+        "perish_m3_L2_cv1.5_f0.5": {
+          "theta": [
+            7.644790650737505,
+            0.8139130872421416,
+            0.5665338187250796,
+            0.9814333428745395,
+            2.8957848509864124,
+            0.5301022925645568,
+            0.7177240533788354,
+            1.5636670223525013
+          ],
+          "cost": 213.525390625,
+          "nfev": 256,
+          "seconds": 5.094210542039946,
+          "path_costs": [
+            223.4375,
+            229.8828125,
+            158.7890625,
+            193.5546875,
+            202.9296875,
+            265.8203125,
+            197.65625,
+            236.1328125
+          ],
+          "metrics": [
+            0.586669921875,
+            1.548583984375,
+            3.1728515625
+          ],
+          "cap": 16
+        },
+        "perish_m3_L2_cv2_f0": {
+          "theta": [
+            6.505985928973377,
+            1.1654463874712087,
+            0.6834809257961058,
+            0.4766974677519665,
+            4.299078088384885,
+            0.9216356174303921,
+            1.6240778882522717,
+            1.4689076402831307
+          ],
+          "cost": 259.7900390625,
+          "nfev": 256,
+          "seconds": 4.974203417077661,
+          "path_costs": [
+            217.96875,
+            242.96875,
+            261.1328125,
+            271.6796875,
+            312.5,
+            229.4921875,
+            238.28125,
+            304.296875
+          ],
+          "metrics": [
+            0.486572265625,
+            2.111328125,
+            2.337890625
+          ],
+          "cap": 14
+        },
+        "perish_m3_L2_cv2_f0.5": {
+          "theta": [
+            5.115100891155496,
+            0.5259579363797507,
+            0.5297724415338269,
+            0.9753987590170091,
+            3.950104625861523,
+            1.5929614878183815,
+            0.5921285890774939,
+            0.8128432349716626
+          ],
+          "cost": 236.9140625,
+          "nfev": 256,
+          "seconds": 4.807447667000815,
+          "path_costs": [
+            234.5703125,
+            265.0390625,
+            290.234375,
+            197.65625,
+            233.203125,
+            204.4921875,
+            185.7421875,
+            284.375
+          ],
+          "metrics": [
+            0.52734375,
+            1.841796875,
+            2.6806640625
+          ],
+          "cap": 14
+        },
+        "perish_m5_L2_cv1.5_f0": {
+          "theta": [
+            14.628163249049393,
+            0.5815178336262672,
+            0.5115507478617756,
+            0.9843929741170819,
+            1.8802999680195114,
+            0.5629192027065437,
+            1.222340695270707,
+            1.1076439531742106
+          ],
+          "cost": 181.3232421875,
+          "nfev": 256,
+          "seconds": 5.488529749913141,
+          "path_costs": [
+            191.9921875,
+            149.4140625,
+            182.03125,
+            173.046875,
+            189.84375,
+            205.2734375,
+            180.46875,
+            178.515625
+          ],
+          "metrics": [
+            0.662353515625,
+            1.15087890625,
+            3.4912109375
+          ],
+          "cap": 25
+        },
+        "perish_m5_L2_cv1.5_f0.5": {
+          "theta": [
+            6.328273984999662,
+            0.9172132191570606,
+            0.3402974753933813,
+            0.36177358804431203,
+            5.54529307815393,
+            0.4047936504416214,
+            1.5493474310833504,
+            -0.42280393856824805
+          ],
+          "cost": 165.087890625,
+          "nfev": 256,
+          "seconds": 5.684024665970355,
+          "path_costs": [
+            164.453125,
+            176.3671875,
+            131.0546875,
+            148.6328125,
+            153.3203125,
+            200.390625,
+            165.8203125,
+            180.6640625
+          ],
+          "metrics": [
+            0.539306640625,
+            1.111572265625,
+            3.564208984375
+          ],
+          "cap": 24
+        },
+        "perish_m5_L2_cv2_f0": {
+          "theta": [
+            14.927051706822924,
+            0.5418781495063226,
+            0.5575779994511856,
+            0.7127840112206145,
+            3.0260557353341575,
+            0.8589607652236454,
+            1.7853456610913065,
+            1.9462746372403714
+          ],
+          "cost": 211.328125,
+          "nfev": 256,
+          "seconds": 5.458758832886815,
+          "path_costs": [
+            179.1015625,
+            185.15625,
+            218.1640625,
+            233.984375,
+            260.15625,
+            181.0546875,
+            193.359375,
+            239.6484375
+          ],
+          "metrics": [
+            0.45263671875,
+            1.66064453125,
+            2.74658203125
+          ],
+          "cap": 22
+        },
+        "perish_m5_L2_cv2_f0.5": {
+          "theta": [
+            7.093766118223897,
+            0.6627631293339993,
+            0.463891239650452,
+            0.661045274561339,
+            4.85550868744259,
+            1.329631800431196,
+            0.8428382995369129,
+            0.5416178676793049
+          ],
+          "cost": 196.09375,
+          "nfev": 256,
+          "seconds": 5.531537584029138,
+          "path_costs": [
+            199.21875,
+            220.703125,
+            246.6796875,
+            155.2734375,
+            195.1171875,
+            165.8203125,
+            143.9453125,
+            241.9921875
+          ],
+          "metrics": [
+            0.409912109375,
+            1.551025390625,
+            2.85693359375
+          ],
+          "cap": 21
+        }
+      },
+      "parameters": {
+        "S": {
+          "type": "float",
+          "initial": 22.0,
+          "min": 0.0,
+          "max": 60.0
+        },
+        "demand_scale": {
+          "type": "float",
+          "initial": 1.0,
+          "min": 0.5,
+          "max": 1.5
+        },
+        "burst_mix": {
+          "type": "float",
+          "initial": 0.5,
+          "min": 0.0,
+          "max": 1.0
+        },
+        "life_floor": {
+          "type": "float",
+          "initial": 0.25,
+          "min": 0.0,
+          "max": 1.0
+        },
+        "life_power": {
+          "type": "float",
+          "initial": 1.4,
+          "min": 0.1,
+          "max": 6.0
+        },
+        "fifo_age_boost": {
+          "type": "float",
+          "initial": 1.0,
+          "min": 0.0,
+          "max": 2.0
+        },
+        "credit_scale": {
+          "type": "float",
+          "initial": 1.0,
+          "min": 0.0,
+          "max": 2.0
+        },
+        "uncertainty_adjust": {
+          "type": "float",
+          "initial": -0.25,
+          "min": -2.0,
+          "max": 2.0
+        }
+      },
+      "structure_sha256": "acb240640f2478b63d3cc18e5a1fd0da385a39b20d3924118b80c603d5a80d74",
+      "wall_seconds": 44.89937170804478,
+      "transitions": 11625536,
+      "valid": true,
+      "score": 0.995670043145324,
+      "code": "def compute_order_amount(age, pipeline, mu, cv, f, L):\n    S = 22.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":22.0,\"min\":0.0,\"max\":60.0}\n    demand_scale = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.5,\"max\":1.5}\n    burst_mix = 0.5 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.5,\"min\":0.0,\"max\":1.0}\n    life_floor = 0.25 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.25,\"min\":0.0,\"max\":1.0}\n    life_power = 1.4 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.4,\"min\":0.1,\"max\":6.0}\n    fifo_age_boost = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":2.0}\n    credit_scale = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":2.0}\n    uncertainty_adjust = -0.25 # OPT_PARAM: {\"type\":\"float\",\"initial\":-0.25,\"min\":-2.0,\"max\":2.0}\n\n    m = len(age)\n    means = [f * mu, (1.0 - f) * mu]\n    total_variance = (mu * cv) * (mu * cv)\n    variances = [f * total_variance, (1.0 - f) * total_variance]\n    event_rates = [0.0, 0.0]\n    event_amounts = [0.0, 0.0]\n\n    for s in range(2):\n        M = means[s]\n        V = variances[s]\n        if M > 0.0:\n            a = V / (M * M) - 1.0 / M\n            root = (a * a - 1.0) ** 0.5\n            b = 1.0 + a + root\n            c = 1.0 + a - root\n            mixture_weight = 1.0 / b\n            success1 = 2.0 / (2.0 + M * b)\n            success2 = 2.0 / (2.0 + M * c)\n            probability_zero = mixture_weight * success1 + (1.0 - mixture_weight) * success2\n            actual_event_rate = 1.0 - probability_zero\n            moment_event_rate = (M * M) / (V + M * M)\n            event_rate = (1.0 - burst_mix) * actual_event_rate + burst_mix * moment_event_rate\n            if event_rate < 0.000001:\n                event_rate = 0.000001\n            if event_rate > 0.999999:\n                event_rate = 0.999999\n            event_rates[s] = event_rate\n            event_amounts[s] = demand_scale * M / event_rate\n\n    scenario_count = 2 ** (2 * L)\n    first_moment = 0.0\n    second_moment = 0.0\n\n    for mask in range(scenario_count):\n        scenario_weight = 1.0\n        x = [0.0] * m\n        for i in range(m):\n            x[i] = float(age[i])\n\n        for t in range(L):\n            fifo_bit = (mask // (2 ** (2 * t))) % 2\n            lifo_bit = (mask // (2 ** (2 * t + 1))) % 2\n\n            if fifo_bit == 1:\n                scenario_weight = scenario_weight * event_rates[0]\n                fifo_demand = event_amounts[0]\n            else:\n                scenario_weight = scenario_weight * (1.0 - event_rates[0])\n                fifo_demand = 0.0\n\n            if lifo_bit == 1:\n                scenario_weight = scenario_weight * event_rates[1]\n                lifo_demand = event_amounts[1]\n            else:\n                scenario_weight = scenario_weight * (1.0 - event_rates[1])\n                lifo_demand = 0.0\n\n            remaining = fifo_demand\n            for i in range(m):\n                if remaining > 0.0:\n                    if x[i] <= remaining:\n                        remaining = remaining - x[i]\n                        x[i] = 0.0\n                    else:\n                        x[i] = x[i] - remaining\n                        remaining = 0.0\n\n            remaining = lifo_demand\n            for k in range(m):\n                i = m - 1 - k\n                if remaining > 0.0:\n                    if x[i] <= remaining:\n                        remaining = remaining - x[i]\n                        x[i] = 0.0\n                    else:\n                        x[i] = x[i] - remaining\n                        remaining = 0.0\n\n            x[0] = 0.0\n            for i in range(m - 1):\n                x[i] = x[i + 1]\n            x[m - 1] = 0.0\n\n            if t < L - 1 and t < len(pipeline):\n                x[m - 1] = x[m - 1] + float(pipeline[t])\n\n        effective_inventory = 0.0\n        for i in range(m):\n            relative_life = float(i + 1) / float(m)\n            relative_life = relative_life + fifo_age_boost * f * (1.0 - relative_life)\n            if relative_life < 0.0:\n                relative_life = 0.0\n            if relative_life > 1.0:\n                relative_life = 1.0\n            age_credit = life_floor + (1.0 - life_floor) * (relative_life ** life_power)\n            effective_inventory = effective_inventory + age_credit * x[i]\n\n        first_moment = first_moment + scenario_weight * effective_inventory\n        second_moment = second_moment + scenario_weight * effective_inventory * effective_inventory\n\n    projected_variance = second_moment - first_moment * first_moment\n    if projected_variance < 0.0:\n        projected_variance = 0.0\n    projected_deviation = projected_variance ** 0.5\n    inventory_credit = credit_scale * (first_moment + uncertainty_adjust * projected_deviation)\n    if inventory_credit < 0.0:\n        inventory_credit = 0.0\n\n    order_amount = S - inventory_credit\n    if not (order_amount >= 0.0):\n        order_amount = 0.0\n    if order_amount > 1000000.0:\n        order_amount = 1000000.0\n    return float(order_amount)\n",
+      "origin": "search/best_of_n_r3/candidate_04_0"
+    },
+    {
+      "results": {
+        "perish_m3_L2_cv1.5_f0": {
+          "theta": [
+            27.104406408573993,
+            0.12643887112143204,
+            0.11756902609080133,
+            1.1975962641365394,
+            0.44494111185007357,
+            0.426593298736772,
+            2.3534258082153463
+          ],
+          "cost": 233.4228515625,
+          "nfev": 256,
+          "seconds": 3.8643187501002103,
+          "path_costs": [
+            231.4453125,
+            202.1484375,
+            234.765625,
+            227.34375,
+            239.453125,
+            259.1796875,
+            241.6015625,
+            231.4453125
+          ],
+          "metrics": [
+            0.6796875,
+            1.654541015625,
+            3.0
+          ],
+          "cap": 17
+        },
+        "perish_m3_L2_cv1.5_f0.5": {
+          "theta": [
+            15.44603497912964,
+            0.8727701864800784,
+            0.31792845794483604,
+            1.0440871755627592,
+            0.3303669541186426,
+            0.5009687818685711,
+            2.0151948182041672
+          ],
+          "cost": 213.623046875,
+          "nfev": 256,
+          "seconds": 2.4629820419941097,
+          "path_costs": [
+            222.4609375,
+            231.4453125,
+            159.9609375,
+            193.1640625,
+            204.4921875,
+            264.2578125,
+            196.09375,
+            237.109375
+          ],
+          "metrics": [
+            0.587158203125,
+            1.549072265625,
+            3.1728515625
+          ],
+          "cap": 16
+        },
+        "perish_m3_L2_cv2_f0": {
+          "theta": [
+            14.494512908267321,
+            0.4273588492971797,
+            0.2374605963396308,
+            1.0852378117826618,
+            1.2967704502955566,
+            1.0735817033712525,
+            2.9710315232267304
+          ],
+          "cost": 261.669921875,
+          "nfev": 256,
+          "seconds": 1.7708665831014514,
+          "path_costs": [
+            222.8515625,
+            239.84375,
+            262.3046875,
+            272.4609375,
+            315.625,
+            233.0078125,
+            241.9921875,
+            305.2734375
+          ],
+          "metrics": [
+            0.54296875,
+            2.07373046875,
+            2.4267578125
+          ],
+          "cap": 14
+        },
+        "perish_m3_L2_cv2_f0.5": {
+          "theta": [
+            12.053744530669082,
+            0.26964454336322624,
+            0.3430831467937967,
+            1.87123707567704,
+            0.7024267063761901,
+            1.0868980578419045,
+            4.15061018867477
+          ],
+          "cost": 237.01171875,
+          "nfev": 256,
+          "seconds": 2.3310552078764886,
+          "path_costs": [
+            235.546875,
+            267.1875,
+            288.28125,
+            199.21875,
+            234.765625,
+            204.6875,
+            183.59375,
+            282.8125
+          ],
+          "metrics": [
+            0.5224609375,
+            1.84765625,
+            2.670166015625
+          ],
+          "cap": 14
+        },
+        "perish_m5_L2_cv1.5_f0": {
+          "theta": [
+            16.452717761177325,
+            0.4660166003231909,
+            0.184521451024102,
+            0.6765100465213538,
+            0.2687327662162275,
+            0.7362754502470826,
+            4.1532423312826445
+          ],
+          "cost": 188.5009765625,
+          "nfev": 256,
+          "seconds": 2.2259947499260306,
+          "path_costs": [
+            200.9765625,
+            156.25,
+            181.4453125,
+            182.421875,
+            194.53125,
+            219.140625,
+            185.9375,
+            187.3046875
+          ],
+          "metrics": [
+            0.641845703125,
+            1.2431640625,
+            3.374755859375
+          ],
+          "cap": 25
+        },
+        "perish_m5_L2_cv1.5_f0.5": {
+          "theta": [
+            9.305890801398046,
+            0.9178710085911782,
+            0.4864106196791418,
+            1.4211351207417657,
+            0.6680230696072799,
+            1.3360245141202285,
+            1.9705433719651348
+          ],
+          "cost": 165.13671875,
+          "nfev": 256,
+          "seconds": 2.975188334006816,
+          "path_costs": [
+            169.140625,
+            175.78125,
+            131.640625,
+            149.21875,
+            150.78125,
+            200.390625,
+            166.6015625,
+            177.5390625
+          ],
+          "metrics": [
+            0.528076171875,
+            1.123291015625,
+            3.540771484375
+          ],
+          "cap": 24
+        },
+        "perish_m5_L2_cv2_f0": {
+          "theta": [
+            5.328344510399592,
+            0.45343904338907526,
+            1.2562881178337355,
+            1.3569647074715692,
+            0.5135645847774659,
+            0.9409296869513265,
+            0.3397425507552083
+          ],
+          "cost": 216.50390625,
+          "nfev": 256,
+          "seconds": 1.974422459024936,
+          "path_costs": [
+            187.5,
+            198.4375,
+            230.078125,
+            227.1484375,
+            259.9609375,
+            187.6953125,
+            199.0234375,
+            242.1875
+          ],
+          "metrics": [
+            0.543212890625,
+            1.621826171875,
+            2.879150390625
+          ],
+          "cap": 22
+        },
+        "perish_m5_L2_cv2_f0.5": {
+          "theta": [
+            8.576246688324222,
+            0.37712290226028405,
+            0.5124744098004289,
+            0.4779217929047882,
+            0.08915771214213453,
+            1.4066474445741899,
+            1.6975134753152883
+          ],
+          "cost": 195.6298828125,
+          "nfev": 256,
+          "seconds": 2.6165230420883745,
+          "path_costs": [
+            199.21875,
+            220.8984375,
+            245.703125,
+            156.4453125,
+            195.5078125,
+            165.4296875,
+            141.9921875,
+            239.84375
+          ],
+          "metrics": [
+            0.40185546875,
+            1.554443359375,
+            2.8447265625
+          ],
+          "cap": 21
+        }
+      },
+      "parameters": {
+        "S": {
+          "type": "float",
+          "initial": 12.0,
+          "min": 0.0,
+          "max": 60.0
+        },
+        "BLEND": {
+          "type": "float",
+          "initial": 0.6,
+          "min": 0.0,
+          "max": 1.0
+        },
+        "GAIN": {
+          "type": "float",
+          "initial": 1.0,
+          "min": 0.1,
+          "max": 2.5
+        },
+        "D_SCALE": {
+          "type": "float",
+          "initial": 1.0,
+          "min": 0.4,
+          "max": 2.0
+        },
+        "W_OLD": {
+          "type": "float",
+          "initial": 0.35,
+          "min": 0.0,
+          "max": 1.5
+        },
+        "W_NEW": {
+          "type": "float",
+          "initial": 1.0,
+          "min": 0.0,
+          "max": 1.5
+        },
+        "W_SHAPE": {
+          "type": "float",
+          "initial": 1.5,
+          "min": 0.2,
+          "max": 5.0
+        }
+      },
+      "structure_sha256": "2f542dafdf275d48577a09123c5dfe5f6005868e084005013cd9a14d3ce2889e",
+      "wall_seconds": 21.710332583868876,
+      "transitions": 11710976,
+      "valid": true,
+      "score": 1.0043160874607093,
+      "code": "def compute_order_amount(age, pipeline, mu, cv, f, L):\n    S = 12.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":12.0,\"min\":0.0,\"max\":60.0}\n    BLEND = 0.6 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.6,\"min\":0.0,\"max\":1.0}\n    GAIN = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.1,\"max\":2.5}\n    D_SCALE = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.4,\"max\":2.0}\n    W_OLD = 0.35 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.35,\"min\":0.0,\"max\":1.5}\n    W_NEW = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":1.5}\n    W_SHAPE = 1.5 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.5,\"min\":0.2,\"max\":5.0}\n\n    m = len(age)\n    lead = int(L)\n    if m <= 0:\n        return 0.0\n    if lead < 0:\n        lead = 0\n\n    demand_scale = float(D_SCALE)\n    mean_total = float(mu)\n    sigma_total = mean_total * float(cv)\n    fifo_fraction = float(f)\n    lifo_fraction = 1.0 - fifo_fraction\n\n    fifo_mean = fifo_fraction * mean_total\n    fifo_var = fifo_fraction * sigma_total * sigma_total\n    fifo_active = fifo_mean > 0.0\n    fifo_weight = 0.0\n    fifo_p1 = 1.0\n    fifo_p2 = 1.0\n    fifo_r1 = 0.0\n    fifo_r2 = 0.0\n    if fifo_active:\n        fifo_a = fifo_var / (fifo_mean * fifo_mean) - 1.0 / fifo_mean\n        fifo_disc = fifo_a * fifo_a - 1.0\n        if fifo_disc < 0.0:\n            fifo_disc = 0.0\n        fifo_root = fifo_disc ** 0.5\n        fifo_b = 1.0 + fifo_a + fifo_root\n        fifo_c = 1.0 + fifo_a - fifo_root\n        fifo_weight = 1.0 / fifo_b\n        fifo_p1 = 2.0 / (2.0 + fifo_mean * fifo_b)\n        fifo_p2 = 2.0 / (2.0 + fifo_mean * fifo_c)\n        fifo_r1 = 1.0 - fifo_p1\n        fifo_r2 = 1.0 - fifo_p2\n\n    lifo_mean = lifo_fraction * mean_total\n    lifo_var = lifo_fraction * sigma_total * sigma_total\n    lifo_active = lifo_mean > 0.0\n    lifo_weight = 0.0\n    lifo_p1 = 1.0\n    lifo_p2 = 1.0\n    lifo_r1 = 0.0\n    lifo_r2 = 0.0\n    if lifo_active:\n        lifo_a = lifo_var / (lifo_mean * lifo_mean) - 1.0 / lifo_mean\n        lifo_disc = lifo_a * lifo_a - 1.0\n        if lifo_disc < 0.0:\n            lifo_disc = 0.0\n        lifo_root = lifo_disc ** 0.5\n        lifo_b = 1.0 + lifo_a + lifo_root\n        lifo_c = 1.0 + lifo_a - lifo_root\n        lifo_weight = 1.0 / lifo_b\n        lifo_p1 = 2.0 / (2.0 + lifo_mean * lifo_b)\n        lifo_p2 = 2.0 / (2.0 + lifo_mean * lifo_c)\n        lifo_r1 = 1.0 - lifo_p1\n        lifo_r2 = 1.0 - lifo_p2\n\n    x = [max(0.0, float(age[i])) for i in range(m)]\n\n    raw_position = 0.0\n    for i in range(m):\n        raw_position = raw_position + x[i]\n    for j in range(len(pipeline)):\n        raw_position = raw_position + max(0.0, float(pipeline[j]))\n\n    for step in range(lead):\n        if fifo_active:\n            cumulative = 0.0\n            for i in range(m):\n                bucket = x[i]\n                next_cumulative = cumulative + bucket\n                z0 = cumulative / demand_scale\n                z1 = next_cumulative / demand_scale\n                e0 = demand_scale * (\n                    fifo_weight * fifo_r1 * (1.0 - fifo_r1 ** z0) / fifo_p1\n                    + (1.0 - fifo_weight) * fifo_r2\n                    * (1.0 - fifo_r2 ** z0) / fifo_p2\n                )\n                e1 = demand_scale * (\n                    fifo_weight * fifo_r1 * (1.0 - fifo_r1 ** z1) / fifo_p1\n                    + (1.0 - fifo_weight) * fifo_r2\n                    * (1.0 - fifo_r2 ** z1) / fifo_p2\n                )\n                taken = e1 - e0\n                if taken < 0.0:\n                    taken = 0.0\n                if taken > bucket:\n                    taken = bucket\n                x[i] = bucket - taken\n                cumulative = next_cumulative\n\n        if lifo_active:\n            cumulative = 0.0\n            for k in range(m):\n                i = m - 1 - k\n                bucket = x[i]\n                next_cumulative = cumulative + bucket\n                z0 = cumulative / demand_scale\n                z1 = next_cumulative / demand_scale\n                e0 = demand_scale * (\n                    lifo_weight * lifo_r1 * (1.0 - lifo_r1 ** z0) / lifo_p1\n                    + (1.0 - lifo_weight) * lifo_r2\n                    * (1.0 - lifo_r2 ** z0) / lifo_p2\n                )\n                e1 = demand_scale * (\n                    lifo_weight * lifo_r1 * (1.0 - lifo_r1 ** z1) / lifo_p1\n                    + (1.0 - lifo_weight) * lifo_r2\n                    * (1.0 - lifo_r2 ** z1) / lifo_p2\n                )\n                taken = e1 - e0\n                if taken < 0.0:\n                    taken = 0.0\n                if taken > bucket:\n                    taken = bucket\n                x[i] = bucket - taken\n                cumulative = next_cumulative\n\n        shifted = [0.0 for i in range(m)]\n        for i in range(m - 1):\n            shifted[i] = x[i + 1]\n        if step < lead - 1 and step < len(pipeline):\n            shifted[m - 1] = max(0.0, float(pipeline[step]))\n        x = shifted\n\n    projected_effective = 0.0\n    for i in range(m):\n        life_fraction = float(i + 1) / float(m)\n        age_weight = W_OLD + (W_NEW - W_OLD) * life_fraction ** W_SHAPE\n        if age_weight < 0.0:\n            age_weight = 0.0\n        projected_effective = projected_effective + age_weight * x[i]\n\n    arrival_target = S * mean_total * float(m) / 16.0\n    raw_target = arrival_target * float(m + lead) / float(m)\n\n    raw_gap = raw_target - raw_position\n    if raw_gap < 0.0:\n        raw_gap = 0.0\n    projected_gap = arrival_target - projected_effective\n    if projected_gap < 0.0:\n        projected_gap = 0.0\n\n    q = GAIN * ((1.0 - BLEND) * raw_gap + BLEND * projected_gap)\n    if not (q >= 0.0):\n        return 0.0\n    if q > 1000000.0:\n        return 1000000.0\n    return float(q)\n",
+      "origin": "search/best_of_n_r3/candidate_05_0"
+    },
+    {
+      "results": {
+        "perish_m3_L2_cv1.5_f0": {
+          "theta": [
+            3.688828471673645,
+            0.46703889085137673,
+            0.6134381903276351,
+            1.496372814808424,
+            0.5774333734705841
+          ],
+          "cost": 233.4228515625,
+          "nfev": 177,
+          "seconds": 4.981477708090097,
+          "path_costs": [
+            231.4453125,
+            202.1484375,
+            234.765625,
+            227.34375,
+            239.453125,
+            259.1796875,
+            241.6015625,
+            231.4453125
+          ],
+          "metrics": [
+            0.6796875,
+            1.654541015625,
+            3.0
+          ],
+          "cap": 17
+        },
+        "perish_m3_L2_cv1.5_f0.5": {
+          "theta": [
+            5.063452788400628,
+            0.3629726579473853,
+            0.9850941873936376,
+            1.2256609048084748,
+            1.562468879917907
+          ],
+          "cost": 213.6474609375,
+          "nfev": 256,
+          "seconds": 8.163958874996752,
+          "path_costs": [
+            223.6328125,
+            233.0078125,
+            156.8359375,
+            192.3828125,
+            207.2265625,
+            263.0859375,
+            195.8984375,
+            237.109375
+          ],
+          "metrics": [
+            0.5517578125,
+            1.584716796875,
+            3.1015625
+          ],
+          "cap": 16
+        },
+        "perish_m3_L2_cv2_f0": {
+          "theta": [
+            5.10309473028957,
+            1.509374690348268,
+            0.9569561138349145,
+            0.46755482379444235,
+            0.8144652279970469
+          ],
+          "cost": 259.86328125,
+          "nfev": 241,
+          "seconds": 3.1650060419924557,
+          "path_costs": [
+            224.8046875,
+            238.8671875,
+            269.53125,
+            268.359375,
+            310.546875,
+            227.9296875,
+            239.453125,
+            299.4140625
+          ],
+          "metrics": [
+            0.653564453125,
+            1.945068359375,
+            2.666015625
+          ],
+          "cap": 14
+        },
+        "perish_m3_L2_cv2_f0.5": {
+          "theta": [
+            4.320505961626331,
+            0.8530575710362863,
+            0.7907066468551296,
+            0.47231716742792407,
+            1.076808350008275
+          ],
+          "cost": 236.9140625,
+          "nfev": 256,
+          "seconds": 7.020185000030324,
+          "path_costs": [
+            234.765625,
+            266.6015625,
+            290.234375,
+            198.046875,
+            234.765625,
+            203.515625,
+            182.8125,
+            284.5703125
+          ],
+          "metrics": [
+            0.47314453125,
+            1.89599609375,
+            2.572021484375
+          ],
+          "cap": 14
+        },
+        "perish_m5_L2_cv1.5_f0": {
+          "theta": [
+            7.499301883760978,
+            1.5764818640492702,
+            1.4583505404679138,
+            0.9843403142968024,
+            0.4164791860716477
+          ],
+          "cost": 178.5888671875,
+          "nfev": 256,
+          "seconds": 3.0648196670226753,
+          "path_costs": [
+            189.6484375,
+            144.53125,
+            181.25,
+            164.453125,
+            180.078125,
+            205.6640625,
+            183.203125,
+            179.8828125
+          ],
+          "metrics": [
+            0.57666015625,
+            1.209228515625,
+            3.3447265625
+          ],
+          "cap": 25
+        },
+        "perish_m5_L2_cv1.5_f0.5": {
+          "theta": [
+            7.166575826719381,
+            0.6056761569836109,
+            1.3001007269090004,
+            0.41419820361892756,
+            0.6488540503141647
+          ],
+          "cost": 165.478515625,
+          "nfev": 256,
+          "seconds": 13.350978833856061,
+          "path_costs": [
+            165.8203125,
+            180.078125,
+            125.5859375,
+            148.828125,
+            153.515625,
+            202.734375,
+            161.9140625,
+            185.3515625
+          ],
+          "metrics": [
+            0.44970703125,
+            1.205078125,
+            3.381103515625
+          ],
+          "cap": 24
+        },
+        "perish_m5_L2_cv2_f0": {
+          "theta": [
+            9.025829703422247,
+            1.7780422111727991,
+            1.7634891785074172,
+            1.4423693261645532,
+            1.2216666544371073
+          ],
+          "cost": 212.1826171875,
+          "nfev": 256,
+          "seconds": 3.4399576249998063,
+          "path_costs": [
+            182.8125,
+            192.96875,
+            227.9296875,
+            225.0,
+            257.421875,
+            173.6328125,
+            197.265625,
+            240.4296875
+          ],
+          "metrics": [
+            0.5341796875,
+            1.587646484375,
+            2.90283203125
+          ],
+          "cap": 22
+        },
+        "perish_m5_L2_cv2_f0.5": {
+          "theta": [
+            6.15539770628067,
+            0.822033519261797,
+            0.7360752905166671,
+            0.7038241377978667,
+            0.7576176133959586
+          ],
+          "cost": 195.361328125,
+          "nfev": 256,
+          "seconds": 12.06676070811227,
+          "path_costs": [
+            198.046875,
+            220.703125,
+            245.703125,
+            155.078125,
+            194.3359375,
+            165.234375,
+            143.5546875,
+            240.234375
+          ],
+          "metrics": [
+            0.39990234375,
+            1.5537109375,
+            2.843994140625
+          ],
+          "cap": 21
+        }
+      },
+      "parameters": {
+        "S": {
+          "type": "float",
+          "initial": 12.0,
+          "min": 0.0,
+          "max": 60.0
+        },
+        "W0": {
+          "type": "float",
+          "initial": 0.35,
+          "min": 0.0,
+          "max": 2.0
+        },
+        "W1": {
+          "type": "float",
+          "initial": 0.6,
+          "min": 0.0,
+          "max": 2.0
+        },
+        "W2": {
+          "type": "float",
+          "initial": 0.8,
+          "min": 0.0,
+          "max": 2.0
+        },
+        "W3": {
+          "type": "float",
+          "initial": 1.0,
+          "min": 0.0,
+          "max": 2.0
+        }
+      },
+      "structure_sha256": "8249180f5d7898265916c62027b5868ce59e9502eabdf0caf190217e86a1ee24",
+      "code_sha256": "3ef8935ffbaa47f0eb6a9f51afa2e7053f6bc778f94835b121bdb15ed7c1d021",
+      "import_normalization": [
+        {
+          "revision": "leading_numerical_imports_v1",
+          "action": "hoist_leading_import",
+          "original_line": 2,
+          "original_end_line": 2,
+          "import_statement": "import math"
+        }
+      ],
+      "wall_seconds": 56.72828416712582,
+      "transitions": 11175552,
+      "valid": true,
+      "score": 0.994228555305751,
+      "code": "def compute_order_amount(age, pipeline, mu, cv, f, L):\n    import math\n\n    S = 12.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":12.0,\"min\":0.0,\"max\":60.0}\n    W0 = 0.35 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.35,\"min\":0.0,\"max\":2.0}\n    W1 = 0.60 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.60,\"min\":0.0,\"max\":2.0}\n    W2 = 0.80 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.80,\"min\":0.0,\"max\":2.0}\n    W3 = 1.00 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.00,\"min\":0.0,\"max\":2.0}\n\n    m = len(age)\n    if m <= 0:\n        return 0.0\n\n    x = [0.0] * m\n    for i in range(m):\n        value = float(age[i])\n        if not math.isfinite(value) or value < 0.0:\n            value = 0.0\n        x[i] = value\n\n    mf = float(f) * float(mu)\n    vf = float(f) * (float(mu) * float(cv)) ** 2\n    ml = (1.0 - float(f)) * float(mu)\n    vl = (1.0 - float(f)) * (float(mu) * float(cv)) ** 2\n\n    wf = 1.0\n    pf1 = 1.0\n    pf2 = 1.0\n    rf1 = 0.0\n    rf2 = 0.0\n    if mf > 0.0:\n        af = vf / (mf * mf) - 1.0 / mf\n        if af < 1.0:\n            af = 1.0\n        rootf = math.sqrt(max(0.0, af * af - 1.0))\n        bf = 1.0 + af + rootf\n        cf = 1.0 + af - rootf\n        wf = 1.0 / bf\n        pf1 = 2.0 / (2.0 + mf * bf)\n        pf2 = 2.0 / (2.0 + mf * cf)\n        rf1 = 1.0 - pf1\n        rf2 = 1.0 - pf2\n\n    wl = 1.0\n    pl1 = 1.0\n    pl2 = 1.0\n    rl1 = 0.0\n    rl2 = 0.0\n    if ml > 0.0:\n        al = vl / (ml * ml) - 1.0 / ml\n        if al < 1.0:\n            al = 1.0\n        rootl = math.sqrt(max(0.0, al * al - 1.0))\n        bl = 1.0 + al + rootl\n        cl = 1.0 + al - rootl\n        wl = 1.0 / bl\n        pl1 = 2.0 / (2.0 + ml * bl)\n        pl2 = 2.0 / (2.0 + ml * cl)\n        rl1 = 1.0 - pl1\n        rl2 = 1.0 - pl2\n\n    lead = int(L)\n    if lead < 0:\n        lead = 0\n    if lead > 6:\n        lead = 6\n\n    for step in range(6):\n        if step >= lead:\n            break\n\n        total = 0.0\n        for i in range(m):\n            total = total + x[i]\n\n        after_demand = [0.0] * m\n\n        if total > 0.0:\n            if mf <= 0.0:\n                max_fifo_demand = 1\n            else:\n                max_fifo_demand = int(math.ceil(total))\n                if max_fifo_demand < 1:\n                    max_fifo_demand = 1\n\n            for demand_f in range(256):\n                if demand_f >= max_fifo_demand:\n                    break\n\n                if mf <= 0.0:\n                    probability_f = 1.0\n                else:\n                    probability_f = (\n                        wf * pf1 * (rf1 ** demand_f)\n                        + (1.0 - wf) * pf2 * (rf2 ** demand_f)\n                    )\n\n                remaining_f = float(demand_f)\n                after_fifo = [0.0] * m\n                for i in range(m):\n                    available = x[i]\n                    if remaining_f >= available:\n                        after_fifo[i] = 0.0\n                        remaining_f = remaining_f - available\n                    else:\n                        after_fifo[i] = available - remaining_f\n                        remaining_f = 0.0\n\n                cumulative = 0.0\n                previous_expected = 0.0\n                for reverse_i in range(m):\n                    i = m - 1 - reverse_i\n                    cumulative = cumulative + after_fifo[i]\n\n                    if ml <= 0.0:\n                        expected_cumulative = cumulative\n                    else:\n                        integer_part = int(math.floor(cumulative))\n                        fractional_part = cumulative - float(integer_part)\n\n                        truncated_mean1 = (\n                            rl1 * (1.0 - rl1 ** integer_part) / (1.0 - rl1)\n                            + fractional_part * rl1 ** (integer_part + 1)\n                        )\n                        truncated_mean2 = (\n                            rl2 * (1.0 - rl2 ** integer_part) / (1.0 - rl2)\n                            + fractional_part * rl2 ** (integer_part + 1)\n                        )\n                        expected_cumulative = cumulative - (\n                            wl * truncated_mean1\n                            + (1.0 - wl) * truncated_mean2\n                        )\n                        if expected_cumulative < 0.0:\n                            expected_cumulative = 0.0\n\n                    expected_segment = expected_cumulative - previous_expected\n                    if expected_segment < 0.0:\n                        expected_segment = 0.0\n                    after_demand[i] = (\n                        after_demand[i] + probability_f * expected_segment\n                    )\n                    previous_expected = expected_cumulative\n\n        shifted = [0.0] * m\n        for i in range(1, m):\n            shifted[i - 1] = after_demand[i]\n\n        if step < len(pipeline):\n            arrival = float(pipeline[step])\n            if not math.isfinite(arrival) or arrival < 0.0:\n                arrival = 0.0\n            shifted[m - 1] = shifted[m - 1] + arrival\n\n        x = shifted\n\n    weighted_projected_stock = 0.0\n    for i in range(m):\n        if i == 0:\n            weight = W0\n        elif i == 1:\n            weight = W1\n        elif i == 2:\n            weight = W2\n        else:\n            weight = W3\n        weighted_projected_stock = weighted_projected_stock + weight * x[i]\n\n    order = S - weighted_projected_stock\n    if not math.isfinite(order) or order <= 0.0:\n        return 0.0\n    return float(order)\n",
+      "evaluation_correction": {
+        "revision": "leading_numerical_imports_v1",
+        "request_sha256": "ef0e5ae350c5d690ca8f203161653b90c2e5c247d73e4033ba40bb3b89b295d9",
+        "reason": "leading_import_scope",
+        "original_fit_sha256": "439a1dacc718594669cdd4e70610e87b5dcacb05ad1c53961c3f3b8750b5336a",
+        "code_sha256": "3ef8935ffbaa47f0eb6a9f51afa2e7053f6bc778f94835b121bdb15ed7c1d021",
+        "elapsed_seconds": 56.87481858301908,
+        "timeout_seconds": 240,
+        "training_settings": {
+          "paths": 8,
+          "burnin": 200,
+          "horizon": 512,
+          "seed": 17091001,
+          "budget": 256
+        },
+        "feedback_replayed": false
+      },
+      "origin": "search/best_of_n_r3/candidate_06_0"
+    },
+    {
+      "results": {
+        "perish_m3_L2_cv1.5_f0": {
+          "theta": [
+            5.193029819714987,
+            0.8395082063344096,
+            0.5864195542739553,
+            1.0088042335770104,
+            0.48601495788227994
+          ],
+          "cost": 233.4228515625,
+          "nfev": 177,
+          "seconds": 3.6612052919808775,
+          "path_costs": [
+            231.4453125,
+            202.1484375,
+            234.765625,
+            227.34375,
+            239.453125,
+            259.1796875,
+            241.6015625,
+            231.4453125
+          ],
+          "metrics": [
+            0.6796875,
+            1.654541015625,
+            3.0
+          ],
+          "cap": 17
+        },
+        "perish_m3_L2_cv1.5_f0.5": {
+          "theta": [
+            4.219769724922781,
+            1.1014582172300575,
+            0.25329711470923133,
+            0.4850383309823434,
+            0.502828216914697
+          ],
+          "cost": 213.5009765625,
+          "nfev": 256,
+          "seconds": 2.792675499804318,
+          "path_costs": [
+            222.65625,
+            232.03125,
+            155.859375,
+            192.7734375,
+            207.421875,
+            263.8671875,
+            195.5078125,
+            237.890625
+          ],
+          "metrics": [
+            0.504638671875,
+            1.63037109375,
+            3.00927734375
+          ],
+          "cap": 16
+        },
+        "perish_m3_L2_cv2_f0": {
+          "theta": [
+            9.1806867383978,
+            0.0871785029385912,
+            0.2638647311617712,
+            1.3641460042165425,
+            0.48047425608612254
+          ],
+          "cost": 259.47265625,
+          "nfev": 256,
+          "seconds": 1.863705167081207,
+          "path_costs": [
+            222.4609375,
+            236.71875,
+            258.0078125,
+            266.2109375,
+            313.671875,
+            230.078125,
+            244.7265625,
+            303.90625
+          ],
+          "metrics": [
+            0.625,
+            1.9697265625,
+            2.611328125
+          ],
+          "cap": 14
+        },
+        "perish_m3_L2_cv2_f0.5": {
+          "theta": [
+            6.9866171017783465,
+            0.419948938863006,
+            0.6530375599718226,
+            1.2508075483875256,
+            0.5749789366797463
+          ],
+          "cost": 238.134765625,
+          "nfev": 256,
+          "seconds": 2.7210772081743926,
+          "path_costs": [
+            236.71875,
+            265.8203125,
+            291.9921875,
+            201.3671875,
+            233.203125,
+            205.859375,
+            185.3515625,
+            284.765625
+          ],
+          "metrics": [
+            0.47265625,
+            1.90869140625,
+            2.5595703125
+          ],
+          "cap": 14
+        },
+        "perish_m5_L2_cv1.5_f0": {
+          "theta": [
+            15.995687513282235,
+            0.214207959089177,
+            0.5247677248942941,
+            1.3905444205111075,
+            0.02363330715912737
+          ],
+          "cost": 181.8359375,
+          "nfev": 256,
+          "seconds": 2.471895624883473,
+          "path_costs": [
+            192.96875,
+            147.4609375,
+            182.03125,
+            174.0234375,
+            193.9453125,
+            207.8125,
+            179.1015625,
+            177.34375
+          ],
+          "metrics": [
+            0.654296875,
+            1.1640625,
+            3.471435546875
+          ],
+          "cap": 25
+        },
+        "perish_m5_L2_cv1.5_f0.5": {
+          "theta": [
+            6.016439490410946,
+            1.8500420090757743,
+            0.06605332164350486,
+            0.9315325271178438,
+            0.1832485556954273
+          ],
+          "cost": 165.52734375,
+          "nfev": 256,
+          "seconds": 3.2697525001131,
+          "path_costs": [
+            166.6015625,
+            175.9765625,
+            129.4921875,
+            151.5625,
+            153.7109375,
+            199.4140625,
+            162.890625,
+            184.5703125
+          ],
+          "metrics": [
+            0.52978515625,
+            1.12548828125,
+            3.5400390625
+          ],
+          "cap": 24
+        },
+        "perish_m5_L2_cv2_f0": {
+          "theta": [
+            13.244128379480458,
+            0.049393813189440916,
+            0.9935008750948587,
+            1.2802495448136175,
+            0.051065857616310883
+          ],
+          "cost": 212.548828125,
+          "nfev": 256,
+          "seconds": 2.170665791956708,
+          "path_costs": [
+            182.421875,
+            190.625,
+            226.953125,
+            227.1484375,
+            259.9609375,
+            175.9765625,
+            196.875,
+            240.4296875
+          ],
+          "metrics": [
+            0.48095703125,
+            1.64453125,
+            2.793701171875
+          ],
+          "cap": 22
+        },
+        "perish_m5_L2_cv2_f0.5": {
+          "theta": [
+            5.427790048067866,
+            1.491846253805925,
+            0.038052777680714134,
+            0.7806585149966085,
+            0.18171221700927626
+          ],
+          "cost": 195.3369140625,
+          "nfev": 256,
+          "seconds": 2.927790499990806,
+          "path_costs": [
+            198.2421875,
+            220.703125,
+            245.5078125,
+            154.6875,
+            194.140625,
+            165.4296875,
+            142.1875,
+            241.796875
+          ],
+          "metrics": [
+            0.38818359375,
+            1.565185546875,
+            2.8203125
+          ],
+          "cap": 21
+        }
+      },
+      "parameters": {
+        "S": {
+          "type": "float",
+          "initial": 16.0,
+          "min": 0.0,
+          "max": 60.0
+        },
+        "K": {
+          "type": "float",
+          "initial": 1.0,
+          "min": 0.0,
+          "max": 2.5
+        },
+        "B": {
+          "type": "float",
+          "initial": 0.1,
+          "min": 0.0,
+          "max": 1.0
+        },
+        "W0": {
+          "type": "float",
+          "initial": 0.2,
+          "min": 0.0,
+          "max": 1.5
+        },
+        "WSTEP": {
+          "type": "float",
+          "initial": 0.25,
+          "min": 0.0,
+          "max": 0.8
+        }
+      },
+      "structure_sha256": "13a0f6a592b4b48d4c5c98f830b3944876f0ed8f856d8ce29ec3aad7f804466c",
+      "wall_seconds": 23.153266375185922,
+      "transitions": 11260992,
+      "valid": true,
+      "score": 0.9970513028678509,
+      "code": "def compute_order_amount(age, pipeline, mu, cv, f, L):\n    S = 16.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":16.0,\"min\":0.0,\"max\":60.0}\n    K = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":2.5}\n    B = 0.1 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.1,\"min\":0.0,\"max\":1.0}\n    W0 = 0.2 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.2,\"min\":0.0,\"max\":1.5}\n    WSTEP = 0.25 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.25,\"min\":0.0,\"max\":0.8}\n\n    m = len(age)\n    x = [0.0] * m\n    for i in range(m):\n        v = float(age[i])\n        if v < 0.0:\n            v = 0.0\n        x[i] = v\n\n    mf = float(f) * float(mu)\n    ml = (1.0 - float(f)) * float(mu)\n    variance_scale = (float(mu) * float(cv)) ** 2\n\n    if mf > 0.0:\n        vf = float(f) * variance_scale\n        af = vf / (mf * mf) - 1.0 / mf\n        if af < 1.0:\n            af = 1.0\n        rootf = (af * af - 1.0) ** 0.5\n        bf = 1.0 + af + rootf\n        cf = 1.0 + af - rootf\n        wf = 1.0 / bf\n        pf1 = 2.0 / (2.0 + mf * bf)\n        pf2 = 2.0 / (2.0 + mf * cf)\n        rf1 = 1.0 - pf1\n        rf2 = 1.0 - pf2\n\n    if ml > 0.0:\n        vl = (1.0 - float(f)) * variance_scale\n        al = vl / (ml * ml) - 1.0 / ml\n        if al < 1.0:\n            al = 1.0\n        rootl = (al * al - 1.0) ** 0.5\n        bl = 1.0 + al + rootl\n        cl = 1.0 + al - rootl\n        wl = 1.0 / bl\n        pl1 = 2.0 / (2.0 + ml * bl)\n        pl2 = 2.0 / (2.0 + ml * cl)\n        rl1 = 1.0 - pl1\n        rl2 = 1.0 - pl2\n\n    for period in range(int(L)):\n        if mf > 0.0:\n            y = [0.0] * m\n            before = 0.0\n            for i in range(m):\n                end = before + x[i]\n\n                nb = int(before)\n                fb = before - float(nb)\n                eb1 = rf1 * (1.0 - rf1 ** nb) / pf1 + fb * rf1 ** (nb + 1)\n                eb2 = rf2 * (1.0 - rf2 ** nb) / pf2 + fb * rf2 ** (nb + 1)\n                eb = wf * eb1 + (1.0 - wf) * eb2\n\n                ne = int(end)\n                fe = end - float(ne)\n                ee1 = rf1 * (1.0 - rf1 ** ne) / pf1 + fe * rf1 ** (ne + 1)\n                ee2 = rf2 * (1.0 - rf2 ** ne) / pf2 + fe * rf2 ** (ne + 1)\n                ee = wf * ee1 + (1.0 - wf) * ee2\n\n                exact_remove = ee - eb\n                fluid_end = end\n                if fluid_end > mf:\n                    fluid_end = mf\n                fluid_before = before\n                if fluid_before > mf:\n                    fluid_before = mf\n                fluid_remove = fluid_end - fluid_before\n\n                remove = K * ((1.0 - B) * exact_remove + B * fluid_remove)\n                if remove < 0.0:\n                    remove = 0.0\n                if remove > x[i]:\n                    remove = x[i]\n                y[i] = x[i] - remove\n                before = end\n            x = y\n\n        if ml > 0.0:\n            y = [0.0] * m\n            before = 0.0\n            for k in range(m):\n                i = m - 1 - k\n                end = before + x[i]\n\n                nb = int(before)\n                fb = before - float(nb)\n                eb1 = rl1 * (1.0 - rl1 ** nb) / pl1 + fb * rl1 ** (nb + 1)\n                eb2 = rl2 * (1.0 - rl2 ** nb) / pl2 + fb * rl2 ** (nb + 1)\n                eb = wl * eb1 + (1.0 - wl) * eb2\n\n                ne = int(end)\n                fe = end - float(ne)\n                ee1 = rl1 * (1.0 - rl1 ** ne) / pl1 + fe * rl1 ** (ne + 1)\n                ee2 = rl2 * (1.0 - rl2 ** ne) / pl2 + fe * rl2 ** (ne + 1)\n                ee = wl * ee1 + (1.0 - wl) * ee2\n\n                exact_remove = ee - eb\n                fluid_end = end\n                if fluid_end > ml:\n                    fluid_end = ml\n                fluid_before = before\n                if fluid_before > ml:\n                    fluid_before = ml\n                fluid_remove = fluid_end - fluid_before\n\n                remove = K * ((1.0 - B) * exact_remove + B * fluid_remove)\n                if remove < 0.0:\n                    remove = 0.0\n                if remove > x[i]:\n                    remove = x[i]\n                y[i] = x[i] - remove\n                before = end\n            x = y\n\n        y = [0.0] * m\n        for i in range(m - 1):\n            y[i] = x[i + 1]\n        if period < len(pipeline):\n            arrival = float(pipeline[period])\n            if arrival < 0.0:\n                arrival = 0.0\n            y[m - 1] = arrival\n        x = y\n\n    effective_stock = 0.0\n    for i in range(m):\n        weight = W0 + WSTEP * float(i)\n        if weight > 1.5:\n            weight = 1.5\n        effective_stock = effective_stock + weight * x[i]\n\n    q = S - effective_stock\n    if not (q >= 0.0):\n        q = 0.0\n    return q\n",
+      "origin": "search/best_of_n_r3/candidate_07_0"
+    }
+  ],
+  "best_training": {
+    "results": {
+      "perish_m3_L2_cv1.5_f0": {
+        "theta": [
+          1.6688676425371263,
+          1.7592372971194392,
+          0.2764536787232599,
+          -1.3865325910743334,
+          1.5317021752117206,
+          1.5014431721676151
+        ],
+        "cost": 233.4228515625,
+        "nfev": 256,
+        "seconds": 2.8518535839393735,
+        "path_costs": [
+          231.4453125,
+          202.1484375,
+          234.765625,
+          227.34375,
+          239.453125,
+          259.1796875,
+          241.6015625,
+          231.4453125
+        ],
+        "metrics": [
+          0.6796875,
+          1.654541015625,
+          3.0
+        ],
+        "cap": 17
+      },
+      "perish_m3_L2_cv1.5_f0.5": {
+        "theta": [
+          15.840079181736717,
+          1.2105353301405315,
+          1.3808109935624189,
+          2.19538498275036,
+          1.224551680121981,
+          0.27295033196128904
+        ],
+        "cost": 213.8671875,
+        "nfev": 256,
+        "seconds": 1.362190708052367,
+        "path_costs": [
+          223.2421875,
+          232.8125,
+          156.8359375,
+          192.7734375,
+          207.6171875,
+          265.625,
+          194.7265625,
+          237.3046875
+        ],
+        "metrics": [
+          0.54150390625,
+          1.59716796875,
+          3.078857421875
+        ],
+        "cap": 16
+      },
+      "perish_m3_L2_cv2_f0": {
+        "theta": [
+          3.405067162724521,
+          1.1733995342418593,
+          1.710357221920569,
+          0.49049067792261014,
+          0.9745024404902682,
+          1.9128636257638838
+        ],
+        "cost": 259.7900390625,
+        "nfev": 256,
+        "seconds": 0.7754755418282002,
+        "path_costs": [
+          217.96875,
+          242.96875,
+          261.1328125,
+          271.6796875,
+          312.5,
+          229.4921875,
+          238.28125,
+          304.296875
+        ],
+        "metrics": [
+          0.486572265625,
+          2.111328125,
+          2.337890625
+        ],
+        "cap": 14
+      },
+      "perish_m3_L2_cv2_f0.5": {
+        "theta": [
+          11.18772541219127,
+          1.2736452496155806,
+          1.7787057911674997,
+          0.16181035445048375,
+          0.7042202100511823,
+          0.2912916613351745
+        ],
+        "cost": 237.0361328125,
+        "nfev": 256,
+        "seconds": 1.3987798341549933,
+        "path_costs": [
+          234.765625,
+          266.015625,
+          289.453125,
+          198.828125,
+          234.375,
+          203.90625,
+          183.984375,
+          284.9609375
+        ],
+        "metrics": [
+          0.46826171875,
+          1.902099609375,
+          2.561279296875
+        ],
+        "cap": 14
+      },
+      "perish_m5_L2_cv1.5_f0": {
+        "theta": [
+          11.50069424534276,
+          0.4247324042819617,
+          0.8707125681165451,
+          1.5182451750084975,
+          2.309562864883299,
+          1.2959044886124766
+        ],
+        "cost": 174.51171875,
+        "nfev": 256,
+        "seconds": 0.8894054591655731,
+        "path_costs": [
+          182.03125,
+          150.0,
+          174.609375,
+          159.375,
+          174.609375,
+          204.296875,
+          174.609375,
+          176.5625
+        ],
+        "metrics": [
+          0.494140625,
+          1.2509765625,
+          3.219970703125
+        ],
+        "cap": 25
+      },
+      "perish_m5_L2_cv1.5_f0.5": {
+        "theta": [
+          13.406055138521705,
+          1.5985413906932189,
+          1.2097773707367763,
+          3.355496173715782,
+          1.8115430371200065,
+          0.49014707059005813
+        ],
+        "cost": 165.4541015625,
+        "nfev": 256,
+        "seconds": 1.575851917034015,
+        "path_costs": [
+          163.28125,
+          179.1015625,
+          128.515625,
+          147.265625,
+          154.4921875,
+          201.171875,
+          159.1796875,
+          190.625
+        ],
+        "metrics": [
+          0.470703125,
+          1.183837890625,
+          3.420166015625
+        ],
+        "cap": 24
+      },
+      "perish_m5_L2_cv2_f0": {
+        "theta": [
+          23.21954287651996,
+          0.6563329682390939,
+          1.5930139331630548,
+          3.3882301550927947,
+          0.990868299894841,
+          0.5278069898240715
+        ],
+        "cost": 211.62109375,
+        "nfev": 256,
+        "seconds": 0.9166224589571357,
+        "path_costs": [
+          177.5390625,
+          190.8203125,
+          223.2421875,
+          227.1484375,
+          255.46875,
+          175.390625,
+          197.265625,
+          246.09375
+        ],
+        "metrics": [
+          0.462890625,
+          1.6533203125,
+          2.769775390625
+        ],
+        "cap": 22
+      },
+      "perish_m5_L2_cv2_f0.5": {
+        "theta": [
+          4.574877462975042,
+          1.853835343782913,
+          1.5340253360685165,
+          -0.6562524261958267,
+          1.7959266429102487,
+          0.9907188790681696
+        ],
+        "cost": 195.068359375,
+        "nfev": 256,
+        "seconds": 1.6491995831020176,
+        "path_costs": [
+          199.21875,
+          219.53125,
+          245.1171875,
+          154.296875,
+          194.7265625,
+          165.234375,
+          141.6015625,
+          240.8203125
+        ],
+        "metrics": [
+          0.39794921875,
+          1.552734375,
+          2.842529296875
+        ],
+        "cap": 21
+      }
+    },
+    "parameters": {
+      "S": {
+        "type": "float",
+        "initial": 12.0,
+        "min": 0.0,
+        "max": 60.0
+      },
+      "lead_sales_scale": {
+        "type": "float",
+        "initial": 1.0,
+        "min": 0.0,
+        "max": 2.5
+      },
+      "carry_weight": {
+        "type": "float",
+        "initial": 1.0,
+        "min": 0.0,
+        "max": 2.5
+      },
+      "stale_weight": {
+        "type": "float",
+        "initial": 0.5,
+        "min": -2.0,
+        "max": 4.0
+      },
+      "stale_power": {
+        "type": "float",
+        "initial": 1.0,
+        "min": 0.2,
+        "max": 5.0
+      },
+      "reaction": {
+        "type": "float",
+        "initial": 1.0,
+        "min": 0.25,
+        "max": 2.0
+      }
+    },
+    "structure_sha256": "d3bdd5dba62af3b2a28d5e522809e2fa97370b5f0fd5f2206fb66ab8d15f509b",
+    "wall_seconds": 12.692304082913324,
+    "transitions": 11710976,
+    "valid": true,
+    "score": 0.9910695540740291,
+    "code": "def compute_order_amount(age, pipeline, mu, cv, f, L):\n    S = 12.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":12.0,\"min\":0.0,\"max\":60.0}\n    lead_sales_scale = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":2.5}\n    carry_weight = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":2.5}\n    stale_weight = 0.5 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.5,\"min\":-2.0,\"max\":4.0}\n    stale_power = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.2,\"max\":5.0}\n    reaction = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.25,\"max\":2.0}\n\n    m = len(age)\n    x = [0.0 for _ in range(m)]\n    for i in range(m):\n        v = float(age[i])\n        if v < 0.0:\n            v = 0.0\n        x[i] = v\n\n    mean_f = f * mu\n    mean_l = (1.0 - f) * mu\n    total_variance = (mu * cv) * (mu * cv)\n\n    active_f = mean_f > 0.0\n    if active_f:\n        var_f = f * total_variance\n        a_f = var_f / (mean_f * mean_f) - 1.0 / mean_f\n        root_f = (max(0.0, a_f * a_f - 1.0)) ** 0.5\n        b_f = 1.0 + a_f + root_f\n        c_f = 1.0 + a_f - root_f\n        mix_f = 1.0 / b_f\n        p1_f = 2.0 / (2.0 + mean_f * b_f)\n        p2_f = 2.0 / (2.0 + mean_f * c_f)\n        r1_f = 1.0 - p1_f\n        r2_f = 1.0 - p2_f\n        e1_f = r1_f / p1_f\n        e2_f = r2_f / p2_f\n    else:\n        mix_f = 0.0\n        p1_f = 1.0\n        p2_f = 1.0\n        r1_f = 0.0\n        r2_f = 0.0\n        e1_f = 0.0\n        e2_f = 0.0\n\n    active_l = mean_l > 0.0\n    if active_l:\n        var_l = (1.0 - f) * total_variance\n        a_l = var_l / (mean_l * mean_l) - 1.0 / mean_l\n        root_l = (max(0.0, a_l * a_l - 1.0)) ** 0.5\n        b_l = 1.0 + a_l + root_l\n        c_l = 1.0 + a_l - root_l\n        mix_l = 1.0 / b_l\n        p1_l = 2.0 / (2.0 + mean_l * b_l)\n        p2_l = 2.0 / (2.0 + mean_l * c_l)\n        r1_l = 1.0 - p1_l\n        r2_l = 1.0 - p2_l\n        e1_l = r1_l / p1_l\n        e2_l = r2_l / p2_l\n    else:\n        mix_l = 0.0\n        p1_l = 1.0\n        p2_l = 1.0\n        r1_l = 0.0\n        r2_l = 0.0\n        e1_l = 0.0\n        e2_l = 0.0\n\n    lead = int(L)\n    if lead < 0:\n        lead = 0\n\n    for step in range(lead):\n        if active_f:\n            cumulative = 0.0\n            for i in range(m):\n                stock = x[i]\n                if stock > 0.0:\n                    before = mix_f * e1_f * (r1_f ** cumulative) + (1.0 - mix_f) * e2_f * (r2_f ** cumulative)\n                    after_point = cumulative + stock\n                    after = mix_f * e1_f * (r1_f ** after_point) + (1.0 - mix_f) * e2_f * (r2_f ** after_point)\n                    used = lead_sales_scale * (before - after)\n                    if used < 0.0:\n                        used = 0.0\n                    if used > stock:\n                        used = stock\n                    x[i] = stock - used\n                    cumulative = cumulative + stock\n\n        if active_l:\n            cumulative = 0.0\n            for k in range(m):\n                i = m - 1 - k\n                stock = x[i]\n                if stock > 0.0:\n                    before = mix_l * e1_l * (r1_l ** cumulative) + (1.0 - mix_l) * e2_l * (r2_l ** cumulative)\n                    after_point = cumulative + stock\n                    after = mix_l * e1_l * (r1_l ** after_point) + (1.0 - mix_l) * e2_l * (r2_l ** after_point)\n                    used = lead_sales_scale * (before - after)\n                    if used < 0.0:\n                        used = 0.0\n                    if used > stock:\n                        used = stock\n                    x[i] = stock - used\n                    cumulative = cumulative + stock\n\n        for i in range(m - 1):\n            x[i] = x[i + 1]\n\n        arrival = 0.0\n        if step < len(pipeline):\n            arrival = float(pipeline[step])\n            if arrival < 0.0:\n                arrival = 0.0\n        if m > 0:\n            x[m - 1] = arrival\n\n    effective_carry = 0.0\n    if m > 0:\n        denominator = float(max(1, m - 1))\n        for i in range(m):\n            staleness = float(m - 1 - i) / denominator\n            weight = carry_weight + stale_weight * (staleness ** stale_power)\n            if weight < 0.0:\n                weight = 0.0\n            if weight > 6.0:\n                weight = 6.0\n            effective_carry = effective_carry + weight * x[i]\n\n    deficit = S - effective_carry\n    if deficit <= 0.0:\n        return 0.0\n\n    order = reaction * deficit\n    if not (order >= 0.0):\n        return 0.0\n    if order > 120.0:\n        order = 120.0\n    return order\n",
+    "origin": "search/best_of_n_r3/candidate_03_0"
+  },
+  "completed_utc": "2026-09-17T03:49:52Z",
+  "evaluation_correction": {
+    "revision": "leading_numerical_imports_v1",
+    "candidates": [
+      "search/best_of_n_r3/candidate_06_0"
+    ],
+    "original_completed_sha256": "20aa5f7ed608c13e331b14c05f2c63bdef36983d76cd6b905ec8d5ebadf52fa2",
+    "feedback_replayed": false,
+    "explanation": "Only the disclosed leading-import rejection or transient missing import-normalization metadata KeyError was repaired. The same raw sources were reevaluated with original training budgets; no LLM feedback was replayed."
+  }
+}

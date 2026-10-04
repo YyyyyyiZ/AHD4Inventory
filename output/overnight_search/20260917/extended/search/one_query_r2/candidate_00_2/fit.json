@@ -1,0 +1,260 @@
+{
+  "results": {
+    "perish_m7_L2_cv1.5_f0": {
+      "theta": [
+        15.01104167467404,
+        41.884929978689456,
+        0.22393894142449677,
+        4.442054686680223,
+        0.15334014962130404,
+        0.5819309068396386
+      ],
+      "cost": 145.97187499999998,
+      "nfev": 1024,
+      "seconds": 24.28488933411427,
+      "path_costs": [
+        130.7,
+        143.6,
+        150.2,
+        144.3,
+        135.6,
+        145.6,
+        147.3,
+        161.3,
+        152.2,
+        139.5,
+        125.6,
+        138.2,
+        192.7,
+        167.9,
+        147.4,
+        133.3,
+        157.9,
+        137.8,
+        116.1,
+        172.1,
+        125.7,
+        158.4,
+        163.3,
+        147.3,
+        151.7,
+        141.6,
+        142.6,
+        132.6,
+        135.9,
+        136.4,
+        157.6,
+        138.7
+      ],
+      "metrics": [
+        0.5209375,
+        0.93878125,
+        3.5551249999999994
+      ],
+      "cap": 32
+    },
+    "perish_m7_L2_cv1.5_f0.5": {
+      "theta": [
+        20.565515723465776,
+        5.713174177025671,
+        0.03793533350658307,
+        2.9358740939223433,
+        0.3533548745862347,
+        1.3481951228158935
+      ],
+      "cost": 122.0625,
+      "nfev": 1024,
+      "seconds": 27.272192541044205,
+      "path_costs": [
+        125.4,
+        126.4,
+        113.1,
+        117.3,
+        143.2,
+        108.9,
+        122.7,
+        107.7,
+        121.7,
+        116.9,
+        121.8,
+        119.0,
+        113.1,
+        116.5,
+        139.2,
+        126.6,
+        154.6,
+        115.4,
+        119.6,
+        120.3,
+        116.0,
+        123.9,
+        117.3,
+        129.7,
+        109.7,
+        128.9,
+        126.2,
+        138.6,
+        117.3,
+        115.5,
+        114.0,
+        119.5
+      ],
+      "metrics": [
+        0.41724999999999995,
+        0.803375,
+        3.6251875
+      ],
+      "cap": 32
+    },
+    "perish_m7_L2_cv2_f0": {
+      "theta": [
+        13.003296950133983,
+        20.968659077813143,
+        0.09467165783735565,
+        5.476688273058152,
+        0.06620798804156036,
+        0.3586208067768559
+      ],
+      "cost": 187.515625,
+      "nfev": 1024,
+      "seconds": 25.350520375184715,
+      "path_costs": [
+        206.4,
+        191.6,
+        196.0,
+        174.0,
+        216.4,
+        207.1,
+        211.2,
+        169.2,
+        180.1,
+        161.4,
+        192.9,
+        169.8,
+        191.8,
+        186.9,
+        203.1,
+        178.5,
+        185.2,
+        159.5,
+        173.0,
+        196.6,
+        185.9,
+        168.5,
+        233.2,
+        183.3,
+        179.0,
+        171.2,
+        180.0,
+        196.2,
+        191.1,
+        211.7,
+        174.6,
+        175.1
+      ],
+      "metrics": [
+        0.5149375000000002,
+        1.3602187500000003,
+        3.1899687500000002
+      ],
+      "cap": 29
+    },
+    "perish_m7_L2_cv2_f0.5": {
+      "theta": [
+        16.59423463475362,
+        39.482660470987945,
+        0.013944945954779131,
+        0.7060499792618495,
+        0.356086794444771,
+        1.3001464041126258
+      ],
+      "cost": 172.0125,
+      "nfev": 1024,
+      "seconds": 27.7881932919845,
+      "path_costs": [
+        183.1,
+        170.5,
+        151.7,
+        163.3,
+        156.5,
+        174.0,
+        181.9,
+        145.9,
+        198.0,
+        190.5,
+        152.7,
+        147.0,
+        156.9,
+        155.5,
+        162.3,
+        174.1,
+        198.1,
+        173.3,
+        167.3,
+        184.1,
+        204.9,
+        153.9,
+        164.8,
+        192.0,
+        195.2,
+        198.9,
+        150.3,
+        189.8,
+        163.8,
+        159.4,
+        195.1,
+        149.6
+      ],
+      "metrics": [
+        0.38643749999999993,
+        1.3336875000000004,
+        3.12771875
+      ],
+      "cap": 28
+    }
+  },
+  "parameters": {
+    "S": {
+      "type": "float",
+      "initial": 16.0,
+      "min": 0.0,
+      "max": 60.0
+    },
+    "C": {
+      "type": "float",
+      "initial": 24.0,
+      "min": 0.0,
+      "max": 60.0
+    },
+    "risk": {
+      "type": "float",
+      "initial": 0.8,
+      "min": 0.0,
+      "max": 4.0
+    },
+    "shape": {
+      "type": "float",
+      "initial": 2.0,
+      "min": 0.25,
+      "max": 8.0
+    },
+    "floor_credit": {
+      "type": "float",
+      "initial": 0.6,
+      "min": 0.0,
+      "max": 1.0
+    },
+    "pipeline_credit": {
+      "type": "float",
+      "initial": 1.0,
+      "min": 0.0,
+      "max": 2.0
+    }
+  },
+  "structure_sha256": "ade01e5f0d1cff98544b4a33500378724be8046a4ecdf9b6327c9093789e8e2c",
+  "wall_seconds": 106.02537825005129,
+  "transitions": 196800000,
+  "valid": true,
+  "score": 0.9918513615860416,
+  "code": "def compute_order_amount(age, pipeline, mu, cv, f, L):\n    S = 16.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":16.0,\"min\":0.0,\"max\":60.0}\n    C = 24.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":24.0,\"min\":0.0,\"max\":60.0}\n    risk = 0.8 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.8,\"min\":0.0,\"max\":4.0}\n    shape = 2.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":2.0,\"min\":0.25,\"max\":8.0}\n    floor_credit = 0.6 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.6,\"min\":0.0,\"max\":1.0}\n    pipeline_credit = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":2.0}\n    m = len(age)\n    effective = 0.0\n    for i in range(m):\n        older = 0.0\n        for j in range(i):\n            older = older + age[j]\n        younger = 0.0\n        for j in range(i + 1, m):\n            younger = younger + age[j]\n        midpoint = 0.5 * age[i]\n        horizon = i + 1.0\n        fifo_capacity = f * mu * horizon + risk * mu * cv * ((f * horizon) ** 0.5)\n        lifo_share = 1.0 - f\n        lifo_capacity = lifo_share * mu * horizon + risk * mu * cv * ((lifo_share * horizon) ** 0.5)\n        fifo_probability = 0.0\n        lifo_probability = 0.0\n        if fifo_capacity > 0.0:\n            fifo_ratio = (older + midpoint) / (fifo_capacity + 1.0e-9)\n            fifo_probability = 1.0 / (1.0 + fifo_ratio ** shape)\n        if lifo_capacity > 0.0:\n            lifo_ratio = (younger + midpoint) / (lifo_capacity + 1.0e-9)\n            lifo_probability = 1.0 / (1.0 + lifo_ratio ** shape)\n        sell_probability = 1.0 - (1.0 - fifo_probability) * (1.0 - lifo_probability)\n        credit = floor_credit + (1.0 - floor_credit) * sell_probability\n        effective = effective + age[i] * credit\n    pipe = 0.0\n    for j in range(len(pipeline)):\n        pipe = pipe + pipeline[j]\n    raw = S - effective - pipeline_credit * pipe\n    return max(0.0, min(C, raw))\n"
+}

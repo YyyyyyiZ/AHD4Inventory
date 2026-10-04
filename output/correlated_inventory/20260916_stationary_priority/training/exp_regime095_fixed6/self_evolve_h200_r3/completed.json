@@ -1,0 +1,23 @@
+{
+  "status": "completed",
+  "best_code_path": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_stationary_priority/training/exp_regime095_fixed6/self_evolve_h200_r3/policy.py",
+  "code_sha256": "571fd4a53a9536a8ff49d38cabe539cfb0a29af1502764e3ec11450670f6c230",
+  "best_train_cost": 30153.34072349201,
+  "algorithm": "Key changes: 1) Increased base_target to better handle high-demand periods, 2) Reduced demand_response to be less reactive to spikes, 3) Removed lead_time_adjustment which wasn't helping (since lead time is fixed), 4) Added regime detection to adjust targets based on previous demand level, 5) Increased inventory_adjustment for faster replenishment. These changes better balance holding vs lost-sales costs given the demand patterns.",
+  "checkpoint_path": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_stationary_priority/training/exp_regime095_fixed6/self_evolve_h200_r3/checkpoints/g010.json.gz",
+  "model_calls": 106,
+  "training_evaluations": 17959,
+  "training_cache_hits": 816,
+  "compiled_structures": 20,
+  "optimizer": "SciPy L-BFGS-B",
+  "optimizer_maxiter": 15,
+  "test_evaluated": false,
+  "scenario_id": "exp_regime095_fixed6",
+  "policy_id": "self_evolve_h200_r3",
+  "family": "self_evolve",
+  "repeat": 3,
+  "source_training_horizon": 200,
+  "elapsed_seconds": 1284.2857749580871,
+  "finished_utc": "2026-09-16T06:13:14.924230+00:00",
+  "full_protocol": true
+}

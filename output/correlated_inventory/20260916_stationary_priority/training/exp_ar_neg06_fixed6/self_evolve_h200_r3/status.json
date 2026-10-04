@@ -1,0 +1,23 @@
+{
+  "status": "completed",
+  "best_code_path": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_stationary_priority/training/exp_ar_neg06_fixed6/self_evolve_h200_r3/policy.py",
+  "code_sha256": "3b055f7c78d5312a70a5f307ccb9db0a260b9980834d2f47918d147d4ef7f4c1",
+  "best_train_cost": 20076.306341657702,
+  "algorithm": "Increased base_target and demand_response to better handle high demand variability, reduced pipeline_coef to account for lower pipeline reliability, and raised min_order to reduce lost sales.",
+  "checkpoint_path": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_stationary_priority/training/exp_ar_neg06_fixed6/self_evolve_h200_r3/checkpoints/g010.json.gz",
+  "model_calls": 101,
+  "training_evaluations": 11143,
+  "training_cache_hits": 624,
+  "compiled_structures": 12,
+  "optimizer": "SciPy L-BFGS-B",
+  "optimizer_maxiter": 15,
+  "test_evaluated": false,
+  "scenario_id": "exp_ar_neg06_fixed6",
+  "policy_id": "self_evolve_h200_r3",
+  "family": "self_evolve",
+  "repeat": 3,
+  "source_training_horizon": 200,
+  "elapsed_seconds": 1190.4698542919941,
+  "finished_utc": "2026-09-16T06:06:57.173634+00:00",
+  "full_protocol": true
+}

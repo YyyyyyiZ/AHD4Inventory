@@ -1,0 +1,178 @@
+[
+     {
+          "algorithm": "Increased base_stock to better match demand variability, added demand sensitivity to adapt to recent demand patterns, adjusted inventory sensitivity to be more responsive to current stock levels, and included pipeline adjustment factor to better account for incoming orders.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_stock = 271.1603356827065  # OPT_PARAM: {\"initial\": 271.1603356827065, \"min\": 200.0, \"max\": 400.0, \"type\": \"float\"}\n    demand_sensitivity = 0.0  # OPT_PARAM: {\"initial\": 0.0, \"min\": 0.0, \"max\": 0.8, \"type\": \"float\"}\n    inventory_sensitivity = 0.5  # OPT_PARAM: {\"initial\": 0.5, \"min\": 0.5, \"max\": 1.0, \"type\": \"float\"}\n    pipeline_adjustment = 1.2  # OPT_PARAM: {\"initial\": 1.2, \"min\": 0.8, \"max\": 1.2, \"type\": \"float\"}\n    \n    adjusted_target = base_stock + demand_sensitivity * last_demand\n    pipeline_sum = pipeline_adjustment * np.sum(pipeline_orders)\n    effective_inventory = on_hand_inventory + pipeline_sum\n    order_amount = max(0.0, adjusted_target - inventory_sensitivity * effective_inventory)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base_stock to better match demand variability, added demand sensitivity to adapt to recent demand patterns, adjusted inventory sensitivity to be more responsive to current stock levels, and included pipeline adjustment factor to better account for incoming orders.",
+          "opt_params": {
+               "base_stock": 271.1603356827065,
+               "demand_sensitivity": 0.0,
+               "inventory_sensitivity": 0.5,
+               "pipeline_adjustment": 1.2
+          },
+          "cost": null,
+          "objective": 25510.41784,
+          "lower": 24954.07544,
+          "upper": 26062.93712,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base_stock to better match demand, added moderate demand response (0.3), reduced inventory coefficient to be less aggressive (0.8), and simplified pipeline adjustment to 1.0. These changes better balance holding and lost-sales costs given the exponential demand distribution.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_stock = 270.86431871950856  # OPT_PARAM: {\"initial\": 270.86431871950856, \"min\": 200.0, \"max\": 400.0, \"type\": \"float\"}\n    demand_response = 0.0  # OPT_PARAM: {\"initial\": 0.0, \"min\": 0.0, \"max\": 0.5, \"type\": \"float\"}\n    inventory_coef = 0.5  # OPT_PARAM: {\"initial\": 0.5, \"min\": 0.5, \"max\": 1.0, \"type\": \"float\"}\n    pipeline_weight = 1.2  # OPT_PARAM: {\"initial\": 1.2, \"min\": 0.8, \"max\": 1.2, \"type\": \"float\"}\n    \n    demand_adjusted = base_stock + demand_response * last_demand\n    pipeline_sum = pipeline_weight * np.sum(pipeline_orders)\n    effective_inventory = on_hand_inventory + pipeline_sum\n    order_amount = max(0.0, demand_adjusted - inventory_coef * effective_inventory)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base_stock to better match demand, added moderate demand response (0.3), reduced inventory coefficient to be less aggressive (0.8), and simplified pipeline adjustment to 1.0. These changes better balance holding and lost-sales costs given the exponential demand distribution.",
+          "opt_params": {
+               "base_stock": 270.86431871950856,
+               "demand_response": 0.0,
+               "inventory_coef": 0.5,
+               "pipeline_weight": 1.2
+          },
+          "cost": null,
+          "objective": 25510.4214,
+          "lower": 24954.6967,
+          "upper": 26062.50037,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base_stock to better handle exponential demand spikes. Added demand_sensitivity to respond to demand fluctuations. Adjusted inventory_sensitivity to balance holding and lost-sales costs. Simplified pipeline_adjustment to focus on current pipeline accuracy. The changes aim to reduce lost sales while maintaining reasonable holding costs.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_stock = 256.74235028858345  # OPT_PARAM: {\"initial\": 256.74235028858345, \"min\": 250.0, \"max\": 400.0, \"type\": \"float\"}\n    demand_sensitivity = 0.0  # OPT_PARAM: {\"initial\": 0.0, \"min\": 0.0, \"max\": 0.8, \"type\": \"float\"}\n    inventory_sensitivity = 0.5  # OPT_PARAM: {\"initial\": 0.5, \"min\": 0.5, \"max\": 1.0, \"type\": \"float\"}\n    pipeline_adjustment = 1.1  # OPT_PARAM: {\"initial\": 1.1, \"min\": 0.9, \"max\": 1.1, \"type\": \"float\"}\n    \n    adjusted_target = base_stock + demand_sensitivity * last_demand\n    pipeline_sum = pipeline_adjustment * np.sum(pipeline_orders)\n    effective_inventory = on_hand_inventory + pipeline_sum\n    order_amount = max(0.0, adjusted_target - inventory_sensitivity * effective_inventory)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base_stock to better handle exponential demand spikes. Added demand_sensitivity to respond to demand fluctuations. Adjusted inventory_sensitivity to balance holding and lost-sales costs. Simplified pipeline_adjustment to focus on current pipeline accuracy. The changes aim to reduce lost sales while maintaining reasonable holding costs.",
+          "opt_params": {
+               "base_stock": 256.74235028858345,
+               "demand_sensitivity": 0.0,
+               "inventory_sensitivity": 0.5,
+               "pipeline_adjustment": 1.1
+          },
+          "cost": null,
+          "objective": 25550.7088,
+          "lower": 24983.08926,
+          "upper": 26104.44304,
+          "other_inf": null
+     },
+     {
+          "algorithm": "The original policy had high lost sales costs (92.34) compared to holding costs (35.65). The modified version increases base_stock to better handle demand spikes, adds demand sensitivity to respond to recent demand patterns, and reduces inventory sensitivity to be less aggressive in cutting orders. These changes should better balance holding costs against lost sales.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_stock = 240.38013288523373  # OPT_PARAM: {\"initial\": 240.38013288523373, \"min\": 200.0, \"max\": 500.0, \"type\": \"float\"}\n    demand_sensitivity = 0.0  # OPT_PARAM: {\"initial\": 0.0, \"min\": 0.0, \"max\": 0.5, \"type\": \"float\"}\n    inventory_sensitivity = 0.5  # OPT_PARAM: {\"initial\": 0.5, \"min\": 0.5, \"max\": 1.0, \"type\": \"float\"}\n    \n    adjusted_target = base_stock + demand_sensitivity * last_demand\n    pipeline_sum = np.sum(pipeline_orders)\n    effective_inventory = on_hand_inventory + pipeline_sum\n    order_amount = max(0.0, adjusted_target - inventory_sensitivity * effective_inventory)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "The original policy had high lost sales costs (92.34) compared to holding costs (35.65). The modified version increases base_stock to better handle demand spikes, adds demand sensitivity to respond to recent demand patterns, and reduces inventory sensitivity to be less aggressive in cutting orders. These changes should better balance holding costs against lost sales.",
+          "opt_params": {
+               "base_stock": 240.38013288523373,
+               "demand_sensitivity": 0.0,
+               "inventory_sensitivity": 0.5
+          },
+          "cost": null,
+          "objective": 25598.63531,
+          "lower": 25017.26,
+          "upper": 26156.95058,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base_stock to better match demand variability, added lead_time_adjustment to account for delivery delays, and tuned demand_sensitivity and inventory_sensitivity to balance holding and lost-sales costs. The adjustments aim to reduce the high lost-sales cost observed in the training performance.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_stock = 312.77976994072355  # OPT_PARAM: {\"initial\": 312.77976994072355, \"min\": 200.0, \"max\": 400.0, \"type\": \"float\"}\n    demand_sensitivity = 0.0  # OPT_PARAM: {\"initial\": 0.0, \"min\": 0.0, \"max\": 0.5, \"type\": \"float\"}\n    inventory_sensitivity = 0.5  # OPT_PARAM: {\"initial\": 0.5, \"min\": 0.5, \"max\": 1.0, \"type\": \"float\"}\n    lead_time_adjustment = 12.066021253703862  # OPT_PARAM: {\"initial\": 12.066021253703862, \"min\": 0.0, \"max\": 50.0, \"type\": \"float\"}\n    \n    adjusted_target = base_stock + demand_sensitivity * last_demand - lead_time_adjustment * quoted_lead_time\n    pipeline_sum = np.sum(pipeline_orders)\n    effective_inventory = on_hand_inventory + pipeline_sum\n    order_amount = max(0.0, adjusted_target - inventory_sensitivity * effective_inventory)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base_stock to better match demand variability, added lead_time_adjustment to account for delivery delays, and tuned demand_sensitivity and inventory_sensitivity to balance holding and lost-sales costs. The adjustments aim to reduce the high lost-sales cost observed in the training performance.",
+          "opt_params": {
+               "base_stock": 312.77976994072355,
+               "demand_sensitivity": 0.0,
+               "inventory_sensitivity": 0.5,
+               "lead_time_adjustment": 12.066021253703862
+          },
+          "cost": null,
+          "objective": 25598.63542,
+          "lower": 25017.26486,
+          "upper": 26156.93172,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base_stock and demand_sensitivity to better match demand variability, removed lead_time_adjustment which was adding unnecessary complexity, and adjusted inventory_sensitivity to balance holding and lost-sales costs.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_stock = 240.3685423575777  # OPT_PARAM: {\"initial\": 240.3685423575777, \"min\": 200.0, \"max\": 500.0, \"type\": \"float\"}\n    demand_sensitivity = 0.0  # OPT_PARAM: {\"initial\": 0.0, \"min\": 0.0, \"max\": 0.5, \"type\": \"float\"}\n    inventory_sensitivity = 0.5  # OPT_PARAM: {\"initial\": 0.5, \"min\": 0.5, \"max\": 1.0, \"type\": \"float\"}\n    \n    adjusted_target = base_stock + demand_sensitivity * last_demand\n    pipeline_sum = np.sum(pipeline_orders)\n    effective_inventory = on_hand_inventory + pipeline_sum\n    order_amount = max(0.0, adjusted_target - inventory_sensitivity * effective_inventory)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base_stock and demand_sensitivity to better match demand variability, removed lead_time_adjustment which was adding unnecessary complexity, and adjusted inventory_sensitivity to balance holding and lost-sales costs.",
+          "opt_params": {
+               "base_stock": 240.3685423575777,
+               "demand_sensitivity": 0.0,
+               "inventory_sensitivity": 0.5
+          },
+          "cost": null,
+          "objective": 25598.63546,
+          "lower": 25017.24442,
+          "upper": 26157.01335,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base_stock to better match demand mean, added demand sensitivity to adapt to fluctuations, and reduced inventory sensitivity to avoid over-reacting to inventory levels. Removed pipeline_sensitivity since full pipeline consideration works better.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_stock = 240.3853763004591  # OPT_PARAM: {\"initial\": 240.3853763004591, \"min\": 100.0, \"max\": 1000.0, \"type\": \"float\"}\n    demand_sensitivity = 0.0  # OPT_PARAM: {\"initial\": 0.0, \"min\": 0.0, \"max\": 1.0, \"type\": \"float\"}\n    inventory_sensitivity = 0.5  # OPT_PARAM: {\"initial\": 0.5, \"min\": 0.5, \"max\": 1.0, \"type\": \"float\"}\n    \n    adjusted_target = base_stock + demand_sensitivity * last_demand\n    pipeline_sum = np.sum(pipeline_orders)\n    effective_inventory = on_hand_inventory + pipeline_sum\n    order_amount = max(0.0, adjusted_target - inventory_sensitivity * effective_inventory)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base_stock to better match demand mean, added demand sensitivity to adapt to fluctuations, and reduced inventory sensitivity to avoid over-reacting to inventory levels. Removed pipeline_sensitivity since full pipeline consideration works better.",
+          "opt_params": {
+               "base_stock": 240.3853763004591,
+               "demand_sensitivity": 0.0,
+               "inventory_sensitivity": 0.5
+          },
+          "cost": null,
+          "objective": 25598.63549,
+          "lower": 25017.26729,
+          "upper": 26156.92243,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base_stock to reduce lost sales, added demand_sensitivity to adapt to demand fluctuations, adjusted inventory_sensitivity for better response, and introduced lead_time_adjustment to account for delivery delays.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_stock = 235.9097257082982  # OPT_PARAM: {\"initial\": 235.9097257082982, \"min\": 200.0, \"max\": 500.0, \"type\": \"float\"}\n    demand_sensitivity = 0.0  # OPT_PARAM: {\"initial\": 0.0, \"min\": 0.0, \"max\": 0.5, \"type\": \"float\"}\n    inventory_sensitivity = 0.5  # OPT_PARAM: {\"initial\": 0.5, \"min\": 0.5, \"max\": 1.0, \"type\": \"float\"}\n    lead_time_adjustment = 0.742226740793315  # OPT_PARAM: {\"initial\": 0.742226740793315, \"min\": 0.0, \"max\": 50.0, \"type\": \"float\"}\n    \n    adjusted_target = base_stock + demand_sensitivity * last_demand + lead_time_adjustment * quoted_lead_time\n    pipeline_sum = np.sum(pipeline_orders)\n    effective_inventory = on_hand_inventory + pipeline_sum\n    order_amount = max(0.0, adjusted_target - inventory_sensitivity * effective_inventory)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base_stock to reduce lost sales, added demand_sensitivity to adapt to demand fluctuations, adjusted inventory_sensitivity for better response, and introduced lead_time_adjustment to account for delivery delays.",
+          "opt_params": {
+               "base_stock": 235.9097257082982,
+               "demand_sensitivity": 0.0,
+               "inventory_sensitivity": 0.5,
+               "lead_time_adjustment": 0.742226740793315
+          },
+          "cost": null,
+          "objective": 25598.63553,
+          "lower": 25017.23708,
+          "upper": 26157.0429,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base_stock to better match demand variability, boosted demand_sensitivity to be more responsive to recent demand, and adjusted inventory_sensitivity to balance holding and lost sales costs. The policy now more aggressively tracks demand while maintaining sufficient inventory coverage.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_stock = 240.38994504827164  # OPT_PARAM: {\"initial\": 240.38994504827164, \"min\": 100.0, \"max\": 500.0, \"type\": \"float\"}\n    demand_sensitivity = 0.0  # OPT_PARAM: {\"initial\": 0.0, \"min\": 0.0, \"max\": 2.0, \"type\": \"float\"}\n    inventory_sensitivity = 0.5  # OPT_PARAM: {\"initial\": 0.5, \"min\": 0.5, \"max\": 1.0, \"type\": \"float\"}\n    \n    adjusted_target = base_stock + demand_sensitivity * last_demand\n    pipeline_sum = np.sum(pipeline_orders)\n    effective_inventory = on_hand_inventory + pipeline_sum\n    order_amount = max(0.0, adjusted_target - inventory_sensitivity * effective_inventory)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base_stock to better match demand variability, boosted demand_sensitivity to be more responsive to recent demand, and adjusted inventory_sensitivity to balance holding and lost sales costs. The policy now more aggressively tracks demand while maintaining sufficient inventory coverage.",
+          "opt_params": {
+               "base_stock": 240.38994504827164,
+               "demand_sensitivity": 0.0,
+               "inventory_sensitivity": 0.5
+          },
+          "cost": null,
+          "objective": 25598.63569,
+          "lower": 25017.27368,
+          "upper": 26156.89794,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base_stock to better handle exponential demand spikes, added demand_sensitivity to respond to recent demand, adjusted inventory_sensitivity to be more aggressive, and introduced pipeline_weight to better account for incoming orders. These changes aim to reduce lost sales while maintaining reasonable holding costs.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_stock = 240.35110355244524  # OPT_PARAM: {\"initial\": 240.35110355244524, \"min\": 200.0, \"max\": 500.0, \"type\": \"float\"}\n    demand_sensitivity = 0.0  # OPT_PARAM: {\"initial\": 0.0, \"min\": 0.0, \"max\": 0.5, \"type\": \"float\"}\n    inventory_sensitivity = 0.5  # OPT_PARAM: {\"initial\": 0.5, \"min\": 0.5, \"max\": 1.0, \"type\": \"float\"}\n    pipeline_weight = 1.0  # OPT_PARAM: {\"initial\": 1.0, \"min\": 0.5, \"max\": 1.0, \"type\": \"float\"}\n    \n    adjusted_target = base_stock + demand_sensitivity * last_demand\n    pipeline_sum = pipeline_weight * np.sum(pipeline_orders)\n    effective_inventory = on_hand_inventory + pipeline_sum\n    order_amount = max(0.0, adjusted_target - inventory_sensitivity * effective_inventory)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base_stock to better handle exponential demand spikes, added demand_sensitivity to respond to recent demand, adjusted inventory_sensitivity to be more aggressive, and introduced pipeline_weight to better account for incoming orders. These changes aim to reduce lost sales while maintaining reasonable holding costs.",
+          "opt_params": {
+               "base_stock": 240.35110355244524,
+               "demand_sensitivity": 0.0,
+               "inventory_sensitivity": 0.5,
+               "pipeline_weight": 1.0
+          },
+          "cost": null,
+          "objective": 25598.63571,
+          "lower": 25017.221,
+          "upper": 26157.10784,
+          "other_inf": null
+     }
+]

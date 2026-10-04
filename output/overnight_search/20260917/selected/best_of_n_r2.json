@@ -1,0 +1,704 @@
+{
+  "arm": "best_of_n",
+  "repeat": 2,
+  "selected": {
+    "code": "def compute_order_amount(age, pipeline, mu, cv, f, L):\n    S = 12.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":12.0,\"min\":0.0,\"max\":60.0}\n    mean_credit = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":2.5}\n    mean_age_credit = 0.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.0,\"min\":-2.0,\"max\":3.0}\n    tail_credit = 0.3 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.3,\"min\":-1.0,\"max\":2.5}\n    tail_age_credit = 0.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.0,\"min\":-2.0,\"max\":3.0}\n    crowding_credit = 0.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.0,\"min\":-2.0,\"max\":2.0}\n\n    m = len(age)\n    state = [0.0] * m\n    quiet = [0.0] * m\n\n    for i in range(m):\n        x = float(age[i])\n        if x < 0.0:\n            x = 0.0\n        state[i] = x\n        quiet[i] = x\n\n    mean_fifo = f * mu\n    var_fifo = f * (mu * cv) * (mu * cv)\n    fifo_active = mean_fifo > 0.0\n\n    fifo_w1 = 0.0\n    fifo_p1 = 1.0\n    fifo_r1 = 0.0\n    fifo_w2 = 0.0\n    fifo_p2 = 1.0\n    fifo_r2 = 0.0\n\n    if fifo_active:\n        fifo_a = var_fifo / (mean_fifo * mean_fifo) - 1.0 / mean_fifo\n        if fifo_a < 1.0:\n            fifo_a = 1.0\n        fifo_root = (fifo_a * fifo_a - 1.0) ** 0.5\n        fifo_b = 1.0 + fifo_a + fifo_root\n        fifo_c = 1.0 + fifo_a - fifo_root\n        fifo_w1 = 1.0 / fifo_b\n        fifo_w2 = 1.0 - fifo_w1\n        fifo_p1 = 2.0 / (2.0 + mean_fifo * fifo_b)\n        fifo_p2 = 2.0 / (2.0 + mean_fifo * fifo_c)\n        fifo_r1 = 1.0 - fifo_p1\n        fifo_r2 = 1.0 - fifo_p2\n\n    lifo_share = 1.0 - f\n    mean_lifo = lifo_share * mu\n    var_lifo = lifo_share * (mu * cv) * (mu * cv)\n    lifo_active = mean_lifo > 0.0\n\n    lifo_w1 = 0.0\n    lifo_p1 = 1.0\n    lifo_r1 = 0.0\n    lifo_w2 = 0.0\n    lifo_p2 = 1.0\n    lifo_r2 = 0.0\n\n    if lifo_active:\n        lifo_a = var_lifo / (mean_lifo * mean_lifo) - 1.0 / mean_lifo\n        if lifo_a < 1.0:\n            lifo_a = 1.0\n        lifo_root = (lifo_a * lifo_a - 1.0) ** 0.5\n        lifo_b = 1.0 + lifo_a + lifo_root\n        lifo_c = 1.0 + lifo_a - lifo_root\n        lifo_w1 = 1.0 / lifo_b\n        lifo_w2 = 1.0 - lifo_w1\n        lifo_p1 = 2.0 / (2.0 + mean_lifo * lifo_b)\n        lifo_p2 = 2.0 / (2.0 + mean_lifo * lifo_c)\n        lifo_r1 = 1.0 - lifo_p1\n        lifo_r2 = 1.0 - lifo_p2\n\n    for step in range(L):\n        after_fifo = [0.0] * m\n\n        if fifo_active:\n            cumulative = 0.0\n            previous_remainder = 0.0\n            for i in range(m):\n                cumulative = cumulative + state[i]\n                fifo_min1 = fifo_r1 * (1.0 - fifo_r1 ** cumulative) / fifo_p1\n                fifo_min2 = fifo_r2 * (1.0 - fifo_r2 ** cumulative) / fifo_p2\n                expected_minimum = fifo_w1 * fifo_min1 + fifo_w2 * fifo_min2\n                cumulative_remainder = cumulative - expected_minimum\n                value = cumulative_remainder - previous_remainder\n                if value < 0.0:\n                    value = 0.0\n                if value > state[i]:\n                    value = state[i]\n                after_fifo[i] = value\n                previous_remainder = cumulative_remainder\n        else:\n            for i in range(m):\n                after_fifo[i] = state[i]\n\n        after_both = [0.0] * m\n\n        if lifo_active:\n            cumulative = 0.0\n            previous_remainder = 0.0\n            for k in range(m):\n                i = m - 1 - k\n                cumulative = cumulative + after_fifo[i]\n                lifo_min1 = lifo_r1 * (1.0 - lifo_r1 ** cumulative) / lifo_p1\n                lifo_min2 = lifo_r2 * (1.0 - lifo_r2 ** cumulative) / lifo_p2\n                expected_minimum = lifo_w1 * lifo_min1 + lifo_w2 * lifo_min2\n                cumulative_remainder = cumulative - expected_minimum\n                value = cumulative_remainder - previous_remainder\n                if value < 0.0:\n                    value = 0.0\n                if value > after_fifo[i]:\n                    value = after_fifo[i]\n                after_both[i] = value\n                previous_remainder = cumulative_remainder\n        else:\n            for i in range(m):\n                after_both[i] = after_fifo[i]\n\n        next_state = [0.0] * m\n        next_quiet = [0.0] * m\n\n        for i in range(m - 1):\n            next_state[i] = after_both[i + 1]\n            next_quiet[i] = quiet[i + 1]\n\n        if step < len(pipeline):\n            arrival = float(pipeline[step])\n            if arrival < 0.0:\n                arrival = 0.0\n            next_state[m - 1] = next_state[m - 1] + arrival\n            next_quiet[m - 1] = next_quiet[m - 1] + arrival\n\n        state = next_state\n        quiet = next_quiet\n\n    expected_total = 0.0\n    expected_oldness = 0.0\n    tail_total = 0.0\n    tail_oldness = 0.0\n\n    age_denominator = float(m - 1)\n    if age_denominator < 1.0:\n        age_denominator = 1.0\n\n    for i in range(m):\n        oldness = float(m - 1 - i) / age_denominator\n        expected_total = expected_total + state[i]\n        expected_oldness = expected_oldness + oldness * state[i]\n\n        tail = quiet[i] - state[i]\n        if tail < 0.0:\n            tail = 0.0\n        tail_total = tail_total + tail\n        tail_oldness = tail_oldness + oldness * tail\n\n    scale = mu * float(m) + 1.0\n    crowding = expected_total * tail_total / scale\n\n    q = S\n    q = q - mean_credit * expected_total\n    q = q - mean_age_credit * expected_oldness\n    q = q - tail_credit * tail_total\n    q = q - tail_age_credit * tail_oldness\n    q = q - crowding_credit * crowding\n\n    if q != q:\n        q = 0.0\n    if q < 0.0:\n        q = 0.0\n    if q > 120.0:\n        q = 120.0\n\n    return float(q)\n",
+    "origin": "search/best_of_n_r2/candidate_01_0",
+    "validation": 0.9912288423222806,
+    "train_score": 0.9900054864677981,
+    "train_theta": {
+      "perish_m3_L2_cv1.5_f0": [
+        2.355371125529672,
+        0.3928725705432434,
+        -0.390594470186189,
+        -0.9588341201101327,
+        0.7090396029608504,
+        1.0592434320666504
+      ],
+      "perish_m3_L2_cv1.5_f0.5": [
+        5.252271155374093,
+        0.8896039672350173,
+        -0.39429675964651545,
+        -0.8925602275467943,
+        1.0827994931369722,
+        0.8006775389868586
+      ],
+      "perish_m3_L2_cv2_f0": [
+        8.254534519001897,
+        1.4028181972115958,
+        -0.37062421976031423,
+        0.9312854180540595,
+        0.4063202161774727,
+        0.5005766481558149
+      ],
+      "perish_m3_L2_cv2_f0.5": [
+        2.355371125529672,
+        0.3880238309009574,
+        -0.12493097592112523,
+        -0.9646411411255789,
+        0.6495442177196504,
+        1.407074174563021
+      ],
+      "perish_m5_L2_cv1.5_f0": [
+        17.22986823242084,
+        1.4746769658433423,
+        -0.005673978065507068,
+        0.2395106560585698,
+        2.184417657413099,
+        -0.501072024064336
+      ],
+      "perish_m5_L2_cv1.5_f0.5": [
+        8.266688939704142,
+        1.0099196184376669,
+        -0.41778716103120717,
+        0.2634482160305448,
+        -0.052248223624843826,
+        -0.5801388919646904
+      ],
+      "perish_m5_L2_cv2_f0": [
+        13.680392010811744,
+        1.3125701884512586,
+        -0.7382784354266114,
+        0.9468468296891832,
+        1.1242924677719492,
+        0.47000301271294953
+      ],
+      "perish_m5_L2_cv2_f0.5": [
+        4.060609740551168,
+        0.5384971186895917,
+        0.18073831713636784,
+        -0.6573606493208684,
+        0.20190965718655068,
+        0.7500678089627746
+      ]
+    },
+    "structure_sha256": "776c3ebdb96e94087e4d654f74c224fd42d93b8c300a325652609a7d3c8cc768"
+  },
+  "choices": [
+    {
+      "code": "def compute_order_amount(age, pipeline, mu, cv, f, L):\n    S = 10.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":10.0,\"min\":0.0,\"max\":60.0}\n    C = 6.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":6.0,\"min\":0.0,\"max\":30.0}\n    a = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":3.0}\n    effective = 0.0\n    for i in range(len(age)):\n        effective = effective + age[i]*min(1.0,((i+1.0)/len(age))**a)\n    return max(0.0,min(C,S-effective-sum(pipeline)))\n",
+      "origin": "common_baseline:age_discount",
+      "validation": 1.0002549128661475,
+      "train_score": 1.0,
+      "train_theta": {
+        "perish_m3_L2_cv1.5_f0": [
+          37.00246970889457,
+          3.364727661832859,
+          1.8513005002865002
+        ],
+        "perish_m3_L2_cv1.5_f0.5": [
+          10.485371228430214,
+          3.7786378793562676,
+          2.1629712308392426
+        ],
+        "perish_m3_L2_cv2_f0": [
+          8.364894650130452,
+          2.8905768917510066,
+          2.07749642527094
+        ],
+        "perish_m3_L2_cv2_f0.5": [
+          10.092646662843695,
+          3.204119560795405,
+          0.8755255880969515
+        ],
+        "perish_m5_L2_cv1.5_f0": [
+          13.53090899674844,
+          16.611595077144273,
+          0.43471226549731545
+        ],
+        "perish_m5_L2_cv1.5_f0.5": [
+          13.938470294270381,
+          5.289202833486536,
+          1.3414026291246284
+        ],
+        "perish_m5_L2_cv2_f0": [
+          11.660517421776394,
+          6.199760833041662,
+          0.5324349925269172
+        ],
+        "perish_m5_L2_cv2_f0.5": [
+          11.49305626964916,
+          4.862628709010522,
+          1.0025122517002927
+        ]
+      },
+      "structure_sha256": "a1b0ebc321b761ae22824b3e92851628015388b4655bbab8275e5e5560198f5a"
+    },
+    {
+      "code": "def compute_order_amount(age, pipeline, mu, cv, f, L):\n    S = 12.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":12.0,\"min\":0.0,\"max\":60.0}\n    GAIN = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.2,\"max\":2.5}\n    AGE_FLOOR = 0.35 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.35,\"min\":0.0,\"max\":1.0}\n    AGE_POWER = 1.5 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.5,\"min\":0.2,\"max\":6.0}\n\n    m = len(age)\n    projected = [0.0] * m\n    for i in range(m):\n        x = float(age[i])\n        if x < 0.0:\n            x = 0.0\n        projected[i] = x\n\n    mu_cv = mu * cv\n\n    fifo_active = f > 0.0\n    if fifo_active:\n        fifo_mean = f * mu\n        fifo_var = f * mu_cv * mu_cv\n        fifo_a = fifo_var / (fifo_mean * fifo_mean) - 1.0 / fifo_mean\n        fifo_disc = fifo_a * fifo_a - 1.0\n        if fifo_disc < 0.0:\n            fifo_disc = 0.0\n        fifo_root = fifo_disc ** 0.5\n        fifo_b = 1.0 + fifo_a + fifo_root\n        fifo_c = 1.0 + fifo_a - fifo_root\n        fifo_w1 = 1.0 / fifo_b\n        fifo_w2 = 1.0 - fifo_w1\n        fifo_p1 = 2.0 / (2.0 + fifo_mean * fifo_b)\n        fifo_p2 = 2.0 / (2.0 + fifo_mean * fifo_c)\n        fifo_r1 = 1.0 - fifo_p1\n        fifo_r2 = 1.0 - fifo_p2\n\n    lifo_share = 1.0 - f\n    lifo_active = lifo_share > 0.0\n    if lifo_active:\n        lifo_mean = lifo_share * mu\n        lifo_var = lifo_share * mu_cv * mu_cv\n        lifo_a = lifo_var / (lifo_mean * lifo_mean) - 1.0 / lifo_mean\n        lifo_disc = lifo_a * lifo_a - 1.0\n        if lifo_disc < 0.0:\n            lifo_disc = 0.0\n        lifo_root = lifo_disc ** 0.5\n        lifo_b = 1.0 + lifo_a + lifo_root\n        lifo_c = 1.0 + lifo_a - lifo_root\n        lifo_w1 = 1.0 / lifo_b\n        lifo_w2 = 1.0 - lifo_w1\n        lifo_p1 = 2.0 / (2.0 + lifo_mean * lifo_b)\n        lifo_p2 = 2.0 / (2.0 + lifo_mean * lifo_c)\n        lifo_r1 = 1.0 - lifo_p1\n        lifo_r2 = 1.0 - lifo_p2\n\n    for step in range(L):\n        if step > 0:\n            pipe_index = step - 1\n            if pipe_index < len(pipeline):\n                arrival = float(pipeline[pipe_index])\n                if arrival > 0.0:\n                    projected[m - 1] = projected[m - 1] + arrival\n\n        if fifo_active:\n            cumulative = 0.0\n            for i in range(m):\n                stock = projected[i]\n\n                k0 = int(cumulative) + 1\n                ex01 = (fifo_r1 ** k0) * (k0 - cumulative + fifo_r1 / fifo_p1)\n                ex02 = (fifo_r2 ** k0) * (k0 - cumulative + fifo_r2 / fifo_p2)\n                excess0 = fifo_w1 * ex01 + fifo_w2 * ex02\n\n                endpoint = cumulative + stock\n                k1 = int(endpoint) + 1\n                ex11 = (fifo_r1 ** k1) * (k1 - endpoint + fifo_r1 / fifo_p1)\n                ex12 = (fifo_r2 ** k1) * (k1 - endpoint + fifo_r2 / fifo_p2)\n                excess1 = fifo_w1 * ex11 + fifo_w2 * ex12\n\n                used = excess0 - excess1\n                if used < 0.0:\n                    used = 0.0\n                if used > stock:\n                    used = stock\n                projected[i] = stock - used\n                cumulative = endpoint\n\n        if lifo_active:\n            cumulative = 0.0\n            for offset in range(m):\n                i = m - 1 - offset\n                stock = projected[i]\n\n                k0 = int(cumulative) + 1\n                ex01 = (lifo_r1 ** k0) * (k0 - cumulative + lifo_r1 / lifo_p1)\n                ex02 = (lifo_r2 ** k0) * (k0 - cumulative + lifo_r2 / lifo_p2)\n                excess0 = lifo_w1 * ex01 + lifo_w2 * ex02\n\n                endpoint = cumulative + stock\n                k1 = int(endpoint) + 1\n                ex11 = (lifo_r1 ** k1) * (k1 - endpoint + lifo_r1 / lifo_p1)\n                ex12 = (lifo_r2 ** k1) * (k1 - endpoint + lifo_r2 / lifo_p2)\n                excess1 = lifo_w1 * ex11 + lifo_w2 * ex12\n\n                used = excess0 - excess1\n                if used < 0.0:\n                    used = 0.0\n                if used > stock:\n                    used = stock\n                projected[i] = stock - used\n                cumulative = endpoint\n\n        shifted = [0.0] * m\n        for i in range(m - 1):\n            shifted[i] = projected[i + 1]\n        projected = shifted\n\n    effective_stock = 0.0\n    if m > 1:\n        denominator = float(m - 1)\n        for i in range(m):\n            relative_age = float(i) / denominator\n            weight = AGE_FLOOR + (1.0 - AGE_FLOOR) * (relative_age ** AGE_POWER)\n            effective_stock = effective_stock + weight * projected[i]\n    elif m == 1:\n        effective_stock = projected[0]\n\n    q = GAIN * (S - effective_stock)\n    if q < 0.0 or q != q:\n        q = 0.0\n    if q > 1000000.0:\n        q = 1000000.0\n    return float(q)\n",
+      "origin": "search/best_of_n_r2/candidate_00_0",
+      "validation": 0.9950370146704256,
+      "train_score": 0.9972675623473863,
+      "train_theta": {
+        "perish_m3_L2_cv1.5_f0": [
+          1.964745612311905,
+          2.2410878828703917,
+          0.10701127390593645,
+          1.4864739382582632
+        ],
+        "perish_m3_L2_cv1.5_f0.5": [
+          5.2876667966996,
+          0.7499919856053233,
+          0.2514965224868859,
+          3.2983109429953013
+        ],
+        "perish_m3_L2_cv2_f0": [
+          4.01980883570215,
+          1.2162294619769,
+          0.9638953366460782,
+          1.290386846465274
+        ],
+        "perish_m3_L2_cv2_f0.5": [
+          2.5919939861474575,
+          1.983922921913829,
+          0.5226354778442462,
+          3.264360853035599
+        ],
+        "perish_m5_L2_cv1.5_f0": [
+          6.17345289414348,
+          1.9757503905587677,
+          0.9728124014097282,
+          3.977809316080758
+        ],
+        "perish_m5_L2_cv1.5_f0.5": [
+          7.177856983520535,
+          0.9301283020490536,
+          0.6145169346908662,
+          5.324523544600634
+        ],
+        "perish_m5_L2_cv2_f0": [
+          4.634716980128108,
+          2.165656872854596,
+          0.9048494099744996,
+          2.025433131105016
+        ],
+        "perish_m5_L2_cv2_f0.5": [
+          7.906433898833328,
+          0.8159768337702669,
+          0.9522697191786514,
+          4.029355654001917
+        ]
+      },
+      "structure_sha256": "eff92c96b8cc27a96e57d8cad9fe28b5b38df5a42ce632b6a48e1985d884a221"
+    },
+    {
+      "code": "def compute_order_amount(age, pipeline, mu, cv, f, L):\n    S = 12.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":12.0,\"min\":0.0,\"max\":60.0}\n    mean_credit = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":2.5}\n    mean_age_credit = 0.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.0,\"min\":-2.0,\"max\":3.0}\n    tail_credit = 0.3 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.3,\"min\":-1.0,\"max\":2.5}\n    tail_age_credit = 0.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.0,\"min\":-2.0,\"max\":3.0}\n    crowding_credit = 0.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.0,\"min\":-2.0,\"max\":2.0}\n\n    m = len(age)\n    state = [0.0] * m\n    quiet = [0.0] * m\n\n    for i in range(m):\n        x = float(age[i])\n        if x < 0.0:\n            x = 0.0\n        state[i] = x\n        quiet[i] = x\n\n    mean_fifo = f * mu\n    var_fifo = f * (mu * cv) * (mu * cv)\n    fifo_active = mean_fifo > 0.0\n\n    fifo_w1 = 0.0\n    fifo_p1 = 1.0\n    fifo_r1 = 0.0\n    fifo_w2 = 0.0\n    fifo_p2 = 1.0\n    fifo_r2 = 0.0\n\n    if fifo_active:\n        fifo_a = var_fifo / (mean_fifo * mean_fifo) - 1.0 / mean_fifo\n        if fifo_a < 1.0:\n            fifo_a = 1.0\n        fifo_root = (fifo_a * fifo_a - 1.0) ** 0.5\n        fifo_b = 1.0 + fifo_a + fifo_root\n        fifo_c = 1.0 + fifo_a - fifo_root\n        fifo_w1 = 1.0 / fifo_b\n        fifo_w2 = 1.0 - fifo_w1\n        fifo_p1 = 2.0 / (2.0 + mean_fifo * fifo_b)\n        fifo_p2 = 2.0 / (2.0 + mean_fifo * fifo_c)\n        fifo_r1 = 1.0 - fifo_p1\n        fifo_r2 = 1.0 - fifo_p2\n\n    lifo_share = 1.0 - f\n    mean_lifo = lifo_share * mu\n    var_lifo = lifo_share * (mu * cv) * (mu * cv)\n    lifo_active = mean_lifo > 0.0\n\n    lifo_w1 = 0.0\n    lifo_p1 = 1.0\n    lifo_r1 = 0.0\n    lifo_w2 = 0.0\n    lifo_p2 = 1.0\n    lifo_r2 = 0.0\n\n    if lifo_active:\n        lifo_a = var_lifo / (mean_lifo * mean_lifo) - 1.0 / mean_lifo\n        if lifo_a < 1.0:\n            lifo_a = 1.0\n        lifo_root = (lifo_a * lifo_a - 1.0) ** 0.5\n        lifo_b = 1.0 + lifo_a + lifo_root\n        lifo_c = 1.0 + lifo_a - lifo_root\n        lifo_w1 = 1.0 / lifo_b\n        lifo_w2 = 1.0 - lifo_w1\n        lifo_p1 = 2.0 / (2.0 + mean_lifo * lifo_b)\n        lifo_p2 = 2.0 / (2.0 + mean_lifo * lifo_c)\n        lifo_r1 = 1.0 - lifo_p1\n        lifo_r2 = 1.0 - lifo_p2\n\n    for step in range(L):\n        after_fifo = [0.0] * m\n\n        if fifo_active:\n            cumulative = 0.0\n            previous_remainder = 0.0\n            for i in range(m):\n                cumulative = cumulative + state[i]\n                fifo_min1 = fifo_r1 * (1.0 - fifo_r1 ** cumulative) / fifo_p1\n                fifo_min2 = fifo_r2 * (1.0 - fifo_r2 ** cumulative) / fifo_p2\n                expected_minimum = fifo_w1 * fifo_min1 + fifo_w2 * fifo_min2\n                cumulative_remainder = cumulative - expected_minimum\n                value = cumulative_remainder - previous_remainder\n                if value < 0.0:\n                    value = 0.0\n                if value > state[i]:\n                    value = state[i]\n                after_fifo[i] = value\n                previous_remainder = cumulative_remainder\n        else:\n            for i in range(m):\n                after_fifo[i] = state[i]\n\n        after_both = [0.0] * m\n\n        if lifo_active:\n            cumulative = 0.0\n            previous_remainder = 0.0\n            for k in range(m):\n                i = m - 1 - k\n                cumulative = cumulative + after_fifo[i]\n                lifo_min1 = lifo_r1 * (1.0 - lifo_r1 ** cumulative) / lifo_p1\n                lifo_min2 = lifo_r2 * (1.0 - lifo_r2 ** cumulative) / lifo_p2\n                expected_minimum = lifo_w1 * lifo_min1 + lifo_w2 * lifo_min2\n                cumulative_remainder = cumulative - expected_minimum\n                value = cumulative_remainder - previous_remainder\n                if value < 0.0:\n                    value = 0.0\n                if value > after_fifo[i]:\n                    value = after_fifo[i]\n                after_both[i] = value\n                previous_remainder = cumulative_remainder\n        else:\n            for i in range(m):\n                after_both[i] = after_fifo[i]\n\n        next_state = [0.0] * m\n        next_quiet = [0.0] * m\n\n        for i in range(m - 1):\n            next_state[i] = after_both[i + 1]\n            next_quiet[i] = quiet[i + 1]\n\n        if step < len(pipeline):\n            arrival = float(pipeline[step])\n            if arrival < 0.0:\n                arrival = 0.0\n            next_state[m - 1] = next_state[m - 1] + arrival\n            next_quiet[m - 1] = next_quiet[m - 1] + arrival\n\n        state = next_state\n        quiet = next_quiet\n\n    expected_total = 0.0\n    expected_oldness = 0.0\n    tail_total = 0.0\n    tail_oldness = 0.0\n\n    age_denominator = float(m - 1)\n    if age_denominator < 1.0:\n        age_denominator = 1.0\n\n    for i in range(m):\n        oldness = float(m - 1 - i) / age_denominator\n        expected_total = expected_total + state[i]\n        expected_oldness = expected_oldness + oldness * state[i]\n\n        tail = quiet[i] - state[i]\n        if tail < 0.0:\n            tail = 0.0\n        tail_total = tail_total + tail\n        tail_oldness = tail_oldness + oldness * tail\n\n    scale = mu * float(m) + 1.0\n    crowding = expected_total * tail_total / scale\n\n    q = S\n    q = q - mean_credit * expected_total\n    q = q - mean_age_credit * expected_oldness\n    q = q - tail_credit * tail_total\n    q = q - tail_age_credit * tail_oldness\n    q = q - crowding_credit * crowding\n\n    if q != q:\n        q = 0.0\n    if q < 0.0:\n        q = 0.0\n    if q > 120.0:\n        q = 120.0\n\n    return float(q)\n",
+      "origin": "search/best_of_n_r2/candidate_01_0",
+      "validation": 0.9912288423222806,
+      "train_score": 0.9900054864677981,
+      "train_theta": {
+        "perish_m3_L2_cv1.5_f0": [
+          2.355371125529672,
+          0.3928725705432434,
+          -0.390594470186189,
+          -0.9588341201101327,
+          0.7090396029608504,
+          1.0592434320666504
+        ],
+        "perish_m3_L2_cv1.5_f0.5": [
+          5.252271155374093,
+          0.8896039672350173,
+          -0.39429675964651545,
+          -0.8925602275467943,
+          1.0827994931369722,
+          0.8006775389868586
+        ],
+        "perish_m3_L2_cv2_f0": [
+          8.254534519001897,
+          1.4028181972115958,
+          -0.37062421976031423,
+          0.9312854180540595,
+          0.4063202161774727,
+          0.5005766481558149
+        ],
+        "perish_m3_L2_cv2_f0.5": [
+          2.355371125529672,
+          0.3880238309009574,
+          -0.12493097592112523,
+          -0.9646411411255789,
+          0.6495442177196504,
+          1.407074174563021
+        ],
+        "perish_m5_L2_cv1.5_f0": [
+          17.22986823242084,
+          1.4746769658433423,
+          -0.005673978065507068,
+          0.2395106560585698,
+          2.184417657413099,
+          -0.501072024064336
+        ],
+        "perish_m5_L2_cv1.5_f0.5": [
+          8.266688939704142,
+          1.0099196184376669,
+          -0.41778716103120717,
+          0.2634482160305448,
+          -0.052248223624843826,
+          -0.5801388919646904
+        ],
+        "perish_m5_L2_cv2_f0": [
+          13.680392010811744,
+          1.3125701884512586,
+          -0.7382784354266114,
+          0.9468468296891832,
+          1.1242924677719492,
+          0.47000301271294953
+        ],
+        "perish_m5_L2_cv2_f0.5": [
+          4.060609740551168,
+          0.5384971186895917,
+          0.18073831713636784,
+          -0.6573606493208684,
+          0.20190965718655068,
+          0.7500678089627746
+        ]
+      },
+      "structure_sha256": "776c3ebdb96e94087e4d654f74c224fd42d93b8c300a325652609a7d3c8cc768"
+    },
+    {
+      "code": "def compute_order_amount(age, pipeline, mu, cv, f, L):\n    S = 12.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":12.0,\"min\":0.0,\"max\":60.0}\n    fifo_projection = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.25,\"max\":2.0}\n    lifo_projection = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.25,\"max\":2.0}\n    young_weight = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":3.0}\n    old_premium = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":6.0}\n    age_power = 1.5 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.5,\"min\":0.25,\"max\":4.0}\n    crowding = 0.5 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.5,\"min\":0.0,\"max\":4.0}\n\n    m = len(age)\n    stock = [0.0] * m\n    for i in range(m):\n        value = float(age[i])\n        if value < 0.0:\n            value = 0.0\n        stock[i] = value\n\n    fifo_mean = f * mu\n    lifo_share = 1.0 - f\n    lifo_mean = lifo_share * mu\n    demand_scale = mu * cv\n\n    fifo_on = fifo_mean > 0.0\n    if fifo_on:\n        fifo_variance = f * demand_scale * demand_scale\n        af = fifo_variance / (fifo_mean * fifo_mean) - 1.0 / fifo_mean\n        if af < 1.0:\n            af = 1.0\n        rootf = (af * af - 1.0) ** 0.5\n        bf = 1.0 + af + rootf\n        cf = 1.0 + af - rootf\n        mixf = 1.0 / bf\n        pf1 = 2.0 / (2.0 + fifo_mean * bf)\n        pf2 = 2.0 / (2.0 + fifo_mean * cf)\n        rf1 = 1.0 - pf1\n        rf2 = 1.0 - pf2\n\n    lifo_on = lifo_mean > 0.0\n    if lifo_on:\n        lifo_variance = lifo_share * demand_scale * demand_scale\n        al = lifo_variance / (lifo_mean * lifo_mean) - 1.0 / lifo_mean\n        if al < 1.0:\n            al = 1.0\n        rootl = (al * al - 1.0) ** 0.5\n        bl = 1.0 + al + rootl\n        cl = 1.0 + al - rootl\n        mixl = 1.0 / bl\n        pl1 = 2.0 / (2.0 + lifo_mean * bl)\n        pl2 = 2.0 / (2.0 + lifo_mean * cl)\n        rl1 = 1.0 - pl1\n        rl2 = 1.0 - pl2\n\n    for step in range(L):\n        if step > 0 and step - 1 < len(pipeline):\n            arrival = float(pipeline[step - 1])\n            if arrival > 0.0:\n                stock[m - 1] = stock[m - 1] + arrival\n\n        if fifo_on:\n            cumulative = 0.0\n            previous_expected = 0.0\n            for i in range(m):\n                amount = stock[i]\n                cumulative = cumulative + amount\n                whole = int(cumulative)\n                fraction = cumulative - whole\n                expected1 = rf1 * (1.0 - rf1 ** whole) / pf1\n                expected1 = expected1 + fraction * rf1 ** (whole + 1)\n                expected2 = rf2 * (1.0 - rf2 ** whole) / pf2\n                expected2 = expected2 + fraction * rf2 ** (whole + 1)\n                expected = mixf * expected1 + (1.0 - mixf) * expected2\n                consumed = fifo_projection * (expected - previous_expected)\n                if consumed < 0.0:\n                    consumed = 0.0\n                if consumed > amount:\n                    consumed = amount\n                stock[i] = amount - consumed\n                previous_expected = expected\n\n        if lifo_on:\n            cumulative = 0.0\n            previous_expected = 0.0\n            for k in range(m):\n                i = m - 1 - k\n                amount = stock[i]\n                cumulative = cumulative + amount\n                whole = int(cumulative)\n                fraction = cumulative - whole\n                expected1 = rl1 * (1.0 - rl1 ** whole) / pl1\n                expected1 = expected1 + fraction * rl1 ** (whole + 1)\n                expected2 = rl2 * (1.0 - rl2 ** whole) / pl2\n                expected2 = expected2 + fraction * rl2 ** (whole + 1)\n                expected = mixl * expected1 + (1.0 - mixl) * expected2\n                consumed = lifo_projection * (expected - previous_expected)\n                if consumed < 0.0:\n                    consumed = 0.0\n                if consumed > amount:\n                    consumed = amount\n                stock[i] = amount - consumed\n                previous_expected = expected\n\n        for i in range(m - 1):\n            stock[i] = stock[i + 1]\n        stock[m - 1] = 0.0\n\n    effective_stock = 0.0\n    age_risk = 0.0\n    denominator = float(max(1, m - 1))\n    for i in range(m):\n        oldness = float(m - 1 - i) / denominator\n        risk_shape = oldness ** age_power\n        weight = young_weight + old_premium * lifo_share * risk_shape\n        effective_stock = effective_stock + weight * stock[i]\n        age_risk = age_risk + risk_shape * stock[i]\n\n    congestion_denominator = mu + age_risk + 1.0e-12\n    effective_stock = effective_stock + crowding * lifo_share * age_risk * age_risk / congestion_denominator\n\n    order = S - effective_stock\n    if order < 0.0:\n        order = 0.0\n    if order > 60.0:\n        order = 60.0\n    return float(order)\n",
+      "origin": "search/best_of_n_r2/candidate_02_0",
+      "validation": 0.992637750091526,
+      "train_score": 0.9905921037078056,
+      "train_theta": {
+        "perish_m3_L2_cv1.5_f0": [
+          3.2524697088945764,
+          1.6494007802735835,
+          1.9861752918337918,
+          0.25065880382353467,
+          5.5040598699046015,
+          2.619014558747482,
+          0.9541687121393698
+        ],
+        "perish_m3_L2_cv1.5_f0.5": [
+          3.529335828870863,
+          1.731951136251433,
+          1.8513030880753938,
+          0.905012590450903,
+          3.280307046408489,
+          1.8651463487416962,
+          1.4640685163736724
+        ],
+        "perish_m3_L2_cv2_f0": [
+          6.8170307513746025,
+          1.2283451889510186,
+          1.4407092063675537,
+          1.4314906781463193,
+          3.7944940790178245,
+          3.8571979092039723,
+          0.0339500185690369
+        ],
+        "perish_m3_L2_cv2_f0.5": [
+          3.2524697088945764,
+          1.6494007802735835,
+          1.9861752918337918,
+          0.25065880382353467,
+          5.5040598699046015,
+          2.619014558747482,
+          0.9541687121393698
+        ],
+        "perish_m5_L2_cv1.5_f0": [
+          13.850009429091877,
+          1.2628775460424366,
+          0.3695839883031189,
+          0.5644652258864281,
+          1.2084523090591763,
+          1.2281703525589136,
+          0.7191192992692459
+        ],
+        "perish_m5_L2_cv1.5_f0.5": [
+          6.85368142438427,
+          1.3688991261050627,
+          1.1595103037420373,
+          0.7564741171006437,
+          0.2782490908170834,
+          2.841296647906284,
+          0.4149756323882339
+        ],
+        "perish_m5_L2_cv2_f0": [
+          12.642957671468015,
+          1.926149538299542,
+          0.3761875427830521,
+          1.3733471280324654,
+          0.010028208592358201,
+          3.8227231998690785,
+          2.1615927850129064
+        ],
+        "perish_m5_L2_cv2_f0.5": [
+          5.916879258573591,
+          1.8525416402744384,
+          0.25451575411677607,
+          0.582955031460096,
+          0.08542909274574884,
+          3.719428646378478,
+          1.9096754120368247
+        ]
+      },
+      "structure_sha256": "92569897ede244266d66ae595e8fedc11edcbc6bc8acb1ade071920c72f8b894"
+    },
+    {
+      "code": "def compute_order_amount(age, pipeline, mu, cv, f, L):\n    S = 12.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":12.0,\"min\":0.0,\"max\":60.0}\n    demand_scale = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.6,\"max\":1.4}\n    level_credit = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.2,\"max\":2.5}\n    linear_age = 0.5 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.5,\"min\":-1.0,\"max\":4.0}\n    quadratic_age = 0.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.0,\"min\":-1.0,\"max\":4.0}\n    uncertain_credit = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":2.5}\n\n    m = len(age)\n    lead = int(L)\n    stochastic = [0.0] * m\n    fluid = [0.0] * m\n\n    for i in range(m):\n        x = float(age[i])\n        if x < 0.0:\n            x = 0.0\n        stochastic[i] = x\n        fluid[i] = x\n\n    for t in range(lead):\n        for stream in range(2):\n            if stream == 0:\n                g = float(f)\n            else:\n                g = 1.0 - float(f)\n\n            if g > 0.0:\n                M = g * float(mu)\n                V = g * (float(mu) * float(cv)) ** 2\n                a = V / (M * M) - 1.0 / M\n                disc = a * a - 1.0\n                if disc < 0.0:\n                    disc = 0.0\n                root = disc ** 0.5\n                b = 1.0 + a + root\n                c = 1.0 + a - root\n                weight1 = 1.0 / b\n                weight2 = 1.0 - weight1\n                p1 = 2.0 / (2.0 + M * b)\n                p2 = 2.0 / (2.0 + M * c)\n                r1 = 1.0 - p1\n                r2 = 1.0 - p2\n\n                new_state = [0.0] * m\n                cumulative = 0.0\n                phi_before = 0.0\n\n                for k in range(m):\n                    if stream == 0:\n                        idx = k\n                    else:\n                        idx = m - 1 - k\n\n                    bucket = stochastic[idx]\n                    cumulative_after = cumulative + bucket\n                    y = cumulative_after / demand_scale\n                    n = int(y)\n                    fraction = y - float(n)\n\n                    if n > 0:\n                        truncated1 = r1 * (1.0 - r1 ** n) / p1\n                        truncated2 = r2 * (1.0 - r2 ** n) / p2\n                    else:\n                        truncated1 = 0.0\n                        truncated2 = 0.0\n\n                    h_integer = float(n) - weight1 * truncated1 - weight2 * truncated2\n                    cdf_n = weight1 * (1.0 - r1 ** (n + 1)) + weight2 * (1.0 - r2 ** (n + 1))\n                    phi_after = demand_scale * (h_integer + fraction * cdf_n)\n                    remaining = phi_after - phi_before\n\n                    if remaining < 0.0:\n                        remaining = 0.0\n                    if remaining > bucket:\n                        remaining = bucket\n\n                    new_state[idx] = remaining\n                    cumulative = cumulative_after\n                    phi_before = phi_after\n\n                stochastic = new_state\n\n                demand_left = demand_scale * M\n                for k in range(m):\n                    if stream == 0:\n                        idx = k\n                    else:\n                        idx = m - 1 - k\n\n                    bucket = fluid[idx]\n                    if demand_left > 0.0:\n                        if bucket <= demand_left:\n                            fluid[idx] = 0.0\n                            demand_left = demand_left - bucket\n                        else:\n                            fluid[idx] = bucket - demand_left\n                            demand_left = 0.0\n\n        shifted_stochastic = [0.0] * m\n        shifted_fluid = [0.0] * m\n\n        for i in range(m - 1):\n            shifted_stochastic[i] = stochastic[i + 1]\n            shifted_fluid[i] = fluid[i + 1]\n\n        if t < len(pipeline):\n            arrival = float(pipeline[t])\n            if arrival < 0.0:\n                arrival = 0.0\n        else:\n            arrival = 0.0\n\n        shifted_stochastic[m - 1] = arrival\n        shifted_fluid[m - 1] = arrival\n        stochastic = shifted_stochastic\n        fluid = shifted_fluid\n\n    weighted_stochastic = 0.0\n    weighted_fluid = 0.0\n\n    for i in range(m):\n        if m > 1:\n            oldness = float(m - 1 - i) / float(m - 1)\n        else:\n            oldness = 0.0\n\n        age_weight = level_credit * (\n            1.0 + linear_age * oldness + quadratic_age * oldness * oldness\n        )\n        weighted_stochastic = weighted_stochastic + age_weight * stochastic[i]\n        weighted_fluid = weighted_fluid + age_weight * fluid[i]\n\n    projected_credit = weighted_fluid + uncertain_credit * (\n        weighted_stochastic - weighted_fluid\n    )\n    q = S - projected_credit\n\n    if q != q:\n        q = 0.0\n    if q < 0.0:\n        q = 0.0\n    if q > 1000000.0:\n        q = 1000000.0\n\n    return float(q)\n",
+      "origin": "search/best_of_n_r2/candidate_03_0",
+      "validation": 0.99374517051919,
+      "train_score": 0.9905734525115296,
+      "train_theta": {
+        "perish_m3_L2_cv1.5_f0": [
+          11.559943069377631,
+          1.0961278457194554,
+          1.7789081666402096,
+          0.1010049579696155,
+          2.7108979449875195,
+          1.2636994388823755
+        ],
+        "perish_m3_L2_cv1.5_f0.5": [
+          5.151474941431392,
+          1.3047394968886288,
+          0.8092514332062242,
+          2.142280556790843,
+          -0.3711331198542953,
+          0.6180932747147404
+        ],
+        "perish_m3_L2_cv2_f0": [
+          8.38276928713779,
+          0.6105959150450595,
+          1.2521866348241748,
+          -0.2846036457901038,
+          2.4104610913201134,
+          0.38881259587861394
+        ],
+        "perish_m3_L2_cv2_f0.5": [
+          3.8483242920283374,
+          0.9096339602398498,
+          0.2525372218420887,
+          1.0703900186067021,
+          1.5519330850181976,
+          0.49099517606934673
+        ],
+        "perish_m5_L2_cv1.5_f0": [
+          16.33119997354097,
+          1.2239252268136553,
+          1.0780118301510269,
+          1.1370105027363286,
+          1.7144320780821662,
+          1.500375044710763
+        ],
+        "perish_m5_L2_cv1.5_f0.5": [
+          5.982414409289493,
+          0.8633515076000726,
+          0.33064192126693626,
+          0.7219219403907207,
+          -0.13286025395056944,
+          0.7904444410880024
+        ],
+        "perish_m5_L2_cv2_f0": [
+          8.581474022206322,
+          0.9498461554853266,
+          0.6791152744310145,
+          0.8603482127123233,
+          2.6910835031374094,
+          0.8556521012060101
+        ],
+        "perish_m5_L2_cv2_f0.5": [
+          4.964797841182683,
+          0.9838978024757832,
+          0.7565866749700081,
+          -0.6967895911517501,
+          0.5584823052320107,
+          0.4130279329054012
+        ]
+      },
+      "structure_sha256": "82e114a442bc890bb6f7efca61cd1c4f55e924dfa01aed11002d58e6e92fe2bb"
+    },
+    {
+      "code": "def compute_order_amount(age, pipeline, mu, cv, f, L):\n    S = 12.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":12.0,\"min\":0.0,\"max\":60.0}\n    depletion_scale = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.35,\"max\":1.8}\n    old_credit = 0.2 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.2,\"min\":0.0,\"max\":1.0}\n    life_power = 1.3 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.3,\"min\":0.1,\"max\":4.0}\n    survivor_credit = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.4,\"max\":1.6}\n    order_gain = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.3,\"max\":1.8}\n\n    m = len(age)\n    state = [0.0] * m\n    for i in range(m):\n        value = float(age[i])\n        if value < 0.0:\n            value = 0.0\n        state[i] = value\n\n    base_variance = (mu * cv) * (mu * cv)\n\n    mean_fifo = f * mu\n    if mean_fifo > 0.0:\n        variance_fifo = f * base_variance\n        a_fifo = variance_fifo / (mean_fifo * mean_fifo) - 1.0 / mean_fifo\n        disc_fifo = a_fifo * a_fifo - 1.0\n        if disc_fifo < 0.0:\n            disc_fifo = 0.0\n        root_fifo = disc_fifo ** 0.5\n        b_fifo = 1.0 + a_fifo + root_fifo\n        c_fifo = 1.0 + a_fifo - root_fifo\n        weight_fifo = 1.0 / b_fifo\n        p1_fifo = 2.0 / (2.0 + mean_fifo * b_fifo)\n        p2_fifo = 2.0 / (2.0 + mean_fifo * c_fifo)\n        r1_fifo = 1.0 - p1_fifo\n        r2_fifo = 1.0 - p2_fifo\n    else:\n        weight_fifo = 0.0\n        r1_fifo = 0.0\n        r2_fifo = 0.0\n\n    lifo_share = 1.0 - f\n    mean_lifo = lifo_share * mu\n    if mean_lifo > 0.0:\n        variance_lifo = lifo_share * base_variance\n        a_lifo = variance_lifo / (mean_lifo * mean_lifo) - 1.0 / mean_lifo\n        disc_lifo = a_lifo * a_lifo - 1.0\n        if disc_lifo < 0.0:\n            disc_lifo = 0.0\n        root_lifo = disc_lifo ** 0.5\n        b_lifo = 1.0 + a_lifo + root_lifo\n        c_lifo = 1.0 + a_lifo - root_lifo\n        weight_lifo = 1.0 / b_lifo\n        p1_lifo = 2.0 / (2.0 + mean_lifo * b_lifo)\n        p2_lifo = 2.0 / (2.0 + mean_lifo * c_lifo)\n        r1_lifo = 1.0 - p1_lifo\n        r2_lifo = 1.0 - p2_lifo\n    else:\n        weight_lifo = 0.0\n        r1_lifo = 0.0\n        r2_lifo = 0.0\n\n    for step in range(L):\n        if step > 0:\n            pipe_index = step - 1\n            if pipe_index < len(pipeline):\n                arrival = float(pipeline[pipe_index])\n                if arrival > 0.0:\n                    state[m - 1] = state[m - 1] + arrival\n\n        if mean_fifo > 0.0:\n            cumulative = 0.0\n            for i in range(m):\n                stock = state[i]\n                upper = cumulative + stock\n\n                lower_integer = int(cumulative)\n                lower_fraction = cumulative - float(lower_integer)\n                lower_geom1 = (\n                    r1_fifo * (1.0 - r1_fifo ** lower_integer) / (1.0 - r1_fifo)\n                    + lower_fraction * r1_fifo ** (lower_integer + 1)\n                )\n                lower_geom2 = (\n                    r2_fifo * (1.0 - r2_fifo ** lower_integer) / (1.0 - r2_fifo)\n                    + lower_fraction * r2_fifo ** (lower_integer + 1)\n                )\n                lower_fill = (\n                    weight_fifo * lower_geom1\n                    + (1.0 - weight_fifo) * lower_geom2\n                )\n\n                upper_integer = int(upper)\n                upper_fraction = upper - float(upper_integer)\n                upper_geom1 = (\n                    r1_fifo * (1.0 - r1_fifo ** upper_integer) / (1.0 - r1_fifo)\n                    + upper_fraction * r1_fifo ** (upper_integer + 1)\n                )\n                upper_geom2 = (\n                    r2_fifo * (1.0 - r2_fifo ** upper_integer) / (1.0 - r2_fifo)\n                    + upper_fraction * r2_fifo ** (upper_integer + 1)\n                )\n                upper_fill = (\n                    weight_fifo * upper_geom1\n                    + (1.0 - weight_fifo) * upper_geom2\n                )\n\n                consumed = depletion_scale * (upper_fill - lower_fill)\n                if consumed < 0.0:\n                    consumed = 0.0\n                if consumed > stock:\n                    consumed = stock\n                state[i] = stock - consumed\n                cumulative = upper\n\n        if mean_lifo > 0.0:\n            cumulative = 0.0\n            for i in range(m - 1, -1, -1):\n                stock = state[i]\n                upper = cumulative + stock\n\n                lower_integer = int(cumulative)\n                lower_fraction = cumulative - float(lower_integer)\n                lower_geom1 = (\n                    r1_lifo * (1.0 - r1_lifo ** lower_integer) / (1.0 - r1_lifo)\n                    + lower_fraction * r1_lifo ** (lower_integer + 1)\n                )\n                lower_geom2 = (\n                    r2_lifo * (1.0 - r2_lifo ** lower_integer) / (1.0 - r2_lifo)\n                    + lower_fraction * r2_lifo ** (lower_integer + 1)\n                )\n                lower_fill = (\n                    weight_lifo * lower_geom1\n                    + (1.0 - weight_lifo) * lower_geom2\n                )\n\n                upper_integer = int(upper)\n                upper_fraction = upper - float(upper_integer)\n                upper_geom1 = (\n                    r1_lifo * (1.0 - r1_lifo ** upper_integer) / (1.0 - r1_lifo)\n                    + upper_fraction * r1_lifo ** (upper_integer + 1)\n                )\n                upper_geom2 = (\n                    r2_lifo * (1.0 - r2_lifo ** upper_integer) / (1.0 - r2_lifo)\n                    + upper_fraction * r2_lifo ** (upper_integer + 1)\n                )\n                upper_fill = (\n                    weight_lifo * upper_geom1\n                    + (1.0 - weight_lifo) * upper_geom2\n                )\n\n                consumed = depletion_scale * (upper_fill - lower_fill)\n                if consumed < 0.0:\n                    consumed = 0.0\n                if consumed > stock:\n                    consumed = stock\n                state[i] = stock - consumed\n                cumulative = upper\n\n        for i in range(m - 1):\n            state[i] = state[i + 1]\n        state[m - 1] = 0.0\n\n    effective_inventory = 0.0\n    for i in range(m):\n        relative_life = float(i + 1) / float(m)\n        age_weight = old_credit + (1.0 - old_credit) * relative_life ** life_power\n        effective_inventory = (\n            effective_inventory\n            + survivor_credit * age_weight * state[i]\n        )\n\n    gap = S - effective_inventory\n    if gap <= 0.0:\n        return 0.0\n\n    order = order_gain * gap\n    if order != order:\n        return 0.0\n    if order > 1000000.0:\n        order = 1000000.0\n    return float(order)\n",
+      "origin": "search/best_of_n_r2/candidate_04_0",
+      "validation": 0.9941421206556942,
+      "train_score": 0.9966151735981937,
+      "train_theta": {
+        "perish_m3_L2_cv1.5_f0": [
+          4.031609677741521,
+          1.4153797954174845,
+          0.7373060103663566,
+          0.6048801697914126,
+          0.5958637306826913,
+          0.7194009099113492
+        ],
+        "perish_m3_L2_cv1.5_f0.5": [
+          4.9765239544701565,
+          1.1607787896319826,
+          0.6331623298504437,
+          2.881327573827936,
+          1.0621570747853755,
+          0.9045790132395061
+        ],
+        "perish_m3_L2_cv2_f0": [
+          3.3807096103364707,
+          1.1772813834207807,
+          0.63573521291754,
+          2.119695229981236,
+          0.6871633810811602,
+          0.9906201457731953
+        ],
+        "perish_m3_L2_cv2_f0.5": [
+          3.158467322462183,
+          1.219662386518605,
+          0.22812105026202134,
+          1.0621383836212022,
+          1.205386994101923,
+          1.2215404555887526
+        ],
+        "perish_m5_L2_cv1.5_f0": [
+          13.724533218265695,
+          0.48851217162577065,
+          0.74131660919784,
+          0.16680966339328895,
+          1.5374301515575974,
+          1.0420096453604397
+        ],
+        "perish_m5_L2_cv1.5_f0.5": [
+          11.63186561708018,
+          1.028570341095354,
+          0.2006288128359237,
+          0.6668908929560893,
+          1.4121334173340494,
+          0.5902803950509643
+        ],
+        "perish_m5_L2_cv2_f0": [
+          8.620756685463345,
+          0.7290760056675434,
+          0.9977766901457522,
+          1.699222452534505,
+          1.3268376218285476,
+          1.4407615023702118
+        ],
+        "perish_m5_L2_cv2_f0.5": [
+          7.363219654673465,
+          1.4352369030044834,
+          0.2586576579910292,
+          0.26113276804192065,
+          1.449151343740168,
+          0.7709516536123695
+        ]
+      },
+      "structure_sha256": "e5816418e10b24e64dcb0204940de8f99e16de32bbf72297e8abf4d292fa3969"
+    },
+    {
+      "code": "def compute_order_amount(age, pipeline, mu, cv, f, L):\n    S = 12.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":12.0,\"min\":0.0,\"max\":60.0}\n    GAIN = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.1,\"max\":2.5}\n    D_SCALE = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.5,\"max\":1.5}\n    W_OLD = 0.6 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.6,\"min\":0.0,\"max\":3.0}\n    W_SLOPE = 0.4 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.4,\"min\":-3.0,\"max\":3.0}\n\n    m = len(age)\n    x = [0.0] * m\n    for i in range(m):\n        v = float(age[i])\n        if v != v or v < 0.0:\n            v = 0.0\n        if v > 1000000.0:\n            v = 1000000.0\n        x[i] = v\n\n    horizon = int(L)\n    for step in range(horizon):\n        for group in range(2):\n            if group == 0:\n                g = float(f)\n            else:\n                g = 1.0 - float(f)\n\n            if g > 0.0:\n                M = g * float(mu)\n                V = g * (float(mu) * float(cv)) ** 2\n                a = V / (M * M) - 1.0 / M\n                root = (a * a - 1.0) ** 0.5\n                b = 1.0 + a + root\n                c = 1.0 + a - root\n                mix = 1.0 / b\n                p1 = 2.0 / (2.0 + M * b)\n                p2 = 2.0 / (2.0 + M * c)\n                r1 = 1.0 - p1\n                r2 = 1.0 - p2\n\n                cumulative = 0.0\n                previous_expected = 0.0\n                for j in range(m):\n                    if group == 0:\n                        k = j\n                    else:\n                        k = m - 1 - j\n\n                    cohort = x[k]\n                    cumulative = cumulative + cohort\n                    scaled_capacity = cumulative / D_SCALE\n                    e1 = r1 * (1.0 - r1 ** scaled_capacity) / p1\n                    e2 = r2 * (1.0 - r2 ** scaled_capacity) / p2\n                    expected_used = D_SCALE * (mix * e1 + (1.0 - mix) * e2)\n                    take = expected_used - previous_expected\n                    if take < 0.0:\n                        take = 0.0\n                    if take > cohort:\n                        take = cohort\n                    x[k] = cohort - take\n                    previous_expected = expected_used\n\n        shifted = [0.0] * m\n        for i in range(1, m):\n            shifted[i - 1] = x[i]\n\n        arrival = 0.0\n        if step < len(pipeline):\n            arrival = float(pipeline[step])\n            if arrival != arrival or arrival < 0.0:\n                arrival = 0.0\n            if arrival > 1000000.0:\n                arrival = 1000000.0\n        if m > 0:\n            shifted[m - 1] = arrival\n        x = shifted\n\n    effective_inventory = 0.0\n    for i in range(m):\n        if m > 1:\n            relative_age = float(i) / float(m - 1)\n        else:\n            relative_age = 0.0\n        weight = W_OLD + W_SLOPE * relative_age\n        if weight < 0.0:\n            weight = 0.0\n        if weight > 3.0:\n            weight = 3.0\n        effective_inventory = effective_inventory + weight * x[i]\n\n    order = GAIN * (S - effective_inventory)\n    if order != order or order <= 0.0:\n        return 0.0\n    if order > 1000000.0:\n        return 1000000.0\n    return float(order)\n",
+      "origin": "search/best_of_n_r2/candidate_05_0",
+      "validation": 0.9941339388688669,
+      "train_score": 0.9915347223389507,
+      "train_theta": {
+        "perish_m3_L2_cv1.5_f0": [
+          2.0673214150995456,
+          1.7444974342046906,
+          1.0835790241582486,
+          0.4550280889925533,
+          -2.7996967540975053
+        ],
+        "perish_m3_L2_cv1.5_f0.5": [
+          2.768185477892125,
+          1.4575379674338107,
+          1.4622686780129825,
+          1.1771880133200296,
+          -2.141302868909012
+        ],
+        "perish_m3_L2_cv2_f0": [
+          4.014002494990944,
+          2.098363574228329,
+          1.4271440824910686,
+          2.1340628877429593,
+          -2.3436418114153548
+        ],
+        "perish_m3_L2_cv2_f0.5": [
+          10.171740346424933,
+          0.48066811462274184,
+          0.6782688393580605,
+          1.3555117846064857,
+          1.7538308545710375
+        ],
+        "perish_m5_L2_cv1.5_f0": [
+          8.165781085929137,
+          1.8500251759124362,
+          0.9492817340369114,
+          2.1592547489253944,
+          -2.0095429868479697
+        ],
+        "perish_m5_L2_cv1.5_f0.5": [
+          5.4495654393552115,
+          1.7009767326601997,
+          0.8242952357300772,
+          0.6132360231836553,
+          -0.06828889973277807
+        ],
+        "perish_m5_L2_cv2_f0": [
+          8.382058866498507,
+          1.5744958402181477,
+          0.7720033335228104,
+          1.9664282579628556,
+          -0.5201422382241699
+        ],
+        "perish_m5_L2_cv2_f0.5": [
+          4.213952609948631,
+          1.2094520647652836,
+          0.9849453548089628,
+          0.9087937135124662,
+          -1.0298919823898935
+        ]
+      },
+      "structure_sha256": "768f74b07901f46a8ac1c4a70ff2b77a057620ca4b9339a44340fc21c2015f09"
+    },
+    {
+      "code": "def compute_order_amount(age, pipeline, mu, cv, f, L):\n    import math\n\n    S = 12.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":12.0,\"min\":0.0,\"max\":50.0}\n    B = 20.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":20.0,\"min\":0.0,\"max\":60.0}\n    K_proj = 0.75 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.75,\"min\":0.0,\"max\":1.5}\n    K_ip = 0.25 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.25,\"min\":0.0,\"max\":1.5}\n    old_proj = 0.40 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.40,\"min\":0.0,\"max\":1.5}\n    old_ip = 0.70 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.70,\"min\":0.0,\"max\":1.5}\n    age_power = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.15,\"max\":4.0}\n    pipe_weight = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":1.5}\n\n    m = len(age)\n    orig = [0.0] * m\n    x = [0.0] * m\n    for i in range(m):\n        v = float(age[i])\n        if not math.isfinite(v) or v < 0.0:\n            v = 0.0\n        if v > 1000000.0:\n            v = 1000000.0\n        orig[i] = v\n        x[i] = v\n\n    npip = len(pipeline)\n    pvec = [0.0] * npip\n    for j in range(npip):\n        v = float(pipeline[j])\n        if not math.isfinite(v) or v < 0.0:\n            v = 0.0\n        if v > 1000000.0:\n            v = 1000000.0\n        pvec[j] = v\n\n    mf = float(f) * float(mu)\n    vf = float(f) * (float(mu) * float(cv)) ** 2\n    if mf > 0.0:\n        af = vf / (mf * mf) - 1.0 / mf\n        sf = math.sqrt(max(0.0, af * af - 1.0))\n        bf = 1.0 + af + sf\n        cf = 1.0 + af - sf\n        fw = 1.0 / bf\n        fp1 = 2.0 / (2.0 + mf * bf)\n        fp2 = 2.0 / (2.0 + mf * cf)\n        fr1 = 1.0 - fp1\n        fr2 = 1.0 - fp2\n    else:\n        fw = 0.0\n        fr1 = 0.0\n        fr2 = 0.0\n\n    gl = 1.0 - float(f)\n    ml = gl * float(mu)\n    vl = gl * (float(mu) * float(cv)) ** 2\n    if ml > 0.0:\n        al = vl / (ml * ml) - 1.0 / ml\n        sl = math.sqrt(max(0.0, al * al - 1.0))\n        bl = 1.0 + al + sl\n        cl = 1.0 + al - sl\n        lw = 1.0 / bl\n        lp1 = 2.0 / (2.0 + ml * bl)\n        lp2 = 2.0 / (2.0 + ml * cl)\n        lr1 = 1.0 - lp1\n        lr2 = 1.0 - lp2\n    else:\n        lw = 0.0\n        lr1 = 0.0\n        lr2 = 0.0\n\n    lead = int(L)\n    if lead < 0:\n        lead = 0\n\n    for step in range(lead):\n        total = 0.0\n        for i in range(m):\n            total = total + x[i]\n\n        survivor = [0.0] * m\n        if total > 0.0:\n            left = 0.0\n            for i in range(m):\n                amount = x[i]\n                if amount > 0.0:\n                    pieces = int(math.ceil(amount))\n                    if pieces < 1:\n                        pieces = 1\n                    if pieces > 96:\n                        pieces = 96\n                    width = amount / float(pieces)\n                    remaining = 0.0\n\n                    for z in range(pieces):\n                        position = left + (float(z) + 0.5) * width\n                        above = total - position\n\n                        if mf <= 0.0:\n                            fifo_survival = 1.0\n                        else:\n                            ef = int(math.ceil(position))\n                            fifo_survival = 1.0 - fw * (fr1 ** ef) - (1.0 - fw) * (fr2 ** ef)\n                            if fifo_survival < 0.0:\n                                fifo_survival = 0.0\n                            if fifo_survival > 1.0:\n                                fifo_survival = 1.0\n\n                        if ml <= 0.0:\n                            lifo_survival = 1.0\n                        else:\n                            el = int(math.ceil(above))\n                            lifo_survival = 1.0 - lw * (lr1 ** el) - (1.0 - lw) * (lr2 ** el)\n                            if lifo_survival < 0.0:\n                                lifo_survival = 0.0\n                            if lifo_survival > 1.0:\n                                lifo_survival = 1.0\n\n                        remaining = remaining + width * fifo_survival * lifo_survival\n\n                    survivor[i] = remaining\n                left = left + amount\n\n        nxt = [0.0] * m\n        for i in range(m - 1):\n            nxt[i] = survivor[i + 1]\n\n        if step < lead - 1 and step < npip:\n            nxt[m - 1] = pvec[step]\n        else:\n            nxt[m - 1] = 0.0\n        x = nxt\n\n    projected_effective = 0.0\n    current_effective = 0.0\n    if m > 0:\n        for i in range(m):\n            relative_age = float(i + 1) / float(m)\n            shape = relative_age ** age_power\n            wp = old_proj + (1.0 - old_proj) * shape\n            wi = old_ip + (1.0 - old_ip) * shape\n            projected_effective = projected_effective + wp * x[i]\n            current_effective = current_effective + wi * orig[i]\n\n    pipeline_total = 0.0\n    for j in range(npip):\n        pipeline_total = pipeline_total + pvec[j]\n    current_effective = current_effective + pipe_weight * pipeline_total\n\n    projected_gap = S - projected_effective\n    if projected_gap < 0.0:\n        projected_gap = 0.0\n\n    ip_gap = B - current_effective\n    if ip_gap < 0.0:\n        ip_gap = 0.0\n\n    order = K_proj * projected_gap + K_ip * ip_gap\n    if not math.isfinite(order) or order < 0.0:\n        return 0.0\n    return float(order)\n",
+      "origin": "search/best_of_n_r2/candidate_06_0",
+      "validation": 0.9944758841526106,
+      "train_score": 0.994800365366904,
+      "train_theta": {
+        "perish_m3_L2_cv1.5_f0": [
+          10.445788087378327,
+          6.925102980867742,
+          0.3036724607844079,
+          0.9703185591920542,
+          0.9753576195832734,
+          0.41621160391921413,
+          2.566446179098162,
+          1.3388593851948003
+        ],
+        "perish_m3_L2_cv1.5_f0.5": [
+          16.129756233527225,
+          4.639205380036589,
+          0.2254385558017744,
+          1.2764890967907458,
+          0.18647653330088154,
+          1.197648574778671,
+          0.8128373829504203,
+          0.35816604302009125
+        ],
+        "perish_m3_L2_cv2_f0": [
+          4.8625414140754515,
+          5.861853683787121,
+          1.038668319496696,
+          0.07401496410603303,
+          1.4040202286893748,
+          0.32239674278694636,
+          2.4463185047924854,
+          0.7855317327720345
+        ],
+        "perish_m3_L2_cv2_f0.5": [
+          4.19620219958518,
+          4.431860680148635,
+          1.1515326226054703,
+          0.1591863515079126,
+          0.7336649259597021,
+          1.08780046342121,
+          3.153101187412241,
+          0.584108150596568
+        ],
+        "perish_m5_L2_cv1.5_f0": [
+          8.575483501579694,
+          8.713546060772973,
+          1.0263573521426306,
+          1.0312815166605322,
+          1.3409830958015192,
+          1.407714859149894,
+          1.7131437021145188,
+          0.5435343280682245
+        ],
+        "perish_m5_L2_cv1.5_f0.5": [
+          12.206831812979429,
+          3.8418424357399843,
+          0.5156544026590766,
+          0.8945309196015718,
+          1.0750502349335957,
+          0.7512791512947192,
+          1.97397178270109,
+          0.05832566335907552
+        ],
+        "perish_m5_L2_cv2_f0": [
+          5.429737726123822,
+          10.67507993208796,
+          1.0681078723319608,
+          0.6473989014945405,
+          0.9014894322856091,
+          0.8803372624049416,
+          1.1895221786513548,
+          0.46700313419807044
+        ],
+        "perish_m5_L2_cv2_f0.5": [
+          8.876855921015398,
+          17.017719895824793,
+          0.5178498240047127,
+          0.10655061872092875,
+          1.1378312533832176,
+          0.7072183156931693,
+          3.243093088232207,
+          1.2054449367106987
+        ]
+      },
+      "structure_sha256": "ca7b60ee9257cff3c894191ddbba145b5e3812171fd8fd56a08b632e5203290f"
+    },
+    {
+      "code": "def compute_order_amount(age, pipeline, mu, cv, f, L):\n    S = 12.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":12.0,\"min\":0.0,\"max\":60.0}\n    projection_scale = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.4,\"max\":1.8}\n    age_floor = 0.35 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.35,\"min\":0.0,\"max\":1.0}\n    age_power = 1.5 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.5,\"min\":0.25,\"max\":4.0}\n    order_gain = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.4,\"max\":1.6}\n\n    m = len(age)\n    z = [0.0] * m\n    for i in range(m):\n        x = float(age[i])\n        if not (x >= 0.0):\n            x = 0.0\n        if x > 1000000.0:\n            x = 1000000.0\n        z[i] = x\n\n    fifo_mean = f * mu\n    lifo_mean = (1.0 - f) * mu\n    demand_variance_base = (mu * cv) ** 2\n\n    if fifo_mean > 0.0:\n        fifo_variance = f * demand_variance_base\n        fifo_a = fifo_variance / (fifo_mean * fifo_mean) - 1.0 / fifo_mean\n        fifo_disc = fifo_a * fifo_a - 1.0\n        if fifo_disc < 0.0:\n            fifo_disc = 0.0\n        fifo_root = fifo_disc ** 0.5\n        fifo_b = 1.0 + fifo_a + fifo_root\n        fifo_c = 1.0 + fifo_a - fifo_root\n        fifo_weight = 1.0 / fifo_b\n        fifo_p1 = 2.0 / (2.0 + fifo_mean * fifo_b)\n        fifo_p2 = 2.0 / (2.0 + fifo_mean * fifo_c)\n        fifo_r1 = 1.0 - fifo_p1\n        fifo_r2 = 1.0 - fifo_p2\n    else:\n        fifo_weight = 1.0\n        fifo_p1 = 1.0\n        fifo_p2 = 1.0\n        fifo_r1 = 0.0\n        fifo_r2 = 0.0\n\n    if lifo_mean > 0.0:\n        lifo_variance = (1.0 - f) * demand_variance_base\n        lifo_a = lifo_variance / (lifo_mean * lifo_mean) - 1.0 / lifo_mean\n        lifo_disc = lifo_a * lifo_a - 1.0\n        if lifo_disc < 0.0:\n            lifo_disc = 0.0\n        lifo_root = lifo_disc ** 0.5\n        lifo_b = 1.0 + lifo_a + lifo_root\n        lifo_c = 1.0 + lifo_a - lifo_root\n        lifo_weight = 1.0 / lifo_b\n        lifo_p1 = 2.0 / (2.0 + lifo_mean * lifo_b)\n        lifo_p2 = 2.0 / (2.0 + lifo_mean * lifo_c)\n        lifo_r1 = 1.0 - lifo_p1\n        lifo_r2 = 1.0 - lifo_p2\n    else:\n        lifo_weight = 1.0\n        lifo_p1 = 1.0\n        lifo_p2 = 1.0\n        lifo_r1 = 0.0\n        lifo_r2 = 0.0\n\n    for t in range(int(L)):\n        remaining = [0.0] * m\n        fifo_cumulative = 0.0\n\n        for i in range(m):\n            x = z[i]\n            if fifo_mean > 0.0 and x > 0.0:\n                threshold0 = fifo_cumulative / projection_scale\n                n0 = int(threshold0) + 1\n                plus01 = (fifo_r1 ** n0) * (n0 - threshold0 + fifo_r1 / fifo_p1)\n                plus02 = (fifo_r2 ** n0) * (n0 - threshold0 + fifo_r2 / fifo_p2)\n                plus0 = fifo_weight * plus01 + (1.0 - fifo_weight) * plus02\n\n                threshold1 = (fifo_cumulative + x) / projection_scale\n                n1 = int(threshold1) + 1\n                plus11 = (fifo_r1 ** n1) * (n1 - threshold1 + fifo_r1 / fifo_p1)\n                plus12 = (fifo_r2 ** n1) * (n1 - threshold1 + fifo_r2 / fifo_p2)\n                plus1 = fifo_weight * plus11 + (1.0 - fifo_weight) * plus12\n\n                consumed = projection_scale * (plus0 - plus1)\n                if consumed < 0.0:\n                    consumed = 0.0\n                if consumed > x:\n                    consumed = x\n                remaining[i] = x - consumed\n            else:\n                remaining[i] = x\n            fifo_cumulative = fifo_cumulative + x\n\n        lifo_cumulative = 0.0\n        for k in range(m):\n            i = m - 1 - k\n            x = remaining[i]\n            if lifo_mean > 0.0 and x > 0.0:\n                threshold0 = lifo_cumulative / projection_scale\n                n0 = int(threshold0) + 1\n                plus01 = (lifo_r1 ** n0) * (n0 - threshold0 + lifo_r1 / lifo_p1)\n                plus02 = (lifo_r2 ** n0) * (n0 - threshold0 + lifo_r2 / lifo_p2)\n                plus0 = lifo_weight * plus01 + (1.0 - lifo_weight) * plus02\n\n                threshold1 = (lifo_cumulative + x) / projection_scale\n                n1 = int(threshold1) + 1\n                plus11 = (lifo_r1 ** n1) * (n1 - threshold1 + lifo_r1 / lifo_p1)\n                plus12 = (lifo_r2 ** n1) * (n1 - threshold1 + lifo_r2 / lifo_p2)\n                plus1 = lifo_weight * plus11 + (1.0 - lifo_weight) * plus12\n\n                consumed = projection_scale * (plus0 - plus1)\n                if consumed < 0.0:\n                    consumed = 0.0\n                if consumed > x:\n                    consumed = x\n                remaining[i] = x - consumed\n            lifo_cumulative = lifo_cumulative + x\n\n        shifted = [0.0] * m\n        for i in range(m - 1):\n            shifted[i] = remaining[i + 1]\n\n        if t < int(L) - 1 and t < len(pipeline):\n            arrival = float(pipeline[t])\n            if not (arrival >= 0.0):\n                arrival = 0.0\n            if arrival > 1000000.0:\n                arrival = 1000000.0\n            shifted[m - 1] = arrival\n\n        z = shifted\n\n    effective_inventory = 0.0\n    for i in range(m):\n        relative_life = float(i + 1) / float(m)\n        weight = age_floor + (1.0 - age_floor) * (relative_life ** age_power)\n        effective_inventory = effective_inventory + weight * z[i]\n\n    order = order_gain * (S - effective_inventory)\n    if not (order > 0.0):\n        return 0.0\n    if order > 1000000.0:\n        return 1000000.0\n    return order\n",
+      "origin": "search/best_of_n_r2/candidate_07_0",
+      "validation": 0.9949726671458805,
+      "train_score": 0.9958359254121486,
+      "train_theta": {
+        "perish_m3_L2_cv1.5_f0": [
+          5.498975021034333,
+          0.8835918938865701,
+          0.6371476488922837,
+          3.905293902515866,
+          0.6490986247506833
+        ],
+        "perish_m3_L2_cv1.5_f0.5": [
+          6.692055179185569,
+          1.303189744579976,
+          0.893681798383017,
+          1.4021270923666014,
+          0.6642698141358839
+        ],
+        "perish_m3_L2_cv2_f0": [
+          4.6312951427584785,
+          0.6898997691086017,
+          0.7129124346712614,
+          3.0029352105386464,
+          0.992159882498334
+        ],
+        "perish_m3_L2_cv2_f0.5": [
+          5.498975021034333,
+          0.9676519159774477,
+          0.718747960780734,
+          3.905293902515866,
+          0.6490986247506833
+        ],
+        "perish_m5_L2_cv1.5_f0": [
+          9.54110663577428,
+          0.43804572661952335,
+          0.9633587830465619,
+          3.336068159298323,
+          1.524307683342017
+        ],
+        "perish_m5_L2_cv1.5_f0.5": [
+          8.49633053593562,
+          0.7314578092778732,
+          0.3391169800776219,
+          0.8061117913640679,
+          1.0275590219766286
+        ],
+        "perish_m5_L2_cv2_f0": [
+          7.423121136454203,
+          0.5625559051053136,
+          0.9866658809600994,
+          1.9247364403406848,
+          1.4314676552917889
+        ],
+        "perish_m5_L2_cv2_f0.5": [
+          6.258233934838586,
+          1.3885320148426192,
+          0.6646183872205643,
+          0.34084798720763954,
+          0.8731922728931236
+        ]
+      },
+      "structure_sha256": "075d0b5c3bfa336e4c78934b44de4bc2a9793bdc755622b371ef05a071e547cc"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "status": "completed",
+  "best_code_path": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_unrestricted_params/training/exp_iid_random3_9/self_evolve_h200_r1/policy.py",
+  "code_sha256": "1fd39e3e1895c3e3fdb86c7eb1b143b79f82d58a87c29d7b05cfe7dc9ca08abc",
+  "best_train_cost": 29590.444917512275,
+  "algorithm": "Reduced base target to better match demand mean while increasing demand responsiveness (0→0.85) and lead-time sensitivity (2.25→3.8). This balances holding vs. lost sales costs given the exponential demand distribution with mean ~100 and high variance. The parameters were optimized to minimize total cost on the training trajectories.",
+  "checkpoint_path": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_unrestricted_params/training/exp_iid_random3_9/self_evolve_h200_r1/checkpoints/g010.json.gz",
+  "model_calls": 102,
+  "training_evaluations": 8568,
+  "training_cache_hits": 318,
+  "compiled_structures": 6,
+  "optimizer": "SciPy L-BFGS-B",
+  "optimizer_maxiter": 15,
+  "test_evaluated": false
+}

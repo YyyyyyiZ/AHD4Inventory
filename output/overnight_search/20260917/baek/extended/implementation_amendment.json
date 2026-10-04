@@ -1,0 +1,6 @@
+{
+  "kind": "prelaunch_numeric_bounds_check",
+  "paid_phase2_requests_so_far": 0,
+  "explanation": "Phase2 numeric tool workers enforce NUMBA_BOUNDSCHECK=1 before prelude and submitted source compilation, matching framework workers; primary generation remains unchanged",
+  "python_runner_sha256": "c8fe69d91aa7f0e4952251d16e6cd407e67b035e331a153c0361a85ba0591868"
+}

@@ -1,0 +1,23 @@
+{
+  "status": "completed",
+  "best_code_path": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_stationary_priority/training/exp_ar_pos08_fixed6/self_evolve_h50_r2/policy.py",
+  "code_sha256": "570aec1cf3e675ce55a23e7ace2019b19e97f15c25b3bea4f9a10c7daba837c7",
+  "best_train_cost": 8161.130248061067,
+  "algorithm": "Increased base_target and demand_response_factor to better match demand patterns, raised safety_stock to reduce stockouts, and removed minimum order constraint to allow more responsive ordering. The changes aim to reduce lost sales costs while keeping holding costs manageable.",
+  "checkpoint_path": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_stationary_priority/training/exp_ar_pos08_fixed6/self_evolve_h50_r2/checkpoints/g010.json.gz",
+  "model_calls": 100,
+  "training_evaluations": 528,
+  "training_cache_hits": 15,
+  "compiled_structures": 3,
+  "optimizer": "SciPy L-BFGS-B",
+  "optimizer_maxiter": 15,
+  "test_evaluated": false,
+  "scenario_id": "exp_ar_pos08_fixed6",
+  "policy_id": "self_evolve_h50_r2",
+  "family": "self_evolve",
+  "repeat": 2,
+  "source_training_horizon": 50,
+  "elapsed_seconds": 164.1561007089913,
+  "finished_utc": "2026-09-16T07:17:25.046919+00:00",
+  "full_protocol": true
+}

@@ -1,0 +1,51 @@
+{
+  "profile": "extended",
+  "scenarios": 8,
+  "expected_scenarios": 8,
+  "comparison": {
+    "files": [
+      "scenario_comparison.png",
+      "scenario_comparison.pdf",
+      "scenario_comparison.svg"
+    ],
+    "principal_cells": 32,
+    "paired_comparisons": 8,
+    "generation_counts": {
+      "one_query": [
+        3
+      ],
+      "best_of_n": [
+        3
+      ],
+      "evolution": [
+        3
+      ],
+      "baek": [
+        3
+      ]
+    }
+  },
+  "optimizer_ablation": {
+    "files": [
+      "optimizer_ablation.png",
+      "optimizer_ablation.pdf",
+      "optimizer_ablation.svg"
+    ],
+    "generation_pairs": 72,
+    "three_generation_means": 24,
+    "symlog_axis": false,
+    "pooled_ci_created": false
+  },
+  "warnings": [],
+  "raw_test_files_read": false,
+  "test_best_generation_selected": false,
+  "synthetic_fixture": false,
+  "plot_source_sha256": "9ef678b77195eda852a3b5f4cea9d51282008ec4675fb4b30c116aec90f3f014",
+  "matplotlib_version": "3.11.2",
+  "numpy_version": "2.4.3",
+  "input_sha256": {
+    "group_summary.csv": "19e62049412d657662cc045460a24cc629aafb02bb63a91c6eb83dd354f0c814",
+    "paired_comparisons.csv": "bec8799f6a0b80d2f494998d899530eca0093911403e9430d2e5da645b2a8007",
+    "optimizer_ablation.csv": "708f427ca5689d5974b88ee10002bbdf358d2eca28ee0633bef5c82957daf471"
+  }
+}

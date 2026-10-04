@@ -1,0 +1,8 @@
+[
+  {
+    "algorithm": "Base-stock seed using the training sample mean.",
+    "code": "def compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    target = 698.4260349459337  # OPT_PARAM: {'initial': 698.4260349459337, 'min': 0.0, 'max': 2793.7041397837347, 'type': 'float'}\n    order_amount = max(0.0, target - on_hand_inventory - sum(pipeline_orders))\n    return order_amount\n",
+    "objective": null,
+    "other_inf": null
+  }
+]

@@ -1,0 +1,23 @@
+{
+  "status": "completed",
+  "best_code_path": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_stationary_priority/training/exp_ar_pos08_fixed6/self_evolve_h500_r3/policy.py",
+  "code_sha256": "a4ab68ef3baebb7563b01db2e0b5c2e2a60f117b27003fd44f4bfbb6332a5989",
+  "best_train_cost": 81639.85246047954,
+  "algorithm": "Increased base_target and demand_response to better handle high-demand periods while adjusting inventory and pipeline weights to maintain better balance between holding and lost-sales costs. The parameters were tuned to reduce the high lost-sales cost observed in the training performance while keeping holding costs reasonable.",
+  "checkpoint_path": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_stationary_priority/training/exp_ar_pos08_fixed6/self_evolve_h500_r3/checkpoints/g010.json.gz",
+  "model_calls": 100,
+  "training_evaluations": 16450,
+  "training_cache_hits": 538,
+  "compiled_structures": 14,
+  "optimizer": "SciPy L-BFGS-B",
+  "optimizer_maxiter": 15,
+  "test_evaluated": false,
+  "scenario_id": "exp_ar_pos08_fixed6",
+  "policy_id": "self_evolve_h500_r3",
+  "family": "self_evolve",
+  "repeat": 3,
+  "source_training_horizon": 500,
+  "elapsed_seconds": 1042.1163844580296,
+  "finished_utc": "2026-09-16T07:50:41.141078+00:00",
+  "full_protocol": true
+}

@@ -1,0 +1,181 @@
+[
+     {
+          "algorithm": "Frozen optimized Adaptive PIL with its original conditional projection.",
+          "code": "def compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    S_over_mean = 0.6500219464897067  # OPT_PARAM: {\"initial\": 0.6500219464897067, \"min\": 0.0, \"max\": 3.0, \"type\": \"float\"}\n    cap_over_mean = 3.7084022533834244  # OPT_PARAM: {\"initial\": 3.7084022533834244, \"min\": 0.0, \"max\": 6.0, \"type\": \"float\"}\n    target_forecast_gain = 0.6110176596104178  # OPT_PARAM: {\"initial\": 0.6110176596104178, \"min\": -1.0, \"max\": 3.0, \"type\": \"float\"}\n    cap_forecast_gain = 6.99857811499404  # OPT_PARAM: {\"initial\": 6.99857811499404, \"min\": -1.0, \"max\": 7.0, \"type\": \"float\"}\n    inventory_gain = 1.5178196587609198  # OPT_PARAM: {\"initial\": 1.5178196587609198, \"min\": 0.0, \"max\": 2.0, \"type\": \"float\"}\n    mean_demand = 100.0\n    arrival_mean = conditional_arrival_mean(last_demand, quoted_lead_time)\n    projected_inventory = conditional_projected_inventory(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time)\n    target = max(0.0, mean_demand * S_over_mean + target_forecast_gain * (arrival_mean - mean_demand))\n    cap = max(0.0, mean_demand * cap_over_mean + cap_forecast_gain * (arrival_mean - mean_demand))\n    order_amount = min(cap, max(0.0, target - inventory_gain * projected_inventory))\n    return order_amount\n",
+          "objective": 29630.24878,
+          "other_inf": null,
+          "lower": 28028.83244,
+          "upper": 31322.60858,
+          "opt_params": {
+               "S_over_mean": 0.6500219464897067,
+               "cap_over_mean": 3.7084022533834244,
+               "target_forecast_gain": 0.6110176596104178,
+               "cap_forecast_gain": 6.99857811499404,
+               "inventory_gain": 1.5178196587609198
+          }
+     },
+     {
+          "algorithm": "Simplified the policy to use a base stock level adjusted by demand deviation from mean and projected inventory. The parameters are optimized for the given cost structure (holding cost 1.0, lost-sales cost 2.0). This should better balance inventory holding and stockout costs while responding to demand patterns.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_stock = 63.80952892721496  # OPT_PARAM: {\"initial\": 63.80952892721496, \"min\": 50.0, \"max\": 300.0, \"type\": \"float\"}\n    demand_response = 0.6033367199910737  # OPT_PARAM: {\"initial\": 0.6033367199910737, \"min\": 0.0, \"max\": 2.0, \"type\": \"float\"}\n    inventory_response = 1.44565993511821  # OPT_PARAM: {\"initial\": 1.44565993511821, \"min\": 0.5, \"max\": 2.0, \"type\": \"float\"}\n    \n    arrival_mean = conditional_arrival_mean(last_demand, quoted_lead_time)\n    projected_inventory = conditional_projected_inventory(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time)\n    \n    target = base_stock + demand_response * (arrival_mean - 100.0)\n    order_amount = max(0.0, target - inventory_response * projected_inventory)\n    \n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Simplified the policy to use a base stock level adjusted by demand deviation from mean and projected inventory. The parameters are optimized for the given cost structure (holding cost 1.0, lost-sales cost 2.0). This should better balance inventory holding and stockout costs while responding to demand patterns.",
+          "opt_params": {
+               "base_stock": 63.80952892721496,
+               "demand_response": 0.6033367199910737,
+               "inventory_response": 1.44565993511821
+          },
+          "cost": null,
+          "objective": 29630.72463,
+          "lower": 28027.8009,
+          "upper": 31322.41149,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Simplified the policy to focus on key drivers: base stock level adjusted by demand deviation from mean and current inventory position. Optimized parameters to better balance holding and stockout costs, reducing mean total cost. The policy maintains responsiveness to demand shifts while controlling inventory levels more effectively.",
+          "code": "def compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_stock = 59.46945461589767  # OPT_PARAM: {\"initial\": 59.46945461589767, \"min\": 50, \"max\": 300, \"type\": \"float\"}\n    demand_response = 0.5409667917176945  # OPT_PARAM: {\"initial\": 0.5409667917176945, \"min\": 0.0, \"max\": 1.0, \"type\": \"float\"}\n    inventory_response = 1.2  # OPT_PARAM: {\"initial\": 1.2, \"min\": 0.5, \"max\": 1.2, \"type\": \"float\"}\n    \n    arrival_mean = conditional_arrival_mean(last_demand, quoted_lead_time)\n    projected_inventory = conditional_projected_inventory(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time)\n    \n    target = base_stock + demand_response * (arrival_mean - 100.0)\n    order_amount = max(0.0, target - inventory_response * projected_inventory)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Simplified the policy to focus on key drivers: base stock level adjusted by demand deviation from mean and current inventory position. Optimized parameters to better balance holding and stockout costs, reducing mean total cost. The policy maintains responsiveness to demand shifts while controlling inventory levels more effectively.",
+          "opt_params": {
+               "base_stock": 59.46945461589767,
+               "demand_response": 0.5409667917176945,
+               "inventory_response": 1.2
+          },
+          "cost": null,
+          "objective": 29632.7933,
+          "lower": 28010.98224,
+          "upper": 31337.22105,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base stock level and adjusted parameters to better handle demand fluctuations. Added demand response term to target calculation. Reduced forecast gains slightly to prevent over-reaction to demand spikes while maintaining sufficient inventory coverage.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    S_over_mean = 0.6223083558759316  # OPT_PARAM: {\"initial\": 0.6223083558759316, \"min\": 0.0, \"max\": 3.0, \"type\": \"float\"}\n    cap_over_mean = 3.9999999674965054  # OPT_PARAM: {\"initial\": 3.9999999674965054, \"min\": 0.0, \"max\": 6.0, \"type\": \"float\"}\n    target_forecast_gain = 0.621500688561085  # OPT_PARAM: {\"initial\": 0.621500688561085, \"min\": -1.0, \"max\": 3.0, \"type\": \"float\"}\n    cap_forecast_gain = 4.999999988942439  # OPT_PARAM: {\"initial\": 4.999999988942439, \"min\": -1.0, \"max\": 7.0, \"type\": \"float\"}\n    inventory_gain = 1.3505669993106388  # OPT_PARAM: {\"initial\": 1.3505669993106388, \"min\": 0.0, \"max\": 2.0, \"type\": \"float\"}\n    demand_response_gain = 0.0  # OPT_PARAM: {\"initial\": 0.0, \"min\": 0.0, \"max\": 1.0, \"type\": \"float\"}\n    \n    mean_demand = 100.0\n    arrival_mean = conditional_arrival_mean(last_demand, quoted_lead_time)\n    projected_inventory = conditional_projected_inventory(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time)\n    \n    # Adjusted target with more aggressive response to demand fluctuations\n    target = max(0.0, mean_demand * S_over_mean + \n                target_forecast_gain * (arrival_mean - mean_demand) +\n                demand_response_gain * (last_demand - mean_demand))\n    \n    # More conservative cap to prevent over-ordering\n    cap = max(0.0, mean_demand * cap_over_mean + \n             cap_forecast_gain * (arrival_mean - mean_demand))\n    \n    # More balanced inventory response\n    order_amount = min(cap, max(0.0, target - inventory_gain * projected_inventory))\n    \n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base stock level and adjusted parameters to better handle demand fluctuations. Added demand response term to target calculation. Reduced forecast gains slightly to prevent over-reaction to demand spikes while maintaining sufficient inventory coverage.",
+          "opt_params": {
+               "S_over_mean": 0.6223083558759316,
+               "cap_over_mean": 3.9999999674965054,
+               "target_forecast_gain": 0.621500688561085,
+               "cap_forecast_gain": 4.999999988942439,
+               "inventory_gain": 1.3505669993106388,
+               "demand_response_gain": 0.0
+          },
+          "cost": null,
+          "objective": 29632.86316,
+          "lower": 28031.36418,
+          "upper": 31319.66249,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Reduced parameter ranges based on observed demand patterns. Increased base stock level (S_over_mean) to better handle high-demand regimes. Lowered inventory_gain to be less aggressive in reducing orders when inventory is high. Adjusted forecast gains to be more responsive to demand changes while maintaining stability.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    S_over_mean = 0.6  # OPT_PARAM: {\"initial\": 0.6, \"min\": 0.5, \"max\": 2.0, \"type\": \"float\"}\n    cap_over_mean = 2.5  # OPT_PARAM: {\"initial\": 2.5, \"min\": 1.0, \"max\": 4.0, \"type\": \"float\"}\n    target_forecast_gain = 0.5391557276246941  # OPT_PARAM: {\"initial\": 0.5391557276246941, \"min\": 0.0, \"max\": 1.5, \"type\": \"float\"}\n    cap_forecast_gain = 3.0  # OPT_PARAM: {\"initial\": 3.0, \"min\": 1.0, \"max\": 5.0, \"type\": \"float\"}\n    inventory_gain = 1.2120786456882235  # OPT_PARAM: {\"initial\": 1.2120786456882235, \"min\": 0.5, \"max\": 1.5, \"type\": \"float\"}\n    mean_demand = 100.0\n    arrival_mean = conditional_arrival_mean(last_demand, quoted_lead_time)\n    projected_inventory = conditional_projected_inventory(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time)\n    target = max(0.0, mean_demand * S_over_mean + target_forecast_gain * (arrival_mean - mean_demand))\n    cap = max(0.0, mean_demand * cap_over_mean + cap_forecast_gain * (arrival_mean - mean_demand))\n    order_amount = min(cap, max(0.0, target - inventory_gain * projected_inventory))\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Reduced parameter ranges based on observed demand patterns. Increased base stock level (S_over_mean) to better handle high-demand regimes. Lowered inventory_gain to be less aggressive in reducing orders when inventory is high. Adjusted forecast gains to be more responsive to demand changes while maintaining stability.",
+          "opt_params": {
+               "S_over_mean": 0.6,
+               "cap_over_mean": 2.5,
+               "target_forecast_gain": 0.5391557276246941,
+               "cap_forecast_gain": 3.0,
+               "inventory_gain": 1.2120786456882235
+          },
+          "cost": null,
+          "objective": 29633.40905,
+          "lower": 28017.7779,
+          "upper": 31335.32358,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Key changes: 1) Adjusted parameter ranges to be more aggressive with ordering (higher S_over_mean and cap_over_mean) to reduce lost sales, which cost more than holding. 2) Added demand_response term to react more quickly to recent demand spikes. 3) Tuned parameters to better balance holding vs lost sales costs based on training performance metrics.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    S_over_mean = 0.5837343224119156  # OPT_PARAM: {\"initial\": 0.5837343224119156, \"min\": 0.5, \"max\": 1.5, \"type\": \"float\"}\n    cap_over_mean = 4.0  # OPT_PARAM: {\"initial\": 4.0, \"min\": 2.0, \"max\": 6.0, \"type\": \"float\"}\n    target_forecast_gain = 0.5218119534869514  # OPT_PARAM: {\"initial\": 0.5218119534869514, \"min\": 0.0, \"max\": 2.0, \"type\": \"float\"}\n    cap_forecast_gain = 5.1  # OPT_PARAM: {\"initial\": 5.1, \"min\": 3.0, \"max\": 7.0, \"type\": \"float\"}\n    inventory_gain = 1.173419705410951  # OPT_PARAM: {\"initial\": 1.173419705410951, \"min\": 0.5, \"max\": 2.0, \"type\": \"float\"}\n    demand_response_gain = 0.0  # OPT_PARAM: {\"initial\": 0.0, \"min\": 0.0, \"max\": 1.0, \"type\": \"float\"}\n    \n    mean_demand = 100.0\n    arrival_mean = conditional_arrival_mean(last_demand, quoted_lead_time)\n    projected_inventory = conditional_projected_inventory(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time)\n    \n    base_target = mean_demand * S_over_mean + target_forecast_gain * (arrival_mean - mean_demand)\n    demand_response = demand_response_gain * (last_demand - mean_demand)\n    target = max(0.0, base_target + demand_response)\n    \n    cap = max(0.0, mean_demand * cap_over_mean + cap_forecast_gain * (arrival_mean - mean_demand))\n    order_amount = min(cap, max(0.0, target - inventory_gain * projected_inventory))\n    \n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Key changes: 1) Adjusted parameter ranges to be more aggressive with ordering (higher S_over_mean and cap_over_mean) to reduce lost sales, which cost more than holding. 2) Added demand_response term to react more quickly to recent demand spikes. 3) Tuned parameters to better balance holding vs lost sales costs based on training performance metrics.",
+          "opt_params": {
+               "S_over_mean": 0.5837343224119156,
+               "cap_over_mean": 4.0,
+               "target_forecast_gain": 0.5218119534869514,
+               "cap_forecast_gain": 5.1,
+               "inventory_gain": 1.173419705410951,
+               "demand_response_gain": 0.0
+          },
+          "cost": null,
+          "objective": 29633.57223,
+          "lower": 27995.74579,
+          "upper": 31348.23372,
+          "other_inf": null
+     },
+     {
+          "algorithm": "The new policy simplifies the approach by using a base stock level adjusted by demand regime. It responds more directly to observed demand patterns, using a multiplier for high-demand periods. The parameters are tuned to better balance holding costs (22.6) and lost sales (125.55) from the original policy. The demand response and inventory adjustment factors help adapt to autocorrelated demand while maintaining stability.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_stock = 69.39808219246456  # OPT_PARAM: {\"initial\": 69.39808219246456, \"min\": 50.0, \"max\": 300.0, \"type\": \"float\"}\n    demand_response = 0.733673007679511  # OPT_PARAM: {\"initial\": 0.733673007679511, \"min\": 0.1, \"max\": 1.5, \"type\": \"float\"}\n    inventory_response = 1.5  # OPT_PARAM: {\"initial\": 1.5, \"min\": 0.1, \"max\": 1.5, \"type\": \"float\"}\n    high_demand_multiplier = 0.8209020574224444  # OPT_PARAM: {\"initial\": 0.8209020574224444, \"min\": 0.5, \"max\": 2.0, \"type\": \"float\"}\n    \n    arrival_mean = conditional_arrival_mean(last_demand, quoted_lead_time)\n    projected_inventory = conditional_projected_inventory(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time)\n    \n    # Adjust base stock based on demand regime\n    threshold = 100.0 * np.log(2)\n    if last_demand >= threshold:\n        adjusted_base = base_stock * high_demand_multiplier\n    else:\n        adjusted_base = base_stock\n    \n    # Calculate order considering demand forecast and current inventory\n    demand_component = demand_response * (arrival_mean - 100.0)\n    inventory_component = inventory_response * projected_inventory\n    order_amount = max(0.0, adjusted_base + demand_component - inventory_component)\n    \n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "The new policy simplifies the approach by using a base stock level adjusted by demand regime. It responds more directly to observed demand patterns, using a multiplier for high-demand periods. The parameters are tuned to better balance holding costs (22.6) and lost sales (125.55) from the original policy. The demand response and inventory adjustment factors help adapt to autocorrelated demand while maintaining stability.",
+          "opt_params": {
+               "base_stock": 69.39808219246456,
+               "demand_response": 0.733673007679511,
+               "inventory_response": 1.5,
+               "high_demand_multiplier": 0.8209020574224444
+          },
+          "cost": null,
+          "objective": 29633.66997,
+          "lower": 27998.16565,
+          "upper": 31354.32437,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Simplified the policy structure while maintaining responsiveness to demand changes. Reduced number of parameters from 6 to 3 while keeping the core logic of adjusting based on forecasted demand and current inventory position. The new parameters directly control the base stock level, demand response sensitivity, and inventory response sensitivity. This should maintain performance while being easier to optimize.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_multiplier = 0.5922787138816186  # OPT_PARAM: {\"initial\": 0.5922787138816186, \"min\": 0.5, \"max\": 3.0, \"type\": \"float\"}\n    demand_response = 0.5846054504408329  # OPT_PARAM: {\"initial\": 0.5846054504408329, \"min\": 0.1, \"max\": 2.0, \"type\": \"float\"}\n    inventory_response = 1.1902119229275536  # OPT_PARAM: {\"initial\": 1.1902119229275536, \"min\": 0.1, \"max\": 2.0, \"type\": \"float\"}\n    mean_demand = 100.0\n    \n    arrival_mean = conditional_arrival_mean(last_demand, quoted_lead_time)\n    projected_inventory = conditional_projected_inventory(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time)\n    \n    base_target = mean_demand * base_multiplier\n    demand_adjustment = demand_response * (arrival_mean - mean_demand)\n    target = max(0.0, base_target + demand_adjustment)\n    order_amount = max(0.0, target - inventory_response * projected_inventory)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Simplified the policy structure while maintaining responsiveness to demand changes. Reduced number of parameters from 6 to 3 while keeping the core logic of adjusting based on forecasted demand and current inventory position. The new parameters directly control the base stock level, demand response sensitivity, and inventory response sensitivity. This should maintain performance while being easier to optimize.",
+          "opt_params": {
+               "base_multiplier": 0.5922787138816186,
+               "demand_response": 0.5846054504408329,
+               "inventory_response": 1.1902119229275536
+          },
+          "cost": null,
+          "objective": 29633.68401,
+          "lower": 28017.47289,
+          "upper": 31322.11057,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Simplified the policy structure while maintaining demand responsiveness. Increased base stock level to better handle demand variability, with more conservative inventory response to reduce lost sales. The policy now directly adjusts the base stock level based on forecasted demand deviation from mean, then subtracts a fraction of projected inventory.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_stock = 63.53070964000512  # OPT_PARAM: {\"initial\": 63.53070964000512, \"min\": 50.0, \"max\": 200.0, \"type\": \"float\"}\n    demand_response = 0.536057897920094  # OPT_PARAM: {\"initial\": 0.536057897920094, \"min\": 0.0, \"max\": 2.0, \"type\": \"float\"}\n    inventory_response = 1.5  # OPT_PARAM: {\"initial\": 1.5, \"min\": 0.5, \"max\": 1.5, \"type\": \"float\"}\n    \n    arrival_mean = conditional_arrival_mean(last_demand, quoted_lead_time)\n    projected_inventory = conditional_projected_inventory(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time)\n    \n    adjusted_base = base_stock + demand_response * (arrival_mean - 100.0)\n    order_amount = max(0.0, adjusted_base - inventory_response * projected_inventory)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Simplified the policy structure while maintaining demand responsiveness. Increased base stock level to better handle demand variability, with more conservative inventory response to reduce lost sales. The policy now directly adjusts the base stock level based on forecasted demand deviation from mean, then subtracts a fraction of projected inventory.",
+          "opt_params": {
+               "base_stock": 63.53070964000512,
+               "demand_response": 0.536057897920094,
+               "inventory_response": 1.5
+          },
+          "cost": null,
+          "objective": 29633.9083,
+          "lower": 28002.17148,
+          "upper": 31356.93865,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased the base stock level (S_over_mean) and reduced the forecast sensitivity to better balance holding and lost-sales costs. Tightened parameter bounds based on training performance showing excessive lost sales (125.55) compared to holding costs (22.60). The new parameters aim to carry more inventory while still responding to demand trends.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    S_over_mean = 0.6  # OPT_PARAM: {\"initial\": 0.6, \"min\": 0.5, \"max\": 2.0, \"type\": \"float\"}\n    cap_over_mean = 4.0  # OPT_PARAM: {\"initial\": 4.0, \"min\": 2.0, \"max\": 6.0, \"type\": \"float\"}\n    target_forecast_gain = 0.5130128811990471  # OPT_PARAM: {\"initial\": 0.5130128811990471, \"min\": 0.0, \"max\": 2.0, \"type\": \"float\"}\n    cap_forecast_gain = 3.0  # OPT_PARAM: {\"initial\": 3.0, \"min\": 1.0, \"max\": 5.0, \"type\": \"float\"}\n    inventory_gain = 1.281429692649241  # OPT_PARAM: {\"initial\": 1.281429692649241, \"min\": 0.5, \"max\": 1.5, \"type\": \"float\"}\n    mean_demand = 100.0\n    arrival_mean = conditional_arrival_mean(last_demand, quoted_lead_time)\n    projected_inventory = conditional_projected_inventory(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time)\n    target = max(0.0, mean_demand * S_over_mean + target_forecast_gain * (arrival_mean - mean_demand))\n    cap = max(0.0, mean_demand * cap_over_mean + cap_forecast_gain * (arrival_mean - mean_demand))\n    order_amount = min(cap, max(0.0, target - inventory_gain * projected_inventory))\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased the base stock level (S_over_mean) and reduced the forecast sensitivity to better balance holding and lost-sales costs. Tightened parameter bounds based on training performance showing excessive lost sales (125.55) compared to holding costs (22.60). The new parameters aim to carry more inventory while still responding to demand trends.",
+          "opt_params": {
+               "S_over_mean": 0.6,
+               "cap_over_mean": 4.0,
+               "target_forecast_gain": 0.5130128811990471,
+               "cap_forecast_gain": 3.0,
+               "inventory_gain": 1.281429692649241
+          },
+          "cost": null,
+          "objective": 29634.15583,
+          "lower": 27994.66934,
+          "upper": 31360.145,
+          "other_inf": null
+     }
+]

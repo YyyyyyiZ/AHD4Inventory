@@ -1,0 +1,20 @@
+{
+  "normal_std30_L6_c1_2": {
+    "oracle_train_avg": 2213.8907505307584,
+    "oracle_test_avg": 2198.495905095632,
+    "train_instances": 50,
+    "test_instances": 1000
+  },
+  "poisson_L6_c1_2": {
+    "oracle_train_avg": 2781.062909273528,
+    "oracle_test_avg": 2783.5195983386234,
+    "train_instances": 50,
+    "test_instances": 1000
+  },
+  "exponential_L6_c1_2": {
+    "oracle_train_avg": 7242.30446234615,
+    "oracle_test_avg": 7384.625412158806,
+    "train_instances": 50,
+    "test_instances": 1000
+  }
+}

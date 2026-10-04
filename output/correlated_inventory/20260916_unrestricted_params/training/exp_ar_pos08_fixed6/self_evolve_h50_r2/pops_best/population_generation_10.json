@@ -1,0 +1,18 @@
+{
+     "algorithm": "The original policy had high lost sales costs, indicating insufficient inventory. Increased base_multiplier and demand_response_factor to order more aggressively, while reducing pipeline_adjustment to be less conservative. Adjusted demand_smoothing to better track demand changes. The modified parameters should reduce lost sales while keeping holding costs manageable.",
+     "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_multiplier = 1.0  # OPT_PARAM: {\"initial\": 1.0, \"min\": 1.0, \"max\": 3.0, \"type\": \"float\"}\n    demand_response_factor = 0.1  # OPT_PARAM: {\"initial\": 0.1, \"min\": 0.1, \"max\": 1.5, \"type\": \"float\"}\n    pipeline_adjustment = 0.3  # OPT_PARAM: {\"initial\": 0.3, \"min\": 0.0, \"max\": 0.3, \"type\": \"float\"}\n    demand_smoothing = 0.2  # OPT_PARAM: {\"initial\": 0.2, \"min\": 0.1, \"max\": 0.5, \"type\": \"float\"}\n    \n    smoothed_demand = demand_smoothing * last_demand + (1 - demand_smoothing) * 100.0\n    base_target = base_multiplier * smoothed_demand\n    dynamic_target = base_target + demand_response_factor * (last_demand - smoothed_demand)\n    total_available = on_hand_inventory + sum(pipeline_orders)\n    order_amount = max(0.0, dynamic_target - pipeline_adjustment * total_available)\n    return order_amount\n",
+     "description": "",
+     "intuition": "",
+     "reasoning": "The original policy had high lost sales costs, indicating insufficient inventory. Increased base_multiplier and demand_response_factor to order more aggressively, while reducing pipeline_adjustment to be less conservative. Adjusted demand_smoothing to better track demand changes. The modified parameters should reduce lost sales while keeping holding costs manageable.",
+     "opt_params": {
+          "base_multiplier": 1.0,
+          "demand_response_factor": 0.1,
+          "pipeline_adjustment": 0.3,
+          "demand_smoothing": 0.2
+     },
+     "cost": null,
+     "objective": 7981.44886,
+     "lower": 7118.34108,
+     "upper": 8909.35845,
+     "other_inf": null
+}

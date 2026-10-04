@@ -1,0 +1,43 @@
+{
+  "recorded_utc": "2026-09-16T16:54:15.691868+00:00",
+  "chain": "training/exp_ar_pos08_fixed6/self_evolve_h100_r2",
+  "metadata": {
+    "scenario_id": "exp_ar_pos08_fixed6",
+    "repeat": 2,
+    "chain_dir": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_unrestricted_params/training/exp_ar_pos08_fixed6/self_evolve_h100_r2",
+    "generation": 2,
+    "operator": "m2",
+    "candidate_index": 4,
+    "parent_code_sha256": "ae862546a53d746f35f3b73923eb90cbcf863a1319a08da46bc5afa15f81fded",
+    "candidate_attempt": 1,
+    "prompt_sha256": "41dd54a775096bfe5512d1e350ca7ddf2fa7def16c4871545d0fb5dfcf2b9213"
+  },
+  "request_id": "a3731521984e4d5ca1ea08ccdd91ddf9",
+  "resolution": "retain_upper_bound_skip_candidate",
+  "no_repost": true,
+  "no_replacement_candidate": true,
+  "error_type": "TimeoutError",
+  "no_response_available": true,
+  "unknown_cost_upper_usd": 0.0087302,
+  "audit": "Verified full metadata, prompt SHA, parent SHA, unique request, pending marker and absence of provider response under exclusive chain lock.",
+  "evidence": {
+    "training/exp_ar_pos08_fixed6/self_evolve_h100_r2/blocked_transport.json": {
+      "sha256": "85adfd9b26b3a1930314a11f77dae95f35ea53f6deaf5933248911fee339719a",
+      "archived_path": "training/exp_ar_pos08_fixed6/self_evolve_h100_r2/recoveries/a3731521984e4d5ca1ea08ccdd91ddf9/blocked_transport.original.json"
+    },
+    "training/exp_ar_pos08_fixed6/self_evolve_h100_r2/model_responses/d36d6b9d8e45a1d111dcfb797c380262b5fd2a9133a91565821601c0c0c3e6c0.json": {
+      "sha256": "94de63357dffe9b2f6618aa14f288a9f0c8759829672b9002f1d3f6070f9a746",
+      "archived_path": "training/exp_ar_pos08_fixed6/self_evolve_h100_r2/recoveries/a3731521984e4d5ca1ea08ccdd91ddf9/pending_model_response.original.json"
+    },
+    "training/exp_ar_pos08_fixed6/self_evolve_h100_r2/status.json": {
+      "sha256": "757e421c2bcad5d25a31c51be18ebaeb9265e745bfd887feeebb1062544f204a",
+      "archived_path": "training/exp_ar_pos08_fixed6/self_evolve_h100_r2/recoveries/a3731521984e4d5ca1ea08ccdd91ddf9/status.original.json"
+    },
+    "api_requests/a3731521984e4d5ca1ea08ccdd91ddf9/request.json": {
+      "sha256": "607b480b8ba23d6f8100887fcea65e7b936f7694ffc9e218681fdbc046199130",
+      "archived_path": "training/exp_ar_pos08_fixed6/self_evolve_h100_r2/recoveries/a3731521984e4d5ca1ea08ccdd91ddf9/provider_request.original.json"
+    }
+  },
+  "failed_candidate_path": "training/exp_ar_pos08_fixed6/self_evolve_h100_r2/candidates/g002_m2_004.json.gz",
+  "failed_candidate_sha256": "c482084e150105ae8fac36a82aced66b45cd2b0eec3b42192679915de7fece7f"
+}

@@ -1,0 +1,31 @@
+[
+     {
+          "algorithm": "The new policy incorporates smoothed demand forecasting, a target inventory level based on demand, safety stock, and adjusted pipeline contribution. This should better handle demand autocorrelation while balancing holding and lost-sales costs. The four parameters control key aspects of the inventory response: demand smoothing factor, target inventory multiplier, safety stock level, and pipeline contribution adjustment.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    target_ratio = 0.8165334102457291  # OPT_PARAM: {\"initial\": 0.8165334102457291, \"min\": 0.5, \"max\": 3.0, \"type\": \"float\"}\n    demand_smoothing = 0.1  # OPT_PARAM: {\"initial\": 0.1, \"min\": 0.1, \"max\": 0.9, \"type\": \"float\"}\n    safety_stock = 150.0  # OPT_PARAM: {\"initial\": 150.0, \"min\": 10.0, \"max\": 150.0, \"type\": \"float\"}\n    pipeline_adjustment = 1.0  # OPT_PARAM: {\"initial\": 1.0, \"min\": 0.1, \"max\": 1.0, \"type\": \"float\"}\n    \n    smoothed_demand = demand_smoothing * last_demand + (1 - demand_smoothing) * 100.0\n    target_inventory = target_ratio * smoothed_demand + safety_stock\n    pipeline_contrib = pipeline_adjustment * sum(pipeline_orders[:quoted_lead_time])\n    order_amount = max(0.0, target_inventory - on_hand_inventory - pipeline_contrib)\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "The new policy incorporates smoothed demand forecasting, a target inventory level based on demand, safety stock, and adjusted pipeline contribution. This should better handle demand autocorrelation while balancing holding and lost-sales costs. The four parameters control key aspects of the inventory response: demand smoothing factor, target inventory multiplier, safety stock level, and pipeline contribution adjustment.",
+          "opt_params": {
+               "target_ratio": 0.8165334102457291,
+               "demand_smoothing": 0.1,
+               "safety_stock": 150.0,
+               "pipeline_adjustment": 1.0
+          },
+          "cost": null,
+          "objective": 34403.75102,
+          "lower": 32831.41076,
+          "upper": 36084.68664,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Base-stock seed using the training sample mean.",
+          "code": "def compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    target = 235.9193323523204  # OPT_PARAM: {\"initial\": 235.9193323523204, \"min\": 0.0, \"max\": 2863.834697778544, \"type\": \"float\"}\n    order_amount = max(0.0, target - on_hand_inventory - sum(pipeline_orders))\n    return order_amount\n",
+          "objective": 34407.67174,
+          "other_inf": null,
+          "lower": 32820.70624,
+          "upper": 36079.39615,
+          "opt_params": {
+               "target": 235.9193323523204
+          }
+     }
+]

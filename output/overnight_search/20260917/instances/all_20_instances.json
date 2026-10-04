@@ -1,0 +1,993 @@
+{
+  "purpose": "All 20 prespecified/exploratory screening instances, including unfavorable outcomes; not a list of demonstrated wins.",
+  "count": 20,
+  "source_sha256": "14c3fea14f290d44e9f0847532d6af575dd86c79254bc248f656ae387a774b6e",
+  "demand_independence": "FIFO and LIFO independent of one another and iid across periods.",
+  "cap_definition": "Median of total demand over m+L periods, paper-text convention.",
+  "dynamics": "At decision, today's arrival is already present. Order arrives after L periods. Serve FIFO oldest first, then LIFO freshest first; expire oldest residual stock, age survivors, receive next period's delivery.",
+  "action_projection": "Clip real action to [0,cap-sum(age)-sum(pipeline)], then round half to even.",
+  "cost": "p*lost_units + w*expired_units + h*surviving_units each period; no terminal charge or salvage.",
+  "literature_caveat": "Actual CV and m+L cap follow paper text; published DynaPlex-legacy code uses a different dispersion and m+L+1 cap convention. This is not a numerical reproduction of its published table.",
+  "instances": [
+    {
+      "profile": "primary",
+      "params": {
+        "name": "perish_m3_L2_cv1.5_f0",
+        "m": 3,
+        "L": 2,
+        "cv": 1.5,
+        "f": 0.0,
+        "mean": 4.0,
+        "h": 0.0,
+        "p": 100.0,
+        "w": 100.0,
+        "demand_mode": "paper_cv",
+        "cap_mode": "paper"
+      },
+      "inventory_position_cap": 17,
+      "numeric_structure_feedback": true,
+      "baek_known_public_class": true,
+      "independent_demand_streams": {
+        "FIFO": {
+          "mean": 0.0,
+          "variance": 0.0,
+          "law": "point_mass_at_zero",
+          "components": [
+            {
+              "weight": 1.0,
+              "success_probability": null
+            }
+          ]
+        },
+        "LIFO": {
+          "mean": 4.0,
+          "variance": 36.0,
+          "law": "mixture_of_two_geometric_distributions_on_nonnegative_integers",
+          "components": [
+            {
+              "weight": 0.21132486540518713,
+              "success_probability": 0.09556482121249313
+            },
+            {
+              "weight": 0.7886751345948129,
+              "success_probability": 0.28281355716588524
+            }
+          ]
+        }
+      }
+    },
+    {
+      "profile": "primary",
+      "params": {
+        "name": "perish_m3_L2_cv1.5_f0.5",
+        "m": 3,
+        "L": 2,
+        "cv": 1.5,
+        "f": 0.5,
+        "mean": 4.0,
+        "h": 0.0,
+        "p": 100.0,
+        "w": 100.0,
+        "demand_mode": "paper_cv",
+        "cap_mode": "paper"
+      },
+      "inventory_position_cap": 16,
+      "numeric_structure_feedback": true,
+      "baek_known_public_class": true,
+      "independent_demand_streams": {
+        "FIFO": {
+          "mean": 2.0,
+          "variance": 18.0,
+          "law": "mixture_of_two_geometric_distributions_on_nonnegative_integers",
+          "components": [
+            {
+              "weight": 0.11270166537925827,
+              "success_probability": 0.10128650732345632
+            },
+            {
+              "weight": 0.8872983346207417,
+              "success_probability": 0.4701420641051151
+            }
+          ]
+        },
+        "LIFO": {
+          "mean": 2.0,
+          "variance": 18.0,
+          "law": "mixture_of_two_geometric_distributions_on_nonnegative_integers",
+          "components": [
+            {
+              "weight": 0.11270166537925827,
+              "success_probability": 0.10128650732345632
+            },
+            {
+              "weight": 0.8872983346207417,
+              "success_probability": 0.4701420641051151
+            }
+          ]
+        }
+      }
+    },
+    {
+      "profile": "primary",
+      "params": {
+        "name": "perish_m3_L2_cv2_f0",
+        "m": 3,
+        "L": 2,
+        "cv": 2.0,
+        "f": 0.0,
+        "mean": 4.0,
+        "h": 0.0,
+        "p": 100.0,
+        "w": 100.0,
+        "demand_mode": "paper_cv",
+        "cap_mode": "paper"
+      },
+      "inventory_position_cap": 14,
+      "numeric_structure_feedback": true,
+      "baek_known_public_class": true,
+      "independent_demand_streams": {
+        "FIFO": {
+          "mean": 0.0,
+          "variance": 0.0,
+          "law": "point_mass_at_zero",
+          "components": [
+            {
+              "weight": 1.0,
+              "success_probability": null
+            }
+          ]
+        },
+        "LIFO": {
+          "mean": 4.0,
+          "variance": 64.0,
+          "law": "mixture_of_two_geometric_distributions_on_nonnegative_integers",
+          "components": [
+            {
+              "weight": 0.11955704487365894,
+              "success_probability": 0.056406618148267584
+            },
+            {
+              "weight": 0.8804429551263411,
+              "success_probability": 0.3056623473689738
+            }
+          ]
+        }
+      }
+    },
+    {
+      "profile": "primary",
+      "params": {
+        "name": "perish_m3_L2_cv2_f0.5",
+        "m": 3,
+        "L": 2,
+        "cv": 2.0,
+        "f": 0.5,
+        "mean": 4.0,
+        "h": 0.0,
+        "p": 100.0,
+        "w": 100.0,
+        "demand_mode": "paper_cv",
+        "cap_mode": "paper"
+      },
+      "inventory_position_cap": 14,
+      "numeric_structure_feedback": true,
+      "baek_known_public_class": true,
+      "independent_demand_streams": {
+        "FIFO": {
+          "mean": 2.0,
+          "variance": 32.0,
+          "law": "mixture_of_two_geometric_distributions_on_nonnegative_integers",
+          "components": [
+            {
+              "weight": 0.06276268390239688,
+              "success_probability": 0.05905616075259276
+            },
+            {
+              "weight": 0.9372373160976031,
+              "success_probability": 0.48380098210455014
+            }
+          ]
+        },
+        "LIFO": {
+          "mean": 2.0,
+          "variance": 32.0,
+          "law": "mixture_of_two_geometric_distributions_on_nonnegative_integers",
+          "components": [
+            {
+              "weight": 0.06276268390239688,
+              "success_probability": 0.05905616075259276
+            },
+            {
+              "weight": 0.9372373160976031,
+              "success_probability": 0.48380098210455014
+            }
+          ]
+        }
+      }
+    },
+    {
+      "profile": "primary",
+      "params": {
+        "name": "perish_m4_L2_cv1.5_f0",
+        "m": 4,
+        "L": 2,
+        "cv": 1.5,
+        "f": 0.0,
+        "mean": 4.0,
+        "h": 0.0,
+        "p": 100.0,
+        "w": 100.0,
+        "demand_mode": "paper_cv",
+        "cap_mode": "paper"
+      },
+      "inventory_position_cap": 21,
+      "numeric_structure_feedback": false,
+      "baek_known_public_class": true,
+      "independent_demand_streams": {
+        "FIFO": {
+          "mean": 0.0,
+          "variance": 0.0,
+          "law": "point_mass_at_zero",
+          "components": [
+            {
+              "weight": 1.0,
+              "success_probability": null
+            }
+          ]
+        },
+        "LIFO": {
+          "mean": 4.0,
+          "variance": 36.0,
+          "law": "mixture_of_two_geometric_distributions_on_nonnegative_integers",
+          "components": [
+            {
+              "weight": 0.21132486540518713,
+              "success_probability": 0.09556482121249313
+            },
+            {
+              "weight": 0.7886751345948129,
+              "success_probability": 0.28281355716588524
+            }
+          ]
+        }
+      }
+    },
+    {
+      "profile": "primary",
+      "params": {
+        "name": "perish_m4_L2_cv1.5_f0.5",
+        "m": 4,
+        "L": 2,
+        "cv": 1.5,
+        "f": 0.5,
+        "mean": 4.0,
+        "h": 0.0,
+        "p": 100.0,
+        "w": 100.0,
+        "demand_mode": "paper_cv",
+        "cap_mode": "paper"
+      },
+      "inventory_position_cap": 20,
+      "numeric_structure_feedback": false,
+      "baek_known_public_class": true,
+      "independent_demand_streams": {
+        "FIFO": {
+          "mean": 2.0,
+          "variance": 18.0,
+          "law": "mixture_of_two_geometric_distributions_on_nonnegative_integers",
+          "components": [
+            {
+              "weight": 0.11270166537925827,
+              "success_probability": 0.10128650732345632
+            },
+            {
+              "weight": 0.8872983346207417,
+              "success_probability": 0.4701420641051151
+            }
+          ]
+        },
+        "LIFO": {
+          "mean": 2.0,
+          "variance": 18.0,
+          "law": "mixture_of_two_geometric_distributions_on_nonnegative_integers",
+          "components": [
+            {
+              "weight": 0.11270166537925827,
+              "success_probability": 0.10128650732345632
+            },
+            {
+              "weight": 0.8872983346207417,
+              "success_probability": 0.4701420641051151
+            }
+          ]
+        }
+      }
+    },
+    {
+      "profile": "primary",
+      "params": {
+        "name": "perish_m4_L2_cv2_f0",
+        "m": 4,
+        "L": 2,
+        "cv": 2.0,
+        "f": 0.0,
+        "mean": 4.0,
+        "h": 0.0,
+        "p": 100.0,
+        "w": 100.0,
+        "demand_mode": "paper_cv",
+        "cap_mode": "paper"
+      },
+      "inventory_position_cap": 18,
+      "numeric_structure_feedback": false,
+      "baek_known_public_class": true,
+      "independent_demand_streams": {
+        "FIFO": {
+          "mean": 0.0,
+          "variance": 0.0,
+          "law": "point_mass_at_zero",
+          "components": [
+            {
+              "weight": 1.0,
+              "success_probability": null
+            }
+          ]
+        },
+        "LIFO": {
+          "mean": 4.0,
+          "variance": 64.0,
+          "law": "mixture_of_two_geometric_distributions_on_nonnegative_integers",
+          "components": [
+            {
+              "weight": 0.11955704487365894,
+              "success_probability": 0.056406618148267584
+            },
+            {
+              "weight": 0.8804429551263411,
+              "success_probability": 0.3056623473689738
+            }
+          ]
+        }
+      }
+    },
+    {
+      "profile": "primary",
+      "params": {
+        "name": "perish_m4_L2_cv2_f0.5",
+        "m": 4,
+        "L": 2,
+        "cv": 2.0,
+        "f": 0.5,
+        "mean": 4.0,
+        "h": 0.0,
+        "p": 100.0,
+        "w": 100.0,
+        "demand_mode": "paper_cv",
+        "cap_mode": "paper"
+      },
+      "inventory_position_cap": 17,
+      "numeric_structure_feedback": false,
+      "baek_known_public_class": true,
+      "independent_demand_streams": {
+        "FIFO": {
+          "mean": 2.0,
+          "variance": 32.0,
+          "law": "mixture_of_two_geometric_distributions_on_nonnegative_integers",
+          "components": [
+            {
+              "weight": 0.06276268390239688,
+              "success_probability": 0.05905616075259276
+            },
+            {
+              "weight": 0.9372373160976031,
+              "success_probability": 0.48380098210455014
+            }
+          ]
+        },
+        "LIFO": {
+          "mean": 2.0,
+          "variance": 32.0,
+          "law": "mixture_of_two_geometric_distributions_on_nonnegative_integers",
+          "components": [
+            {
+              "weight": 0.06276268390239688,
+              "success_probability": 0.05905616075259276
+            },
+            {
+              "weight": 0.9372373160976031,
+              "success_probability": 0.48380098210455014
+            }
+          ]
+        }
+      }
+    },
+    {
+      "profile": "primary",
+      "params": {
+        "name": "perish_m5_L2_cv1.5_f0",
+        "m": 5,
+        "L": 2,
+        "cv": 1.5,
+        "f": 0.0,
+        "mean": 4.0,
+        "h": 0.0,
+        "p": 100.0,
+        "w": 100.0,
+        "demand_mode": "paper_cv",
+        "cap_mode": "paper"
+      },
+      "inventory_position_cap": 25,
+      "numeric_structure_feedback": true,
+      "baek_known_public_class": true,
+      "independent_demand_streams": {
+        "FIFO": {
+          "mean": 0.0,
+          "variance": 0.0,
+          "law": "point_mass_at_zero",
+          "components": [
+            {
+              "weight": 1.0,
+              "success_probability": null
+            }
+          ]
+        },
+        "LIFO": {
+          "mean": 4.0,
+          "variance": 36.0,
+          "law": "mixture_of_two_geometric_distributions_on_nonnegative_integers",
+          "components": [
+            {
+              "weight": 0.21132486540518713,
+              "success_probability": 0.09556482121249313
+            },
+            {
+              "weight": 0.7886751345948129,
+              "success_probability": 0.28281355716588524
+            }
+          ]
+        }
+      }
+    },
+    {
+      "profile": "primary",
+      "params": {
+        "name": "perish_m5_L2_cv1.5_f0.5",
+        "m": 5,
+        "L": 2,
+        "cv": 1.5,
+        "f": 0.5,
+        "mean": 4.0,
+        "h": 0.0,
+        "p": 100.0,
+        "w": 100.0,
+        "demand_mode": "paper_cv",
+        "cap_mode": "paper"
+      },
+      "inventory_position_cap": 24,
+      "numeric_structure_feedback": true,
+      "baek_known_public_class": true,
+      "independent_demand_streams": {
+        "FIFO": {
+          "mean": 2.0,
+          "variance": 18.0,
+          "law": "mixture_of_two_geometric_distributions_on_nonnegative_integers",
+          "components": [
+            {
+              "weight": 0.11270166537925827,
+              "success_probability": 0.10128650732345632
+            },
+            {
+              "weight": 0.8872983346207417,
+              "success_probability": 0.4701420641051151
+            }
+          ]
+        },
+        "LIFO": {
+          "mean": 2.0,
+          "variance": 18.0,
+          "law": "mixture_of_two_geometric_distributions_on_nonnegative_integers",
+          "components": [
+            {
+              "weight": 0.11270166537925827,
+              "success_probability": 0.10128650732345632
+            },
+            {
+              "weight": 0.8872983346207417,
+              "success_probability": 0.4701420641051151
+            }
+          ]
+        }
+      }
+    },
+    {
+      "profile": "primary",
+      "params": {
+        "name": "perish_m5_L2_cv2_f0",
+        "m": 5,
+        "L": 2,
+        "cv": 2.0,
+        "f": 0.0,
+        "mean": 4.0,
+        "h": 0.0,
+        "p": 100.0,
+        "w": 100.0,
+        "demand_mode": "paper_cv",
+        "cap_mode": "paper"
+      },
+      "inventory_position_cap": 22,
+      "numeric_structure_feedback": true,
+      "baek_known_public_class": true,
+      "independent_demand_streams": {
+        "FIFO": {
+          "mean": 0.0,
+          "variance": 0.0,
+          "law": "point_mass_at_zero",
+          "components": [
+            {
+              "weight": 1.0,
+              "success_probability": null
+            }
+          ]
+        },
+        "LIFO": {
+          "mean": 4.0,
+          "variance": 64.0,
+          "law": "mixture_of_two_geometric_distributions_on_nonnegative_integers",
+          "components": [
+            {
+              "weight": 0.11955704487365894,
+              "success_probability": 0.056406618148267584
+            },
+            {
+              "weight": 0.8804429551263411,
+              "success_probability": 0.3056623473689738
+            }
+          ]
+        }
+      }
+    },
+    {
+      "profile": "primary",
+      "params": {
+        "name": "perish_m5_L2_cv2_f0.5",
+        "m": 5,
+        "L": 2,
+        "cv": 2.0,
+        "f": 0.5,
+        "mean": 4.0,
+        "h": 0.0,
+        "p": 100.0,
+        "w": 100.0,
+        "demand_mode": "paper_cv",
+        "cap_mode": "paper"
+      },
+      "inventory_position_cap": 21,
+      "numeric_structure_feedback": true,
+      "baek_known_public_class": true,
+      "independent_demand_streams": {
+        "FIFO": {
+          "mean": 2.0,
+          "variance": 32.0,
+          "law": "mixture_of_two_geometric_distributions_on_nonnegative_integers",
+          "components": [
+            {
+              "weight": 0.06276268390239688,
+              "success_probability": 0.05905616075259276
+            },
+            {
+              "weight": 0.9372373160976031,
+              "success_probability": 0.48380098210455014
+            }
+          ]
+        },
+        "LIFO": {
+          "mean": 2.0,
+          "variance": 32.0,
+          "law": "mixture_of_two_geometric_distributions_on_nonnegative_integers",
+          "components": [
+            {
+              "weight": 0.06276268390239688,
+              "success_probability": 0.05905616075259276
+            },
+            {
+              "weight": 0.9372373160976031,
+              "success_probability": 0.48380098210455014
+            }
+          ]
+        }
+      }
+    },
+    {
+      "profile": "extended",
+      "params": {
+        "name": "perish_m7_L2_cv1.5_f0",
+        "m": 7,
+        "L": 2,
+        "cv": 1.5,
+        "f": 0.0,
+        "mean": 4.0,
+        "h": 0.0,
+        "p": 100.0,
+        "w": 100.0,
+        "demand_mode": "paper_cv",
+        "cap_mode": "paper"
+      },
+      "inventory_position_cap": 32,
+      "numeric_structure_feedback": true,
+      "baek_known_public_class": true,
+      "independent_demand_streams": {
+        "FIFO": {
+          "mean": 0.0,
+          "variance": 0.0,
+          "law": "point_mass_at_zero",
+          "components": [
+            {
+              "weight": 1.0,
+              "success_probability": null
+            }
+          ]
+        },
+        "LIFO": {
+          "mean": 4.0,
+          "variance": 36.0,
+          "law": "mixture_of_two_geometric_distributions_on_nonnegative_integers",
+          "components": [
+            {
+              "weight": 0.21132486540518713,
+              "success_probability": 0.09556482121249313
+            },
+            {
+              "weight": 0.7886751345948129,
+              "success_probability": 0.28281355716588524
+            }
+          ]
+        }
+      }
+    },
+    {
+      "profile": "extended",
+      "params": {
+        "name": "perish_m7_L2_cv1.5_f0.5",
+        "m": 7,
+        "L": 2,
+        "cv": 1.5,
+        "f": 0.5,
+        "mean": 4.0,
+        "h": 0.0,
+        "p": 100.0,
+        "w": 100.0,
+        "demand_mode": "paper_cv",
+        "cap_mode": "paper"
+      },
+      "inventory_position_cap": 32,
+      "numeric_structure_feedback": true,
+      "baek_known_public_class": true,
+      "independent_demand_streams": {
+        "FIFO": {
+          "mean": 2.0,
+          "variance": 18.0,
+          "law": "mixture_of_two_geometric_distributions_on_nonnegative_integers",
+          "components": [
+            {
+              "weight": 0.11270166537925827,
+              "success_probability": 0.10128650732345632
+            },
+            {
+              "weight": 0.8872983346207417,
+              "success_probability": 0.4701420641051151
+            }
+          ]
+        },
+        "LIFO": {
+          "mean": 2.0,
+          "variance": 18.0,
+          "law": "mixture_of_two_geometric_distributions_on_nonnegative_integers",
+          "components": [
+            {
+              "weight": 0.11270166537925827,
+              "success_probability": 0.10128650732345632
+            },
+            {
+              "weight": 0.8872983346207417,
+              "success_probability": 0.4701420641051151
+            }
+          ]
+        }
+      }
+    },
+    {
+      "profile": "extended",
+      "params": {
+        "name": "perish_m7_L2_cv2_f0",
+        "m": 7,
+        "L": 2,
+        "cv": 2.0,
+        "f": 0.0,
+        "mean": 4.0,
+        "h": 0.0,
+        "p": 100.0,
+        "w": 100.0,
+        "demand_mode": "paper_cv",
+        "cap_mode": "paper"
+      },
+      "inventory_position_cap": 29,
+      "numeric_structure_feedback": true,
+      "baek_known_public_class": true,
+      "independent_demand_streams": {
+        "FIFO": {
+          "mean": 0.0,
+          "variance": 0.0,
+          "law": "point_mass_at_zero",
+          "components": [
+            {
+              "weight": 1.0,
+              "success_probability": null
+            }
+          ]
+        },
+        "LIFO": {
+          "mean": 4.0,
+          "variance": 64.0,
+          "law": "mixture_of_two_geometric_distributions_on_nonnegative_integers",
+          "components": [
+            {
+              "weight": 0.11955704487365894,
+              "success_probability": 0.056406618148267584
+            },
+            {
+              "weight": 0.8804429551263411,
+              "success_probability": 0.3056623473689738
+            }
+          ]
+        }
+      }
+    },
+    {
+      "profile": "extended",
+      "params": {
+        "name": "perish_m7_L2_cv2_f0.5",
+        "m": 7,
+        "L": 2,
+        "cv": 2.0,
+        "f": 0.5,
+        "mean": 4.0,
+        "h": 0.0,
+        "p": 100.0,
+        "w": 100.0,
+        "demand_mode": "paper_cv",
+        "cap_mode": "paper"
+      },
+      "inventory_position_cap": 28,
+      "numeric_structure_feedback": true,
+      "baek_known_public_class": true,
+      "independent_demand_streams": {
+        "FIFO": {
+          "mean": 2.0,
+          "variance": 32.0,
+          "law": "mixture_of_two_geometric_distributions_on_nonnegative_integers",
+          "components": [
+            {
+              "weight": 0.06276268390239688,
+              "success_probability": 0.05905616075259276
+            },
+            {
+              "weight": 0.9372373160976031,
+              "success_probability": 0.48380098210455014
+            }
+          ]
+        },
+        "LIFO": {
+          "mean": 2.0,
+          "variance": 32.0,
+          "law": "mixture_of_two_geometric_distributions_on_nonnegative_integers",
+          "components": [
+            {
+              "weight": 0.06276268390239688,
+              "success_probability": 0.05905616075259276
+            },
+            {
+              "weight": 0.9372373160976031,
+              "success_probability": 0.48380098210455014
+            }
+          ]
+        }
+      }
+    },
+    {
+      "profile": "extended",
+      "params": {
+        "name": "perish_m8_L2_cv1.5_f0",
+        "m": 8,
+        "L": 2,
+        "cv": 1.5,
+        "f": 0.0,
+        "mean": 4.0,
+        "h": 0.0,
+        "p": 100.0,
+        "w": 100.0,
+        "demand_mode": "paper_cv",
+        "cap_mode": "paper"
+      },
+      "inventory_position_cap": 36,
+      "numeric_structure_feedback": false,
+      "baek_known_public_class": true,
+      "independent_demand_streams": {
+        "FIFO": {
+          "mean": 0.0,
+          "variance": 0.0,
+          "law": "point_mass_at_zero",
+          "components": [
+            {
+              "weight": 1.0,
+              "success_probability": null
+            }
+          ]
+        },
+        "LIFO": {
+          "mean": 4.0,
+          "variance": 36.0,
+          "law": "mixture_of_two_geometric_distributions_on_nonnegative_integers",
+          "components": [
+            {
+              "weight": 0.21132486540518713,
+              "success_probability": 0.09556482121249313
+            },
+            {
+              "weight": 0.7886751345948129,
+              "success_probability": 0.28281355716588524
+            }
+          ]
+        }
+      }
+    },
+    {
+      "profile": "extended",
+      "params": {
+        "name": "perish_m8_L2_cv1.5_f0.5",
+        "m": 8,
+        "L": 2,
+        "cv": 1.5,
+        "f": 0.5,
+        "mean": 4.0,
+        "h": 0.0,
+        "p": 100.0,
+        "w": 100.0,
+        "demand_mode": "paper_cv",
+        "cap_mode": "paper"
+      },
+      "inventory_position_cap": 36,
+      "numeric_structure_feedback": false,
+      "baek_known_public_class": true,
+      "independent_demand_streams": {
+        "FIFO": {
+          "mean": 2.0,
+          "variance": 18.0,
+          "law": "mixture_of_two_geometric_distributions_on_nonnegative_integers",
+          "components": [
+            {
+              "weight": 0.11270166537925827,
+              "success_probability": 0.10128650732345632
+            },
+            {
+              "weight": 0.8872983346207417,
+              "success_probability": 0.4701420641051151
+            }
+          ]
+        },
+        "LIFO": {
+          "mean": 2.0,
+          "variance": 18.0,
+          "law": "mixture_of_two_geometric_distributions_on_nonnegative_integers",
+          "components": [
+            {
+              "weight": 0.11270166537925827,
+              "success_probability": 0.10128650732345632
+            },
+            {
+              "weight": 0.8872983346207417,
+              "success_probability": 0.4701420641051151
+            }
+          ]
+        }
+      }
+    },
+    {
+      "profile": "extended",
+      "params": {
+        "name": "perish_m8_L2_cv2_f0",
+        "m": 8,
+        "L": 2,
+        "cv": 2.0,
+        "f": 0.0,
+        "mean": 4.0,
+        "h": 0.0,
+        "p": 100.0,
+        "w": 100.0,
+        "demand_mode": "paper_cv",
+        "cap_mode": "paper"
+      },
+      "inventory_position_cap": 33,
+      "numeric_structure_feedback": false,
+      "baek_known_public_class": true,
+      "independent_demand_streams": {
+        "FIFO": {
+          "mean": 0.0,
+          "variance": 0.0,
+          "law": "point_mass_at_zero",
+          "components": [
+            {
+              "weight": 1.0,
+              "success_probability": null
+            }
+          ]
+        },
+        "LIFO": {
+          "mean": 4.0,
+          "variance": 64.0,
+          "law": "mixture_of_two_geometric_distributions_on_nonnegative_integers",
+          "components": [
+            {
+              "weight": 0.11955704487365894,
+              "success_probability": 0.056406618148267584
+            },
+            {
+              "weight": 0.8804429551263411,
+              "success_probability": 0.3056623473689738
+            }
+          ]
+        }
+      }
+    },
+    {
+      "profile": "extended",
+      "params": {
+        "name": "perish_m8_L2_cv2_f0.5",
+        "m": 8,
+        "L": 2,
+        "cv": 2.0,
+        "f": 0.5,
+        "mean": 4.0,
+        "h": 0.0,
+        "p": 100.0,
+        "w": 100.0,
+        "demand_mode": "paper_cv",
+        "cap_mode": "paper"
+      },
+      "inventory_position_cap": 32,
+      "numeric_structure_feedback": false,
+      "baek_known_public_class": true,
+      "independent_demand_streams": {
+        "FIFO": {
+          "mean": 2.0,
+          "variance": 32.0,
+          "law": "mixture_of_two_geometric_distributions_on_nonnegative_integers",
+          "components": [
+            {
+              "weight": 0.06276268390239688,
+              "success_probability": 0.05905616075259276
+            },
+            {
+              "weight": 0.9372373160976031,
+              "success_probability": 0.48380098210455014
+            }
+          ]
+        },
+        "LIFO": {
+          "mean": 2.0,
+          "variance": 32.0,
+          "law": "mixture_of_two_geometric_distributions_on_nonnegative_integers",
+          "components": [
+            {
+              "weight": 0.06276268390239688,
+              "success_probability": 0.05905616075259276
+            },
+            {
+              "weight": 0.9372373160976031,
+              "success_probability": 0.48380098210455014
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

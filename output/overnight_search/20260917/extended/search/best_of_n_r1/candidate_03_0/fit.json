@@ -1,0 +1,252 @@
+{
+  "results": {
+    "perish_m7_L2_cv1.5_f0": {
+      "theta": [
+        15.781950669931886,
+        19.012569218253144,
+        0.23397947585081702,
+        0.02075853135055583,
+        1.6252510677303733
+      ],
+      "cost": 145.76875,
+      "nfev": 833,
+      "seconds": 71.13424074999057,
+      "path_costs": [
+        131.3,
+        142.6,
+        153.5,
+        144.9,
+        134.4,
+        148.1,
+        147.6,
+        159.2,
+        153.4,
+        136.6,
+        126.1,
+        137.4,
+        189.6,
+        170.9,
+        152.8,
+        133.7,
+        157.4,
+        134.7,
+        114.0,
+        164.1,
+        130.1,
+        159.3,
+        162.1,
+        149.3,
+        150.8,
+        143.8,
+        141.1,
+        134.8,
+        134.3,
+        135.4,
+        154.9,
+        136.4
+      ],
+      "metrics": [
+        0.5085312499999999,
+        0.9491562500000001,
+        3.531531249999999
+      ],
+      "cap": 32
+    },
+    "perish_m7_L2_cv1.5_f0.5": {
+      "theta": [
+        9.255566493144116,
+        10.368375957929118,
+        1.6222405416705192,
+        0.19259939490629696,
+        0.5686090551669811
+      ],
+      "cost": 121.3625,
+      "nfev": 1024,
+      "seconds": 225.7714066670742,
+      "path_costs": [
+        123.9,
+        127.0,
+        113.6,
+        116.7,
+        142.9,
+        108.7,
+        122.0,
+        107.1,
+        121.4,
+        117.5,
+        121.2,
+        116.7,
+        112.8,
+        114.4,
+        138.4,
+        128.0,
+        153.6,
+        115.0,
+        121.4,
+        118.8,
+        114.3,
+        121.3,
+        115.4,
+        126.8,
+        110.6,
+        128.2,
+        125.3,
+        137.6,
+        117.0,
+        114.5,
+        112.8,
+        118.7
+      ],
+      "metrics": [
+        0.43359375000000006,
+        0.78003125,
+        3.6650312499999997
+      ],
+      "cap": 32
+    },
+    "perish_m7_L2_cv2_f0": {
+      "theta": [
+        14.509677075480024,
+        36.88175084329263,
+        0.22750535906708957,
+        0.08905510330232858,
+        1.3404339985307785
+      ],
+      "cost": 188.99375,
+      "nfev": 401,
+      "seconds": 23.91214241599664,
+      "path_costs": [
+        206.7,
+        190.2,
+        196.1,
+        175.7,
+        217.8,
+        204.2,
+        216.1,
+        169.9,
+        186.1,
+        165.9,
+        191.6,
+        172.5,
+        191.3,
+        192.3,
+        204.9,
+        182.2,
+        182.6,
+        160.1,
+        176.5,
+        195.2,
+        185.7,
+        172.7,
+        238.8,
+        183.8,
+        176.9,
+        170.8,
+        184.1,
+        203.0,
+        187.9,
+        213.5,
+        176.4,
+        176.3
+      ],
+      "metrics": [
+        0.5418437500000001,
+        1.3480937499999999,
+        3.228687499999999
+      ],
+      "cap": 29
+    },
+    "perish_m7_L2_cv2_f0.5": {
+      "theta": [
+        7.867115744465998,
+        50.89216032454409,
+        1.7111257549832073,
+        0.2933940491335578,
+        0.844761574002169
+      ],
+      "cost": 169.475,
+      "nfev": 1024,
+      "seconds": 252.15164266712964,
+      "path_costs": [
+        178.7,
+        167.9,
+        151.1,
+        159.2,
+        153.4,
+        169.7,
+        179.5,
+        145.3,
+        199.0,
+        189.8,
+        152.2,
+        144.9,
+        151.7,
+        151.5,
+        155.0,
+        169.3,
+        195.4,
+        169.0,
+        166.4,
+        182.4,
+        203.6,
+        153.5,
+        162.8,
+        190.0,
+        191.2,
+        197.6,
+        147.5,
+        185.6,
+        157.7,
+        157.6,
+        194.4,
+        150.3
+      ],
+      "metrics": [
+        0.3825624999999999,
+        1.3121874999999998,
+        3.1457187500000003
+      ],
+      "cap": 28
+    }
+  },
+  "parameters": {
+    "TARGET": {
+      "type": "float",
+      "initial": 15.0,
+      "min": 0.0,
+      "max": 60.0
+    },
+    "MAX_ORDER": {
+      "type": "float",
+      "initial": 18.0,
+      "min": 0.0,
+      "max": 60.0
+    },
+    "POS_SCALE": {
+      "type": "float",
+      "initial": 0.75,
+      "min": 0.2,
+      "max": 2.0
+    },
+    "AGE_POWER": {
+      "type": "float",
+      "initial": 1.0,
+      "min": 0.0,
+      "max": 5.0
+    },
+    "CARRY_RISK": {
+      "type": "float",
+      "initial": 0.0,
+      "min": -2.0,
+      "max": 2.0
+    }
+  },
+  "structure_sha256": "00f954606d5a93ae0eaa5b2ade794f996e56c4b8f28a01c4285814771df8240a",
+  "code_sha256": "8b4c5ec47e094ca297c0de25bb18d13b1766c614e6c28532533a15f9a9f93fea",
+  "import_normalization": [],
+  "wall_seconds": 575.0542536659632,
+  "transitions": 157728000,
+  "valid": true,
+  "score": 0.988283249810874,
+  "code": "def compute_order_amount(age, pipeline, mu, cv, f, L):\n    TARGET = 15.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":15.0,\"min\":0.0,\"max\":60.0}\n    MAX_ORDER = 18.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":18.0,\"min\":0.0,\"max\":60.0}\n    POS_SCALE = 0.75 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.75,\"min\":0.2,\"max\":2.0}\n    AGE_POWER = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":5.0}\n    CARRY_RISK = 0.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.0,\"min\":-2.0,\"max\":2.0}\n\n    m = len(age)\n    if m == 0:\n        return 0.0\n\n    base_variance = (mu * cv) * (mu * cv)\n\n    mean_fifo = f * mu\n    var_fifo = f * base_variance\n    if mean_fifo > 0.0:\n        af = var_fifo / (mean_fifo * mean_fifo) - 1.0 / mean_fifo\n        if af < 1.0:\n            af = 1.0\n        rootf = (af * af - 1.0) ** 0.5\n        bf = 1.0 + af + rootf\n        cf = 1.0 + af - rootf\n        weightf = 1.0 / bf\n        prob1f = 2.0 / (2.0 + mean_fifo * bf)\n        prob2f = 2.0 / (2.0 + mean_fifo * cf)\n        zero_fifo = weightf * prob1f + (1.0 - weightf) * prob2f\n        pos_fifo = max(0.0, min(1.0, 1.0 - zero_fifo))\n        cond_fifo = mean_fifo / pos_fifo if pos_fifo > 1.0e-12 else 0.0\n    else:\n        pos_fifo = 0.0\n        cond_fifo = 0.0\n\n    mean_lifo = (1.0 - f) * mu\n    var_lifo = (1.0 - f) * base_variance\n    if mean_lifo > 0.0:\n        al = var_lifo / (mean_lifo * mean_lifo) - 1.0 / mean_lifo\n        if al < 1.0:\n            al = 1.0\n        rootl = (al * al - 1.0) ** 0.5\n        bl = 1.0 + al + rootl\n        cl = 1.0 + al - rootl\n        weightl = 1.0 / bl\n        prob1l = 2.0 / (2.0 + mean_lifo * bl)\n        prob2l = 2.0 / (2.0 + mean_lifo * cl)\n        zero_lifo = weightl * prob1l + (1.0 - weightl) * prob2l\n        pos_lifo = max(0.0, min(1.0, 1.0 - zero_lifo))\n        cond_lifo = mean_lifo / pos_lifo if pos_lifo > 1.0e-12 else 0.0\n    else:\n        pos_lifo = 0.0\n        cond_lifo = 0.0\n\n    exponent = AGE_POWER * (0.05 + 1.9 * f)\n    age_weight = [0.0] * m\n    for i in range(m):\n        age_weight[i] = ((i + 1.0) / m) ** exponent\n\n    scenario_count = 1 << (2 * L)\n    probability_sum = 0.0\n    effective_mean = 0.0\n    effective_second = 0.0\n\n    for mask in range(scenario_count):\n        probability = 1.0\n        for t in range(L):\n            fifo_positive = ((mask >> (2 * t)) & 1) == 1\n            lifo_positive = ((mask >> (2 * t + 1)) & 1) == 1\n            if fifo_positive:\n                probability = probability * pos_fifo\n            else:\n                probability = probability * (1.0 - pos_fifo)\n            if lifo_positive:\n                probability = probability * pos_lifo\n            else:\n                probability = probability * (1.0 - pos_lifo)\n\n        if probability > 1.0e-15:\n            stock = [0.0] * m\n            for i in range(m):\n                stock[i] = float(age[i])\n\n            for t in range(L):\n                if t > 0 and t - 1 < len(pipeline):\n                    stock[m - 1] = stock[m - 1] + float(pipeline[t - 1])\n\n                fifo_positive = ((mask >> (2 * t)) & 1) == 1\n                lifo_positive = ((mask >> (2 * t + 1)) & 1) == 1\n                fifo_demand = cond_fifo * POS_SCALE if fifo_positive else 0.0\n                lifo_demand = cond_lifo * POS_SCALE if lifo_positive else 0.0\n\n                remaining = fifo_demand\n                if remaining > 0.0:\n                    for i in range(m):\n                        take = min(stock[i], remaining)\n                        stock[i] = stock[i] - take\n                        remaining = remaining - take\n\n                remaining = lifo_demand\n                if remaining > 0.0:\n                    for k in range(m):\n                        i = m - 1 - k\n                        take = min(stock[i], remaining)\n                        stock[i] = stock[i] - take\n                        remaining = remaining - take\n\n                for i in range(m - 1):\n                    stock[i] = stock[i + 1]\n                stock[m - 1] = 0.0\n\n            effective = 0.0\n            for i in range(m):\n                effective = effective + age_weight[i] * stock[i]\n\n            probability_sum = probability_sum + probability\n            effective_mean = effective_mean + probability * effective\n            effective_second = effective_second + probability * effective * effective\n\n    if probability_sum > 0.0:\n        effective_mean = effective_mean / probability_sum\n        effective_second = effective_second / probability_sum\n\n    effective_variance = effective_second - effective_mean * effective_mean\n    if effective_variance < 0.0:\n        effective_variance = 0.0\n    effective_std = effective_variance ** 0.5\n    effective_carry = effective_mean + CARRY_RISK * effective_std\n\n    order = TARGET - effective_carry\n    if order <= 0.0:\n        return 0.0\n    if order > MAX_ORDER:\n        return float(MAX_ORDER)\n    return float(order)\n"
+}

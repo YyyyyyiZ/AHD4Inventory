@@ -1,0 +1,18 @@
+{
+     "algorithm": "Reduced base_target and demand_response_factor to lower holding costs while maintaining service level. Increased min_target slightly for better protection against spikes. Adjusted demand_smoothing to be less reactive to short-term fluctuations. The changes aim to better balance holding and lost-sales costs based on the observed performance metrics.",
+     "code": "import numpy as np\nimport math\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 482.4950326374659  # OPT_PARAM: {\"initial\": 482.4950326374659, \"min\": 400.0, \"max\": 500.0, \"type\": \"float\"}\n    demand_response_factor = 0.48394596691047015  # OPT_PARAM: {\"initial\": 0.48394596691047015, \"min\": 0.1, \"max\": 0.5, \"type\": \"float\"}\n    min_target = 150.1  # OPT_PARAM: {\"initial\": 150.1, \"min\": 120.0, \"max\": 180.0, \"type\": \"float\"}\n    demand_smoothing = 1.0  # OPT_PARAM: {\"initial\": 1.0, \"min\": 0.8, \"max\": 1.0, \"type\": \"float\"}\n    \n    expected_demand = max(40.0, min(200.0, 100.0 + demand_smoothing * (100.0 - last_demand)))\n    adjusted_target = base_target + demand_response_factor * (expected_demand - 100.0)\n    target = max(min_target, adjusted_target)\n    \n    order_amount = max(0.0, target - on_hand_inventory - np.sum(pipeline_orders))\n    return order_amount\n",
+     "description": "",
+     "intuition": "",
+     "reasoning": "Reduced base_target and demand_response_factor to lower holding costs while maintaining service level. Increased min_target slightly for better protection against spikes. Adjusted demand_smoothing to be less reactive to short-term fluctuations. The changes aim to better balance holding and lost-sales costs based on the observed performance metrics.",
+     "opt_params": {
+          "base_target": 482.4950326374659,
+          "demand_response_factor": 0.48394596691047015,
+          "min_target": 150.1,
+          "demand_smoothing": 1.0
+     },
+     "cost": null,
+     "objective": 21274.9926,
+     "lower": 20737.24007,
+     "upper": 21831.17172,
+     "other_inf": null
+}

@@ -1,0 +1,707 @@
+{
+  "constant_order": {
+    "name": "constant_order",
+    "version": "conditional-pil-baselines-v1",
+    "scenario": {
+      "scenario_id": "exp_regime095_random3_9",
+      "demand_process": "regime",
+      "rho_latent": 0.0,
+      "regime_p_stay": 0.95,
+      "lead_time_values": [
+        3,
+        9
+      ],
+      "lead_time_probabilities": [
+        0.5,
+        0.5
+      ],
+      "mean_demand": 100.0,
+      "holding_cost": 1.0,
+      "lost_sales_cost": 2.0
+    },
+    "theta": [
+      0.24249677889019314
+    ],
+    "parameters": {
+      "q_over_mean": 0.24249677889019314
+    },
+    "forecast": {
+      "inner_paths": 128,
+      "seed": 81173,
+      "grid_step": 0.05,
+      "latent_grid_limits": [
+        -12.0,
+        12.0
+      ],
+      "conditional_means": "analytic iid/regime; 40-node Gaussian quadrature AR1",
+      "conditional_paths": "fixed scrambled Sobol; AR signal interpolation",
+      "same_day_other_arrivals_included": true
+    },
+    "training": {
+      "tape_sha256": "536607b9567b64a5ad4e636aa52a915979f3a30dfff2e5c53097ba4eb69feb99",
+      "n_paths": 50,
+      "horizon": 200,
+      "burnin": 500,
+      "mean_cost_per_period": 165.1704864818231
+    },
+    "search": {
+      "evaluations": 77,
+      "rounds": [
+        {
+          "bounds": [
+            [
+              0.0,
+              1.5
+            ]
+          ],
+          "best_theta": [
+            0.24249677889019314
+          ],
+          "mean_training_cost_per_period": 165.1704864818231,
+          "artificial_edge": [
+            false
+          ]
+        }
+      ],
+      "unresolved_artificial_boundary": false,
+      "seed": 51017,
+      "algorithm": "1D coarse grid + 3 bounded local searches; multidimensional DE + multistart Powell"
+    },
+    "random_lead_interpretation": "inventory-position rule with all publicly known outstanding arrivals",
+    "formula": "q=mu*c",
+    "fit_seconds": 1.0621327091939747
+  },
+  "base_stock": {
+    "name": "base_stock",
+    "version": "conditional-pil-baselines-v1",
+    "scenario": {
+      "scenario_id": "exp_regime095_random3_9",
+      "demand_process": "regime",
+      "rho_latent": 0.0,
+      "regime_p_stay": 0.95,
+      "lead_time_values": [
+        3,
+        9
+      ],
+      "lead_time_probabilities": [
+        0.5,
+        0.5
+      ],
+      "mean_demand": 100.0,
+      "holding_cost": 1.0,
+      "lost_sales_cost": 2.0
+    },
+    "theta": [
+      2.1651742243674827
+    ],
+    "parameters": {
+      "S_over_mean": 2.1651742243674827
+    },
+    "forecast": {
+      "inner_paths": 128,
+      "seed": 81173,
+      "grid_step": 0.05,
+      "latent_grid_limits": [
+        -12.0,
+        12.0
+      ],
+      "conditional_means": "analytic iid/regime; 40-node Gaussian quadrature AR1",
+      "conditional_paths": "fixed scrambled Sobol; AR signal interpolation",
+      "same_day_other_arrivals_included": true
+    },
+    "training": {
+      "tape_sha256": "536607b9567b64a5ad4e636aa52a915979f3a30dfff2e5c53097ba4eb69feb99",
+      "n_paths": 50,
+      "horizon": 200,
+      "burnin": 500,
+      "mean_cost_per_period": 165.48248227454832
+    },
+    "search": {
+      "evaluations": 90,
+      "rounds": [
+        {
+          "bounds": [
+            [
+              0.0,
+              17.5
+            ]
+          ],
+          "best_theta": [
+            2.1651742243674827
+          ],
+          "mean_training_cost_per_period": 165.48248227454832,
+          "artificial_edge": [
+            false
+          ]
+        }
+      ],
+      "unresolved_artificial_boundary": false,
+      "seed": 51018,
+      "algorithm": "1D coarse grid + 3 bounded local searches; multidimensional DE + multistart Powell"
+    },
+    "random_lead_interpretation": "inventory-position rule with all publicly known outstanding arrivals",
+    "formula": "q=[mu*S-I-sum(P)]+",
+    "fit_seconds": 0.6554083328228444
+  },
+  "capped_base_stock": {
+    "name": "capped_base_stock",
+    "version": "conditional-pil-baselines-v1",
+    "scenario": {
+      "scenario_id": "exp_regime095_random3_9",
+      "demand_process": "regime",
+      "rho_latent": 0.0,
+      "regime_p_stay": 0.95,
+      "lead_time_values": [
+        3,
+        9
+      ],
+      "lead_time_probabilities": [
+        0.5,
+        0.5
+      ],
+      "mean_demand": 100.0,
+      "holding_cost": 1.0,
+      "lost_sales_cost": 2.0
+    },
+    "theta": [
+      2.205046368780114,
+      0.37626460512107773
+    ],
+    "parameters": {
+      "S_over_mean": 2.205046368780114,
+      "cap_over_mean": 0.37626460512107773
+    },
+    "forecast": {
+      "inner_paths": 128,
+      "seed": 81173,
+      "grid_step": 0.05,
+      "latent_grid_limits": [
+        -12.0,
+        12.0
+      ],
+      "conditional_means": "analytic iid/regime; 40-node Gaussian quadrature AR1",
+      "conditional_paths": "fixed scrambled Sobol; AR signal interpolation",
+      "same_day_other_arrivals_included": true
+    },
+    "training": {
+      "tape_sha256": "536607b9567b64a5ad4e636aa52a915979f3a30dfff2e5c53097ba4eb69feb99",
+      "n_paths": 50,
+      "horizon": 200,
+      "burnin": 500,
+      "mean_cost_per_period": 162.56574522263563
+    },
+    "search": {
+      "evaluations": 481,
+      "rounds": [
+        {
+          "bounds": [
+            [
+              0.0,
+              17.5
+            ],
+            [
+              0.0,
+              2.5
+            ]
+          ],
+          "best_theta": [
+            2.205046368780114,
+            0.37626460512107773
+          ],
+          "mean_training_cost_per_period": 162.56574522263563,
+          "artificial_edge": [
+            false,
+            false
+          ]
+        }
+      ],
+      "unresolved_artificial_boundary": false,
+      "seed": 51019,
+      "algorithm": "1D coarse grid + 3 bounded local searches; multidimensional DE + multistart Powell",
+      "constant_order_embedding_cost": 165.1704864818231,
+      "constant_order_embedding_guaranteed_periods": 10000,
+      "embedding_scope": "finite trajectory from zero inventory, not an infinite-horizon equivalence"
+    },
+    "random_lead_interpretation": "inventory-position rule with all publicly known outstanding arrivals",
+    "formula": "q=min(mu*C,[mu*S-I-sum(P)]+)",
+    "fit_seconds": 1.7599220408592373
+  },
+  "forecast_capped_base_stock": {
+    "name": "forecast_capped_base_stock",
+    "version": "conditional-pil-baselines-v1",
+    "scenario": {
+      "scenario_id": "exp_regime095_random3_9",
+      "demand_process": "regime",
+      "rho_latent": 0.0,
+      "regime_p_stay": 0.95,
+      "lead_time_values": [
+        3,
+        9
+      ],
+      "lead_time_probabilities": [
+        0.5,
+        0.5
+      ],
+      "mean_demand": 100.0,
+      "holding_cost": 1.0,
+      "lost_sales_cost": 2.0
+    },
+    "theta": [
+      7.030473253852161,
+      0.3805729946964081,
+      0.9962200358372233,
+      0.45927990383056966
+    ],
+    "parameters": {
+      "S_over_mean": 7.030473253852161,
+      "cap_over_mean": 0.3805729946964081,
+      "target_forecast_gain": 0.9962200358372233,
+      "cap_forecast_gain": 0.45927990383056966
+    },
+    "forecast": {
+      "inner_paths": 128,
+      "seed": 81173,
+      "grid_step": 0.05,
+      "latent_grid_limits": [
+        -12.0,
+        12.0
+      ],
+      "conditional_means": "analytic iid/regime; 40-node Gaussian quadrature AR1",
+      "conditional_paths": "fixed scrambled Sobol; AR signal interpolation",
+      "same_day_other_arrivals_included": true
+    },
+    "training": {
+      "tape_sha256": "536607b9567b64a5ad4e636aa52a915979f3a30dfff2e5c53097ba4eb69feb99",
+      "n_paths": 50,
+      "horizon": 200,
+      "burnin": 500,
+      "mean_cost_per_period": 149.71981414286122
+    },
+    "search": {
+      "evaluations": 1364,
+      "rounds": [
+        {
+          "bounds": [
+            [
+              0.0,
+              17.5
+            ],
+            [
+              0.0,
+              3.0
+            ],
+            [
+              -1.0,
+              2.5
+            ],
+            [
+              -1.0,
+              3.0
+            ]
+          ],
+          "best_theta": [
+            7.030473253852161,
+            0.3805729946964081,
+            0.9962200358372233,
+            0.45927990383056966
+          ],
+          "mean_training_cost_per_period": 149.71981414286122,
+          "artificial_edge": [
+            false,
+            false,
+            false,
+            false
+          ]
+        }
+      ],
+      "unresolved_artificial_boundary": false,
+      "seed": 51020,
+      "algorithm": "1D coarse grid + 3 bounded local searches; multidimensional DE + multistart Powell",
+      "capped_base_stock_embedding_cost": 162.56574522263563
+    },
+    "random_lead_interpretation": "inventory-position rule with all publicly known outstanding arrivals",
+    "formula": "q=min([mu*C+b*(m_arrival-mu)]+,[mu*S+a*(sum(m_0..m_L)-(E[L]+1)*mu)-I-sum(P)]+)",
+    "fit_seconds": 3.920423165895045
+  },
+  "conditional_pil": {
+    "name": "conditional_pil",
+    "version": "conditional-pil-baselines-v1",
+    "scenario": {
+      "scenario_id": "exp_regime095_random3_9",
+      "demand_process": "regime",
+      "rho_latent": 0.0,
+      "regime_p_stay": 0.95,
+      "lead_time_values": [
+        3,
+        9
+      ],
+      "lead_time_probabilities": [
+        0.5,
+        0.5
+      ],
+      "mean_demand": 100.0,
+      "holding_cost": 1.0,
+      "lost_sales_cost": 2.0
+    },
+    "theta": [
+      0.565422085736356
+    ],
+    "parameters": {
+      "S_over_mean": 0.565422085736356
+    },
+    "forecast": {
+      "inner_paths": 1024,
+      "seed": 81173,
+      "grid_step": 0.05,
+      "latent_grid_limits": [
+        -12.0,
+        12.0
+      ],
+      "conditional_means": "analytic iid/regime; 40-node Gaussian quadrature AR1",
+      "conditional_paths": "fixed scrambled Sobol; AR signal interpolation",
+      "same_day_other_arrivals_included": true
+    },
+    "training": {
+      "tape_sha256": "536607b9567b64a5ad4e636aa52a915979f3a30dfff2e5c53097ba4eb69feb99",
+      "n_paths": 50,
+      "horizon": 200,
+      "burnin": 500,
+      "mean_cost_per_period": 156.43433262069266
+    },
+    "search": {
+      "evaluations": 81,
+      "rounds": [
+        {
+          "bounds": [
+            [
+              0.0,
+              3.0
+            ]
+          ],
+          "best_theta": [
+            0.5740001105873953
+          ],
+          "mean_training_cost_per_period": 156.78911378449888,
+          "artificial_edge": [
+            false
+          ]
+        }
+      ],
+      "unresolved_artificial_boundary": false,
+      "seed": 51021,
+      "algorithm": "1D coarse grid + 3 bounded local searches; multidimensional DE + multistart Powell"
+    },
+    "random_lead_interpretation": "committed-only projection",
+    "formula": "q=[mu*S-E_QMC[I immediately before current order arrives]]+; only committed arrivals",
+    "qmc_convergence": {
+      "rows": [
+        {
+          "inner_paths": 64,
+          "mean_cost_per_period": 156.42273513845686,
+          "relative_mean_gap_vs_1024": 8.850378256097513e-05,
+          "relative_mean_abs_path_gap_vs_1024": 0.0008631878054238004
+        },
+        {
+          "inner_paths": 128,
+          "mean_cost_per_period": 156.78911378449888,
+          "relative_mean_gap_vs_1024": 0.002253522904427665,
+          "relative_mean_abs_path_gap_vs_1024": 0.002416482390318303
+        },
+        {
+          "inner_paths": 256,
+          "mean_cost_per_period": 156.7416435393293,
+          "relative_mean_gap_vs_1024": 0.001950075686020956,
+          "relative_mean_abs_path_gap_vs_1024": 0.0019949609799559684
+        },
+        {
+          "inner_paths": 1024,
+          "mean_cost_per_period": 156.43658036755028,
+          "relative_mean_gap_vs_1024": 0.0,
+          "relative_mean_abs_path_gap_vs_1024": 0.0
+        }
+      ],
+      "selected_inner_paths": 1024,
+      "rule": "smallest N >= fit N with training mean gap <=0.1% and mean absolute paired path gap <=0.5% versus N=1024",
+      "theta_refit": true,
+      "scope": "numerical resolution of frozen policy on training paths; not external validation",
+      "refinement": [
+        {
+          "inner_paths": 1024,
+          "before_cost": 156.43658036755028,
+          "after_cost": 156.43433262069266,
+          "function_evaluations": 44,
+          "relative_mean_gap_vs_1024": 0.0,
+          "relative_mean_abs_path_gap_vs_1024": 0.0
+        }
+      ],
+      "rows_scope": "before refitting at upgraded numerical resolution"
+    },
+    "fit_seconds": 12.387765624793246
+  },
+  "forecast_adaptive_pil": {
+    "name": "forecast_adaptive_pil",
+    "version": "conditional-pil-baselines-v1",
+    "scenario": {
+      "scenario_id": "exp_regime095_random3_9",
+      "demand_process": "regime",
+      "rho_latent": 0.0,
+      "regime_p_stay": 0.95,
+      "lead_time_values": [
+        3,
+        9
+      ],
+      "lead_time_probabilities": [
+        0.5,
+        0.5
+      ],
+      "mean_demand": 100.0,
+      "holding_cost": 1.0,
+      "lost_sales_cost": 2.0
+    },
+    "theta": [
+      0.5131160019818588,
+      1.8542615716557695,
+      0.6069208702074971,
+      2.9998365746039664,
+      0.5440995584891425
+    ],
+    "parameters": {
+      "S_over_mean": 0.5131160019818588,
+      "cap_over_mean": 1.8542615716557695,
+      "target_forecast_gain": 0.6069208702074971,
+      "cap_forecast_gain": 2.9998365746039664,
+      "inventory_gain": 0.5440995584891425
+    },
+    "forecast": {
+      "inner_paths": 256,
+      "seed": 81173,
+      "grid_step": 0.05,
+      "latent_grid_limits": [
+        -12.0,
+        12.0
+      ],
+      "conditional_means": "analytic iid/regime; 40-node Gaussian quadrature AR1",
+      "conditional_paths": "fixed scrambled Sobol; AR signal interpolation",
+      "same_day_other_arrivals_included": true
+    },
+    "training": {
+      "tape_sha256": "536607b9567b64a5ad4e636aa52a915979f3a30dfff2e5c53097ba4eb69feb99",
+      "n_paths": 50,
+      "horizon": 200,
+      "burnin": 500,
+      "mean_cost_per_period": 148.10674934717147
+    },
+    "search": {
+      "evaluations": 1414,
+      "rounds": [
+        {
+          "bounds": [
+            [
+              0.0,
+              3.0
+            ],
+            [
+              0.0,
+              3.0
+            ],
+            [
+              -1.0,
+              3.0
+            ],
+            [
+              -1.0,
+              3.0
+            ],
+            [
+              0.0,
+              2.0
+            ]
+          ],
+          "best_theta": [
+            0.5559077347348461,
+            1.8543553499537404,
+            0.6592669537836394,
+            2.9453934774817556,
+            0.699213753120443
+          ],
+          "mean_training_cost_per_period": 148.08840697511795,
+          "artificial_edge": [
+            false,
+            false,
+            false,
+            false,
+            false
+          ]
+        }
+      ],
+      "unresolved_artificial_boundary": false,
+      "seed": 51022,
+      "algorithm": "1D coarse grid + 3 bounded local searches; multidimensional DE + multistart Powell",
+      "constant_order_embedding_cost": 165.1704864818231,
+      "conditional_pil_embedding_cost": 156.79065098269015
+    },
+    "random_lead_interpretation": "committed-only projection",
+    "formula": "q=min([mu*C+b*(m_arrival-mu)]+,[mu*S+a*(m_arrival-mu)-g*E_QMC[I_before_arrival]]+)",
+    "qmc_convergence": {
+      "rows": [
+        {
+          "inner_paths": 64,
+          "mean_cost_per_period": 148.1364287234859,
+          "relative_mean_gap_vs_1024": 0.0011055818881710732,
+          "relative_mean_abs_path_gap_vs_1024": 0.001341253429966069
+        },
+        {
+          "inner_paths": 128,
+          "mean_cost_per_period": 148.08840697511795,
+          "relative_mean_gap_vs_1024": 0.0014293959344937302,
+          "relative_mean_abs_path_gap_vs_1024": 0.002525786896468761
+        },
+        {
+          "inner_paths": 256,
+          "mean_cost_per_period": 148.17259473607064,
+          "relative_mean_gap_vs_1024": 0.0008617119069140605,
+          "relative_mean_abs_path_gap_vs_1024": 0.00135209098343185
+        },
+        {
+          "inner_paths": 1024,
+          "mean_cost_per_period": 148.3003869453014,
+          "relative_mean_gap_vs_1024": 0.0,
+          "relative_mean_abs_path_gap_vs_1024": 0.0
+        }
+      ],
+      "selected_inner_paths": 256,
+      "rule": "smallest N >= fit N with training mean gap <=0.1% and mean absolute paired path gap <=0.5% versus N=1024",
+      "theta_refit": true,
+      "scope": "numerical resolution of frozen policy on training paths; not external validation",
+      "refinement": [
+        {
+          "inner_paths": 256,
+          "before_cost": 148.17259473607064,
+          "after_cost": 148.10674934717147,
+          "function_evaluations": 250,
+          "relative_mean_gap_vs_1024": 0.0005388070546544497,
+          "relative_mean_abs_path_gap_vs_1024": 0.001058273623900438
+        }
+      ],
+      "rows_scope": "before refitting at upgraded numerical resolution"
+    },
+    "fit_seconds": 43.034849709132686
+  },
+  "pil_cop_continuation": {
+    "name": "pil_cop_continuation",
+    "version": "conditional-pil-baselines-v1",
+    "scenario": {
+      "scenario_id": "exp_regime095_random3_9",
+      "demand_process": "regime",
+      "rho_latent": 0.0,
+      "regime_p_stay": 0.95,
+      "lead_time_values": [
+        3,
+        9
+      ],
+      "lead_time_probabilities": [
+        0.5,
+        0.5
+      ],
+      "mean_demand": 100.0,
+      "holding_cost": 1.0,
+      "lost_sales_cost": 2.0
+    },
+    "theta": [
+      0.710644831952039,
+      0.24249677889019314
+    ],
+    "parameters": {
+      "S_over_mean": 0.710644831952039,
+      "continuation_q_over_mean": 0.24249677889019314
+    },
+    "forecast": {
+      "inner_paths": 1024,
+      "seed": 81173,
+      "grid_step": 0.05,
+      "latent_grid_limits": [
+        -12.0,
+        12.0
+      ],
+      "conditional_means": "analytic iid/regime; 40-node Gaussian quadrature AR1",
+      "conditional_paths": "fixed scrambled Sobol; AR signal interpolation",
+      "same_day_other_arrivals_included": true
+    },
+    "training": {
+      "tape_sha256": "536607b9567b64a5ad4e636aa52a915979f3a30dfff2e5c53097ba4eb69feb99",
+      "n_paths": 50,
+      "horizon": 200,
+      "burnin": 500,
+      "mean_cost_per_period": 153.97352577752483
+    },
+    "search": {
+      "evaluations": 76,
+      "rounds": [
+        {
+          "bounds": [
+            [
+              0.0,
+              3.0
+            ]
+          ],
+          "best_theta": [
+            0.7107574159248168
+          ],
+          "mean_training_cost_per_period": 154.28719858573993,
+          "artificial_edge": [
+            false
+          ]
+        }
+      ],
+      "unresolved_artificial_boundary": false,
+      "seed": 51023,
+      "algorithm": "1D coarse grid + 3 bounded local searches; multidimensional DE + multistart Powell"
+    },
+    "random_lead_interpretation": "committed arrivals plus future constant-order continuation with independently sampled quotes",
+    "formula": "q=[mu*S-E_QMC[I_before_arrival with future q_COP orders and independent future quotes]]+",
+    "qmc_convergence": {
+      "rows": [
+        {
+          "inner_paths": 64,
+          "mean_cost_per_period": 153.90865787301354,
+          "relative_mean_gap_vs_1024": 0.00042139372672405853,
+          "relative_mean_abs_path_gap_vs_1024": 0.001069012295805227
+        },
+        {
+          "inner_paths": 128,
+          "mean_cost_per_period": 154.28719858573993,
+          "relative_mean_gap_vs_1024": 0.0020370852391370167,
+          "relative_mean_abs_path_gap_vs_1024": 0.0025853871739371357
+        },
+        {
+          "inner_paths": 256,
+          "mean_cost_per_period": 154.27587725268575,
+          "relative_mean_gap_vs_1024": 0.0019635574566729498,
+          "relative_mean_abs_path_gap_vs_1024": 0.002336265357208274
+        },
+        {
+          "inner_paths": 1024,
+          "mean_cost_per_period": 153.97354135742307,
+          "relative_mean_gap_vs_1024": 0.0,
+          "relative_mean_abs_path_gap_vs_1024": 0.0
+        }
+      ],
+      "selected_inner_paths": 1024,
+      "rule": "smallest N >= fit N with training mean gap <=0.1% and mean absolute paired path gap <=0.5% versus N=1024",
+      "theta_refit": true,
+      "scope": "numerical resolution of frozen policy on training paths; not external validation",
+      "refinement": [
+        {
+          "inner_paths": 1024,
+          "before_cost": 153.97354135742307,
+          "after_cost": 153.97352577752483,
+          "function_evaluations": 17,
+          "relative_mean_gap_vs_1024": 0.0,
+          "relative_mean_abs_path_gap_vs_1024": 0.0
+        }
+      ],
+      "rows_scope": "before refitting at upgraded numerical resolution"
+    },
+    "fit_seconds": 7.118908707983792
+  }
+}

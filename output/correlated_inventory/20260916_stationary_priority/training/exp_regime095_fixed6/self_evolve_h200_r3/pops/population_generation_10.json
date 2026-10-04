@@ -1,0 +1,181 @@
+[
+     {
+          "algorithm": "Key changes: 1) Increased base_target to better handle high-demand periods, 2) Reduced demand_response to be less reactive to spikes, 3) Removed lead_time_adjustment which wasn't helping (since lead time is fixed), 4) Added regime detection to adjust targets based on previous demand level, 5) Increased inventory_adjustment for faster replenishment. These changes better balance holding vs lost-sales costs given the demand patterns.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 280.0  # OPT_PARAM: {\"initial\": 280.0, \"min\": 280.0, \"max\": 360.0, \"type\": \"float\"}\n    demand_response = 1.0  # OPT_PARAM: {\"initial\": 1.0, \"min\": 1.0, \"max\": 2.5, \"type\": \"float\"}\n    inventory_adjustment = 0.2  # OPT_PARAM: {\"initial\": 0.2, \"min\": 0.2, \"max\": 0.4, \"type\": \"float\"}\n    \n    # Detect demand regime shift (high/low demand periods)\n    high_demand = last_demand >= 100.0 * np.log(2)\n    regime_factor = 1.5 if high_demand else 1.0\n    \n    dynamic_target = base_target * regime_factor + demand_response * last_demand\n    inventory_position = on_hand_inventory + sum(pipeline_orders)\n    order_amount = max(0.0, inventory_adjustment * (dynamic_target - inventory_position))\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Key changes: 1) Increased base_target to better handle high-demand periods, 2) Reduced demand_response to be less reactive to spikes, 3) Removed lead_time_adjustment which wasn't helping (since lead time is fixed), 4) Added regime detection to adjust targets based on previous demand level, 5) Increased inventory_adjustment for faster replenishment. These changes better balance holding vs lost-sales costs given the demand patterns.",
+          "opt_params": {
+               "base_target": 280.0,
+               "demand_response": 1.0,
+               "inventory_adjustment": 0.2
+          },
+          "cost": null,
+          "objective": 30153.34072,
+          "lower": 28510.61753,
+          "upper": 31792.34628,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base_target and lead_time_adjustment to better handle high-demand regimes, reduced demand_response to be less reactive to demand spikes, and increased inventory_adjustment for faster inventory correction. These changes aim to better balance holding costs and lost sales given the demand characteristics.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 295.59414967950386  # OPT_PARAM: {\"initial\": 295.59414967950386, \"min\": 250.0, \"max\": 400.0, \"type\": \"float\"}\n    demand_response = 2.3351851515630893  # OPT_PARAM: {\"initial\": 2.3351851515630893, \"min\": 0.5, \"max\": 2.5, \"type\": \"float\"}\n    lead_time_adjustment = 5.000000000000094  # OPT_PARAM: {\"initial\": 5.000000000000094, \"min\": 5.0, \"max\": 20.0, \"type\": \"float\"}\n    inventory_adjustment = 0.1  # OPT_PARAM: {\"initial\": 0.1, \"min\": 0.1, \"max\": 0.5, \"type\": \"float\"}\n    \n    dynamic_target = base_target + demand_response * last_demand + lead_time_adjustment * quoted_lead_time\n    inventory_position = on_hand_inventory + sum(pipeline_orders)\n    order_amount = max(0.0, inventory_adjustment * (dynamic_target - inventory_position))\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base_target and lead_time_adjustment to better handle high-demand regimes, reduced demand_response to be less reactive to demand spikes, and increased inventory_adjustment for faster inventory correction. These changes aim to better balance holding costs and lost sales given the demand characteristics.",
+          "opt_params": {
+               "base_target": 295.59414967950386,
+               "demand_response": 2.3351851515630893,
+               "lead_time_adjustment": 5.000000000000094,
+               "inventory_adjustment": 0.1
+          },
+          "cost": null,
+          "objective": 30429.93074,
+          "lower": 28623.96262,
+          "upper": 32215.75792,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base_target to better handle high-demand regimes, reduced demand_response to be less reactive to demand spikes, increased lead_time_adjustment for better lead-time coverage, and increased inventory_adjustment for faster replenishment.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 275.1153363963622  # OPT_PARAM: {\"initial\": 275.1153363963622, \"min\": 250.0, \"max\": 400.0, \"type\": \"float\"}\n    demand_response = 2.4999924333405428  # OPT_PARAM: {\"initial\": 2.4999924333405428, \"min\": 0.5, \"max\": 2.5, \"type\": \"float\"}\n    lead_time_adjustment = 6.9611801241420626  # OPT_PARAM: {\"initial\": 6.9611801241420626, \"min\": 5.0, \"max\": 20.0, \"type\": \"float\"}\n    inventory_adjustment = 0.1  # OPT_PARAM: {\"initial\": 0.1, \"min\": 0.1, \"max\": 0.5, \"type\": \"float\"}\n    \n    dynamic_target = base_target + demand_response * last_demand + lead_time_adjustment * quoted_lead_time\n    inventory_position = on_hand_inventory + sum(pipeline_orders)\n    order_amount = max(0.0, inventory_adjustment * (dynamic_target - inventory_position))\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base_target to better handle high-demand regimes, reduced demand_response to be less reactive to demand spikes, increased lead_time_adjustment for better lead-time coverage, and increased inventory_adjustment for faster replenishment.",
+          "opt_params": {
+               "base_target": 275.1153363963622,
+               "demand_response": 2.4999924333405428,
+               "lead_time_adjustment": 6.9611801241420626,
+               "inventory_adjustment": 0.1
+          },
+          "cost": null,
+          "objective": 30434.55648,
+          "lower": 28650.86266,
+          "upper": 32176.62712,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base_target to better handle high demand periods, reduced demand_response to be less reactive to spikes, increased lead_time_adjustment to account for lead time more aggressively, and increased inventory_adjustment to respond faster to inventory gaps. These changes aim to reduce lost sales (current 133.6) while controlling holding costs (current 18.6).",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 272.3574360555669  # OPT_PARAM: {\"initial\": 272.3574360555669, \"min\": 250.0, \"max\": 400.0, \"type\": \"float\"}\n    demand_response = 2.4999921721538767  # OPT_PARAM: {\"initial\": 2.4999921721538767, \"min\": 0.5, \"max\": 2.5, \"type\": \"float\"}\n    lead_time_adjustment = 7.430983847038536  # OPT_PARAM: {\"initial\": 7.430983847038536, \"min\": 5.0, \"max\": 20.0, \"type\": \"float\"}\n    inventory_adjustment = 0.1  # OPT_PARAM: {\"initial\": 0.1, \"min\": 0.1, \"max\": 0.5, \"type\": \"float\"}\n    \n    dynamic_target = base_target + demand_response * last_demand + lead_time_adjustment * quoted_lead_time\n    inventory_position = on_hand_inventory + sum(pipeline_orders)\n    order_amount = max(0.0, inventory_adjustment * (dynamic_target - inventory_position))\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base_target to better handle high demand periods, reduced demand_response to be less reactive to spikes, increased lead_time_adjustment to account for lead time more aggressively, and increased inventory_adjustment to respond faster to inventory gaps. These changes aim to reduce lost sales (current 133.6) while controlling holding costs (current 18.6).",
+          "opt_params": {
+               "base_target": 272.3574360555669,
+               "demand_response": 2.4999921721538767,
+               "lead_time_adjustment": 7.430983847038536,
+               "inventory_adjustment": 0.1
+          },
+          "cost": null,
+          "objective": 30434.55693,
+          "lower": 28651.09998,
+          "upper": 32176.47341,
+          "other_inf": null
+     },
+     {
+          "algorithm": "The modified policy increases the base target slightly while reducing the demand response coefficient, as the high autocorrelation suggests persistent demand patterns. The lead time adjustment was increased to better handle the consistent lead time, and the inventory adjustment was doubled to respond more aggressively to inventory gaps while staying within reasonable bounds. These changes aim to reduce lost sales while keeping holding costs manageable.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 267.02379357299156  # OPT_PARAM: {\"initial\": 267.02379357299156, \"min\": 200.0, \"max\": 350.0, \"type\": \"float\"}\n    demand_response = 2.197685659105956  # OPT_PARAM: {\"initial\": 2.197685659105956, \"min\": 1.0, \"max\": 3.0, \"type\": \"float\"}\n    lead_time_adjustment = 11.9550729219388  # OPT_PARAM: {\"initial\": 11.9550729219388, \"min\": 10.0, \"max\": 20.0, \"type\": \"float\"}\n    inventory_adjustment = 0.1  # OPT_PARAM: {\"initial\": 0.1, \"min\": 0.1, \"max\": 0.3, \"type\": \"float\"}\n    \n    dynamic_target = base_target + demand_response * last_demand + lead_time_adjustment * quoted_lead_time\n    inventory_position = on_hand_inventory + sum(pipeline_orders)\n    order_amount = max(0.0, inventory_adjustment * (dynamic_target - inventory_position))\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "The modified policy increases the base target slightly while reducing the demand response coefficient, as the high autocorrelation suggests persistent demand patterns. The lead time adjustment was increased to better handle the consistent lead time, and the inventory adjustment was doubled to respond more aggressively to inventory gaps while staying within reasonable bounds. These changes aim to reduce lost sales while keeping holding costs manageable.",
+          "opt_params": {
+               "base_target": 267.02379357299156,
+               "demand_response": 2.197685659105956,
+               "lead_time_adjustment": 11.9550729219388,
+               "inventory_adjustment": 0.1
+          },
+          "cost": null,
+          "objective": 30435.2858,
+          "lower": 28626.52143,
+          "upper": 32239.49739,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base_target and adjusted other parameters to better handle demand spikes while maintaining responsiveness. The higher inventory_adjustment helps replenish stock faster, reducing lost sales. The moderate demand_response still tracks demand trends but avoids overreacting to extreme values.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 271.79409756752165  # OPT_PARAM: {\"initial\": 271.79409756752165, \"min\": 250.0, \"max\": 400.0, \"type\": \"float\"}\n    demand_response = 2.1858010700909216  # OPT_PARAM: {\"initial\": 2.1858010700909216, \"min\": 0.5, \"max\": 2.5, \"type\": \"float\"}\n    lead_time_adjustment = 11.222687853848873  # OPT_PARAM: {\"initial\": 11.222687853848873, \"min\": 5.0, \"max\": 20.0, \"type\": \"float\"}\n    inventory_adjustment = 0.1  # OPT_PARAM: {\"initial\": 0.1, \"min\": 0.1, \"max\": 0.5, \"type\": \"float\"}\n    \n    dynamic_target = base_target + demand_response * last_demand + lead_time_adjustment * quoted_lead_time\n    inventory_position = on_hand_inventory + sum(pipeline_orders)\n    order_amount = max(0.0, inventory_adjustment * (dynamic_target - inventory_position))\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base_target and adjusted other parameters to better handle demand spikes while maintaining responsiveness. The higher inventory_adjustment helps replenish stock faster, reducing lost sales. The moderate demand_response still tracks demand trends but avoids overreacting to extreme values.",
+          "opt_params": {
+               "base_target": 271.79409756752165,
+               "demand_response": 2.1858010700909216,
+               "lead_time_adjustment": 11.222687853848873,
+               "inventory_adjustment": 0.1
+          },
+          "cost": null,
+          "objective": 30435.74589,
+          "lower": 28626.58083,
+          "upper": 32243.86833,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base_target to better handle high demand periods, reduced demand_response to be less reactive to spikes, lowered lead_time_adjustment since lead time is constant, and increased inventory_adjustment for faster replenishment. These changes aim to reduce lost sales while controlling holding costs.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 251.81173483029494  # OPT_PARAM: {\"initial\": 251.81173483029494, \"min\": 250.0, \"max\": 350.0, \"type\": \"float\"}\n    demand_response = 1.5987611037815481  # OPT_PARAM: {\"initial\": 1.5987611037815481, \"min\": 1.0, \"max\": 2.0, \"type\": \"float\"}\n    lead_time_adjustment = 5.290778045567044  # OPT_PARAM: {\"initial\": 5.290778045567044, \"min\": 5.0, \"max\": 15.0, \"type\": \"float\"}\n    inventory_adjustment = 0.15  # OPT_PARAM: {\"initial\": 0.15, \"min\": 0.15, \"max\": 0.3, \"type\": \"float\"}\n    \n    dynamic_target = base_target + demand_response * last_demand + lead_time_adjustment * quoted_lead_time\n    inventory_position = on_hand_inventory + sum(pipeline_orders)\n    order_amount = max(0.0, inventory_adjustment * (dynamic_target - inventory_position))\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base_target to better handle high demand periods, reduced demand_response to be less reactive to spikes, lowered lead_time_adjustment since lead time is constant, and increased inventory_adjustment for faster replenishment. These changes aim to reduce lost sales while controlling holding costs.",
+          "opt_params": {
+               "base_target": 251.81173483029494,
+               "demand_response": 1.5987611037815481,
+               "lead_time_adjustment": 5.290778045567044,
+               "inventory_adjustment": 0.15
+          },
+          "cost": null,
+          "objective": 30444.92604,
+          "lower": 28642.9042,
+          "upper": 32298.79667,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base_target to better handle high demand periods, reduced demand_response to be less reactive to spikes, increased lead_time_adjustment to account for longer lead times, and increased inventory_adjustment to make ordering more aggressive. These changes aim to reduce lost sales while maintaining reasonable holding costs.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 252.19091418724656  # OPT_PARAM: {\"initial\": 252.19091418724656, \"min\": 200.0, \"max\": 350.0, \"type\": \"float\"}\n    demand_response = 2.0  # OPT_PARAM: {\"initial\": 2.0, \"min\": 0.5, \"max\": 2.0, \"type\": \"float\"}\n    lead_time_adjustment = 15.600245900283612  # OPT_PARAM: {\"initial\": 15.600245900283612, \"min\": 5.0, \"max\": 25.0, \"type\": \"float\"}\n    inventory_adjustment = 0.1  # OPT_PARAM: {\"initial\": 0.1, \"min\": 0.1, \"max\": 0.5, \"type\": \"float\"}\n    \n    dynamic_target = base_target + demand_response * last_demand + lead_time_adjustment * quoted_lead_time\n    inventory_position = on_hand_inventory + sum(pipeline_orders)\n    order_amount = max(0.0, inventory_adjustment * (dynamic_target - inventory_position))\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base_target to better handle high demand periods, reduced demand_response to be less reactive to spikes, increased lead_time_adjustment to account for longer lead times, and increased inventory_adjustment to make ordering more aggressive. These changes aim to reduce lost sales while maintaining reasonable holding costs.",
+          "opt_params": {
+               "base_target": 252.19091418724656,
+               "demand_response": 2.0,
+               "lead_time_adjustment": 15.600245900283612,
+               "inventory_adjustment": 0.1
+          },
+          "cost": null,
+          "objective": 30451.39005,
+          "lower": 28623.68367,
+          "upper": 32319.4224,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base target to better handle high demand periods, reduced demand response and lead time adjustment to smooth ordering, and increased adjustment factor for faster inventory correction. The changes aim to balance holding and lost sales costs better based on the training performance which showed high lost sales costs.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 258.3266087290972  # OPT_PARAM: {\"initial\": 258.3266087290972, \"min\": 200.0, \"max\": 350.0, \"type\": \"float\"}\n    demand_response = 2.0  # OPT_PARAM: {\"initial\": 2.0, \"min\": 0.5, \"max\": 2.0, \"type\": \"float\"}\n    lead_time_adjustment = 14.48907194988931  # OPT_PARAM: {\"initial\": 14.48907194988931, \"min\": 5.0, \"max\": 25.0, \"type\": \"float\"}\n    adjustment_factor = 0.1  # OPT_PARAM: {\"initial\": 0.1, \"min\": 0.1, \"max\": 0.5, \"type\": \"float\"}\n    \n    dynamic_target = base_target + demand_response * last_demand + lead_time_adjustment * quoted_lead_time\n    inventory_position = on_hand_inventory + sum(pipeline_orders)\n    order_amount = max(0.0, adjustment_factor * (dynamic_target - inventory_position))\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base target to better handle high demand periods, reduced demand response and lead time adjustment to smooth ordering, and increased adjustment factor for faster inventory correction. The changes aim to balance holding and lost sales costs better based on the training performance which showed high lost sales costs.",
+          "opt_params": {
+               "base_target": 258.3266087290972,
+               "demand_response": 2.0,
+               "lead_time_adjustment": 14.48907194988931,
+               "adjustment_factor": 0.1
+          },
+          "cost": null,
+          "objective": 30451.40151,
+          "lower": 28623.19674,
+          "upper": 32321.12155,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base_target to handle higher demand spikes better, reduced demand_response to be less reactive to fluctuations, increased lead_time_adjustment for more conservative ordering with longer lead times, and increased inventory_adjustment for faster replenishment. These changes aim to reduce lost sales while keeping holding costs manageable.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_target = 225.3495881865205  # OPT_PARAM: {\"initial\": 225.3495881865205, \"min\": 200.0, \"max\": 300.0, \"type\": \"float\"}\n    demand_response = 1.5  # OPT_PARAM: {\"initial\": 1.5, \"min\": 0.8, \"max\": 1.5, \"type\": \"float\"}\n    lead_time_adjustment = 10.761313240330932  # OPT_PARAM: {\"initial\": 10.761313240330932, \"min\": 10.0, \"max\": 20.0, \"type\": \"float\"}\n    inventory_adjustment = 0.15  # OPT_PARAM: {\"initial\": 0.15, \"min\": 0.15, \"max\": 0.3, \"type\": \"float\"}\n    \n    dynamic_target = base_target + demand_response * last_demand + lead_time_adjustment * quoted_lead_time\n    inventory_position = on_hand_inventory + sum(pipeline_orders)\n    order_amount = max(0.0, inventory_adjustment * (dynamic_target - inventory_position))\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base_target to handle higher demand spikes better, reduced demand_response to be less reactive to fluctuations, increased lead_time_adjustment for more conservative ordering with longer lead times, and increased inventory_adjustment for faster replenishment. These changes aim to reduce lost sales while keeping holding costs manageable.",
+          "opt_params": {
+               "base_target": 225.3495881865205,
+               "demand_response": 1.5,
+               "lead_time_adjustment": 10.761313240330932,
+               "inventory_adjustment": 0.15
+          },
+          "cost": null,
+          "objective": 30455.51131,
+          "lower": 28639.92823,
+          "upper": 32313.491,
+          "other_inf": null
+     }
+]

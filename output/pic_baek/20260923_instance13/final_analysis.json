@@ -1,0 +1,172 @@
+{
+  "complete": true,
+  "completed_sessions": 12,
+  "planned_sessions": 12,
+  "valid_policies": 12,
+  "actual_cost_completed_sessions_usd": 3.3856368,
+  "selected_by_validation": "l2_repeat_07",
+  "selected_L2_by_validation": "l2_repeat_07",
+  "lowest_excel_observed": "l2_repeat_04",
+  "lowest_excel_is_post_hoc": true,
+  "actual_models": [
+    "openai/gpt-5.6-sol"
+  ],
+  "total_python_seconds": 1752.7086202932987,
+  "total_tool_calls": 97,
+  "total_api_requests": 108,
+  "total_input_tokens": 1427678,
+  "total_output_tokens": 252048,
+  "policy_hashes": {
+    "l1_main": "9ff3040f6f23cb98cebafa3dc5ab8f23193d0d7c08eb4138bf4db5eac77a2e7e",
+    "l2_main": "ceb76a907caa73065e9d4c511ecf7b1e858ab016d1f0992d501ada41ff13d56d",
+    "l2_repeat_01": "ec80d0dd7b89a3dde5d08923ec1674110f5581f0b61db02b44e6bc1911ba68a7",
+    "l2_repeat_02": "ca998b8b56c7ea95ec4623f4545f4f0c47f18d35d148ca8cf58f1133ce75ea10",
+    "l2_repeat_03": "7da11d348117061c745744b9b390734bcb8868615100301226691f91c16ccc48",
+    "l2_repeat_04": "395a27379721b06b10e4acd600eea08723d4f9b12939bbe5dbfe0204ccf09422",
+    "l2_repeat_05": "e0837ef3ad2228d29d9772789efd0a82901ebb406f231349828cb4f5cef97cf3",
+    "l2_repeat_06": "c55002a8e615d676773480cdf772c843ecd8d538148ceb1fe77b0ea7b77c61f2",
+    "l2_repeat_07": "9a62c9ddf5d8ebc857476e0c461d37dc34ac3a2c36f57ac30a68158ef4a01963",
+    "l2_repeat_08": "4ecfa0ee057c897ed1a7de1fc38cbadfae46fe3c726c910bf213a3aaa210ce43",
+    "l2_repeat_09": "124d0e2a914d0fb51fa3f65e9f65246f14ef375772d7b24e898f34376ae07896",
+    "l2_repeat_10": "f425c230fb243e5ec8163fd7d6d10d0b50a14d154ae1e91b3d3a4243f98b9344"
+  },
+  "paired_comparisons": {
+    "excel": {
+      "main_L2_minus_L1": {
+        "n": 200,
+        "mean": 13.516243316253814,
+        "standard_error": 5.0698972717740745,
+        "ci95_low": 3.5186262124948176,
+        "ci95_high": 23.51386042001281
+      },
+      "validation_selected_L2_minus_L1": {
+        "n": 200,
+        "mean": 4.864399708513305,
+        "standard_error": 2.0441088494666704,
+        "ci95_low": 0.8335058856445814,
+        "ci95_high": 8.895293531382027
+      },
+      "validation_selected_minus_constant": {
+        "n": 200,
+        "mean": -110.51463596450719,
+        "standard_error": 18.14291348471972,
+        "ci95_low": -146.29167294249362,
+        "ci95_high": -74.73759898652075
+      },
+      "validation_selected_minus_base_stock": {
+        "n": 200,
+        "mean": -23.107898648951522,
+        "standard_error": 9.390743278506525,
+        "ci95_low": -41.62603631239063,
+        "ci95_high": -4.589760985512413
+      }
+    },
+    "validation": {
+      "main_L2_minus_L1": {
+        "n": 200,
+        "mean": 5.574877736245823,
+        "standard_error": 6.074415363955126,
+        "ci95_low": -6.403605393208884,
+        "ci95_high": 17.55336086570053
+      },
+      "validation_selected_L2_minus_L1": {
+        "n": 200,
+        "mean": -4.95035462739011,
+        "standard_error": 4.895321849427115,
+        "ci95_low": -14.603716584586508,
+        "ci95_high": 4.7030073298062876
+      },
+      "validation_selected_minus_constant": {
+        "n": 200,
+        "mean": -98.57432536781363,
+        "standard_error": 19.931755410907737,
+        "ci95_low": -137.87888088877844,
+        "ci95_high": -59.26976984684882
+      },
+      "validation_selected_minus_base_stock": {
+        "n": 200,
+        "mean": -34.40656742557253,
+        "standard_error": 7.764293950723682,
+        "ci95_low": -49.717417693196396,
+        "ci95_high": -19.095717157948666
+      }
+    },
+    "fresh": {
+      "main_L2_minus_L1": {
+        "n": 200,
+        "mean": 4.489918231897577,
+        "standard_error": 7.205265996266876,
+        "ci95_low": -9.718553202515519,
+        "ci95_high": 18.698389666310675
+      },
+      "validation_selected_L2_minus_L1": {
+        "n": 200,
+        "mean": -9.162167118090982,
+        "standard_error": 7.49311848150261,
+        "ci95_low": -23.938271144543815,
+        "ci95_high": 5.61393690836185
+      },
+      "validation_selected_minus_constant": {
+        "n": 200,
+        "mean": -135.25134306425988,
+        "standard_error": 24.24664092481291,
+        "ci95_low": -183.0646653120671,
+        "ci95_high": -87.43802081645268
+      },
+      "validation_selected_minus_base_stock": {
+        "n": 200,
+        "mean": -32.01761507779867,
+        "standard_error": 10.2477001428817,
+        "ci95_low": -52.22563443808387,
+        "ci95_high": -11.809595717513478
+      }
+    }
+  },
+  "repeat_distribution": {
+    "excel": {
+      "valid": 10,
+      "planned": 10,
+      "mean": 1311.5456379447849,
+      "median": 1311.553558803377,
+      "between_generation_sd": 8.537715372071753,
+      "minimum": 1298.5502029839156,
+      "maximum": 1324.4108316413601
+    },
+    "validation": {
+      "valid": 10,
+      "planned": 10,
+      "mean": 1308.4202684489358,
+      "median": 1303.195106050929,
+      "between_generation_sd": 13.66218290063005,
+      "minimum": 1291.472063258672,
+      "maximum": 1330.069490851243
+    },
+    "fresh": {
+      "valid": 10,
+      "planned": 10,
+      "mean": 1306.5354234215697,
+      "median": 1300.0719886022412,
+      "between_generation_sd": 15.50136080427644,
+      "minimum": 1287.5493042162116,
+      "maximum": 1330.0932580819976
+    }
+  },
+  "actual_returned_response_cost_usd": 3.3856368000000003,
+  "generation_wall_seconds": 3378.197939157486,
+  "unconfirmed_failure_charges": [
+    {
+      "log": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/pic_baek/20260923_instance13/sessions/l2_repeat_05/events.jsonl",
+      "request_index": 5,
+      "reserved_usd": 0.926588,
+      "reason": "conservative_bound",
+      "blocks_resume": false,
+      "reconciled_for_resume": true,
+      "charge_resolution": "conservative_bound",
+      "actual_cost_usd": null,
+      "retained_cost_upper_usd": 0.926588,
+      "reconciliation_id": "pic-l2-repeat05-transport-01"
+    }
+  ],
+  "unconfirmed_failure_cost_upper_usd": 0.926588,
+  "confirmed_plus_failure_upper_usd": 4.3122248
+}

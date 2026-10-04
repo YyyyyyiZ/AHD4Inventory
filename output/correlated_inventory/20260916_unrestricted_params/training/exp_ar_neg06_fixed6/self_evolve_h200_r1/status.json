@@ -1,0 +1,23 @@
+{
+  "status": "completed",
+  "best_code_path": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_unrestricted_params/training/exp_ar_neg06_fixed6/self_evolve_h200_r1/policy.py",
+  "code_sha256": "753766c93f28c544fb33e5fb4382dc779cf81aaabc6b2952ef7646a99893b578",
+  "best_train_cost": 20094.863153923965,
+  "algorithm": "Increased base_stock to better match demand spikes, increased demand_sensitivity to react more to recent demand changes, and increased adjustment_factor to respond faster to inventory gaps. These changes aim to reduce lost sales while keeping holding costs manageable.",
+  "checkpoint_path": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_unrestricted_params/training/exp_ar_neg06_fixed6/self_evolve_h200_r1/checkpoints/g010.json.gz",
+  "model_calls": 104,
+  "training_evaluations": 8888,
+  "training_cache_hits": 313,
+  "compiled_structures": 5,
+  "optimizer": "SciPy L-BFGS-B",
+  "optimizer_maxiter": 15,
+  "test_evaluated": false,
+  "scenario_id": "exp_ar_neg06_fixed6",
+  "policy_id": "self_evolve_h200_r1",
+  "family": "self_evolve",
+  "repeat": 1,
+  "source_training_horizon": 200,
+  "elapsed_seconds": 1067.2506562501658,
+  "finished_utc": "2026-09-16T13:57:22.303919+00:00",
+  "full_protocol": true
+}

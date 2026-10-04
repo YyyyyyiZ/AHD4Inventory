@@ -1,0 +1,262 @@
+{
+  "results": {
+    "perish_m7_L2_cv1.5_f0": {
+      "theta": [
+        20.079797092811653,
+        26.98974057209275,
+        1.1863398176516307,
+        3.642058464912947,
+        2.7448491454638777,
+        0.3884754454967767
+      ],
+      "cost": 136.59375,
+      "nfev": 1024,
+      "seconds": 78.48538166703656,
+      "path_costs": [
+        126.4,
+        134.8,
+        144.4,
+        135.5,
+        125.4,
+        140.3,
+        134.5,
+        150.3,
+        143.3,
+        126.4,
+        114.5,
+        125.2,
+        181.6,
+        154.8,
+        138.3,
+        123.6,
+        148.8,
+        125.3,
+        108.6,
+        160.4,
+        120.3,
+        149.3,
+        161.2,
+        140.1,
+        142.2,
+        131.1,
+        135.2,
+        124.3,
+        118.5,
+        126.5,
+        147.7,
+        132.2
+      ],
+      "metrics": [
+        0.45921875,
+        0.9067187499999999,
+        3.5256562500000004
+      ],
+      "cap": 32
+    },
+    "perish_m7_L2_cv1.5_f0.5": {
+      "theta": [
+        9.92802180031818,
+        13.984514291417003,
+        0.8570351298258542,
+        0.43548780152519906,
+        0.8451032353961625,
+        0.9198608814739078
+      ],
+      "cost": 121.221875,
+      "nfev": 1024,
+      "seconds": 76.6774212080054,
+      "path_costs": [
+        125.9,
+        126.8,
+        113.1,
+        115.3,
+        143.4,
+        109.1,
+        121.4,
+        106.0,
+        121.3,
+        116.6,
+        123.0,
+        117.7,
+        113.3,
+        114.7,
+        138.5,
+        126.1,
+        154.0,
+        114.3,
+        119.4,
+        118.1,
+        115.0,
+        121.1,
+        116.3,
+        126.0,
+        110.2,
+        126.5,
+        125.9,
+        137.0,
+        115.9,
+        114.8,
+        112.3,
+        120.1
+      ],
+      "metrics": [
+        0.4219375000000001,
+        0.7902812499999999,
+        3.643
+      ],
+      "cap": 32
+    },
+    "perish_m7_L2_cv2_f0": {
+      "theta": [
+        18.6179468740116,
+        22.761576489029338,
+        1.161829874395603,
+        3.6894331567787386,
+        2.814592573712468,
+        0.3437599302707537
+      ],
+      "cost": 179.8625,
+      "nfev": 1024,
+      "seconds": 55.10352437500842,
+      "path_costs": [
+        194.7,
+        180.5,
+        189.2,
+        167.6,
+        206.6,
+        194.1,
+        209.4,
+        162.6,
+        173.4,
+        153.2,
+        184.0,
+        169.2,
+        185.1,
+        178.7,
+        196.4,
+        175.3,
+        172.2,
+        153.5,
+        163.7,
+        188.8,
+        174.5,
+        164.2,
+        231.8,
+        179.3,
+        169.3,
+        166.6,
+        175.4,
+        191.2,
+        181.9,
+        194.7,
+        165.3,
+        163.2
+      ],
+      "metrics": [
+        0.47362499999999996,
+        1.325,
+        3.1837499999999994
+      ],
+      "cap": 29
+    },
+    "perish_m7_L2_cv2_f0.5": {
+      "theta": [
+        7.316639581164601,
+        6.484422965028518,
+        0.5204134974586758,
+        0.2028321587635138,
+        0.36598382825701403,
+        0.7456575609537297
+      ],
+      "cost": 169.275,
+      "nfev": 1024,
+      "seconds": 64.63606495899148,
+      "path_costs": [
+        177.5,
+        166.9,
+        151.9,
+        158.7,
+        153.0,
+        169.3,
+        178.9,
+        144.6,
+        197.4,
+        191.4,
+        152.4,
+        145.0,
+        150.8,
+        152.3,
+        155.2,
+        169.9,
+        194.4,
+        169.6,
+        167.3,
+        183.0,
+        203.3,
+        152.0,
+        163.2,
+        189.3,
+        192.6,
+        197.1,
+        147.1,
+        185.8,
+        155.4,
+        157.1,
+        193.4,
+        151.0
+      ],
+      "metrics": [
+        0.39021874999999995,
+        1.3025312500000001,
+        3.1630000000000003
+      ],
+      "cap": 28
+    }
+  },
+  "parameters": {
+    "S": {
+      "type": "float",
+      "initial": 10.0,
+      "min": 0.0,
+      "max": 40.0
+    },
+    "C": {
+      "type": "float",
+      "initial": 10.0,
+      "min": 0.0,
+      "max": 40.0
+    },
+    "G": {
+      "type": "float",
+      "initial": 1.0,
+      "min": 0.1,
+      "max": 3.0
+    },
+    "A": {
+      "type": "float",
+      "initial": 1.0,
+      "min": 0.05,
+      "max": 4.0
+    },
+    "OLD": {
+      "type": "float",
+      "initial": 1.0,
+      "min": 0.0,
+      "max": 3.0
+    },
+    "SALE": {
+      "type": "float",
+      "initial": 1.0,
+      "min": 0.3,
+      "max": 1.8
+    }
+  },
+  "structure_sha256": "3096cb9fc2804cc175dfda026d97e5272c72b82d46b01281d7b3785f9e15fde6",
+  "code_sha256": "74237fb756714646902decae32f03a0e5b20ff7ade727c4300dba291c45378b4",
+  "import_normalization": [],
+  "wall_seconds": 277.0698048749473,
+  "transitions": 196800000,
+  "valid": true,
+  "score": 0.9603999389435499,
+  "code": "def compute_order_amount(age, pipeline, mu, cv, f, L):\n    S = 10.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":10.0,\"min\":0.0,\"max\":40.0}\n    C = 10.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":10.0,\"min\":0.0,\"max\":40.0}\n    G = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.1,\"max\":3.0}\n    A = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.05,\"max\":4.0}\n    OLD = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":3.0}\n    SALE = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.3,\"max\":1.8}\n\n    m = len(age)\n    stock = [0.0] * m\n    for i in range(m):\n        stock[i] = max(0.0, float(age[i]))\n\n    for t in range(L):\n        for group in range(2):\n            if group == 0:\n                g = f\n            else:\n                g = 1.0 - f\n\n            total = 0.0\n            for i in range(m):\n                total = total + stock[i]\n\n            sale = 0.0\n            if g > 0.0 and total > 0.0:\n                M = g * mu\n                V = g * (mu * cv) * (mu * cv)\n                shape = V / (M * M) - 1.0 / M\n                root = max(0.0, shape * shape - 1.0) ** 0.5\n                b = 1.0 + shape + root\n                c = 1.0 + shape - root\n                p1 = 2.0 / (2.0 + M * b)\n                p2 = 2.0 / (2.0 + M * c)\n                r1 = 1.0 - p1\n                r2 = 1.0 - p2\n                n = int(total)\n                frac = total - n\n                e1 = r1 * (1.0 - r1 ** n) / p1 + frac * r1 ** (n + 1)\n                e2 = r2 * (1.0 - r2 ** n) / p2 + frac * r2 ** (n + 1)\n                expected = e1 / b + e2 / c\n                sale = min(total, SALE * expected)\n\n            remaining = sale\n            if group == 0:\n                for i in range(m):\n                    used = min(stock[i], remaining)\n                    stock[i] = stock[i] - used\n                    remaining = remaining - used\n            else:\n                for k in range(m):\n                    i = m - 1 - k\n                    used = min(stock[i], remaining)\n                    stock[i] = stock[i] - used\n                    remaining = remaining - used\n\n        shifted = [0.0] * m\n        for i in range(m - 1):\n            shifted[i] = stock[i + 1]\n        if t < len(pipeline):\n            shifted[m - 1] = max(0.0, float(pipeline[t]))\n        else:\n            shifted[m - 1] = 0.0\n        stock = shifted\n\n    effective = 0.0\n    routing_factor = (1.0 - f) ** 3\n    for i in range(m):\n        x = (i + 1.0) / m\n        weight = x ** A + OLD * routing_factor * (1.0 - x)\n        effective = effective + weight * stock[i]\n\n    q = S - G * effective\n    q = max(0.0, min(C, q))\n    if q != q:\n        q = 0.0\n    return float(q)\n"
+}

@@ -1,0 +1,23 @@
+{
+  "status": "completed",
+  "best_code_path": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_stationary_priority/training/exp_ar_pos08_fixed6/self_evolve_h100_r3/policy.py",
+  "code_sha256": "27613f7945dd6f4ed93ab38e8491c85b1c837960309360e44732d5518d05b719",
+  "best_train_cost": 16340.856040012872,
+  "algorithm": "Improved policy by incorporating dynamic adjustment based on last demand, smoothing between target and current position, and partial pipeline consideration. The parameters allow optimization of base inventory level, demand responsiveness, smoothing intensity, and pipeline consideration.",
+  "checkpoint_path": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_stationary_priority/training/exp_ar_pos08_fixed6/self_evolve_h100_r3/checkpoints/g010.json.gz",
+  "model_calls": 100,
+  "training_evaluations": 8456,
+  "training_cache_hits": 463,
+  "compiled_structures": 36,
+  "optimizer": "SciPy L-BFGS-B",
+  "optimizer_maxiter": 15,
+  "test_evaluated": false,
+  "scenario_id": "exp_ar_pos08_fixed6",
+  "policy_id": "self_evolve_h100_r3",
+  "family": "self_evolve",
+  "repeat": 3,
+  "source_training_horizon": 100,
+  "elapsed_seconds": 913.7056145409588,
+  "finished_utc": "2026-09-16T07:33:18.018826+00:00",
+  "full_protocol": true
+}

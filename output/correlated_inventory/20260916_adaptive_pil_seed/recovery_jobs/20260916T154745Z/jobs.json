@@ -1,0 +1,26 @@
+{
+  "root": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_adaptive_pil_seed",
+  "scenarios": [
+    "exp_iid_fixed6",
+    "exp_ar_pos08_fixed6",
+    "exp_ar_neg06_fixed6",
+    "exp_regime095_fixed6"
+  ],
+  "repeat": 1,
+  "workers": 2,
+  "frozen_training_source_manifest": {
+    "frozen_utc": "2026-09-16T14:55:15.329087+00:00",
+    "sha256": {
+      "adaptive_pil_runner.py": "58c4d8bc8e0bac19923e5594d48e350a58057b7aef6d8e12419567677a3efa14",
+      "adaptive_pil_seed.py": "b24fdbc19c9806a9ea50e4b6bcf93e842a8b8cfce98f59ac1d4de2afa7d6dce5",
+      "adaptive_pil_worker.py": "0c6551a5cce39cb9ce7127cae16bdfd9310cccb01b86ec61d142ee72b21783fb",
+      "evolution.py": "39c31d09d97b512ce1a0ce966e6198eac354a08649382b366aceee2a577fbe94",
+      "problem.py": "d7ce57f0aa8c8a8af19ac616193411e74c06a19f599062e3b752c3122145f94c",
+      "prompts.py": "952c2d243e88435a836906336e84878544f8233b1c0b931db693ae9c352fb253",
+      "fast_policy.py": "d223f8cbc31fdd93c8cba0bc73bb3fcf35f31f7b272b5ca0fe1839637632e325",
+      "data.py": "51d9c8099f1de4ba07dc789067c7559673f7f6d0627222dea512c7ae16490a84",
+      "environment.py": "22188bcdb372c28599b410fa45411fdbb69754a8430f95b78a21b7847568db93",
+      "baselines.py": "5bfb40d9dea148cf9e3b3c392cc7f17acac047395e22940e29349f8a0aa3cd84"
+    }
+  }
+}

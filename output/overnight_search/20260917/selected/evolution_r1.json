@@ -1,0 +1,760 @@
+{
+  "arm": "evolution",
+  "repeat": 1,
+  "selected": {
+    "code": "def compute_order_amount(age, pipeline, mu, cv, f, L):\n    S = 10.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":10.0,\"min\":0.0,\"max\":60.0}\n    C = 6.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":6.0,\"min\":0.0,\"max\":30.0}\n    A = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":8.0}\n    P = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":2.0}\n    B = 0.75 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.75,\"min\":0.0,\"max\":1.0}\n\n    m = len(age)\n    raw_effective = 0.0\n    for i in range(m):\n        x = (i + 1.0) / m\n        raw_effective = raw_effective + age[i] * (x ** A)\n\n    pipeline_stock = 0.0\n    for j in range(len(pipeline)):\n        pipeline_stock = pipeline_stock + pipeline[j]\n    raw_effective = raw_effective + P * pipeline_stock\n\n    projected = [0.0] * m\n    for i in range(m):\n        projected[i] = age[i]\n\n    for step in range(L):\n        for stream in range(2):\n            if stream == 0:\n                g = f\n            else:\n                g = 1.0 - f\n\n            M = g * mu\n            if M > 0.0:\n                V = g * (mu * cv) * (mu * cv)\n                shape = V / (M * M) - 1.0 / M\n                root = max(0.0, shape * shape - 1.0) ** 0.5\n                b = 1.0 + shape + root\n                c = 1.0 + shape - root\n                weight1 = 1.0 / b\n                p1 = 2.0 / (2.0 + M * b)\n                p2 = 2.0 / (2.0 + M * c)\n                r1 = 1.0 - p1\n                r2 = 1.0 - p2\n\n                available = 0.0\n                for i in range(m):\n                    available = available + projected[i]\n\n                if available > 0.0:\n                    n = int(available)\n                    fraction = available - n\n                    expected_use = 0.0\n                    if n > 0:\n                        expected_use = weight1 * r1 * (1.0 - r1 ** n) / (1.0 - r1)\n                        expected_use = expected_use + (1.0 - weight1) * r2 * (1.0 - r2 ** n) / (1.0 - r2)\n                    tail = weight1 * (r1 ** (n + 1))\n                    tail = tail + (1.0 - weight1) * (r2 ** (n + 1))\n                    expected_use = expected_use + fraction * tail\n                    expected_use = max(0.0, min(available, expected_use))\n\n                    remaining = expected_use\n                    if stream == 0:\n                        for i in range(m):\n                            take = min(projected[i], remaining)\n                            projected[i] = projected[i] - take\n                            remaining = remaining - take\n                    else:\n                        for i in range(m - 1, -1, -1):\n                            take = min(projected[i], remaining)\n                            projected[i] = projected[i] - take\n                            remaining = remaining - take\n\n        shifted = [0.0] * m\n        for i in range(m - 1):\n            shifted[i] = projected[i + 1]\n        if step < len(pipeline):\n            shifted[m - 1] = pipeline[step]\n        projected = shifted\n\n    projected_effective = 0.0\n    for i in range(m):\n        x = (i + 1.0) / m\n        projected_effective = projected_effective + projected[i] * (x ** A)\n\n    effective = (1.0 - B) * raw_effective + B * projected_effective\n    return max(0.0, min(C, S - effective))\n",
+    "origin": "search/evolution_r1/candidate_00_0",
+    "validation": 0.9971919172402886,
+    "train_score": 0.9974974071359579,
+    "train_theta": {
+      "perish_m3_L2_cv1.5_f0": [
+        8.763176076470693,
+        3.145299349523013,
+        7.053897725327961,
+        1.852084356069685,
+        0.6646081694324367
+      ],
+      "perish_m3_L2_cv1.5_f0.5": [
+        8.763176076470693,
+        3.145299349523013,
+        7.053897725327961,
+        1.852084356069685,
+        0.6646081694324367
+      ],
+      "perish_m3_L2_cv2_f0": [
+        6.299964562712098,
+        13.710002123681498,
+        4.584786513690582,
+        1.335013865540287,
+        0.4407105184175873
+      ],
+      "perish_m3_L2_cv2_f0.5": [
+        6.600433115288087,
+        12.028362525370904,
+        2.9397819997111547,
+        1.2086747345973692,
+        0.4202438135622024
+      ],
+      "perish_m5_L2_cv1.5_f0": [
+        9.724095517591515,
+        15.709731253367687,
+        0.964003094967782,
+        0.1282933611896827,
+        0.032492083729080745
+      ],
+      "perish_m5_L2_cv1.5_f0.5": [
+        7.893610212031501,
+        6.366371620787424,
+        1.119065269467546,
+        0.43816078404466907,
+        0.7603431458424703
+      ],
+      "perish_m5_L2_cv2_f0": [
+        9.10392890160007,
+        5.677830408966756,
+        0.311853864185736,
+        0.6783000651791009,
+        0.33846688825766585
+      ],
+      "perish_m5_L2_cv2_f0.5": [
+        8.989708531071095,
+        11.130264996267874,
+        0.513297072647624,
+        1.199191755507535,
+        0.5605355073567297
+      ]
+    },
+    "structure_sha256": "78bca85a065b7122ae98e8bdb7ca0e6e11389d8d0e71e3c986f8bfd138150040"
+  },
+  "choices": [
+    {
+      "code": "def compute_order_amount(age, pipeline, mu, cv, f, L):\n    S = 10.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":10.0,\"min\":0.0,\"max\":60.0}\n    C = 6.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":6.0,\"min\":0.0,\"max\":30.0}\n    a = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":3.0}\n    effective = 0.0\n    for i in range(len(age)):\n        effective = effective + age[i]*min(1.0,((i+1.0)/len(age))**a)\n    return max(0.0,min(C,S-effective-sum(pipeline)))\n",
+      "origin": "common_baseline:age_discount",
+      "validation": 1.0002549128661475,
+      "train_score": 1.0,
+      "train_theta": {
+        "perish_m3_L2_cv1.5_f0": [
+          37.00246970889457,
+          3.364727661832859,
+          1.8513005002865002
+        ],
+        "perish_m3_L2_cv1.5_f0.5": [
+          10.485371228430214,
+          3.7786378793562676,
+          2.1629712308392426
+        ],
+        "perish_m3_L2_cv2_f0": [
+          8.364894650130452,
+          2.8905768917510066,
+          2.07749642527094
+        ],
+        "perish_m3_L2_cv2_f0.5": [
+          10.092646662843695,
+          3.204119560795405,
+          0.8755255880969515
+        ],
+        "perish_m5_L2_cv1.5_f0": [
+          13.53090899674844,
+          16.611595077144273,
+          0.43471226549731545
+        ],
+        "perish_m5_L2_cv1.5_f0.5": [
+          13.938470294270381,
+          5.289202833486536,
+          1.3414026291246284
+        ],
+        "perish_m5_L2_cv2_f0": [
+          11.660517421776394,
+          6.199760833041662,
+          0.5324349925269172
+        ],
+        "perish_m5_L2_cv2_f0.5": [
+          11.49305626964916,
+          4.862628709010522,
+          1.0025122517002927
+        ]
+      },
+      "structure_sha256": "a1b0ebc321b761ae22824b3e92851628015388b4655bbab8275e5e5560198f5a"
+    },
+    {
+      "code": "def compute_order_amount(age, pipeline, mu, cv, f, L):\n    S = 10.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":10.0,\"min\":0.0,\"max\":60.0}\n    C = 6.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":6.0,\"min\":0.0,\"max\":30.0}\n    A = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":8.0}\n    P = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":2.0}\n    B = 0.75 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.75,\"min\":0.0,\"max\":1.0}\n\n    m = len(age)\n    raw_effective = 0.0\n    for i in range(m):\n        x = (i + 1.0) / m\n        raw_effective = raw_effective + age[i] * (x ** A)\n\n    pipeline_stock = 0.0\n    for j in range(len(pipeline)):\n        pipeline_stock = pipeline_stock + pipeline[j]\n    raw_effective = raw_effective + P * pipeline_stock\n\n    projected = [0.0] * m\n    for i in range(m):\n        projected[i] = age[i]\n\n    for step in range(L):\n        for stream in range(2):\n            if stream == 0:\n                g = f\n            else:\n                g = 1.0 - f\n\n            M = g * mu\n            if M > 0.0:\n                V = g * (mu * cv) * (mu * cv)\n                shape = V / (M * M) - 1.0 / M\n                root = max(0.0, shape * shape - 1.0) ** 0.5\n                b = 1.0 + shape + root\n                c = 1.0 + shape - root\n                weight1 = 1.0 / b\n                p1 = 2.0 / (2.0 + M * b)\n                p2 = 2.0 / (2.0 + M * c)\n                r1 = 1.0 - p1\n                r2 = 1.0 - p2\n\n                available = 0.0\n                for i in range(m):\n                    available = available + projected[i]\n\n                if available > 0.0:\n                    n = int(available)\n                    fraction = available - n\n                    expected_use = 0.0\n                    if n > 0:\n                        expected_use = weight1 * r1 * (1.0 - r1 ** n) / (1.0 - r1)\n                        expected_use = expected_use + (1.0 - weight1) * r2 * (1.0 - r2 ** n) / (1.0 - r2)\n                    tail = weight1 * (r1 ** (n + 1))\n                    tail = tail + (1.0 - weight1) * (r2 ** (n + 1))\n                    expected_use = expected_use + fraction * tail\n                    expected_use = max(0.0, min(available, expected_use))\n\n                    remaining = expected_use\n                    if stream == 0:\n                        for i in range(m):\n                            take = min(projected[i], remaining)\n                            projected[i] = projected[i] - take\n                            remaining = remaining - take\n                    else:\n                        for i in range(m - 1, -1, -1):\n                            take = min(projected[i], remaining)\n                            projected[i] = projected[i] - take\n                            remaining = remaining - take\n\n        shifted = [0.0] * m\n        for i in range(m - 1):\n            shifted[i] = projected[i + 1]\n        if step < len(pipeline):\n            shifted[m - 1] = pipeline[step]\n        projected = shifted\n\n    projected_effective = 0.0\n    for i in range(m):\n        x = (i + 1.0) / m\n        projected_effective = projected_effective + projected[i] * (x ** A)\n\n    effective = (1.0 - B) * raw_effective + B * projected_effective\n    return max(0.0, min(C, S - effective))\n",
+      "origin": "search/evolution_r1/candidate_00_0",
+      "validation": 0.9971919172402886,
+      "train_score": 0.9974974071359579,
+      "train_theta": {
+        "perish_m3_L2_cv1.5_f0": [
+          8.763176076470693,
+          3.145299349523013,
+          7.053897725327961,
+          1.852084356069685,
+          0.6646081694324367
+        ],
+        "perish_m3_L2_cv1.5_f0.5": [
+          8.763176076470693,
+          3.145299349523013,
+          7.053897725327961,
+          1.852084356069685,
+          0.6646081694324367
+        ],
+        "perish_m3_L2_cv2_f0": [
+          6.299964562712098,
+          13.710002123681498,
+          4.584786513690582,
+          1.335013865540287,
+          0.4407105184175873
+        ],
+        "perish_m3_L2_cv2_f0.5": [
+          6.600433115288087,
+          12.028362525370904,
+          2.9397819997111547,
+          1.2086747345973692,
+          0.4202438135622024
+        ],
+        "perish_m5_L2_cv1.5_f0": [
+          9.724095517591515,
+          15.709731253367687,
+          0.964003094967782,
+          0.1282933611896827,
+          0.032492083729080745
+        ],
+        "perish_m5_L2_cv1.5_f0.5": [
+          7.893610212031501,
+          6.366371620787424,
+          1.119065269467546,
+          0.43816078404466907,
+          0.7603431458424703
+        ],
+        "perish_m5_L2_cv2_f0": [
+          9.10392890160007,
+          5.677830408966756,
+          0.311853864185736,
+          0.6783000651791009,
+          0.33846688825766585
+        ],
+        "perish_m5_L2_cv2_f0.5": [
+          8.989708531071095,
+          11.130264996267874,
+          0.513297072647624,
+          1.199191755507535,
+          0.5605355073567297
+        ]
+      },
+      "structure_sha256": "78bca85a065b7122ae98e8bdb7ca0e6e11389d8d0e71e3c986f8bfd138150040"
+    },
+    {
+      "code": "def compute_order_amount(age, pipeline, mu, cv, f, L):\n    S = 10.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":10.0,\"min\":0.0,\"max\":60.0}\n    C = 6.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":6.0,\"min\":0.0,\"max\":30.0}\n    A = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":10.0}\n    B = 0.8 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.8,\"min\":0.0,\"max\":1.0}\n    D = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.4,\"max\":1.8}\n    K = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":2.0}\n\n    m = len(age)\n    projected = [0.0] * m\n    no_demand = [0.0] * m\n\n    for i in range(m):\n        projected[i] = max(0.0, age[i])\n        no_demand[i] = max(0.0, age[i])\n\n    for step in range(L):\n        for stream in range(2):\n            if stream == 0:\n                g = f\n            else:\n                g = 1.0 - f\n\n            M = g * mu\n            if M > 0.0:\n                V = g * (mu * cv) * (mu * cv)\n                shape = V / (M * M) - 1.0 / M\n                root = max(0.0, shape * shape - 1.0) ** 0.5\n                b = 1.0 + shape + root\n                c = 1.0 + shape - root\n                weight1 = 1.0 / b\n                p1 = 2.0 / (2.0 + M * b)\n                p2 = 2.0 / (2.0 + M * c)\n                r1 = 1.0 - p1\n                r2 = 1.0 - p2\n                cumulative = 0.0\n\n                for pos in range(m):\n                    if stream == 0:\n                        idx = pos\n                    else:\n                        idx = m - 1 - pos\n\n                    x = max(0.0, projected[idx])\n                    lower = cumulative\n                    upper = cumulative + x\n                    values = [0.0, 0.0]\n\n                    for side in range(2):\n                        if side == 0:\n                            t = lower\n                        else:\n                            t = upper\n\n                        n = int(t)\n                        fraction = t - n\n                        e1 = 0.0\n                        e2 = 0.0\n\n                        if n > 0:\n                            e1 = r1 * (1.0 - r1 ** n) / (1.0 - r1)\n                            e2 = r2 * (1.0 - r2 ** n) / (1.0 - r2)\n\n                        e1 = e1 + fraction * (r1 ** (n + 1))\n                        e2 = e2 + fraction * (r2 ** (n + 1))\n                        values[side] = weight1 * e1 + (1.0 - weight1) * e2\n\n                    consumed = D * max(0.0, values[1] - values[0])\n                    consumed = min(x, consumed)\n                    projected[idx] = x - consumed\n                    cumulative = upper\n\n        shifted = [0.0] * m\n        shifted_no_demand = [0.0] * m\n\n        for i in range(m - 1):\n            shifted[i] = projected[i + 1]\n            shifted_no_demand[i] = no_demand[i + 1]\n\n        if step < len(pipeline):\n            arrival = max(0.0, pipeline[step])\n            shifted[m - 1] = arrival\n            shifted_no_demand[m - 1] = arrival\n\n        projected = shifted\n        no_demand = shifted_no_demand\n\n    expected_effective = 0.0\n    maximum_effective = 0.0\n\n    for i in range(m):\n        relative_life = (i + 1.0) / m\n        weight = relative_life ** A\n        expected_effective = expected_effective + projected[i] * weight\n        maximum_effective = maximum_effective + no_demand[i] * weight\n\n    effective = B * expected_effective + (1.0 - B) * maximum_effective\n    order = S - K * effective\n    order = max(0.0, min(C, order))\n\n    if order != order:\n        return 0.0\n    return order\n",
+      "origin": "search/evolution_r1/candidate_01_0",
+      "validation": 1.0171999773458134,
+      "train_score": 1.0184390823924605,
+      "train_theta": {
+        "perish_m3_L2_cv1.5_f0": [
+          3.003456997480818,
+          10.50698422300688,
+          2.6463655692419947,
+          0.6025667339462629,
+          1.4816217936934066,
+          0.8780998355510157
+        ],
+        "perish_m3_L2_cv1.5_f0.5": [
+          2.8423707687484097,
+          8.166010328028738,
+          4.928338881674318,
+          0.9028259967186444,
+          1.470755086111497,
+          1.2866900328247166
+        ],
+        "perish_m3_L2_cv2_f0": [
+          3.003456997480818,
+          10.50698422300688,
+          2.6463655692419947,
+          0.6025667339462629,
+          1.4816217936934066,
+          0.8780998355510157
+        ],
+        "perish_m3_L2_cv2_f0.5": [
+          3.0795786434342354,
+          10.079762950525023,
+          0.9911146445727983,
+          0.6881525224724511,
+          1.5662318256863017,
+          0.4530849067165307
+        ],
+        "perish_m5_L2_cv1.5_f0": [
+          47.06732141509955,
+          2.5556778627817405,
+          9.585790241582487,
+          0.07371598638494503,
+          0.6854929119522929,
+          0.5807235597532292
+        ],
+        "perish_m5_L2_cv1.5_f0.5": [
+          47.06732141509955,
+          3.6812179275586328,
+          9.585790241582487,
+          0.08917602966418442,
+          0.9717374240439154,
+          0.17756896918941578
+        ],
+        "perish_m5_L2_cv2_f0": [
+          47.06732141509955,
+          2.5556778627817405,
+          9.585790241582487,
+          0.07371598638494503,
+          0.6854929119522929,
+          0.5807235597532292
+        ],
+        "perish_m5_L2_cv2_f0.5": [
+          47.06732141509955,
+          2.5556778627817405,
+          9.585790241582487,
+          0.07371598638494503,
+          0.6854929119522929,
+          0.5807235597532292
+        ]
+      },
+      "structure_sha256": "a3a951217e52582b3ead516e094afd42e150d69e628b54f0316ce7b3b12d7bc0"
+    },
+    {
+      "code": "def compute_order_amount(age, pipeline, mu, cv, f, L):\n    S = 10.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":10.0,\"min\":0.0,\"max\":60.0}\n    C = 6.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":6.0,\"min\":0.0,\"max\":30.0}\n    A = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":8.0}\n    P = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":2.0}\n    B = 0.75 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.75,\"min\":0.0,\"max\":1.0}\n    H = 0.1 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.1,\"min\":0.0,\"max\":1.0}\n\n    m = len(age)\n    raw_effective = 0.0\n    pipeline_stock = 0.0\n\n    for i in range(m):\n        relative_life = (i + 1.0) / m\n        raw_effective = raw_effective + max(0.0, age[i]) * (relative_life ** A)\n\n    for j in range(len(pipeline)):\n        pipeline_stock = pipeline_stock + max(0.0, pipeline[j])\n\n    raw_effective = raw_effective + P * pipeline_stock\n\n    aggregate = [0.0] * m\n    layered = [0.0] * m\n\n    for i in range(m):\n        aggregate[i] = max(0.0, age[i])\n        layered[i] = max(0.0, age[i])\n\n    for step in range(L):\n        for stream in range(2):\n            if stream == 0:\n                g = f\n            else:\n                g = 1.0 - f\n\n            M = g * mu\n            if M > 0.0:\n                V = g * (mu * cv) * (mu * cv)\n                shape = V / (M * M) - 1.0 / M\n                root = max(0.0, shape * shape - 1.0) ** 0.5\n                b = 1.0 + shape + root\n                c = 1.0 + shape - root\n                weight1 = 1.0 / b\n                p1 = 2.0 / (2.0 + M * b)\n                p2 = 2.0 / (2.0 + M * c)\n                r1 = 1.0 - p1\n                r2 = 1.0 - p2\n\n                available = 0.0\n                for i in range(m):\n                    available = available + aggregate[i]\n\n                expected_use = 0.0\n                if available > 0.0:\n                    n = int(available)\n                    fraction = available - n\n\n                    if n > 0:\n                        expected_use = weight1 * r1 * (1.0 - r1 ** n) / (1.0 - r1)\n                        expected_use = expected_use + (1.0 - weight1) * r2 * (1.0 - r2 ** n) / (1.0 - r2)\n\n                    tail = weight1 * (r1 ** (n + 1))\n                    tail = tail + (1.0 - weight1) * (r2 ** (n + 1))\n                    expected_use = expected_use + fraction * tail\n                    expected_use = max(0.0, min(available, expected_use))\n\n                remaining = expected_use\n                if stream == 0:\n                    for i in range(m):\n                        take = min(aggregate[i], remaining)\n                        aggregate[i] = aggregate[i] - take\n                        remaining = remaining - take\n                else:\n                    for i in range(m - 1, -1, -1):\n                        take = min(aggregate[i], remaining)\n                        aggregate[i] = aggregate[i] - take\n                        remaining = remaining - take\n\n                cumulative = 0.0\n                for pos in range(m):\n                    if stream == 0:\n                        idx = pos\n                    else:\n                        idx = m - 1 - pos\n\n                    cohort = layered[idx]\n                    lower = cumulative\n                    upper = cumulative + cohort\n                    lower_n = int(lower)\n                    upper_n = int(upper)\n                    lower_fraction = lower - lower_n\n                    upper_fraction = upper - upper_n\n                    lower_use = 0.0\n                    upper_use = 0.0\n\n                    if lower_n > 0:\n                        lower_use = weight1 * r1 * (1.0 - r1 ** lower_n) / (1.0 - r1)\n                        lower_use = lower_use + (1.0 - weight1) * r2 * (1.0 - r2 ** lower_n) / (1.0 - r2)\n\n                    lower_tail = weight1 * (r1 ** (lower_n + 1))\n                    lower_tail = lower_tail + (1.0 - weight1) * (r2 ** (lower_n + 1))\n                    lower_use = lower_use + lower_fraction * lower_tail\n\n                    if upper_n > 0:\n                        upper_use = weight1 * r1 * (1.0 - r1 ** upper_n) / (1.0 - r1)\n                        upper_use = upper_use + (1.0 - weight1) * r2 * (1.0 - r2 ** upper_n) / (1.0 - r2)\n\n                    upper_tail = weight1 * (r1 ** (upper_n + 1))\n                    upper_tail = upper_tail + (1.0 - weight1) * (r2 ** (upper_n + 1))\n                    upper_use = upper_use + upper_fraction * upper_tail\n\n                    cohort_use = max(0.0, min(cohort, upper_use - lower_use))\n                    layered[idx] = cohort - cohort_use\n                    cumulative = upper\n\n        shifted_aggregate = [0.0] * m\n        shifted_layered = [0.0] * m\n\n        for i in range(m - 1):\n            shifted_aggregate[i] = aggregate[i + 1]\n            shifted_layered[i] = layered[i + 1]\n\n        if step < len(pipeline):\n            arrival = max(0.0, pipeline[step])\n            shifted_aggregate[m - 1] = arrival\n            shifted_layered[m - 1] = arrival\n\n        aggregate = shifted_aggregate\n        layered = shifted_layered\n\n    aggregate_effective = 0.0\n    layered_effective = 0.0\n\n    for i in range(m):\n        relative_life = (i + 1.0) / m\n        life_weight = relative_life ** A\n        aggregate_effective = aggregate_effective + aggregate[i] * life_weight\n        layered_effective = layered_effective + layered[i] * life_weight\n\n    projected_effective = (1.0 - H) * aggregate_effective + H * layered_effective\n    effective = (1.0 - B) * raw_effective + B * projected_effective\n    order = max(0.0, min(C, S - effective))\n\n    if order != order:\n        return 0.0\n    return order\n",
+      "origin": "search/evolution_r1/candidate_02_0",
+      "validation": 0.9974158886312675,
+      "train_score": 0.9972703611649341,
+      "train_theta": {
+        "perish_m3_L2_cv1.5_f0": [
+          7.534016371594483,
+          22.45510963739959,
+          6.000881190409764,
+          1.4904524322331663,
+          0.3995888660740047,
+          0.5153869494812193
+        ],
+        "perish_m3_L2_cv1.5_f0.5": [
+          6.2750858114950105,
+          25.028059888396356,
+          4.557311653802014,
+          0.5841301731550366,
+          0.4617429469979045,
+          0.23085556902281523
+        ],
+        "perish_m3_L2_cv2_f0": [
+          4.125331903992269,
+          15.749707645497491,
+          4.008482899674382,
+          1.2051334678925258,
+          0.7725869954952906,
+          0.4740047758133449
+        ],
+        "perish_m3_L2_cv2_f0.5": [
+          3.949409947635015,
+          15.184492227859662,
+          2.00707915357886,
+          1.7954757905891854,
+          0.8866049492782355,
+          0.636036748272383
+        ],
+        "perish_m5_L2_cv1.5_f0": [
+          9.812929370007929,
+          15.718879452374303,
+          0.4324111503637371,
+          0.2884272807274779,
+          0.20084958307668016,
+          0.41937515711647705
+        ],
+        "perish_m5_L2_cv1.5_f0.5": [
+          8.565531486340067,
+          15.139605451864565,
+          0.3323111327913857,
+          1.6533287250765984,
+          0.984273946074741,
+          0.43537752803287877
+        ],
+        "perish_m5_L2_cv2_f0": [
+          8.856665960828469,
+          25.94008896800416,
+          0.05678787743227831,
+          0.7300707876009245,
+          0.544746807574982,
+          0.6167401220838206
+        ],
+        "perish_m5_L2_cv2_f0.5": [
+          9.232505270917638,
+          19.1413846504545,
+          0.7277321348381101,
+          1.057319167302924,
+          0.4090799077335432,
+          0.4432103219725366
+        ]
+      },
+      "structure_sha256": "5439d436e6b4aa1d7b0ec3dc5a4c9456366fe5944070f5152cef2cc8a5aa7c48"
+    },
+    {
+      "code": "def compute_order_amount(age, pipeline, mu, cv, f, L):\n    S = 10.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":10.0,\"min\":0.0,\"max\":60.0}\n    C = 6.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":6.0,\"min\":0.0,\"max\":30.0}\n    AR = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":8.0}\n    AP = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":8.0}\n    P = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":2.0}\n    B = 0.75 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.75,\"min\":0.0,\"max\":1.0}\n    H = 0.1 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.1,\"min\":0.0,\"max\":1.0}\n    K = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.1,\"max\":3.0}\n\n    m = len(age)\n    raw_effective = 0.0\n    pipeline_stock = 0.0\n\n    for i in range(m):\n        stock = max(0.0, age[i])\n        relative_life = (i + 1.0) / m\n        raw_effective = raw_effective + stock * (relative_life ** AR)\n\n    for j in range(len(pipeline)):\n        pipeline_stock = pipeline_stock + max(0.0, pipeline[j])\n\n    raw_effective = raw_effective + P * pipeline_stock\n\n    aggregate = [0.0] * m\n    layered = [0.0] * m\n\n    for i in range(m):\n        aggregate[i] = max(0.0, age[i])\n        layered[i] = max(0.0, age[i])\n\n    for step in range(L):\n        for stream in range(2):\n            if stream == 0:\n                g = f\n            else:\n                g = 1.0 - f\n\n            M = g * mu\n            if M > 0.0:\n                V = g * (mu * cv) * (mu * cv)\n                shape = V / (M * M) - 1.0 / M\n                root = max(0.0, shape * shape - 1.0) ** 0.5\n                b = 1.0 + shape + root\n                c = 1.0 + shape - root\n                weight1 = 1.0 / b\n                p1 = 2.0 / (2.0 + M * b)\n                p2 = 2.0 / (2.0 + M * c)\n                r1 = 1.0 - p1\n                r2 = 1.0 - p2\n\n                available = 0.0\n                for i in range(m):\n                    available = available + aggregate[i]\n\n                expected_use = 0.0\n                if available > 0.0:\n                    n = int(available)\n                    fraction = available - n\n\n                    if n > 0:\n                        expected_use = weight1 * r1 * (1.0 - r1 ** n) / (1.0 - r1)\n                        expected_use = expected_use + (1.0 - weight1) * r2 * (1.0 - r2 ** n) / (1.0 - r2)\n\n                    tail = weight1 * (r1 ** (n + 1))\n                    tail = tail + (1.0 - weight1) * (r2 ** (n + 1))\n                    expected_use = expected_use + fraction * tail\n                    expected_use = max(0.0, min(available, expected_use))\n\n                remaining = expected_use\n                if stream == 0:\n                    for i in range(m):\n                        take = min(aggregate[i], remaining)\n                        aggregate[i] = aggregate[i] - take\n                        remaining = remaining - take\n                else:\n                    for i in range(m - 1, -1, -1):\n                        take = min(aggregate[i], remaining)\n                        aggregate[i] = aggregate[i] - take\n                        remaining = remaining - take\n\n        total_layered = 0.0\n        for i in range(m):\n            total_layered = total_layered + layered[i]\n\n        joint_next = [0.0] * m\n\n        if total_layered > 0.0:\n            fifo_mean = f * mu\n            lifo_mean = (1.0 - f) * mu\n\n            fifo_weight1 = 1.0\n            fifo_p1 = 1.0\n            fifo_p2 = 1.0\n            fifo_r1 = 0.0\n            fifo_r2 = 0.0\n\n            if fifo_mean > 0.0:\n                fifo_var = f * (mu * cv) * (mu * cv)\n                fifo_shape = fifo_var / (fifo_mean * fifo_mean) - 1.0 / fifo_mean\n                fifo_root = max(0.0, fifo_shape * fifo_shape - 1.0) ** 0.5\n                fifo_b = 1.0 + fifo_shape + fifo_root\n                fifo_c = 1.0 + fifo_shape - fifo_root\n                fifo_weight1 = 1.0 / fifo_b\n                fifo_p1 = 2.0 / (2.0 + fifo_mean * fifo_b)\n                fifo_p2 = 2.0 / (2.0 + fifo_mean * fifo_c)\n                fifo_r1 = 1.0 - fifo_p1\n                fifo_r2 = 1.0 - fifo_p2\n\n            lifo_weight1 = 1.0\n            lifo_r1 = 0.0\n            lifo_r2 = 0.0\n\n            if lifo_mean > 0.0:\n                lifo_var = (1.0 - f) * (mu * cv) * (mu * cv)\n                lifo_shape = lifo_var / (lifo_mean * lifo_mean) - 1.0 / lifo_mean\n                lifo_root = max(0.0, lifo_shape * lifo_shape - 1.0) ** 0.5\n                lifo_b = 1.0 + lifo_shape + lifo_root\n                lifo_c = 1.0 + lifo_shape - lifo_root\n                lifo_weight1 = 1.0 / lifo_b\n                lifo_p1 = 2.0 / (2.0 + lifo_mean * lifo_b)\n                lifo_p2 = 2.0 / (2.0 + lifo_mean * lifo_c)\n                lifo_r1 = 1.0 - lifo_p1\n                lifo_r2 = 1.0 - lifo_p2\n\n            if fifo_mean > 0.0:\n                demand_limit = int(total_layered - 0.0000000001)\n                demand_limit = max(0, min(120, demand_limit))\n            else:\n                demand_limit = 0\n\n            for d in range(demand_limit + 1):\n                if fifo_mean > 0.0:\n                    probability = fifo_weight1 * fifo_p1 * (fifo_r1 ** d)\n                    probability = probability + (1.0 - fifo_weight1) * fifo_p2 * (fifo_r2 ** d)\n                else:\n                    probability = 1.0\n\n                scenario = [0.0] * m\n                fifo_remaining = float(d)\n\n                for i in range(m):\n                    cohort = layered[i]\n                    take = min(cohort, fifo_remaining)\n                    scenario[i] = cohort - take\n                    fifo_remaining = fifo_remaining - take\n\n                cumulative = 0.0\n                for pos in range(m):\n                    idx = m - 1 - pos\n                    cohort = scenario[idx]\n                    lower = cumulative\n                    upper = cumulative + cohort\n                    lower_use = 0.0\n                    upper_use = 0.0\n\n                    if lifo_mean > 0.0:\n                        lower_n = int(lower)\n                        upper_n = int(upper)\n                        lower_fraction = lower - lower_n\n                        upper_fraction = upper - upper_n\n\n                        if lower_n > 0:\n                            lower_use = lifo_weight1 * lifo_r1 * (1.0 - lifo_r1 ** lower_n) / (1.0 - lifo_r1)\n                            lower_use = lower_use + (1.0 - lifo_weight1) * lifo_r2 * (1.0 - lifo_r2 ** lower_n) / (1.0 - lifo_r2)\n\n                        lower_tail = lifo_weight1 * (lifo_r1 ** (lower_n + 1))\n                        lower_tail = lower_tail + (1.0 - lifo_weight1) * (lifo_r2 ** (lower_n + 1))\n                        lower_use = lower_use + lower_fraction * lower_tail\n\n                        if upper_n > 0:\n                            upper_use = lifo_weight1 * lifo_r1 * (1.0 - lifo_r1 ** upper_n) / (1.0 - lifo_r1)\n                            upper_use = upper_use + (1.0 - lifo_weight1) * lifo_r2 * (1.0 - lifo_r2 ** upper_n) / (1.0 - lifo_r2)\n\n                        upper_tail = lifo_weight1 * (lifo_r1 ** (upper_n + 1))\n                        upper_tail = upper_tail + (1.0 - lifo_weight1) * (lifo_r2 ** (upper_n + 1))\n                        upper_use = upper_use + upper_fraction * upper_tail\n\n                    cohort_use = max(0.0, min(cohort, upper_use - lower_use))\n                    cohort_left = cohort - cohort_use\n                    joint_next[idx] = joint_next[idx] + probability * cohort_left\n                    cumulative = upper\n\n        shifted_aggregate = [0.0] * m\n        shifted_layered = [0.0] * m\n\n        for i in range(m - 1):\n            shifted_aggregate[i] = aggregate[i + 1]\n            shifted_layered[i] = joint_next[i + 1]\n\n        if step < len(pipeline):\n            arrival = max(0.0, pipeline[step])\n            shifted_aggregate[m - 1] = arrival\n            shifted_layered[m - 1] = arrival\n\n        aggregate = shifted_aggregate\n        layered = shifted_layered\n\n    aggregate_effective = 0.0\n    layered_effective = 0.0\n\n    for i in range(m):\n        relative_life = (i + 1.0) / m\n        life_weight = relative_life ** AP\n        aggregate_effective = aggregate_effective + aggregate[i] * life_weight\n        layered_effective = layered_effective + layered[i] * life_weight\n\n    projected_effective = (1.0 - H) * aggregate_effective + H * layered_effective\n    effective = (1.0 - B) * raw_effective + B * projected_effective\n    deficit = S - effective\n    order = max(0.0, min(C, K * deficit))\n\n    if order != order or order > 1000000000.0:\n        return 0.0\n    return order\n",
+      "origin": "search/evolution_r1/candidate_03_0",
+      "validation": 1.0132758010672123,
+      "train_score": 1.0166299016604132,
+      "train_theta": {
+        "perish_m3_L2_cv1.5_f0": [
+          45.220093118968066,
+          2.547474948613843,
+          4.69119662006313,
+          6.344403615147291,
+          0.06549152041039685,
+          0.26242951429147465,
+          0.9820112739059365,
+          2.1932369691291314
+        ],
+        "perish_m3_L2_cv1.5_f0.5": [
+          6.337578263468494,
+          3.8910892675685744,
+          5.038782595722835,
+          3.202294514117169,
+          0.26222120021585316,
+          0.19416418778748357,
+          0.7458432624379376,
+          1.106156957328516
+        ],
+        "perish_m3_L2_cv2_f0": [
+          7.005350049931355,
+          10.83165442599405,
+          4.457574409846044,
+          4.7043095460679725,
+          1.2529470253957216,
+          0.6188650569181217,
+          0.46581928709596865,
+          0.5749228169813348
+        ],
+        "perish_m3_L2_cv2_f0.5": [
+          45.220093118968066,
+          2.547474948613843,
+          4.69119662006313,
+          6.344403615147291,
+          0.06549152041039685,
+          0.26242951429147465,
+          0.9820112739059365,
+          2.1932369691291314
+        ],
+        "perish_m5_L2_cv1.5_f0": [
+          45.220093118968066,
+          2.547474948613843,
+          4.69119662006313,
+          6.344403615147291,
+          0.06549152041039685,
+          0.26242951429147465,
+          0.9820112739059365,
+          2.1932369691291314
+        ],
+        "perish_m5_L2_cv1.5_f0.5": [
+          7.942052166982304,
+          7.688282127989263,
+          2.883897101944931,
+          1.6293776836828493,
+          1.4736618049197763,
+          0.6899765754387798,
+          0.5260348681735051,
+          1.157266778787199
+        ],
+        "perish_m5_L2_cv2_f0": [
+          45.220093118968066,
+          2.547474948613843,
+          4.69119662006313,
+          6.344403615147291,
+          0.06549152041039685,
+          0.26242951429147465,
+          0.9820112739059365,
+          2.1932369691291314
+        ],
+        "perish_m5_L2_cv2_f0.5": [
+          45.220093118968066,
+          2.547474948613843,
+          4.69119662006313,
+          6.344403615147291,
+          0.06549152041039685,
+          0.26242951429147465,
+          0.9820112739059365,
+          2.1932369691291314
+        ]
+      },
+      "structure_sha256": "305d3326b629ed3e27df33df34235e2be017adaca6475f69ee39f1731ca2e974"
+    },
+    {
+      "code": "def compute_order_amount(age, pipeline, mu, cv, f, L):\n    S = 10.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":10.0,\"min\":0.0,\"max\":60.0}\n    C = 6.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":6.0,\"min\":0.0,\"max\":30.0}\n    A = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":8.0}\n    P = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":2.0}\n    B = 0.8 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.8,\"min\":0.0,\"max\":1.0}\n    H = 0.2 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.2,\"min\":0.0,\"max\":1.0}\n    R = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.2,\"max\":3.0}\n    G = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.25,\"max\":2.5}\n\n    m = len(age)\n    raw_effective = 0.0\n    pipeline_stock = 0.0\n\n    for i in range(m):\n        stock = max(0.0, age[i])\n        relative_life = (i + 1.0) / m\n        raw_effective = raw_effective + stock * (relative_life ** A)\n\n    for j in range(len(pipeline)):\n        pipeline_stock = pipeline_stock + max(0.0, pipeline[j])\n\n    raw_effective = raw_effective + P * pipeline_stock\n\n    aggregate = [0.0] * m\n    layered = [0.0] * m\n\n    for i in range(m):\n        stock = max(0.0, age[i])\n        aggregate[i] = stock\n        layered[i] = stock\n\n    for step in range(L):\n        for stream in range(2):\n            if stream == 0:\n                g = f\n            else:\n                g = 1.0 - f\n\n            M = g * mu\n            if M > 0.0:\n                V = g * (mu * cv) * (mu * cv)\n                shape = V / (M * M) - 1.0 / M\n                root = max(0.0, shape * shape - 1.0) ** 0.5\n                b = 1.0 + shape + root\n                c = 1.0 + shape - root\n                weight1 = 1.0 / b\n                p1 = 2.0 / (2.0 + M * b)\n                p2 = 2.0 / (2.0 + M * c)\n                r1 = (1.0 - p1) ** R\n                r2 = (1.0 - p2) ** R\n\n                available = 0.0\n                for i in range(m):\n                    available = available + aggregate[i]\n\n                expected_use = 0.0\n                if available > 0.0:\n                    n = int(available)\n                    fraction = available - n\n\n                    if n > 0:\n                        use1 = r1 * (1.0 - r1 ** n) / max(1.0e-12, 1.0 - r1)\n                        use2 = r2 * (1.0 - r2 ** n) / max(1.0e-12, 1.0 - r2)\n                        expected_use = weight1 * use1 + (1.0 - weight1) * use2\n\n                    tail = weight1 * (r1 ** (n + 1))\n                    tail = tail + (1.0 - weight1) * (r2 ** (n + 1))\n                    expected_use = expected_use + fraction * tail\n                    expected_use = max(0.0, min(available, expected_use))\n\n                remaining = expected_use\n                if stream == 0:\n                    for i in range(m):\n                        take = min(aggregate[i], remaining)\n                        aggregate[i] = aggregate[i] - take\n                        remaining = remaining - take\n                else:\n                    for i in range(m - 1, -1, -1):\n                        take = min(aggregate[i], remaining)\n                        aggregate[i] = aggregate[i] - take\n                        remaining = remaining - take\n\n                cumulative = 0.0\n                for pos in range(m):\n                    if stream == 0:\n                        idx = pos\n                    else:\n                        idx = m - 1 - pos\n\n                    cohort = layered[idx]\n                    lower = cumulative\n                    upper = cumulative + cohort\n                    lower_n = int(lower)\n                    upper_n = int(upper)\n                    lower_fraction = lower - lower_n\n                    upper_fraction = upper - upper_n\n                    lower_use = 0.0\n                    upper_use = 0.0\n\n                    if lower_n > 0:\n                        use1 = r1 * (1.0 - r1 ** lower_n) / max(1.0e-12, 1.0 - r1)\n                        use2 = r2 * (1.0 - r2 ** lower_n) / max(1.0e-12, 1.0 - r2)\n                        lower_use = weight1 * use1 + (1.0 - weight1) * use2\n\n                    lower_tail = weight1 * (r1 ** (lower_n + 1))\n                    lower_tail = lower_tail + (1.0 - weight1) * (r2 ** (lower_n + 1))\n                    lower_use = lower_use + lower_fraction * lower_tail\n\n                    if upper_n > 0:\n                        use1 = r1 * (1.0 - r1 ** upper_n) / max(1.0e-12, 1.0 - r1)\n                        use2 = r2 * (1.0 - r2 ** upper_n) / max(1.0e-12, 1.0 - r2)\n                        upper_use = weight1 * use1 + (1.0 - weight1) * use2\n\n                    upper_tail = weight1 * (r1 ** (upper_n + 1))\n                    upper_tail = upper_tail + (1.0 - weight1) * (r2 ** (upper_n + 1))\n                    upper_use = upper_use + upper_fraction * upper_tail\n\n                    cohort_use = max(0.0, min(cohort, upper_use - lower_use))\n                    layered[idx] = cohort - cohort_use\n                    cumulative = upper\n\n        shifted_aggregate = [0.0] * m\n        shifted_layered = [0.0] * m\n\n        for i in range(m - 1):\n            shifted_aggregate[i] = aggregate[i + 1]\n            shifted_layered[i] = layered[i + 1]\n\n        if step < len(pipeline):\n            arrival = max(0.0, pipeline[step])\n            shifted_aggregate[m - 1] = arrival\n            shifted_layered[m - 1] = arrival\n\n        aggregate = shifted_aggregate\n        layered = shifted_layered\n\n    aggregate_effective = 0.0\n    layered_effective = 0.0\n\n    for i in range(m):\n        relative_life = (i + 1.0) / m\n        life_weight = relative_life ** A\n        aggregate_effective = aggregate_effective + aggregate[i] * life_weight\n        layered_effective = layered_effective + layered[i] * life_weight\n\n    projected_effective = (1.0 - H) * aggregate_effective + H * layered_effective\n    effective = (1.0 - B) * raw_effective + B * projected_effective\n    gap = max(0.0, S - effective)\n    order = min(C, G * gap)\n\n    if order != order:\n        return 0.0\n    return max(0.0, order)\n",
+      "origin": "search/evolution_r1/candidate_04_0",
+      "validation": 1.0039651224780226,
+      "train_score": 1.0081713935410348,
+      "train_theta": {
+        "perish_m3_L2_cv1.5_f0": [
+          45.220093118968066,
+          2.547474948613843,
+          4.69119662006313,
+          1.5861009037868228,
+          0.032745760205198426,
+          0.26242951429147465,
+          2.949631566936622,
+          1.8740631657036366
+        ],
+        "perish_m3_L2_cv1.5_f0.5": [
+          45.220093118968066,
+          2.547474948613843,
+          4.69119662006313,
+          1.5861009037868228,
+          0.032745760205198426,
+          0.26242951429147465,
+          2.949631566936622,
+          1.8740631657036366
+        ],
+        "perish_m3_L2_cv2_f0": [
+          4.671305788853481,
+          18.431425597521695,
+          4.512565254246557,
+          1.157725254914756,
+          0.3827933049215484,
+          0.508018301525113,
+          0.8651422805073844,
+          1.948604742612055
+        ],
+        "perish_m3_L2_cv2_f0.5": [
+          6.84572348610855,
+          3.918777378042966,
+          5.05778522117587,
+          1.1498761181556167,
+          0.42923636715983493,
+          0.987849073224993,
+          2.033154571471737,
+          0.8410701611513977
+        ],
+        "perish_m5_L2_cv1.5_f0": [
+          12.411545201312084,
+          10.944272934918386,
+          0.03903929611108925,
+          1.458682913013924,
+          0.757897239758487,
+          0.14714289752863574,
+          1.9655856619136598,
+          1.0086204293500134
+        ],
+        "perish_m5_L2_cv1.5_f0.5": [
+          11.611949920641102,
+          11.033843729612105,
+          0.8095537036768325,
+          0.3011675977808359,
+          0.5424202630427282,
+          0.9178462306626758,
+          2.391960745813412,
+          0.6381310891479726
+        ],
+        "perish_m5_L2_cv2_f0": [
+          45.220093118968066,
+          2.547474948613843,
+          4.69119662006313,
+          1.5861009037868228,
+          0.032745760205198426,
+          0.26242951429147465,
+          2.949631566936622,
+          1.8740631657036366
+        ],
+        "perish_m5_L2_cv2_f0.5": [
+          45.220093118968066,
+          2.547474948613843,
+          4.69119662006313,
+          1.5861009037868228,
+          0.032745760205198426,
+          0.26242951429147465,
+          2.949631566936622,
+          1.8740631657036366
+        ]
+      },
+      "structure_sha256": "ba9615f53cc73c37ccd8f154888a6ef791e17283d6346b8040aafc077bd9397f"
+    },
+    {
+      "code": "def compute_order_amount(age, pipeline, mu, cv, f, L):\n    S = 10.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":10.0,\"min\":0.0,\"max\":60.0}\n    C = 6.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":6.0,\"min\":0.0,\"max\":30.0}\n    A = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":8.0}\n    P = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":2.0}\n    B = 0.75 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.75,\"min\":0.0,\"max\":1.0}\n    H = 0.1 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.1,\"min\":0.0,\"max\":1.0}\n    E = 0.2 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.2,\"min\":0.0,\"max\":2.0}\n    K = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.25,\"max\":2.5}\n\n    m = len(age)\n    raw_effective = 0.0\n    pipeline_stock = 0.0\n\n    for i in range(m):\n        stock = max(0.0, age[i])\n        relative_life = (i + 1.0) / max(1.0, float(m))\n        raw_effective = raw_effective + stock * (relative_life ** A)\n\n    for j in range(len(pipeline)):\n        pipeline_stock = pipeline_stock + max(0.0, pipeline[j])\n\n    raw_effective = raw_effective + P * pipeline_stock\n\n    projected = [0.0] * m\n    for i in range(m):\n        projected[i] = max(0.0, age[i])\n\n    active = [0.0] * 2\n    mix_weight = [0.0] * 2\n    ratio1 = [0.0] * 2\n    ratio2 = [0.0] * 2\n\n    for stream in range(2):\n        if stream == 0:\n            group = f\n        else:\n            group = 1.0 - f\n\n        mean_stream = group * mu\n        if mean_stream > 0.0:\n            variance_stream = group * (mu * cv) * (mu * cv)\n            shape = variance_stream / (mean_stream * mean_stream) - 1.0 / mean_stream\n            shape = max(1.0, shape)\n            root = max(0.0, shape * shape - 1.0) ** 0.5\n            b = 1.0 + shape + root\n            c = 1.0 + shape - root\n            weight = 1.0 / b\n            success1 = 2.0 / (2.0 + mean_stream * b)\n            success2 = 2.0 / (2.0 + mean_stream * c)\n            active[stream] = 1.0\n            mix_weight[stream] = weight\n            ratio1[stream] = max(0.0, min(1.0, 1.0 - success1))\n            ratio2[stream] = max(0.0, min(1.0, 1.0 - success2))\n\n    projected_effective = 0.0\n    forecast_expiry = 0.0\n    total_steps = L + m\n\n    for step in range(total_steps):\n        for stream in range(2):\n            if active[stream] > 0.0:\n                weight = mix_weight[stream]\n                r1 = ratio1[stream]\n                r2 = ratio2[stream]\n\n                available = 0.0\n                for i in range(m):\n                    available = available + projected[i]\n\n                if available > 0.0:\n                    total_n = int(available)\n                    total_fraction = available - total_n\n                    total_use = 0.0\n\n                    if total_n > 0:\n                        total_use = weight * r1 * (1.0 - r1 ** total_n) / max(1.0e-12, 1.0 - r1)\n                        total_use = total_use + (1.0 - weight) * r2 * (1.0 - r2 ** total_n) / max(1.0e-12, 1.0 - r2)\n\n                    total_tail = weight * (r1 ** (total_n + 1))\n                    total_tail = total_tail + (1.0 - weight) * (r2 ** (total_n + 1))\n                    total_use = total_use + total_fraction * total_tail\n                    total_use = max(0.0, min(available, total_use))\n\n                    greedy = [0.0] * m\n                    exact = [0.0] * m\n                    remaining = total_use\n                    cumulative = 0.0\n\n                    for pos in range(m):\n                        if stream == 0:\n                            idx = pos\n                        else:\n                            idx = m - 1 - pos\n\n                        cohort = projected[idx]\n                        take = min(cohort, remaining)\n                        greedy[idx] = cohort - take\n                        remaining = max(0.0, remaining - take)\n\n                        lower = cumulative\n                        upper = cumulative + cohort\n                        lower_n = int(lower)\n                        upper_n = int(upper)\n                        lower_fraction = lower - lower_n\n                        upper_fraction = upper - upper_n\n                        lower_use = 0.0\n                        upper_use = 0.0\n\n                        if lower_n > 0:\n                            lower_use = weight * r1 * (1.0 - r1 ** lower_n) / max(1.0e-12, 1.0 - r1)\n                            lower_use = lower_use + (1.0 - weight) * r2 * (1.0 - r2 ** lower_n) / max(1.0e-12, 1.0 - r2)\n\n                        lower_tail = weight * (r1 ** (lower_n + 1))\n                        lower_tail = lower_tail + (1.0 - weight) * (r2 ** (lower_n + 1))\n                        lower_use = lower_use + lower_fraction * lower_tail\n\n                        if upper_n > 0:\n                            upper_use = weight * r1 * (1.0 - r1 ** upper_n) / max(1.0e-12, 1.0 - r1)\n                            upper_use = upper_use + (1.0 - weight) * r2 * (1.0 - r2 ** upper_n) / max(1.0e-12, 1.0 - r2)\n\n                        upper_tail = weight * (r1 ** (upper_n + 1))\n                        upper_tail = upper_tail + (1.0 - weight) * (r2 ** (upper_n + 1))\n                        upper_use = upper_use + upper_fraction * upper_tail\n\n                        cohort_use = max(0.0, min(cohort, upper_use - lower_use))\n                        exact[idx] = cohort - cohort_use\n                        cumulative = upper\n\n                    for i in range(m):\n                        projected[i] = max(0.0, (1.0 - H) * greedy[i] + H * exact[i])\n\n        if step >= L and m > 0:\n            forecast_expiry = forecast_expiry + max(0.0, projected[0])\n\n        shifted = [0.0] * m\n        for i in range(m - 1):\n            shifted[i] = projected[i + 1]\n\n        if step < len(pipeline):\n            shifted[m - 1] = max(0.0, pipeline[step])\n\n        projected = shifted\n\n        if step + 1 == L:\n            projected_effective = 0.0\n            for i in range(m):\n                relative_life = (i + 1.0) / max(1.0, float(m))\n                projected_effective = projected_effective + projected[i] * (relative_life ** A)\n\n    adjusted_projected = max(0.0, projected_effective - E * forecast_expiry)\n    effective = (1.0 - B) * raw_effective + B * adjusted_projected\n    deficit = max(0.0, S - effective)\n    order = min(C, K * deficit)\n\n    if order != order:\n        return 0.0\n    if order < 0.0:\n        return 0.0\n    if order > 1.0e12:\n        return 1.0e12\n    return order\n",
+      "origin": "search/evolution_r1/candidate_05_0",
+      "validation": 1.0108752691522946,
+      "train_score": 1.009152866745712,
+      "train_theta": {
+        "perish_m3_L2_cv1.5_f0": [
+          45.220093118968066,
+          2.547474948613843,
+          4.69119662006313,
+          1.5861009037868228,
+          0.032745760205198426,
+          0.26242951429147465,
+          1.964022547811873,
+          1.8740631657036366
+        ],
+        "perish_m3_L2_cv1.5_f0.5": [
+          45.220093118968066,
+          2.547474948613843,
+          4.69119662006313,
+          1.5861009037868228,
+          0.032745760205198426,
+          0.26242951429147465,
+          1.964022547811873,
+          1.8740631657036366
+        ],
+        "perish_m3_L2_cv2_f0": [
+          9.759534545022682,
+          2.626969012616911,
+          4.685020002264703,
+          1.927315305299669,
+          0.08222878142844947,
+          0.10414643729345618,
+          1.295155262748123,
+          1.2529884634892128
+        ],
+        "perish_m3_L2_cv2_f0.5": [
+          45.220093118968066,
+          2.547474948613843,
+          4.69119662006313,
+          1.5861009037868228,
+          0.032745760205198426,
+          0.26242951429147465,
+          1.964022547811873,
+          1.8740631657036366
+        ],
+        "perish_m5_L2_cv1.5_f0": [
+          12.787048506228736,
+          7.102417836707108,
+          0.2834132706823338,
+          0.8278185632440435,
+          0.20319474832600493,
+          0.6430318249755567,
+          0.05113592984661208,
+          0.9872250730913839
+        ],
+        "perish_m5_L2_cv1.5_f0.5": [
+          4.844332979407991,
+          3.793962637771367,
+          5.571864391547813,
+          0.3865770665825746,
+          0.9835531797613277,
+          0.9855141882102444,
+          1.5915738108304336,
+          2.1343073657849008
+        ],
+        "perish_m5_L2_cv2_f0": [
+          8.35607782155489,
+          3.347860216214052,
+          0.3241743019329508,
+          0.7673111617695734,
+          0.4067075008949339,
+          0.34195744081380314,
+          0.7137220079558635,
+          1.1045304262670046
+        ],
+        "perish_m5_L2_cv2_f0.5": [
+          8.560449182574004,
+          2.7350991385198125,
+          0.7146669608351539,
+          1.9136405054045247,
+          0.5372008296336167,
+          0.2612009500451772,
+          0.7450198757767159,
+          1.438783321583904
+        ]
+      },
+      "structure_sha256": "d6ee8c4c9a8e8011f72b8a77ddcc21a0576b2bb9f45bac6249954c728fc23c26"
+    },
+    {
+      "code": "def compute_order_amount(age, pipeline, mu, cv, f, L):\n    S = 10.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":10.0,\"min\":0.0,\"max\":60.0}\n    C = 6.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":6.0,\"min\":0.0,\"max\":30.0}\n    A = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":8.0}\n    P = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":2.0}\n    B = 0.75 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.75,\"min\":0.0,\"max\":1.0}\n    H = 0.25 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.25,\"min\":0.0,\"max\":1.0}\n\n    m = len(age)\n    scenario_count = 16\n\n    raw_effective = 0.0\n    pipeline_stock = 0.0\n\n    for i in range(m):\n        stock = max(0.0, age[i])\n        relative_life = (i + 1.0) / m\n        raw_effective = raw_effective + stock * (relative_life ** A)\n\n    for j in range(len(pipeline)):\n        pipeline_stock = pipeline_stock + max(0.0, pipeline[j])\n\n    raw_effective = raw_effective + P * pipeline_stock\n\n    r1_values = [0.0, 0.0]\n    r2_values = [0.0, 0.0]\n    weight_values = [0.0, 0.0]\n    active_values = [0.0, 0.0]\n\n    for stream in range(2):\n        if stream == 0:\n            g = f\n        else:\n            g = 1.0 - f\n\n        M = g * mu\n        if M > 0.0:\n            V = g * (mu * cv) * (mu * cv)\n            shape = V / (M * M) - 1.0 / M\n            root = max(0.0, shape * shape - 1.0) ** 0.5\n            b = 1.0 + shape + root\n            c = 1.0 + shape - root\n            weight_values[stream] = 1.0 / b\n            r1_values[stream] = 1.0 - 2.0 / (2.0 + M * b)\n            r2_values[stream] = 1.0 - 2.0 / (2.0 + M * c)\n            active_values[stream] = 1.0\n\n    permutations = [\n        [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],\n        [5, 12, 1, 9, 3, 14, 7, 10, 0, 15, 6, 2, 13, 8, 11, 4],\n        [10, 2, 14, 5, 8, 0, 12, 7, 15, 3, 11, 6, 1, 13, 4, 9],\n        [1, 7, 13, 4, 15, 10, 2, 12, 6, 9, 0, 14, 8, 3, 5, 11]\n    ]\n\n    dimensions = 2 * L\n    demand_table = [[0.0] * dimensions for s in range(scenario_count)]\n\n    for dim in range(dimensions):\n        stream = dim % 2\n        permutation = permutations[dim % 4]\n\n        if active_values[stream] > 0.0:\n            weight1 = weight_values[stream]\n            r1 = r1_values[stream]\n            r2 = r2_values[stream]\n\n            for s in range(scenario_count):\n                u = (permutation[s] + 0.5) / scenario_count\n                demand_value = 160.0\n\n                for d in range(161):\n                    tail = weight1 * (r1 ** (d + 1))\n                    tail = tail + (1.0 - weight1) * (r2 ** (d + 1))\n                    if 1.0 - tail >= u:\n                        demand_value = float(d)\n                        break\n\n                demand_table[s][dim] = demand_value\n\n    projected_values = [0.0] * scenario_count\n    mean_projected = 0.0\n\n    for s in range(scenario_count):\n        projected = [0.0] * m\n\n        for i in range(m):\n            projected[i] = max(0.0, age[i])\n\n        for step in range(L):\n            fifo_demand = demand_table[s][2 * step]\n            remaining = fifo_demand\n\n            for i in range(m):\n                take = min(projected[i], remaining)\n                projected[i] = projected[i] - take\n                remaining = remaining - take\n\n            lifo_demand = demand_table[s][2 * step + 1]\n            remaining = lifo_demand\n\n            for i in range(m - 1, -1, -1):\n                take = min(projected[i], remaining)\n                projected[i] = projected[i] - take\n                remaining = remaining - take\n\n            shifted = [0.0] * m\n\n            for i in range(m - 1):\n                shifted[i] = projected[i + 1]\n\n            if step < len(pipeline):\n                shifted[m - 1] = max(0.0, pipeline[step])\n\n            projected = shifted\n\n        projected_effective = 0.0\n\n        for i in range(m):\n            relative_life = (i + 1.0) / m\n            projected_effective = projected_effective + projected[i] * (relative_life ** A)\n\n        projected_values[s] = projected_effective\n        mean_projected = mean_projected + projected_effective\n\n    mean_projected = mean_projected / scenario_count\n    deterministic_effective = (1.0 - B) * raw_effective + B * mean_projected\n    deterministic_gap = max(0.0, S - deterministic_effective)\n\n    scenario_gaps = [0.0] * scenario_count\n\n    for s in range(scenario_count):\n        scenario_effective = (1.0 - B) * raw_effective + B * projected_values[s]\n        scenario_gaps[s] = max(0.0, S - scenario_effective)\n\n    for i in range(scenario_count - 1):\n        for j in range(i + 1, scenario_count):\n            if scenario_gaps[j] < scenario_gaps[i]:\n                temporary = scenario_gaps[i]\n                scenario_gaps[i] = scenario_gaps[j]\n                scenario_gaps[j] = temporary\n\n    median_gap = 0.5 * (scenario_gaps[7] + scenario_gaps[8])\n    gap = (1.0 - H) * deterministic_gap + H * median_gap\n    order = max(0.0, min(C, gap))\n\n    if order != order:\n        return 0.0\n    return order\n",
+      "origin": "search/evolution_r1/candidate_06_0",
+      "validation": 0.9988294758676687,
+      "train_score": 0.9971660589624087,
+      "train_theta": {
+        "perish_m3_L2_cv1.5_f0": [
+          8.751904720063337,
+          24.78811938348081,
+          7.144959389497681,
+          1.491066346121806,
+          0.25874131416492296,
+          0.7966951901482514
+        ],
+        "perish_m3_L2_cv1.5_f0.5": [
+          5.645591313006875,
+          11.599877834656661,
+          5.221348472238023,
+          0.36316148063655473,
+          0.5154176610925512,
+          0.3252543883759651
+        ],
+        "perish_m3_L2_cv2_f0": [
+          4.9431209089569705,
+          6.0,
+          3.53984790174979,
+          1.4638156974808192,
+          0.6936065299194782,
+          0.25
+        ],
+        "perish_m3_L2_cv2_f0.5": [
+          4.468127604614363,
+          19.24390830471569,
+          0.8581838115744858,
+          0.23899581288440497,
+          0.7685016558762138,
+          0.5369388314815507
+        ],
+        "perish_m5_L2_cv1.5_f0": [
+          11.35956909317666,
+          9.873417925280553,
+          0.015512053879285226,
+          0.8466972030969419,
+          0.40262683438308644,
+          0.3813878045375435
+        ],
+        "perish_m5_L2_cv1.5_f0.5": [
+          7.449968061662815,
+          12.608000133344833,
+          2.0137066753579345,
+          1.2685956341224245,
+          0.7759688548653458,
+          0.6264002026531801
+        ],
+        "perish_m5_L2_cv2_f0": [
+          8.13855313661566,
+          22.547850823440616,
+          0.4260721436179007,
+          0.33759440696020715,
+          0.39275735259711764,
+          0.41524244916411146
+        ],
+        "perish_m5_L2_cv2_f0.5": [
+          10.344732788659453,
+          5.447953560675344,
+          0.47006821564272583,
+          1.3197604429771452,
+          0.376592364957142,
+          0.304671533625414
+        ]
+      },
+      "structure_sha256": "8a8d3adfd92e3105ab722241634030f12bf48a2639e6299e3f572ec3f66484b3"
+    },
+    {
+      "code": "def compute_order_amount(age, pipeline, mu, cv, f, L):\n    S = 10.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":10.0,\"min\":0.0,\"max\":60.0}\n    C = 6.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":6.0,\"min\":0.0,\"max\":30.0}\n    A = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":8.0}\n    T = 0.05 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.05,\"min\":0.0,\"max\":0.8}\n    P = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":2.0}\n    B = 0.75 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.75,\"min\":0.0,\"max\":1.0}\n    H = 0.25 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.25,\"min\":0.0,\"max\":1.0}\n    U = 0.5 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.5,\"min\":0.0,\"max\":1.0}\n\n    m = len(age)\n    scenario_count = 16\n    raw_effective = 0.0\n    pipeline_stock = 0.0\n\n    for i in range(m):\n        stock = max(0.0, age[i])\n        relative_life = (i + 1.0) / max(1.0, float(m))\n        life_weight = T + (1.0 - T) * (relative_life ** A)\n        raw_effective = raw_effective + stock * life_weight\n\n    for j in range(len(pipeline)):\n        pipeline_stock = pipeline_stock + max(0.0, pipeline[j])\n\n    raw_effective = raw_effective + P * pipeline_stock\n\n    r1_values = [0.0, 0.0]\n    r2_values = [0.0, 0.0]\n    mixture_weights = [0.0, 0.0]\n    active_values = [0.0, 0.0]\n\n    for stream in range(2):\n        if stream == 0:\n            g = max(0.0, min(1.0, f))\n        else:\n            g = 1.0 - max(0.0, min(1.0, f))\n\n        M = g * mu\n        if M > 0.0:\n            V = g * (mu * cv) * (mu * cv)\n            shape = V / (M * M) - 1.0 / M\n            shape = max(1.0, shape)\n            root = max(0.0, shape * shape - 1.0) ** 0.5\n            b = 1.0 + shape + root\n            c = 1.0 + shape - root\n            mixture_weights[stream] = 1.0 / b\n            r1_values[stream] = 1.0 - 2.0 / (2.0 + M * b)\n            r2_values[stream] = 1.0 - 2.0 / (2.0 + M * c)\n            active_values[stream] = 1.0\n\n    permutations = [\n        [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],\n        [5, 12, 1, 9, 3, 14, 7, 10, 0, 15, 6, 2, 13, 8, 11, 4],\n        [10, 2, 14, 5, 8, 0, 12, 7, 15, 3, 11, 6, 1, 13, 4, 9],\n        [1, 7, 13, 4, 15, 10, 2, 12, 6, 9, 0, 14, 8, 3, 5, 11]\n    ]\n\n    quantiles = [[0.0] * scenario_count for stream in range(2)]\n\n    for stream in range(2):\n        if active_values[stream] > 0.0:\n            weight1 = mixture_weights[stream]\n            r1 = r1_values[stream]\n            r2 = r2_values[stream]\n\n            for k in range(scenario_count):\n                u = (k + 0.5) / scenario_count\n                demand_value = 240.0\n\n                for d in range(241):\n                    tail = weight1 * (r1 ** (d + 1))\n                    tail = tail + (1.0 - weight1) * (r2 ** (d + 1))\n                    if 1.0 - tail >= u:\n                        demand_value = float(d)\n                        break\n\n                quantiles[stream][k] = demand_value\n\n    projected_values = [0.0] * scenario_count\n    projected_mean = 0.0\n\n    for s in range(scenario_count):\n        projected = [0.0] * m\n\n        for i in range(m):\n            projected[i] = max(0.0, age[i])\n\n        for step in range(L):\n            fifo_index = permutations[(2 * step) % 4][s]\n            lifo_index = permutations[(2 * step + 1) % 4][s]\n            fifo_demand = quantiles[0][fifo_index]\n            lifo_demand = quantiles[1][lifo_index]\n\n            remaining = fifo_demand\n            for i in range(m):\n                take = min(projected[i], remaining)\n                projected[i] = projected[i] - take\n                remaining = remaining - take\n\n            remaining = lifo_demand\n            for i in range(m - 1, -1, -1):\n                take = min(projected[i], remaining)\n                projected[i] = projected[i] - take\n                remaining = remaining - take\n\n            shifted = [0.0] * m\n            for i in range(m - 1):\n                shifted[i] = projected[i + 1]\n\n            if step < len(pipeline):\n                shifted[m - 1] = max(0.0, pipeline[step])\n\n            projected = shifted\n\n        projected_effective = 0.0\n        for i in range(m):\n            relative_life = (i + 1.0) / max(1.0, float(m))\n            life_weight = T + (1.0 - T) * (relative_life ** A)\n            projected_effective = projected_effective + projected[i] * life_weight\n\n        projected_values[s] = projected_effective\n        projected_mean = projected_mean + projected_effective\n\n    projected_mean = projected_mean / scenario_count\n    central_effective = (1.0 - B) * raw_effective + B * projected_mean\n    central_gap = max(0.0, S - central_effective)\n\n    scenario_gaps = [0.0] * scenario_count\n    mean_gap = 0.0\n\n    for s in range(scenario_count):\n        scenario_effective = (1.0 - B) * raw_effective + B * projected_values[s]\n        scenario_gap = max(0.0, S - scenario_effective)\n        scenario_gaps[s] = scenario_gap\n        mean_gap = mean_gap + scenario_gap\n\n    mean_gap = mean_gap / scenario_count\n\n    for i in range(scenario_count - 1):\n        for j in range(i + 1, scenario_count):\n            if scenario_gaps[j] < scenario_gaps[i]:\n                temporary = scenario_gaps[i]\n                scenario_gaps[i] = scenario_gaps[j]\n                scenario_gaps[j] = temporary\n\n    median_gap = 0.5 * (scenario_gaps[7] + scenario_gaps[8])\n    stochastic_gap = (1.0 - U) * mean_gap + U * median_gap\n    gap = (1.0 - H) * central_gap + H * stochastic_gap\n    order = max(0.0, min(C, gap))\n\n    if order != order or order > 1.0e100:\n        return 0.0\n    return order\n",
+      "origin": "search/evolution_r1/candidate_07_0",
+      "validation": 0.9977077418292613,
+      "train_score": 0.9977267113102262,
+      "train_theta": {
+        "perish_m3_L2_cv1.5_f0": [
+          45.220093118968066,
+          2.547474948613843,
+          4.69119662006313,
+          0.6344403615147292,
+          0.06549152041039685,
+          0.26242951429147465,
+          0.9820112739059365,
+          0.7218058514238385
+        ],
+        "perish_m3_L2_cv1.5_f0.5": [
+          4.844332979407991,
+          12.452580137456188,
+          5.571864391547813,
+          0.5757870748672622,
+          0.5623026411861158,
+          0.9855141882102444,
+          0.8138322343007328,
+          0.38507756142552424
+        ],
+        "perish_m3_L2_cv2_f0": [
+          5.608552690344894,
+          13.191757225920838,
+          4.388527991084204,
+          0.21204812177644417,
+          1.215652340844168,
+          0.586882483205592,
+          0.5897284650589347,
+          0.1677959512791239
+        ],
+        "perish_m3_L2_cv2_f0.5": [
+          6.198380433226301,
+          3.244138420258638,
+          6.924041923218695,
+          0.6248882817042222,
+          0.7153317974648062,
+          0.6087985045965661,
+          0.7077223282073066,
+          0.35900353081350145
+        ],
+        "perish_m5_L2_cv1.5_f0": [
+          9.689121988763262,
+          27.44573945194658,
+          0.5234951264716656,
+          0.7879217590833291,
+          0.3940780166155793,
+          0.43089292400219376,
+          0.3892864774671493,
+          0.3670608829358858
+        ],
+        "perish_m5_L2_cv1.5_f0.5": [
+          8.161061661033205,
+          20.657949213656657,
+          6.825542345950463,
+          0.4373751119355054,
+          0.18606610064634233,
+          0.4462670862085456,
+          0.4062724429078488,
+          0.3588096829750429
+        ],
+        "perish_m5_L2_cv2_f0": [
+          7.725991336226144,
+          5.740856842559822,
+          0.11749951556948979,
+          0.7125442698550326,
+          0.4653811375681788,
+          0.6710576777070545,
+          0.3460852967450694,
+          0.811991249587843
+        ],
+        "perish_m5_L2_cv2_f0.5": [
+          8.690373586010715,
+          4.9516119765477775,
+          7.476586802780255,
+          0.6773775089237941,
+          0.7270015800749505,
+          0.40136594322446606,
+          0.572641278752068,
+          0.23195376606508988
+        ]
+      },
+      "structure_sha256": "5d17bdeeb9d244dec84acd03754410a5ba379d2453323a585dbf40202565c247"
+    }
+  ]
+}

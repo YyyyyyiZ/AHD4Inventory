@@ -1,0 +1,11 @@
+{
+  "created_utc": "2026-09-17T04:40:49.606332+00:00",
+  "final_test_opened": false,
+  "change": "Final-refit per-scenario worker hang guard increased from 900 to 3600 seconds for all numerical arms and classical baselines in fresh processes.",
+  "evidence": "A completed primary m3 CV2 pure-LIFO refit took 818.05 seconds for the prescribed 768 evaluations; slower scenario/state dimensions can exceed the engineering guard.",
+  "unchanged": "No training/search limits, optimizer evaluations, data, seeds, candidate selection, parameter ranges, Baek budgets or API allocations change.",
+  "new_paid_calls": 0,
+  "prior_successful_refits_reused": true,
+  "actual_guards_recorded_per_part": true,
+  "older_active_processes": "May still use 900-second guard; any resulting failed final refit is resumed from independent saved scenario checkpoints with the same fixed optimization request."
+}

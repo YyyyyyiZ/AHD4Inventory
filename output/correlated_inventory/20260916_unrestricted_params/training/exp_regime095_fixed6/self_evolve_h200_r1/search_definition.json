@@ -1,0 +1,52 @@
+{
+  "scenario": {
+    "scenario_id": "exp_regime095_fixed6",
+    "demand_process": "regime",
+    "rho_latent": 0.0,
+    "regime_p_stay": 0.95,
+    "lead_time_values": [
+      6
+    ],
+    "lead_time_probabilities": [
+      1.0
+    ],
+    "mean_demand": 100.0,
+    "holding_cost": 1.0,
+    "lost_sales_cost": 2.0
+  },
+  "training_arrays_sha256": "1cd4e81bb10b5e3ee86a35631580bef0e3839cdead1d46679eb03b40b36ba485",
+  "population_size": 10,
+  "generations": 10,
+  "optimizer": "SciPy L-BFGS-B",
+  "optimizer_maxiter": 15,
+  "optimizer_eps": 0.1,
+  "max_opt_params": null,
+  "burnin": 500,
+  "horizon": 200,
+  "repeat": 1,
+  "model": "deepseek/deepseek-chat-v3-0324",
+  "operator": "m2",
+  "actual_parent_count": 1,
+  "inner_workers": 1,
+  "feedback": "compact training summaries; all cost feedback excludes burn-in",
+  "compact_optimizer_feedback": true,
+  "final_code_feedback": "full matrices re-evaluated after optimization",
+  "test_access": false,
+  "max_model_requests_per_candidate": 2,
+  "adaptation_files": {
+    "evolution.py": "39c31d09d97b512ce1a0ce966e6198eac354a08649382b366aceee2a577fbe94",
+    "problem.py": "d7ce57f0aa8c8a8af19ac616193411e74c06a19f599062e3b752c3122145f94c",
+    "prompts.py": "952c2d243e88435a836906336e84878544f8233b1c0b931db693ae9c352fb253",
+    "fast_policy.py": "d223f8cbc31fdd93c8cba0bc73bb3fcf35f31f7b272b5ca0fe1839637632e325",
+    "data.py": "51d9c8099f1de4ba07dc789067c7559673f7f6d0627222dea512c7ae16490a84",
+    "environment.py": "22188bcdb372c28599b410fa45411fdbb69754a8430f95b78a21b7847568db93"
+  },
+  "framework_files": {
+    "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/eoh/src/eoh/methods/eoh/eoh.py": "5ba704cef63d6813ffce0780408a1b5bbadeb533d79efe554222a9fb8df3fb37",
+    "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/eoh/src/eoh/methods/eoh/eoh_interface_EC.py": "b40bfb99c359c2ab1f5ba3f06d30718c2c8592c3a329952bdaf85442fa554439",
+    "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/eoh/src/eoh/methods/eoh/eoh_evolution.py": "34be8aaa3d03a20de8db71ca6af899d705f48e057ab71968d34c4f24b8f30007",
+    "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/eoh/src/eoh/methods/selection/best_deterministic.py": "85bb90bb1b915d9bd202c99d4549efcda8d18e8b7830d7aa3f664af7db5a3fad",
+    "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/eoh/src/eoh/methods/management/pop_greedy.py": "eebc9bf3a59237de0d71b003b151a5a2b0bdc7eead3b2a90313fad61e4ead04b",
+    "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/eoh/src/eoh/methods/eoh/external_scipy.py": "bd0197b3d5283d1065cf8272d10cee8b8e87af86ae40036ac74bf0f3eabea60b"
+  }
+}

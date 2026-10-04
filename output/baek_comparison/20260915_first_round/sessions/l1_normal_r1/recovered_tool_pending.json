@@ -1,0 +1,16 @@
+{
+  "status": "completed",
+  "session_id": "l1_normal_r1",
+  "monitor_pid": 30359,
+  "child_pid": 27337,
+  "call_id": "call_XfcGmy6aTwPncS6yMtJmYQ7d",
+  "source_sha256": "15c030fc96055599637966ffb4f4ddcec296a16a6bb4add3e9538322a282ee5b",
+  "active_seconds_before_pause_estimate": 114.82742023468018,
+  "original_remaining_seconds": 1567.8420866664965,
+  "resumed_utc": "2026-09-15T23:52:00.562031+00:00",
+  "note": "Preserved process memory. Active wall time excludes suspension; before-pause timing uses stdout file birth and pause snapshot, conservatively within about 0.5 seconds.",
+  "returncode": 0,
+  "elapsed_seconds": 161.83172906772234,
+  "timed_out": false,
+  "completed_utc": "2026-09-15T23:52:47.593643+00:00"
+}

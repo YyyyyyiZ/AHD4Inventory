@@ -1,0 +1,35 @@
+{
+  "started_utc": "2026-09-17T14:02:06.070449+00:00",
+  "pid": 5191,
+  "status": "incomplete",
+  "phase": "search",
+  "repetitions": {
+    "3": {
+      "search": "incomplete"
+    },
+    "2": {
+      "search": "incomplete"
+    },
+    "1": {
+      "search": "incomplete"
+    }
+  },
+  "errors": [
+    {
+      "phase": "search",
+      "repeat": 3,
+      "error_type": "RuntimeError"
+    },
+    {
+      "phase": "search",
+      "repeat": 2,
+      "error_type": "RuntimeError"
+    },
+    {
+      "phase": "search",
+      "repeat": 1,
+      "error_type": "RuntimeError"
+    }
+  ],
+  "updated_utc": "2026-09-17T16:12:31.413167+00:00"
+}

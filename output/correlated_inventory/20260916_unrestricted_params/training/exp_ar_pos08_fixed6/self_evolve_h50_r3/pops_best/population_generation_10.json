@@ -1,0 +1,17 @@
+{
+     "algorithm": "Reduced target_multiplier and safety_stock while increasing demand_response_factor to better balance holding and lost-sales costs based on training performance showing high lost-sales costs.",
+     "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    target_multiplier = 2.5437981257902518  # OPT_PARAM: {\"initial\": 2.5437981257902518, \"min\": 1.0, \"max\": 3.0, \"type\": \"float\"}\n    safety_stock = 273.86473078310735  # OPT_PARAM: {\"initial\": 273.86473078310735, \"min\": 50.0, \"max\": 300.0, \"type\": \"float\"}\n    demand_response_factor = 0.1  # OPT_PARAM: {\"initial\": 0.1, \"min\": 0.1, \"max\": 1.0, \"type\": \"float\"}\n    \n    base_target = target_multiplier * last_demand\n    pipeline_total = np.sum(pipeline_orders)\n    inventory_position = on_hand_inventory + pipeline_total\n    target = base_target + safety_stock\n    order_amount = max(0.0, target - inventory_position) * demand_response_factor\n    \n    return order_amount\n",
+     "description": "",
+     "intuition": "",
+     "reasoning": "Reduced target_multiplier and safety_stock while increasing demand_response_factor to better balance holding and lost-sales costs based on training performance showing high lost-sales costs.",
+     "opt_params": {
+          "target_multiplier": 2.5437981257902518,
+          "safety_stock": 273.86473078310735,
+          "demand_response_factor": 0.1
+     },
+     "cost": null,
+     "objective": 7903.9446,
+     "lower": 7041.79607,
+     "upper": 8795.69124,
+     "other_inf": null
+}

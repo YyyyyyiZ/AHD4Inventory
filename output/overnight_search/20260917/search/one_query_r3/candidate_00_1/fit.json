@@ -1,0 +1,266 @@
+{
+  "results": {
+    "perish_m3_L2_cv1.5_f0": {
+      "theta": [
+        2.9946851043918947,
+        0.4743382387584777,
+        1.3233575698320819,
+        0.24915860277186958,
+        2.099876740656234
+      ],
+      "cost": 233.4228515625,
+      "nfev": 209,
+      "seconds": 1.4635865839663893,
+      "path_costs": [
+        231.4453125,
+        202.1484375,
+        234.765625,
+        227.34375,
+        239.453125,
+        259.1796875,
+        241.6015625,
+        231.4453125
+      ],
+      "metrics": [
+        0.6796875,
+        1.654541015625,
+        3.0
+      ],
+      "cap": 17
+    },
+    "perish_m3_L2_cv1.5_f0.5": {
+      "theta": [
+        2.55896868253328,
+        1.9619964864230868,
+        1.8680014702144099,
+        0.6420791510465059,
+        2.649961291945399
+      ],
+      "cost": 214.5751953125,
+      "nfev": 193,
+      "seconds": 0.47498287516646087,
+      "path_costs": [
+        227.1484375,
+        234.1796875,
+        157.8125,
+        193.1640625,
+        204.6875,
+        265.0390625,
+        196.09375,
+        238.4765625
+      ],
+      "metrics": [
+        0.505615234375,
+        1.64013671875,
+        3.0
+      ],
+      "cap": 16
+    },
+    "perish_m3_L2_cv2_f0": {
+      "theta": [
+        3.9194804390359117,
+        0.5961383153620992,
+        0.31238542796130575,
+        0.3015301657562966,
+        1.9460029994786316
+      ],
+      "cost": 259.86328125,
+      "nfev": 256,
+      "seconds": 0.6249953340739012,
+      "path_costs": [
+        224.8046875,
+        238.8671875,
+        269.53125,
+        268.359375,
+        310.546875,
+        227.9296875,
+        239.453125,
+        299.4140625
+      ],
+      "metrics": [
+        0.653564453125,
+        1.945068359375,
+        2.666015625
+      ],
+      "cap": 14
+    },
+    "perish_m3_L2_cv2_f0.5": {
+      "theta": [
+        3.208191696557588,
+        0.8938906104479388,
+        0.8859949066742185,
+        0.509640071311057,
+        3.8296857965066606
+      ],
+      "cost": 237.060546875,
+      "nfev": 256,
+      "seconds": 0.6214246661402285,
+      "path_costs": [
+        235.546875,
+        266.796875,
+        288.28125,
+        197.0703125,
+        236.9140625,
+        204.8828125,
+        183.0078125,
+        283.984375
+      ],
+      "metrics": [
+        0.53515625,
+        1.83544921875,
+        2.695556640625
+      ],
+      "cap": 14
+    },
+    "perish_m5_L2_cv1.5_f0": {
+      "theta": [
+        10.003700589693544,
+        0.22428998791817856,
+        0.5104680234217671,
+        1.1273063938521757,
+        2.0923639118830417
+      ],
+      "cost": 179.8095703125,
+      "nfev": 256,
+      "seconds": 0.6781540419906378,
+      "path_costs": [
+        187.6953125,
+        148.6328125,
+        177.734375,
+        175.1953125,
+        187.890625,
+        203.7109375,
+        181.4453125,
+        176.171875
+      ],
+      "metrics": [
+        0.599853515625,
+        1.1982421875,
+        3.380126953125
+      ],
+      "cap": 25
+    },
+    "perish_m5_L2_cv1.5_f0.5": {
+      "theta": [
+        7.547409501887575,
+        0.3872660019557863,
+        0.2020735031336125,
+        0.4017820304668628,
+        4.950099608478322
+      ],
+      "cost": 164.892578125,
+      "nfev": 256,
+      "seconds": 0.6838366249576211,
+      "path_costs": [
+        168.359375,
+        178.515625,
+        125.9765625,
+        148.6328125,
+        152.34375,
+        201.953125,
+        162.6953125,
+        180.6640625
+      ],
+      "metrics": [
+        0.448974609375,
+        1.199951171875,
+        3.38525390625
+      ],
+      "cap": 24
+    },
+    "perish_m5_L2_cv2_f0": {
+      "theta": [
+        10.925762822927197,
+        1.3713984310715155,
+        0.050798551959936766,
+        1.1549478113699783,
+        1.3867415555008793
+      ],
+      "cost": 212.01171875,
+      "nfev": 256,
+      "seconds": 0.6807832920458168,
+      "path_costs": [
+        178.90625,
+        189.6484375,
+        226.953125,
+        226.171875,
+        262.5,
+        174.8046875,
+        194.53125,
+        242.578125
+      ],
+      "metrics": [
+        0.439453125,
+        1.6806640625,
+        2.71630859375
+      ],
+      "cap": 22
+    },
+    "perish_m5_L2_cv2_f0.5": {
+      "theta": [
+        6.030165301193428,
+        0.7277452719738947,
+        0.7930858302231196,
+        0.7047944446226587,
+        1.9152817719500859
+      ],
+      "cost": 195.9228515625,
+      "nfev": 256,
+      "seconds": 0.682749958941713,
+      "path_costs": [
+        199.0234375,
+        223.6328125,
+        246.2890625,
+        154.6875,
+        195.1171875,
+        165.0390625,
+        142.96875,
+        240.625
+      ],
+      "metrics": [
+        0.414794921875,
+        1.54443359375,
+        2.868408203125
+      ],
+      "cap": 21
+    }
+  },
+  "parameters": {
+    "arrival_target": {
+      "type": "float",
+      "initial": 14.0,
+      "min": 0.0,
+      "max": 60.0
+    },
+    "fifo_demand_scale": {
+      "type": "float",
+      "initial": 0.55,
+      "min": 0.0,
+      "max": 2.5
+    },
+    "lifo_demand_scale": {
+      "type": "float",
+      "initial": 0.55,
+      "min": 0.0,
+      "max": 2.5
+    },
+    "survivor_floor": {
+      "type": "float",
+      "initial": 0.25,
+      "min": 0.0,
+      "max": 1.2
+    },
+    "survivor_power": {
+      "type": "float",
+      "initial": 0.9,
+      "min": 0.15,
+      "max": 5.0
+    }
+  },
+  "structure_sha256": "60b69478703e909bd236f1f30e0daa636d989236f1ab6f4c047ab652a5f51320",
+  "wall_seconds": 6.796684291912243,
+  "transitions": 11084416,
+  "valid": true,
+  "score": 0.9955000880128513,
+  "code": "def compute_order_amount(age, pipeline, mu, cv, f, L):\n    arrival_target = 14.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":14.0,\"min\":0.0,\"max\":60.0}\n    fifo_demand_scale = 0.55 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.55,\"min\":0.0,\"max\":2.5}\n    lifo_demand_scale = 0.55 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.55,\"min\":0.0,\"max\":2.5}\n    survivor_floor = 0.25 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.25,\"min\":0.0,\"max\":1.2}\n    survivor_power = 0.9 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.9,\"min\":0.15,\"max\":5.0}\n\n    m = len(age)\n    work = [0.0] * m\n\n    for i in range(m):\n        x = age[i]\n        if x < 0.0:\n            x = 0.0\n        work[i] = x\n\n    for t in range(L):\n        fifo_demand = fifo_demand_scale * f * mu\n        if fifo_demand < 0.0:\n            fifo_demand = 0.0\n\n        for i in range(m):\n            available = work[i]\n            take = available\n            if take > fifo_demand:\n                take = fifo_demand\n            work[i] = available - take\n            fifo_demand = fifo_demand - take\n\n        lifo_demand = lifo_demand_scale * (1.0 - f) * mu\n        if lifo_demand < 0.0:\n            lifo_demand = 0.0\n\n        for k in range(m):\n            i = m - 1 - k\n            available = work[i]\n            take = available\n            if take > lifo_demand:\n                take = lifo_demand\n            work[i] = available - take\n            lifo_demand = lifo_demand - take\n\n        shifted = [0.0] * m\n        for i in range(m - 1):\n            shifted[i] = work[i + 1]\n\n        arrival = 0.0\n        if t < len(pipeline):\n            arrival = pipeline[t]\n            if arrival < 0.0:\n                arrival = 0.0\n        shifted[m - 1] = arrival\n        work = shifted\n\n    survivor_credit = 0.0\n    for i in range(m):\n        relative_life = (i + 1.0) / m\n        weight = survivor_floor + (1.0 - survivor_floor) * relative_life ** survivor_power\n        survivor_credit = survivor_credit + work[i] * weight\n\n    q = arrival_target - survivor_credit\n\n    if q != q:\n        q = 0.0\n    if q < 0.0:\n        q = 0.0\n    if q > 1000000.0:\n        q = 1000000.0\n    return float(q)\n"
+}

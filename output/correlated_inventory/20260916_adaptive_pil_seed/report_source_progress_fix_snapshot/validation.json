@@ -1,0 +1,29 @@
+{
+  "created_utc": "2026-09-16T16:35:53.862595+00:00",
+  "status": "passed",
+  "scope": "report progress labels only; no evaluation, API, policy, training, ledger, or frozen source changes",
+  "tests": {
+    "command": ".venv/bin/python -m unittest examples.inventory.correlated_benchmark.test_adaptive_pil_report -v",
+    "passed": 10,
+    "failed": 0
+  },
+  "real_report_cli_exit": 0,
+  "real_report_fields": {
+    "status": "pending_primary",
+    "completed_primary": false,
+    "completed_primary_runs": 0,
+    "test_scored_primary_runs": 0,
+    "training_completed_runs": 6
+  },
+  "training_issues": [],
+  "plot_error": null,
+  "old_report_source_snapshot_unchanged": {
+    "adaptive_pil_report.py": "6bf3f5629c1022d7915927d7a43a69f81211999b633c22133be2200e81bff711",
+    "sha256.json": "4ababee96df11b5a12d120ecc5109a093d69323a342692f4c54843d851da94cb",
+    "test_adaptive_pil_report.py": "566a5d6f3881b44b10261c16579bb54551cc31c4ef04065d1d3d2f8ee9608ddd"
+  },
+  "training_source_manifest_sha256_unchanged": "68c2e8e1c364e021041555517c52bb09e5c5364279917f7342fe3964882dbc53",
+  "report_sha256": "00a9bc08b2af95a1797cd601683c776091b4b6a4b45fb8cdc274f91546921983",
+  "summary_sha256": "848cd2e0c51168901c4a9c573e7591cc50b271d34d26a550afeb2a88c7e12b11",
+  "completion_gate": "unchanged; completed_primary_runs retains verified eight-test-window semantics"
+}

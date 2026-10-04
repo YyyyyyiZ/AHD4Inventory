@@ -1,0 +1,252 @@
+{
+  "results": {
+    "perish_m7_L2_cv1.5_f0": {
+      "theta": [
+        21.102600563374672,
+        40.237798995023255,
+        0.038910530053327896,
+        1.9898559936799316,
+        1.2984489560101
+      ],
+      "cost": 138.225,
+      "nfev": 1024,
+      "seconds": 47.142123042140156,
+      "path_costs": [
+        122.8,
+        137.1,
+        142.9,
+        136.7,
+        130.9,
+        136.1,
+        136.8,
+        151.9,
+        145.8,
+        129.1,
+        116.2,
+        128.2,
+        187.8,
+        166.1,
+        136.1,
+        125.7,
+        145.2,
+        127.4,
+        105.2,
+        163.7,
+        121.3,
+        150.3,
+        159.5,
+        144.9,
+        143.7,
+        133.0,
+        137.1,
+        130.1,
+        122.8,
+        127.0,
+        148.8,
+        133.0
+      ],
+      "metrics": [
+        0.4545625,
+        0.9276875000000001,
+        3.49890625
+      ],
+      "cap": 32
+    },
+    "perish_m7_L2_cv1.5_f0.5": {
+      "theta": [
+        9.38033356467271,
+        23.70465546651996,
+        1.0880169777685922,
+        0.618388945584271,
+        3.403772933250125
+      ],
+      "cost": 121.1625,
+      "nfev": 1024,
+      "seconds": 56.08642316702753,
+      "path_costs": [
+        124.9,
+        125.5,
+        113.1,
+        114.6,
+        142.6,
+        109.2,
+        122.4,
+        106.8,
+        121.4,
+        117.6,
+        121.4,
+        116.1,
+        113.2,
+        114.1,
+        137.9,
+        126.1,
+        154.2,
+        115.8,
+        120.1,
+        118.7,
+        115.3,
+        120.9,
+        115.8,
+        126.1,
+        110.5,
+        126.5,
+        125.1,
+        137.2,
+        117.5,
+        115.0,
+        112.1,
+        119.5
+      ],
+      "metrics": [
+        0.42053124999999997,
+        0.79109375,
+        3.64078125
+      ],
+      "cap": 32
+    },
+    "perish_m7_L2_cv2_f0": {
+      "theta": [
+        21.4486897395363,
+        31.593598665790353,
+        0.04606610971829217,
+        1.9974094122508164,
+        1.9947224102092274
+      ],
+      "cost": 181.2625,
+      "nfev": 1024,
+      "seconds": 53.83730062493123,
+      "path_costs": [
+        199.0,
+        189.4,
+        188.4,
+        170.6,
+        214.4,
+        192.5,
+        206.4,
+        163.0,
+        177.9,
+        153.9,
+        191.4,
+        167.3,
+        188.4,
+        179.9,
+        197.4,
+        175.6,
+        173.9,
+        151.1,
+        168.1,
+        187.9,
+        178.7,
+        164.8,
+        230.5,
+        177.0,
+        168.3,
+        165.9,
+        176.5,
+        189.1,
+        179.9,
+        204.4,
+        163.9,
+        164.9
+      ],
+      "metrics": [
+        0.5272187500000001,
+        1.2854062499999996,
+        3.2775312500000005
+      ],
+      "cap": 29
+    },
+    "perish_m7_L2_cv2_f0.5": {
+      "theta": [
+        6.592975366074512,
+        32.3548196986717,
+        1.6718508097919944,
+        0.564058655059278,
+        1.3964853915073778
+      ],
+      "cost": 169.50937499999998,
+      "nfev": 913,
+      "seconds": 49.033270250074565,
+      "path_costs": [
+        179.0,
+        167.9,
+        151.7,
+        160.3,
+        153.2,
+        169.1,
+        179.7,
+        144.1,
+        197.5,
+        189.4,
+        152.5,
+        144.8,
+        151.7,
+        153.3,
+        156.1,
+        169.8,
+        195.8,
+        170.4,
+        166.3,
+        182.2,
+        203.4,
+        153.0,
+        163.6,
+        189.6,
+        192.3,
+        197.8,
+        147.4,
+        186.3,
+        156.2,
+        156.6,
+        193.9,
+        149.4
+      ],
+      "metrics": [
+        0.38400000000000006,
+        1.31109375,
+        3.148156250000001
+      ],
+      "cap": 28
+    }
+  },
+  "parameters": {
+    "S": {
+      "type": "float",
+      "initial": 10.0,
+      "min": 0.0,
+      "max": 60.0
+    },
+    "Q": {
+      "type": "float",
+      "initial": 12.0,
+      "min": 0.0,
+      "max": 60.0
+    },
+    "K": {
+      "type": "float",
+      "initial": 1.0,
+      "min": 0.0,
+      "max": 2.5
+    },
+    "W0": {
+      "type": "float",
+      "initial": 0.5,
+      "min": 0.0,
+      "max": 2.0
+    },
+    "P": {
+      "type": "float",
+      "initial": 1.0,
+      "min": 0.0,
+      "max": 5.0
+    }
+  },
+  "structure_sha256": "b0b718588be651a8797f0db6cefeb0a37d98ed9ff43a6b7c45e5e6be2470c152",
+  "code_sha256": "e285f2d6f04ef4902d0a57bd01d88143cd8eef8d0bde03b12e29489ddb4f6279",
+  "import_normalization": [],
+  "wall_seconds": 207.78573729097843,
+  "transitions": 191472000,
+  "valid": true,
+  "score": 0.9651847583992785,
+  "code": "def compute_order_amount(age, pipeline, mu, cv, f, L):\n    S = 10.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":10.0,\"min\":0.0,\"max\":60.0}\n    Q = 12.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":12.0,\"min\":0.0,\"max\":60.0}\n    K = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":2.5}\n    W0 = 0.5 # OPT_PARAM: {\"type\":\"float\",\"initial\":0.5,\"min\":0.0,\"max\":2.0}\n    P = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":5.0}\n\n    m = len(age)\n    if m == 0:\n        return 0.0\n\n    state = [float(age[i]) for i in range(m)]\n\n    mf = f * mu\n    ml = (1.0 - f) * mu\n    base_variance = (mu * cv) * (mu * cv)\n    vf = f * base_variance\n    vl = (1.0 - f) * base_variance\n\n    if mf > 0.0:\n        af = vf / (mf * mf) - 1.0 / mf\n        df = max(0.0, af * af - 1.0) ** 0.5\n        bf = 1.0 + af + df\n        cf = 1.0 + af - df\n        wf = 1.0 / bf\n        pf1 = 2.0 / (2.0 + mf * bf)\n        pf2 = 2.0 / (2.0 + mf * cf)\n        rf1 = 1.0 - pf1\n        rf2 = 1.0 - pf2\n    else:\n        wf = 0.0\n        pf1 = 1.0\n        pf2 = 1.0\n        rf1 = 0.0\n        rf2 = 0.0\n\n    if ml > 0.0:\n        al = vl / (ml * ml) - 1.0 / ml\n        dl = max(0.0, al * al - 1.0) ** 0.5\n        bl = 1.0 + al + dl\n        cl = 1.0 + al - dl\n        wl = 1.0 / bl\n        pl1 = 2.0 / (2.0 + ml * bl)\n        pl2 = 2.0 / (2.0 + ml * cl)\n        rl1 = 1.0 - pl1\n        rl2 = 1.0 - pl2\n    else:\n        wl = 0.0\n        pl1 = 1.0\n        pl2 = 1.0\n        rl1 = 0.0\n        rl2 = 0.0\n\n    for t in range(L):\n        total = 0.0\n        for i in range(m):\n            total = total + state[i]\n\n        fifo_sales = 0.0\n        if mf > 0.0 and total > 0.0:\n            n = int(total)\n            fraction = total - n\n            e1 = rf1 * (1.0 - rf1 ** n) / pf1 + fraction * rf1 ** (n + 1)\n            e2 = rf2 * (1.0 - rf2 ** n) / pf2 + fraction * rf2 ** (n + 1)\n            fifo_sales = K * (wf * e1 + (1.0 - wf) * e2)\n            fifo_sales = min(total, max(0.0, fifo_sales))\n\n        remaining = fifo_sales\n        for i in range(m):\n            take = min(state[i], remaining)\n            state[i] = state[i] - take\n            remaining = remaining - take\n\n        total = 0.0\n        for i in range(m):\n            total = total + state[i]\n\n        lifo_sales = 0.0\n        if ml > 0.0 and total > 0.0:\n            n = int(total)\n            fraction = total - n\n            e1 = rl1 * (1.0 - rl1 ** n) / pl1 + fraction * rl1 ** (n + 1)\n            e2 = rl2 * (1.0 - rl2 ** n) / pl2 + fraction * rl2 ** (n + 1)\n            lifo_sales = K * (wl * e1 + (1.0 - wl) * e2)\n            lifo_sales = min(total, max(0.0, lifo_sales))\n\n        remaining = lifo_sales\n        for j in range(m):\n            i = m - 1 - j\n            take = min(state[i], remaining)\n            state[i] = state[i] - take\n            remaining = remaining - take\n\n        for i in range(m - 1):\n            state[i] = state[i + 1]\n        state[m - 1] = 0.0\n\n        if t < L - 1 and t < len(pipeline):\n            state[m - 1] = state[m - 1] + float(pipeline[t])\n\n    effective = 0.0\n    for i in range(m):\n        relative_life = (i + 1.0) / m\n        weight = W0 + (1.0 - W0) * relative_life ** P\n        effective = effective + weight * state[i]\n\n    order = S - effective\n    return max(0.0, min(Q, order))\n"
+}

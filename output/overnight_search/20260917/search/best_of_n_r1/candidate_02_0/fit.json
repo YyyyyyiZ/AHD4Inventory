@@ -1,0 +1,252 @@
+{
+  "results": {
+    "perish_m3_L2_cv1.5_f0": {
+      "theta": [
+        3.610956111890907,
+        1.3192963017440036,
+        4.032678308521658,
+        1.5292960374367208
+      ],
+      "cost": 233.4228515625,
+      "nfev": 241,
+      "seconds": 2.3715618748683482,
+      "path_costs": [
+        231.4453125,
+        202.1484375,
+        234.765625,
+        227.34375,
+        239.453125,
+        259.1796875,
+        241.6015625,
+        231.4453125
+      ],
+      "metrics": [
+        0.6796875,
+        1.654541015625,
+        3.0
+      ],
+      "cap": 17
+    },
+    "perish_m3_L2_cv1.5_f0.5": {
+      "theta": [
+        4.483085491987346,
+        0.4480435951139208,
+        3.2216264776375625,
+        1.4378970975027137
+      ],
+      "cost": 214.1357421875,
+      "nfev": 256,
+      "seconds": 1.3363120411522686,
+      "path_costs": [
+        222.8515625,
+        231.0546875,
+        160.9375,
+        192.7734375,
+        205.6640625,
+        264.453125,
+        197.65625,
+        237.6953125
+      ],
+      "metrics": [
+        0.59130859375,
+        1.550048828125,
+        3.176025390625
+      ],
+      "cap": 16
+    },
+    "perish_m3_L2_cv2_f0": {
+      "theta": [
+        3.1910949337451697,
+        0.48617894381900584,
+        4.109122492480862,
+        1.8498189945433998
+      ],
+      "cost": 260.302734375,
+      "nfev": 256,
+      "seconds": 0.9996652500703931,
+      "path_costs": [
+        222.265625,
+        239.2578125,
+        267.3828125,
+        270.3125,
+        311.9140625,
+        228.515625,
+        238.0859375,
+        304.6875
+      ],
+      "metrics": [
+        0.572509765625,
+        2.030517578125,
+        2.5
+      ],
+      "cap": 14
+    },
+    "perish_m3_L2_cv2_f0.5": {
+      "theta": [
+        4.313812997076873,
+        0.7195424881621,
+        0.737212545366142,
+        0.8611056026979329
+      ],
+      "cost": 237.158203125,
+      "nfev": 256,
+      "seconds": 1.3777256668545306,
+      "path_costs": [
+        236.5234375,
+        267.1875,
+        291.9921875,
+        198.6328125,
+        233.59375,
+        202.9296875,
+        183.7890625,
+        282.6171875
+      ],
+      "metrics": [
+        0.550048828125,
+        1.821533203125,
+        2.724365234375
+      ],
+      "cap": 14
+    },
+    "perish_m5_L2_cv1.5_f0": {
+      "theta": [
+        8.677368983354963,
+        0.5328192557086181,
+        0.10694671600374939,
+        0.8915476577751617
+      ],
+      "cost": 183.837890625,
+      "nfev": 256,
+      "seconds": 1.2186089579481632,
+      "path_costs": [
+        190.0390625,
+        150.78125,
+        181.0546875,
+        174.0234375,
+        191.6015625,
+        211.71875,
+        187.5,
+        183.984375
+      ],
+      "metrics": [
+        0.58935546875,
+        1.2490234375,
+        3.31494140625
+      ],
+      "cap": 25
+    },
+    "perish_m5_L2_cv1.5_f0.5": {
+      "theta": [
+        3.8863649337286112,
+        1.5786267042000934,
+        4.684314598908814,
+        0.7577122835406906
+      ],
+      "cost": 165.966796875,
+      "nfev": 256,
+      "seconds": 1.7567507911007851,
+      "path_costs": [
+        169.53125,
+        177.5390625,
+        136.9140625,
+        152.5390625,
+        148.2421875,
+        199.8046875,
+        164.6484375,
+        178.515625
+      ],
+      "metrics": [
+        0.5380859375,
+        1.12158203125,
+        3.554443359375
+      ],
+      "cap": 24
+    },
+    "perish_m5_L2_cv2_f0": {
+      "theta": [
+        3.397540668887242,
+        1.0244806598327683,
+        6.5980960677329765,
+        0.26254991406931605
+      ],
+      "cost": 223.73046875,
+      "nfev": 129,
+      "seconds": 0.6120225409977138,
+      "path_costs": [
+        197.8515625,
+        207.6171875,
+        242.1875,
+        230.859375,
+        260.15625,
+        194.53125,
+        204.296875,
+        252.34375
+      ],
+      "metrics": [
+        0.640625,
+        1.5966796875,
+        3.0
+      ],
+      "cap": 22
+    },
+    "perish_m5_L2_cv2_f0.5": {
+      "theta": [
+        4.212785464522838,
+        1.9575752320977358,
+        0.10365220957575882,
+        1.4532403994170757
+      ],
+      "cost": 195.1171875,
+      "nfev": 256,
+      "seconds": 1.6810132081154734,
+      "path_costs": [
+        198.6328125,
+        217.96875,
+        244.53125,
+        153.515625,
+        195.5078125,
+        164.6484375,
+        142.96875,
+        243.1640625
+      ],
+      "metrics": [
+        0.384033203125,
+        1.567138671875,
+        2.81396484375
+      ],
+      "cap": 21
+    }
+  },
+  "parameters": {
+    "S": {
+      "type": "float",
+      "initial": 18.0,
+      "min": 0.0,
+      "max": 60.0
+    },
+    "projection_scale": {
+      "type": "float",
+      "initial": 1.0,
+      "min": 0.0,
+      "max": 2.5
+    },
+    "age_power": {
+      "type": "float",
+      "initial": 1.0,
+      "min": 0.0,
+      "max": 10.0
+    },
+    "inventory_credit": {
+      "type": "float",
+      "initial": 1.0,
+      "min": 0.0,
+      "max": 2.0
+    }
+  },
+  "structure_sha256": "68c850360cc76f70de8b01ae7b443d6470ef32e45af0637038831aa66572de04",
+  "wall_seconds": 12.387677707942203,
+  "transitions": 10902144,
+  "valid": true,
+  "score": 1.0053284250471282,
+  "code": "def compute_order_amount(age, pipeline, mu, cv, f, L):\n    S = 18.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":18.0,\"min\":0.0,\"max\":60.0}\n    projection_scale = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":2.5}\n    age_power = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":10.0}\n    inventory_credit = 1.0 # OPT_PARAM: {\"type\":\"float\",\"initial\":1.0,\"min\":0.0,\"max\":2.0}\n\n    m = len(age)\n    if m <= 0:\n        return 0.0\n\n    x = [0.0 for _ in range(m)]\n    for i in range(m):\n        value = float(age[i])\n        if value < 0.0 or value != value:\n            value = 0.0\n        x[i] = value\n\n    mf = f * mu\n    ml = (1.0 - f) * mu\n    demand_sd = mu * cv\n\n    rf1 = 0.0\n    rf2 = 0.0\n    wf1 = 0.0\n    if mf > 0.0:\n        vf = f * demand_sd * demand_sd\n        af = vf / (mf * mf) - 1.0 / mf\n        if af < 1.0:\n            af = 1.0\n        rootf = (af * af - 1.0) ** 0.5\n        bf = 1.0 + af + rootf\n        cf = 1.0 + af - rootf\n        wf1 = 1.0 / bf\n        pf1 = 2.0 / (2.0 + mf * bf)\n        pf2 = 2.0 / (2.0 + mf * cf)\n        rf1 = 1.0 - pf1\n        rf2 = 1.0 - pf2\n\n    rl1 = 0.0\n    rl2 = 0.0\n    wl1 = 0.0\n    if ml > 0.0:\n        vl = (1.0 - f) * demand_sd * demand_sd\n        al = vl / (ml * ml) - 1.0 / ml\n        if al < 1.0:\n            al = 1.0\n        rootl = (al * al - 1.0) ** 0.5\n        bl = 1.0 + al + rootl\n        cl = 1.0 + al - rootl\n        wl1 = 1.0 / bl\n        pl1 = 2.0 / (2.0 + ml * bl)\n        pl2 = 2.0 / (2.0 + ml * cl)\n        rl1 = 1.0 - pl1\n        rl2 = 1.0 - pl2\n\n    lead = int(L)\n    if lead < 0:\n        lead = 0\n\n    for t in range(lead):\n        if mf > 0.0:\n            rank = 0.0\n            for i in range(m):\n                amount = x[i]\n                if amount > 0.0:\n                    part1 = wf1 * (rf1 ** (rank + 1.0)) * (1.0 - rf1 ** amount) / (1.0 - rf1)\n                    part2 = (1.0 - wf1) * (rf2 ** (rank + 1.0)) * (1.0 - rf2 ** amount) / (1.0 - rf2)\n                    consumed = projection_scale * (part1 + part2)\n                    if consumed < 0.0:\n                        consumed = 0.0\n                    if consumed > amount:\n                        consumed = amount\n                    x[i] = amount - consumed\n                    rank = rank + amount\n\n        if ml > 0.0:\n            rank = 0.0\n            for k in range(m):\n                i = m - 1 - k\n                amount = x[i]\n                if amount > 0.0:\n                    part1 = wl1 * (rl1 ** (rank + 1.0)) * (1.0 - rl1 ** amount) / (1.0 - rl1)\n                    part2 = (1.0 - wl1) * (rl2 ** (rank + 1.0)) * (1.0 - rl2 ** amount) / (1.0 - rl2)\n                    consumed = projection_scale * (part1 + part2)\n                    if consumed < 0.0:\n                        consumed = 0.0\n                    if consumed > amount:\n                        consumed = amount\n                    x[i] = amount - consumed\n                    rank = rank + amount\n\n        shifted = [0.0 for _ in range(m)]\n        for i in range(m - 1):\n            shifted[i] = x[i + 1]\n\n        incoming = 0.0\n        if t < len(pipeline):\n            incoming = float(pipeline[t])\n            if incoming < 0.0 or incoming != incoming:\n                incoming = 0.0\n        shifted[m - 1] = incoming\n        x = shifted\n\n    effective_inventory = 0.0\n    for i in range(m):\n        remaining_fraction = float(i + 1) / float(m)\n        weight = remaining_fraction ** age_power\n        effective_inventory = effective_inventory + weight * x[i]\n\n    order = S - inventory_credit * effective_inventory\n    if order != order or order <= 0.0:\n        return 0.0\n    if order > 1000000.0:\n        return 1000000.0\n    return float(order)\n"
+}

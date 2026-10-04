@@ -1,0 +1,15 @@
+{
+     "algorithm": "Frozen optimized Adaptive PIL with its original conditional projection.",
+     "code": "def compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    S_over_mean = 0.6947359785890602  # OPT_PARAM: {\"initial\": 0.6947359785890602, \"min\": 0.0, \"max\": 3.0, \"type\": \"float\"}\n    cap_over_mean = 0.6026125679822039  # OPT_PARAM: {\"initial\": 0.6026125679822039, \"min\": 0.0, \"max\": 6.0, \"type\": \"float\"}\n    target_forecast_gain = 0.0  # OPT_PARAM: {\"initial\": 0.0, \"min\": -1.0, \"max\": 3.0, \"type\": \"float\"}\n    cap_forecast_gain = 0.1  # OPT_PARAM: {\"initial\": 0.1, \"min\": -1.0, \"max\": 3.0, \"type\": \"float\"}\n    inventory_gain = 0.2894902604285071  # OPT_PARAM: {\"initial\": 0.2894902604285071, \"min\": 0.0, \"max\": 2.0, \"type\": \"float\"}\n    mean_demand = 100.0\n    arrival_mean = conditional_arrival_mean(last_demand, quoted_lead_time)\n    projected_inventory = conditional_projected_inventory(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time)\n    target = max(0.0, mean_demand * S_over_mean + target_forecast_gain * (arrival_mean - mean_demand))\n    cap = max(0.0, mean_demand * cap_over_mean + cap_forecast_gain * (arrival_mean - mean_demand))\n    order_amount = min(cap, max(0.0, target - inventory_gain * projected_inventory))\n    return order_amount\n",
+     "objective": 24791.10165,
+     "other_inf": null,
+     "lower": 24299.82968,
+     "upper": 25301.96419,
+     "opt_params": {
+          "S_over_mean": 0.6947359785890602,
+          "cap_over_mean": 0.6026125679822039,
+          "target_forecast_gain": 0.0,
+          "cap_forecast_gain": 0.1,
+          "inventory_gain": 0.2894902604285071
+     }
+}

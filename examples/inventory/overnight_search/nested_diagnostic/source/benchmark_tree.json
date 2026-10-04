@@ -1,0 +1,345 @@
+{
+  "sha": "06107bffaed2d5faef30c73e36688deb67c4923e",
+  "url": "https://api.github.com/repos/wch444/Assortment-Benchmark/git/trees/06107bffaed2d5faef30c73e36688deb67c4923e",
+  "tree": [
+    {
+      "path": ".DS_Store",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "567bc8bf7621b609d6f2449d3679554e1a1ee914",
+      "size": 6148,
+      "url": "https://api.github.com/repos/wch444/Assortment-Benchmark/git/blobs/567bc8bf7621b609d6f2449d3679554e1a1ee914"
+    },
+    {
+      "path": "README.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "bf7e6ec48eeed98f11a5fbf72a2c6fd526f9b39a",
+      "size": 18791,
+      "url": "https://api.github.com/repos/wch444/Assortment-Benchmark/git/blobs/bf7e6ec48eeed98f11a5fbf72a2c6fd526f9b39a"
+    },
+    {
+      "path": "environment.yml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "size": 0,
+      "url": "https://api.github.com/repos/wch444/Assortment-Benchmark/git/blobs/e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+    },
+    {
+      "path": "generator",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "2385b438249cd2640200efc66088f1c8b3de6748",
+      "url": "https://api.github.com/repos/wch444/Assortment-Benchmark/git/trees/2385b438249cd2640200efc66088f1c8b3de6748"
+    },
+    {
+      "path": "generator/.DS_Store",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f831a62dd22a15f17a5874646d68cdb4b51a0ad5",
+      "size": 6148,
+      "url": "https://api.github.com/repos/wch444/Assortment-Benchmark/git/blobs/f831a62dd22a15f17a5874646d68cdb4b51a0ad5"
+    },
+    {
+      "path": "generator/__init__.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "size": 0,
+      "url": "https://api.github.com/repos/wch444/Assortment-Benchmark/git/blobs/e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+    },
+    {
+      "path": "generator/constraint.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b6299afb689e59c5b809f353aec33056f99061ef",
+      "size": 5225,
+      "url": "https://api.github.com/repos/wch444/Assortment-Benchmark/git/blobs/b6299afb689e59c5b809f353aec33056f99061ef"
+    },
+    {
+      "path": "generator/mmnl_data_generator.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d1f335a35c272bade0fc57f25ddf8d2f39bfe308",
+      "size": 7453,
+      "url": "https://api.github.com/repos/wch444/Assortment-Benchmark/git/blobs/d1f335a35c272bade0fc57f25ddf8d2f39bfe308"
+    },
+    {
+      "path": "generator/nl_data_generator.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "521250c27fd26a53a06d060e8a225043ff92236d",
+      "size": 8962,
+      "url": "https://api.github.com/repos/wch444/Assortment-Benchmark/git/blobs/521250c27fd26a53a06d060e8a225043ff92236d"
+    },
+    {
+      "path": "generator/utils.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5c854deedb14510b71b11c8fe81476abbfa7412e",
+      "size": 5748,
+      "url": "https://api.github.com/repos/wch444/Assortment-Benchmark/git/blobs/5c854deedb14510b71b11c8fe81476abbfa7412e"
+    },
+    {
+      "path": "hard_data",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "e7efa3a044c696ff6911b38dc2a36c3aff827d51",
+      "url": "https://api.github.com/repos/wch444/Assortment-Benchmark/git/trees/e7efa3a044c696ff6911b38dc2a36c3aff827d51"
+    },
+    {
+      "path": "hard_data/mmnl_card_RS2_data.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "45c71129806f861dbc85919d90ad76430d9e5713",
+      "size": 12116829,
+      "url": "https://api.github.com/repos/wch444/Assortment-Benchmark/git/blobs/45c71129806f861dbc85919d90ad76430d9e5713"
+    },
+    {
+      "path": "hard_data/mmnl_card_RS4_data.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3d708e4bfdd6d8f4733406c9c495890edb80e5cf",
+      "size": 14315170,
+      "url": "https://api.github.com/repos/wch444/Assortment-Benchmark/git/blobs/3d708e4bfdd6d8f4733406c9c495890edb80e5cf"
+    },
+    {
+      "path": "hard_data/mmnl_unconstrained_RS2_data.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5fc0326e175d9ad3fbcd88b857efb4a5178e1937",
+      "size": 3955495,
+      "url": "https://api.github.com/repos/wch444/Assortment-Benchmark/git/blobs/5fc0326e175d9ad3fbcd88b857efb4a5178e1937"
+    },
+    {
+      "path": "hard_data/mmnl_unconstrained_RS4_data.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b84975f6219e0ee3060f0cf695b7b6e9e92ff516",
+      "size": 4641928,
+      "url": "https://api.github.com/repos/wch444/Assortment-Benchmark/git/blobs/b84975f6219e0ee3060f0cf695b7b6e9e92ff516"
+    },
+    {
+      "path": "hard_data/nl_card_01_data.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0e22de5675ac52414f91ae4618598282a2d75e83",
+      "size": 10370688,
+      "url": "https://api.github.com/repos/wch444/Assortment-Benchmark/git/blobs/0e22de5675ac52414f91ae4618598282a2d75e83"
+    },
+    {
+      "path": "hard_data/nl_card_34_data.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2ffdb5c319c56f3737588617270068e77f3189d9",
+      "size": 10155701,
+      "url": "https://api.github.com/repos/wch444/Assortment-Benchmark/git/blobs/2ffdb5c319c56f3737588617270068e77f3189d9"
+    },
+    {
+      "path": "hard_data/nl_unconstrained_01_data.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2f9fac2c2237d548aa25c09d1a3cf7703704898f",
+      "size": 4211953,
+      "url": "https://api.github.com/repos/wch444/Assortment-Benchmark/git/blobs/2f9fac2c2237d548aa25c09d1a3cf7703704898f"
+    },
+    {
+      "path": "hard_data/nl_unconstrained_34_data.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5f908ddc28fab808fc0a583cc4c1349f1727ad64",
+      "size": 4231994,
+      "url": "https://api.github.com/repos/wch444/Assortment-Benchmark/git/blobs/5f908ddc28fab808fc0a583cc4c1349f1727ad64"
+    },
+    {
+      "path": "method",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "676ee0ed2589bd157f353f3f7f1f8852e1b106ef",
+      "url": "https://api.github.com/repos/wch444/Assortment-Benchmark/git/trees/676ee0ed2589bd157f353f3f7f1f8852e1b106ef"
+    },
+    {
+      "path": "method/.DS_Store",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5008ddfcf53c02e82d7eee2e57c38e5672ef89f6",
+      "size": 6148,
+      "url": "https://api.github.com/repos/wch444/Assortment-Benchmark/git/blobs/5008ddfcf53c02e82d7eee2e57c38e5672ef89f6"
+    },
+    {
+      "path": "method/__init__.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "size": 0,
+      "url": "https://api.github.com/repos/wch444/Assortment-Benchmark/git/blobs/e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+    },
+    {
+      "path": "method/general_method.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ac9b0e69eea5eff417fbc9e9f39dee61b51345a4",
+      "size": 2925,
+      "url": "https://api.github.com/repos/wch444/Assortment-Benchmark/git/blobs/ac9b0e69eea5eff417fbc9e9f39dee61b51345a4"
+    },
+    {
+      "path": "method/mmnl_method.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "99ab09cca99de07ae2f1994a8c5f406c6cde76c1",
+      "size": 14809,
+      "url": "https://api.github.com/repos/wch444/Assortment-Benchmark/git/blobs/99ab09cca99de07ae2f1994a8c5f406c6cde76c1"
+    },
+    {
+      "path": "method/nl_method.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d30e0ad8700ceba2895080f5bb22727a51ba32c2",
+      "size": 12097,
+      "url": "https://api.github.com/repos/wch444/Assortment-Benchmark/git/blobs/d30e0ad8700ceba2895080f5bb22727a51ba32c2"
+    },
+    {
+      "path": "models",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "55b9bc359145dde76e546b032054941df9342930",
+      "url": "https://api.github.com/repos/wch444/Assortment-Benchmark/git/trees/55b9bc359145dde76e546b032054941df9342930"
+    },
+    {
+      "path": "models/.DS_Store",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a765ee450a4a2aaa7a912c91cce340d00e563ed7",
+      "size": 6148,
+      "url": "https://api.github.com/repos/wch444/Assortment-Benchmark/git/blobs/a765ee450a4a2aaa7a912c91cce340d00e563ed7"
+    },
+    {
+      "path": "models/__init__.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "size": 0,
+      "url": "https://api.github.com/repos/wch444/Assortment-Benchmark/git/blobs/e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+    },
+    {
+      "path": "models/mmnl_functions.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1ad009bae93dc8e945b2a76b62fb65ead57ad9c9",
+      "size": 2668,
+      "url": "https://api.github.com/repos/wch444/Assortment-Benchmark/git/blobs/1ad009bae93dc8e945b2a76b62fb65ead57ad9c9"
+    },
+    {
+      "path": "models/nl_functions.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "02f481a057d4bbcb978c6a5790f04f3e85e11d19",
+      "size": 2176,
+      "url": "https://api.github.com/repos/wch444/Assortment-Benchmark/git/blobs/02f481a057d4bbcb978c6a5790f04f3e85e11d19"
+    },
+    {
+      "path": "requirements.txt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "88529f6faa29fdcf8b8b071edc5edaf857794cea",
+      "size": 115,
+      "url": "https://api.github.com/repos/wch444/Assortment-Benchmark/git/blobs/88529f6faa29fdcf8b8b071edc5edaf857794cea"
+    },
+    {
+      "path": "results",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "18334354a4eb8030a29d0a273be5f571183579e9",
+      "url": "https://api.github.com/repos/wch444/Assortment-Benchmark/git/trees/18334354a4eb8030a29d0a273be5f571183579e9"
+    },
+    {
+      "path": "results/mmnl_summary_statistics.xlsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "01a0970b4a43d85da8e2db7fb73c442a442621e4",
+      "size": 20142,
+      "url": "https://api.github.com/repos/wch444/Assortment-Benchmark/git/blobs/01a0970b4a43d85da8e2db7fb73c442a442621e4"
+    },
+    {
+      "path": "results/nl_summary_statistics.xlsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f8637d4aff1bcf5f1f7a5948ea29ae7a97f6d976",
+      "size": 24972,
+      "url": "https://api.github.com/repos/wch444/Assortment-Benchmark/git/blobs/f8637d4aff1bcf5f1f7a5948ea29ae7a97f6d976"
+    },
+    {
+      "path": "setup_env.sh",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "2dd39a1f30608ccbca6db1e8cc5227d3e3be5d16",
+      "size": 7989,
+      "url": "https://api.github.com/repos/wch444/Assortment-Benchmark/git/blobs/2dd39a1f30608ccbca6db1e8cc5227d3e3be5d16"
+    },
+    {
+      "path": "src",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "4634f8f8c2ababb2ed91d134f5412375aaf1fd64",
+      "url": "https://api.github.com/repos/wch444/Assortment-Benchmark/git/trees/4634f8f8c2ababb2ed91d134f5412375aaf1fd64"
+    },
+    {
+      "path": "src/.DS_Store",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f7975bff5459217b29871a87a2fb320bd4e7b01b",
+      "size": 6148,
+      "url": "https://api.github.com/repos/wch444/Assortment-Benchmark/git/blobs/f7975bff5459217b29871a87a2fb320bd4e7b01b"
+    },
+    {
+      "path": "src/__init__.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "size": 0,
+      "url": "https://api.github.com/repos/wch444/Assortment-Benchmark/git/blobs/e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+    },
+    {
+      "path": "src/mmnl_cardinality_example.ipynb",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fd1f82e3019ba981e1864f7cce2e5d9d410d4e2f",
+      "size": 125669,
+      "url": "https://api.github.com/repos/wch444/Assortment-Benchmark/git/blobs/fd1f82e3019ba981e1864f7cce2e5d9d410d4e2f"
+    },
+    {
+      "path": "src/mmnl_unconstrained_example.ipynb",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6b3c555c6f700ab4eb2f3d4b1ba1705bb77d762a",
+      "size": 310007,
+      "url": "https://api.github.com/repos/wch444/Assortment-Benchmark/git/blobs/6b3c555c6f700ab4eb2f3d4b1ba1705bb77d762a"
+    },
+    {
+      "path": "src/nl_cardinality_example.ipynb",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c256154ddfece5244144f0a85e3a9a27549ef86e",
+      "size": 60405,
+      "url": "https://api.github.com/repos/wch444/Assortment-Benchmark/git/blobs/c256154ddfece5244144f0a85e3a9a27549ef86e"
+    },
+    {
+      "path": "src/nl_unconstrained_example.ipynb",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2cf9149ce4ce2fa43b7a233141f50ab663dd0a0e",
+      "size": 324596,
+      "url": "https://api.github.com/repos/wch444/Assortment-Benchmark/git/blobs/2cf9149ce4ce2fa43b7a233141f50ab663dd0a0e"
+    },
+    {
+      "path": "src/plot_figure.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "44541ade99499f41241b98abcd9b56e7ea0ad7e9",
+      "size": 20576,
+      "url": "https://api.github.com/repos/wch444/Assortment-Benchmark/git/blobs/44541ade99499f41241b98abcd9b56e7ea0ad7e9"
+    }
+  ],
+  "truncated": false
+}

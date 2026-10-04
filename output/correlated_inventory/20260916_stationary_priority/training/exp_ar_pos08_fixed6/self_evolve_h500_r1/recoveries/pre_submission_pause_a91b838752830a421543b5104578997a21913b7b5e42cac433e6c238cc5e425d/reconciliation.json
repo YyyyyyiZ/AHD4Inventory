@@ -1,0 +1,38 @@
+{
+  "recorded_utc": "2026-09-16T07:13:44.572991+00:00",
+  "chain": "training/exp_ar_pos08_fixed6/self_evolve_h500_r1",
+  "metadata": {
+    "scenario_id": "exp_ar_pos08_fixed6",
+    "repeat": 1,
+    "chain_dir": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/correlated_inventory/20260916_stationary_priority/training/exp_ar_pos08_fixed6/self_evolve_h500_r1",
+    "generation": 1,
+    "operator": "m2",
+    "candidate_index": 4,
+    "parent_code_sha256": "486fe9f03da2e7c09bb379ae27bd9519415f4d98fad7627a17b754ce5340bdbe",
+    "candidate_attempt": 1,
+    "prompt_sha256": "1d9782500d0bf5c751174dcc851b1f2c7fd1362662e5f8d60224cec07b227eec"
+  },
+  "request_id": null,
+  "resolution": "confirmed_not_submitted_restore_same_slot",
+  "no_repost": true,
+  "evidence": {
+    "training/exp_ar_pos08_fixed6/self_evolve_h500_r1/blocked_transport.json": {
+      "sha256": "e7179289b39c53ef3cf46dbd5ba5908bac6058f40777eebd6d7901cb4587537c",
+      "archived_path": "training/exp_ar_pos08_fixed6/self_evolve_h500_r1/recoveries/pre_submission_pause_a91b838752830a421543b5104578997a21913b7b5e42cac433e6c238cc5e425d/blocked_transport.original.json"
+    },
+    "training/exp_ar_pos08_fixed6/self_evolve_h500_r1/model_responses/a91b838752830a421543b5104578997a21913b7b5e42cac433e6c238cc5e425d.json": {
+      "sha256": "2c26666a35baa7a555310850909ca6c9db4323720ec716d08e956d0a7af902db",
+      "archived_path": "training/exp_ar_pos08_fixed6/self_evolve_h500_r1/recoveries/pre_submission_pause_a91b838752830a421543b5104578997a21913b7b5e42cac433e6c238cc5e425d/pending_model_response.original.json"
+    },
+    "training/exp_ar_pos08_fixed6/self_evolve_h500_r1/status.json": {
+      "sha256": "21e97934171b00b2432c7587fe3113cc3859969c71de0f0f3ebe2fa76252b798",
+      "archived_path": "training/exp_ar_pos08_fixed6/self_evolve_h500_r1/recoveries/pre_submission_pause_a91b838752830a421543b5104578997a21913b7b5e42cac433e6c238cc5e425d/status.original.json"
+    }
+  },
+  "independent_auditor": "explain_optimization",
+  "provider_request_records": 0,
+  "ledger_request_records": 0,
+  "model_requests_sent": 0,
+  "failed_candidate_created": false,
+  "same_candidate_attempt_preserved": true
+}

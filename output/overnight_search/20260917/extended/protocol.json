@@ -1,0 +1,64 @@
+{
+  "model": "openai/gpt-5.6-sol",
+  "reasoning": "high",
+  "llm_budget_allocation_usd": 35,
+  "baek_allocation_usd": 12,
+  "unallocated_usd": 3,
+  "n_repeats": 3,
+  "candidates_per_arm": 8,
+  "one_query_candidates": 8,
+  "discovery_m": [
+    7
+  ],
+  "transfer_m": [
+    8
+  ],
+  "cv": [
+    1.5,
+    2.0
+  ],
+  "fifo": [
+    0.0,
+    0.5
+  ],
+  "L": 2,
+  "train": {
+    "paths": 32,
+    "burnin": 500,
+    "horizon": 1000,
+    "seed": 18091001,
+    "budget": 1024
+  },
+  "validation": {
+    "paths": 32,
+    "burnin": 500,
+    "horizon": 1000,
+    "seed": 18092001
+  },
+  "refit": {
+    "paths": 64,
+    "burnin": 500,
+    "horizon": 1500,
+    "seed": 18093001,
+    "budget": 2048
+  },
+  "test": {
+    "paths": 128,
+    "burnin": 500,
+    "horizon": 3000,
+    "seed": 18094001
+  },
+  "parameter_count_limit": null,
+  "selection": "training only during search; validation chooses final structure within each arm before test",
+  "interpretation": "exploratory family screen; algorithm-generation repetitions are 3, not number of paths",
+  "optimizer": "common derivative-free differential evolution; exact objective-call ceiling",
+  "baek": "tool-enabled L2 protocol adaptation; 50 tools/3600s maximum, separately measured resources",
+  "profile": "extended",
+  "amendment_revision": "extended_m7_m8_equal_candidate_budget_v1",
+  "feedback_details": true,
+  "worker_rss_limit_bytes": 1073741824,
+  "shared_framework_budget_dir": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/overnight_search/20260917/framework_budget",
+  "shared_baek_budget_file": "/Users/fenghua/Desktop/research/LLM/test/test/AHD4Inventory/output/overnight_search/20260917/baek/budget.json",
+  "initial_information": "All three arms receive the same selected common seed code and training costs.",
+  "phase2_selection": "Full fixed grid of 8 scenarios; amended after primary diagnostic, new test seed sealed."
+}

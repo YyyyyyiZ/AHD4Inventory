@@ -1,0 +1,167 @@
+[
+     {
+          "algorithm": "The new policy uses separate base stock levels for high and low demand regimes, removing the smoothing factor to make the response more decisive. The parameters are tuned to better handle the observed demand autocorrelation while maintaining a stationary structure. The higher lost-sales cost suggests we should bias towards higher inventory levels during high-demand periods.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_stock_low = 244.64033037234302  # OPT_PARAM: {\"initial\": 244.64033037234302, \"min\": 100.0, \"max\": 250.0, \"type\": \"float\"}\n    base_stock_high = 227.69842332107592  # OPT_PARAM: {\"initial\": 227.69842332107592, \"min\": 150.0, \"max\": 350.0, \"type\": \"float\"}\n    demand_response = 0.3  # OPT_PARAM: {\"initial\": 0.3, \"min\": 0.3, \"max\": 0.8, \"type\": \"float\"}\n    high_demand_threshold = 100.0 * np.log(2)\n    \n    if last_demand >= high_demand_threshold:\n        target = base_stock_high * (1 + demand_response)\n    else:\n        target = base_stock_low * (1 - demand_response * 0.5)\n    \n    order_amount = max(0.0, target - on_hand_inventory - sum(pipeline_orders))\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "The new policy uses separate base stock levels for high and low demand regimes, removing the smoothing factor to make the response more decisive. The parameters are tuned to better handle the observed demand autocorrelation while maintaining a stationary structure. The higher lost-sales cost suggests we should bias towards higher inventory levels during high-demand periods.",
+          "opt_params": {
+               "base_stock_low": 244.64033037234302,
+               "base_stock_high": 227.69842332107592,
+               "demand_response": 0.3
+          },
+          "cost": null,
+          "objective": 31349.40947,
+          "lower": 29634.98382,
+          "upper": 33068.71926,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Simplified the policy to use a single base stock level with dynamic multipliers for high/low demand regimes. Adjusted the demand response and multipliers to better balance holding and lost-sales costs based on training performance.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_stock = 219.49940499357095  # OPT_PARAM: {\"initial\": 219.49940499357095, \"min\": 100.0, \"max\": 350.0, \"type\": \"float\"}\n    demand_response = 0.1  # OPT_PARAM: {\"initial\": 0.1, \"min\": 0.1, \"max\": 0.8, \"type\": \"float\"}\n    high_demand_multiplier = 1.228749221101961  # OPT_PARAM: {\"initial\": 1.228749221101961, \"min\": 1.0, \"max\": 2.0, \"type\": \"float\"}\n    low_demand_multiplier = 1.0  # OPT_PARAM: {\"initial\": 1.0, \"min\": 0.5, \"max\": 1.0, \"type\": \"float\"}\n    \n    high_demand_threshold = 100.0 * np.log(2)\n    if last_demand >= high_demand_threshold:\n        target = base_stock * high_demand_multiplier * (1 + demand_response)\n    else:\n        target = base_stock * low_demand_multiplier * (1 - demand_response * 0.5)\n    \n    order_amount = max(0.0, target - on_hand_inventory - sum(pipeline_orders))\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Simplified the policy to use a single base stock level with dynamic multipliers for high/low demand regimes. Adjusted the demand response and multipliers to better balance holding and lost-sales costs based on training performance.",
+          "opt_params": {
+               "base_stock": 219.49940499357095,
+               "demand_response": 0.1,
+               "high_demand_multiplier": 1.228749221101961,
+               "low_demand_multiplier": 1.0
+          },
+          "cost": null,
+          "objective": 31349.44779,
+          "lower": 29637.17746,
+          "upper": 33064.57291,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Increased base stock levels and adjusted demand response multipliers to better handle demand variability. The new parameters reduce lost sales while keeping holding costs manageable. The asymmetric response accounts for demand autocorrelation while maintaining stability.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_stock_low = 189.60926270627283  # OPT_PARAM: {\"initial\": 189.60926270627283, \"min\": 150.0, \"max\": 220.0, \"type\": \"float\"}\n    base_stock_high = 247.0043681653245  # OPT_PARAM: {\"initial\": 247.0043681653245, \"min\": 220.0, \"max\": 350.0, \"type\": \"float\"}\n    demand_response = 0.4  # OPT_PARAM: {\"initial\": 0.4, \"min\": 0.4, \"max\": 0.7, \"type\": \"float\"}\n    high_demand_threshold = 100.0 * np.log(2)\n    \n    if last_demand >= high_demand_threshold:\n        target = base_stock_high * (1 + demand_response * 0.5)\n    else:\n        target = base_stock_low * (1 + demand_response * 0.25)\n    \n    order_amount = max(0.0, target - on_hand_inventory - sum(pipeline_orders))\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Increased base stock levels and adjusted demand response multipliers to better handle demand variability. The new parameters reduce lost sales while keeping holding costs manageable. The asymmetric response accounts for demand autocorrelation while maintaining stability.",
+          "opt_params": {
+               "base_stock_low": 189.60926270627283,
+               "base_stock_high": 247.0043681653245,
+               "demand_response": 0.4
+          },
+          "cost": null,
+          "objective": 31349.48228,
+          "lower": 29636.13539,
+          "upper": 33064.81636,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Reduced base_stock to lower holding costs while maintaining responsiveness to demand changes. Increased demand_response to better react to high-demand periods. Simplified the high-demand target calculation by removing smoothing, making it more aggressive during high-demand periods while keeping conservative during low-demand periods. The parameters are now better tuned to the demand autocorrelation pattern observed in the training data.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_stock = 216.6068073089146  # OPT_PARAM: {\"initial\": 216.6068073089146, \"min\": 100.0, \"max\": 300.0, \"type\": \"float\"}\n    demand_response = 0.36710497295633154  # OPT_PARAM: {\"initial\": 0.36710497295633154, \"min\": 0.3, \"max\": 1.0, \"type\": \"float\"}\n    smoothing_factor = 0.9  # OPT_PARAM: {\"initial\": 0.9, \"min\": 0.5, \"max\": 0.9, \"type\": \"float\"}\n    high_demand_threshold = 100.0 * np.log(2)\n    \n    if last_demand >= high_demand_threshold:\n        target = base_stock * (1 + demand_response)\n    else:\n        target = base_stock * (1 - demand_response * (1 - smoothing_factor))\n    \n    order_amount = max(0.0, target - on_hand_inventory - sum(pipeline_orders))\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Reduced base_stock to lower holding costs while maintaining responsiveness to demand changes. Increased demand_response to better react to high-demand periods. Simplified the high-demand target calculation by removing smoothing, making it more aggressive during high-demand periods while keeping conservative during low-demand periods. The parameters are now better tuned to the demand autocorrelation pattern observed in the training data.",
+          "opt_params": {
+               "base_stock": 216.6068073089146,
+               "demand_response": 0.36710497295633154,
+               "smoothing_factor": 0.9
+          },
+          "cost": null,
+          "objective": 31349.61141,
+          "lower": 29635.08247,
+          "upper": 33065.76888,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Simplified to use a single base_stock level instead of separate high/low values, increased demand_response sensitivity, and reduced the discount factor for low demand periods. The parameters were optimized to better balance holding costs against lost sales costs.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_stock = 228.46252236776976  # OPT_PARAM: {\"initial\": 228.46252236776976, \"min\": 100.0, \"max\": 250.0, \"type\": \"float\"}\n    demand_response = 0.3  # OPT_PARAM: {\"initial\": 0.3, \"min\": 0.3, \"max\": 0.8, \"type\": \"float\"}\n    high_demand_threshold = 100.0 * np.log(2)\n    \n    if last_demand >= high_demand_threshold:\n        target = base_stock * (1 + demand_response)\n    else:\n        target = base_stock * (1 - demand_response * 0.3)\n    \n    order_amount = max(0.0, target - on_hand_inventory - sum(pipeline_orders))\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Simplified to use a single base_stock level instead of separate high/low values, increased demand_response sensitivity, and reduced the discount factor for low demand periods. The parameters were optimized to better balance holding costs against lost sales costs.",
+          "opt_params": {
+               "base_stock": 228.46252236776976,
+               "demand_response": 0.3
+          },
+          "cost": null,
+          "objective": 31349.69787,
+          "lower": 29637.14287,
+          "upper": 33065.19582,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Simplified to single base_stock parameter for both regimes, increased base stock level to better handle high demand spikes, and adjusted demand response factors to be more aggressive in high demand periods while less conservative in low demand periods. The higher base stock and stronger response to high demand should reduce lost sales costs while keeping holding costs reasonable.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_stock = 228.45519006805742  # OPT_PARAM: {\"initial\": 228.45519006805742, \"min\": 200.0, \"max\": 400.0, \"type\": \"float\"}\n    demand_response = 0.3  # OPT_PARAM: {\"initial\": 0.3, \"min\": 0.3, \"max\": 0.8, \"type\": \"float\"}\n    high_demand_threshold = 100.0 * np.log(2)\n    \n    if last_demand >= high_demand_threshold:\n        target = base_stock * (1 + demand_response)\n    else:\n        target = base_stock * (1 - demand_response * 0.3)\n    \n    order_amount = max(0.0, target - on_hand_inventory - sum(pipeline_orders))\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Simplified to single base_stock parameter for both regimes, increased base stock level to better handle high demand spikes, and adjusted demand response factors to be more aggressive in high demand periods while less conservative in low demand periods. The higher base stock and stronger response to high demand should reduce lost sales costs while keeping holding costs reasonable.",
+          "opt_params": {
+               "base_stock": 228.45519006805742,
+               "demand_response": 0.3
+          },
+          "cost": null,
+          "objective": 31349.69858,
+          "lower": 29637.10187,
+          "upper": 33065.26054,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Simplified the policy to use a single base stock level and adjusted the demand response factors to better balance holding and lost-sales costs. The high-demand response is increased to better handle demand spikes, while the low-demand response is reduced to avoid overstocking.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_stock = 228.44993911098862  # OPT_PARAM: {\"initial\": 228.44993911098862, \"min\": 150.0, \"max\": 350.0, \"type\": \"float\"}\n    demand_response = 0.3  # OPT_PARAM: {\"initial\": 0.3, \"min\": 0.3, \"max\": 0.8, \"type\": \"float\"}\n    high_demand_threshold = 100.0 * np.log(2)\n    \n    if last_demand >= high_demand_threshold:\n        target = base_stock * (1 + demand_response)\n    else:\n        target = base_stock * (1 - demand_response * 0.3)\n    \n    order_amount = max(0.0, target - on_hand_inventory - sum(pipeline_orders))\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Simplified the policy to use a single base stock level and adjusted the demand response factors to better balance holding and lost-sales costs. The high-demand response is increased to better handle demand spikes, while the low-demand response is reduced to avoid overstocking.",
+          "opt_params": {
+               "base_stock": 228.44993911098862,
+               "demand_response": 0.3
+          },
+          "cost": null,
+          "objective": 31349.69908,
+          "lower": 29637.0725,
+          "upper": 33065.30689,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Simplified to a single base_stock parameter with adjusted demand response factors. Increased base_stock to better handle high demand periods while maintaining responsiveness to demand fluctuations through optimized demand_response parameter. The asymmetric response (stronger for high demand) helps balance holding and lost-sales costs.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_stock = 228.4323398918868  # OPT_PARAM: {\"initial\": 228.4323398918868, \"min\": 200.0, \"max\": 300.0, \"type\": \"float\"}\n    demand_response = 0.3  # OPT_PARAM: {\"initial\": 0.3, \"min\": 0.3, \"max\": 0.7, \"type\": \"float\"}\n    high_demand_threshold = 100.0 * np.log(2)\n    \n    if last_demand >= high_demand_threshold:\n        target = base_stock * (1 + demand_response)\n    else:\n        target = base_stock * (1 - demand_response * 0.3)\n    \n    order_amount = max(0.0, target - on_hand_inventory - sum(pipeline_orders))\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Simplified to a single base_stock parameter with adjusted demand response factors. Increased base_stock to better handle high demand periods while maintaining responsiveness to demand fluctuations through optimized demand_response parameter. The asymmetric response (stronger for high demand) helps balance holding and lost-sales costs.",
+          "opt_params": {
+               "base_stock": 228.4323398918868,
+               "demand_response": 0.3
+          },
+          "cost": null,
+          "objective": 31349.70063,
+          "lower": 29636.97408,
+          "upper": 33065.4621,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Simplified to single base_stock parameter, increased base stock level to better handle high demand periods, and adjusted demand_response to be more responsive to demand changes while reducing the downward adjustment for low demand periods.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_stock = 228.43070050692546  # OPT_PARAM: {\"initial\": 228.43070050692546, \"min\": 150.0, \"max\": 350.0, \"type\": \"float\"}\n    demand_response = 0.3  # OPT_PARAM: {\"initial\": 0.3, \"min\": 0.3, \"max\": 0.8, \"type\": \"float\"}\n    high_demand_threshold = 100.0 * np.log(2)\n    \n    if last_demand >= high_demand_threshold:\n        target = base_stock * (1 + demand_response)\n    else:\n        target = base_stock * (1 - demand_response * 0.3)\n    \n    order_amount = max(0.0, target - on_hand_inventory - sum(pipeline_orders))\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Simplified to single base_stock parameter, increased base stock level to better handle high demand periods, and adjusted demand_response to be more responsive to demand changes while reducing the downward adjustment for low demand periods.",
+          "opt_params": {
+               "base_stock": 228.43070050692546,
+               "demand_response": 0.3
+          },
+          "cost": null,
+          "objective": 31349.70069,
+          "lower": 29636.96491,
+          "upper": 33065.47647,
+          "other_inf": null
+     },
+     {
+          "algorithm": "Simplified to single base_stock parameter, adjusted demand_response, and reduced asymmetry between high/low demand responses. The higher demand_response helps react more strongly to observed demand patterns.",
+          "code": "import numpy as np\n\ndef compute_order_amount(on_hand_inventory, pipeline_orders, last_demand, quoted_lead_time):\n    base_stock = 228.37646153718802  # OPT_PARAM: {\"initial\": 228.37646153718802, \"min\": 150.0, \"max\": 300.0, \"type\": \"float\"}\n    demand_response = 0.3  # OPT_PARAM: {\"initial\": 0.3, \"min\": 0.3, \"max\": 0.7, \"type\": \"float\"}\n    high_demand_threshold = 100.0 * np.log(2)\n    \n    if last_demand >= high_demand_threshold:\n        target = base_stock * (1 + demand_response)\n    else:\n        target = base_stock * (1 - demand_response * 0.3)\n    \n    order_amount = max(0.0, target - on_hand_inventory - sum(pipeline_orders))\n    return order_amount\n",
+          "description": "",
+          "intuition": "",
+          "reasoning": "Simplified to single base_stock parameter, adjusted demand_response, and reduced asymmetry between high/low demand responses. The higher demand_response helps react more strongly to observed demand patterns.",
+          "opt_params": {
+               "base_stock": 228.37646153718802,
+               "demand_response": 0.3
+          },
+          "cost": null,
+          "objective": 31349.70252,
+          "lower": 29636.66151,
+          "upper": 33065.95194,
+          "other_inf": null
+     }
+]
